@@ -6,7 +6,7 @@ You've created your account and verified your email. Here's what to do next.
 
 ### 1. Complete Your Profile
 
-Head to **Profile Settings** (`/dashboard-settings`) and fill in your display name, preferred currency, and notification preferences. See [Setting Up Your Profile](./setting-up-profile.md) for a full walkthrough.
+Head to **Profile Settings** (`/settings`) and fill in your display name, preferred currency, and notification preferences. See [Setting Up Your Profile](./setting-up-profile.md) for a full walkthrough.
 
 ### 2. Connect a Wallet
 
@@ -40,7 +40,7 @@ After the transaction is confirmed on-chain, you'll receive a donation receipt b
 
 ### 5. Explore Portfolio Funds
 
-Give Protocol offers **Portfolio Funds** — pooled investment vehicles that distribute your donation across multiple charities aligned with a cause. Go to `/portfolio-funds` to browse available funds.
+Give Protocol offers **Portfolio Funds** — pooled investment vehicles that distribute your donation across multiple charities aligned with a cause. Browse available funds from your Donor Dashboard (`/give-dashboard`) or navigate directly to individual fund pages such as `/portfolio/environmental`, `/portfolio/education`, or `/portfolio/poverty`.
 
 - **Charitable Equity Funds (CEFs)** — Diversified giving across a curated set of organizations
 - **Cause-Specific Impact Funds (CIFs)** — Focused giving within a single cause area (e.g., climate, education)

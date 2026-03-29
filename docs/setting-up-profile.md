@@ -8,7 +8,7 @@ After creating your account, take a few minutes to complete your profile. A comp
 2. Click your avatar or name in the top-right navigation
 3. Select **Profile** or **Settings** from the dropdown
 
-Alternatively, go directly to `/dashboard-settings`.
+Alternatively, go directly to `/settings`.
 
 ## Donor Profile
 

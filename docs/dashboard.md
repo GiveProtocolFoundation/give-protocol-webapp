@@ -91,7 +91,7 @@ Click any entry to see the on-chain transaction confirming the verification.
 
 ---
 
-## Dashboard Settings (`/dashboard-settings`)
+## Dashboard Settings (`/settings`)
 
 Customize your dashboard experience:
 
