@@ -306,6 +306,7 @@ const AdminDashboard: React.FC = () => {
           <button
             onClick={fetchAll}
             className="bg-blue-600 text-gray-900 px-4 py-2 rounded hover:bg-blue-700"
+            aria-label="Retry loading dashboard data"
           >
             Retry
           </button>
@@ -319,12 +320,13 @@ const AdminDashboard: React.FC = () => {
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
+    <main className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
         <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
         <button
           onClick={fetchAll}
           className="bg-blue-600 text-gray-900 px-4 py-2 rounded hover:bg-blue-700"
+          aria-label="Refresh dashboard data"
         >
           Refresh
         </button>
@@ -444,7 +446,7 @@ const AdminDashboard: React.FC = () => {
           />
         </div>
       </Card>
-    </div>
+    </main>
   );
 };
 

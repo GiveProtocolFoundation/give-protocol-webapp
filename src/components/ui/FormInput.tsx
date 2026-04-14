@@ -8,7 +8,7 @@ interface FormInputProps extends React.InputHTMLAttributes<HTMLInputElement> {
 /** Input field with a left-aligned icon overlay. Encapsulates the relative/absolute positioning pattern. */
 export const FormInput: React.FC<FormInputProps> = ({ icon, className, ...props }) => (
   <div className="relative">
-    <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
+    <span aria-hidden="true" className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400">
       {icon}
     </span>
     <input

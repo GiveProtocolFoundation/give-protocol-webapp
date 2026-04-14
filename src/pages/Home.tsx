@@ -95,9 +95,9 @@ function HeroSection({ mousePosition }: { mousePosition: { x: number; y: number 
 
       {/* Vision Statement */}
       <div className="bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 mb-12 max-w-5xl mx-auto">
-        <h3 className="text-2xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
+        <h2 className="text-2xl font-bold mb-4 bg-gradient-to-r from-emerald-400 to-teal-400 bg-clip-text text-transparent">
           Our Vision
-        </h3>
+        </h2>
         <p className="text-gray-300 text-lg leading-relaxed">
           Give Protocol is architecting the future of high-integrity giving.
           We leverage advanced technological infrastructure to bridge the gap
@@ -379,7 +379,7 @@ const Home: React.FC = () => {
   }, []);
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-gray-100 overflow-hidden">
+    <main className="min-h-screen bg-gradient-to-br from-slate-900 via-emerald-950 to-slate-900 text-gray-100 overflow-hidden">
       {/* Animated Background Elements - Emerald/Teal Theme */}
       <div className="fixed inset-0 overflow-hidden pointer-events-none">
         <div
@@ -499,7 +499,7 @@ const Home: React.FC = () => {
       <CTASection />
 
       <HomeFooter />
-    </div>
+    </main>
   );
 };
 

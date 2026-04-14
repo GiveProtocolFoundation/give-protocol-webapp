@@ -112,7 +112,7 @@ const CharityBrowser: React.FC = () => {
   const isCharities = viewMode === "charities";
 
   return (
-    <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-3">
+    <main className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-3">
       <h1 className="text-3xl font-bold text-gray-900 animate-fade-in-up">
         Discover Impact Opportunities
       </h1>
@@ -194,7 +194,7 @@ const CharityBrowser: React.FC = () => {
       <ScrollReveal direction="up" delay={300}>
         {renderContent()}
       </ScrollReveal>
-    </div>
+    </main>
   );
 };
 

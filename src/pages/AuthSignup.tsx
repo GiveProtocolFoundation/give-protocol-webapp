@@ -52,7 +52,7 @@ const ProtocolStatusBanner: React.FC = () => (
 const RunsOnTags: React.FC = () => (
   <div>
     <div className="flex items-center gap-2" style={{ marginBottom: '0.6rem' }}>
-      <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.3)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500, whiteSpace: 'nowrap' }}>
+      <span style={{ fontSize: '0.68rem', color: 'rgba(255,255,255,0.7)', textTransform: 'uppercase', letterSpacing: '0.08em', fontWeight: 500, whiteSpace: 'nowrap' }}>
         Runs on
       </span>
       <div className="flex-1" style={{ height: 1, background: 'rgba(255,255,255,0.07)' }} />
@@ -62,8 +62,8 @@ const RunsOnTags: React.FC = () => (
         <span
           key={tag}
           style={{
-            color: 'rgba(255,255,255,0.45)',
-            background: 'rgba(255,255,255,0.05)',
+            color: 'rgba(255,255,255,0.7)',
+            background: 'rgba(255,255,255,0.08)',
             border: '1px solid rgba(255,255,255,0.08)',
             borderRadius: 6,
             padding: '0.25rem 0.6rem',
@@ -103,7 +103,7 @@ const SignupLeftPanel: React.FC = () => (
       </h2>
       <p
         className="animate-fadeUp"
-        style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.55)', lineHeight: 1.6, maxWidth: 340, fontWeight: 300, animationDelay: '0.2s' }}
+        style={{ fontSize: '0.9rem', color: 'rgba(255,255,255,0.75)', lineHeight: 1.6, maxWidth: 340, fontWeight: 300, animationDelay: '0.2s' }}
       >
         One account. Donate by card or crypto. Track every dollar on-chain.
       </p>
