@@ -17,6 +17,7 @@
     "lint": "npx eslint@8.57.0 src --ext .ts,.tsx,.js,.jsx --max-warnings 200",
     "lint:report": "eslint src --ext .ts,.tsx,.js,.jsx --format json --output-file eslint-report.json || true",
     "test": "NODE_OPTIONS='--experimental-vm-modules' jest --config jest.config.mjs --passWithNoTests",
+    "test:jest": "NODE_OPTIONS='--experimental-vm-modules' jest --config jest.config.mjs --passWithNoTests",
     "test:e2e": "cypress open",
     "test:e2e:headless": "cypress run",
     "sonar": "sonar-scanner"
