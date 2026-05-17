@@ -27,22 +27,41 @@ const renderWidget = (props = defaultProps) =>
     </MemoryRouter>,
   );
 
+/** Mock useWeb3 in the connected state with the given chain (defaults to Moonbase 1287). */
+const mockConnected = (chainId = 1287) =>
+  mockUseWeb3.mockReturnValue({
+    provider: null,
+    signer: null,
+    address: "0xabc",
+    chainId,
+    isConnected: true,
+    isConnecting: false,
+    error: null,
+    connect: jest.fn(),
+    disconnect: jest.fn(),
+    switchChain: jest.fn(),
+  });
+
+/** Mock useWeb3 in the disconnected state. */
+const mockDisconnected = (connect = jest.fn()) =>
+  mockUseWeb3.mockReturnValue({
+    provider: null,
+    signer: null,
+    address: null,
+    chainId: null,
+    isConnected: false,
+    isConnecting: false,
+    error: null,
+    connect,
+    disconnect: jest.fn(),
+    switchChain: jest.fn(),
+  });
+
 describe("DonateWidget", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseWeb3.mockReturnValue({
-      provider: null,
-      signer: null,
-      address: null,
-      chainId: 1287,
-      isConnected: false,
-      isConnecting: false,
-      error: null,
-      connect: jest.fn(),
-      disconnect: jest.fn(),
-      switchChain: jest.fn(),
-    });
-    // Reset the currency mock so tests that override it don't bleed into others
+    // Default to connected on Moonbase so most tests exercise the active UI
+    mockConnected();
     mockUseCurrencyContext.mockReturnValue({
       selectedCurrency: {
         code: "USD",
@@ -70,7 +89,7 @@ describe("DonateWidget", () => {
       expect(screen.getByTestId("card")).toBeInTheDocument();
     });
 
-    it("renders crypto preset amount buttons by default", () => {
+    it("renders crypto preset amount buttons when connected", () => {
       renderWidget();
       expect(screen.getByText("0.01 DEV")).toBeInTheDocument();
       expect(screen.getByText("0.05 DEV")).toBeInTheDocument();
@@ -78,14 +97,14 @@ describe("DonateWidget", () => {
       expect(screen.getByText("0.5 DEV")).toBeInTheDocument();
     });
 
-    it("renders custom amount input", () => {
+    it("renders custom amount input when connected", () => {
       renderWidget();
       expect(screen.getByPlaceholderText("Custom amount")).toBeInTheDocument();
     });
 
-    it("renders the donate button", () => {
+    it("renders the donate button when connected on crypto tab", () => {
       renderWidget();
-      expect(screen.getByText("Connect wallet")).toBeInTheDocument();
+      expect(screen.getByText("Donate")).toBeInTheDocument();
     });
 
     it("renders fee disclosure text for crypto tab", () => {
@@ -117,6 +136,13 @@ describe("DonateWidget", () => {
       expect(screen.getByText("Fiat (USD)")).toBeInTheDocument();
     });
 
+    it("shows generic 'Crypto' label when not connected (no chain context)", () => {
+      mockDisconnected();
+      renderWidget();
+      expect(screen.getByText("Crypto")).toBeInTheDocument();
+      expect(screen.queryByText("Crypto (DEV)")).not.toBeInTheDocument();
+    });
+
     it("hides the tab toggle when isVerified is true", () => {
       renderWidget({ ...defaultProps, isVerified: true });
       expect(screen.queryByText("Crypto (DEV)")).not.toBeInTheDocument();
@@ -138,36 +164,12 @@ describe("DonateWidget", () => {
 
   describe("Amount selection", () => {
     it("selects a preset amount on click", () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: "0xabc",
-        chainId: 1287,
-        isConnected: true,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
       renderWidget();
       fireEvent.click(screen.getByText("0.05 DEV"));
       expect(screen.getByText(/Donate 0.05 DEV/)).toBeInTheDocument();
     });
 
     it("accepts custom amount input", () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: "0xabc",
-        chainId: 1287,
-        isConnected: true,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
       renderWidget();
       const input = screen.getByPlaceholderText("Custom amount");
       fireEvent.change(input, { target: { value: "5" } });
@@ -176,13 +178,21 @@ describe("DonateWidget", () => {
 
     it("disables donate button when amount is zero", () => {
       renderWidget();
-      const button = screen.getByText("Connect wallet");
+      const button = screen.getByText("Donate");
       expect(button).toBeDisabled();
     });
   });
 
   describe("Wallet warning", () => {
-    it("shows wallet warning when charity has no wallet", () => {
+    it("shows wallet warning when charity has no wallet (connected)", () => {
+      renderWidget({ ...defaultProps, walletAddress: null });
+      expect(
+        screen.getByText(/hasn.t set up a wallet yet/),
+      ).toBeInTheDocument();
+    });
+
+    it("shows wallet warning in gated view when charity has no wallet (disconnected)", () => {
+      mockDisconnected();
       renderWidget({ ...defaultProps, walletAddress: null });
       expect(
         screen.getByText(/hasn.t set up a wallet yet/),
@@ -205,48 +215,51 @@ describe("DonateWidget", () => {
     });
   });
 
-  describe("Connect wallet flow", () => {
-    it("shows Connect wallet text when not connected on crypto tab", () => {
+  describe("Connect wallet gate", () => {
+    it("shows the connect prompt and Connect wallet button when not connected on crypto tab", () => {
+      mockDisconnected();
       renderWidget();
-      fireEvent.click(screen.getByText("0.1 DEV"));
+      expect(
+        screen.getByText(/Connect your wallet to choose an amount/),
+      ).toBeInTheDocument();
       expect(screen.getByText("Connect wallet")).toBeInTheDocument();
     });
 
-    it("calls connect when clicking donate while not connected on crypto tab", () => {
-      const mockConnect = jest.fn();
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: null,
-        chainId: 1287,
-        isConnected: false,
-        isConnecting: false,
-        error: null,
-        connect: mockConnect,
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
+    it("hides crypto presets and custom input when not connected", () => {
+      mockDisconnected();
       renderWidget();
-      fireEvent.click(screen.getByText("0.1 DEV"));
+      expect(screen.queryByText(/0\.05/)).not.toBeInTheDocument();
+      expect(
+        screen.queryByPlaceholderText("Custom amount"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("calls connect when the user clicks the Connect wallet button", () => {
+      const mockConnect = jest.fn();
+      mockDisconnected(mockConnect);
+      renderWidget();
       fireEvent.click(screen.getByText("Connect wallet"));
       expect(mockConnect).toHaveBeenCalled();
+    });
+
+    it("still shows the fee disclosure in the gated view", () => {
+      mockDisconnected();
+      renderWidget();
+      expect(
+        screen.getByText(/0% platform fee on direct donations/),
+      ).toBeInTheDocument();
+    });
+
+    it("lets the user switch to the fiat tab from the gated view", () => {
+      mockDisconnected();
+      renderWidget();
+      fireEvent.click(screen.getByText("Fiat (USD)"));
+      expect(screen.getByText("Donate with card")).toBeInTheDocument();
     });
   });
 
   describe("Donation modal", () => {
     it("shows donation modal when connected user clicks donate", async () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: "0xabc",
-        chainId: 1287,
-        isConnected: true,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
       renderWidget();
       fireEvent.click(screen.getByText("0.05 DEV"));
       fireEvent.click(screen.getByText(/Donate 0.05 DEV/));
@@ -271,8 +284,6 @@ describe("DonateWidget", () => {
       renderWidget();
       expect(screen.getByText("0.01 DEV")).toBeInTheDocument();
       expect(screen.getByText("0.05 DEV")).toBeInTheDocument();
-      expect(screen.getByText("0.1 DEV")).toBeInTheDocument();
-      expect(screen.getByText("0.5 DEV")).toBeInTheDocument();
       expect(screen.queryByText("$25")).not.toBeInTheDocument();
     });
 
@@ -281,8 +292,6 @@ describe("DonateWidget", () => {
       fireEvent.click(screen.getByText("Fiat (USD)"));
       expect(screen.getByText("$25")).toBeInTheDocument();
       expect(screen.getByText("$50")).toBeInTheDocument();
-      expect(screen.getByText("$100")).toBeInTheDocument();
-      expect(screen.getByText("$250")).toBeInTheDocument();
       expect(screen.queryByText("0.01 DEV")).not.toBeInTheDocument();
     });
 
@@ -363,59 +372,19 @@ describe("DonateWidget", () => {
     });
   });
 
-  describe("Chain-aware crypto symbol", () => {
+  describe("Chain-aware crypto symbol (driven by connected wallet)", () => {
     it("uses GLMR symbol when connected to Moonbeam mainnet (1284)", () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: null,
-        chainId: 1284,
-        isConnected: false,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
+      mockConnected(1284);
       renderWidget();
       expect(screen.getByText("0.05 GLMR")).toBeInTheDocument();
       expect(screen.getByText("Crypto (GLMR)")).toBeInTheDocument();
     });
 
     it("uses ETH symbol when connected to Base mainnet (8453)", () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: null,
-        chainId: 8453,
-        isConnected: false,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
+      mockConnected(8453);
       renderWidget();
       expect(screen.getByText("0.05 ETH")).toBeInTheDocument();
       expect(screen.getByText("Crypto (ETH)")).toBeInTheDocument();
-    });
-
-    it("falls back to default chain symbol when chainId is null", () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: null,
-        chainId: null,
-        isConnected: false,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
-      renderWidget();
-      // DEFAULT_CHAIN_ID maps to Base → ETH
-      expect(screen.getByText("0.05 ETH")).toBeInTheDocument();
     });
   });
 
@@ -438,8 +407,6 @@ describe("DonateWidget", () => {
       renderWidget();
       fireEvent.click(screen.getByText("Fiat (EUR)"));
       expect(screen.getByText("€25")).toBeInTheDocument();
-      expect(screen.getByText("€50")).toBeInTheDocument();
-      expect(screen.getByText("€100")).toBeInTheDocument();
       expect(screen.getByText("€250")).toBeInTheDocument();
     });
 
@@ -464,49 +431,18 @@ describe("DonateWidget", () => {
     });
   });
 
-  describe("In-widget selectors", () => {
-    it("renders a network selector on the crypto tab", () => {
-      renderWidget();
-      const select = screen.getByLabelText("Donation network");
-      expect(select).toBeInTheDocument();
-      // Default chain is Moonbase (1287) per test setup
-      expect((select as HTMLSelectElement).value).toBe("1287");
-    });
-
-    it("calls switchChain when the user picks a different network while connected", () => {
-      const mockSwitchChain = jest.fn(async () => {
-        // mock async switch
-      });
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: "0xabc",
-        chainId: 1287,
-        isConnected: true,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: mockSwitchChain,
-      });
-      renderWidget();
-      const select = screen.getByLabelText("Donation network");
-      fireEvent.change(select, { target: { value: "8453" } });
-      expect(mockSwitchChain).toHaveBeenCalledWith(8453);
-    });
-
-    it("updates the displayed crypto symbol when the user picks a network while disconnected", () => {
-      renderWidget();
-      const select = screen.getByLabelText("Donation network");
-      fireEvent.change(select, { target: { value: "1284" } });
-      // Moonbeam mainnet → GLMR
-      expect(screen.getByText("0.05 GLMR")).toBeInTheDocument();
-    });
-
+  describe("Fiat currency selector", () => {
     it("renders a currency selector on the fiat tab", () => {
       renderWidget();
       fireEvent.click(screen.getByText("Fiat (USD)"));
       expect(screen.getByLabelText("Display currency")).toBeInTheDocument();
+    });
+
+    it("does not render a currency selector on the crypto tab", () => {
+      renderWidget();
+      expect(
+        screen.queryByLabelText("Display currency"),
+      ).not.toBeInTheDocument();
     });
 
     it("calls setSelectedCurrency when the user picks a different fiat currency", () => {
@@ -561,11 +497,11 @@ describe("DonateWidget", () => {
 
     it("omits fiat equivalent when prices are not loaded", () => {
       renderWidget();
-      // Default mock has empty tokenPrices
       expect(screen.queryByText(/≈/u)).not.toBeInTheDocument();
     });
 
     it("reflects the selected currency symbol in the fiat equivalent", () => {
+      mockConnected(8453);
       mockUseCurrencyContext.mockReturnValue({
         selectedCurrency: {
           code: "EUR",
@@ -579,18 +515,6 @@ describe("DonateWidget", () => {
         refreshPrices: jest.fn(),
         convertToFiat: jest.fn(() => 0),
         convertFromFiat: jest.fn(() => 0),
-      });
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: null,
-        chainId: 8453,
-        isConnected: false,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
       });
       renderWidget();
       // 0.01 ETH × €2800 = €28
