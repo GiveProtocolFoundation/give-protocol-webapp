@@ -1,20 +1,33 @@
-import React, { useCallback, useReducer, useMemo, useState, useEffect } from 'react';
-import { createPortal } from 'react-dom';
-import { X, CheckCircle2, AlertCircle, ArrowLeft, Calendar, Zap } from 'lucide-react';
-import { Card } from '@/components/ui/Card';
-import { Button } from '@/components/ui/Button';
-import { cn } from '@/utils/cn';
+import React, {
+  useCallback,
+  useReducer,
+  useMemo,
+  useState,
+  useEffect,
+} from "react";
+import { createPortal } from "react-dom";
+import {
+  X,
+  CheckCircle2,
+  AlertCircle,
+  ArrowLeft,
+  Calendar,
+  Zap,
+} from "lucide-react";
+import { Card } from "@/components/ui/Card";
+import { Button } from "@/components/ui/Button";
+import { cn } from "@/utils/cn";
 
 // Components
-import { PostDonationShare } from '@/components/social/PostDonationShare';
-import { DonationForm } from './DonationForm';
-import { ScheduledDonationForm } from './ScheduledDonationForm';
-import { FiatDonationForm } from './FiatDonationForm';
-import { PaymentMethodToggle } from './PaymentMethodToggle';
-import { DonationFrequencyToggle } from './DonationFrequencyToggle';
-import { FiatPresets } from './FiatPresets';
-import { FiatCurrencySelector } from './FiatCurrencySelector';
-import { TrustSignals } from './TrustSignals';
+import { PostDonationShare } from "@/components/social/PostDonationShare";
+import { DonationForm } from "./DonationForm";
+import { ScheduledDonationForm } from "./ScheduledDonationForm";
+import { FiatDonationForm } from "./FiatDonationForm";
+import { PaymentMethodToggle } from "./PaymentMethodToggle";
+import { DonationFrequencyToggle } from "./DonationFrequencyToggle";
+import { FiatPresets } from "./FiatPresets";
+import { FiatCurrencySelector } from "./FiatCurrencySelector";
+import { TrustSignals } from "./TrustSignals";
 
 // Types
 import type {
@@ -24,28 +37,37 @@ import type {
   DonationModalState,
   DonationModalAction,
   HelcimPaymentResult,
-} from './types/donation';
-import { calculateFeeOffset } from './types/donation';
-import { getERC20TokensForChain, type TokenConfig } from '@/config/tokens';
-import { getContractAddress, CHAIN_IDS } from '@/config/contracts';
-import { useWeb3 } from '@/contexts/Web3Context';
-import { useAuth } from '@/contexts/AuthContext';
+} from "./types/donation";
+import { calculateFeeOffset } from "./types/donation";
+import { getERC20TokensForChain, type TokenConfig } from "@/config/tokens";
+import { getContractAddress, CHAIN_IDS } from "@/config/contracts";
+import { useWeb3 } from "@/contexts/Web3Context";
+import { useAuth } from "@/contexts/AuthContext";
 import {
   type FiatCurrencyConfig,
   getFiatCurrencyByCode,
   formatCurrencyAmount,
   isZeroDecimalCurrency,
-} from '@/config/fiatCurrencies';
+} from "@/config/fiatCurrencies";
 
 /** Shared modal overlay + card shell with close button */
-function ModalShell({ onClose, children, dark }: {
+function ModalShell({
+  onClose,
+  children,
+  dark,
+}: {
   onClose: () => void;
   children: React.ReactNode;
   dark?: boolean;
 }): React.ReactElement {
   const content = (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn overflow-y-auto">
-      <Card className={cn('w-full max-w-md relative shadow-2xl rounded-2xl animate-slideIn my-8', dark && 'dark:bg-slate-900')}>
+      <Card
+        className={cn(
+          "w-full max-w-md relative shadow-2xl rounded-2xl animate-slideIn my-8",
+          dark && "dark:bg-slate-900",
+        )}
+      >
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors z-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full p-1 hover:bg-white dark:hover:bg-slate-700"
@@ -58,7 +80,7 @@ function ModalShell({ onClose, children, dark }: {
     </div>
   );
 
-  if (typeof document !== 'undefined') {
+  if (typeof document !== "undefined") {
     return createPortal(content, document.body) as React.ReactElement;
   }
   return content;
@@ -66,7 +88,7 @@ function ModalShell({ onClose, children, dark }: {
 
 /** Format the donation amount for display in the success message */
 function formatSuccessAmount(result: DonationResult): string {
-  if (result.paymentMethod === 'card') {
+  if (result.paymentMethod === "card") {
     const currencyConfig = getFiatCurrencyByCode(result.currency);
     if (currencyConfig) {
       return formatCurrencyAmount(result.amount, currencyConfig);
@@ -77,7 +99,11 @@ function formatSuccessAmount(result: DonationResult): string {
 }
 
 /** Success confirmation content */
-function SuccessContent({ result, charityName, onClose }: {
+function SuccessContent({
+  result,
+  charityName,
+  onClose,
+}: {
   result: DonationResult;
   charityName: string;
   onClose: () => void;
@@ -91,16 +117,15 @@ function SuccessContent({ result, charityName, onClose }: {
         Thank You!
       </h2>
       <p className="text-gray-600 dark:text-gray-400 mb-4">
-        Your {result.isRecurring ? 'monthly ' : ''}donation of{' '}
-        {formatSuccessAmount(result)}{' '}
-        to {charityName} has been processed.
+        Your {result.isRecurring ? "monthly " : ""}donation of{" "}
+        {formatSuccessAmount(result)} to {charityName} has been processed.
       </p>
       {result.isRecurring && (
         <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-4">
           You&apos;ll be charged monthly until you cancel.
         </p>
       )}
-      {result.paymentMethod === 'card' && (
+      {result.paymentMethod === "card" && (
         <p className="text-sm text-gray-500 dark:text-gray-500">
           A receipt has been sent to your email.
         </p>
@@ -114,7 +139,11 @@ function SuccessContent({ result, charityName, onClose }: {
 }
 
 /** Amount display shown when an amount is selected in card mode */
-function AmountDisplay({ amount, isMonthly, formattedAmount }: {
+function AmountDisplay({
+  amount,
+  isMonthly,
+  formattedAmount,
+}: {
   amount: number;
   isMonthly: boolean;
   formattedAmount: string;
@@ -138,7 +167,11 @@ function AmountDisplay({ amount, isMonthly, formattedAmount }: {
 }
 
 /** Error state content */
-function ErrorContent({ error, onReset, onClose }: {
+function ErrorContent({
+  error,
+  onReset,
+  onClose,
+}: {
   error: string | null;
   onReset: () => void;
   onClose: () => void;
@@ -152,7 +185,7 @@ function ErrorContent({ error, onReset, onClose }: {
         Something Went Wrong
       </h2>
       <p className="text-gray-600 dark:text-gray-400 mb-4">
-        {error || 'An unexpected error occurred. Please try again.'}
+        {error || "An unexpected error occurred. Please try again."}
       </p>
       <div className="flex gap-3">
         <Button onClick={onReset} variant="secondary" fullWidth>
@@ -185,11 +218,11 @@ interface DonationModalProps {
 /** Creates the initial reducer state for the donation modal based on the selected frequency. */
 function createInitialState(frequency: DonationFrequency): DonationModalState {
   return {
-    paymentMethod: 'card',
+    paymentMethod: "card",
     frequency,
-    step: 'input',
+    step: "input",
     amount: 0,
-    fiatCurrencyCode: 'USD',
+    fiatCurrencyCode: "USD",
     coverFees: false,
     error: null,
     result: null,
@@ -199,28 +232,37 @@ function createInitialState(frequency: DonationFrequency): DonationModalState {
 /** Reducer that manages donation modal state transitions for payment method, amount, and processing status. */
 function donationReducer(
   state: DonationModalState,
-  action: DonationModalAction
+  action: DonationModalAction,
 ): DonationModalState {
   switch (action.type) {
-    case 'SET_PAYMENT_METHOD':
+    case "SET_PAYMENT_METHOD":
       return { ...state, paymentMethod: action.payload, error: null };
-    case 'SET_FREQUENCY':
+    case "SET_FREQUENCY":
       return { ...state, frequency: action.payload, error: null };
-    case 'SET_AMOUNT':
+    case "SET_AMOUNT":
       return { ...state, amount: action.payload, error: null };
-    case 'SET_FIAT_CURRENCY':
+    case "SET_FIAT_CURRENCY":
       // Reset amount when currency changes (presets differ)
-      return { ...state, fiatCurrencyCode: action.payload, amount: 0, error: null };
-    case 'SET_COVER_FEES':
+      return {
+        ...state,
+        fiatCurrencyCode: action.payload,
+        amount: 0,
+        error: null,
+      };
+    case "SET_COVER_FEES":
       return { ...state, coverFees: action.payload };
-    case 'START_PROCESSING':
-      return { ...state, step: 'processing', error: null };
-    case 'SET_SUCCESS':
-      return { ...state, step: 'success', result: action.payload, error: null };
-    case 'SET_ERROR':
-      return { ...state, step: 'error', error: action.payload };
-    case 'RESET':
-      return { ...createInitialState(state.frequency), paymentMethod: state.paymentMethod, fiatCurrencyCode: state.fiatCurrencyCode };
+    case "START_PROCESSING":
+      return { ...state, step: "processing", error: null };
+    case "SET_SUCCESS":
+      return { ...state, step: "success", result: action.payload, error: null };
+    case "SET_ERROR":
+      return { ...state, step: "error", error: action.payload };
+    case "RESET":
+      return {
+        ...createInitialState(state.frequency),
+        paymentMethod: state.paymentMethod,
+        fiatCurrencyCode: state.fiatCurrencyCode,
+      };
     default:
       return state;
   }
@@ -250,7 +292,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   onSuccess,
 }) => {
   const [isMounted, setIsMounted] = useState(false);
-  useEffect(() => { setIsMounted(true); }, []);
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
 
   const { chainId, isConnected: _isConnected, address } = useWeb3();
   const { user } = useAuth();
@@ -265,25 +309,37 @@ export const DonationModal: React.FC<DonationModalProps> = ({
     return getERC20TokensForChain(chainId ?? CHAIN_IDS.BASE);
   }, [chainId]);
 
-  const [selectedToken, setSelectedToken] = useState<TokenConfig>(availableTokens[0]);
+  const [selectedToken, setSelectedToken] = useState<TokenConfig>(
+    availableTokens[0],
+  );
 
   // Get donation contract address for trust signals
   const contractAddress = useMemo(() => {
-    return getContractAddress('DONATION', chainId ?? CHAIN_IDS.BASE);
+    return getContractAddress("DONATION", chainId ?? CHAIN_IDS.BASE);
   }, [chainId]);
 
   // Update selected token when chain changes
   useEffect(() => {
-    if (availableTokens.length > 0 && !availableTokens.includes(selectedToken)) {
+    if (
+      availableTokens.length > 0 &&
+      !availableTokens.includes(selectedToken)
+    ) {
       setSelectedToken(availableTokens[0]);
     }
   }, [availableTokens, selectedToken]);
 
   // Resolve fiat currency config from state
   const selectedFiatCurrency = useMemo<FiatCurrencyConfig>(() => {
-    return getFiatCurrencyByCode(state.fiatCurrencyCode) ?? {
-      code: 'USD', name: 'US Dollar', symbol: '$', processor: 'helcim' as const, presets: [25, 50, 100, 250], enabled: true,
-    };
+    return (
+      getFiatCurrencyByCode(state.fiatCurrencyCode) ?? {
+        code: "USD",
+        name: "US Dollar",
+        symbol: "$",
+        processor: "helcim" as const,
+        presets: [25, 50, 100, 250],
+        enabled: true,
+      }
+    );
   }, [state.fiatCurrencyCode]);
 
   /** Format an amount in the selected fiat currency */
@@ -294,36 +350,36 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
   // Action handlers
   const handlePaymentMethodChange = useCallback((method: PaymentMethod) => {
-    dispatch({ type: 'SET_PAYMENT_METHOD', payload: method });
+    dispatch({ type: "SET_PAYMENT_METHOD", payload: method });
   }, []);
 
   const handleFrequencyChange = useCallback((next: DonationFrequency) => {
-    dispatch({ type: 'SET_FREQUENCY', payload: next });
+    dispatch({ type: "SET_FREQUENCY", payload: next });
   }, []);
 
   const handleAmountChange = useCallback((amount: number) => {
-    dispatch({ type: 'SET_AMOUNT', payload: amount });
+    dispatch({ type: "SET_AMOUNT", payload: amount });
   }, []);
 
   const handleCoverFeesChange = useCallback((cover: boolean) => {
-    dispatch({ type: 'SET_COVER_FEES', payload: cover });
+    dispatch({ type: "SET_COVER_FEES", payload: cover });
   }, []);
 
   const handleCurrencyChange = useCallback((currency: FiatCurrencyConfig) => {
-    dispatch({ type: 'SET_FIAT_CURRENCY', payload: currency.code });
+    dispatch({ type: "SET_FIAT_CURRENCY", payload: currency.code });
   }, []);
 
   // Success handlers
   const handleCryptoSuccess = useCallback(() => {
     const result: DonationResult = {
-      transactionId: 'crypto-tx', // Actual hash handled by form
+      transactionId: "crypto-tx", // Actual hash handled by form
       amount: state.amount,
       currency: selectedToken.symbol,
-      paymentMethod: 'crypto',
-      isRecurring: state.frequency === 'monthly',
+      paymentMethod: "crypto",
+      isRecurring: state.frequency === "monthly",
       timestamp: new Date(),
     };
-    dispatch({ type: 'SET_SUCCESS', payload: result });
+    dispatch({ type: "SET_SUCCESS", payload: result });
     onSuccess?.(result);
   }, [state.amount, state.frequency, selectedToken.symbol, onSuccess]);
 
@@ -336,40 +392,46 @@ export const DonationModal: React.FC<DonationModalProps> = ({
         transactionId: paymentResult.transactionId,
         amount: chargeAmount,
         currency: state.fiatCurrencyCode,
-        paymentMethod: 'card',
-        isRecurring: state.frequency === 'monthly',
+        paymentMethod: "card",
+        isRecurring: state.frequency === "monthly",
         timestamp: new Date(),
       };
-      dispatch({ type: 'SET_SUCCESS', payload: result });
+      dispatch({ type: "SET_SUCCESS", payload: result });
       onSuccess?.(result);
     },
-    [state.amount, state.coverFees, state.fiatCurrencyCode, state.frequency, onSuccess]
+    [
+      state.amount,
+      state.coverFees,
+      state.fiatCurrencyCode,
+      state.frequency,
+      onSuccess,
+    ],
   );
 
   const handleFiatError = useCallback((error: Error) => {
-    dispatch({ type: 'SET_ERROR', payload: error.message });
+    dispatch({ type: "SET_ERROR", payload: error.message });
   }, []);
 
   const handleReset = useCallback(() => {
-    dispatch({ type: 'RESET' });
+    dispatch({ type: "RESET" });
   }, []);
 
   // Modal title based on state and frequency
   const modalTitle = useMemo(() => {
-    if (state.step === 'success') {
-      return 'Thank You!';
+    if (state.step === "success") {
+      return "Thank You!";
     }
-    if (state.step === 'error') {
-      return 'Something Went Wrong';
+    if (state.step === "error") {
+      return "Something Went Wrong";
     }
-    return state.frequency === 'monthly'
+    return state.frequency === "monthly"
       ? `Support ${charityName} Monthly`
       : `Donate to ${charityName}`;
   }, [state.step, state.frequency, charityName]);
 
   // Frequency badge component
   const FrequencyBadge = useMemo(() => {
-    if (state.frequency === 'monthly') {
+    if (state.frequency === "monthly") {
       return (
         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-xs font-semibold">
           <Calendar className="w-3 h-3" />
@@ -386,19 +448,27 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   }, [state.frequency]);
 
   // Render success state
-  if (state.step === 'success' && state.result) {
+  if (state.step === "success" && state.result) {
     return (
       <ModalShell onClose={onClose}>
-        <SuccessContent result={state.result} charityName={charityName} onClose={onClose} />
+        <SuccessContent
+          result={state.result}
+          charityName={charityName}
+          onClose={onClose}
+        />
       </ModalShell>
     );
   }
 
   // Render error state
-  if (state.step === 'error') {
+  if (state.step === "error") {
     return (
       <ModalShell onClose={onClose}>
-        <ErrorContent error={state.error} onReset={handleReset} onClose={onClose} />
+        <ErrorContent
+          error={state.error}
+          onReset={handleReset}
+          onClose={onClose}
+        />
       </ModalShell>
     );
   }
@@ -406,108 +476,108 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   // Main input state
   return (
     <ModalShell onClose={onClose} dark>
-        <div className="p-8 max-h-[calc(100vh-4rem)] overflow-y-auto">
-          {/* Header with title and frequency badge */}
-          <div className="mb-6 pr-8">
-            <h2 className="flex items-center gap-3 mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
-              {modalTitle}
-            </h2>
-            {FrequencyBadge}
-          </div>
-
-          {/* Frequency Toggle (one-time vs monthly) */}
-          <div className="mb-4">
-            <DonationFrequencyToggle
-              value={state.frequency}
-              onChange={handleFrequencyChange}
-              disabled={state.step === 'processing'}
-            />
-          </div>
-
-          {/* Payment Method Toggle */}
-          <div className="mb-6">
-            <PaymentMethodToggle
-              value={state.paymentMethod}
-              onChange={handlePaymentMethodChange}
-              disabled={state.step === 'processing'}
-            />
-          </div>
-
-          {/* Content based on payment method */}
-          <div
-            className={cn(
-              'transition-opacity duration-200 ease-out',
-              state.step === 'processing' && 'opacity-50 pointer-events-none'
-            )}
-          >
-            {state.paymentMethod === 'crypto' && state.frequency === 'once' && (
-              <DonationForm
-                charityAddress={charityAddress}
-                onSuccess={handleCryptoSuccess}
-              />
-            )}
-            {state.paymentMethod === 'crypto' && state.frequency !== 'once' && (
-              <ScheduledDonationForm
-                charityAddress={charityAddress}
-                charityName={charityName}
-                onSuccess={handleCryptoSuccess}
-                onClose={onClose}
-              />
-            )}
-            {state.paymentMethod !== 'crypto' && !isMounted && (
-              <div className="flex flex-col items-center justify-center py-12 text-gray-500 dark:text-gray-400">
-                <div className="h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent mb-3" />
-                <p className="text-sm">Loading payment form...</p>
-              </div>
-            )}
-            {state.paymentMethod !== 'crypto' && isMounted && (
-              <div className="space-y-6">
-                <FiatCurrencySelector
-                  value={state.fiatCurrencyCode}
-                  onChange={handleCurrencyChange}
-                  disabled={state.step === 'processing'}
-                />
-
-                <FiatPresets
-                  selectedToken={selectedToken}
-                  onAmountSelect={handleAmountChange}
-                  directFiat
-                  presets={selectedFiatCurrency.presets}
-                  currencySymbol={selectedFiatCurrency.symbol}
-                  zeroDecimal={isZeroDecimalCurrency(selectedFiatCurrency.code)}
-                />
-
-                <AmountDisplay
-                  amount={state.amount}
-                  isMonthly={state.frequency === 'monthly'}
-                  formattedAmount={fmtFiat(state.amount)}
-                />
-
-                <FiatDonationForm
-                  charityId={charityId}
-                  charityName={charityName}
-                  amount={state.amount}
-                  frequency={state.frequency}
-                  coverFees={state.coverFees}
-                  onCoverFeesChange={handleCoverFeesChange}
-                  onSuccess={handleFiatSuccess}
-                  onError={handleFiatError}
-                  donorId={user?.id}
-                  donorAddress={address ?? undefined}
-                  currency={selectedFiatCurrency}
-                />
-              </div>
-            )}
-          </div>
-
-          {/* Trust signals */}
-          <div className="mt-6">
-            <TrustSignals
-              paymentMethod={state.paymentMethod}
-              contractAddress={contractAddress}
-            />
-          </div>
+      <div className="p-8 max-h-[calc(100vh-4rem)] overflow-y-auto">
+        {/* Header with title and frequency badge */}
+        <div className="mb-6 pr-8">
+          <h2 className="flex items-center gap-3 mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
+            {modalTitle}
+          </h2>
+          {FrequencyBadge}
         </div>
+
+        {/* Frequency Toggle (one-time vs monthly) */}
+        <div className="mb-4">
+          <DonationFrequencyToggle
+            value={state.frequency}
+            onChange={handleFrequencyChange}
+            disabled={state.step === "processing"}
+          />
+        </div>
+
+        {/* Payment Method Toggle */}
+        <div className="mb-6">
+          <PaymentMethodToggle
+            value={state.paymentMethod}
+            onChange={handlePaymentMethodChange}
+            disabled={state.step === "processing"}
+          />
+        </div>
+
+        {/* Content based on payment method */}
+        <div
+          className={cn(
+            "transition-opacity duration-200 ease-out",
+            state.step === "processing" && "opacity-50 pointer-events-none",
+          )}
+        >
+          {state.paymentMethod === "crypto" && state.frequency === "once" && (
+            <DonationForm
+              charityAddress={charityAddress}
+              onSuccess={handleCryptoSuccess}
+            />
+          )}
+          {state.paymentMethod === "crypto" && state.frequency !== "once" && (
+            <ScheduledDonationForm
+              charityAddress={charityAddress}
+              charityName={charityName}
+              onSuccess={handleCryptoSuccess}
+              onClose={onClose}
+            />
+          )}
+          {state.paymentMethod !== "crypto" && !isMounted && (
+            <div className="flex flex-col items-center justify-center py-12 text-gray-500 dark:text-gray-400">
+              <div className="h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent mb-3" />
+              <p className="text-sm">Loading payment form...</p>
+            </div>
+          )}
+          {state.paymentMethod !== "crypto" && isMounted && (
+            <div className="space-y-6">
+              <FiatCurrencySelector
+                value={state.fiatCurrencyCode}
+                onChange={handleCurrencyChange}
+                disabled={state.step === "processing"}
+              />
+
+              <FiatPresets
+                selectedToken={selectedToken}
+                onAmountSelect={handleAmountChange}
+                directFiat
+                presets={selectedFiatCurrency.presets}
+                currencySymbol={selectedFiatCurrency.symbol}
+                zeroDecimal={isZeroDecimalCurrency(selectedFiatCurrency.code)}
+              />
+
+              <AmountDisplay
+                amount={state.amount}
+                isMonthly={state.frequency === "monthly"}
+                formattedAmount={fmtFiat(state.amount)}
+              />
+
+              <FiatDonationForm
+                charityId={charityId}
+                charityName={charityName}
+                amount={state.amount}
+                frequency={state.frequency}
+                coverFees={state.coverFees}
+                onCoverFeesChange={handleCoverFeesChange}
+                onSuccess={handleFiatSuccess}
+                onError={handleFiatError}
+                donorId={user?.id}
+                donorAddress={address ?? undefined}
+                currency={selectedFiatCurrency}
+              />
+            </div>
+          )}
+        </div>
+
+        {/* Trust signals */}
+        <div className="mt-6">
+          <TrustSignals
+            paymentMethod={state.paymentMethod}
+            contractAddress={contractAddress}
+          />
+        </div>
+      </div>
     </ModalShell>
   );
 };
