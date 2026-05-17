@@ -326,21 +326,16 @@ function CharityTableHeader(): React.ReactElement {
   return (
     <thead>
       <tr className="bg-gray-50">
-        {[
-          'Name',
-          'Category',
-          'Status',
-          'Joined',
-          'Wallet',
-          'Actions',
-        ].map((title) => (
-          <th
-            key={title}
-            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-          >
-            {title}
-          </th>
-        ))}
+        {["Name", "Category", "Status", "Joined", "Wallet", "Actions"].map(
+          (title) => (
+            <th
+              key={title}
+              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+            >
+              {title}
+            </th>
+          ),
+        )}
       </tr>
     </thead>
   );

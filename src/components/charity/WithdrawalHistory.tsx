@@ -67,7 +67,9 @@ const WithdrawalTableHeader: React.FC = () => (
   </thead>
 );
 
-const WithdrawalTableBody: React.FC<WithdrawalTableProps> = ({ withdrawals }) => (
+const WithdrawalTableBody: React.FC<WithdrawalTableProps> = ({
+  withdrawals,
+}) => (
   <tbody className="divide-y divide-gray-200">
     {withdrawals?.map((withdrawal) => (
       <WithdrawalRow key={withdrawal.id} withdrawal={withdrawal} />
