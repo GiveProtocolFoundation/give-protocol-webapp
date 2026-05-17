@@ -4,6 +4,12 @@ interface WithdrawalStatusProps {
   status: 'pending' | 'approved' | 'rejected';
 }
 
+/**
+ * Renders a small status pill with color coding for a charity withdrawal request.
+ * @param props - Component props.
+ * @param props.status - Withdrawal status: `pending`, `approved`, or `rejected`.
+ * @returns The status pill element.
+ */
 export const WithdrawalStatus: React.FC<WithdrawalStatusProps> = ({ status }) => {
   const getStatusStyles = () => {
     switch (status) {

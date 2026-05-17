@@ -73,6 +73,12 @@ function withWrapped(
 
 const STABLECOIN_HEARTBEAT = 86400; // 24 hours
 
+/**
+ * Builds a `PriceFeedConfig` entry for a USD-pegged stablecoin using the standard 24-hour heartbeat.
+ * @param address - On-chain Chainlink aggregator address for the feed.
+ * @param symbol - Token symbol used in the feed description (e.g. `USDC`).
+ * @returns The price feed configuration.
+ */
 function stablecoinFeed(address: string, symbol: string): PriceFeedConfig {
   return { address, description: `${symbol} / USD`, decimals: 8, heartbeat: STABLECOIN_HEARTBEAT };
 }

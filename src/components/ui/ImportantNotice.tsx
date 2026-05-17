@@ -6,7 +6,14 @@ interface ImportantNoticeProps {
   variant?: 'warning' | 'info' | 'highlight';
 }
 
-export const ImportantNotice: React.FC<ImportantNoticeProps> = ({ 
+/**
+ * Renders a styled callout box used to highlight important content.
+ * @param props - Component props.
+ * @param props.children - Notice content rendered inside the callout.
+ * @param props.variant - Visual style: `warning`, `info`, or `highlight`. Defaults to `info`.
+ * @returns The notice element.
+ */
+export const ImportantNotice: React.FC<ImportantNoticeProps> = ({
   children, 
   variant = 'info' 
 }) => {

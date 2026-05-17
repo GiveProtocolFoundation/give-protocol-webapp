@@ -9,6 +9,15 @@ interface ScheduledDonationModalProps {
   onSuccess?: () => void;
 }
 
+/**
+ * Modal that wraps {@link ScheduledDonationForm} for setting up recurring monthly donations.
+ * @param props - Component props.
+ * @param props.charityName - Name of the charity used in the modal title.
+ * @param props.charityAddress - On-chain charity wallet address that will receive donations.
+ * @param props.onClose - Handler invoked when the modal is dismissed.
+ * @param props.onSuccess - Optional callback invoked after a successful schedule, before closing.
+ * @returns The scheduled donation modal element.
+ */
 export const ScheduledDonationModal: React.FC<ScheduledDonationModalProps> = ({
   charityName,
   charityAddress,

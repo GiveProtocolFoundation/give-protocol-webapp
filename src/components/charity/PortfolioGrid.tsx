@@ -8,6 +8,13 @@ interface PortfolioGridProps {
   category: string;
 }
 
+/**
+ * Renders a grid of portfolio funds filtered by search term and category.
+ * @param props - Component props.
+ * @param props.searchTerm - Free-text query used to filter portfolios by name.
+ * @param props.category - Category filter applied to the portfolio list.
+ * @returns A grid of portfolio cards.
+ */
 export const PortfolioGrid: React.FC<PortfolioGridProps> = ({ searchTerm, category }) => {
   // Sample portfolio funds - replace with actual data fetching
   const portfolios: PortfolioFund[] = [

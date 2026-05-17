@@ -281,6 +281,13 @@ function EditConfigModal({
 
 // ─── Tab Bar ──────────────────────────────────────────────────────────────────
 
+/**
+ * Renders the tab selector used to switch between admin platform-config screens.
+ * @param props - Component props.
+ * @param props.activeTab - Identifier of the currently active tab.
+ * @param props.onTabChange - Callback invoked with the new tab identifier when a tab is clicked.
+ * @returns The tab bar element.
+ */
 function TabBar({
   activeTab,
   onTabChange,
@@ -346,6 +353,14 @@ function TabBar({
 
 // ─── Platform Config Tab ──────────────────────────────────────────────────────
 
+/**
+ * Renders a grouped section of platform configuration entries with edit controls.
+ * @param props - Component props.
+ * @param props.title - Heading text for the section.
+ * @param props.entries - Configuration entries belonging to this category.
+ * @param props.onEdit - Callback invoked with the entry the user wants to edit.
+ * @returns The category section element.
+ */
 function CategorySection({
   title,
   entries,
@@ -755,6 +770,14 @@ function AuditLogTab({
 
 // ─── Token & Network Config Tab ───────────────────────────────────────────────
 
+/**
+ * Renders the token and network configuration tab with editable contract addresses and RPC endpoints.
+ * @param props - Component props.
+ * @param props.configs - Token and network configuration entries to display.
+ * @param props.loading - Whether configuration data is still being fetched.
+ * @param props.onEdit - Callback invoked with the configuration entry the user wants to edit.
+ * @returns The token/network tab element.
+ */
 function TokenNetworkTab({
   configs,
   loading,
@@ -797,6 +820,13 @@ function TokenNetworkTab({
 
 // ─── Admin Users Tab (UR-S7) ──────────────────────────────────────────────────
 
+/**
+ * Renders a table of admin users with their roles and current status.
+ * @param props - Component props.
+ * @param props.users - Admin user records to display.
+ * @param props.loading - Whether user data is still being fetched.
+ * @returns The admin users table element.
+ */
 function AdminUsersTable({
   users,
   loading,
@@ -882,6 +912,14 @@ function AdminUsersTab(): React.ReactElement {
 
 // ─── System Health Tab (UR-S8) ────────────────────────────────────────────────
 
+/**
+ * Renders a single system-health row with a label, status color, and optional detail string.
+ * @param props - Component props.
+ * @param props.label - Health check name.
+ * @param props.status - Status string (e.g. `"ok"`, `"warn"`, `"error"`) used to color the indicator.
+ * @param props.detail - Optional supporting detail rendered next to the indicator.
+ * @returns The health indicator row element.
+ */
 function HealthIndicator({
   label,
   status,

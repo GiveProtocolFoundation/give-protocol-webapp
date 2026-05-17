@@ -27,6 +27,9 @@ export class PerformanceMonitor {
   private readonly metrics: Map<string, number[]> = new Map();
   private readonly SAMPLE_SIZE = 100;
 
+  /**
+   * Private constructor to enforce the singleton pattern; use {@link PerformanceMonitor.getInstance} instead.
+   */
   private constructor() {
     // Private constructor to enforce singleton pattern
   }

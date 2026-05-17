@@ -11,6 +11,17 @@ interface TransactionFormProps {
   submitLabel: string;
 }
 
+/**
+ * Form used to enter an ETH amount and submit a Web3 transaction.
+ * @param props - Component props.
+ * @param props.amount - Current amount value (controlled input).
+ * @param props.onAmountChange - Callback invoked when the amount input changes.
+ * @param props.onSubmit - Submit handler invoked when the form is submitted.
+ * @param props.loading - When `true`, disables the submit button and shows a processing label.
+ * @param props.error - Optional error message rendered above the input.
+ * @param props.submitLabel - Label shown on the submit button when not loading.
+ * @returns The transaction form element.
+ */
 export const TransactionForm: React.FC<TransactionFormProps> = ({
   amount,
   onAmountChange,

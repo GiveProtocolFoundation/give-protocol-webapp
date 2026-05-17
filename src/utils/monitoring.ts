@@ -44,6 +44,9 @@ export class MonitoringService {
   private currentUserId: string | undefined = undefined;
   private currentSessionId: string | undefined = undefined;
 
+  /**
+   * Private constructor to enforce the singleton pattern; use {@link MonitoringService.getInstance} instead.
+   */
   private constructor() {
     // Private constructor to enforce singleton pattern
   }
@@ -76,6 +79,10 @@ export class MonitoringService {
     return MonitoringService.instance;
   }
 
+  /**
+   * Applies the supplied configuration, marks the service as initialized, and starts the enabled monitors.
+   * @param config - The monitoring configuration to apply.
+   */
   private initialize(config: MonitoringConfig): void {
     this.config = config;
     this.initialized = true;
@@ -93,6 +100,9 @@ export class MonitoringService {
     this.startMonitoring();
   }
 
+  /**
+   * Starts the monitors enabled in the active configuration (performance, errors, interactions).
+   */
   private startMonitoring(): void {
     if (!this.config || !this.initialized) return;
 
@@ -112,6 +122,9 @@ export class MonitoringService {
     }
   }
 
+  /**
+   * Initializes Core Web Vitals tracking and records the start of performance monitoring.
+   */
   private monitorPerformance(): void {
     // Monitor Core Web Vitals
     if ("web-vitals" in window || typeof window !== "undefined") {
@@ -124,6 +137,9 @@ export class MonitoringService {
     }
   }
 
+  /**
+   * Registers global handlers to record uncaught JavaScript errors and unhandled promise rejections.
+   */
   private monitorErrors(): void {
     // Global error handler (supplement to Sentry)
     window.addEventListener("error", (event) => {
@@ -144,6 +160,9 @@ export class MonitoringService {
     });
   }
 
+  /**
+   * Attaches a document-level click listener that records interactions with buttons and anchor elements.
+   */
   private monitorInteractions(): void {
     // Track key user interactions
     document.addEventListener("click", (event) => {
@@ -201,6 +220,10 @@ export class MonitoringService {
     this.sendMetric(metric);
   }
 
+  /**
+   * Persists a metric to the in-memory cache and local storage, trimming each to the most recent 100 entries.
+   * @param metric - The metric entry to store.
+   */
   private sendMetric(metric: MonitoringMetrics): void {
     // This would send metrics to your monitoring backend
     // For now, store in localStorage as fallback and cache in instance
@@ -227,6 +250,10 @@ export class MonitoringService {
     }
   }
 
+  /**
+   * Returns the current user ID from cache or the `give_docs_user_id` cookie, if available.
+   * @returns The user ID string, or `undefined` when no value can be resolved.
+   */
   private getCurrentUserId(): string | undefined {
     // Get user ID from cache or fetch from localStorage/auth context
     if (this.currentUserId) {
@@ -244,6 +271,10 @@ export class MonitoringService {
     }
   }
 
+  /**
+   * Returns the current session ID from cache or the `give_docs_session_id` cookie, if available.
+   * @returns The session ID string, or `undefined` when no value can be resolved.
+   */
   private getCurrentSessionId(): string | undefined {
     // Get session ID from cache or fetch from localStorage/auth context
     if (this.currentSessionId) {

@@ -101,6 +101,12 @@ export const useSettings = () => {
   return context;
 };
 
+/**
+ * React provider that exposes user preferences (language, currency, theme) through {@link useSettings}.
+ * State is initialized with SSR-safe defaults and hydrated from `localStorage` and cookies on mount.
+ * @param props - Standard React children to render inside the provider.
+ * @returns The provider element wrapping its children.
+ */
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {

@@ -35,6 +35,10 @@ export class CacheManager {
   private readonly maxSize: number;
   private readonly ttl: number;
 
+  /**
+   * Private constructor that applies the supplied cache configuration with sensible defaults.
+   * @param config - Optional cache configuration (`maxSize` defaults to 100, `ttl` to 5 minutes).
+   */
   private constructor(config: CacheConfig = {}) {
     this.maxSize = config.maxSize || 100;
     this.ttl = config.ttl || 5 * 60 * 1000; // 5 minutes default

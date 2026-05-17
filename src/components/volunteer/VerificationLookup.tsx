@@ -7,6 +7,10 @@ import { VolunteerVerificationCard } from "./VolunteerVerificationCard";
 import { Logger } from "@/utils/logger";
 import { VolunteerVerification } from "@/types/volunteer";
 
+/**
+ * Form that looks up a volunteer verification record by its hash and renders the result.
+ * @returns The lookup form and, when a record is found, the corresponding verification card.
+ */
 export const VerificationLookup: React.FC = () => {
   const [hash, setHash] = useState("");
   const [searchPerformed, setSearchPerformed] = useState(false);

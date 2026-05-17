@@ -52,6 +52,10 @@ const fetchRecentDonations = (): Promise<Donation[]> => {
   ]);
 };
 
+/**
+ * Renders a panel listing the most recent donations fetched via React Query.
+ * @returns The recent donations panel element, or a loading indicator while data is fetched.
+ */
 export const RecentDonations: React.FC = () => {
   const { data: donations, isLoading } = useQuery({
     queryKey: ["recentDonations"],

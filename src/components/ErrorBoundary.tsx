@@ -28,6 +28,10 @@ export class ErrorBoundary extends Component<Props, State> {
   private cacheOperationsCount = 0;
   private navigationAttempts = 0;
 
+  /**
+   * Initializes the boundary with a clean error state and zero recovery attempts.
+   * @param props - React component props, including the wrapped `children` and optional `onError` callback.
+   */
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -46,6 +50,13 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
+  /**
+   * React lifecycle hook invoked when a descendant throws. Logs the error, invokes the
+   * optional `onError` prop, stores the error in state, and triggers automatic recovery
+   * for transient failure classes.
+   * @param error - The error thrown by a descendant component.
+   * @param errorInfo - React-supplied diagnostic metadata including the component stack.
+   */
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log detailed error information
     Logger.error("React error boundary caught error", {
@@ -78,6 +89,13 @@ export class ErrorBoundary extends Component<Props, State> {
     }
   }
 
+  /**
+   * Decides whether the boundary should attempt automatic recovery for a given error.
+   * Recoverable errors include chunk-loading, network, and timeout failures up to
+   * {@link MAX_RECOVERY_ATTEMPTS}.
+   * @param error - The error that was caught.
+   * @returns `true` if recovery should be attempted.
+   */
   private canAttemptRecovery(error: Error): boolean {
     // List of errors that we can attempt to recover from
     const recoverableErrors = [
@@ -105,6 +123,11 @@ export class ErrorBoundary extends Component<Props, State> {
     );
   }
 
+  /**
+   * Attempts to recover from a caught error, throttled by {@link RECOVERY_COOLDOWN}.
+   * For chunk-load errors the page is reloaded; otherwise caches are cleared and the
+   * error state is reset so children remount.
+   */
   private readonly attemptRecovery = async () => {
     const now = Date.now();
     if (now - this.lastRecoveryAttempt < RECOVERY_COOLDOWN) {
@@ -159,6 +182,9 @@ export class ErrorBoundary extends Component<Props, State> {
     }
   }
 
+  /**
+   * Resets the boundary back to its initial, error-free state so children remount.
+   */
   private readonly handleReset = () => {
     // Reset state
     this.setState({
@@ -169,6 +195,9 @@ export class ErrorBoundary extends Component<Props, State> {
     });
   };
 
+  /**
+   * Navigates the browser to the application root, used as a last-resort recovery action.
+   */
   private readonly handleNavigateHome = () => {
     this.navigationAttempts++;
     // Navigate to home page

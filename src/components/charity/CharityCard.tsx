@@ -24,6 +24,12 @@ const CharityCardContent: React.FC<{ charity: Charity }> = ({ charity }) => (
   </div>
 );
 
+/**
+ * Card component summarizing a charity with a link to its detail page.
+ * @param props - Component props.
+ * @param props.charity - The charity record to display.
+ * @returns A clickable card linking to the charity's profile.
+ */
 export const CharityCard: React.FC<CharityCardProps> = ({ charity }) => {
   // Convert charity name to URL-friendly slug
   const getCharitySlug = (name: string) => {

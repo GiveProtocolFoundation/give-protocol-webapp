@@ -74,6 +74,10 @@ export class EVMAdapter {
   private currentChainId: number | null = null;
   private connectedAddress: string | null = null;
 
+  /**
+   * Wraps a raw EIP-1193 provider; ethers wrappers are created lazily on connect.
+   * @param provider - The injected EIP-1193 provider to adapt.
+   */
   constructor(provider: EIP1193Provider) {
     this.rawProvider = provider;
   }

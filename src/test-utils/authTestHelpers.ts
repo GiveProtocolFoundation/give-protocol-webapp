@@ -42,6 +42,12 @@ interface ScreenWithMock extends Screen {
   __mockShowToast?: jest.Mock;
 }
 
+/**
+ * Builds a canned Supabase auth response for use in unit tests.
+ * @param mockType - `"success"` yields a populated user/session, `"error"` yields a failure payload.
+ * @param errorDetails - Optional error object returned when `mockType` is `"error"`.
+ * @returns An `AuthResponse` matching the requested outcome.
+ */
 // Shared test helpers to reduce duplication in auth tests
 export const createMockAuthFlow = (
   mockType: "success" | "error",
@@ -59,6 +65,13 @@ export const createMockAuthFlow = (
   };
 };
 
+/**
+ * Builds a canned wallet-account response for use in Web3 unit tests.
+ * @param mockType - `"success"` returns a list with a single test address; `"error"` throws.
+ * @param errorDetails - Optional error thrown when `mockType` is `"error"`.
+ * @returns An array of mock account addresses on success.
+ * @throws When `mockType` is `"error"`.
+ */
 export const createMockWeb3Flow = (
   mockType: "success" | "error",
   errorDetails?: Error,
@@ -79,6 +92,10 @@ export const MOCK_USER = {
   created_at: "2024-01-01",
 };
 
+/**
+ * Returns a fresh object of Jest mocks covering the Supabase auth surface used in our tests.
+ * @returns An object with mocks for the common `supabase.auth.*` methods.
+ */
 // Common Supabase auth method mocks
 export const createAuthMocks = () => ({
   getSession: jest.fn().mockResolvedValue({
@@ -96,6 +113,13 @@ export const createAuthMocks = () => ({
   refreshSession: jest.fn(),
 });
 
+/**
+ * Wires up shared auth-test scaffolding: a toast mock, fresh Supabase auth mocks, and silent
+ * console error/log stubs.
+ * @param mockSupabase - Mock Supabase client whose `auth` is replaced with fresh mocks.
+ * @param mockUseToast - Jest mock standing in for the `useToast` hook.
+ * @returns The injected toast spy as `mockShowToast`.
+ */
 // Standard auth test patterns
 export const setupAuthTest = (
   mockSupabase: MockSupabase,
@@ -120,6 +144,16 @@ export const setupAuthTest = (
   return { mockShowToast };
 };
 
+/**
+ * Drives a standard auth-test scenario: programs the requested Supabase method, clicks the
+ * target button, and asserts the toast is invoked with the expected arguments.
+ * @param mockSupabase - Mock Supabase client whose `auth[method]` will be configured.
+ * @param method - Name of the `supabase.auth` method to stub.
+ * @param mockResponse - Either a `AuthResponse` to resolve with or an `Error` to reject with.
+ * @param screen - Testing Library screen, augmented with `__mockShowToast`.
+ * @param buttonTestId - `data-testid` of the button that triggers the flow.
+ * @param expectedToast - Tuple of arguments expected to be passed to `showToast`.
+ */
 // Common test flow handler
 export const testAuthFlow = async (
   mockSupabase: MockSupabase,
@@ -148,6 +182,9 @@ export const testAuthFlow = async (
   );
 };
 
+/**
+ * Reusable Testing Library assertions for common auth/wallet UI states.
+ */
 export const commonExpectations = {
   authSuccess: (screen: Screen) => {
     expect(screen.getByTestId("user")).toHaveTextContent("test@example.com");

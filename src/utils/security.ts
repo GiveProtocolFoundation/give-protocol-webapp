@@ -9,6 +9,9 @@ export class SecurityManager {
   private readonly oauthStates: Map<string, number> = new Map();
   private readonly STATE_TIMEOUT = 10 * 60 * 1000; // 10 minutes
 
+  /**
+   * Private constructor that schedules a periodic sweep for expired OAuth state tokens.
+   */
   private constructor() {
     // Clean up expired states periodically
     setInterval(() => this.cleanupExpiredStates(), 60 * 1000);

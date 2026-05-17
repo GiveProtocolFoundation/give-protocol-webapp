@@ -3,6 +3,10 @@ import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { useWithdrawals } from "@/hooks/useWithdrawals";
 
+/**
+ * Form used by charities to request a withdrawal of a specified amount.
+ * @returns The withdrawal form element.
+ */
 export const WithdrawalForm: React.FC = () => {
   const { requestWithdrawal, loading, error } = useWithdrawals();
   const [amount, setAmount] = useState("");
