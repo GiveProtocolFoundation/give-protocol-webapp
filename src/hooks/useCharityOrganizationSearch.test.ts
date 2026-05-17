@@ -74,7 +74,7 @@ describe("useCharityOrganizationSearch", () => {
       useCharityOrganizationSearch({ ...defaultParams, searchTerm: "a" }),
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -94,7 +94,7 @@ describe("useCharityOrganizationSearch", () => {
     // Should be loading while waiting for debounce
     expect(result.current.loading).toBe(true);
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -118,7 +118,7 @@ describe("useCharityOrganizationSearch", () => {
       useCharityOrganizationSearch({ ...defaultParams, filterState: "CA" }),
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -139,7 +139,7 @@ describe("useCharityOrganizationSearch", () => {
       useCharityOrganizationSearch({ ...defaultParams, filterCountry: "US" }),
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -171,7 +171,7 @@ describe("useCharityOrganizationSearch", () => {
       }),
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -198,7 +198,7 @@ describe("useCharityOrganizationSearch", () => {
       }),
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -218,7 +218,7 @@ describe("useCharityOrganizationSearch", () => {
       useCharityOrganizationSearch({ ...defaultParams, searchTerm: "fail" }),
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -238,7 +238,7 @@ describe("useCharityOrganizationSearch", () => {
       useCharityOrganizationSearch({ ...defaultParams, searchTerm: "test" }),
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -249,7 +249,7 @@ describe("useCharityOrganizationSearch", () => {
     expect(result.current.hasMore).toBe(true);
   });
 
-  it("loadMore does nothing when loading is true", async () => {
+  it("loadMore does nothing when loading is true", () => {
     mockSearch.mockReturnValue(
       new Promise(() => {
         // Intentionally never resolves to keep loading state
@@ -260,7 +260,7 @@ describe("useCharityOrganizationSearch", () => {
       useCharityOrganizationSearch({ ...defaultParams, searchTerm: "test" }),
     );
 
-    await act(async () => {
+    act(() => {
       jest.advanceTimersByTime(400);
     });
 
@@ -290,7 +290,7 @@ describe("useCharityOrganizationSearch", () => {
       { initialProps: { searchTerm: "first" } },
     );
 
-    await act(async () => {
+    await act(() => {
       jest.advanceTimersByTime(400);
     });
 

@@ -64,7 +64,7 @@ describe("WalletButton focus management (WCAG 2.4.3 — GIV-109)", () => {
       renderWalletButton();
 
       const walletButton = screen.getByRole("button", { name: /wallet menu/i });
-      await act(async () => {
+      await act(() => {
         fireEvent.click(walletButton);
       });
 
@@ -86,11 +86,11 @@ describe("WalletButton focus management (WCAG 2.4.3 — GIV-109)", () => {
 
       const walletButton = screen.getByRole("button", { name: /wallet menu/i });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.click(walletButton);
       });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.keyDown(document, { key: "Escape" });
       });
 
@@ -103,14 +103,14 @@ describe("WalletButton focus management (WCAG 2.4.3 — GIV-109)", () => {
       const walletButton = screen.getByRole("button", { name: /wallet menu/i });
 
       // Open
-      await act(async () => {
+      await act(() => {
         fireEvent.click(walletButton);
       });
 
       expect(document.querySelector("[data-wallet-menu]")).not.toBeNull();
 
       // Close by clicking toggle again
-      await act(async () => {
+      await act(() => {
         fireEvent.click(walletButton);
       });
 
