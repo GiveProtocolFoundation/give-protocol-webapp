@@ -185,14 +185,27 @@ describe("WalletButton", () => {
       expect(screen.queryByText("Switch Account")).not.toBeInTheDocument();
     });
 
-    it("hides Account Settings when showSettings is false (guest mode)", () => {
-      renderWalletButton({ showSettings: false });
+    it("hides Account Settings and shows Sign In when isGuest is true", () => {
+      renderWalletButton({ isGuest: true });
 
       fireEvent.click(screen.getByRole("button", { name: "Wallet menu" }));
 
       expect(screen.queryByText("Account Settings")).not.toBeInTheDocument();
-      // Disconnect remains available so the guest can disconnect
+      expect(screen.getByText("Sign In")).toBeInTheDocument();
+      // Disconnect remains available
       expect(screen.getByText("Disconnect")).toBeInTheDocument();
+    });
+
+    it("shows 'Guest' label on the wallet button when isGuest is true", () => {
+      renderWalletButton({ isGuest: true });
+      expect(screen.getByText("Guest")).toBeInTheDocument();
+      expect(screen.queryByText("Main Wallet")).not.toBeInTheDocument();
+    });
+
+    it("shows 'Main Wallet' label by default (signed in)", () => {
+      renderWalletButton();
+      expect(screen.getByText("Main Wallet")).toBeInTheDocument();
+      expect(screen.queryByText("Guest")).not.toBeInTheDocument();
     });
   });
 

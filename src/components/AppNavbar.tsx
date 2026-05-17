@@ -320,7 +320,7 @@ const NavActions: React.FC<{
               onDisconnect={onDisconnect}
               onSwitchAccount={handleSwitchAccount}
               onNetworkChange={onNetworkChange}
-              showSettings={isAuthenticated}
+              isGuest={!isAuthenticated}
             />
           </>
         )}
