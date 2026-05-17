@@ -320,16 +320,20 @@ const NavActions: React.FC<{
               onDisconnect={onDisconnect}
               onSwitchAccount={handleSwitchAccount}
               onNetworkChange={onNetworkChange}
+              showSettings={isAuthenticated}
             />
           </>
         )}
         {!isConnected && !isAuthenticated && (
-          <Link
-            to="/auth"
-            className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors duration-200"
-          >
-            Sign In
-          </Link>
+          <>
+            <ConnectButton />
+            <Link
+              to="/auth"
+              className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors duration-200"
+            >
+              Sign In
+            </Link>
+          </>
         )}
         {!isConnected && isAuthenticated && (
           <>

@@ -108,6 +108,7 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
   balances: externalBalances,
   className = "",
   hasMultipleAccounts = false,
+  showSettings = true,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -292,6 +293,7 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
           onSwitchAccount={handleSwitchAccount}
           onSettings={handleSettings}
           hasMultipleAccounts={hasMultipleAccounts}
+          showSettings={showSettings}
           anchorRef={buttonRef}
         />
       )}

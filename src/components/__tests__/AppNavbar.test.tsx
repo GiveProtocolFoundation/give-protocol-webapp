@@ -211,6 +211,19 @@ describe("AppNavbar", () => {
     });
   });
 
+  describe("Connect button (guest visitor)", () => {
+    it("renders ConnectButton for unauthenticated visitors so they can donate without signing in", () => {
+      renderNavbar();
+      expect(screen.getByTestId("connect-button")).toBeInTheDocument();
+    });
+
+    it("renders ConnectButton alongside Sign In link for guests", () => {
+      renderNavbar();
+      expect(screen.getByTestId("connect-button")).toBeInTheDocument();
+      expect(screen.getByText("Sign In")).toBeInTheDocument();
+    });
+  });
+
   describe("Settings menu", () => {
     it("renders the settings menu", () => {
       renderNavbar();
