@@ -317,15 +317,39 @@ function DonorRow({
         {donor.primaryAuthMethod}
       </td>
       <td className="px-4 py-3">
-        <StatusBadge status={donor.userStatus} />
-      </td>
-      <td className="px-4 py-3 text-sm text-gray-700">${totalUsd}</td>
-      <td className="px-4 py-3 text-sm text-gray-500">{donor.donationCount}</td>
-      <td className="px-4 py-3 text-sm text-gray-500">{formattedDate}</td>
-      <td className="px-4 py-3">
         <DonorActions donor={donor} onAction={onAction} disabled={updating} />
       </td>
     </tr>
+  );
+}
+
+function DonorTableHeader(): React.ReactElement {
+  return (
+    <thead>
+      <tr className="bg-gray-50">
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          Donor
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          Auth
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          Status
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          Total Donated
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          Donations
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          Joined
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          Actions
+        </th>
+      </tr>
+    </thead>
   );
 }
 
@@ -342,30 +366,11 @@ function DonorTable({
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left">
-        <thead>
-          <tr className="bg-gray-50">
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Donor
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Auth
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Status
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Total Donated
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Donations
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Joined
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Actions
-            </th>
-          </tr>
+        <DonorTableHeader />
+      </table>
+    </div>
+  );
+}
         </thead>
         <tbody>
           {donors.map((donor) => (

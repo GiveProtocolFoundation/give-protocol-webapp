@@ -203,6 +203,51 @@ function RequestRow({
 }
 
 /** Suspicious patterns table */
+
+function SuspiciousTableHeader(): React.ReactElement {
+  return (
+    <thead>
+      <tr className="bg-gray-50">
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+          Volunteer
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+          Organisation
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+          Hrs/Week
+        </th>
+        <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+          Total Requests
+        </th>
+      </tr>
+    </thead>
+  );
+}
+
+function SuspiciousTableRow({
+  pattern,
+}: {
+  pattern: AdminSuspiciousVolunteerPattern;
+}): React.ReactElement {
+  return (
+    <tr className="hover:bg-gray-50">
+      <td className="px-4 py-3 text-sm text-gray-900">
+        {pattern.volunteerDisplayName ?? pattern.volunteerEmail ?? pattern.volunteerId}
+      </td>
+      <td className="px-4 py-3 text-sm text-gray-900">
+        {pattern.orgDisplayName ?? pattern.orgName ?? pattern.orgId}
+      </td>
+      <td className="px-4 py-3 text-sm text-gray-900 text-right">
+        {pattern.hoursPerWeek}
+      </td>
+      <td className="px-4 py-3 text-sm text-gray-900 text-right">
+        {pattern.totalRequests}
+      </td>
+    </tr>
+  );
+}
+
 function SuspiciousTable({
   patterns,
 }: {
@@ -218,30 +263,19 @@ function SuspiciousTable({
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full divide-y divide-gray-200 text-left">
-        <thead>
-          <tr className="bg-gray-50">
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-              Volunteer
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-              Organisation
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-              Hrs/Week
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-              Total Requests
-            </th>
-          </tr>
-        </thead>
+        <SuspiciousTableHeader />
         <tbody className="divide-y divide-gray-100">
           {patterns.map((p) => (
-            <tr
+            <SuspiciousTableRow
               key={`${p.volunteerId}-${p.orgId}`}
-              className="hover:bg-gray-50"
-            >
-              <td className="px-4 py-3 text-sm text-gray-900">
-                {p.volunteerDisplayName ?? p.volunteerEmail ?? p.volunteerId}
+              pattern={p}
+            />
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
               </td>
               <td className="px-4 py-3 text-sm text-gray-600">
                 {p.orgName ?? p.orgId}
@@ -279,7 +313,6 @@ function OverrideModal({
   const [newStatus, setNewStatus] =
     useState<ValidationRequestStatus>("approved");
   const [reason, setReason] = useState("");
-
   const handleStatusChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setNewStatus(e.target.value as ValidationRequestStatus);
@@ -303,6 +336,49 @@ function OverrideModal({
     request.volunteerEmail ??
     request.volunteerId;
 
+  const VolunteerInfo: React.FC<{ volunteerLabel: string; hoursReported: number; activityDate: string }> = ({ volunteerLabel, hoursReported, activityDate }) => (
+    <p className="text-sm text-gray-700">
+      Volunteer: <strong>{volunteerLabel}</strong> — {hoursReported}h on {activityDate}
+    </p>
+  );
+
+  const StatusSelector: React.FC<{ newStatus: ValidationRequestStatus; onChange: React.ChangeEventHandler<HTMLSelectElement> }> = ({ newStatus, onChange }) => (
+    <div>
+      <label htmlFor="override-status" className="block text-sm font-medium text-gray-700">
+        New Status
+      </label>
+      <select
+        id="override-status"
+        name="override-status"
+        value={newStatus}
+        onChange={onChange}
+        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      >
+        {Object.values(ValidationRequestStatus).map((status) => (
+          <option key={status} value={status}>
+            {status}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+
+  const ReasonInput: React.FC<{ reason: string; onChange: React.ChangeEventHandler<HTMLTextAreaElement> }> = ({ reason, onChange }) => (
+    <div>
+      <label htmlFor="override-reason" className="block text-sm font-medium text-gray-700">
+        Reason
+      </label>
+      <textarea
+        id="override-reason"
+        name="override-reason"
+        rows={3}
+        value={reason}
+        onChange={onChange}
+        className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-indigo-500 focus:ring-indigo-500 sm:text-sm"
+      />
+    </div>
+  );
+
   return (
     <Modal
       title="Override Validation Request"
@@ -323,13 +399,16 @@ function OverrideModal({
       }
     >
       <div className="space-y-4">
-        <p className="text-sm text-gray-700">
-          Volunteer: <strong>{volunteerLabel}</strong> — {request.hoursReported}
-          h on {request.activityDate}
-        </p>
-        <div>
-          <label
-            htmlFor="override-status"
+        <VolunteerInfo
+          volunteerLabel={volunteerLabel}
+          hoursReported={request.hoursReported}
+          activityDate={request.activityDate}
+        />
+        <StatusSelector newStatus={newStatus} onChange={handleStatusChange} />
+        <ReasonInput reason={reason} onChange={handleReasonChange} />
+      </div>
+    </Modal>
+  );
             className="block text-sm font-medium text-gray-700 mb-1"
           >
             New Status
@@ -536,57 +615,17 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           Suspicious Patterns
           {suspiciousPatterns.length > 0 && (
             <span className="ml-2 inline-block bg-red-100 text-red-800 text-xs font-semibold px-1.5 py-0.5 rounded-full">
-              {suspiciousPatterns.length}
-            </span>
-          )}
-        </button>
-      </div>
-
-      {/* Validation Requests tab */}
       {activeTab === "requests" && (
         <Card className="p-6">
-          <FilterBar
+          <ValidationRequestsSection
             filters={filters}
+            loading={loading}
+            requests={result.requests}
             onStatusChange={handleStatusChange}
             onSearchChange={handleSearchChange}
           />
-          {loading && (
-            <div className="flex justify-center py-12">
-              <LoadingSpinner size="lg" />
-            </div>
-          )}
-          {!loading && result.requests.length === 0 && (
-            <p className="text-sm text-gray-500 text-center py-8">
-              No validation requests found.
-            </p>
-          )}
-          {!loading && result.requests.length > 0 && (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-left">
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Volunteer
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Organisation
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-                      Hours
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Activity Date
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Status
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Created
-                    </th>
-                    <th className="px-4 py-3" />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
+        </Card>
+      )}
                   {result.requests.map((req) => (
                     <RequestRow
                       key={req.id}

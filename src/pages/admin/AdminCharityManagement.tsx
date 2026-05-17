@@ -322,6 +322,30 @@ function ActionModal({
 // ─── Charity table ────────────────────────────────────────────────────────────
 
 /** Charity list table with header and rows */
+function CharityTableHeader(): React.ReactElement {
+  return (
+    <thead>
+      <tr className="bg-gray-50">
+        {[
+          'Name',
+          'Category',
+          'Status',
+          'Joined',
+          'Wallet',
+          'Actions',
+        ].map((title) => (
+          <th
+            key={title}
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            {title}
+          </th>
+        ))}
+      </tr>
+    </thead>
+  );
+}
+
 function CharityTable({
   charities,
   onAction,
@@ -334,28 +358,7 @@ function CharityTable({
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left">
-        <thead>
-          <tr className="bg-gray-50">
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Name
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Category
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Status
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Joined
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Wallet
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Actions
-            </th>
-          </tr>
-        </thead>
+        <CharityTableHeader />
         <tbody>
           {charities.map((charity) => (
             <CharityRow
