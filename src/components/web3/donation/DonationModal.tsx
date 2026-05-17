@@ -11,6 +11,7 @@ import { DonationForm } from './DonationForm';
 import { ScheduledDonationForm } from './ScheduledDonationForm';
 import { FiatDonationForm } from './FiatDonationForm';
 import { PaymentMethodToggle } from './PaymentMethodToggle';
+import { DonationFrequencyToggle } from './DonationFrequencyToggle';
 import { FiatPresets } from './FiatPresets';
 import { FiatCurrencySelector } from './FiatCurrencySelector';
 import { TrustSignals } from './TrustSignals';
@@ -228,13 +229,14 @@ function donationReducer(
 /**
  * Unified donation modal supporting both crypto and card payments
  * @component DonationModal
- * @description Full-featured donation gateway with payment method toggle.
- * Frequency is determined by the entry point (Give Once vs Give Monthly buttons).
+ * @description Full-featured donation gateway with payment method (card/crypto)
+ * and frequency (once/monthly) toggles. The `frequency` prop seeds the initial
+ * selection; the user can switch inside the modal.
  * @param {Object} props - Component props
  * @param {string} props.charityName - Display name of the charity
  * @param {string} props.charityAddress - Blockchain address
  * @param {string} props.charityId - Unique identifier for fiat payments
- * @param {DonationFrequency} props.frequency - 'once' or 'monthly' (locked mode)
+ * @param {DonationFrequency} props.frequency - Initial frequency ('once' or 'monthly'); the user can toggle inside the modal.
  * @param {function} props.onClose - Close callback
  * @param {function} [props.onSuccess] - Success callback
  * @returns {React.ReactElement} Donation modal
@@ -250,22 +252,13 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => { setIsMounted(true); }, []);
 
-  const { chainId, isConnected, address } = useWeb3();
+  const { chainId, isConnected: _isConnected, address } = useWeb3();
   const { user } = useAuth();
   const [state, dispatch] = useReducer(
     donationReducer,
     frequency,
     createInitialState,
   );
-
-  // After hydration, sync payment method with wallet connection state
-  useEffect(() => {
-    if (isConnected) {
-      dispatch({ type: 'SET_PAYMENT_METHOD', payload: 'crypto' });
-    }
-    // Only run on mount to avoid hydration mismatch
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
 
   // Get token for fiat presets
   const availableTokens = useMemo(() => {
@@ -304,6 +297,10 @@ export const DonationModal: React.FC<DonationModalProps> = ({
     dispatch({ type: 'SET_PAYMENT_METHOD', payload: method });
   }, []);
 
+  const handleFrequencyChange = useCallback((next: DonationFrequency) => {
+    dispatch({ type: 'SET_FREQUENCY', payload: next });
+  }, []);
+
   const handleAmountChange = useCallback((amount: number) => {
     dispatch({ type: 'SET_AMOUNT', payload: amount });
   }, []);
@@ -323,12 +320,12 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       amount: state.amount,
       currency: selectedToken.symbol,
       paymentMethod: 'crypto',
-      isRecurring: frequency === 'monthly',
+      isRecurring: state.frequency === 'monthly',
       timestamp: new Date(),
     };
     dispatch({ type: 'SET_SUCCESS', payload: result });
     onSuccess?.(result);
-  }, [state.amount, frequency, selectedToken.symbol, onSuccess]);
+  }, [state.amount, state.frequency, selectedToken.symbol, onSuccess]);
 
   const handleFiatSuccess = useCallback(
     (paymentResult: HelcimPaymentResult) => {
@@ -340,13 +337,13 @@ export const DonationModal: React.FC<DonationModalProps> = ({
         amount: chargeAmount,
         currency: state.fiatCurrencyCode,
         paymentMethod: 'card',
-        isRecurring: frequency === 'monthly',
+        isRecurring: state.frequency === 'monthly',
         timestamp: new Date(),
       };
       dispatch({ type: 'SET_SUCCESS', payload: result });
       onSuccess?.(result);
     },
-    [state.amount, state.coverFees, state.fiatCurrencyCode, frequency, onSuccess]
+    [state.amount, state.coverFees, state.fiatCurrencyCode, state.frequency, onSuccess]
   );
 
   const handleFiatError = useCallback((error: Error) => {
@@ -365,14 +362,14 @@ export const DonationModal: React.FC<DonationModalProps> = ({
     if (state.step === 'error') {
       return 'Something Went Wrong';
     }
-    return frequency === 'monthly'
+    return state.frequency === 'monthly'
       ? `Support ${charityName} Monthly`
       : `Donate to ${charityName}`;
-  }, [state.step, frequency, charityName]);
+  }, [state.step, state.frequency, charityName]);
 
   // Frequency badge component
   const FrequencyBadge = useMemo(() => {
-    if (frequency === 'monthly') {
+    if (state.frequency === 'monthly') {
       return (
         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-xs font-semibold">
           <Calendar className="w-3 h-3" />
@@ -386,7 +383,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
         One-Time
       </div>
     );
-  }, [frequency]);
+  }, [state.frequency]);
 
   // Render success state
   if (state.step === 'success' && state.result) {
@@ -418,6 +415,15 @@ export const DonationModal: React.FC<DonationModalProps> = ({
             {FrequencyBadge}
           </div>
 
+          {/* Frequency Toggle (one-time vs monthly) */}
+          <div className="mb-4">
+            <DonationFrequencyToggle
+              value={state.frequency}
+              onChange={handleFrequencyChange}
+              disabled={state.step === 'processing'}
+            />
+          </div>
+
           {/* Payment Method Toggle */}
           <div className="mb-6">
             <PaymentMethodToggle
@@ -434,13 +440,13 @@ export const DonationModal: React.FC<DonationModalProps> = ({
               state.step === 'processing' && 'opacity-50 pointer-events-none'
             )}
           >
-            {state.paymentMethod === 'crypto' && frequency === 'once' && (
+            {state.paymentMethod === 'crypto' && state.frequency === 'once' && (
               <DonationForm
                 charityAddress={charityAddress}
                 onSuccess={handleCryptoSuccess}
               />
             )}
-            {state.paymentMethod === 'crypto' && frequency !== 'once' && (
+            {state.paymentMethod === 'crypto' && state.frequency !== 'once' && (
               <ScheduledDonationForm
                 charityAddress={charityAddress}
                 charityName={charityName}
@@ -473,7 +479,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
                 <AmountDisplay
                   amount={state.amount}
-                  isMonthly={frequency === 'monthly'}
+                  isMonthly={state.frequency === 'monthly'}
                   formattedAmount={fmtFiat(state.amount)}
                 />
 
@@ -481,7 +487,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
                   charityId={charityId}
                   charityName={charityName}
                   amount={state.amount}
-                  frequency={frequency}
+                  frequency={state.frequency}
                   coverFees={state.coverFees}
                   onCoverFeesChange={handleCoverFeesChange}
                   onSuccess={handleFiatSuccess}
