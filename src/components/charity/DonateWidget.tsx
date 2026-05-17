@@ -219,13 +219,6 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
             <p className="text-xs text-gray-500">
               Connect your wallet to choose an amount and donate in crypto.
             </p>
-            <Button
-              fullWidth
-              onClick={connect}
-              icon={<Heart className="h-4 w-4" />}
-            >
-              Connect wallet
-            </Button>
             {!hasWallet && (
               <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg w-full">
                 <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
@@ -235,6 +228,13 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
                 </p>
               </div>
             )}
+            <Button
+              fullWidth
+              onClick={handleDonate}
+              icon={<Heart className="h-4 w-4" />}
+            >
+              Donate
+            </Button>
             <p className="text-xs text-gray-400">
               0% platform fee on direct donations. Network gas fees apply.
             </p>
@@ -372,7 +372,6 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
     fiatCode,
     nativePrice,
     selectedCurrency.code,
-    connect,
     handleTabChange,
     handlePresetClick,
     handleCustomChange,
