@@ -42,6 +42,21 @@ describe("DonateWidget", () => {
       disconnect: jest.fn(),
       switchChain: jest.fn(),
     });
+    // Reset the currency mock so tests that override it don't bleed into others
+    mockUseCurrencyContext.mockReturnValue({
+      selectedCurrency: {
+        code: "USD",
+        name: "US Dollar",
+        symbol: "$",
+        coingeckoId: "usd",
+      },
+      setSelectedCurrency: jest.fn(),
+      tokenPrices: {},
+      isLoading: false,
+      refreshPrices: jest.fn(),
+      convertToFiat: jest.fn(() => 0),
+      convertFromFiat: jest.fn(() => 0),
+    });
   });
 
   describe("Sidebar mode rendering", () => {
@@ -446,6 +461,140 @@ describe("DonateWidget", () => {
       renderWidget();
       fireEvent.click(screen.getByText("Fiat (GBP)"));
       expect(screen.getByText("£50")).toBeInTheDocument();
+    });
+  });
+
+  describe("In-widget selectors", () => {
+    it("renders a network selector on the crypto tab", () => {
+      renderWidget();
+      const select = screen.getByLabelText("Donation network");
+      expect(select).toBeInTheDocument();
+      // Default chain is Moonbase (1287) per test setup
+      expect((select as HTMLSelectElement).value).toBe("1287");
+    });
+
+    it("calls switchChain when the user picks a different network while connected", () => {
+      const mockSwitchChain = jest.fn(async () => {
+        // mock async switch
+      });
+      mockUseWeb3.mockReturnValue({
+        provider: null,
+        signer: null,
+        address: "0xabc",
+        chainId: 1287,
+        isConnected: true,
+        isConnecting: false,
+        error: null,
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        switchChain: mockSwitchChain,
+      });
+      renderWidget();
+      const select = screen.getByLabelText("Donation network");
+      fireEvent.change(select, { target: { value: "8453" } });
+      expect(mockSwitchChain).toHaveBeenCalledWith(8453);
+    });
+
+    it("updates the displayed crypto symbol when the user picks a network while disconnected", () => {
+      renderWidget();
+      const select = screen.getByLabelText("Donation network");
+      fireEvent.change(select, { target: { value: "1284" } });
+      // Moonbeam mainnet → GLMR
+      expect(screen.getByText("0.05 GLMR")).toBeInTheDocument();
+    });
+
+    it("renders a currency selector on the fiat tab", () => {
+      renderWidget();
+      fireEvent.click(screen.getByText("Fiat (USD)"));
+      expect(screen.getByLabelText("Display currency")).toBeInTheDocument();
+    });
+
+    it("calls setSelectedCurrency when the user picks a different fiat currency", () => {
+      const mockSetSelectedCurrency = jest.fn();
+      mockUseCurrencyContext.mockReturnValue({
+        selectedCurrency: {
+          code: "USD",
+          name: "US Dollar",
+          symbol: "$",
+          coingeckoId: "usd",
+        },
+        setSelectedCurrency: mockSetSelectedCurrency,
+        tokenPrices: {},
+        isLoading: false,
+        refreshPrices: jest.fn(),
+        convertToFiat: jest.fn(() => 0),
+        convertFromFiat: jest.fn(() => 0),
+      });
+      renderWidget();
+      fireEvent.click(screen.getByText("Fiat (USD)"));
+      const select = screen.getByLabelText("Display currency");
+      fireEvent.change(select, { target: { value: "EUR" } });
+      expect(mockSetSelectedCurrency).toHaveBeenCalledWith(
+        expect.objectContaining({ code: "EUR", symbol: "€" }),
+      );
+    });
+  });
+
+  describe("Fiat equivalent under crypto presets", () => {
+    it("shows fiat equivalent below crypto preset when prices are loaded", () => {
+      mockUseCurrencyContext.mockReturnValue({
+        selectedCurrency: {
+          code: "USD",
+          name: "US Dollar",
+          symbol: "$",
+          coingeckoId: "usd",
+        },
+        setSelectedCurrency: jest.fn(),
+        // Moonbase native (DEV) uses moonbeam price as proxy → $0.40
+        tokenPrices: { moonbeam: 0.4, ethereum: 3000 },
+        isLoading: false,
+        refreshPrices: jest.fn(),
+        convertToFiat: jest.fn(() => 0),
+        convertFromFiat: jest.fn(() => 0),
+      });
+      renderWidget();
+      // 0.05 DEV × $0.40 = $0.02
+      expect(screen.getByText("≈ $0.02")).toBeInTheDocument();
+      // 0.5 DEV × $0.40 = $0.20
+      expect(screen.getByText("≈ $0.20")).toBeInTheDocument();
+    });
+
+    it("omits fiat equivalent when prices are not loaded", () => {
+      renderWidget();
+      // Default mock has empty tokenPrices
+      expect(screen.queryByText(/≈/u)).not.toBeInTheDocument();
+    });
+
+    it("reflects the selected currency symbol in the fiat equivalent", () => {
+      mockUseCurrencyContext.mockReturnValue({
+        selectedCurrency: {
+          code: "EUR",
+          name: "Euro",
+          symbol: "€",
+          coingeckoId: "eur",
+        },
+        setSelectedCurrency: jest.fn(),
+        tokenPrices: { ethereum: 2800 },
+        isLoading: false,
+        refreshPrices: jest.fn(),
+        convertToFiat: jest.fn(() => 0),
+        convertFromFiat: jest.fn(() => 0),
+      });
+      mockUseWeb3.mockReturnValue({
+        provider: null,
+        signer: null,
+        address: null,
+        chainId: 8453,
+        isConnected: false,
+        isConnecting: false,
+        error: null,
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        switchChain: jest.fn(),
+      });
+      renderWidget();
+      // 0.01 ETH × €2800 = €28
+      expect(screen.getByText("≈ €28.00")).toBeInTheDocument();
     });
   });
 });
