@@ -128,6 +128,11 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
     const isCrypto = tab === "crypto";
     const presets = isCrypto ? CRYPTO_PRESETS : FIAT_PRESETS;
     const maxDonation = isCrypto ? MAX_CRYPTO_DONATION : MAX_FIAT_DONATION;
+    /**
+     * Format a donation amount with the active currency symbol.
+     * @param value - Numeric or string amount to format.
+     * @returns The amount with the crypto token symbol suffixed or the fiat symbol prefixed.
+     */
     const formatAmount = (value: number | string): string =>
       isCrypto ? `${value} ${cryptoSymbol}` : `${fiatSymbol}${value}`;
     const inputPrefix = isCrypto ? "" : fiatSymbol;
