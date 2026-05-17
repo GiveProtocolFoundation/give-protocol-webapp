@@ -36,7 +36,7 @@ describe("AppNavbar mobile menu focus management (WCAG 2.4.3 — GIV-109)", () =
       renderNavbar();
 
       const menuButton = screen.getByRole("button", { name: /open menu/i });
-      await act(async () => {
+      await act(() => {
         fireEvent.click(menuButton);
       });
 
@@ -55,11 +55,11 @@ describe("AppNavbar mobile menu focus management (WCAG 2.4.3 — GIV-109)", () =
 
       const menuButton = screen.getByRole("button", { name: /open menu/i });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.click(menuButton);
       });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.keyDown(document, { key: "Escape" });
       });
 
@@ -75,7 +75,7 @@ describe("AppNavbar mobile menu focus management (WCAG 2.4.3 — GIV-109)", () =
       renderNavbar();
 
       const menuButton = screen.getByRole("button", { name: /open menu/i });
-      await act(async () => {
+      await act(() => {
         fireEvent.click(menuButton);
       });
 

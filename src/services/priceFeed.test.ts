@@ -49,7 +49,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const prices = await service.getTokenPrices(
@@ -73,7 +73,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       // First call - should fetch
@@ -93,7 +93,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse1,
+        json: () => Promise.resolve(mockResponse1),
       } as Response);
 
       // First call - cache moonbeam
@@ -107,7 +107,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse2,
+        json: () => Promise.resolve(mockResponse2),
       } as Response);
 
       // Second call - request both tokens, polkadot not in cache
@@ -125,7 +125,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse1,
+        json: () => Promise.resolve(mockResponse1),
       } as Response);
 
       // First call
@@ -136,7 +136,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse2,
+        json: () => Promise.resolve(mockResponse2),
       } as Response);
 
       // Second call - should fetch again
@@ -151,7 +151,7 @@ describe("PriceFeedService", () => {
       // First successful fetch
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await service.getTokenPrices(["moonbeam"], "usd");
@@ -202,7 +202,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const prices = await service.getTokenPrices(
@@ -219,7 +219,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await service.getTokenPrices(["moonbeam"]);
@@ -237,7 +237,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const price = await service.getTokenPrice("moonbeam", "usd");
@@ -251,7 +251,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => mockResponse,
       } as Response);
 
       const price = await service.getTokenPrice("moonbeam", "eur");
@@ -266,7 +266,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await expect(service.getTokenPrice("nonexistent", "usd")).rejects.toThrow(
@@ -281,7 +281,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await service.getTokenPrices(["moonbeam"], "usd");
@@ -303,7 +303,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const beforeTime = Date.now();

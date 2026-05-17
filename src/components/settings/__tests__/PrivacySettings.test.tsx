@@ -94,7 +94,7 @@ describe("PrivacySettings", () => {
         expect(screen.getByText("Request Data Export")).toBeInTheDocument();
       });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.click(screen.getByText("Request Data Export"));
       });
 
@@ -160,7 +160,7 @@ describe("PrivacySettings", () => {
         expect(screen.getByText("Cancel Deletion")).toBeInTheDocument();
       });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.click(screen.getByText("Cancel Deletion"));
       });
 
@@ -280,7 +280,7 @@ describe("PrivacySettings", () => {
         target: { value: "DELETE" },
       });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.click(screen.getByText("Submit Deletion Request"));
       });
 
