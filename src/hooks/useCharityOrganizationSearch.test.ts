@@ -249,7 +249,7 @@ describe("useCharityOrganizationSearch", () => {
     expect(result.current.hasMore).toBe(true);
   });
 
-  it("loadMore does nothing when loading is true", async () => {
+  it("loadMore does nothing when loading is true", () => {
     mockSearch.mockReturnValue(
       new Promise(() => {
         // Intentionally never resolves to keep loading state
