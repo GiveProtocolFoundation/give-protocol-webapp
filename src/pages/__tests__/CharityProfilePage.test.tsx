@@ -171,13 +171,6 @@ describe("CharityProfilePage", () => {
       });
     });
 
-    it("renders the Donate button for claimed profiles", async () => {
-      renderWithRoute();
-      await waitFor(() => {
-        expect(screen.getByText("Donate")).toBeInTheDocument();
-      });
-    });
-
     it("renders the donate widget for claimed profiles", async () => {
       renderWithRoute();
       await waitFor(() => {
@@ -253,13 +246,13 @@ describe("CharityProfilePage", () => {
       expect(screen.queryByTestId("donate-widget")).not.toBeInTheDocument();
     });
 
-    it("does not render Donate button for unclaimed profiles", async () => {
+    it("does not render the donate widget for unclaimed profiles", async () => {
       renderWithRoute();
       await waitFor(() => {
         const matches = screen.getAllByText("Test Charity Foundation");
         expect(matches.length).toBeGreaterThanOrEqual(1);
       });
-      expect(screen.queryByText("Donate")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("donate-widget")).not.toBeInTheDocument();
     });
   });
 
@@ -377,19 +370,6 @@ describe("CharityProfilePage", () => {
         expect(
           screen.queryByText("Data sourced from official charity registry."),
         ).not.toBeInTheDocument();
-      });
-    });
-  });
-
-  describe("Donate button interaction", () => {
-    it("opens donation modal when Donate header button is clicked", async () => {
-      renderWithRoute();
-      await waitFor(() => {
-        expect(screen.getByText("Donate")).toBeInTheDocument();
-      });
-      fireEvent.click(screen.getByText("Donate"));
-      await waitFor(() => {
-        expect(screen.getByTestId("donation-modal")).toBeInTheDocument();
       });
     });
   });
