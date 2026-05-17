@@ -562,7 +562,7 @@ describe("DonateWidget", () => {
     it("omits fiat equivalent when prices are not loaded", () => {
       renderWidget();
       // Default mock has empty tokenPrices
-      expect(screen.queryByText(/≈/)).not.toBeInTheDocument();
+      expect(screen.queryByText(/≈/u)).not.toBeInTheDocument();
     });
 
     it("reflects the selected currency symbol in the fiat equivalent", () => {
