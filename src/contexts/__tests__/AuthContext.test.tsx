@@ -960,8 +960,9 @@ describe("AuthContext", () => {
 
       const cb = getCallback();
       expect(cb).not.toBeNull();
+      const event = "USER_UPDATED";
       await act(async () => {
-        await cb?.("USER_UPDATED", { user: MOCK_USER });
+        await cb?.(event, { user: MOCK_USER });
       });
 
       expect(mockShowToast).toHaveBeenCalledWith(
