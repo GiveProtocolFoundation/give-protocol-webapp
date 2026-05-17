@@ -1,6 +1,6 @@
-import React from 'react';
-import { useTranslation } from '@/hooks/useTranslation';
-import { cn } from '@/utils/cn';
+import React from "react";
+import { useTranslation } from "@/hooks/useTranslation";
+import { cn } from "@/utils/cn";
 
 interface TranslatedTextProps {
   i18nKey: string;
@@ -22,13 +22,9 @@ export const TranslatedText: React.FC<TranslatedTextProps> = ({
   i18nKey,
   values,
   className,
-  as: Component = 'span'
+  as: Component = "span",
 }) => {
   const { t } = useTranslation();
-  
-  return (
-    <Component className={cn(className)}>
-      {t(i18nKey, values)}
-    </Component>
-  );
+
+  return <Component className={cn(className)}>{t(i18nKey, values)}</Component>;
 };

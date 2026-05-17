@@ -1,8 +1,8 @@
-import React from 'react';
-import { Link } from 'react-router-dom';
-import { Charity } from '@/types/charity';
-import { ImageWithFallback } from '@/components/ui/ImageWithFallback';
-import { Card } from '@/components/ui/Card';
+import React from "react";
+import { Link } from "react-router-dom";
+import { Charity } from "@/types/charity";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { Card } from "@/components/ui/Card";
 
 interface CharityCardProps {
   charity: Charity;
@@ -33,7 +33,7 @@ const CharityCardContent: React.FC<{ charity: Charity }> = ({ charity }) => (
 export const CharityCard: React.FC<CharityCardProps> = ({ charity }) => {
   // Convert charity name to URL-friendly slug
   const getCharitySlug = (name: string) => {
-    return name.toLowerCase().replaceAll(/\s+/g, '-');
+    return name.toLowerCase().replaceAll(/\s+/g, "-");
   };
 
   return (

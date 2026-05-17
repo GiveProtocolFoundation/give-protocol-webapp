@@ -1,6 +1,6 @@
-import React from 'react';
-import { useCurrency } from '@/hooks/useCurrency';
-import { cn } from '@/utils/cn';
+import React from "react";
+import { useCurrency } from "@/hooks/useCurrency";
+import { cn } from "@/utils/cn";
 
 interface CurrencyDisplayProps {
   amount: number;
@@ -15,14 +15,10 @@ interface CurrencyDisplayProps {
  * @returns A `<span>` containing the formatted amount.
  */
 export const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({
-  amount, 
-  className 
+  amount,
+  className,
 }) => {
   const { formatAmount } = useCurrency();
-  
-  return (
-    <span className={cn(className)}>
-      {formatAmount(amount)}
-    </span>
-  );
+
+  return <span className={cn(className)}>{formatAmount(amount)}</span>;
 };

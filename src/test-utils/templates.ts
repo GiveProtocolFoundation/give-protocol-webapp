@@ -3,7 +3,7 @@
  * Use these as starting points when creating new test utilities
  */
 
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 // Template for component mock props
 export interface MockComponentTemplate {
