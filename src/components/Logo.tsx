@@ -18,6 +18,7 @@ export const Logo: React.FC<LogoProps> = ({ className }) => {
     const img = imgRef.current;
     if (!img) return undefined;
 
+    /** Marks the logo as failed so the text fallback is rendered. */
     const handleError = () => setError(true);
     img.addEventListener("error", handleError);
 

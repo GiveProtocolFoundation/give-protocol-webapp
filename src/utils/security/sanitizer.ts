@@ -158,6 +158,13 @@ export class InputSanitizer {
     return this.patterns[pattern].test(input);
   }
 
+  /**
+   * Sanitizes each value in `obj` according to the rule named in `schema` for that key
+   * (`html`, `text`, or one of the named regex patterns).
+   * @param obj - The object whose values should be sanitized.
+   * @param schema - Map of object keys to a sanitization rule name.
+   * @returns A new object with sanitized values; values that fail pattern validation become `""`.
+   */
   sanitizeObject<T extends Record<string, unknown>>(
     obj: T,
     schema: Record<keyof T, string>,

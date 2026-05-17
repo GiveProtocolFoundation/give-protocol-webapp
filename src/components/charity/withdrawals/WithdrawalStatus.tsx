@@ -13,6 +13,7 @@ interface WithdrawalStatusProps {
 export const WithdrawalStatus: React.FC<WithdrawalStatusProps> = ({
   status,
 }) => {
+  /** Returns the Tailwind background/text color classes for the current status. */
   const getStatusStyles = () => {
     switch (status) {
       case "approved":

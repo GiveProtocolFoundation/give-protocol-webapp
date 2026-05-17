@@ -176,7 +176,9 @@ export const testAuthFlow = async (
     throw new Error("mockShowToast not found on screen object");
   }
 
-  await act(async () => screen.getByTestId(buttonTestId).click());
+  await act(() => {
+    screen.getByTestId(buttonTestId).click();
+  });
   await waitFor(() =>
     expect(mockShowToast).toHaveBeenCalledWith(...expectedToast),
   );

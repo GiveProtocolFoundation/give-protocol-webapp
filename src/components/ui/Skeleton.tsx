@@ -28,6 +28,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 }) => {
   const items = Array.from({ length: count }, (_, i) => `skeleton-${i}`);
 
+  /** Returns the Tailwind animation class for the selected `animation` variant. */
   const getAnimationClass = () => {
     switch (animation) {
       case "pulse":
