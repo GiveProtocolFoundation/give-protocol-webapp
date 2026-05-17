@@ -1,7 +1,11 @@
 import { useMemo } from "react";
 import { Logger } from "@/utils/logger";
 import { CHAIN_IDS } from "@/config/contracts";
-import type { UnifiedWalletProvider, WalletCategory, ChainType } from "@/types/wallet";
+import type {
+  UnifiedWalletProvider,
+  WalletCategory,
+  ChainType,
+} from "@/types/wallet";
 import {
   MetaMaskProvider,
   RabbyProvider,
@@ -134,11 +138,21 @@ class EVMWalletBase implements WalletProvider {
     const chainParams = this.getChainParams(chainId);
     if (!chainParams) throw new Error("Unsupported chain");
 
-    if (!this.provider || typeof (this.provider as { request?: unknown }).request !== "function") {
+    if (
+      !this.provider ||
+      typeof (this.provider as { request?: unknown }).request !== "function"
+    ) {
       throw new Error(`${this.name} provider not found`);
     }
 
-    await (this.provider as { request: (_args: { method: string; params?: unknown[] }) => Promise<unknown> }).request({
+    await (
+      this.provider as {
+        request: (_args: {
+          method: string;
+          params?: unknown[];
+        }) => Promise<unknown>;
+      }
+    ).request({
       method: "wallet_addEthereumChain",
       params: [chainParams],
     });
@@ -467,8 +481,11 @@ class CoinbaseWallet extends EVMWalletBase {
     // Coinbase Wallet injects as window.ethereum with isCoinbaseWallet flag
     // or as window.coinbaseWalletExtension
     const isClient = typeof window !== "undefined";
-    const coinbaseEthereum = isClient && window.ethereum?.isCoinbaseWallet ? window.ethereum : null;
-    const provider = isClient ? (window.coinbaseWalletExtension || coinbaseEthereum) : null;
+    const coinbaseEthereum =
+      isClient && window.ethereum?.isCoinbaseWallet ? window.ethereum : null;
+    const provider = isClient
+      ? window.coinbaseWalletExtension || coinbaseEthereum
+      : null;
 
     super("Coinbase Wallet", "coinbase", provider);
   }
@@ -577,7 +594,9 @@ export function useUnifiedWallets() {
    * @param category - Wallet category to filter by
    * @returns Array of wallets in the category
    */
-  const getWalletsByCategory = (category: WalletCategory): UnifiedWalletProvider[] => {
+  const getWalletsByCategory = (
+    category: WalletCategory,
+  ): UnifiedWalletProvider[] => {
     return unifiedWallets.filter((w) => w.category === category);
   };
 
@@ -586,8 +605,12 @@ export function useUnifiedWallets() {
    * @param chainType - Chain type to filter by
    * @returns Array of wallets supporting the chain type
    */
-  const getWalletsByChainType = (chainType: ChainType): UnifiedWalletProvider[] => {
-    return unifiedWallets.filter((w) => w.supportedChainTypes.includes(chainType));
+  const getWalletsByChainType = (
+    chainType: ChainType,
+  ): UnifiedWalletProvider[] => {
+    return unifiedWallets.filter((w) =>
+      w.supportedChainTypes.includes(chainType),
+    );
   };
 
   /**

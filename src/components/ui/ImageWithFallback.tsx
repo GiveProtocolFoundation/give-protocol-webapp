@@ -1,7 +1,6 @@
 import React, { useState, useRef, useEffect } from "react";
 
-interface ImageWithFallbackProps
-  extends React.ImgHTMLAttributes<HTMLImageElement> {
+interface ImageWithFallbackProps extends React.ImgHTMLAttributes<HTMLImageElement> {
   fallbackSrc: string;
 }
 
@@ -26,6 +25,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
     const img = imgRef.current;
     if (!img) return undefined;
 
+    /** Swaps the image source to the fallback when the primary source errors. */
     const handleError = () => setImgSrc(fallbackSrc);
     img.addEventListener("error", handleError);
 

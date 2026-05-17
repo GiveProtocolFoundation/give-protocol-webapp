@@ -1,7 +1,7 @@
-import React from 'react';
-import { useLocation } from 'react-router-dom';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { Logger } from '@/utils/logger';
+import React from "react";
+import { useLocation } from "react-router-dom";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { Logger } from "@/utils/logger";
 
 interface RouteTransitionProps {
   children: React.ReactNode;
@@ -14,14 +14,16 @@ interface RouteTransitionProps {
  * @param props.children - The route content to render.
  * @returns The transition wrapper element.
  */
-export const RouteTransition: React.FC<RouteTransitionProps> = ({ children }) => {
+export const RouteTransition: React.FC<RouteTransitionProps> = ({
+  children,
+}) => {
   const location = useLocation();
 
   React.useEffect(() => {
     // Log page views for analytics
-    Logger.info('Page view', {
+    Logger.info("Page view", {
       path: location.pathname,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
 
     // Scroll to top on route change
@@ -36,9 +38,7 @@ export const RouteTransition: React.FC<RouteTransitionProps> = ({ children }) =>
         </div>
       }
     >
-      <div className="animate-fadeIn">
-        {children}
-      </div>
+      <div className="animate-fadeIn">{children}</div>
     </React.Suspense>
   );
 };

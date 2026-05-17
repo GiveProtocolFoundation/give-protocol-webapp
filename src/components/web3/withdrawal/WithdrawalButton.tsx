@@ -1,7 +1,7 @@
-import React, { useState, useCallback } from 'react';
-import { Wallet } from 'lucide-react';
-import { WithdrawalModal } from './WithdrawalModal';
-import { TransactionButton } from '../common/TransactionButton';
+import React, { useState, useCallback } from "react";
+import { Wallet } from "lucide-react";
+import { WithdrawalModal } from "./WithdrawalModal";
+import { TransactionButton } from "../common/TransactionButton";
 
 interface WithdrawalButtonProps {
   onSuccess?: () => void;
@@ -13,7 +13,9 @@ interface WithdrawalButtonProps {
  * @param props.onSuccess - Optional callback invoked after a successful withdrawal request.
  * @returns The withdrawal trigger button and (when open) the withdrawal modal.
  */
-export const WithdrawalButton: React.FC<WithdrawalButtonProps> = ({ onSuccess }) => {
+export const WithdrawalButton: React.FC<WithdrawalButtonProps> = ({
+  onSuccess,
+}) => {
   const [showModal, setShowModal] = useState(false);
 
   const handleOpenModal = useCallback(() => {
@@ -33,10 +35,7 @@ export const WithdrawalButton: React.FC<WithdrawalButtonProps> = ({ onSuccess })
       />
 
       {showModal && (
-        <WithdrawalModal
-          onClose={handleCloseModal}
-          onSuccess={onSuccess}
-        />
+        <WithdrawalModal onClose={handleCloseModal} onSuccess={onSuccess} />
       )}
     </>
   );

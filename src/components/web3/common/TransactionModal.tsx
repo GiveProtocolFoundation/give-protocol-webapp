@@ -1,6 +1,6 @@
-import React from 'react';
-import { X } from 'lucide-react';
-import { Card } from '@/components/ui/Card';
+import React from "react";
+import { X } from "lucide-react";
+import { Card } from "@/components/ui/Card";
 
 interface TransactionModalProps {
   title: string;
@@ -19,7 +19,7 @@ interface TransactionModalProps {
 export const TransactionModal: React.FC<TransactionModalProps> = ({
   title,
   onClose,
-  children
+  children,
 }) => {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center p-4 z-50 animate-fadeIn overflow-y-auto">

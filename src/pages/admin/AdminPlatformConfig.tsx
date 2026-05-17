@@ -590,20 +590,24 @@ function AuditLogTable({
     );
   }
 
+  const tableHead = (
+    <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+      <tr>
+        <th className="px-4 py-3 whitespace-nowrap">Date</th>
+        <th className="px-4 py-3">Admin</th>
+        <th className="px-4 py-3 whitespace-nowrap">Action</th>
+        <th className="px-4 py-3 whitespace-nowrap">Entity Type</th>
+        <th className="px-4 py-3">Entity ID</th>
+        <th className="px-4 py-3">Old Values</th>
+        <th className="px-4 py-3">New Values</th>
+      </tr>
+    </thead>
+  );
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full text-sm">
-        <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
-          <tr>
-            <th className="px-4 py-3 whitespace-nowrap">Date</th>
-            <th className="px-4 py-3">Admin</th>
-            <th className="px-4 py-3 whitespace-nowrap">Action</th>
-            <th className="px-4 py-3 whitespace-nowrap">Entity Type</th>
-            <th className="px-4 py-3">Entity ID</th>
-            <th className="px-4 py-3">Old Values</th>
-            <th className="px-4 py-3">New Values</th>
-          </tr>
-        </thead>
+        {tableHead}
         <tbody className="divide-y divide-gray-100">
           {entries.map((row) => (
             <tr key={row.id} className="hover:bg-gray-50">
@@ -850,17 +854,21 @@ function AdminUsersTable({
     );
   }
 
+  const tableHead = (
+    <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+      <tr>
+        <th className="px-4 py-3">Display Name</th>
+        <th className="px-4 py-3">Email</th>
+        <th className="px-4 py-3">User ID</th>
+        <th className="px-4 py-3 whitespace-nowrap">Joined</th>
+      </tr>
+    </thead>
+  );
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full text-sm">
-        <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
-          <tr>
-            <th className="px-4 py-3">Display Name</th>
-            <th className="px-4 py-3">Email</th>
-            <th className="px-4 py-3">User ID</th>
-            <th className="px-4 py-3 whitespace-nowrap">Joined</th>
-          </tr>
-        </thead>
+        {tableHead}
         <tbody className="divide-y divide-gray-100">
           {users.map((user) => (
             <tr key={user.userId} className="hover:bg-gray-50">
