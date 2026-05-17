@@ -184,6 +184,16 @@ describe("WalletButton", () => {
 
       expect(screen.queryByText("Switch Account")).not.toBeInTheDocument();
     });
+
+    it("hides Account Settings when showSettings is false (guest mode)", () => {
+      renderWalletButton({ showSettings: false });
+
+      fireEvent.click(screen.getByRole("button", { name: "Wallet menu" }));
+
+      expect(screen.queryByText("Account Settings")).not.toBeInTheDocument();
+      // Disconnect remains available so the guest can disconnect
+      expect(screen.getByText("Disconnect")).toBeInTheDocument();
+    });
   });
 
   describe("dropdown actions", () => {

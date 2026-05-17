@@ -66,6 +66,10 @@ export interface WalletButtonProps {
   className?: string;
   /** Whether multiple accounts are available for switching */
   hasMultipleAccounts?: boolean;
+  /** Whether to show the "Account Settings" menu item. Set false for guest
+   *  (wallet-connected but unauthenticated) users so they don't get bounced
+   *  to /auth from the dashboard link. Defaults to true. */
+  showSettings?: boolean;
 }
 
 /**
@@ -108,6 +112,8 @@ export interface WalletDropdownProps {
   hasMultipleAccounts?: boolean;
   /** Reference to anchor element for positioning (used with Portal) */
   anchorRef?: RefObject<HTMLElement>;
+  /** Whether to show the "Account Settings" menu item. Defaults to true. */
+  showSettings?: boolean;
 }
 
 /**

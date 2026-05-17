@@ -112,6 +112,7 @@ export const WalletDropdown: React.FC<WalletDropdownProps> = ({
   onSwitchAccount,
   onSettings,
   hasMultipleAccounts = false,
+  showSettings = true,
   anchorRef,
 }) => {
   const tokenSymbol = NETWORK_TOKENS[network] || "DEV";
@@ -273,11 +274,13 @@ export const WalletDropdown: React.FC<WalletDropdownProps> = ({
 
       {/* Wallet Management Section */}
       <div className="p-2">
-        <MenuItem
-          icon={<Settings className="h-4 w-4" />}
-          label="Account Settings"
-          onClick={onSettings}
-        />
+        {showSettings && (
+          <MenuItem
+            icon={<Settings className="h-4 w-4" />}
+            label="Account Settings"
+            onClick={onSettings}
+          />
+        )}
         {hasMultipleAccounts && (
           <MenuItem
             icon={<Users className="h-4 w-4" />}
