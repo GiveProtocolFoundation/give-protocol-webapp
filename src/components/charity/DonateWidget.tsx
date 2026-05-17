@@ -3,6 +3,8 @@ import { Heart, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useWeb3 } from "@/contexts/Web3Context";
+import { useCurrencyContext } from "@/contexts/CurrencyContext";
+import { CHAIN_CONFIGS, DEFAULT_CHAIN_ID } from "@/config/contracts";
 import { DonationModal } from "@/components/web3/donation/DonationModal";
 
 type PaymentTab = "crypto" | "fiat";
@@ -41,7 +43,20 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   const [customAmount, setCustomAmount] = useState("");
   const [amountError, setAmountError] = useState<string | null>(null);
   const [showDonationModal, setShowDonationModal] = useState(false);
-  const { isConnected, connect } = useWeb3();
+  const { isConnected, connect, chainId } = useWeb3();
+  const { selectedCurrency } = useCurrencyContext();
+
+  const cryptoSymbol = useMemo(() => {
+    const config = chainId ? CHAIN_CONFIGS[chainId] : undefined;
+    return (
+      config?.nativeCurrency.symbol ??
+      CHAIN_CONFIGS[DEFAULT_CHAIN_ID]?.nativeCurrency.symbol ??
+      "ETH"
+    );
+  }, [chainId]);
+
+  const fiatSymbol = selectedCurrency.symbol;
+  const fiatCode = selectedCurrency.code;
 
   const handleTabChange = useCallback(
     (newTab: PaymentTab) => () => {
@@ -76,16 +91,19 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
         return;
       }
       const max = tab === "crypto" ? MAX_CRYPTO_DONATION : MAX_FIAT_DONATION;
-      const symbol = tab === "crypto" ? "Ξ" : "$";
       if (parsed > max) {
-        setAmountError(`Maximum donation is ${symbol}${max}`);
+        const errorText =
+          tab === "crypto"
+            ? `Maximum donation is ${max} ${cryptoSymbol}`
+            : `Maximum donation is ${fiatSymbol}${max}`;
+        setAmountError(errorText);
         setAmount(0);
       } else {
         setAmountError(null);
         setAmount(parsed);
       }
     },
-    [tab],
+    [tab, cryptoSymbol, fiatSymbol],
   );
 
   const handleDonate = useCallback(() => {
@@ -107,10 +125,13 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   const presetGridClass = mode === "sidebar" ? "grid-cols-2" : "grid-cols-4";
 
   const content = useMemo(() => {
-    const currencySymbol = tab === "crypto" ? "Ξ" : "$";
-    const presets = tab === "crypto" ? CRYPTO_PRESETS : FIAT_PRESETS;
-    const maxDonation =
-      tab === "crypto" ? MAX_CRYPTO_DONATION : MAX_FIAT_DONATION;
+    const isCrypto = tab === "crypto";
+    const presets = isCrypto ? CRYPTO_PRESETS : FIAT_PRESETS;
+    const maxDonation = isCrypto ? MAX_CRYPTO_DONATION : MAX_FIAT_DONATION;
+    const formatAmount = (value: number | string): string =>
+      isCrypto ? `${value} ${cryptoSymbol}` : `${fiatSymbol}${value}`;
+    const inputPrefix = isCrypto ? "" : fiatSymbol;
+    const inputSuffix = isCrypto ? cryptoSymbol : "";
     return (
       <div className="space-y-4">
         {/* Crypto / Fiat toggle — hidden for verified charities */}
@@ -125,7 +146,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              Crypto
+              Crypto ({cryptoSymbol})
             </button>
             <button
               type="button"
@@ -136,7 +157,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
                   : "text-gray-500 hover:text-gray-700"
               }`}
             >
-              Fiat (USD)
+              Fiat ({fiatCode})
             </button>
           </div>
         )}
@@ -154,17 +175,18 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
                   : "bg-white text-gray-700 border-gray-200 hover:border-emerald-300"
               }`}
             >
-              {currencySymbol}
-              {preset}
+              {formatAmount(preset)}
             </button>
           ))}
         </div>
 
         {/* Custom input */}
         <div className="relative">
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
-            {currencySymbol}
-          </span>
+          {inputPrefix && (
+            <span className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+              {inputPrefix}
+            </span>
+          )}
           <input
             type="number"
             value={customAmount}
@@ -173,8 +195,15 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
             placeholder="Custom amount"
             min="1"
             max={maxDonation}
-            className="w-full pl-7 pr-3 py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+            className={`w-full ${inputPrefix ? "pl-7" : "pl-3"} ${
+              inputSuffix ? "pr-16" : "pr-3"
+            } py-2.5 border border-gray-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500`}
           />
+          {inputSuffix && (
+            <span className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 text-sm">
+              {inputSuffix}
+            </span>
+          )}
         </div>
         {amountError && (
           <p className="text-xs text-red-600 -mt-2">{amountError}</p>
@@ -201,8 +230,8 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
           {(() => {
             if (tab === "crypto" && !isConnected) return "Connect wallet";
             if (tab === "fiat") return "Donate with card";
-            const displayAmount = amount > 0 ? amount : "";
-            return `Donate ${currencySymbol}${displayAmount}`;
+            if (amount <= 0) return `Donate ${cryptoSymbol}`;
+            return `Donate ${formatAmount(amount)}`;
           })()}
         </Button>
 
@@ -223,6 +252,9 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
     isConnected,
     isVerified,
     hasWallet,
+    cryptoSymbol,
+    fiatSymbol,
+    fiatCode,
     handleTabChange,
     handlePresetClick,
     handleCustomChange,
