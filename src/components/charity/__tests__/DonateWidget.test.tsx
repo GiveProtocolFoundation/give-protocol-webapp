@@ -216,13 +216,19 @@ describe("DonateWidget", () => {
   });
 
   describe("Connect wallet gate", () => {
-    it("shows the connect prompt and Connect wallet button when not connected on crypto tab", () => {
+    it("shows the connect prompt when not connected on crypto tab", () => {
       mockDisconnected();
       renderWidget();
       expect(
         screen.getByText(/Connect your wallet to choose an amount/),
       ).toBeInTheDocument();
-      expect(screen.getByText("Connect wallet")).toBeInTheDocument();
+    });
+
+    it("shows the Donate button (not a separate Connect wallet button) in the gated view", () => {
+      mockDisconnected();
+      renderWidget();
+      expect(screen.getByText("Donate")).toBeInTheDocument();
+      expect(screen.queryByText("Connect wallet")).not.toBeInTheDocument();
     });
 
     it("hides crypto presets and custom input when not connected", () => {
@@ -234,11 +240,11 @@ describe("DonateWidget", () => {
       ).not.toBeInTheDocument();
     });
 
-    it("calls connect when the user clicks the Connect wallet button", () => {
+    it("calls connect when the user clicks the Donate button while disconnected", () => {
       const mockConnect = jest.fn();
       mockDisconnected(mockConnect);
       renderWidget();
-      fireEvent.click(screen.getByText("Connect wallet"));
+      fireEvent.click(screen.getByText("Donate"));
       expect(mockConnect).toHaveBeenCalled();
     });
 
