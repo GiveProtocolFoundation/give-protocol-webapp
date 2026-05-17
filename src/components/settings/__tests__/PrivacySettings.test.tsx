@@ -1,6 +1,12 @@
 import React from "react";
 import { jest } from "@jest/globals";
-import { render, screen, waitFor, fireEvent, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  fireEvent,
+  act,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { PrivacySettings } from "../PrivacySettings";
 import {
@@ -192,9 +198,7 @@ describe("PrivacySettings", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(
-            "Important: Blockchain records are permanent",
-          ),
+          screen.getByText("Important: Blockchain records are permanent"),
         ).toBeInTheDocument();
       });
     });
