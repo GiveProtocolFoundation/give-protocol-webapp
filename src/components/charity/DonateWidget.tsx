@@ -1,13 +1,39 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import { Heart, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useCurrencyContext } from "@/contexts/CurrencyContext";
-import { CHAIN_CONFIGS, DEFAULT_CHAIN_ID } from "@/config/contracts";
+import {
+  CHAIN_CONFIGS,
+  CHAIN_IDS,
+  DEFAULT_CHAIN_ID,
+  type ChainId,
+} from "@/config/contracts";
+import { getTokensForChain, SUPPORTED_CURRENCIES } from "@/config/tokens";
 import { DonationModal } from "@/components/web3/donation/DonationModal";
 
 type PaymentTab = "crypto" | "fiat";
+
+const EVM_DONATION_CHAIN_IDS: ChainId[] = [
+  CHAIN_IDS.BASE,
+  CHAIN_IDS.OPTIMISM,
+  CHAIN_IDS.MOONBEAM,
+];
+
+/**
+ * Look up the CoinGecko ID for a chain's native token so we can display a fiat
+ * equivalent. Returns undefined for chains whose native token isn't priced.
+ * @param chainId - EVM chain ID.
+ * @returns CoinGecko ID for the native token, or undefined when unavailable.
+ */
+function getNativeCoingeckoId(chainId: number): string | undefined {
+  const symbol = CHAIN_CONFIGS[chainId as ChainId]?.nativeCurrency.symbol;
+  if (!symbol) return undefined;
+  return getTokensForChain(chainId).find(
+    (t) => t.isNative && t.symbol === symbol,
+  )?.coingeckoId;
+}
 
 interface DonateWidgetProps {
   ein: string;
@@ -43,20 +69,75 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   const [customAmount, setCustomAmount] = useState("");
   const [amountError, setAmountError] = useState<string | null>(null);
   const [showDonationModal, setShowDonationModal] = useState(false);
-  const { isConnected, connect, chainId } = useWeb3();
-  const { selectedCurrency } = useCurrencyContext();
+  const { isConnected, connect, chainId, switchChain } = useWeb3();
+  const { selectedCurrency, setSelectedCurrency, tokenPrices } =
+    useCurrencyContext();
+
+  // Display chain — tracks the wallet's chain when connected, otherwise the
+  // user's selection from the dropdown. Lets users preview a different chain's
+  // native token before connecting.
+  const [displayChainId, setDisplayChainId] = useState<number>(
+    chainId ?? DEFAULT_CHAIN_ID,
+  );
+
+  useEffect(() => {
+    if (chainId && CHAIN_CONFIGS[chainId as ChainId]) {
+      setDisplayChainId(chainId);
+    }
+  }, [chainId]);
 
   const cryptoSymbol = useMemo(() => {
-    const config = chainId ? CHAIN_CONFIGS[chainId] : undefined;
+    const config = CHAIN_CONFIGS[displayChainId as ChainId];
     return (
       config?.nativeCurrency.symbol ??
       CHAIN_CONFIGS[DEFAULT_CHAIN_ID]?.nativeCurrency.symbol ??
       "ETH"
     );
-  }, [chainId]);
+  }, [displayChainId]);
 
   const fiatSymbol = selectedCurrency.symbol;
   const fiatCode = selectedCurrency.code;
+
+  const nativePrice = useMemo(() => {
+    const coingeckoId = getNativeCoingeckoId(displayChainId);
+    return coingeckoId ? tokenPrices[coingeckoId] : undefined;
+  }, [displayChainId, tokenPrices]);
+
+  const chainOptions = useMemo<number[]>(() => {
+    const ids: number[] = [...EVM_DONATION_CHAIN_IDS];
+    // Include the wallet's current chain if it's a known config not already listed
+    // (e.g. user is on a testnet). Keeps the select in sync with the wallet.
+    if (
+      !ids.includes(displayChainId) &&
+      CHAIN_CONFIGS[displayChainId as ChainId]
+    ) {
+      ids.push(displayChainId);
+    }
+    return ids;
+  }, [displayChainId]);
+
+  const handleChainSelect = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const newChainId = Number(e.target.value);
+      setDisplayChainId(newChainId);
+      if (isConnected && newChainId !== chainId) {
+        switchChain(newChainId).catch(() => {
+          // Wallet rejected or failed to switch; revert display to wallet's chain
+          if (chainId) setDisplayChainId(chainId);
+        });
+      }
+    },
+    [isConnected, chainId, switchChain],
+  );
+
+  const handleCurrencySelect = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      const code = e.target.value;
+      const next = SUPPORTED_CURRENCIES.find((c) => c.code === code);
+      if (next) setSelectedCurrency(next);
+    },
+    [setSelectedCurrency],
+  );
 
   const handleTabChange = useCallback(
     (newTab: PaymentTab) => () => {
@@ -135,6 +216,17 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
      */
     const formatAmount = (value: number | string): string =>
       isCrypto ? `${value} ${cryptoSymbol}` : `${fiatSymbol}${value}`;
+    /**
+     * Format a crypto preset's fiat equivalent for display under the preset button.
+     * @param cryptoAmount - The crypto preset amount.
+     * @returns A localized fiat string like "≈ $150.00", or null when prices aren't loaded.
+     */
+    const formatFiatEquivalent = (cryptoAmount: number): string | null => {
+      if (nativePrice === undefined || nativePrice === 0) return null;
+      const fiat = cryptoAmount * nativePrice;
+      const decimals = fiat >= 100 ? 0 : 2;
+      return `≈ ${fiatSymbol}${fiat.toFixed(decimals)}`;
+    };
     const inputPrefix = isCrypto ? "" : fiatSymbol;
     const inputSuffix = isCrypto ? cryptoSymbol : "";
     return (
@@ -167,22 +259,76 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
           </div>
         )}
 
+        {/* Chain / Currency selector (one row, contextual to active tab) */}
+        {isCrypto ? (
+          <label className="flex items-center justify-between gap-2 text-xs text-gray-500">
+            <span>Network</span>
+            <select
+              value={displayChainId}
+              onChange={handleChainSelect}
+              aria-label="Donation network"
+              className="flex-1 max-w-[60%] bg-white border border-gray-200 rounded-md px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+            >
+              {chainOptions.map((id) => {
+                const config = CHAIN_CONFIGS[id as ChainId];
+                if (!config) return null;
+                return (
+                  <option key={id} value={id}>
+                    {config.name} ({config.nativeCurrency.symbol})
+                    {config.isTestnet ? " — Testnet" : ""}
+                  </option>
+                );
+              })}
+            </select>
+          </label>
+        ) : (
+          <label className="flex items-center justify-between gap-2 text-xs text-gray-500">
+            <span>Currency</span>
+            <select
+              value={selectedCurrency.code}
+              onChange={handleCurrencySelect}
+              aria-label="Display currency"
+              className="flex-1 max-w-[60%] bg-white border border-gray-200 rounded-md px-2 py-1 text-sm text-gray-700 focus:outline-none focus:ring-2 focus:ring-emerald-500/30 focus:border-emerald-500"
+            >
+              {SUPPORTED_CURRENCIES.map((c) => (
+                <option key={c.code} value={c.code}>
+                  {c.symbol} {c.code} — {c.name}
+                </option>
+              ))}
+            </select>
+          </label>
+        )}
+
         {/* Amount presets */}
         <div className={`grid ${presetGridClass} gap-2`}>
-          {presets.map((preset) => (
-            <button
-              key={preset}
-              type="button"
-              onClick={handlePresetClick(preset)}
-              className={`py-2 rounded-lg text-sm font-medium transition-all border ${
-                amount === preset && !customAmount
-                  ? "bg-emerald-600 text-white border-emerald-600"
-                  : "bg-white text-gray-700 border-gray-200 hover:border-emerald-300"
-              }`}
-            >
-              {formatAmount(preset)}
-            </button>
-          ))}
+          {presets.map((preset) => {
+            const fiatEq = isCrypto ? formatFiatEquivalent(preset) : null;
+            return (
+              <button
+                key={preset}
+                type="button"
+                onClick={handlePresetClick(preset)}
+                className={`py-2 px-1 rounded-lg text-sm font-medium transition-all border flex flex-col items-center justify-center ${
+                  amount === preset && !customAmount
+                    ? "bg-emerald-600 text-white border-emerald-600"
+                    : "bg-white text-gray-700 border-gray-200 hover:border-emerald-300"
+                }`}
+              >
+                <span>{formatAmount(preset)}</span>
+                {fiatEq && (
+                  <span
+                    className={`text-[10px] mt-0.5 ${
+                      amount === preset && !customAmount
+                        ? "text-emerald-100"
+                        : "text-gray-400"
+                    }`}
+                  >
+                    {fiatEq}
+                  </span>
+                )}
+              </button>
+            );
+          })}
         </div>
 
         {/* Custom input */}
@@ -260,11 +406,17 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
     cryptoSymbol,
     fiatSymbol,
     fiatCode,
+    nativePrice,
+    displayChainId,
+    chainOptions,
+    selectedCurrency.code,
     handleTabChange,
     handlePresetClick,
     handleCustomChange,
     handleCustomFocus,
     handleDonate,
+    handleChainSelect,
+    handleCurrencySelect,
   ]);
 
   return (
