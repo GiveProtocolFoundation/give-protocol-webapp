@@ -1,5 +1,9 @@
 import { http, HttpResponse } from 'msw';
 
+/**
+ * MSW request handlers used to stub network calls in tests. Covers auth, charity, and
+ * donation endpoints with deterministic mock responses.
+ */
 export const handlers = [
   // Auth endpoints
   http.post('/auth/login', async ({ request }) => {

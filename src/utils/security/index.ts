@@ -55,6 +55,10 @@ export class SecurityManager {
   private readonly highRiskPatterns: string[];
   private domainInitializationCount = 0;
 
+  /**
+   * Private constructor that wires up the CSRF, sanitizer, and rate-limiter helpers and
+   * preloads the trusted-domain list, security headers, and high-risk pattern catalog.
+   */
   private constructor() {
     this.csrf = CSRFProtection.getInstance();
     this.sanitizer = InputSanitizer.getInstance();
@@ -161,6 +165,11 @@ export class SecurityManager {
     this.monitorNetworkRequests();
   }
 
+  /**
+   * Inspects a window-level error event for suspicious payloads (XSS markers, `javascript:` URLs,
+   * inline `<script>` references) and escalates matches via {@link SecurityManager.handleSuspiciousActivity}.
+   * @param event - The error event captured from the global error listener.
+   */
   private handleError(event: ErrorEvent): void {
     // Using encoded strings to avoid triggering security scanners
     const suspiciousPatterns = [

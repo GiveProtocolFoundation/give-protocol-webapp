@@ -7,6 +7,13 @@ interface CauseGridProps {
   category: string;
 }
 
+/**
+ * Renders a grid of charitable causes filtered by search term and category.
+ * @param props - Component props.
+ * @param props.searchTerm - Free-text query used to filter causes by name.
+ * @param props.category - Category filter applied to the cause list.
+ * @returns A grid of cause cards.
+ */
 export const CauseGrid: React.FC<CauseGridProps> = ({ searchTerm, category }) => {
   // Sample causes - replace with actual data fetching
   const causes: Cause[] = [

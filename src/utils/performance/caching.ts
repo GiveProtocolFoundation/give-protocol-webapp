@@ -48,6 +48,10 @@ export class CacheManager {
     staleWhileRevalidate: 30 * 60 * 1000, // 30 minutes
   };
 
+  /**
+   * Private constructor that initializes the underlying map and schedules periodic eviction
+   * of entries that have outlived their stale-while-revalidate window.
+   */
   private constructor() {
     this.cache = new Map();
     // Cleanup expired entries periodically
@@ -195,6 +199,9 @@ export class CacheManager {
     this.cache.clear();
   }
 
+  /**
+   * Removes cache entries whose age exceeds `ttl + staleWhileRevalidate`.
+   */
   private cleanup(): void {
     const now = Date.now();
     for (const [key, entry] of this.cache.entries()) {

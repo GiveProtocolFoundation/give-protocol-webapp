@@ -54,10 +54,17 @@ export class CSRFProtection {
     domain: ENV.APP_DOMAIN,
   };
 
+  /**
+   * Private constructor to enforce the singleton pattern; use {@link CSRFProtection.getInstance} instead.
+   */
   private constructor() {
     // Constructor kept simple and synchronous
   }
 
+  /**
+   * Returns the singleton {@link CSRFProtection} instance, creating it on first call.
+   * @returns The shared `CSRFProtection` instance.
+   */
   static getInstance(): CSRFProtection {
     if (!this.instance) {
       this.instance = new CSRFProtection();
@@ -65,6 +72,11 @@ export class CSRFProtection {
     return this.instance;
   }
 
+  /**
+   * Generates a cryptographically secure 256-bit hex token and writes it to the CSRF cookie.
+   * @returns The newly generated token.
+   * @throws If secure random generation or cookie assignment fails.
+   */
   private initializeTokenSync(): string {
     try {
       // Generate a cryptographically secure token synchronously
@@ -85,6 +97,12 @@ export class CSRFProtection {
     }
   }
 
+  /**
+   * Writes a cookie with the supplied attributes (Max-Age, Domain, Path, Secure, HttpOnly, SameSite).
+   * @param name - The cookie name.
+   * @param value - The cookie value.
+   * @param options - Cookie attributes to apply.
+   */
   private setCookie(name: string, value: string, options: CookieOptions): void {
     let cookie = `${name}=${value}`;
 
@@ -99,6 +117,10 @@ export class CSRFProtection {
     this.lastCookieSet = cookie;
   }
 
+  /**
+   * Returns the current CSRF token, generating one on first use.
+   * @returns The active CSRF token.
+   */
   getToken(): string {
     if (!this.token) {
       this.token = this.initializeTokenSync();
@@ -139,12 +161,19 @@ export class CSRFProtection {
     return crypto.subtle.timingSafeEqual(aBuffer, bBuffer);
   }
 
+  /**
+   * Builds a header map containing the CSRF token under the configured header name.
+   * @returns Header map suitable for attaching to outbound requests.
+   */
   getHeaders(): Record<string, string> {
     return {
       [this.headerName]: this.getToken(),
     };
   }
 
+  /**
+   * Replaces the current token with a freshly generated one, also resetting the CSRF cookie.
+   */
   refreshToken(): void {
     this.token = this.initializeTokenSync();
   }

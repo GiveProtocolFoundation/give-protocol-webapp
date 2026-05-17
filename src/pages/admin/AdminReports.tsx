@@ -267,6 +267,12 @@ function DateRangeSelector({
 
 // ─── Shared: EmptyState + Pagination ─────────────────────────────────────────
 
+/**
+ * Renders a centered placeholder message for empty report tables.
+ * @param props - Component props.
+ * @param props.message - Message text to display.
+ * @returns The placeholder paragraph element.
+ */
 function EmptyState({
   message,
 }: Readonly<{ message: string }>): React.ReactElement {
@@ -313,6 +319,13 @@ function ReportPagination({
 
 // ─── Donations Tab ────────────────────────────────────────────────────────────
 
+/**
+ * Renders the donations report tab with grouping controls (day/week/month) and a paginated table.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The donations tab element.
+ */
 function DonationsTab({
   dateFrom,
   dateTo,
@@ -441,6 +454,13 @@ function DonationsTab({
 
 // ─── Charity Growth Tab ───────────────────────────────────────────────────────
 
+/**
+ * Renders the charity growth report tab summarizing new charity onboarding over time.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The charity growth tab element.
+ */
 function CharityGrowthTab({
   dateFrom,
   dateTo,
@@ -541,6 +561,13 @@ function CharityGrowthTab({
 
 // ─── Donor Activity Tab ───────────────────────────────────────────────────────
 
+/**
+ * Renders the donor activity report tab summarizing donor engagement metrics over time.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The donor activity tab element.
+ */
 function DonorActivityTab({
   dateFrom,
   dateTo,
@@ -643,6 +670,13 @@ function DonorActivityTab({
 
 // ─── Volunteer Hours Tab ──────────────────────────────────────────────────────
 
+/**
+ * Renders the volunteer hours report tab summarizing validated and pending hours over time.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The volunteer hours tab element.
+ */
 function VolunteerHoursTab({
   dateFrom,
   dateTo,
@@ -749,6 +783,13 @@ function VolunteerHoursTab({
 
 // ─── Audit Trail Tab ──────────────────────────────────────────────────────────
 
+/**
+ * Renders the audit trail report tab listing administrative actions within the date range.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The audit trail tab element.
+ */
 function AuditTrailTab({
   dateFrom,
   dateTo,
@@ -879,6 +920,12 @@ function AuditTrailTab({
 
 // ─── Platform Health Tab ──────────────────────────────────────────────────────
 
+/**
+ * Renders the platform health report tab summarizing system-level metrics.
+ * @param props - Component props.
+ * @param props.preset - Active time-range preset that scopes the report query.
+ * @returns The platform health tab element.
+ */
 function PlatformHealthTab({
   preset,
 }: Readonly<PresetProps>): React.ReactElement {

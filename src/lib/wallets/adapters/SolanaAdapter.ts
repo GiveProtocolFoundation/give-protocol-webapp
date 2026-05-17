@@ -52,6 +52,11 @@ export class SolanaAdapter {
   private currentCluster: SolanaClusterId;
   private connectedAddress: string | null = null;
 
+  /**
+   * Wraps a Solana wallet provider with adapter state.
+   * @param provider - The Solana wallet provider to wrap.
+   * @param cluster - Initial Solana cluster (defaults to {@link DEFAULT_SOLANA_CLUSTER}).
+   */
   constructor(provider: SolanaProvider, cluster: SolanaClusterId = DEFAULT_SOLANA_CLUSTER) {
     this.provider = provider;
     this.currentCluster = cluster;

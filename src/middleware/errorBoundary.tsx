@@ -27,6 +27,10 @@ interface State {
 export class ErrorBoundary extends Component<Props, State> {
   private errorCount = 0;
 
+  /**
+   * Initializes the boundary with a clean (no-error) state.
+   * @param props - React component props, including the wrapped `children`.
+   */
   constructor(props: Props) {
     super(props);
     this.state = { hasError: false, error: null };
@@ -51,6 +55,9 @@ export class ErrorBoundary extends Component<Props, State> {
     });
   }
 
+  /**
+   * Reloads the current page; used by the fallback UI as a last-resort recovery action.
+   */
   static handleReload = () => {
     window.location.reload();
   };

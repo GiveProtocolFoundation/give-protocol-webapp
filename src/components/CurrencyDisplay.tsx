@@ -7,7 +7,14 @@ interface CurrencyDisplayProps {
   className?: string;
 }
 
-export const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({ 
+/**
+ * Renders a monetary amount formatted according to the user's currency preference.
+ * @param props - Component props.
+ * @param props.amount - The numeric amount to display.
+ * @param props.className - Optional class names applied to the wrapping span.
+ * @returns A `<span>` containing the formatted amount.
+ */
+export const CurrencyDisplay: React.FC<CurrencyDisplayProps> = ({
   amount, 
   className 
 }) => {

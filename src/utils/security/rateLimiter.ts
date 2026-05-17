@@ -52,6 +52,9 @@ export class RateLimiter {
     blockDuration: 60 * 60 * 1000, // 60 minutes - more restrictive for public
   };
 
+  /**
+   * Private constructor that schedules a periodic cleanup of expired rate-limit records.
+   */
   private constructor() {
     // Clean up expired records periodically
     setInterval(() => this.cleanup(), 5 * 60 * 1000);

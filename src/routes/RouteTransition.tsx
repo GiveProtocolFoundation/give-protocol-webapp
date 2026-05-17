@@ -7,6 +7,13 @@ interface RouteTransitionProps {
   children: React.ReactNode;
 }
 
+/**
+ * Wraps routed pages with a Suspense fallback, logs page-view analytics, and resets scroll
+ * position on each navigation.
+ * @param props - Component props.
+ * @param props.children - The route content to render.
+ * @returns The transition wrapper element.
+ */
 export const RouteTransition: React.FC<RouteTransitionProps> = ({ children }) => {
   const location = useLocation();
 

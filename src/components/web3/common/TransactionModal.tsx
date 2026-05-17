@@ -8,6 +8,14 @@ interface TransactionModalProps {
   children: React.ReactNode;
 }
 
+/**
+ * Modal container with a title bar, close button, and content area for Web3 flows.
+ * @param props - Component props.
+ * @param props.title - Heading rendered at the top of the modal.
+ * @param props.onClose - Handler invoked when the close button is clicked.
+ * @param props.children - Modal body content.
+ * @returns The modal element.
+ */
 export const TransactionModal: React.FC<TransactionModalProps> = ({
   title,
   onClose,

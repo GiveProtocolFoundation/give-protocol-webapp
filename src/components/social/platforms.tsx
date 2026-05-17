@@ -17,6 +17,9 @@ export interface SocialPlatform {
   getShareUrl: (url: string, message: string) => string;
 }
 
+/**
+ * Catalog of supported social sharing platforms with their labels, icons, and share-URL builders.
+ */
 export const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {
     id: "facebook",

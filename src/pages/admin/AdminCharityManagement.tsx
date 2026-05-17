@@ -373,6 +373,14 @@ function CharityTable({
 
 // ─── Charity row ──────────────────────────────────────────────────────────────
 
+/**
+ * Renders a single charity row in the admin charity management table with action buttons.
+ * @param props - Component props.
+ * @param props.charity - The charity record being displayed.
+ * @param props.onAction - Callback invoked with the charity and the requested action identifier.
+ * @param props.updating - When `true`, disables action buttons while a mutation is in flight.
+ * @returns The charity row element.
+ */
 function CharityRow({
   charity,
   onAction,

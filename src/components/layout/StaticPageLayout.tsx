@@ -8,7 +8,16 @@ interface StaticPageLayoutProps {
   effectiveDate?: string;
 }
 
-export const StaticPageLayout: React.FC<StaticPageLayoutProps> = ({ 
+/**
+ * Shared layout for static informational pages (terms, privacy, etc.) with a title and optional metadata.
+ * @param props - Component props.
+ * @param props.children - Page content rendered inside the layout.
+ * @param props.title - Page title rendered at the top of the layout.
+ * @param props.subtitle - Optional subtitle rendered beneath the title.
+ * @param props.effectiveDate - Optional effective date displayed below the heading.
+ * @returns The wrapped page layout element.
+ */
+export const StaticPageLayout: React.FC<StaticPageLayoutProps> = ({
   children, 
   title, 
   subtitle,

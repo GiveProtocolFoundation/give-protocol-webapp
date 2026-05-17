@@ -9,6 +9,12 @@ interface PersonalContributionsProps {
   filters?: Record<string, unknown>;
 }
 
+/**
+ * Renders the current user's personal contribution stats, recent activity, and volunteer impact.
+ * @param props - Component props.
+ * @param props.filters - Reserved for future filter support; currently unused.
+ * @returns The personal contributions dashboard element.
+ */
 export const PersonalContributions: React.FC<PersonalContributionsProps> = ({
   filters: _filters,
 }) => {

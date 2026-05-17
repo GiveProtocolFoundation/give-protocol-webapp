@@ -9,6 +9,12 @@ interface GlobalContributionsProps {
   filters?: Record<string, unknown>;
 }
 
+/**
+ * Renders aggregate donation/volunteer statistics and leaderboards for the entire platform.
+ * @param props - Component props.
+ * @param props.filters - Reserved for future filter support; currently unused.
+ * @returns The global contributions dashboard element.
+ */
 export const GlobalContributions: React.FC<GlobalContributionsProps> = ({
   filters: _filters,
 }) => {

@@ -15,12 +15,20 @@ interface LogEntry {
  * Maintains an in-memory log buffer for debugging and provides structured logging
  * Uses class pattern with private constructor due to maintaining static state (logs array)
  */
+/**
+ * Static log buffer and dispatcher used across the app. Routes entries to console in dev/test
+ * and to Sentry plus an optional custom endpoint in production.
+ */
 // skipcq: JS-0327 - Class with static state (logs array) requires singleton pattern, not namespace object
 export class Logger {
   private static readonly MAX_LOG_SIZE = 1000;
   private static readonly logs: LogEntry[] = [];
   private static logCount = 0;
 
+  /**
+   * Prevents instantiation; all functionality is exposed through static methods.
+   * @throws Always throws to enforce the static-only usage pattern.
+   */
   // Private constructor prevents instantiation - this is a singleton utility class with state
   private constructor() {
     throw new Error(
@@ -28,6 +36,12 @@ export class Logger {
     );
   }
 
+  /**
+   * Recursively converts a value into a JSON-safe representation, handling `undefined`, `bigint`,
+   * `Error`, arrays, and plain objects without throwing on circular or exotic values.
+   * @param value - The value to serialize.
+   * @returns A structure safe to pass to `JSON.stringify`.
+   */
   private static serializeValue(value: unknown): unknown {
     if (value === undefined) {
       return "undefined";
@@ -69,6 +83,14 @@ export class Logger {
     return value;
   }
 
+  /**
+   * Core log dispatcher used by {@link Logger.info}, {@link Logger.warn}, and {@link Logger.error}.
+   * Serializes metadata, appends to the in-memory ring buffer, forwards to monitoring in production,
+   * and mirrors to the console in development or test environments.
+   * @param level - The severity of the log entry.
+   * @param message - The human-readable log message.
+   * @param metadata - Optional structured data attached to the entry.
+   */
   private static log(
     level: LogLevel,
     message: string,
@@ -140,6 +162,11 @@ export class Logger {
     this.log("error", message, metadata);
   }
 
+  /**
+   * Forwards a log entry to Sentry (using `captureException` for errors and `captureMessage` otherwise)
+   * and to `VITE_MONITORING_ENDPOINT` when configured.
+   * @param entry - The log entry to forward.
+   */
   private static async sendToMonitoring(entry: LogEntry) {
     // Send to Sentry
     try {
@@ -187,6 +214,10 @@ export class Logger {
     }
   }
 
+  /**
+   * Returns a copy of the in-memory log buffer for inspection or debugging.
+   * @returns A snapshot of recent log entries, oldest first.
+   */
   static getLogs(): LogEntry[] {
     return [...this.logs];
   }

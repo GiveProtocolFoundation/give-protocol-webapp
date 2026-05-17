@@ -7,6 +7,15 @@ interface HeroSectionProps {
   children?: React.ReactNode;
 }
 
+/**
+ * Renders a full-width hero banner with a background image and overlaid title/description.
+ * @param props - Component props.
+ * @param props.image - Source URL for the background image.
+ * @param props.title - Title text displayed over the image.
+ * @param props.description - Supporting description text.
+ * @param props.children - Optional content rendered above the title (e.g. badges).
+ * @returns The hero section element.
+ */
 export const HeroSection: React.FC<HeroSectionProps> = ({
   image,
   title,

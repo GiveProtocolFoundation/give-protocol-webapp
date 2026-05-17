@@ -63,10 +63,17 @@ export class InputSanitizer {
     amount: /^\d+(?:\.\d{1,18})?$/,
   };
 
+  /**
+   * Private constructor to enforce the singleton pattern; use {@link InputSanitizer.getInstance} instead.
+   */
   private constructor() {
     // Private constructor to enforce singleton pattern
   }
 
+  /**
+   * Returns the singleton {@link InputSanitizer} instance, creating it on first call.
+   * @returns The shared `InputSanitizer` instance.
+   */
   static getInstance(): InputSanitizer {
     if (!this.instance) {
       this.instance = new InputSanitizer();
@@ -74,6 +81,11 @@ export class InputSanitizer {
     return this.instance;
   }
 
+  /**
+   * Removes disallowed tags and attributes from an HTML fragment using a DOMParser pass.
+   * @param input - Untrusted HTML to sanitize.
+   * @returns A sanitized HTML string, or an empty string if parsing fails.
+   */
   sanitizeHTML(input: string): string {
     try {
       const doc = new DOMParser().parseFromString(input, "text/html");
@@ -85,6 +97,10 @@ export class InputSanitizer {
     }
   }
 
+  /**
+   * Recursively strips disallowed elements and attributes from a DOM subtree in place.
+   * @param node - The parent node whose children are inspected.
+   */
   private sanitizeNode(node: Node): void {
     const children = Array.from(node.childNodes);
 
@@ -111,6 +127,12 @@ export class InputSanitizer {
     });
   }
 
+  /**
+   * Trims, length-caps, and HTML-encodes a text value for safe rendering.
+   * @param input - Untrusted text value.
+   * @param field - Field name used to look up the maximum allowed length.
+   * @returns A sanitized text string with HTML metacharacters escaped.
+   */
   sanitizeText(input: string, field: keyof typeof this.maxLengths): string {
     if (!input) return "";
 
@@ -126,6 +148,12 @@ export class InputSanitizer {
     return sanitized;
   }
 
+  /**
+   * Tests an input against one of the named regex patterns (e.g. `email`, `wallet`, `url`).
+   * @param input - The string to validate.
+   * @param pattern - The named pattern to test against.
+   * @returns `true` if the input matches, otherwise `false`.
+   */
   validatePattern(input: string, pattern: keyof typeof this.patterns): boolean {
     return this.patterns[pattern].test(input);
   }
