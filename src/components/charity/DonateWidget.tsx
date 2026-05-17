@@ -49,8 +49,8 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
         <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
           <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700">
-            This charity hasn&apos;t set up a wallet yet — your donation will
-            be held by Give Protocol Foundation until claimed.
+            This charity hasn&apos;t set up a wallet yet — your donation will be
+            held by Give Protocol Foundation until claimed.
           </p>
         </div>
       )}
