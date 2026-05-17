@@ -656,7 +656,6 @@ function CharityProfilePage() {
           )}
         </div>
       </div>
-
     </div>
   );
 }
