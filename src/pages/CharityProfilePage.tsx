@@ -6,7 +6,6 @@ import {
   Share2,
   ChevronDown,
   ChevronUp,
-  Heart,
   Globe,
   Mail,
   CheckCircle,
@@ -14,7 +13,6 @@ import {
   Clock,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { CharityHeroBanner } from "@/components/charity/CharityHeroBanner";
 import { UnclaimedProfileBanner } from "@/components/charity/UnclaimedProfileBanner";
@@ -22,7 +20,6 @@ import { OrgDetailsCard } from "@/components/charity/OrgDetailsCard";
 import { PhotosCard } from "@/components/charity/PhotosCard";
 import { DonateWidget } from "@/components/charity/DonateWidget";
 import { RequestCharityWidget } from "@/components/charity/RequestCharityWidget";
-import { DonationModal } from "@/components/web3/donation/DonationModal";
 import { getCharityProfileByEin } from "@/services/charityProfileService";
 import { getCharityRecordByEin } from "@/services/charityDataService";
 import type { CharityRecord } from "@/services/charityDataService";
@@ -298,8 +295,6 @@ function ProfileHeaderCard({
   nteeCategory,
   profile,
   charityRecord,
-  isUnclaimed,
-  onDonate,
   onShare,
   copied,
   logoUrl,
@@ -311,8 +306,6 @@ function ProfileHeaderCard({
   nteeCategory: string;
   profile: CharityProfile | null;
   charityRecord: CharityRecord | null;
-  isUnclaimed: boolean;
-  onDonate: () => void;
   onShare: () => void;
   copied: boolean;
   logoUrl: string | null | undefined;
@@ -355,11 +348,6 @@ function ProfileHeaderCard({
           charityRecord={charityRecord}
         />
         <div className="flex items-center gap-2 shrink-0">
-          {!isUnclaimed && (
-            <Button onClick={onDonate} icon={<Heart className="h-4 w-4" />}>
-              Donate
-            </Button>
-          )}
           <button
             type="button"
             onClick={onShare}
@@ -509,7 +497,6 @@ function CharityProfilePage() {
   );
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const [showDonationModal, setShowDonationModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const ein = rawEin ? normalizeEin(rawEin) : "";
   const einDigits = rawEin?.replace(/\D/g, "") ?? "";
@@ -566,14 +553,6 @@ function CharityProfilePage() {
     setTimeout(() => setCopied(false), 2000);
   }, []);
 
-  const handleOpenDonate = useCallback(() => {
-    setShowDonationModal(true);
-  }, []);
-
-  const handleCloseDonate = useCallback(() => {
-    setShowDonationModal(false);
-  }, []);
-
   const handlePhotoUploaded = useCallback(
     (_slot: 1 | 2, _url: string) => {
       fetchData();
@@ -620,8 +599,6 @@ function CharityProfilePage() {
           nteeCategory={display.nteeCategory}
           profile={profile}
           charityRecord={charityRecord}
-          isUnclaimed={display.isUnclaimed}
-          onDonate={handleOpenDonate}
           onShare={handleShare}
           copied={copied}
           logoUrl={display.logoUrl}
@@ -680,15 +657,6 @@ function CharityProfilePage() {
         </div>
       </div>
 
-      {showDonationModal && !display.isUnclaimed && (
-        <DonationModal
-          charityName={display.orgName}
-          charityAddress={display.walletAddress ?? ""}
-          charityId={profile?.id ?? einDigits}
-          frequency="once"
-          onClose={handleCloseDonate}
-        />
-      )}
     </div>
   );
 }
