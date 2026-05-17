@@ -3,11 +3,13 @@ import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { useWeb3 } from "@/contexts/Web3Context";
+import { useCurrencyContext } from "@/contexts/CurrencyContext";
 import { DonateWidget } from "../DonateWidget";
 
 // Card, Button, DonationModal, and Web3Context are mocked via moduleNameMapper
 
 const mockUseWeb3 = jest.mocked(useWeb3);
+const mockUseCurrencyContext = jest.mocked(useCurrencyContext);
 
 const defaultProps = {
   ein: "12-3456789",
@@ -55,10 +57,10 @@ describe("DonateWidget", () => {
 
     it("renders crypto preset amount buttons by default", () => {
       renderWidget();
-      expect(screen.getByText("Ξ0.01")).toBeInTheDocument();
-      expect(screen.getByText("Ξ0.05")).toBeInTheDocument();
-      expect(screen.getByText("Ξ0.1")).toBeInTheDocument();
-      expect(screen.getByText("Ξ0.5")).toBeInTheDocument();
+      expect(screen.getByText("0.01 DEV")).toBeInTheDocument();
+      expect(screen.getByText("0.05 DEV")).toBeInTheDocument();
+      expect(screen.getByText("0.1 DEV")).toBeInTheDocument();
+      expect(screen.getByText("0.5 DEV")).toBeInTheDocument();
     });
 
     it("renders custom amount input", () => {
@@ -96,13 +98,13 @@ describe("DonateWidget", () => {
   describe("Payment tab toggle", () => {
     it("renders Crypto and Fiat tab buttons when not verified", () => {
       renderWidget();
-      expect(screen.getByText("Crypto")).toBeInTheDocument();
+      expect(screen.getByText("Crypto (DEV)")).toBeInTheDocument();
       expect(screen.getByText("Fiat (USD)")).toBeInTheDocument();
     });
 
     it("hides the tab toggle when isVerified is true", () => {
       renderWidget({ ...defaultProps, isVerified: true });
-      expect(screen.queryByText("Crypto")).not.toBeInTheDocument();
+      expect(screen.queryByText("Crypto (DEV)")).not.toBeInTheDocument();
       expect(screen.queryByText("Fiat (USD)")).not.toBeInTheDocument();
     });
 
@@ -134,8 +136,8 @@ describe("DonateWidget", () => {
         switchChain: jest.fn(),
       });
       renderWidget();
-      fireEvent.click(screen.getByText("Ξ0.05"));
-      expect(screen.getByText(/Donate Ξ0.05/)).toBeInTheDocument();
+      fireEvent.click(screen.getByText("0.05 DEV"));
+      expect(screen.getByText(/Donate 0.05 DEV/)).toBeInTheDocument();
     });
 
     it("accepts custom amount input", () => {
@@ -154,7 +156,7 @@ describe("DonateWidget", () => {
       renderWidget();
       const input = screen.getByPlaceholderText("Custom amount");
       fireEvent.change(input, { target: { value: "5" } });
-      expect(screen.getByText(/Donate Ξ5/)).toBeInTheDocument();
+      expect(screen.getByText(/Donate 5 DEV/)).toBeInTheDocument();
     });
 
     it("disables donate button when amount is zero", () => {
@@ -191,7 +193,7 @@ describe("DonateWidget", () => {
   describe("Connect wallet flow", () => {
     it("shows Connect wallet text when not connected on crypto tab", () => {
       renderWidget();
-      fireEvent.click(screen.getByText("Ξ0.1"));
+      fireEvent.click(screen.getByText("0.1 DEV"));
       expect(screen.getByText("Connect wallet")).toBeInTheDocument();
     });
 
@@ -210,7 +212,7 @@ describe("DonateWidget", () => {
         switchChain: jest.fn(),
       });
       renderWidget();
-      fireEvent.click(screen.getByText("Ξ0.1"));
+      fireEvent.click(screen.getByText("0.1 DEV"));
       fireEvent.click(screen.getByText("Connect wallet"));
       expect(mockConnect).toHaveBeenCalled();
     });
@@ -231,8 +233,8 @@ describe("DonateWidget", () => {
         switchChain: jest.fn(),
       });
       renderWidget();
-      fireEvent.click(screen.getByText("Ξ0.05"));
-      fireEvent.click(screen.getByText(/Donate Ξ/));
+      fireEvent.click(screen.getByText("0.05 DEV"));
+      fireEvent.click(screen.getByText(/Donate 0.05 DEV/));
       await waitFor(() => {
         expect(screen.getByTestId("donation-modal")).toBeInTheDocument();
       });
@@ -250,12 +252,12 @@ describe("DonateWidget", () => {
   });
 
   describe("Currency-aware presets", () => {
-    it("renders crypto presets (Ξ) on crypto tab", () => {
+    it("renders crypto presets using native token symbol on crypto tab", () => {
       renderWidget();
-      expect(screen.getByText("Ξ0.01")).toBeInTheDocument();
-      expect(screen.getByText("Ξ0.05")).toBeInTheDocument();
-      expect(screen.getByText("Ξ0.1")).toBeInTheDocument();
-      expect(screen.getByText("Ξ0.5")).toBeInTheDocument();
+      expect(screen.getByText("0.01 DEV")).toBeInTheDocument();
+      expect(screen.getByText("0.05 DEV")).toBeInTheDocument();
+      expect(screen.getByText("0.1 DEV")).toBeInTheDocument();
+      expect(screen.getByText("0.5 DEV")).toBeInTheDocument();
       expect(screen.queryByText("$25")).not.toBeInTheDocument();
     });
 
@@ -266,12 +268,13 @@ describe("DonateWidget", () => {
       expect(screen.getByText("$50")).toBeInTheDocument();
       expect(screen.getByText("$100")).toBeInTheDocument();
       expect(screen.getByText("$250")).toBeInTheDocument();
-      expect(screen.queryByText("Ξ0.01")).not.toBeInTheDocument();
+      expect(screen.queryByText("0.01 DEV")).not.toBeInTheDocument();
     });
 
-    it("shows Ξ symbol in custom input prefix on crypto tab", () => {
+    it("shows native token symbol in custom input suffix on crypto tab", () => {
       renderWidget();
-      expect(screen.getByText("Ξ")).toBeInTheDocument();
+      // DEV appears in the tab label and the input suffix; presence is enough
+      expect(screen.getAllByText("DEV").length).toBeGreaterThan(0);
     });
 
     it("shows $ symbol in custom input prefix on fiat tab", () => {
@@ -284,18 +287,22 @@ describe("DonateWidget", () => {
       renderWidget();
       const input = screen.getByPlaceholderText("Custom amount");
       fireEvent.change(input, { target: { value: "15" } });
-      expect(screen.getByText("Maximum donation is Ξ10")).toBeInTheDocument();
+      expect(
+        screen.getByText("Maximum donation is 10 DEV"),
+      ).toBeInTheDocument();
       fireEvent.click(screen.getByText("Fiat (USD)"));
       expect(screen.queryByText(/Maximum donation is/)).not.toBeInTheDocument();
     });
   });
 
   describe("Max donation cap", () => {
-    it("shows error when custom crypto amount exceeds max (10 ETH)", () => {
+    it("shows error when custom crypto amount exceeds max (10 native)", () => {
       renderWidget();
       const input = screen.getByPlaceholderText("Custom amount");
       fireEvent.change(input, { target: { value: "15" } });
-      expect(screen.getByText("Maximum donation is Ξ10")).toBeInTheDocument();
+      expect(
+        screen.getByText("Maximum donation is 10 DEV"),
+      ).toBeInTheDocument();
     });
 
     it("shows error when custom fiat amount exceeds max ($10000)", () => {
@@ -338,6 +345,107 @@ describe("DonateWidget", () => {
       fireEvent.click(screen.getByText("Fiat (USD)"));
       const input = screen.getByPlaceholderText("Custom amount");
       expect(input).toHaveAttribute("max", "10000");
+    });
+  });
+
+  describe("Chain-aware crypto symbol", () => {
+    it("uses GLMR symbol when connected to Moonbeam mainnet (1284)", () => {
+      mockUseWeb3.mockReturnValue({
+        provider: null,
+        signer: null,
+        address: null,
+        chainId: 1284,
+        isConnected: false,
+        isConnecting: false,
+        error: null,
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        switchChain: jest.fn(),
+      });
+      renderWidget();
+      expect(screen.getByText("0.05 GLMR")).toBeInTheDocument();
+      expect(screen.getByText("Crypto (GLMR)")).toBeInTheDocument();
+    });
+
+    it("uses ETH symbol when connected to Base mainnet (8453)", () => {
+      mockUseWeb3.mockReturnValue({
+        provider: null,
+        signer: null,
+        address: null,
+        chainId: 8453,
+        isConnected: false,
+        isConnecting: false,
+        error: null,
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        switchChain: jest.fn(),
+      });
+      renderWidget();
+      expect(screen.getByText("0.05 ETH")).toBeInTheDocument();
+      expect(screen.getByText("Crypto (ETH)")).toBeInTheDocument();
+    });
+
+    it("falls back to default chain symbol when chainId is null", () => {
+      mockUseWeb3.mockReturnValue({
+        provider: null,
+        signer: null,
+        address: null,
+        chainId: null,
+        isConnected: false,
+        isConnecting: false,
+        error: null,
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        switchChain: jest.fn(),
+      });
+      renderWidget();
+      // DEFAULT_CHAIN_ID maps to Base → ETH
+      expect(screen.getByText("0.05 ETH")).toBeInTheDocument();
+    });
+  });
+
+  describe("Currency-aware fiat symbol", () => {
+    it("uses the selected currency symbol on the fiat tab", () => {
+      mockUseCurrencyContext.mockReturnValue({
+        selectedCurrency: {
+          code: "EUR",
+          name: "Euro",
+          symbol: "€",
+          coingeckoId: "eur",
+        },
+        setSelectedCurrency: jest.fn(),
+        tokenPrices: {},
+        isLoading: false,
+        refreshPrices: jest.fn(),
+        convertToFiat: jest.fn(() => 0),
+        convertFromFiat: jest.fn(() => 0),
+      });
+      renderWidget();
+      fireEvent.click(screen.getByText("Fiat (EUR)"));
+      expect(screen.getByText("€25")).toBeInTheDocument();
+      expect(screen.getByText("€50")).toBeInTheDocument();
+      expect(screen.getByText("€100")).toBeInTheDocument();
+      expect(screen.getByText("€250")).toBeInTheDocument();
+    });
+
+    it("uses GBP symbol when British Pound is selected", () => {
+      mockUseCurrencyContext.mockReturnValue({
+        selectedCurrency: {
+          code: "GBP",
+          name: "British Pound",
+          symbol: "£",
+          coingeckoId: "gbp",
+        },
+        setSelectedCurrency: jest.fn(),
+        tokenPrices: {},
+        isLoading: false,
+        refreshPrices: jest.fn(),
+        convertToFiat: jest.fn(() => 0),
+        convertFromFiat: jest.fn(() => 0),
+      });
+      renderWidget();
+      fireEvent.click(screen.getByText("Fiat (GBP)"));
+      expect(screen.getByText("£50")).toBeInTheDocument();
     });
   });
 });
