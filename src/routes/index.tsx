@@ -49,6 +49,9 @@ const CreateOpportunity = lazy(
   () => import("@/pages/charity/CreateOpportunity"),
 );
 const CreateCause = lazy(() => import("@/pages/charity/CreateCause"));
+const ConfirmWalletDesignation = lazy(
+  () => import("@/pages/charity/ConfirmWalletDesignation"),
+);
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const VerifyContribution = lazy(
   () => import("@/pages/volunteer/VerifyContribution"),
@@ -489,6 +492,20 @@ export function AppRoutes() {
                 </Suspense>
               </RouteTransition>
             </ProtectedRoute>
+          }
+        />
+        {/*
+          Public route (no auth) — landing page for the wallet-designation
+          confirmation magic-link emailed to the charity's authorized signer.
+        */}
+        <Route
+          path="/charity-portal/confirm-wallet"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <ConfirmWalletDesignation />
+              </Suspense>
+            </RouteTransition>
           }
         />
 

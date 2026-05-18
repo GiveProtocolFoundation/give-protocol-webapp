@@ -373,6 +373,8 @@ export default {
       "<rootDir>/src/test-utils/charityProfileServiceMock.js",
     "^@/services/charityVerificationService$":
       "<rootDir>/src/test-utils/charityVerificationServiceMock.js",
+    "^@/services/walletDesignationService$":
+      "<rootDir>/src/test-utils/walletDesignationServiceMock.js",
     // Discovery view component mocks — only @/ alias, so individual component tests
     // using relative imports still get the real implementation.
     "^@/components/discovery/PublicDiscoveryView$":

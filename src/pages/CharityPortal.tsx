@@ -25,7 +25,6 @@ import { CharityOnboardingChecklist } from "@/components/charity/CharityOnboardi
 import { VerificationStatusBanner } from "@/components/charity/VerificationStatusBanner";
 import {
   getCharityWalletAddress,
-  updateCharityWalletAddress,
 } from "@/services/charityProfileService";
 
 // Type definitions for Supabase data structures
@@ -1092,17 +1091,13 @@ export const CharityPortal: React.FC = () => {
     [],
   );
 
-  const handleWalletLinked = useCallback(async () => {
-    if (connectedWalletAddress && userId) {
-      const success = await updateCharityWalletAddress(
-        userId,
-        connectedWalletAddress,
-      );
-      if (success) {
-        setCharityWalletAddress(connectedWalletAddress);
-      }
-    }
-  }, [connectedWalletAddress, userId]);
+  // Linking a personal wallet to the user account does NOT automatically set
+  // the charity's official receiving wallet — that flow now requires a signed
+  // attestation + email confirmation. See DesignatedWalletCard on the
+  // Organization tab. The legacy auto-write was a security bug.
+  const handleWalletLinked = useCallback(() => {
+    // intentional no-op
+  }, []);
 
   const handleOnboardingNavigate = useCallback((tab: string) => {
     const validTabs: TabKey[] = [

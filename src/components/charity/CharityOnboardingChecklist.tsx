@@ -1,8 +1,8 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { X, CheckCircle2, Circle, ChevronDown, ChevronUp } from "lucide-react";
 import { supabase } from "@/lib/supabase";
-import { useWeb3 } from "@/contexts/Web3Context";
 import { Logger } from "@/utils/logger";
+import { getDesignationState } from "@/services/walletDesignationService";
 
 interface OnboardingMeta {
   dismissed?: boolean;
@@ -35,9 +35,11 @@ const CHECKLIST_ITEMS: ChecklistItemDef[] = [
   },
   {
     id: "connect_wallet",
-    label: "Connect wallet for receiving donations",
+    label: "Designate official receiving wallet",
     description:
-      "Link a crypto wallet so donors can send funds directly to you.",
+      "Sign an attestation from the wallet your charity will receive donations into, then confirm by email. Supports multi-sig (Gnosis Safe).",
+    actionLabel: "Designate wallet",
+    actionTab: "organization",
   },
   {
     id: "bank_details",
@@ -81,8 +83,13 @@ interface CharityOnboardingChecklistProps {
  */
 export const CharityOnboardingChecklist: React.FC<
   CharityOnboardingChecklistProps
-> = ({ profileId, walletAddress, onNavigateTab, logoUrl, bannerImageUrl }) => {
-  const { isConnected, address } = useWeb3();
+> = ({
+  profileId,
+  walletAddress: _walletAddress,
+  onNavigateTab,
+  logoUrl,
+  bannerImageUrl,
+}) => {
   const [completedItems, setCompletedItems] = useState<Set<string>>(new Set());
   const [dismissed, setDismissed] = useState(false);
   const [collapsed, setCollapsed] = useState(false);
@@ -136,19 +143,26 @@ export const CharityOnboardingChecklist: React.FC<
     };
   }, [profileId]);
 
-  // Auto-mark wallet connected when Web3 connects with the correct address
+  // Auto-mark "connect_wallet" complete once the wallet designation has been
+  // activated (status = 'active' in charity_profiles).
   useEffect(() => {
-    if (!address || !walletAddress) return;
-    const addressesMatch =
-      address.toLowerCase() === walletAddress.toLowerCase();
-    if (
-      isConnected &&
-      addressesMatch &&
-      !completedItems.has("connect_wallet")
-    ) {
-      setCompletedItems((prev) => new Set([...prev, "connect_wallet"]));
-    }
-  }, [isConnected, address, walletAddress, completedItems]);
+    let cancelled = false;
+    /** Loads the wallet designation status from charity_profiles. */
+    const load = async () => {
+      const state = await getDesignationState(profileId);
+      if (cancelled) return;
+      if (
+        state?.status === "active" &&
+        !completedItems.has("connect_wallet")
+      ) {
+        setCompletedItems((prev) => new Set([...prev, "connect_wallet"]));
+      }
+    };
+    load();
+    return () => {
+      cancelled = true;
+    };
+  }, [profileId, completedItems]);
 
   /** Persists onboarding state to profiles.meta in Supabase. */
   const persistState = useCallback(

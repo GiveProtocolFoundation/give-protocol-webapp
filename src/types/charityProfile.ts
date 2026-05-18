@@ -2,6 +2,12 @@ export type CharityProfileStatus = "unclaimed" | "claimed-pending" | "verified";
 
 export type WalletType = "new_custodial" | "existing_evm";
 
+export type WalletDesignationStatus =
+  | "unset"
+  | "pending_signature_verification"
+  | "pending_email_confirmation"
+  | "active";
+
 export type PaymentProcessor = "helcim" | "paypal";
 
 export interface CharityProfile {
@@ -27,6 +33,7 @@ export interface CharityProfile {
   claimed_by: string | null;
   wallet_address: string | null;
   wallet_type: WalletType | null;
+  wallet_designation_status?: WalletDesignationStatus;
   payment_processor: PaymentProcessor | null;
   claimed_at: string | null;
   verified_at: string | null;
