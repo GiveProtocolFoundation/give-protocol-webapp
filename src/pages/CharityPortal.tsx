@@ -180,10 +180,10 @@ function CharityTabNav({
               onClick={handleClick}
               role="tab"
               aria-selected={isActive}
-              className={`relative px-4 py-3 text-sm font-medium transition-colors duration-200 border-b-2 -mb-px whitespace-nowrap ${
+              className={`relative px-4 py-3 text-sm transition-colors duration-200 border-b-[3px] -mb-px whitespace-nowrap ${
                 isActive
-                  ? "border-accent-base text-accent-base"
-                  : "border-transparent text-content-muted hover:text-content-primary"
+                  ? "border-accent-base text-accent-base font-semibold"
+                  : "border-transparent text-content-secondary font-medium hover:text-content-primary hover:border-line-subtle"
               }`}
             >
               <span className="inline-flex items-center gap-2">
