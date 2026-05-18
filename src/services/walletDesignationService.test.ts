@@ -179,7 +179,10 @@ describe("walletDesignationService", () => {
 
     it("returns error when token is invalid/expired", async () => {
       invokeMock.mockResolvedValue({
-        data: { success: false, error: "Invalid, expired, or already-used token" },
+        data: {
+          success: false,
+          error: "Invalid, expired, or already-used token",
+        },
         error: null,
       });
       const result = await confirmWalletByToken("expired");

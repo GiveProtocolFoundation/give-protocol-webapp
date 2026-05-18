@@ -151,10 +151,7 @@ export const CharityOnboardingChecklist: React.FC<
     const load = async () => {
       const state = await getDesignationState(profileId);
       if (cancelled) return;
-      if (
-        state?.status === "active" &&
-        !completedItems.has("connect_wallet")
-      ) {
+      if (state?.status === "active" && !completedItems.has("connect_wallet")) {
         setCompletedItems((prev) => new Set([...prev, "connect_wallet"]));
       }
     };

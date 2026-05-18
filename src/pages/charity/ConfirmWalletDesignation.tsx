@@ -69,8 +69,8 @@ const ConfirmWalletDesignation: React.FC = () => {
               Wallet activated
             </h1>
             <p className="mt-2 text-sm text-content-secondary">
-              Donations to your charity are now enabled. The official
-              receiving wallet is:
+              Donations to your charity are now enabled. The official receiving
+              wallet is:
             </p>
             <p className="mt-3 font-mono text-xs text-content-primary break-all bg-surface-sunken rounded p-3">
               {walletAddress}
@@ -95,8 +95,8 @@ const ConfirmWalletDesignation: React.FC = () => {
               {error ?? "Something went wrong."}
             </p>
             <p className="mt-2 text-xs text-content-muted">
-              If the link expired, you can restart the designation flow from
-              the charity portal.
+              If the link expired, you can restart the designation flow from the
+              charity portal.
             </p>
             <Button onClick={goToPortal} className="mt-6" fullWidth>
               Go to charity portal

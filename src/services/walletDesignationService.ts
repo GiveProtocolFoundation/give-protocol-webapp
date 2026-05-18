@@ -51,9 +51,7 @@ export interface ConfirmResult {
 }
 
 /** Discriminated outcome — the success/error split callers care about. */
-type ServiceOutcome<T> =
-  | { ok: true; data: T }
-  | { ok: false; error: string };
+type ServiceOutcome<T> = { ok: true; data: T } | { ok: false; error: string };
 
 /**
  * Request a one-time nonce + canonical message for the user to sign with
@@ -73,7 +71,10 @@ export async function requestNonce(
       Logger.error("wallet-designation-request-nonce failed", { error });
       return { ok: false, error: error.message ?? "Request failed" };
     }
-    const resp = data as { success?: boolean; error?: string } & RequestNonceResult;
+    const resp = data as {
+      success?: boolean;
+      error?: string;
+    } & RequestNonceResult;
     if (!resp.success) {
       return { ok: false, error: resp.error ?? "Request failed" };
     }
@@ -212,9 +213,7 @@ export async function confirmWalletByToken(
  * profile. Used by the DesignatedWalletCard and the onboarding checklist
  * to render the correct state.
  */
-export async function getDesignationState(
-  charityProfileId: string,
-): Promise<{
+export async function getDesignationState(charityProfileId: string): Promise<{
   status: WalletDesignationStatus;
   walletAddress: string | null;
   walletKind: "eoa" | "contract" | null;

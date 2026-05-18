@@ -1,11 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import {
-  AlertTriangle,
-  Loader2,
-  Mail,
-  Shield,
-  Wallet,
-} from "lucide-react";
+import { AlertTriangle, Loader2, Mail, Shield, Wallet } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useWeb3 } from "@/contexts/Web3Context";
@@ -155,8 +149,8 @@ function DesignationForm({
       <p className="text-sm text-content-secondary">
         You are setting the official receiving wallet for{" "}
         <strong className="text-content-primary">{charityName}</strong>.
-        Donations will be sent directly to this address. After signing, an
-        email confirmation link is sent to your authorized signer email.
+        Donations will be sent directly to this address. After signing, an email
+        confirmation link is sent to your authorized signer email.
       </p>
 
       <div className="rounded-lg border border-line-subtle bg-surface-sunken p-4">
@@ -205,8 +199,8 @@ function DesignationForm({
           aria-hidden="true"
         />
         <p className="text-xs text-amber-800 dark:text-amber-200">
-          Smart-contract wallets (e.g. Gnosis Safe) are supported. If your
-          Safe needs multiple signers, sign here first — we will wait for the
+          Smart-contract wallets (e.g. Gnosis Safe) are supported. If your Safe
+          needs multiple signers, sign here first — we will wait for the
           threshold to be reached before sending the email confirmation.
         </p>
       </div>
@@ -219,9 +213,7 @@ function DesignationForm({
           onClick={onSign}
           disabled={!isConnected || !acknowledged || inFlight}
           icon={
-            inFlight ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : undefined
+            inFlight ? <Loader2 className="h-4 w-4 animate-spin" /> : undefined
           }
         >
           {phaseLabel}
@@ -346,4 +338,3 @@ function ErrorPanel({
     </div>
   );
 }
-

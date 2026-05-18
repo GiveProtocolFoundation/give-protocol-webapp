@@ -23,9 +23,7 @@ import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { CharityOnboardingChecklist } from "@/components/charity/CharityOnboardingChecklist";
 import { VerificationStatusBanner } from "@/components/charity/VerificationStatusBanner";
-import {
-  getCharityWalletAddress,
-} from "@/services/charityProfileService";
+import { getCharityWalletAddress } from "@/services/charityProfileService";
 
 // Type definitions for Supabase data structures
 interface DonationData {

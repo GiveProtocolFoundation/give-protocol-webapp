@@ -13,8 +13,7 @@ jest.mock("@/lib/supabase", () => ({
 }));
 
 // getDesignationState is mocked via moduleNameMapper → walletDesignationServiceMock.js
-const mockGetDesignationState =
-  getDesignationState as unknown as jest.Mock;
+const mockGetDesignationState = getDesignationState as unknown as jest.Mock;
 
 // Typed reference to the from mock for per-test control
 interface MockResult {

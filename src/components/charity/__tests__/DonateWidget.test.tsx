@@ -92,9 +92,7 @@ describe("DonateWidget", () => {
         walletAddress: null,
         walletDesignationStatus: "pending_email_confirmation",
       });
-      expect(
-        screen.getByText(/finishing wallet setup/),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/finishing wallet setup/)).toBeInTheDocument();
     });
 
     it("shows legacy banner when wallet present but status is 'unset' (post-migration grandfather)", () => {

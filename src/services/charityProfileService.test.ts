@@ -233,7 +233,7 @@ describe("charityProfileService", () => {
     });
   });
 
-describe("fetchCharityProfileAssets", () => {
+  describe("fetchCharityProfileAssets", () => {
     type JestFn = ReturnType<typeof jest.fn>;
     let mockFrom: JestFn;
 

@@ -87,7 +87,10 @@ export const DesignatedWalletCard: React.FC<DesignatedWalletCardProps> = ({
     <>
       <Card hover={false} className="p-5">
         <div className="flex items-center gap-2 mb-3">
-          <Wallet className="h-5 w-5 text-content-secondary" aria-hidden="true" />
+          <Wallet
+            className="h-5 w-5 text-content-secondary"
+            aria-hidden="true"
+          />
           <h3 className="text-sm font-semibold text-content-primary">
             Official receiving wallet
           </h3>
