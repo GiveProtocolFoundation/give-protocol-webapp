@@ -1,9 +1,11 @@
 // Contribution Types
+/** The source type of a contribution (donation, formal volunteering, or self-reported hours). */
 export type ContributionSourceType =
   | "donation"
   | "formal_volunteer"
   | "self_reported";
 
+/** Filter options for querying contribution history. */
 export interface ContributionFilters {
   organization: string;
   category: string;
@@ -12,6 +14,7 @@ export interface ContributionFilters {
   sources?: ContributionSourceType[];
 }
 
+/** Breakdown of volunteer hours by formal vs self-reported categories. */
 export interface VolunteerHoursBreakdown {
   formal: number;
   selfReported: {
@@ -23,6 +26,7 @@ export interface VolunteerHoursBreakdown {
   total: number; // formal + validated self-reported
 }
 
+/** Props for the DonationStats display component. */
 export interface DonationStatsProps {
   stats?: {
     totalDonated: number;
@@ -33,6 +37,7 @@ export interface DonationStatsProps {
   isPersonal?: boolean;
 }
 
+/** A single entry in a donation leaderboard. */
 export interface LeaderboardEntry {
   id: string;
   alias: string;
@@ -44,6 +49,7 @@ export interface LeaderboardEntry {
   organizationsSupported?: number;
 }
 
+/** Aggregate volunteer statistics for a user. */
 export interface VolunteerStats {
   totalHours: number;
   skillsEndorsed: number;
@@ -51,6 +57,7 @@ export interface VolunteerStats {
   recentAchievements: Achievement[];
 }
 
+/** A badge or milestone earned by a volunteer. */
 export interface Achievement {
   id: string;
   title: string;
@@ -58,6 +65,7 @@ export interface Achievement {
   date: string;
 }
 
+/** A single donation record. */
 export interface Donation {
   id: string;
   amount: number;
@@ -66,6 +74,7 @@ export interface Donation {
   status: "completed" | "pending";
 }
 
+/** A single entry in a volunteer-hours leaderboard. */
 export interface VolunteerLeader {
   id: string;
   alias: string;
@@ -77,6 +86,7 @@ export interface VolunteerLeader {
 }
 
 // Transaction data for blockchain transactions
+/** A transaction record covering both crypto and fiat payment flows. */
 export interface Transaction {
   id: string;
   hash?: string;
@@ -93,6 +103,7 @@ export interface Transaction {
 }
 
 // Enhanced metadata structure for all transaction types
+/** Extended metadata attached to transaction records for all contribution types. */
 export interface TransactionMetadata extends Record<string, unknown> {
   // Common fields
   organization?: string;
@@ -123,6 +134,7 @@ export interface TransactionMetadata extends Record<string, unknown> {
   cardLastFour?: string;
 }
 
+/** Options controlling which data is included in a transaction CSV export. */
 export interface TransactionExportOptions {
   includePersonalInfo?: boolean;
   dateRange?: {

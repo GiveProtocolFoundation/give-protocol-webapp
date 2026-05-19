@@ -2,6 +2,7 @@ import React from "react";
 import { X, CheckCircle, AlertCircle, Loader2, Info } from "lucide-react";
 import { cn } from "../../utils/cn";
 
+/** Visual variant of a toast notification. */
 export type ToastType = "success" | "error" | "loading" | "info";
 
 interface ToastProps {

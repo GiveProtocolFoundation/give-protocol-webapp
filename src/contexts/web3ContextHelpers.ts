@@ -2,6 +2,7 @@ import { Logger } from "@/utils/logger";
 import { CHAIN_CONFIGS, type ChainId } from "@/config/contracts";
 
 // EIP-1193 Provider interface
+/** Standard EIP-1193 Ethereum provider interface (MetaMask, WalletConnect, etc.). */
 export interface EIP1193Provider {
   request: (_args: { method: string; params?: unknown[] }) => Promise<unknown>;
   on?: (_event: string, _handler: (..._args: unknown[]) => void) => void;

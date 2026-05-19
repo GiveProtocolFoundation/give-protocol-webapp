@@ -26,6 +26,7 @@ interface DateHoursLocationRowProps {
   ) => void;
 }
 
+/** Row component for date, hours, and location fields in the self-reported hours form. */
 export const DateHoursLocationRow: React.FC<DateHoursLocationRowProps> = ({
   activityDate,
   hours,

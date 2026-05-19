@@ -1,4 +1,5 @@
 // Monitoring service for application performance and error tracking
+/** Configuration options for the application monitoring service. */
 export interface MonitoringConfig {
   apiKey: string;
   appId: string;
@@ -6,6 +7,7 @@ export interface MonitoringConfig {
   enabledMonitors: string[];
 }
 
+/** A single monitoring event payload with timestamp and optional user context. */
 export interface MonitoringMetrics {
   timestamp: number;
   event: string;

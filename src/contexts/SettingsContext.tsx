@@ -6,6 +6,7 @@ import React, {
   startTransition,
 } from "react";
 
+/** BCP 47 language code for the user's preferred display language. */
 export type Language =
   | "en" // English
   | "es" // Spanish
@@ -20,6 +21,7 @@ export type Language =
   | "ar" // Arabic
   | "hi"; // Hindi
 
+/** ISO 4217 currency code for the user's preferred display currency. */
 export type Currency =
   | "USD" // US Dollar
   | "CAD" // Canadian Dollar
@@ -38,6 +40,7 @@ export type Currency =
   | "HKD" // Hong Kong Dollar
   | "PKR"; // Pakistani Rupee
 
+/** UI color theme preference. */
 export type Theme = "light" | "dark";
 
 interface SettingsContextType {

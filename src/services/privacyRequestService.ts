@@ -52,6 +52,7 @@ async function callEdgeFunction(
   });
 }
 
+/** Result returned after submitting a GDPR data export request. */
 export interface ExportRequestResult {
   request_id: string;
   status: "pending" | "processing" | "ready" | "expired" | "failed";
@@ -62,6 +63,7 @@ export interface ExportRequestResult {
   existing_request_id?: string;
 }
 
+/** Result returned after submitting a GDPR right-to-erasure request. */
 export interface ErasureRequestResult {
   request_id: string;
   status: "pending" | "cancelled" | "processing" | "completed" | "failed";
@@ -71,6 +73,7 @@ export interface ErasureRequestResult {
   existing_request_id?: string;
 }
 
+/** Result returned when checking the status of a pending data export request. */
 export interface ExportStatusResult {
   request_id: string;
   status: "pending" | "processing" | "ready" | "expired" | "failed";

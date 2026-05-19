@@ -17,6 +17,7 @@ import {
   createSafeProvider,
 } from "@/lib/wallets";
 
+/** Normalized interface for interacting with a connected wallet provider. */
 export interface WalletProvider {
   name: string;
   icon: string;
