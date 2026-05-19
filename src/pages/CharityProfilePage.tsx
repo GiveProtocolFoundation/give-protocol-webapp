@@ -192,6 +192,12 @@ interface ProfileDisplayData {
   isVerified: boolean;
   nteeCategory: string;
   walletAddress: string | null;
+  walletDesignationStatus:
+    | "unset"
+    | "pending_signature_verification"
+    | "pending_email_confirmation"
+    | "active"
+    | null;
   bannerImageUrl: string | null | undefined;
   logoUrl: string | null | undefined;
   photo1Url: string | null | undefined;
@@ -221,6 +227,7 @@ function deriveDisplayData(
     isVerified: profile?.status === "verified",
     nteeCategory: getNteeCategory(charityRecord?.ntee_cd ?? profile?.ntee_code),
     walletAddress: profile?.wallet_address ?? null,
+    walletDesignationStatus: profile?.wallet_designation_status ?? null,
     bannerImageUrl: profile?.banner_image_url,
     logoUrl: profile?.logo_url,
     photo1Url: profile?.photo_1_url,
@@ -640,6 +647,7 @@ function CharityProfilePage() {
               ein={einDigits}
               charityName={display.orgName}
               walletAddress={display.walletAddress}
+              walletDesignationStatus={display.walletDesignationStatus}
               charityId={profile?.id ?? einDigits}
               mode="sidebar"
               isVerified={display.isVerified}

@@ -4,7 +4,12 @@ export type CharityProfileStatus = "unclaimed" | "claimed-pending" | "verified";
 /** Type of wallet assigned to a charity (platform-managed custodial or existing EVM). */
 export type WalletType = "new_custodial" | "existing_evm";
 
-/** Payment processor configured for a charity's fiat donations. */
+export type WalletDesignationStatus =
+  | "unset"
+  | "pending_signature_verification"
+  | "pending_email_confirmation"
+  | "active";
+
 export type PaymentProcessor = "helcim" | "paypal";
 
 /** Full charity profile record as stored in the database. */
@@ -31,6 +36,7 @@ export interface CharityProfile {
   claimed_by: string | null;
   wallet_address: string | null;
   wallet_type: WalletType | null;
+  wallet_designation_status?: WalletDesignationStatus;
   payment_processor: PaymentProcessor | null;
   claimed_at: string | null;
   verified_at: string | null;

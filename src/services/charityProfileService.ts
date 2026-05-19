@@ -78,37 +78,6 @@ export async function getCharityWalletAddress(
 }
 
 /**
- * Stores a receiving wallet address on the charity profile for a given user.
- * Updates the charity_profiles row where claimed_by matches the user ID.
- * @param userId - The authenticated user's ID (matched via claimed_by)
- * @param walletAddress - The blockchain wallet address to persist
- * @returns True if the update succeeded, false otherwise
- */
-export async function updateCharityWalletAddress(
-  userId: string,
-  walletAddress: string,
-): Promise<boolean> {
-  try {
-    const { error } = await supabase
-      .from("charity_profiles")
-      .update({ wallet_address: walletAddress })
-      .eq("claimed_by", userId);
-
-    if (error) {
-      Logger.error("Error updating charity wallet address", { error, userId });
-      return false;
-    }
-    return true;
-  } catch (err) {
-    Logger.error("Charity wallet update failed", {
-      error: err instanceof Error ? err.message : String(err),
-      userId,
-    });
-    return false;
-  }
-}
-
-/**
  * Fetches or creates a charity profile by EIN via the get_or_create_charity_profile RPC.
  * Returns null if the EIN is empty, not found in IRS records, or on error.
  * @param ein - The Employer Identification Number to look up
@@ -152,6 +121,8 @@ export async function getCharityProfileByEin(
  * underlying database, allowing callers to render without error.
  */
 export interface CharityProfileAssets {
+  id: string;
+  name: string;
   ein: string;
   logoUrl: string | null;
   bannerImageUrl: string | null;
@@ -159,6 +130,8 @@ export interface CharityProfileAssets {
 }
 
 interface AssetRow {
+  id: string;
+  name: string;
   ein: string;
   logo_url: string | null;
   banner_image_url?: string | null;
@@ -176,6 +149,8 @@ function isUndefinedColumnError(err: unknown): boolean {
 /** Maps a charity_profiles DB row into the public CharityProfileAssets shape. */
 function toAssets(row: AssetRow): CharityProfileAssets {
   return {
+    id: row.id,
+    name: row.name,
     ein: row.ein,
     logoUrl: row.logo_url ?? null,
     bannerImageUrl: row.banner_image_url ?? null,
@@ -196,7 +171,7 @@ async function fetchAssetsByColumn(
 ): Promise<CharityProfileAssets | null> {
   const full = await supabase
     .from("charity_profiles")
-    .select("ein, logo_url, banner_image_url, claimed_by")
+    .select("id, name, ein, logo_url, banner_image_url, claimed_by")
     .eq(filterColumn, filterValue)
     .maybeSingle();
 
@@ -220,7 +195,7 @@ async function fetchAssetsByColumn(
 
   const fallback = await supabase
     .from("charity_profiles")
-    .select("ein, logo_url, claimed_by")
+    .select("id, name, ein, logo_url, claimed_by")
     .eq(filterColumn, filterValue)
     .maybeSingle();
 
