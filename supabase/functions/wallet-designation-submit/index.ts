@@ -10,6 +10,12 @@
  *    collecting signers): persists the pending sig and sets status =
  *    'pending_signature_verification'; client can re-poll via
  *    wallet-designation-recheck.
+ *
+ * PR2: when the profile is already 'active' and the caller signs from a
+ * different (or same) wallet, this is treated as a CHANGE request — the
+ * confirmation email is reworded for a change and confirmation activates the
+ * 72h cooldown rather than the new wallet directly. wallet_address is
+ * preserved until cooldown elapses.
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
@@ -17,6 +23,7 @@ import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { ethers } from "https://esm.sh/ethers@6.9.0";
 import { buildDesignationMessage } from "../_shared/wallet-designation-message.ts";
 import { promoteToPendingEmail } from "../_shared/wallet-designation-promote.ts";
+import { sendChangeConfirmationEmail } from "../_shared/wallet-designation-cooldown-emails.ts";
 
 const PENDING_CONTRACT_SIG_TTL_MS = 7 * 24 * 60 * 60 * 1000;
 const MOONBASE_CHAIN_ID = 1287;
@@ -54,6 +61,8 @@ interface CharityProfileRow {
   claimed_by: string | null;
   authorized_signer_email: string | null;
   wallet_address: string | null;
+  wallet_designation_status: string;
+  pending_wallet_address: string | null;
 }
 
 function jsonResponse(body: Record<string, unknown>, status: number): Response {
@@ -198,7 +207,9 @@ serve(async (req: Request) => {
 
   const { data: profileData, error: profileError } = await serviceClient
     .from("charity_profiles")
-    .select("id, name, claimed_by, authorized_signer_email, wallet_address")
+    .select(
+      "id, name, claimed_by, authorized_signer_email, wallet_address, wallet_designation_status, pending_wallet_address",
+    )
     .eq("id", nonce.charity_profile_id)
     .maybeSingle();
   if (profileError || !profileData) {
@@ -221,6 +232,19 @@ serve(async (req: Request) => {
       400,
     );
   }
+  // PR2: reject a new submit while a change is already mid-cooldown.
+  // The user must either cancel the pending change or wait it out.
+  if (profile.wallet_designation_status === "pending_change_cooldown") {
+    return jsonResponse(
+      {
+        success: false,
+        error:
+          "A wallet change is already in cooldown. Cancel the pending change before submitting another.",
+      },
+      409,
+    );
+  }
+  const isChange = profile.wallet_designation_status === "active";
 
   const message = buildDesignationMessage({
     charityName: profile.name,
@@ -325,7 +349,86 @@ serve(async (req: Request) => {
     );
   }
 
-  // Signature accepted — promote to pending_email_confirmation.
+  // Signature accepted.
+  if (isChange) {
+    // CHANGE flow: wallet_address stays at the current address until cooldown
+    // promotes the new one. Persist the new wallet attestation on the
+    // pending_wallet_* columns and send a change-confirmation email.
+    try {
+      await serviceClient.from("charity_wallet_designations_history").insert({
+        charity_profile_id: profile.id,
+        changed_by: user.id,
+        previous_address: profile.wallet_address,
+        new_address: nonce.candidate_address,
+        wallet_kind: walletKind,
+        signature: body.signature,
+        message,
+        chain_id: MOONBASE_CHAIN_ID,
+        ip,
+        user_agent: userAgent,
+        action: "change_submitted",
+      });
+
+      await serviceClient
+        .from("charity_profiles")
+        .update({
+          pending_wallet_address: nonce.candidate_address,
+          pending_wallet_kind: walletKind,
+          pending_wallet_designation_signature: body.signature,
+          pending_wallet_designation_message: message,
+          pending_wallet_designation_chain_id: MOONBASE_CHAIN_ID,
+          // status STAYS 'active' until email confirmation kicks off cooldown.
+        })
+        .eq("id", profile.id);
+
+      await sendChangeConfirmationEmail({
+        supabaseUrl,
+        supabaseServiceKey,
+        resendApiKey,
+        resendFromEmail,
+        publicAppUrl,
+        charityProfileId: profile.id,
+        charityName: profile.name,
+        candidateAddress: nonce.candidate_address,
+        walletKind,
+        chainId: MOONBASE_CHAIN_ID,
+        initiatedByEmail: user.email,
+        currentWalletAddress: profile.wallet_address ?? "(unknown)",
+        signature: body.signature,
+        message,
+        toEmail: profile.authorized_signer_email,
+      });
+
+      await serviceClient.from("charity_wallet_designations_history").insert({
+        charity_profile_id: profile.id,
+        new_address: nonce.candidate_address,
+        wallet_kind: walletKind,
+        action: "change_email_sent",
+      });
+    } catch (err) {
+      console.error("Change submission failed:", err);
+      return jsonResponse(
+        {
+          success: false,
+          error: err instanceof Error ? err.message : "Change submission failed",
+        },
+        500,
+      );
+    }
+
+    return jsonResponse(
+      {
+        success: true,
+        status: "pending_email_confirmation",
+        isChange: true,
+        sentToEmail: profile.authorized_signer_email,
+        candidateAddress: nonce.candidate_address,
+      },
+      200,
+    );
+  }
+
+  // INITIAL flow (unset → pending_email_confirmation → active).
   try {
     await promoteToPendingEmail({
       serviceClient,
@@ -359,6 +462,7 @@ serve(async (req: Request) => {
     {
       success: true,
       status: "pending_email_confirmation",
+      isChange: false,
       sentToEmail: profile.authorized_signer_email,
       candidateAddress: nonce.candidate_address,
     },
