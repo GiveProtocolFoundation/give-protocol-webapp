@@ -3,6 +3,7 @@ import html2canvas from "html2canvas";
 import { formatDate } from "./date";
 import { convertToCSV, downloadCSV } from "./csvHelpers";
 
+/** Donation leaderboard row used for export formatting. */
 export interface DonationLeaderData {
   rank: number;
   displayName: string;
@@ -10,6 +11,7 @@ export interface DonationLeaderData {
   alias?: string;
 }
 
+/** Volunteer leaderboard row used for export formatting. */
 export interface VolunteerLeaderData {
   rank: number;
   displayName: string;
@@ -19,6 +21,7 @@ export interface VolunteerLeaderData {
   alias?: string;
 }
 
+/** Options for leaderboard CSV/PDF export. */
 export interface LeaderboardExportOptions {
   timeRange: string;
   region: string;

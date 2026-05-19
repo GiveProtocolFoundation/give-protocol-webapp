@@ -1,3 +1,4 @@
+/** Application color palette (legacy flat structure). */
 export const colors = {
   // Base colors
   white: '#FFFFFF',

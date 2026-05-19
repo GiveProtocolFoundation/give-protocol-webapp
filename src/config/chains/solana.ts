@@ -15,6 +15,7 @@ export const SOLANA_CLUSTERS = {
   LOCALNET: "localnet",
 } as const;
 
+/** Union type of all supported Solana cluster IDs. */
 export type SolanaClusterId = (typeof SOLANA_CLUSTERS)[keyof typeof SOLANA_CLUSTERS];
 
 /**

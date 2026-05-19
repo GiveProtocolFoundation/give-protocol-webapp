@@ -5,6 +5,7 @@
 
 import { CHAIN_IDS, type ChainId } from "./contracts";
 
+/** Configuration for a single supported token on a given chain. */
 export interface TokenConfig {
   /** Token symbol (e.g., "GLMR", "USDC") */
   symbol: string;
@@ -24,6 +25,7 @@ export interface TokenConfig {
   minDonation?: number;
 }
 
+/** A fiat currency supported for price display. */
 export interface FiatCurrency {
   /** Currency code (e.g., "USD", "EUR") */
   code: string;

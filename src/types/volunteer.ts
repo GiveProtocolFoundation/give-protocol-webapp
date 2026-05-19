@@ -30,6 +30,7 @@ export enum WorkLanguage {
   _MULTIPLE = 'multiple' // Prefixed with _ as currently unused
 }
 
+/** A volunteer opportunity posted by a charity. */
 export interface VolunteerOpportunity {
   id: UUID;
   charityId: UUID;
@@ -45,6 +46,7 @@ export interface VolunteerOpportunity {
   updatedAt: Timestamp;
 }
 
+/** A volunteer's application for a specific opportunity. */
 export interface VolunteerApplication {
   id: UUID;
   opportunityId: UUID;
@@ -73,6 +75,7 @@ export interface VolunteerApplication {
   acceptanceHash?: string; // Hash created when application is accepted
 }
 
+/** A logged block of volunteer hours for a charity opportunity. */
 export interface VolunteerHours {
   id: UUID;
   volunteerId: UUID;
@@ -88,6 +91,7 @@ export interface VolunteerHours {
   verificationHash?: string; // Hash created when hours are verified
 }
 
+/** On-chain verification record linking an accepted application to verified hours. */
 export interface VolunteerVerification {
   id: UUID;
   applicantId: UUID;

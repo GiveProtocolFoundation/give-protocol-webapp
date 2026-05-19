@@ -164,4 +164,5 @@ export class ExchangeRateService {
 }
 
 // Export singleton instance
+/** Shared singleton instance of ExchangeRateService. */
 export const exchangeRateService = new ExchangeRateService();

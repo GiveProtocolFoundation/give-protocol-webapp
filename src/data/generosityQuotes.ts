@@ -1,3 +1,4 @@
+/** A curated quote about generosity or service shown in the daily wisdom feature. */
 export interface GenerosityQuote {
   id: string;
   text: string;

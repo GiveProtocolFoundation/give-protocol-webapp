@@ -1,8 +1,11 @@
 import type { LocationFilter } from "@/utils/locationResolver";
 
+/** Which tab is active on the discovery/browse page. */
 export type DiscoveryViewMode = "charities" | "causes" | "portfolios";
+/** Which geographic filter dimension is active (impact location vs HQ location). */
 export type DiscoveryFilterCategory = "impact" | "hq";
 
+/** Shared filter state for the discovery/browse page. */
 export interface DiscoveryFiltersState {
   viewMode: DiscoveryViewMode;
   searchTerm: string;

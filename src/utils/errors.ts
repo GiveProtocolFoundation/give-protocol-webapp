@@ -1,5 +1,6 @@
 import { AuthErrorCode } from "../types/auth";
 
+/** Authentication error with a typed error code for programmatic handling. */
 export interface AuthError extends Error {
   code: AuthErrorCode;
 }

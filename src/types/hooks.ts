@@ -4,6 +4,7 @@ import { TokenAmount, TransactionHash } from './blockchain';
 import { ApiError, QueryOptions } from './common';
 
 // Data Fetching Hooks
+/** Return value of useCharity — includes the fetched charity and loading/error state. */
 export interface UseCharityResult {
   charity?: Charity;
   loading: boolean;
@@ -11,6 +12,7 @@ export interface UseCharityResult {
   refetch: () => Promise<void>;
 }
 
+/** Return value of useCampaign — includes the fetched campaign and loading/error state. */
 export interface UseCampaignResult {
   campaign?: Campaign;
   loading: boolean;
@@ -18,12 +20,14 @@ export interface UseCampaignResult {
   refetch: () => Promise<void>;
 }
 
+/** Configuration options for hooks that support infinite/paginated data loading. */
 export interface UseInfiniteDataOptions<T> extends QueryOptions {
   fetchFn: (_options: QueryOptions) => Promise<T[]>; // Prefixed as unused
   pageSize?: number;
   initialData?: T[];
 }
 
+/** Return value of hooks that support infinite/paginated data loading. */
 export interface UseInfiniteDataResult<T> {
   data: T[];
   loading: boolean;
@@ -34,6 +38,7 @@ export interface UseInfiniteDataResult<T> {
 }
 
 // Web3 Hooks
+/** Return value of useWallet — wallet connection state and control functions. */
 export interface UseWalletResult {
   address?: string;
   isConnected: boolean;
@@ -43,12 +48,14 @@ export interface UseWalletResult {
   error?: Error;
 }
 
+/** Return value of useDonation — donation submission function and state. */
 export interface UseDonationResult {
   donate: (_amount: TokenAmount, _charityId: string) => Promise<TransactionHash>; // Prefixed as unused
   loading: boolean;
   error?: Error;
 }
 
+/** Return value of useTransaction — transaction hash, status, and loading state. */
 export interface UseTransactionResult {
   hash?: TransactionHash;
   status: 'pending' | 'confirmed' | 'failed';
@@ -57,6 +64,7 @@ export interface UseTransactionResult {
 }
 
 // Form Hooks
+/** Return value of useForm — field values, errors, and submission handlers. */
 export interface UseFormResult<T> {
   values: T;
   errors: Record<keyof T, string>;
@@ -70,6 +78,7 @@ export interface UseFormResult<T> {
 }
 
 // Filter Hooks
+/** Return value of useFilters — active filter values and update functions. */
 export interface UseFiltersResult {
   filters: {
     search: string;

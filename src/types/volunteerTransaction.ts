@@ -19,6 +19,7 @@ export const VolunteerTransactionTypes = {
   VOLUNTEER_ENDORSEMENT: "Volunteer Endorsement",
 } as const;
 
+/** Union of all volunteer transaction type string values. */
 export type VolunteerTransactionType = typeof VolunteerTransactionTypes[keyof typeof VolunteerTransactionTypes];
 
 /**

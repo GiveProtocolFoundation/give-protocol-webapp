@@ -22,6 +22,7 @@ export const EVM_CHAIN_IDS = {
   AVALANCHE: 43114,
 } as const;
 
+/** Union type of all supported EVM chain IDs. */
 export type EVMChainId = (typeof EVM_CHAIN_IDS)[keyof typeof EVM_CHAIN_IDS];
 
 /**

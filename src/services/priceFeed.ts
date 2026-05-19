@@ -309,4 +309,5 @@ export class PriceFeedService {
 }
 
 // Export singleton instance
+/** Shared singleton instance of PriceFeedService. */
 export const priceFeedService = new PriceFeedService();

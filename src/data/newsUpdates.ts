@@ -1,3 +1,4 @@
+/** A platform news item displayed on the charity hub dashboard. */
 export interface NewsUpdate {
   id: string;
   title: string;

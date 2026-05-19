@@ -17,6 +17,7 @@ interface Category {
   description?: string;
 }
 
+/** Active filter state for the charity search bar. */
 export interface SearchFilters {
   country?: string;
   category?: string;

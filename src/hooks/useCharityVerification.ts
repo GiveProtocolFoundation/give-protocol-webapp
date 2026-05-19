@@ -3,6 +3,7 @@ import { useToast } from "../contexts/ToastContext";
 import { supabase } from "../lib/supabase";
 import { useProfile } from "./useProfile";
 
+/** Type of verification document a charity can submit. */
 export type DocumentType = "tax_certificate" | "registration" | "annual_report";
 
 interface VerificationDocument {

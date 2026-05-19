@@ -104,4 +104,5 @@ export const BRAND_THEME = {
   },
 } as const;
 
+/** Inferred type of the BRAND_THEME constant for consumers. */
 export type BrandTheme = typeof BRAND_THEME;

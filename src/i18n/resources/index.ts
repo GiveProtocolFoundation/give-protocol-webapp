@@ -11,6 +11,7 @@ import ko from './ko';
 import ar from './ar';
 import hi from './hi';
 
+/** All i18n translation resources keyed by BCP 47 language code. */
 export const resources = {
   en,
   es,

@@ -8,6 +8,7 @@ import { brandColors } from './brand';
 import { semanticColors } from './semantic';
 import { componentColors } from './components';
 
+/** Merged application color palette combining base, brand, semantic, and component tokens. */
 export const colors = {
   ...baseColors,
   brand: brandColors,

@@ -247,16 +247,14 @@ export interface OrganizationSearchResult {
  */
 export const VALIDATION_WINDOW_DAYS = 90;
 
-/**
- * Minimum and maximum hours per record
- */
+/** Minimum hours that can be logged in a single self-reported record. */
 export const MIN_HOURS_PER_RECORD = 0.5;
+/** Maximum hours that can be logged in a single self-reported record. */
 export const MAX_HOURS_PER_RECORD = 24;
 
-/**
- * Description character limits
- */
+/** Minimum character count required for an activity description. */
 export const MIN_DESCRIPTION_LENGTH = 50;
+/** Maximum character count allowed for an activity description. */
 export const MAX_DESCRIPTION_LENGTH = 500;
 
 /**

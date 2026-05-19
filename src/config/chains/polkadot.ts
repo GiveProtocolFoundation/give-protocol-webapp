@@ -17,6 +17,7 @@ export const POLKADOT_CHAINS = {
   MOONRIVER: "moonriver-kusama",
 } as const;
 
+/** Union type of all supported Polkadot/Substrate chain ID strings. */
 export type PolkadotChainId = (typeof POLKADOT_CHAINS)[keyof typeof POLKADOT_CHAINS];
 
 /**
