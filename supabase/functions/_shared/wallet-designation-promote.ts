@@ -27,6 +27,7 @@ export interface PromoteArgs {
   supabaseUrl: string;
   supabaseServiceKey: string;
   resendApiKey: string;
+  resendFromEmail?: string;
   profile: PromoteProfile;
   candidateAddress: string;
   walletKind: "eoa" | "contract";
@@ -80,6 +81,7 @@ export async function promoteToPendingEmail(args: PromoteArgs): Promise<void> {
     supabaseUrl: args.supabaseUrl,
     supabaseServiceKey: args.supabaseServiceKey,
     resendApiKey: args.resendApiKey,
+    resendFromEmail: args.resendFromEmail,
     publicAppUrl: args.publicAppUrl,
     charityProfileId: args.profile.id,
     charityName: args.profile.name,

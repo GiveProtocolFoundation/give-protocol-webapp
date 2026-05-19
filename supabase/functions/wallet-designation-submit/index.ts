@@ -124,6 +124,7 @@ serve(async (req: Request) => {
   const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
   const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  const resendFromEmail = Deno.env.get("RESEND_FROM_EMAIL") ?? undefined;
   const publicAppUrl =
     Deno.env.get("PUBLIC_APP_URL") ?? "https://giveprotocol.io";
 
@@ -332,6 +333,7 @@ serve(async (req: Request) => {
       supabaseUrl,
       supabaseServiceKey,
       resendApiKey,
+      resendFromEmail,
       profile,
       candidateAddress: nonce.candidate_address,
       walletKind,

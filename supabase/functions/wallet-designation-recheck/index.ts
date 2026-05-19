@@ -91,6 +91,7 @@ interface ProcessOneArgs {
   supabaseUrl: string;
   supabaseServiceKey: string;
   resendApiKey: string;
+  resendFromEmail?: string;
 }
 
 interface ProcessOneResult {
@@ -174,6 +175,7 @@ async function processOne(args: ProcessOneArgs): Promise<ProcessOneResult> {
       supabaseUrl: args.supabaseUrl,
       supabaseServiceKey: args.supabaseServiceKey,
       resendApiKey: args.resendApiKey,
+      resendFromEmail: args.resendFromEmail,
       profile,
       candidateAddress: pending.candidate_address,
       walletKind: "contract",
@@ -217,6 +219,7 @@ serve(async (req: Request) => {
   const supabaseAnonKey = Deno.env.get("SUPABASE_ANON_KEY");
   const supabaseServiceKey = Deno.env.get("SUPABASE_SERVICE_ROLE_KEY");
   const resendApiKey = Deno.env.get("RESEND_API_KEY");
+  const resendFromEmail = Deno.env.get("RESEND_FROM_EMAIL") ?? undefined;
   const cronSecret = Deno.env.get("CRON_SHARED_SECRET");
   const publicAppUrl =
     Deno.env.get("PUBLIC_APP_URL") ?? "https://giveprotocol.io";
@@ -304,6 +307,7 @@ serve(async (req: Request) => {
       supabaseUrl,
       supabaseServiceKey,
       resendApiKey,
+      resendFromEmail,
     });
     results.push(r);
   }

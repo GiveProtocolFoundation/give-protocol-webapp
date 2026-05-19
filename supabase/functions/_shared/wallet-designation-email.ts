@@ -14,6 +14,8 @@ interface SendArgs {
   supabaseUrl: string;
   supabaseServiceKey: string;
   resendApiKey: string;
+  /** Sender used as the Resend "from" address. Falls back to the legacy hardcoded sender. */
+  resendFromEmail?: string;
   publicAppUrl: string;
   charityProfileId: string;
   charityName: string;
@@ -136,7 +138,8 @@ export async function sendWalletDesignationConfirmation(
       "Content-Type": "application/json",
     },
     body: JSON.stringify({
-      from: "Give Protocol <notifications@giveprotocol.io>",
+      from:
+        args.resendFromEmail ?? "Give Protocol <notifications@giveprotocol.io>",
       to: [args.toEmail],
       subject,
       html,
