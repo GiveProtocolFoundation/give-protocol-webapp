@@ -141,6 +141,7 @@ export const supabaseHelpers = {
 };
 
 // Types for better TypeScript support
+/** Type alias for the pre-configured Supabase client instance. */
 export type SupabaseClient = typeof supabase;
 
 // Export default client

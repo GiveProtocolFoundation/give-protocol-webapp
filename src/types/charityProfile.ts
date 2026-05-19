@@ -1,5 +1,7 @@
+/** Claim and verification lifecycle state of a charity profile. */
 export type CharityProfileStatus = "unclaimed" | "claimed-pending" | "verified";
 
+/** Type of wallet assigned to a charity (platform-managed custodial or existing EVM). */
 export type WalletType = "new_custodial" | "existing_evm";
 
 export type WalletDesignationStatus =
@@ -10,6 +12,7 @@ export type WalletDesignationStatus =
 
 export type PaymentProcessor = "helcim" | "paypal";
 
+/** Full charity profile record as stored in the database. */
 export interface CharityProfile {
   id: string;
   ein: string;
@@ -48,6 +51,7 @@ export interface CharityProfile {
   claimed_by_user_id: string | null | undefined;
 }
 
+/** A nomination submitted by a donor for a charity to join the platform. */
 export interface CharityNomination {
   id: string;
   charity_id: string;

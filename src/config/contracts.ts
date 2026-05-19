@@ -3,6 +3,7 @@ import {
   type ChainContractAddresses,
 } from "@/config/env";
 
+/** Map of network identifiers supported by the application. */
 export const SUPPORTED_NETWORKS = {
   POLKADOT: "polkadot",
   KUSAMA: "kusama",
@@ -13,8 +14,10 @@ export const SUPPORTED_NETWORKS = {
 } as const;
 
 // Change default to Moonbase Alpha
+/** Default network used when no network is configured. */
 export const DEFAULT_NETWORK = SUPPORTED_NETWORKS.MOONBASE;
 
+/** WebSocket RPC endpoints indexed by network identifier. */
 export const NETWORK_ENDPOINTS = {
   [SUPPORTED_NETWORKS.LOCAL]: "ws://127.0.0.1:9944",
   [SUPPORTED_NETWORKS.WESTEND]: "wss://westend-rpc.polkadot.io",
@@ -24,6 +27,7 @@ export const NETWORK_ENDPOINTS = {
   [SUPPORTED_NETWORKS.MOONBASE]: "wss://wss.api.moonbase.moonbeam.network",
 } as const;
 
+/** Numeric EVM chain IDs for all supported networks. */
 export const CHAIN_IDS = {
   // Testnets
   BASE_SEPOLIA: 84532,
@@ -39,6 +43,7 @@ export const CHAIN_IDS = {
   KUSAMA: 900003,
 } as const;
 
+/** Union type of all numeric chain IDs defined in CHAIN_IDS. */
 export type ChainId = (typeof CHAIN_IDS)[keyof typeof CHAIN_IDS];
 
 /**
@@ -253,6 +258,7 @@ export function getAvailableChains(showTestnets: boolean): ChainConfig[] {
 }
 
 // Contract addresses loaded from environment variables per chain
+/** Contract addresses for all supported chains, keyed by chain ID. */
 export const CONTRACT_ADDRESSES: Record<ChainId, ChainContractAddresses> = {
   // Testnets
   [CHAIN_IDS.BASE_SEPOLIA]: getChainContractAddresses(CHAIN_IDS.BASE_SEPOLIA),

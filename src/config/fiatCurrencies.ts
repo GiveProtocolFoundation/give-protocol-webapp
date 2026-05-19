@@ -12,6 +12,7 @@ export interface FiatCurrencyConfig {
   enabled: boolean;
 }
 
+/** All supported fiat currencies with their payment processor routing and preset amounts. */
 export const FIAT_CURRENCIES: FiatCurrencyConfig[] = [
   {
     code: "USD",

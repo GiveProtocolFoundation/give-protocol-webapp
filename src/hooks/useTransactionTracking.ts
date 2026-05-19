@@ -3,6 +3,7 @@ import { useToast } from "../contexts/ToastContext";
 import { supabase } from "../lib/supabase";
 import { useProfile } from "./useProfile";
 
+/** A user financial transaction record (donation or withdrawal). */
 export interface Transaction {
   id: string;
   type: "donation" | "withdrawal";

@@ -1,3 +1,4 @@
+/** JSON-serializable value type used throughout Supabase-generated types. */
 export type Json =
   | string
   | number
@@ -6,6 +7,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
+/** Auto-generated Supabase database schema type. */
 export interface Database {
   public: {
     Tables: {

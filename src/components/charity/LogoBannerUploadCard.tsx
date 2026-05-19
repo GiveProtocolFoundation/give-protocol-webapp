@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/useToast";
 import { Logger } from "@/utils/logger";
 
+/** Props for the logo and banner image upload card on the charity profile page. */
 export interface LogoBannerUploadCardProps {
   ein: string;
   logoUrl: string | null | undefined;
