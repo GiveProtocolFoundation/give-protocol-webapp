@@ -153,27 +153,25 @@ function DesignationForm({
         confirmation link is sent to your authorized signer email.
       </p>
 
-      <div className="rounded-lg border border-line-subtle bg-surface-sunken p-4">
-        <div className="flex items-start gap-3">
-          <Wallet
-            className="h-5 w-5 text-content-secondary flex-shrink-0 mt-0.5"
-            aria-hidden="true"
-          />
-          <div className="flex-1 min-w-0">
-            <p className="text-xs uppercase tracking-wide text-content-muted mb-1">
-              Wallet you are designating
+      <div className="rounded-lg border border-line-subtle bg-surface-sunken p-4 flex items-start gap-3">
+        <Wallet
+          className="h-5 w-5 text-content-secondary flex-shrink-0 mt-0.5"
+          aria-hidden="true"
+        />
+        <div className="flex-1 min-w-0">
+          <p className="text-xs uppercase tracking-wide text-content-muted mb-1">
+            Wallet you are designating
+          </p>
+          {isConnected && connectedAddress ? (
+            <p className="font-mono text-sm text-content-primary break-all">
+              {connectedAddress}
             </p>
-            {isConnected && connectedAddress ? (
-              <p className="font-mono text-sm text-content-primary break-all">
-                {connectedAddress}
-              </p>
-            ) : (
-              <p className="text-sm text-amber-600 dark:text-amber-400">
-                No wallet connected. Connect a wallet first, then reopen this
-                dialog.
-              </p>
-            )}
-          </div>
+          ) : (
+            <p className="text-sm text-amber-600 dark:text-amber-400">
+              No wallet connected. Connect a wallet first, then reopen this
+              dialog.
+            </p>
+          )}
         </div>
       </div>
 

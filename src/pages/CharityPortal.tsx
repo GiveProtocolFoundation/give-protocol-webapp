@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useProfile } from "@/hooks/useProfile";
 import { Plus, Heart, RefreshCw, Wallet, Search } from "lucide-react";
 import {
@@ -462,7 +461,6 @@ function formatLastUpdated(date: Date): string {
 export const CharityPortal: React.FC = () => {
   const { user, userType } = useAuth();
   const userId = user?.id ?? null;
-  const { walletAddress: connectedWalletAddress } = useUnifiedAuth();
   const { profile, loading: profileLoading } = useProfile();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabKey>("transactions");

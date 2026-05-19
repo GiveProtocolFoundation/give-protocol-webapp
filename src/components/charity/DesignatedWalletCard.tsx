@@ -123,6 +123,7 @@ export const DesignatedWalletCard: React.FC<DesignatedWalletCardProps> = ({
   );
 };
 
+/** Panel shown when no wallet has been designated yet — primary CTA to start the flow. */
 function UnsetPanel({ onStart }: { onStart: () => void }) {
   return (
     <div className="space-y-3">
@@ -135,6 +136,7 @@ function UnsetPanel({ onStart }: { onStart: () => void }) {
   );
 }
 
+/** Panel shown while a Safe signature is still collecting signers; offers a manual recheck. */
 function PendingSignaturePanel({
   rechecking,
   onRecheck,
@@ -171,6 +173,7 @@ function PendingSignaturePanel({
   );
 }
 
+/** Panel shown while waiting for the authorized signer to click the email confirmation link. */
 function PendingEmailPanel({
   walletAddress,
 }: {
@@ -202,6 +205,7 @@ function PendingEmailPanel({
   );
 }
 
+/** Panel shown when the wallet is active — displays address, kind, and designation date. */
 function ActivePanel({ state }: { state: DesignationState }) {
   const formattedDate = state.designatedAt
     ? new Date(state.designatedAt).toLocaleDateString(undefined, {

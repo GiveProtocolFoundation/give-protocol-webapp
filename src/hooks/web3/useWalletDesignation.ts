@@ -39,6 +39,11 @@ export interface UseWalletDesignationResult {
   reset: () => void;
 }
 
+/**
+ * Drives the wallet-designation state machine from the charity portal UI.
+ * Wraps the request-nonce → sign → submit flow with optional Safe polling.
+ * @returns Phase, error, candidate address, and the start/recheck/reset controls.
+ */
 export function useWalletDesignation(): UseWalletDesignationResult {
   const { signer, address, isConnected } = useWeb3();
   const [phase, setPhase] = useState<DesignationPhase>("idle");
