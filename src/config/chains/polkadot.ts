@@ -18,12 +18,16 @@ export const POLKADOT_CHAINS = {
 } as const;
 
 /** Union type of all supported Polkadot/Substrate chain ID strings. */
-export type PolkadotChainId = (typeof POLKADOT_CHAINS)[keyof typeof POLKADOT_CHAINS];
+export type PolkadotChainId =
+  (typeof POLKADOT_CHAINS)[keyof typeof POLKADOT_CHAINS];
 
 /**
  * Full Polkadot chain configurations
  */
-export const POLKADOT_CHAIN_CONFIGS: Record<PolkadotChainId, PolkadotChainConfig> = {
+export const POLKADOT_CHAIN_CONFIGS: Record<
+  PolkadotChainId,
+  PolkadotChainConfig
+> = {
   [POLKADOT_CHAINS.POLKADOT]: {
     type: "polkadot",
     id: POLKADOT_CHAINS.POLKADOT,
@@ -146,7 +150,7 @@ export const DEFAULT_POLKADOT_CHAIN = POLKADOT_CHAINS.POLKADOT;
  * @returns Chain config or undefined
  */
 export function getPolkadotChainConfig(
-  chainId: string
+  chainId: string,
 ): PolkadotChainConfig | undefined {
   return POLKADOT_CHAIN_CONFIGS[chainId as PolkadotChainId];
 }
@@ -166,14 +170,14 @@ export function isPolkadotChainSupported(chainId: string): boolean {
  * @returns Array of chain configs
  */
 export function getAvailablePolkadotChains(
-  showTestnets: boolean
+  showTestnets: boolean,
 ): PolkadotChainConfig[] {
   const mainnetChains = SUPPORTED_POLKADOT_CHAINS.map(
-    (id) => POLKADOT_CHAIN_CONFIGS[id]
+    (id) => POLKADOT_CHAIN_CONFIGS[id],
   );
   if (showTestnets) {
     const testnetChains = TESTNET_POLKADOT_CHAINS.map(
-      (id) => POLKADOT_CHAIN_CONFIGS[id]
+      (id) => POLKADOT_CHAIN_CONFIGS[id],
     );
     return [...mainnetChains, ...testnetChains];
   }
@@ -190,7 +194,7 @@ export function getAvailablePolkadotChains(
 export function getPolkadotExplorerUrl(
   chainId: string,
   type: "account" | "extrinsic",
-  value: string
+  value: string,
 ): string {
   const config = getPolkadotChainConfig(chainId);
   if (!config) return "";

@@ -70,7 +70,7 @@ export interface QueryOptions {
   page?: number;
   pageSize?: number;
   sortBy?: string;
-  sortOrder?: 'asc' | 'desc';
+  sortOrder?: "asc" | "desc";
   filters?: Record<string, unknown>;
 }
 

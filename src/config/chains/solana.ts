@@ -16,12 +16,16 @@ export const SOLANA_CLUSTERS = {
 } as const;
 
 /** Union type of all supported Solana cluster IDs. */
-export type SolanaClusterId = (typeof SOLANA_CLUSTERS)[keyof typeof SOLANA_CLUSTERS];
+export type SolanaClusterId =
+  (typeof SOLANA_CLUSTERS)[keyof typeof SOLANA_CLUSTERS];
 
 /**
  * Full Solana cluster configurations
  */
-export const SOLANA_CLUSTER_CONFIGS: Record<SolanaClusterId, SolanaClusterConfig> = {
+export const SOLANA_CLUSTER_CONFIGS: Record<
+  SolanaClusterId,
+  SolanaClusterConfig
+> = {
   [SOLANA_CLUSTERS.MAINNET]: {
     type: "solana",
     id: SOLANA_CLUSTERS.MAINNET,
@@ -83,7 +87,9 @@ export const SOLANA_CLUSTER_CONFIGS: Record<SolanaClusterId, SolanaClusterConfig
 /**
  * Production Solana clusters
  */
-export const SUPPORTED_SOLANA_CLUSTERS: SolanaClusterId[] = [SOLANA_CLUSTERS.MAINNET];
+export const SUPPORTED_SOLANA_CLUSTERS: SolanaClusterId[] = [
+  SOLANA_CLUSTERS.MAINNET,
+];
 
 /**
  * Testnet Solana clusters
@@ -104,7 +110,7 @@ export const DEFAULT_SOLANA_CLUSTER = SOLANA_CLUSTERS.DEVNET;
  * @returns Cluster config or undefined
  */
 export function getSolanaClusterConfig(
-  clusterId: string
+  clusterId: string,
 ): SolanaClusterConfig | undefined {
   return SOLANA_CLUSTER_CONFIGS[clusterId as SolanaClusterId];
 }
@@ -124,14 +130,14 @@ export function isSolanaClusterSupported(clusterId: string): boolean {
  * @returns Array of cluster configs
  */
 export function getAvailableSolanaClusters(
-  showTestnets: boolean
+  showTestnets: boolean,
 ): SolanaClusterConfig[] {
   const mainnetClusters = SUPPORTED_SOLANA_CLUSTERS.map(
-    (id) => SOLANA_CLUSTER_CONFIGS[id]
+    (id) => SOLANA_CLUSTER_CONFIGS[id],
   );
   if (showTestnets) {
     const testnetClusters = TESTNET_SOLANA_CLUSTERS.map(
-      (id) => SOLANA_CLUSTER_CONFIGS[id]
+      (id) => SOLANA_CLUSTER_CONFIGS[id],
     );
     return [...mainnetClusters, ...testnetClusters];
   }
@@ -148,7 +154,7 @@ export function getAvailableSolanaClusters(
 export function getSolanaExplorerUrl(
   clusterId: string,
   type: "tx" | "address",
-  value: string
+  value: string,
 ): string {
   const config = getSolanaClusterConfig(clusterId);
   if (!config) return "";

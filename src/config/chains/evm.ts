@@ -209,9 +209,13 @@ export function isEVMChainSupported(chainId: number): boolean {
  * @returns Array of chain configs
  */
 export function getAvailableEVMChains(showTestnets: boolean): EVMChainConfig[] {
-  const mainnetChains = SUPPORTED_EVM_CHAIN_IDS.map((id) => EVM_CHAIN_CONFIGS[id]);
+  const mainnetChains = SUPPORTED_EVM_CHAIN_IDS.map(
+    (id) => EVM_CHAIN_CONFIGS[id],
+  );
   if (showTestnets) {
-    const testnetChains = TESTNET_EVM_CHAIN_IDS.map((id) => EVM_CHAIN_CONFIGS[id]);
+    const testnetChains = TESTNET_EVM_CHAIN_IDS.map(
+      (id) => EVM_CHAIN_CONFIGS[id],
+    );
     return [...mainnetChains, ...testnetChains];
   }
   return mainnetChains;

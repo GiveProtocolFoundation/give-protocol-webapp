@@ -1,17 +1,17 @@
-import { UUID, Timestamp } from './common';
+import { UUID, Timestamp } from "./common";
 
 /** Base profile shared by all user types (donor, charity, admin). */
 export interface UserProfile {
   id: UUID;
   userId: UUID;
-  type: 'donor' | 'charity' | 'admin';
+  type: "donor" | "charity" | "admin";
   createdAt: Timestamp;
 }
 
 /** Extended profile for donor accounts, including giving preferences and totals. */
 export interface DonorProfile extends UserProfile {
   preferredCategories?: UUID[];
-  donationFrequency?: 'one-time' | 'monthly' | 'quarterly' | 'yearly';
+  donationFrequency?: "one-time" | "monthly" | "quarterly" | "yearly";
   totalDonated: number;
 }
 

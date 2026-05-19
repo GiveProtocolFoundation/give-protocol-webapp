@@ -1,33 +1,33 @@
-import { UUID, Timestamp } from './common';
+import { UUID, Timestamp } from "./common";
 
 /* eslint-disable no-unused-vars */
 
 export enum CommitmentType {
-  _ONE_TIME = 'one-time', // Prefixed with _ as currently unused
-  _SHORT_TERM = 'short-term', // Prefixed with _ as currently unused
-  _LONG_TERM = 'long-term' // Prefixed with _ as currently unused
+  _ONE_TIME = "one-time", // Prefixed with _ as currently unused
+  _SHORT_TERM = "short-term", // Prefixed with _ as currently unused
+  _LONG_TERM = "long-term", // Prefixed with _ as currently unused
 }
 
 export enum OpportunityType {
-  _ONSITE = 'onsite', // Prefixed with _ as currently unused
-  _REMOTE = 'remote', // Prefixed with _ as currently unused
-  _HYBRID = 'hybrid' // Prefixed with _ as currently unused
+  _ONSITE = "onsite", // Prefixed with _ as currently unused
+  _REMOTE = "remote", // Prefixed with _ as currently unused
+  _HYBRID = "hybrid", // Prefixed with _ as currently unused
 }
 
 export enum WorkLanguage {
-  ENGLISH = 'english', // Used in VolunteerOpportunities.tsx
-  SPANISH = 'spanish', // Used in VolunteerOpportunities.tsx
-  GERMAN = 'german', // Used in VolunteerOpportunities.tsx
-  FRENCH = 'french', // Used in VolunteerOpportunities.tsx
-  JAPANESE = 'japanese', // Used in VolunteerOpportunities.tsx
-  _CHINESE_SIMPLIFIED = 'chinese_simplified', // Prefixed with _ as currently unused
-  _CHINESE_TRADITIONAL = 'chinese_traditional', // Prefixed with _ as currently unused
-  _THAI = 'thai', // Prefixed with _ as currently unused
-  _VIETNAMESE = 'vietnamese', // Prefixed with _ as currently unused
-  _KOREAN = 'korean', // Prefixed with _ as currently unused
-  _ARABIC = 'arabic', // Prefixed with _ as currently unused
-  _HINDI = 'hindi', // Prefixed with _ as currently unused
-  _MULTIPLE = 'multiple' // Prefixed with _ as currently unused
+  ENGLISH = "english", // Used in VolunteerOpportunities.tsx
+  SPANISH = "spanish", // Used in VolunteerOpportunities.tsx
+  GERMAN = "german", // Used in VolunteerOpportunities.tsx
+  FRENCH = "french", // Used in VolunteerOpportunities.tsx
+  JAPANESE = "japanese", // Used in VolunteerOpportunities.tsx
+  _CHINESE_SIMPLIFIED = "chinese_simplified", // Prefixed with _ as currently unused
+  _CHINESE_TRADITIONAL = "chinese_traditional", // Prefixed with _ as currently unused
+  _THAI = "thai", // Prefixed with _ as currently unused
+  _VIETNAMESE = "vietnamese", // Prefixed with _ as currently unused
+  _KOREAN = "korean", // Prefixed with _ as currently unused
+  _ARABIC = "arabic", // Prefixed with _ as currently unused
+  _HINDI = "hindi", // Prefixed with _ as currently unused
+  _MULTIPLE = "multiple", // Prefixed with _ as currently unused
 }
 
 /** A volunteer opportunity posted by a charity. */

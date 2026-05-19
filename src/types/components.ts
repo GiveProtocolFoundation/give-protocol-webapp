@@ -1,6 +1,6 @@
-import { ReactNode, CSSProperties } from 'react';
-import { Charity, Campaign, CharityCategory } from './charity';
-import { TokenAmount } from './blockchain';
+import { ReactNode, CSSProperties } from "react";
+import { Charity, Campaign, CharityCategory } from "./charity";
+import { TokenAmount } from "./blockchain";
 
 // Base Component Props
 /** Common props accepted by most UI components. */
@@ -27,7 +27,7 @@ export interface CharityListProps extends BaseComponentProps {
   loading?: boolean;
   error?: Error;
   onCharityClick?: (_charity: Charity) => void; // Prefixed as unused
-  layout?: 'grid' | 'list';
+  layout?: "grid" | "list";
   showPagination?: boolean;
 }
 
@@ -55,7 +55,7 @@ export interface CampaignListProps extends BaseComponentProps {
   loading?: boolean;
   error?: Error;
   onCampaignClick?: (_campaign: Campaign) => void; // Prefixed as unused
-  layout?: 'grid' | 'list';
+  layout?: "grid" | "list";
 }
 
 // Form Component Props
@@ -81,7 +81,7 @@ export interface CharityContextType {
 /** Shape of the DonationContext value. */
 export interface DonationContextType {
   pendingDonations: PendingDonation[];
-  addDonation: (_donation: Omit<PendingDonation, 'status'>) => void; // Prefixed as unused
+  addDonation: (_donation: Omit<PendingDonation, "status">) => void; // Prefixed as unused
   removeDonation: (_donationId: string) => void; // Prefixed as unused
 }
 
@@ -91,14 +91,14 @@ export interface PendingDonation {
   charityId: string;
   campaignId?: string;
   amount: TokenAmount;
-  status: 'pending' | 'processing' | 'completed' | 'failed';
+  status: "pending" | "processing" | "completed" | "failed";
 }
 
 // UI Component Props
 /** Props for the Button component. */
 export interface ButtonProps extends BaseComponentProps {
-  variant?: 'primary' | 'secondary' | 'outline' | 'ghost';
-  size?: 'sm' | 'md' | 'lg';
+  variant?: "primary" | "secondary" | "outline" | "ghost";
+  size?: "sm" | "md" | "lg";
   disabled?: boolean;
   loading?: boolean;
   onClick?: () => void;
@@ -109,7 +109,7 @@ export interface InputProps extends BaseComponentProps {
   label?: string;
   error?: string;
   helperText?: string;
-  type?: 'text' | 'number' | 'email' | 'password';
+  type?: "text" | "number" | "email" | "password";
   value: string | number;
   onChange: (_value: string) => void; // Prefixed as unused
   required?: boolean;
@@ -118,6 +118,6 @@ export interface InputProps extends BaseComponentProps {
 
 /** Props for the LoadingSpinner component. */
 export interface LoadingSpinnerProps extends BaseComponentProps {
-  size?: 'sm' | 'md' | 'lg';
-  color?: 'primary' | 'secondary' | 'white';
+  size?: "sm" | "md" | "lg";
+  color?: "primary" | "secondary" | "white";
 }

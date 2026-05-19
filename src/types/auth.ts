@@ -1,10 +1,10 @@
 /** Machine-readable authentication error codes. */
 export type AuthErrorCode =
-  | 'invalid_credentials'
-  | 'email_taken'
-  | 'weak_password'
-  | 'invalid_email'
-  | 'network_error';
+  | "invalid_credentials"
+  | "email_taken"
+  | "weak_password"
+  | "invalid_email"
+  | "network_error";
 
 /** Authentication error with a typed error code. */
 export interface AuthError extends Error {
@@ -22,7 +22,7 @@ export interface AuthResponse {
 }
 
 /** Distinguishes between donor and charity account types. */
-export type UserType = 'donor' | 'charity';
+export type UserType = "donor" | "charity";
 
 /** Minimal user profile returned by authentication responses. */
 export interface UserProfile {

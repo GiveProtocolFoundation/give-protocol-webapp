@@ -1,4 +1,3 @@
-
 /** Numeric chain/network identifier. */
 export type NetworkId = number;
 /** Hex-encoded transaction hash. */
@@ -30,10 +29,7 @@ export interface Transaction {
 }
 
 /** Lifecycle state of a blockchain transaction. */
-export type TransactionStatus =
-  | 'pending'
-  | 'confirmed'
-  | 'failed';
+export type TransactionStatus = "pending" | "confirmed" | "failed";
 
 // Note: Unused types removed to improve code quality
 // If these types are needed in the future, they can be re-added:

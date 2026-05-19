@@ -88,7 +88,10 @@ export class ExchangeRateService {
 
       return rate;
     } catch (error) {
-      Logger.error("Exchange rate: Failed to fetch", { error, target: targetUpper });
+      Logger.error("Exchange rate: Failed to fetch", {
+        error,
+        target: targetUpper,
+      });
 
       // Try to use stale cache
       if (this.cache.rates[targetUpper] !== undefined) {
@@ -100,7 +103,7 @@ export class ExchangeRateService {
       }
 
       throw new Error(
-        `Failed to fetch exchange rate for ${targetUpper} and no cache available`
+        `Failed to fetch exchange rate for ${targetUpper} and no cache available`,
       );
     }
   }
@@ -113,7 +116,7 @@ export class ExchangeRateService {
    */
   async convertFromUSD(
     amountUSD: number,
-    targetCurrency: string
+    targetCurrency: string,
   ): Promise<number> {
     const rate = await this.getExchangeRate(targetCurrency);
     return amountUSD * rate;
