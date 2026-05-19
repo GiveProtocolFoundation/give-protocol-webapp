@@ -52,6 +52,9 @@ const CreateCause = lazy(() => import("@/pages/charity/CreateCause"));
 const ConfirmWalletDesignation = lazy(
   () => import("@/pages/charity/ConfirmWalletDesignation"),
 );
+const CancelWalletChange = lazy(
+  () => import("@/pages/charity/CancelWalletChange"),
+);
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const VerifyContribution = lazy(
   () => import("@/pages/volunteer/VerifyContribution"),
@@ -504,6 +507,17 @@ export function AppRoutes() {
             <RouteTransition>
               <Suspense fallback={<LoadingFallback />}>
                 <ConfirmWalletDesignation />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        {/* Public route — landing page for the cancel-pending-change magic link. */}
+        <Route
+          path="/charity-portal/cancel-wallet-change"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <CancelWalletChange />
               </Suspense>
             </RouteTransition>
           }

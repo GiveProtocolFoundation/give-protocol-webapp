@@ -19,7 +19,8 @@ export type WalletDesignationStatus =
   | "unset"
   | "pending_signature_verification"
   | "pending_email_confirmation"
-  | "active";
+  | "active"
+  | "pending_change_cooldown";
 
 export interface RequestNonceResult {
   nonce: string;
@@ -33,6 +34,12 @@ export interface SubmitResult {
   candidateAddress: string;
   sentToEmail?: string;
   expiresAt?: string;
+  /** True when the submit was a CHANGE (profile already had an active wallet). */
+  isChange?: boolean;
+}
+
+export interface CancelResult {
+  source: "email_link" | "dashboard";
 }
 
 export interface RecheckResultRow {
@@ -125,6 +132,7 @@ export async function submitSignature(
         candidateAddress: resp.candidateAddress,
         sentToEmail: resp.sentToEmail,
         expiresAt: resp.expiresAt,
+        isChange: (resp as { isChange?: boolean }).isChange,
       },
     };
   } catch (err) {
@@ -209,21 +217,95 @@ export async function confirmWalletByToken(
 }
 
 /**
+ * Cancel a wallet change that is currently in cooldown. Initiated from the
+ * dashboard (authenticated, server verifies caller is claimed_by). The
+ * other cancel path — email magic link — is handled by the
+ * /charity-portal/cancel-wallet-change page calling
+ * `cancelWalletChangeByToken` with the unauthenticated token.
+ */
+export async function cancelWalletChange(
+  charityProfileId: string,
+): Promise<ServiceOutcome<CancelResult>> {
+  try {
+    const { data, error } = await supabase.functions.invoke(
+      "wallet-designation-cancel",
+      { body: { charityProfileId } },
+    );
+    if (error) {
+      Logger.error("wallet-designation-cancel (dashboard) failed", { error });
+      return { ok: false, error: error.message ?? "Cancel failed" };
+    }
+    const resp = data as {
+      success?: boolean;
+      error?: string;
+      source?: "email_link" | "dashboard";
+    };
+    if (!resp.success) {
+      return { ok: false, error: resp.error ?? "Cancel failed" };
+    }
+    return { ok: true, data: { source: resp.source ?? "dashboard" } };
+  } catch (err) {
+    Logger.error("cancelWalletChange threw", { error: err });
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Cancel failed",
+    };
+  }
+}
+
+/**
+ * Cancel a pending wallet change via the email magic-link token.
+ * Unauthenticated — the token itself is the proof.
+ */
+export async function cancelWalletChangeByToken(
+  token: string,
+): Promise<ServiceOutcome<CancelResult>> {
+  try {
+    const { data, error } = await supabase.functions.invoke(
+      "wallet-designation-cancel",
+      { body: { token } },
+    );
+    if (error) {
+      Logger.error("wallet-designation-cancel (token) failed", { error });
+      return { ok: false, error: error.message ?? "Cancel failed" };
+    }
+    const resp = data as {
+      success?: boolean;
+      error?: string;
+      source?: "email_link" | "dashboard";
+    };
+    if (!resp.success) {
+      return { ok: false, error: resp.error ?? "Cancel failed" };
+    }
+    return { ok: true, data: { source: resp.source ?? "email_link" } };
+  } catch (err) {
+    Logger.error("cancelWalletChangeByToken threw", { error: err });
+    return {
+      ok: false,
+      error: err instanceof Error ? err.message : "Cancel failed",
+    };
+  }
+}
+
+/**
  * Fetch the current designation status + wallet address for a charity
  * profile. Used by the DesignatedWalletCard and the onboarding checklist
- * to render the correct state.
+ * to render the correct state. Includes pending_wallet_* fields for the
+ * cooldown panel.
  */
 export async function getDesignationState(charityProfileId: string): Promise<{
   status: WalletDesignationStatus;
   walletAddress: string | null;
   walletKind: "eoa" | "contract" | null;
   designatedAt: string | null;
+  pendingWalletAddress: string | null;
+  pendingWalletEffectiveAt: string | null;
 } | null> {
   try {
     const { data, error } = await supabase
       .from("charity_profiles")
       .select(
-        "wallet_designation_status, wallet_address, wallet_kind, wallet_designated_at",
+        "wallet_designation_status, wallet_address, wallet_kind, wallet_designated_at, pending_wallet_address, pending_wallet_effective_at",
       )
       .eq("id", charityProfileId)
       .maybeSingle();
@@ -235,12 +317,16 @@ export async function getDesignationState(charityProfileId: string): Promise<{
       wallet_address: string | null;
       wallet_kind: "eoa" | "contract" | null;
       wallet_designated_at: string | null;
+      pending_wallet_address: string | null;
+      pending_wallet_effective_at: string | null;
     };
     return {
       status: row.wallet_designation_status ?? "unset",
       walletAddress: row.wallet_address,
       walletKind: row.wallet_kind,
       designatedAt: row.wallet_designated_at,
+      pendingWalletAddress: row.pending_wallet_address ?? null,
+      pendingWalletEffectiveAt: row.pending_wallet_effective_at ?? null,
     };
   } catch (err) {
     Logger.error("getDesignationState threw", { error: err });

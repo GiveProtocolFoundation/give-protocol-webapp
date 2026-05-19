@@ -15,4 +15,10 @@ export const recheckPending = jest.fn(() =>
 export const confirmWalletByToken = jest.fn(() =>
   Promise.resolve({ ok: false, error: "not mocked" }),
 );
+export const cancelWalletChange = jest.fn(() =>
+  Promise.resolve({ ok: false, error: "not mocked" }),
+);
+export const cancelWalletChangeByToken = jest.fn(() =>
+  Promise.resolve({ ok: false, error: "not mocked" }),
+);
 export const getDesignationState = jest.fn(() => Promise.resolve(null));
