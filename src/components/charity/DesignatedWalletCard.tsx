@@ -345,7 +345,9 @@ function CooldownPanel({
           </dd>
         </div>
         <div className="flex gap-2">
-          <dt className="text-content-muted w-28 flex-shrink-0">Changing to:</dt>
+          <dt className="text-content-muted w-28 flex-shrink-0">
+            Changing to:
+          </dt>
           <dd className="font-mono text-emerald-700 dark:text-emerald-400 break-all">
             {state.pendingWalletAddress}
           </dd>
