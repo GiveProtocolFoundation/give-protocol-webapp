@@ -8,7 +8,8 @@ export type WalletDesignationStatus =
   | "unset"
   | "pending_signature_verification"
   | "pending_email_confirmation"
-  | "active";
+  | "active"
+  | "pending_change_cooldown";
 
 export type PaymentProcessor = "helcim" | "paypal";
 

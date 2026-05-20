@@ -11,12 +11,13 @@ interface DonateWidgetProps {
   charityId: string;
   mode: "sidebar" | "modal";
   isVerified?: boolean;
-  /** Lifecycle of the charity's designated wallet. Donations are disabled unless 'active'. */
+  /** Lifecycle of the charity's designated wallet. Donations are disabled unless 'active' (or 'pending_change_cooldown' — the current wallet is still live during the cooldown window). */
   walletDesignationStatus?:
     | "unset"
     | "pending_signature_verification"
     | "pending_email_confirmation"
     | "active"
+    | "pending_change_cooldown"
     | null;
   onClose?: () => void;
 }
@@ -63,6 +64,8 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
     walletDesignationStatus === "pending_email_confirmation";
   const allowDonate =
     walletDesignationStatus === "active" ||
+    // During a wallet change cooldown the OLD wallet stays active for donations.
+    walletDesignationStatus === "pending_change_cooldown" ||
     (walletDesignationStatus == null && hasLegacyWallet) ||
     isGrandfathered;
 
