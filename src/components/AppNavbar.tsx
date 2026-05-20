@@ -45,10 +45,7 @@ const DesktopNavLinks: React.FC<{
   if (isLimitedNavPage) {
     return (
       <>
-        <Link
-          to="/about"
-          className={`${NAV_LINK_BASE} ${isActive("/about")}`}
-        >
+        <Link to="/about" className={`${NAV_LINK_BASE} ${isActive("/about")}`}>
           {t("nav.about")}
         </Link>
         <a
@@ -57,10 +54,7 @@ const DesktopNavLinks: React.FC<{
         >
           {t("nav.docs")}
         </a>
-        <Link
-          to="/legal"
-          className={`${NAV_LINK_BASE} ${isActive("/legal")}`}
-        >
+        <Link to="/legal" className={`${NAV_LINK_BASE} ${isActive("/legal")}`}>
           {t("nav.legal")}
         </Link>
         <Link
@@ -75,10 +69,7 @@ const DesktopNavLinks: React.FC<{
 
   return (
     <>
-      <Link
-        to="/browse"
-        className={`${NAV_LINK_BASE} ${isActive("/browse")}`}
-      >
+      <Link to="/browse" className={`${NAV_LINK_BASE} ${isActive("/browse")}`}>
         {t("nav.browse")}
       </Link>
       <Link
