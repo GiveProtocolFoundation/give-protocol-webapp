@@ -1,13 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
-import {
-  ShieldCheck,
-  Building2,
-  Wallet,
-  Mail,
-  Lock,
-  Fingerprint,
-} from "lucide-react";
+import { ShieldCheck, Wallet, Mail, Lock, Fingerprint } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
 import { FormInput } from "@/components/ui/FormInput";
@@ -625,17 +618,6 @@ const AuthRightPanel: React.FC = () => {
             Create an account &rarr;
           </Link>
         </p>
-
-        {/* Nonprofit button */}
-        <Link
-          to="/auth/charity"
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 transition-colors duration-200 group border-t border-gray-100 dark:border-gray-800 mt-5"
-        >
-          <Building2 className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-white">
-            I manage a Nonprofit Profile
-          </span>
-        </Link>
 
         {/* Forgot password */}
         <button
