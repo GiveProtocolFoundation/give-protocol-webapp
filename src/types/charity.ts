@@ -2,15 +2,54 @@ import { Timestamp, UUID } from "./common";
 import { TokenAmount } from "./blockchain";
 
 export enum CharityCategory {
-  _EDUCATION = "education", // Prefixed with _ as currently unused
-  _HEALTHCARE = "healthcare", // Prefixed with _ as currently unused
-  _ENVIRONMENT = "environment", // Prefixed with _ as currently unused
-  _POVERTY = "poverty", // Prefixed with _ as currently unused
-  _DISASTER_RELIEF = "disaster_relief", // Prefixed with _ as currently unused
-  _ANIMAL_WELFARE = "animal_welfare", // Prefixed with _ as currently unused
-  _ARTS_CULTURE = "arts_culture", // Prefixed with _ as currently unused
-  _COMMUNITY = "community", // Prefixed with _ as currently unused
+  EDUCATION = "education",
+  HEALTH_MEDICAL = "health_medical",
+  MENTAL_HEALTH = "mental_health",
+  ENVIRONMENT_CONSERVATION = "environment_conservation",
+  HUMAN_SERVICES = "human_services",
+  HOUSING_SHELTER = "housing_shelter",
+  FOOD_SECURITY_NUTRITION = "food_security_nutrition",
+  ARTS_CULTURE_HUMANITIES = "arts_culture_humanities",
+  RELIGION_SPIRITUAL = "religion_spiritual",
+  ANIMAL_WELFARE = "animal_welfare",
+  DISASTER_RELIEF = "disaster_relief",
+  INTERNATIONAL_DEVELOPMENT = "international_development",
+  CIVIL_RIGHTS_ADVOCACY = "civil_rights_advocacy",
+  WOMEN_GENDER_EQUALITY = "women_gender_equality",
+  COMMUNITY_ECONOMIC_DEVELOPMENT = "community_economic_development",
+  YOUTH_DEVELOPMENT = "youth_development",
+  SCIENCE_TECHNOLOGY = "science_technology",
+  GRANTMAKING_FOUNDATIONS = "grantmaking_foundations",
+  PUBLIC_SAFETY = "public_safety",
+  SPORTS_RECREATION = "sports_recreation",
+  OTHER = "other",
 }
+
+/** Human-readable labels for each CharityCategory value. */
+export const CHARITY_CATEGORY_LABELS: Record<CharityCategory, string> = {
+  [CharityCategory.EDUCATION]: "Education",
+  [CharityCategory.HEALTH_MEDICAL]: "Health & Medical",
+  [CharityCategory.MENTAL_HEALTH]: "Mental Health",
+  [CharityCategory.ENVIRONMENT_CONSERVATION]: "Environment & Conservation",
+  [CharityCategory.HUMAN_SERVICES]: "Human Services",
+  [CharityCategory.HOUSING_SHELTER]: "Housing & Shelter",
+  [CharityCategory.FOOD_SECURITY_NUTRITION]: "Food Security & Nutrition",
+  [CharityCategory.ARTS_CULTURE_HUMANITIES]: "Arts, Culture & Humanities",
+  [CharityCategory.RELIGION_SPIRITUAL]: "Religion & Spiritual Organizations",
+  [CharityCategory.ANIMAL_WELFARE]: "Animal Welfare",
+  [CharityCategory.DISASTER_RELIEF]: "Disaster Relief & Humanitarian Aid",
+  [CharityCategory.INTERNATIONAL_DEVELOPMENT]: "International Development",
+  [CharityCategory.CIVIL_RIGHTS_ADVOCACY]: "Civil Rights & Advocacy",
+  [CharityCategory.WOMEN_GENDER_EQUALITY]: "Women's & Gender Equality",
+  [CharityCategory.COMMUNITY_ECONOMIC_DEVELOPMENT]:
+    "Community & Economic Development",
+  [CharityCategory.YOUTH_DEVELOPMENT]: "Youth Development",
+  [CharityCategory.SCIENCE_TECHNOLOGY]: "Science & Technology",
+  [CharityCategory.GRANTMAKING_FOUNDATIONS]: "Grantmaking & Foundations",
+  [CharityCategory.PUBLIC_SAFETY]: "Public Safety",
+  [CharityCategory.SPORTS_RECREATION]: "Sports & Recreation",
+  [CharityCategory.OTHER]: "Other",
+};
 
 /** Core fields shared by all charity records. */
 export interface CharityBase {
