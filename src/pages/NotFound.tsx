@@ -1,8 +1,8 @@
-import React, { useCallback } from 'react';
-import { useNavigate } from 'react-router-dom';
-import { Home, ArrowLeft, RefreshCw } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { Logger } from '@/utils/logger';
+import React, { useCallback } from "react";
+import { useNavigate } from "react-router-dom";
+import { Home, ArrowLeft, RefreshCw } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { Logger } from "@/utils/logger";
 
 interface NotFoundProps {
   title?: string;
@@ -27,21 +27,21 @@ const NotFound: React.FC<NotFoundProps> = ({
   message = "The page you're looking for doesn't exist or has been moved.",
   showHomeButton = true,
   showBackButton = true,
-  onRetry
+  onRetry,
 }) => {
   const navigate = useNavigate();
 
   React.useEffect(() => {
     // Log 404 errors for monitoring
-    Logger.warn('404 Error', {
+    Logger.warn("404 Error", {
       path: window.location.pathname,
       referrer: document.referrer,
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     });
   }, []);
 
   const handleGoHome = useCallback(() => {
-    navigate('/');
+    navigate("/");
   }, [navigate]);
 
   const handleGoBack = useCallback(() => {
@@ -54,7 +54,7 @@ const NotFound: React.FC<NotFoundProps> = ({
         <h1 className="mb-2 text-6xl font-bold text-gray-900">404</h1>
         <h2 className="mb-4 text-3xl font-semibold text-gray-800">{title}</h2>
         <p className="mb-8 text-lg text-gray-600">{message}</p>
-        
+
         <div className="flex flex-col space-y-4 sm:flex-row sm:space-x-4 sm:space-y-0">
           {showHomeButton && (
             <Button
@@ -65,7 +65,7 @@ const NotFound: React.FC<NotFoundProps> = ({
               Go Home
             </Button>
           )}
-          
+
           {showBackButton && (
             <Button
               variant="secondary"
@@ -76,7 +76,7 @@ const NotFound: React.FC<NotFoundProps> = ({
               Go Back
             </Button>
           )}
-          
+
           {onRetry && (
             <Button
               variant="secondary"

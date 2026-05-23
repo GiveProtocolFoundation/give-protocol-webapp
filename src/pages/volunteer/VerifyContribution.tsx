@@ -1,12 +1,12 @@
-import React, { useCallback } from 'react';
-import { useParams, useNavigate } from 'react-router-dom';
-import { ArrowLeft, CheckCircle, AlertCircle } from 'lucide-react';
-import { Button } from '@/components/ui/Button';
-import { useVolunteerVerification } from '@/hooks/useVolunteerVerification';
-import { VolunteerVerificationCard } from '@/components/volunteer/VolunteerVerificationCard';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
-import { Logger } from '@/utils/logger';
-import { VolunteerVerification } from '@/types/volunteer';
+import React, { useCallback } from "react";
+import { useParams, useNavigate } from "react-router-dom";
+import { ArrowLeft, CheckCircle, AlertCircle } from "lucide-react";
+import { Button } from "@/components/ui/Button";
+import { useVolunteerVerification } from "@/hooks/useVolunteerVerification";
+import { VolunteerVerificationCard } from "@/components/volunteer/VolunteerVerificationCard";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { Logger } from "@/utils/logger";
+import { VolunteerVerification } from "@/types/volunteer";
 
 /**
  * Page component for verifying a volunteer contribution by its unique hash.
@@ -16,7 +16,8 @@ const VerifyContribution: React.FC = () => {
   const { hash } = useParams<{ hash: string }>();
   const navigate = useNavigate();
   const { getVerificationByHash, loading, error } = useVolunteerVerification();
-  const [verification, setVerification] = React.useState<VolunteerVerification | null>(null);
+  const [verification, setVerification] =
+    React.useState<VolunteerVerification | null>(null);
   const [verificationChecked, setVerificationChecked] = React.useState(false);
 
   React.useEffect(() => {
@@ -28,11 +29,11 @@ const VerifyContribution: React.FC = () => {
           setVerification(result);
           setVerificationChecked(true);
         } catch (err) {
-          Logger.error('Verification lookup failed:', err);
+          Logger.error("Verification lookup failed:", err);
           setVerificationChecked(true);
         }
       };
-      
+
       fetchVerification();
     }
   }, [hash, getVerificationByHash]);
@@ -65,7 +66,9 @@ const VerifyContribution: React.FC = () => {
 
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-6 border-b border-gray-200">
-          <h1 className="text-2xl font-bold text-gray-900">Volunteer Contribution Verification</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            Volunteer Contribution Verification
+          </h1>
         </div>
 
         <div className="p-6">
@@ -79,9 +82,12 @@ const VerifyContribution: React.FC = () => {
               <div className="flex items-center p-4 bg-green-50 rounded-lg">
                 <CheckCircle className="h-6 w-6 text-green-500 mr-3" />
                 <div>
-                  <h2 className="text-lg font-medium text-green-800">Verification Successful</h2>
+                  <h2 className="text-lg font-medium text-green-800">
+                    Verification Successful
+                  </h2>
                   <p className="text-sm text-green-700">
-                    This volunteer contribution has been verified and recorded on the blockchain.
+                    This volunteer contribution has been verified and recorded
+                    on the blockchain.
                   </p>
                 </div>
               </div>
@@ -89,14 +95,19 @@ const VerifyContribution: React.FC = () => {
               <VolunteerVerificationCard
                 verification={{
                   id: verification.id,
-                  applicantName: verification.profiles?.name || 'Unknown Volunteer',
-                  opportunityTitle: verification.volunteer_opportunities?.title || 'Unknown Opportunity',
-                  charityName: verification.volunteer_opportunities?.charity_details?.name || 'Unknown Organization',
+                  applicantName:
+                    verification.profiles?.name || "Unknown Volunteer",
+                  opportunityTitle:
+                    verification.volunteer_opportunities?.title ||
+                    "Unknown Opportunity",
+                  charityName:
+                    verification.volunteer_opportunities?.charity_details
+                      ?.name || "Unknown Organization",
                   acceptanceHash: verification.acceptanceHash,
                   verificationHash: verification.verificationHash,
                   acceptedAt: verification.acceptedAt,
                   verifiedAt: verification.verifiedAt,
-                  blockchainReference: verification.blockchainReference
+                  blockchainReference: verification.blockchainReference,
                 }}
               />
             </div>
@@ -105,7 +116,9 @@ const VerifyContribution: React.FC = () => {
             <div className="flex items-center p-4 bg-yellow-50 rounded-lg">
               <AlertCircle className="h-6 w-6 text-yellow-500 mr-3" />
               <div>
-                <h2 className="text-lg font-medium text-yellow-800">Verification Failed</h2>
+                <h2 className="text-lg font-medium text-yellow-800">
+                  Verification Failed
+                </h2>
                 <p className="text-sm text-yellow-700">
                   The verification hash {hash} could not be found or is invalid.
                 </p>
