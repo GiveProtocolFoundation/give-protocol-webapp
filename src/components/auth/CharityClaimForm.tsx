@@ -5,7 +5,6 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PasswordStrengthBar } from "@/components/auth/PasswordStrengthBar";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/useToast";
 import {
   validateEmail,
   validatePassword,
@@ -57,7 +56,6 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
   onBack,
 }) => {
   const navigate = useNavigate();
-  const { showToast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState<
@@ -237,12 +235,9 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           }
         }
 
-        showToast(
-          "success",
-          "Account Created",
-          "Please check your email to verify your account.",
+        navigate(
+          `/auth/registration-success?type=charity-claim&email=${encodeURIComponent(formData.contactEmail)}`,
         );
-        navigate("/auth");
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to create account";
@@ -251,7 +246,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, showToast],
+    [formData, organization, validateField, navigate],
   );
 
   return (

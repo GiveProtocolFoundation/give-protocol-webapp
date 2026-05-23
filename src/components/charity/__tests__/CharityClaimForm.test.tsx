@@ -1,19 +1,15 @@
 import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { CharityClaimForm } from "../../auth/CharityClaimForm";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/useToast";
 import type { CharityOrganization } from "@/types/charityOrganization";
 
 // All mocks handled via moduleNameMapper:
-// supabase, useToast/ToastContext, validation, ui/Button, ui/Input,
-// PasswordStrengthBar, logger
+// supabase, validation, ui/Button, ui/Input, PasswordStrengthBar, logger
 
 const mockSupabase = jest.mocked(supabase);
-const mockUseToast = jest.mocked(useToast);
-const mockShowToast = jest.fn();
 
 const mockOrganization: CharityOrganization = {
   id: "org-1",
@@ -41,8 +37,19 @@ const renderForm = (
   onBack: () => void = mockOnBack,
 ) =>
   render(
-    <MemoryRouter>
-      <CharityClaimForm organization={organization} onBack={onBack} />
+    <MemoryRouter initialEntries={["/claim"]}>
+      <Routes>
+        <Route
+          path="/claim"
+          element={
+            <CharityClaimForm organization={organization} onBack={onBack} />
+          }
+        />
+        <Route
+          path="/auth/registration-success"
+          element={<div>Registration success page</div>}
+        />
+      </Routes>
     </MemoryRouter>,
   );
 
@@ -64,7 +71,6 @@ const fillFormFields = () => {
 describe("CharityClaimForm", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseToast.mockReturnValue({ showToast: mockShowToast });
 
     // Add signUp to auth mock since supabaseMock.js doesn't include it
     (mockSupabase.auth as Record<string, unknown>).signUp = jest
@@ -325,7 +331,7 @@ describe("CharityClaimForm", () => {
       });
     });
 
-    it("shows success toast on successful submission", async () => {
+    it("navigates to registration success page on successful submission", async () => {
       renderForm();
       fillFormFields();
 
@@ -336,11 +342,9 @@ describe("CharityClaimForm", () => {
       fireEvent.submit(form);
 
       await waitFor(() => {
-        expect(mockShowToast).toHaveBeenCalledWith(
-          "success",
-          "Account Created",
-          "Please check your email to verify your account.",
-        );
+        expect(
+          screen.getByText("Registration success page"),
+        ).toBeInTheDocument();
       });
     });
   });
