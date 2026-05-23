@@ -533,7 +533,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Attempt to sign up the user
         // If the email is already registered, Supabase will return an error
         // This approach avoids using dummy credentials for checking
-        const { data, error } = await supabase.auth.signUp({
+        const { data: _data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -564,25 +564,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             type,
           });
           throw error;
-        }
-
-        if (data.user) {
-          const { error: profileError } = await supabase
-            .from("profiles")
-            .insert({
-              user_id: data.user.id,
-              type,
-            });
-
-          if (profileError) {
-            Logger.error("Profile creation error", {
-              error: profileError.message,
-              code: profileError.code,
-              userId: data.user.id,
-              type,
-            });
-            throw profileError;
-          }
         }
 
         showToast(
