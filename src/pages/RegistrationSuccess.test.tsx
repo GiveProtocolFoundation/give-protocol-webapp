@@ -1,6 +1,6 @@
 import React from "react";
-import { jest, describe, it, expect, beforeEach, afterEach } from "@jest/globals";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import { jest, describe, it, expect, beforeEach } from "@jest/globals";
+import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import RegistrationSuccess from "./RegistrationSuccess";
 import { supabase } from "@/lib/supabase";
@@ -160,39 +160,4 @@ describe("RegistrationSuccess", () => {
     ).toBeInTheDocument();
   });
 
-  describe("countdown auto-redirect", () => {
-    beforeEach(() => {
-      jest.useFakeTimers();
-    });
-
-    afterEach(() => {
-      jest.clearAllTimers();
-      jest.useRealTimers();
-    });
-
-    it("shows initial countdown of 5 seconds", () => {
-      renderWithParams("?type=donor&email=a@b.com");
-      expect(
-        screen.getByText(/Redirecting to login in 5s/),
-      ).toBeInTheDocument();
-    });
-
-    it("decrements countdown each second", () => {
-      renderWithParams("?type=donor&email=a@b.com");
-      act(() => {
-        jest.advanceTimersByTime(2000);
-      });
-      expect(
-        screen.getByText(/Redirecting to login in 3s/),
-      ).toBeInTheDocument();
-    });
-
-    it("auto-redirects to /auth after 5 seconds", () => {
-      renderWithParams("?type=donor&email=a@b.com");
-      act(() => {
-        jest.advanceTimersByTime(5000);
-      });
-      expect(screen.getByText("Login page")).toBeInTheDocument();
-    });
-  });
 });

@@ -1,10 +1,8 @@
-import React, { useState, useCallback, useEffect } from "react";
-import { Link, useSearchParams, useNavigate } from "react-router-dom";
+import React, { useState, useCallback } from "react";
+import { Link, useSearchParams } from "react-router-dom";
 import { CheckCircle, Mail, RefreshCw } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { supabase } from "@/lib/supabase";
-
-const REDIRECT_COUNTDOWN_S = 5;
 
 type RegistrationType = "charity-vetting" | "charity-claim" | "donor";
 
@@ -46,7 +44,6 @@ const ROLE_GUIDANCE: Record<RegistrationType, RoleGuidance> = {
  */
 const RegistrationSuccess: React.FC = () => {
   const [searchParams] = useSearchParams();
-  const navigate = useNavigate();
   const rawType = searchParams.get("type") ?? "donor";
   const email = searchParams.get("email") ?? "";
 
@@ -56,23 +53,6 @@ const RegistrationSuccess: React.FC = () => {
       : "donor";
 
   const guidance = ROLE_GUIDANCE[registrationType];
-
-  const [countdown, setCountdown] = useState(REDIRECT_COUNTDOWN_S);
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCountdown((prev) => (prev > 0 ? prev - 1 : 0));
-    }, 1000);
-    return () => {
-      clearInterval(interval);
-    };
-  }, []);
-
-  useEffect(() => {
-    if (countdown === 0) {
-      navigate("/auth", { replace: true });
-    }
-  }, [countdown, navigate]);
 
   const [resendState, setResendState] = useState<
     "idle" | "loading" | "sent" | "error"
@@ -172,9 +152,6 @@ const RegistrationSuccess: React.FC = () => {
           Return to login
         </Link>
 
-        <p className="text-xs text-gray-400 mt-4">
-          Redirecting to login in {countdown}s...
-        </p>
       </div>
     </div>
   );
