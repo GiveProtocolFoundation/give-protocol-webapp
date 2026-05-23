@@ -159,5 +159,4 @@ describe("RegistrationSuccess", () => {
       screen.getByText(/Please check your email to verify your account/),
     ).toBeInTheDocument();
   });
-
 });

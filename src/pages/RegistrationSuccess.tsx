@@ -151,7 +151,6 @@ const RegistrationSuccess: React.FC = () => {
         >
           Return to login
         </Link>
-
       </div>
     </div>
   );
