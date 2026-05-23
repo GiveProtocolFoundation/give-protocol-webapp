@@ -33,13 +33,14 @@ Volunteers log service hours through the platform. Organizations verify those ho
 
 Give Protocol is built on top of several EVM-compatible blockchains:
 
-| Network | Purpose |
-|---------|---------|
-| **Base** | Primary donation network (low fees, Coinbase ecosystem) |
-| **Optimism** | Secondary network with OP rewards |
-| **Moonbeam** | Polkadot ecosystem support |
+| Network      | Purpose                                                 |
+| ------------ | ------------------------------------------------------- |
+| **Base**     | Primary donation network (low fees, Coinbase ecosystem) |
+| **Optimism** | Secondary network with OP rewards                       |
+| **Moonbeam** | Polkadot ecosystem support                              |
 
 Smart contracts handle:
+
 - **Donation processing** with an automatic 0.5% platform fee (the rest goes directly to the charity)
 - **Volunteer verification** with on-chain proof of service
 - **Portfolio fund distribution** across multiple charity addresses
@@ -52,10 +53,10 @@ All contracts are open source and available in the [`give-protocol-contracts`](h
 Give Protocol collects a **0.5% platform fee** on each donation to sustain operations. The fee is deducted automatically by the smart contract—there are no hidden charges or optional tip prompts.
 
 | Donation | Charity Receives | Platform Fee |
-|----------|-----------------|-------------|
-| $100 | $99.50 | $0.50 |
-| $1,000 | $995.00 | $5.00 |
-| $10,000 | $9,950.00 | $50.00 |
+| -------- | ---------------- | ------------ |
+| $100     | $99.50           | $0.50        |
+| $1,000   | $995.00          | $5.00        |
+| $10,000  | $9,950.00        | $50.00       |
 
 ## Open Source
 

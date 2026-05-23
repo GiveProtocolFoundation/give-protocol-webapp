@@ -22,6 +22,7 @@ Before you begin, make sure you have:
 Visit [giveprotocol.io](https://giveprotocol.io) to open the application.
 
 From the home page you can:
+
 - Browse verified charities without creating an account
 - Sign up as a donor, charity, or volunteer
 - Connect your crypto wallet directly
@@ -38,13 +39,13 @@ From the home page you can:
 
 ### Charities
 
-1. **[Create an account](./creating-account.md)** and select *Charity* as your role
+1. **[Create an account](./creating-account.md)** and select _Charity_ as your role
 2. Submit your 501(c)(3) details for verification
 3. Once approved, manage your profile and causes in the Charity Portal at `/charity-portal`
 
 ### Volunteers
 
-1. **[Create an account](./creating-account.md)** and select *Volunteer* as your role
+1. **[Create an account](./creating-account.md)** and select _Volunteer_ as your role
 2. Browse open opportunities at `/opportunities`
 3. Log hours and build your verified contribution history at `/contributions`
 

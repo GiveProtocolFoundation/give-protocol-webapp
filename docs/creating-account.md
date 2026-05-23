@@ -10,11 +10,11 @@ Go to [giveprotocol.io/register](https://giveprotocol.io/register) or click **Si
 
 Select the role that best describes how you plan to use Give Protocol:
 
-| Role | Description |
-|------|-------------|
-| **Donor** | Make donations to charities and manage your giving portfolio |
-| **Charity** | Register your organization to receive donations and post volunteer opportunities |
-| **Volunteer** | Browse service opportunities and build a verified contribution record |
+| Role          | Description                                                                      |
+| ------------- | -------------------------------------------------------------------------------- |
+| **Donor**     | Make donations to charities and manage your giving portfolio                     |
+| **Charity**   | Register your organization to receive donations and post volunteer opportunities |
+| **Volunteer** | Browse service opportunities and build a verified contribution record            |
 
 > **Note:** You can only select one primary role during registration. Contact support if you need multi-role access.
 
@@ -50,12 +50,12 @@ Once your email is verified, go to [giveprotocol.io/login](https://giveprotocol.
 
 ## Troubleshooting
 
-| Problem | Solution |
-|---------|---------|
+| Problem                           | Solution                                        |
+| --------------------------------- | ----------------------------------------------- |
 | Didn't receive verification email | Check spam/junk; click Resend on the login page |
-| Password reset | Click **Forgot password?** on the login page |
-| Wrong role selected | Contact support to change your account type |
-| Charity verification delayed | Email support with your EIN for a status update |
+| Password reset                    | Click **Forgot password?** on the login page    |
+| Wrong role selected               | Contact support to change your account type     |
+| Charity verification delayed      | Email support with your EIN for a status update |
 
 ## Related Guides
 

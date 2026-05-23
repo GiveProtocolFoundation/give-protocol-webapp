@@ -19,14 +19,14 @@ At the top of the dashboard you'll see summary cards:
 
 The **Donation History** table lists every completed donation with:
 
-| Column | Description |
-|--------|-------------|
-| Date | Timestamp of the on-chain transaction |
-| Charity | Name and link to the charity profile |
-| Amount | Token amount and USD equivalent at time of donation |
-| Network | Blockchain network used (Base, Optimism, Moonbeam) |
-| Status | Confirmed, Pending, or Failed |
-| Receipt | Link to download or view the tax receipt |
+| Column  | Description                                         |
+| ------- | --------------------------------------------------- |
+| Date    | Timestamp of the on-chain transaction               |
+| Charity | Name and link to the charity profile                |
+| Amount  | Token amount and USD equivalent at time of donation |
+| Network | Blockchain network used (Base, Optimism, Moonbeam)  |
+| Status  | Confirmed, Pending, or Failed                       |
+| Receipt | Link to download or view the tax receipt            |
 
 Click any row to see the full transaction details, including the on-chain transaction hash and block explorer link.
 
