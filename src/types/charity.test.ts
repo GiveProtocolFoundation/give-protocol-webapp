@@ -17,6 +17,13 @@ describe("charity types", () => {
         "environment_conservation",
       );
       expect(CharityCategory.HUMAN_SERVICES).toBe("human_services");
+      expect(CharityCategory.HOUSING_SHELTER).toBe("housing_shelter");
+      expect(CharityCategory.FOOD_SECURITY_NUTRITION).toBe(
+        "food_security_nutrition",
+      );
+      expect(CharityCategory.WOMEN_GENDER_EQUALITY).toBe(
+        "women_gender_equality",
+      );
       expect(CharityCategory.ANIMAL_WELFARE).toBe("animal_welfare");
       expect(CharityCategory.DISASTER_RELIEF).toBe("disaster_relief");
       expect(CharityCategory.OTHER).toBe("other");

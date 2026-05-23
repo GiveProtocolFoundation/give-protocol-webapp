@@ -9,6 +9,10 @@ describe("CharityCategory", () => {
       "environment_conservation",
     );
     expect(CharityCategory.HUMAN_SERVICES).toBe("human_services");
+    expect(CharityCategory.HOUSING_SHELTER).toBe("housing_shelter");
+    expect(CharityCategory.FOOD_SECURITY_NUTRITION).toBe(
+      "food_security_nutrition",
+    );
     expect(CharityCategory.ARTS_CULTURE_HUMANITIES).toBe(
       "arts_culture_humanities",
     );
@@ -19,6 +23,7 @@ describe("CharityCategory", () => {
       "international_development",
     );
     expect(CharityCategory.CIVIL_RIGHTS_ADVOCACY).toBe("civil_rights_advocacy");
+    expect(CharityCategory.WOMEN_GENDER_EQUALITY).toBe("women_gender_equality");
     expect(CharityCategory.COMMUNITY_ECONOMIC_DEVELOPMENT).toBe(
       "community_economic_development",
     );
@@ -29,13 +34,12 @@ describe("CharityCategory", () => {
     );
     expect(CharityCategory.PUBLIC_SAFETY).toBe("public_safety");
     expect(CharityCategory.SPORTS_RECREATION).toBe("sports_recreation");
-    expect(CharityCategory.VETERANS_MILITARY).toBe("veterans_military");
     expect(CharityCategory.OTHER).toBe("other");
   });
 
-  it("contains exactly 19 category values", () => {
+  it("contains exactly 21 category values", () => {
     const categoryValues = Object.values(CharityCategory);
-    expect(categoryValues).toHaveLength(19);
+    expect(categoryValues).toHaveLength(21);
   });
 
   it("has unique category values", () => {
@@ -85,5 +89,23 @@ describe("CHARITY_CATEGORY_LABELS", () => {
     expect(CHARITY_CATEGORY_LABELS[CharityCategory.DISASTER_RELIEF]).toBe(
       "Disaster Relief & Humanitarian Aid",
     );
+  });
+
+  it("maps housing_shelter to correct label", () => {
+    expect(CHARITY_CATEGORY_LABELS[CharityCategory.HOUSING_SHELTER]).toBe(
+      "Housing & Shelter",
+    );
+  });
+
+  it("maps food_security_nutrition to correct label", () => {
+    expect(
+      CHARITY_CATEGORY_LABELS[CharityCategory.FOOD_SECURITY_NUTRITION],
+    ).toBe("Food Security & Nutrition");
+  });
+
+  it("maps women_gender_equality to correct label", () => {
+    expect(
+      CHARITY_CATEGORY_LABELS[CharityCategory.WOMEN_GENDER_EQUALITY],
+    ).toBe("Women's & Gender Equality");
   });
 });
