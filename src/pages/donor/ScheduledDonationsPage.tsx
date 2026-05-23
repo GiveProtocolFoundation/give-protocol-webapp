@@ -5,6 +5,10 @@ import { Navigate } from 'react-router-dom';
 import { useWeb3 } from '@/contexts/Web3Context';
 import { Button } from '@/components/ui/Button';
 
+/**
+ * Page component that displays a donor's scheduled (recurring) donations.
+ * @returns React element with the scheduled donations UI or a redirect
+ */
 const ScheduledDonationsPage: React.FC = () => {
   const { user, userType } = useAuth();
   const { isConnected, connect } = useWeb3();

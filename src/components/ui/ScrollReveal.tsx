@@ -32,6 +32,10 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     triggerOnce
   });
 
+  /**
+   * Returns the CSS animation class for the configured scroll direction.
+   * @returns CSS class name string
+   */
   const getAnimationClass = () => {
     switch (direction) {
       case 'left':
@@ -46,6 +50,10 @@ export const ScrollReveal: React.FC<ScrollRevealProps> = ({
     }
   };
 
+  /**
+   * Returns the CSS transition-delay class for the configured delay value.
+   * @returns CSS class name string or empty string for no delay
+   */
   const getDelayClass = () => {
     if (delay === 0) return '';
     if (delay <= 100) return 'transition-delay-100';

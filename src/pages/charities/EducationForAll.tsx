@@ -30,6 +30,10 @@ const charityData: CharityProfileData = {
   ],
 };
 
+/**
+ * Static charity page for Education For All.
+ * @returns React element rendering the charity profile template
+ */
 const EducationForAll: React.FC = () => {
   return <CharityPageTemplate charity={charityData} />;
 };

@@ -52,6 +52,10 @@ export function useAdminPanel() {
   const { showToast } = useToast();
   const { profile } = useProfile();
 
+  /**
+   * Fetches all pending charity verification requests.
+   * @returns Promise resolving to an array of pending verification records
+   */
   const fetchPendingVerifications = async () => {
     if (!profile?.id) return [];
 
@@ -82,6 +86,13 @@ export function useAdminPanel() {
     }
   };
 
+  /**
+   * Updates the approval status of a charity verification.
+   * @param verificationId - ID of the verification record
+   * @param status - New status: approved or rejected
+   * @param reason - Optional reason for the decision
+   * @returns Promise that resolves on successful update
+   */
   const updateVerificationStatus = async (
     verificationId: string,
     status: "approved" | "rejected",

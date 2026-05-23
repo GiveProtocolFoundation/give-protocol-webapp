@@ -25,6 +25,13 @@ export function useAuth() {
   const navigate = useNavigate();
   const rateLimiter = RateLimiter.getInstance();
 
+  /**
+   * Authenticates the user with email and password.
+   * @param email - User email address
+   * @param password - User password
+   * @param accountType - Account type: donor or charity
+   * @returns Promise that resolves on successful login
+   */
   const login = async (email: string, password: string, accountType: 'donor' | 'charity') => {
     try {
       setLoading(true);
@@ -73,6 +80,14 @@ export function useAuth() {
     }
   };
 
+  /**
+   * Registers a new user account.
+   * @param email - User email address
+   * @param password - User password
+   * @param type - Account type
+   * @param metadata - Optional additional user metadata
+   * @returns Promise that resolves on successful registration
+   */
   const register = async (
     email: string,
     password: string,
@@ -103,6 +118,11 @@ export function useAuth() {
     }
   };
 
+  /**
+   * Sends a password reset email to the user.
+   * @param email - User email address
+   * @returns Promise that resolves on successful send
+   */
   const resetPassword = async (email: string) => {
     try {
       setLoading(true);
@@ -122,6 +142,11 @@ export function useAuth() {
     }
   };
 
+  /**
+   * Sends a username reminder email to the user.
+   * @param email - User email address
+   * @returns Promise that resolves on successful send
+   */
   const sendUsernameReminder = async (email: string) => {
     try {
       setLoading(true);
@@ -141,6 +166,10 @@ export function useAuth() {
     }
   };
 
+  /**
+   * Logs out the current user and disconnects the wallet.
+   * @returns Promise that resolves on successful logout
+   */
   const logout = async () => {
     try {
       setLoading(true);

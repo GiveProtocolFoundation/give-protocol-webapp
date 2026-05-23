@@ -12,6 +12,16 @@ interface NotFoundProps {
   onRetry?: () => void;
 }
 
+/**
+ * Generic 404 / not-found page component.
+ * @param props - NotFoundProps
+ * @param props.title - Page heading text
+ * @param props.message - Descriptive message shown to the user
+ * @param props.showHomeButton - Whether to render a home-navigation button
+ * @param props.showBackButton - Whether to render a back-navigation button
+ * @param props.onRetry - Optional retry callback
+ * @returns React element for the not-found state
+ */
 const NotFound: React.FC<NotFoundProps> = ({
   title = "Page Not Found",
   message = "The page you're looking for doesn't exist or has been moved.",

@@ -37,7 +37,9 @@ export const OptimizedImage: React.FC<OptimizedImageProps> = ({
     const img = imgRef.current;
     if (!img) return undefined;
 
+    /** Marks the image as loaded when it finishes loading. */
     const handleLoad = () => setIsLoaded(true);
+    /** Marks the image as errored and loaded when the load fails. */
     const handleError = () => {
       setError(true);
       setIsLoaded(true);

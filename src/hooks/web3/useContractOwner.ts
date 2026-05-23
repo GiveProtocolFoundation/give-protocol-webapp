@@ -16,6 +16,7 @@ export function useContractOwner() {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    /** Fetches the contract owner address and checks if the connected wallet matches. */
     const fetchOwner = async () => {
       if (!contract) {
         setOwner(null);

@@ -47,6 +47,12 @@ export function useTransactionForm({ onSuccess }: TransactionFormConfig) {
   const [validationError, setValidationError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Handles form submission for a blockchain transaction.
+   * @param e - React form event
+   * @param executeFn - Function to execute with the validated amount
+   * @returns Promise that resolves when the transaction completes
+   */
   const handleSubmit = async (
     e: React.FormEvent,
     executeFn: (_amount: string) => Promise<void>,

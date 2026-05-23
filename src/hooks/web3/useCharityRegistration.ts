@@ -12,6 +12,11 @@ export function useCharityRegistration() {
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Registers a charity address on the smart contract.
+   * @param charityAddress - Ethereum address to register as a charity
+   * @returns Promise resolving to the transaction hash
+   */
   const registerCharity = async (charityAddress: string): Promise<string> => {
     if (!contract) {
       throw new Error("Contract not connected");

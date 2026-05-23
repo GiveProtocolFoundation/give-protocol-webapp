@@ -8,6 +8,10 @@ import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
 import { Logger } from '@/utils/logger';
 import { VolunteerVerification } from '@/types/volunteer';
 
+/**
+ * Page component for verifying a volunteer contribution by its unique hash.
+ * @returns React element showing verification status or a loading spinner
+ */
 const VerifyContribution: React.FC = () => {
   const { hash } = useParams<{ hash: string }>();
   const navigate = useNavigate();
@@ -17,6 +21,7 @@ const VerifyContribution: React.FC = () => {
 
   React.useEffect(() => {
     if (hash) {
+      /** Fetches verification record for the given hash from the backend. */
       const fetchVerification = async () => {
         try {
           const result = await getVerificationByHash(hash);

@@ -23,8 +23,14 @@ const mockValue = {
 
 const SettingsContext = createContext(mockValue);
 
+/** Returns the mock Settings context value for use in tests. */
 export const useSettings = () => useContext(SettingsContext);
 
+/**
+ * Mock Settings context provider for tests.
+ * @param {{ children: import('react').ReactNode }} props - Component props
+ * @returns React element wrapping children with the mock context
+ */
 export const SettingsProvider = ({ children }) =>
   React.createElement(SettingsContext.Provider, { value: mockValue }, children);
 

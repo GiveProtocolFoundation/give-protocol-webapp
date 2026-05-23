@@ -176,7 +176,7 @@ describe("WalletModal", () => {
       );
       rerender(
         <WalletModal
-          isOpen={true}
+          isOpen
           onClose={mockOnClose}
           wallets={mockWallets}
           onConnect={mockOnConnect}
