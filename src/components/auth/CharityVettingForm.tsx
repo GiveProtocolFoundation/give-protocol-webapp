@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
@@ -91,6 +92,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
  */
 export const CharityVettingForm: React.FC = () => {
   const { register, loading } = useAuth();
+  const navigate = useNavigate();
   const { countries } = useCountries();
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState<
@@ -242,13 +244,16 @@ export const CharityVettingForm: React.FC = () => {
             name: formData.contactName,
           },
         });
+        navigate(
+          `/auth/registration-success?type=charity-vetting&email=${encodeURIComponent(formData.contactEmail)}`,
+        );
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to submit application";
         setError(message);
       }
     },
-    [formData, register, validateField],
+    [formData, navigate, register, validateField],
   );
 
   return (

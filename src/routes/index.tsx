@@ -11,6 +11,7 @@ import Auth from "@/pages/Auth";
 
 // Lazy load unified auth routes
 const AuthSignup = lazy(() => import("@/pages/AuthSignup"));
+const RegistrationSuccess = lazy(() => import("@/pages/RegistrationSuccess"));
 
 // Lazy load other routes
 const Home = lazy(() => import("@/pages/Home"));
@@ -697,6 +698,16 @@ export function AppRoutes() {
             <RouteTransition>
               <Suspense fallback={<LoadingFallback />}>
                 <AuthSignup />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        <Route
+          path="/auth/registration-success"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <RegistrationSuccess />
               </Suspense>
             </RouteTransition>
           }

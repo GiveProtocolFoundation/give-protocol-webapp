@@ -1,7 +1,7 @@
 import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import AuthSignup from "../AuthSignup";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 
@@ -264,9 +264,19 @@ describe("AuthSignup", () => {
       });
     });
 
-    it("shows success message after successful email signup", async () => {
+    it("navigates to registration success page after successful email signup", async () => {
       mockSignUpWithEmail.mockResolvedValueOnce(undefined); // skipcq: JS-W1042
-      renderAuthSignup();
+      render(
+        <MemoryRouter initialEntries={["/auth/signup"]}>
+          <Routes>
+            <Route path="/auth/signup" element={<AuthSignup />} />
+            <Route
+              path="/auth/registration-success"
+              element={<div>Registration success page</div>}
+            />
+          </Routes>
+        </MemoryRouter>,
+      );
       openPasswordSection();
       fireEvent.change(screen.getByPlaceholderText("Email"), {
         target: { value: "test@example.com" },
@@ -279,9 +289,9 @@ describe("AuthSignup", () => {
       });
       fireEvent.click(screen.getByText("Create Account"));
       await waitFor(() => {
-        expect(screen.getByRole("status")).toHaveTextContent(
-          /check your email/i,
-        );
+        expect(
+          screen.getByText("Registration success page"),
+        ).toBeInTheDocument();
       });
     });
 

@@ -114,6 +114,7 @@ export const supabase = {
     signInWithPassword: jest
       .fn()
       .mockResolvedValue({ data: null, error: null }),
+    resend: jest.fn().mockResolvedValue({ data: null, error: null }),
   },
   storage: {
     from: jest.fn(() => ({
