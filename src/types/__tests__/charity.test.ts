@@ -104,8 +104,8 @@ describe("CHARITY_CATEGORY_LABELS", () => {
   });
 
   it("maps women_gender_equality to correct label", () => {
-    expect(
-      CHARITY_CATEGORY_LABELS[CharityCategory.WOMEN_GENDER_EQUALITY],
-    ).toBe("Women's & Gender Equality");
+    expect(CHARITY_CATEGORY_LABELS[CharityCategory.WOMEN_GENDER_EQUALITY]).toBe(
+      "Women's & Gender Equality",
+    );
   });
 });
