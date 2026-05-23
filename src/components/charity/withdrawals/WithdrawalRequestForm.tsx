@@ -11,6 +11,15 @@ interface WithdrawalRequestFormProps {
   error?: string;
 }
 
+/**
+ * Form component for submitting a withdrawal request.
+ * @param props - WithdrawalRequestFormProps
+ * @param props.onSubmit - Callback invoked with the requested amount on submit
+ * @param props.availableBalance - Current withdrawable balance
+ * @param props.loading - Whether the submission is in progress
+ * @param props.error - Optional error message to display
+ * @returns Withdrawal request form element
+ */
 const WithdrawalRequestForm: React.FC<WithdrawalRequestFormProps> = ({
   onSubmit,
   availableBalance,

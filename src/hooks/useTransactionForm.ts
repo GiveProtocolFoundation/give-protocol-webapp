@@ -46,6 +46,12 @@ export function useTransactionForm({ onSuccess }: TransactionFormConfig) {
   const [validationError, setValidationError] = useState("");
   const [loading, setLoading] = useState(false);
 
+  /**
+   * Handles form submission, validates the amount, and calls the submit function.
+   * @param e - React form event
+   * @param submitFn - Function to execute with the validated amount string
+   * @returns Promise that resolves when the submission completes
+   */
   const handleSubmit = async (
     e: React.FormEvent,
     submitFn: (_amount: string) => Promise<void>,

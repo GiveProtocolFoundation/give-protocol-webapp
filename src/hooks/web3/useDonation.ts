@@ -91,6 +91,11 @@ export function useDonation() {
   const [approving, setApproving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Submits a donation to the specified charity via smart contract.
+   * @param params - Donation parameters including charity address, amount, and type
+   * @returns Promise that resolves when the donation transaction is confirmed
+   */
   const donate = async ({
     charityAddress,
     amount,
@@ -246,6 +251,11 @@ export function useDonation() {
     }
   };
 
+  /**
+   * Withdraws funds from the donation contract.
+   * @param amount - Amount to withdraw as a string
+   * @returns Promise that resolves when the withdrawal transaction is confirmed
+   */
   const withdraw = async (amount: string) => {
     if (!contract || !address) {
       throw new Error("Contract or wallet not connected");

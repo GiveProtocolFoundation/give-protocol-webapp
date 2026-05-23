@@ -18,4 +18,9 @@ export const useSettings = () => ({
   currencyOptions: [{ value: "USD", label: "US Dollar", symbol: "$" }],
 });
 
+/**
+ * Mock SettingsProvider that passes children through unchanged.
+ * @param {{ children: import('react').ReactNode }} props - Component props
+ * @returns The children passed in, unchanged
+ */
 export const SettingsProvider = ({ children }) => children;

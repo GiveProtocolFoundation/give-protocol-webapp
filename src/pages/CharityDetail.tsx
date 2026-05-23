@@ -20,6 +20,7 @@ const CharityDetail: React.FC = () => {
 
   // Fetch organization profile from database
   useEffect(() => {
+    /** Fetches the organization profile for the given charity ID. */
     const fetchOrganizationProfile = async () => {
       if (!id) return;
 

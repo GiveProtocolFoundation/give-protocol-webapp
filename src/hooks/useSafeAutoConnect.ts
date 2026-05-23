@@ -46,6 +46,7 @@ export function useSafeAutoConnect() {
 
     hasAttemptedRef.current = true;
 
+    /** Attempts to auto-connect using the Gnosis Safe provider if available. */
     const autoConnect = () => {
       try {
         Logger.info("Safe App context detected, auto-connecting...");

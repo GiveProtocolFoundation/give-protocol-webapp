@@ -30,6 +30,10 @@ const charityData: CharityProfileData = {
   ],
 };
 
+/**
+ * Static charity page for Climate Action Now.
+ * @returns React element rendering the charity profile template
+ */
 const ClimateActionNow: React.FC = () => {
   return <CharityPageTemplate charity={charityData} />;
 };
