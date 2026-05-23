@@ -550,16 +550,6 @@ describe("AuthContext", () => {
         error: null,
       });
 
-      // Mock profiles insert
-      mockSupabase.from.mockReturnValue({
-        select: jest.fn().mockReturnValue({
-          eq: jest.fn().mockReturnValue({
-            single: jest.fn().mockResolvedValue({ data: null, error: null }),
-          }),
-        }),
-        insert: jest.fn().mockResolvedValue({ data: null, error: null }),
-      });
-
       renderWithAuthProvider();
 
       await act(() => {
@@ -605,15 +595,6 @@ describe("AuthContext", () => {
       mockSupabase.auth.signUp.mockResolvedValue({
         data: { user: MOCK_USER, session: null },
         error: null,
-      });
-
-      mockSupabase.from.mockReturnValue({
-        select: jest.fn().mockReturnValue({
-          eq: jest.fn().mockReturnValue({
-            single: jest.fn().mockResolvedValue({ data: null, error: null }),
-          }),
-        }),
-        insert: jest.fn().mockResolvedValue({ data: null, error: null }),
       });
 
       render(

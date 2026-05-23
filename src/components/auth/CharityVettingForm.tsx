@@ -333,7 +333,6 @@ export const CharityVettingForm: React.FC = () => {
           variant="fintech"
           value={formData.state}
           onChange={handleChange}
-          required
           error={validationErrors["state"]}
         />
       </div>
@@ -351,7 +350,6 @@ export const CharityVettingForm: React.FC = () => {
           variant="fintech"
           value={formData.postalCode}
           onChange={handleChange}
-          required
           error={validationErrors["postalCode"]}
         />
       </div>
