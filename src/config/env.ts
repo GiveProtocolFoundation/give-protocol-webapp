@@ -108,6 +108,7 @@ export function getChainContractAddresses(
 }
 
 // Create and validate environment configuration
+/** Validated environment configuration object built from VITE_* variables at startup. */
 export const ENV = {
   // Required variables
   SUPABASE_URL: getEnv("VITE_SUPABASE_URL"),
@@ -157,4 +158,5 @@ if (!ENV.SUPABASE_URL || !ENV.SUPABASE_ANON_KEY) {
   });
 }
 
+/** Inferred type of the ENV configuration object. */
 export type EnvVars = typeof ENV;

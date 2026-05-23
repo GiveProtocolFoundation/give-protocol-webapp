@@ -6,6 +6,7 @@ import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { OrganizationProfileForm } from "./OrganizationProfileForm";
 import { LogoBannerUploadCard } from "@/components/charity/LogoBannerUploadCard";
+import { DesignatedWalletCard } from "@/components/charity/DesignatedWalletCard";
 import {
   fetchCharityProfileAssets,
   fetchCharityProfileAssetsByEin,
@@ -16,6 +17,8 @@ import {
 import type { OrganizationProfile } from "@/types/charity";
 
 interface CharityProfileSnapshot {
+  id: string;
+  name: string;
   ein: string;
   logoUrl: string | null;
   bannerImageUrl: string | null;
@@ -305,6 +308,15 @@ export const OrganizationProfileTab: React.FC<OrganizationProfileTabProps> = ({
               "Your charity profile could not be linked. Please try refreshing the page, or contact support if this persists.",
             )}
           </p>
+        </div>
+      )}
+
+      {charityProfile !== null && (
+        <div className="mb-6">
+          <DesignatedWalletCard
+            charityProfileId={charityProfile.id}
+            charityName={charityProfile.name}
+          />
         </div>
       )}
 

@@ -271,5 +271,7 @@ export function captureCustomEvent(
 }
 
 // Aliases for AuthContext compatibility
+/** Alias for setUserContext — sets the authenticated user in Sentry. */
 export const setSentryUser = setUserContext;
+/** Alias for clearUserContext — clears the authenticated user from Sentry. */
 export const clearSentryUser = clearUserContext;

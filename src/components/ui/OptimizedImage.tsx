@@ -12,6 +12,7 @@ interface OptimizedImageProps {
   loading?: "lazy" | "eager";
 }
 
+/** Lazily-loaded image component with progressive loading and error fallback. */
 export const OptimizedImage: React.FC<OptimizedImageProps> = ({
   src,
   alt,

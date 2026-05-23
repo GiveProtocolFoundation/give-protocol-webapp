@@ -17,6 +17,7 @@ export interface AdminCharityRequestItem {
   latestRequesterEmail: string | null;
 }
 
+/** Paginated result set returned by the admin charity requests query. */
 export interface AdminCharityRequestsResult {
   requests: AdminCharityRequestItem[];
   totalCount: number;

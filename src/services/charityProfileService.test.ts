@@ -4,7 +4,6 @@ import {
   getCharityProfileByEin,
   claimCharityProfile,
   getCharityWalletAddress,
-  updateCharityWalletAddress,
   fetchCharityProfileAssets,
   fetchCharityProfileAssetsByEin,
 } from "./charityProfileService";
@@ -234,50 +233,6 @@ describe("charityProfileService", () => {
     });
   });
 
-  describe("updateCharityWalletAddress", () => {
-    type JestFn = ReturnType<typeof jest.fn>;
-    let mockFrom: JestFn;
-
-    beforeEach(() => {
-      mockFrom = supabase.from as JestFn;
-      mockFrom.mockReset();
-    });
-
-    it("should return true and call update with correct params on success", async () => {
-      const mockEq = jest.fn().mockResolvedValue({ error: null });
-      const mockUpdate = jest.fn().mockReturnValue({ eq: mockEq });
-      mockFrom.mockReturnValueOnce({ update: mockUpdate });
-
-      const result = await updateCharityWalletAddress("user-1", "0xabc123");
-
-      expect(result).toBe(true);
-      expect(mockFrom).toHaveBeenCalledWith("charity_profiles");
-      expect(mockUpdate).toHaveBeenCalledWith({ wallet_address: "0xabc123" });
-      expect(mockEq).toHaveBeenCalledWith("claimed_by", "user-1");
-    });
-
-    it("should return false on Supabase error", async () => {
-      const mockEq = jest
-        .fn()
-        .mockResolvedValue({ error: { message: "Update failed" } });
-      mockFrom.mockReturnValueOnce({
-        update: jest.fn().mockReturnValue({ eq: mockEq }),
-      });
-
-      const result = await updateCharityWalletAddress("user-1", "0xabc123");
-      expect(result).toBe(false);
-    });
-
-    it("should return false when from throws", async () => {
-      mockFrom.mockImplementationOnce(() => {
-        throw new Error("Network error");
-      });
-
-      const result = await updateCharityWalletAddress("user-1", "0xabc123");
-      expect(result).toBe(false);
-    });
-  });
-
   describe("fetchCharityProfileAssets", () => {
     type JestFn = ReturnType<typeof jest.fn>;
     let mockFrom: JestFn;
@@ -304,6 +259,8 @@ describe("charityProfileService", () => {
     it("returns mapped assets when the full select succeeds", async () => {
       const chain = mockOnce({
         data: {
+          id: "cp-1",
+          name: "Test Charity",
           ein: "12-3456789",
           logo_url: "https://l.test/l.png",
           banner_image_url: "https://l.test/b.png",
@@ -315,13 +272,15 @@ describe("charityProfileService", () => {
       const result = await fetchCharityProfileAssets("user-1");
 
       expect(result).toEqual({
+        id: "cp-1",
+        name: "Test Charity",
         ein: "12-3456789",
         logoUrl: "https://l.test/l.png",
         bannerImageUrl: "https://l.test/b.png",
         claimedByUserId: "user-1",
       });
       expect(chain.select).toHaveBeenCalledWith(
-        "ein, logo_url, banner_image_url, claimed_by",
+        "id, name, ein, logo_url, banner_image_url, claimed_by",
       );
     });
 
@@ -341,6 +300,8 @@ describe("charityProfileService", () => {
       });
       const fallbackChain = mockOnce({
         data: {
+          id: "cp-1",
+          name: "Test Charity",
           ein: "12-3456789",
           logo_url: "https://l.test/l.png",
           claimed_by: "user-1",
@@ -351,16 +312,18 @@ describe("charityProfileService", () => {
       const result = await fetchCharityProfileAssets("user-1");
 
       expect(result).toEqual({
+        id: "cp-1",
+        name: "Test Charity",
         ein: "12-3456789",
         logoUrl: "https://l.test/l.png",
         bannerImageUrl: null,
         claimedByUserId: "user-1",
       });
       expect(firstChain.select).toHaveBeenCalledWith(
-        "ein, logo_url, banner_image_url, claimed_by",
+        "id, name, ein, logo_url, banner_image_url, claimed_by",
       );
       expect(fallbackChain.select).toHaveBeenCalledWith(
-        "ein, logo_url, claimed_by",
+        "id, name, ein, logo_url, claimed_by",
       );
     });
 

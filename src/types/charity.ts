@@ -63,6 +63,7 @@ export interface CharityBase {
   updatedAt: Timestamp;
 }
 
+/** Supplemental metadata for a charity, including media URLs and social links. */
 export interface CharityMeta {
   logoUrl?: string;
   bannerUrl?: string;
@@ -73,6 +74,7 @@ export interface CharityMeta {
   documents: CharityDocument[];
 }
 
+/** A compliance or reporting document associated with a charity. */
 export interface CharityDocument {
   id: UUID;
   type: "registration" | "audit" | "report";
@@ -80,6 +82,7 @@ export interface CharityDocument {
   verifiedAt?: Timestamp;
 }
 
+/** Aggregated donation and impact statistics for a charity. */
 export interface CharityStats {
   totalDonations: number;
   totalAmount: TokenAmount;
@@ -89,6 +92,7 @@ export interface CharityStats {
   impactMetrics: ImpactMetric[];
 }
 
+/** A single quantifiable impact measurement for a charity. */
 export interface ImpactMetric {
   id: UUID;
   name: string;
@@ -98,6 +102,7 @@ export interface ImpactMetric {
   timestamp: Timestamp;
 }
 
+/** Verification status and supporting documents for a charity. */
 export interface CharityVerification {
   isVerified: boolean;
   verifiedAt?: Timestamp;
@@ -105,6 +110,7 @@ export interface CharityVerification {
   documents: VerificationDocument[];
 }
 
+/** An individual document submitted for charity verification. */
 export interface VerificationDocument {
   id: UUID;
   type: string;
@@ -113,6 +119,7 @@ export interface VerificationDocument {
   verifiedBy?: UUID;
 }
 
+/** Full charity record including metadata, stats, verification, and campaigns. */
 export interface Charity extends CharityBase {
   meta: CharityMeta;
   stats: CharityStats;
@@ -120,6 +127,7 @@ export interface Charity extends CharityBase {
   campaigns: Campaign[];
 }
 
+/** A fundraising campaign run by a charity. */
 export interface Campaign {
   readonly id: UUID;
   charityId: UUID;
@@ -133,6 +141,7 @@ export interface Campaign {
   updates: CampaignUpdate[];
 }
 
+/** Lifecycle state of a fundraising campaign. */
 export type CampaignStatus =
   | "draft"
   | "active"
@@ -140,6 +149,7 @@ export type CampaignStatus =
   | "completed"
   | "cancelled";
 
+/** A progress update posted to a campaign, with optional attachments. */
 export interface CampaignUpdate {
   readonly id: UUID;
   campaignId: UUID;
@@ -149,6 +159,7 @@ export interface CampaignUpdate {
   attachments: CampaignAttachment[];
 }
 
+/** An image or document attached to a campaign update. */
 export interface CampaignAttachment {
   id: UUID;
   type: "image" | "document";

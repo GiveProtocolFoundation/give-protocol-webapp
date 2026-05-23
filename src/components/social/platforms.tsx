@@ -25,6 +25,7 @@ export function FarcasterIcon({
   );
 }
 
+/** Definition of a social sharing platform with its label, icon, and share-URL builder. */
 export interface SocialPlatform {
   id: string;
   label: string;

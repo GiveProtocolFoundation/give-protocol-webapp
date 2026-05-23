@@ -22,6 +22,7 @@ export interface CharityData {
   updated_at: string;
 }
 
+/** Raw Supabase row shape for a charity cause. */
 export interface CauseData {
   id: string;
   charity_id: string;

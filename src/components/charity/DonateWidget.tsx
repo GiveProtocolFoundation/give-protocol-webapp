@@ -11,6 +11,14 @@ interface DonateWidgetProps {
   charityId: string;
   mode: "sidebar" | "modal";
   isVerified?: boolean;
+  /** Lifecycle of the charity's designated wallet. Donations are disabled unless 'active' (or 'pending_change_cooldown' — the current wallet is still live during the cooldown window). */
+  walletDesignationStatus?:
+    | "unset"
+    | "pending_signature_verification"
+    | "pending_email_confirmation"
+    | "active"
+    | "pending_change_cooldown"
+    | null;
   onClose?: () => void;
 }
 
@@ -27,6 +35,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   charityId,
   mode,
   isVerified: _isVerified = false,
+  walletDesignationStatus,
   onClose,
 }) => {
   const [showDonationModal, setShowDonationModal] = useState(false);
@@ -41,16 +50,43 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   }, [onClose]);
 
   const resolvedAddress = walletAddress ?? "";
-  const hasWallet = Boolean(walletAddress);
+  // Donation gating decision:
+  //   - 'active'                                          → allow
+  //   - undefined/null + walletAddress present            → allow (legacy: caller didn't pass status)
+  //   - 'unset' + walletAddress present                   → allow + grandfather banner (pre-PR1 charity)
+  //   - 'pending_*'                                       → block (designation in progress)
+  //   - any other (no wallet)                             → block
+  const hasLegacyWallet = Boolean(walletAddress);
+  const isGrandfathered =
+    hasLegacyWallet && (walletDesignationStatus ?? "unset") === "unset";
+  const isPending =
+    walletDesignationStatus === "pending_signature_verification" ||
+    walletDesignationStatus === "pending_email_confirmation";
+  const allowDonate =
+    walletDesignationStatus === "active" ||
+    // During a wallet change cooldown the OLD wallet stays active for donations.
+    walletDesignationStatus === "pending_change_cooldown" ||
+    (walletDesignationStatus == null && hasLegacyWallet) ||
+    isGrandfathered;
 
   const body = (
     <div className="space-y-4">
-      {!hasWallet && (
+      {!allowDonate && (
         <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
           <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700">
-            This charity hasn&apos;t set up a wallet yet — your donation will be
-            held by Give Protocol Foundation until claimed.
+            {isPending
+              ? "This charity is finishing wallet setup. Donations will be enabled once confirmation is complete."
+              : "This charity hasn't set up an official receiving wallet yet. Donations are disabled until setup is finished."}
+          </p>
+        </div>
+      )}
+      {allowDonate && isGrandfathered && (
+        <div className="flex items-start gap-2 p-2.5 bg-blue-50 border border-blue-200 rounded-lg">
+          <AlertTriangle className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+          <p className="text-xs text-blue-700">
+            This charity is using a legacy wallet address. They&apos;ve been
+            asked to re-designate via the new secure flow.
           </p>
         </div>
       )}
@@ -58,6 +94,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
       <Button
         fullWidth
         onClick={handleDonate}
+        disabled={!allowDonate}
         icon={<Heart className="h-4 w-4" />}
       >
         Donate

@@ -5,6 +5,7 @@ import { useWeb3 } from "@/contexts/Web3Context";
 import { Logger } from "@/utils/logger";
 import { getContractAddress } from "@/config/contracts";
 
+/** A portfolio fund that distributes donations across multiple charities. */
 export interface PortfolioFund {
   id: string;
   name: string;
@@ -16,6 +17,7 @@ export interface PortfolioFund {
   totalDistributed: string;
 }
 
+/** On-chain charity information returned from the PortfolioFunds contract. */
 export interface CharityInfo {
   address: string;
   name: string;

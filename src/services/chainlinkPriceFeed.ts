@@ -491,4 +491,5 @@ export class ChainlinkPriceFeedService {
 }
 
 // Export singleton instance
+/** Shared singleton instance of ChainlinkPriceFeedService. */
 export const chainlinkPriceFeedService = new ChainlinkPriceFeedService();
