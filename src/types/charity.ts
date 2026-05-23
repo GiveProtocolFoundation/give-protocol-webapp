@@ -1,6 +1,9 @@
 import { Timestamp, UUID } from "./common";
 import { TokenAmount } from "./blockchain";
 
+/* eslint-disable no-unused-vars */
+// Members are used via CharityCategory.X (property access), which the base
+// no-unused-vars rule doesn't recognise as a use of the member identifier.
 export enum CharityCategory {
   EDUCATION = "education",
   HEALTH_MEDICAL = "health_medical",
@@ -24,6 +27,7 @@ export enum CharityCategory {
   SPORTS_RECREATION = "sports_recreation",
   OTHER = "other",
 }
+/* eslint-enable no-unused-vars */
 
 /** Human-readable labels for each CharityCategory value. */
 export const CHARITY_CATEGORY_LABELS: Record<CharityCategory, string> = {
