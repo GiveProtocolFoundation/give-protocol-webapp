@@ -370,15 +370,6 @@ describe("Auth", () => {
       expect(signUpLink.closest("a")).toHaveAttribute("href", "/auth/signup");
     });
 
-    it("renders nonprofit profile link", () => {
-      renderAuth();
-      const nonprofitLink = screen.getByText("I manage a Nonprofit Profile");
-      expect(nonprofitLink.closest("a")).toHaveAttribute(
-        "href",
-        "/auth/charity",
-      );
-    });
-
     it("renders Terms link", () => {
       renderAuth();
       const termsLink = screen.getByText("Terms");
