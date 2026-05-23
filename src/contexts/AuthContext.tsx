@@ -571,9 +571,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           "Registration successful",
           "Please check your email to verify your account",
         );
-
-        // Redirect to the appropriate login page
-        window.location.href = `/login?type=${type}`;
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to register";
