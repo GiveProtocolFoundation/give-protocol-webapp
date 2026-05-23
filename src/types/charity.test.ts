@@ -10,14 +10,14 @@ import {
 describe('charity types', () => {
   describe('CharityCategory enum', () => {
     it('should have correct values', () => {
-      expect(CharityCategory._EDUCATION).toBe('education');
-      expect(CharityCategory._HEALTHCARE).toBe('healthcare');
-      expect(CharityCategory._ENVIRONMENT).toBe('environment');
-      expect(CharityCategory._POVERTY).toBe('poverty');
-      expect(CharityCategory._DISASTER_RELIEF).toBe('disaster_relief');
-      expect(CharityCategory._ANIMAL_WELFARE).toBe('animal_welfare');
-      expect(CharityCategory._ARTS_CULTURE).toBe('arts_culture');
-      expect(CharityCategory._COMMUNITY).toBe('community');
+      expect(CharityCategory.EDUCATION).toBe('education');
+      expect(CharityCategory.HEALTH_MEDICAL).toBe('health_medical');
+      expect(CharityCategory.MENTAL_HEALTH).toBe('mental_health');
+      expect(CharityCategory.ENVIRONMENT_CONSERVATION).toBe('environment_conservation');
+      expect(CharityCategory.HUMAN_SERVICES).toBe('human_services');
+      expect(CharityCategory.ANIMAL_WELFARE).toBe('animal_welfare');
+      expect(CharityCategory.DISASTER_RELIEF).toBe('disaster_relief');
+      expect(CharityCategory.OTHER).toBe('other');
     });
   });
 
