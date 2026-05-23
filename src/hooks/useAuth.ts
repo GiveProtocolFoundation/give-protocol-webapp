@@ -1,5 +1,4 @@
 import { useState, useCallback as _useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import { useToast } from "@/contexts/ToastContext";
 import { supabase as _supabase } from "@/lib/supabase";
 import { validateAuthInput } from "@/utils/validation";
@@ -22,7 +21,6 @@ export function useAuth() {
   const { disconnect } = useWeb3();
   const [loading, setLoading] = useState(false);
   const { showToast } = useToast();
-  const navigate = useNavigate();
   const rateLimiter = RateLimiter.getInstance();
 
   /**
@@ -111,9 +109,6 @@ export function useAuth() {
       validateAuthInput(email, password);
 
       await authContext.register(email, password, type, metadata);
-
-      // Navigate to the appropriate login page
-      navigate(`/login?type=${type}`);
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to register";
