@@ -566,25 +566,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           throw error;
         }
 
-        if (data.user) {
-          const { error: profileError } = await supabase
-            .from("profiles")
-            .insert({
-              user_id: data.user.id,
-              type,
-            });
-
-          if (profileError) {
-            Logger.error("Profile creation error", {
-              error: profileError.message,
-              code: profileError.code,
-              userId: data.user.id,
-              type,
-            });
-            throw profileError;
-          }
-        }
-
         showToast(
           "success",
           "Registration successful",
