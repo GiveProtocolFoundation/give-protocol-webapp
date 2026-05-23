@@ -1101,6 +1101,5 @@ describe("AuthContext", () => {
         );
       });
     });
-
   });
 });
