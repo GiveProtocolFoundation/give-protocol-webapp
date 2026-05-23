@@ -31,7 +31,8 @@ const ROLE_GUIDANCE: Record<RegistrationType, RoleGuidance> = {
     heading: "Welcome to Give Protocol",
     message:
       "After verifying your email, you can start exploring charities and making donations.",
-    nextSteps: "Check your inbox and click the verification link to get started.",
+    nextSteps:
+      "Check your inbox and click the verification link to get started.",
   },
 };
 

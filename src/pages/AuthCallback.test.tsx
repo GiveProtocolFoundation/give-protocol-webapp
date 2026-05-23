@@ -1,5 +1,12 @@
 import React from "react";
-import { jest, describe, it, expect, beforeEach, afterEach } from "@jest/globals";
+import {
+  jest,
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+} from "@jest/globals";
 import { render, screen, act } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
@@ -12,7 +19,9 @@ const mockedUseAuth = useAuth as jest.MockedFunction<typeof useAuth>;
 // Mock LoadingSpinner to keep tests simple
 jest.mock("@/components/ui/LoadingSpinner", () => ({
   LoadingSpinner: ({ size }: { size?: string }) => (
-    <div data-testid="loading-spinner" data-size={size}>Loading...</div>
+    <div data-testid="loading-spinner" data-size={size}>
+      Loading...
+    </div>
   ),
 }));
 
@@ -78,7 +87,11 @@ describe("AuthCallback", () => {
 
   it("redirects charity user to /charity-portal", () => {
     mockedUseAuth.mockReturnValue(
-      makeAuth({ user: { id: "u1" } as never, userType: "charity", loading: false }),
+      makeAuth({
+        user: { id: "u1" } as never,
+        userType: "charity",
+        loading: false,
+      }),
     );
     renderCallback();
     expect(screen.getByText("Charity Portal")).toBeInTheDocument();
@@ -86,7 +99,11 @@ describe("AuthCallback", () => {
 
   it("redirects donor user to /give-dashboard", () => {
     mockedUseAuth.mockReturnValue(
-      makeAuth({ user: { id: "u2" } as never, userType: "donor", loading: false }),
+      makeAuth({
+        user: { id: "u2" } as never,
+        userType: "donor",
+        loading: false,
+      }),
     );
     renderCallback();
     expect(screen.getByText("Give Dashboard")).toBeInTheDocument();
@@ -102,7 +119,11 @@ describe("AuthCallback", () => {
 
   it("redirects admin user type to /browse as fallback", () => {
     mockedUseAuth.mockReturnValue(
-      makeAuth({ user: { id: "u4" } as never, userType: "admin" as never, loading: false }),
+      makeAuth({
+        user: { id: "u4" } as never,
+        userType: "admin" as never,
+        loading: false,
+      }),
     );
     renderCallback();
     expect(screen.getByText("Browse")).toBeInTheDocument();
@@ -117,7 +138,9 @@ describe("AuthCallback", () => {
     });
 
     expect(screen.getByText(/verification failed/i)).toBeInTheDocument();
-    expect(screen.getByText(/could not verify your account/i)).toBeInTheDocument();
+    expect(
+      screen.getByText(/could not verify your account/i),
+    ).toBeInTheDocument();
   });
 
   it("shows return to login link in error state", () => {
