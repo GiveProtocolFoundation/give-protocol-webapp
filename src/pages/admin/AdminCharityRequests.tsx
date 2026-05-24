@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { useTranslation } from "@/hooks/useTranslation";
 import { listCharityRequests } from "@/services/adminCharityRequestsService";
 import type { AdminCharityRequestItem } from "@/types/adminCharityRequests";
 
@@ -66,6 +67,7 @@ function RequestRow({
  * @returns The rendered admin charity requests page
  */
 const AdminCharityRequests: React.FC = () => {
+  const { t } = useTranslation();
   const [requests, setRequests] = useState<AdminCharityRequestItem[]>([]);
   const [totalCount, setTotalCount] = useState(0);
   const [loading, setLoading] = useState(true);
@@ -104,7 +106,10 @@ const AdminCharityRequests: React.FC = () => {
       <main className="container mx-auto p-6">
         <Card className="p-6 text-center">
           <h2 className="text-xl font-semibold text-red-600 mb-4">
-            Error Loading Charity Requests
+            {t(
+              "admin.charityRequests.errorTitle",
+              "Error Loading Charity Requests",
+            )}
           </h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
@@ -112,7 +117,7 @@ const AdminCharityRequests: React.FC = () => {
             className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
             aria-label="Retry loading charity requests"
           >
-            Retry
+            {t("common.retry", "Retry")}
           </button>
         </Card>
       </main>
@@ -122,36 +127,43 @@ const AdminCharityRequests: React.FC = () => {
   return (
     <main className="container mx-auto p-6 space-y-6">
       <div>
-        <h1 className="text-3xl font-bold text-gray-900">Charity Requests</h1>
+        <h1 className="text-3xl font-bold text-gray-900">
+          {t("admin.charityRequests.title", "Charity Requests")}
+        </h1>
         <p className="text-sm text-gray-600 mt-1">
-          Donor-submitted requests for unclaimed charities, grouped by EIN.
-          Highest-interest organizations should be prioritized for outreach.
+          {t(
+            "admin.charityRequests.subtitle",
+            "Donor-submitted requests for unclaimed charities, grouped by EIN. Highest-interest organizations should be prioritized for outreach.",
+          )}
         </p>
       </div>
 
       <Card className="p-0 overflow-hidden">
         {requests.length === 0 ? (
           <p className="text-sm text-gray-500 p-6">
-            No charity requests have been submitted yet.
+            {t(
+              "admin.charityRequests.empty",
+              "No charity requests have been submitted yet.",
+            )}
           </p>
         ) : (
           <table className="min-w-full divide-y divide-gray-200">
             <thead className="bg-gray-50">
               <tr>
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  EIN
+                  {t("admin.charityRequests.ein", "EIN")}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Requests
+                  {t("admin.charityRequests.requests", "Requests")}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Latest Requester
+                  {t("admin.charityRequests.latestRequester", "Latest Requester")}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  Latest Request
+                  {t("admin.charityRequests.latestRequest", "Latest Request")}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  First Request
+                  {t("admin.charityRequests.firstRequest", "First Request")}
                 </th>
               </tr>
             </thead>
@@ -166,7 +178,10 @@ const AdminCharityRequests: React.FC = () => {
 
       {totalCount > requests.length && (
         <p className="text-xs text-gray-500">
-          Showing {requests.length} of {totalCount} unique EINs.
+          {t("admin.charityRequests.showing", "Showing {{shown}} of {{total}} unique EINs.", {
+            shown: requests.length,
+            total: totalCount,
+          })}
         </p>
       )}
     </main>

@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/Input";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { Plus, Edit, Archive, Heart } from "lucide-react";
@@ -56,16 +57,22 @@ const emptyFormData: FundFormData = {
 
 /** Status badge with colour coding. */
 function StatusBadge({ status }: { status: string }) {
+  const { t } = useTranslation();
   const classes: Record<string, string> = {
     active: "bg-green-100 text-green-800",
     paused: "bg-yellow-100 text-yellow-800",
     archived: "bg-gray-100 text-gray-800",
   };
+  const labels: Record<string, string> = {
+    active: t("admin.portfolio.statusActive", "active"),
+    paused: t("admin.portfolio.statusPaused", "paused"),
+    archived: t("admin.portfolio.statusArchived", "archived"),
+  };
   return (
     <span
       className={`inline-block px-2 py-0.5 text-xs font-medium rounded-full ${classes[status] ?? classes.archived}`}
     >
-      {status}
+      {labels[status] ?? status}
     </span>
   );
 }
@@ -80,6 +87,7 @@ function CharitySelector({
   selectedIds: string[];
   onToggle: (charityId: string) => void;
 }) {
+  const { t } = useTranslation();
   const handleClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const cid = e.currentTarget.dataset.charityId;
@@ -111,7 +119,7 @@ function CharitySelector({
       })}
       {charities.length === 0 && (
         <p className="text-sm text-gray-400 text-center py-4">
-          No verified charities found
+          {t("admin.portfolio.noCharitiesFound", "No verified charities found")}
         </p>
       )}
     </div>
@@ -128,6 +136,7 @@ function FundListItem({
   onEdit: (e: React.MouseEvent<HTMLButtonElement>) => void;
   onArchive: (e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
+  const { t } = useTranslation();
   const charityCount = fund.charity_ids?.length ?? 0;
   return (
     <Card className="p-4 flex items-start justify-between gap-4">
@@ -144,9 +153,16 @@ function FundListItem({
         <div className="flex items-center gap-4 mt-2 text-xs text-gray-500">
           {fund.category && <span>{fund.category}</span>}
           <span>
-            {charityCount} {charityCount === 1 ? "charity" : "charities"}
+            {charityCount}{" "}
+            {charityCount === 1
+              ? t("admin.portfolio.charity", "charity")
+              : t("admin.portfolio.charities", "charities")}
           </span>
-          <span>Created {new Date(fund.created_at).toLocaleDateString()}</span>
+          <span>
+            {t("admin.portfolio.createdOn", "Created {{date}}", {
+              date: new Date(fund.created_at).toLocaleDateString(),
+            })}
+          </span>
         </div>
       </div>
       <div className="flex items-center gap-2 flex-shrink-0">
@@ -195,6 +211,7 @@ function FundForm({
   onFieldChange: (field: keyof FundFormData, value: string) => void;
   onCharityToggle: (charityId: string) => void;
 }) {
+  const { t } = useTranslation();
   const handleNameChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onFieldChange("name", e.target.value);
@@ -226,20 +243,25 @@ function FundForm({
   return (
     <Card className="p-6 mb-6 space-y-4">
       <h2 className="text-lg font-semibold">
-        {isEdit ? "Edit Fund" : "Create New Fund"}
+        {isEdit
+          ? t("admin.portfolio.editFund", "Edit Fund")
+          : t("admin.portfolio.createNewFund", "Create New Fund")}
       </h2>
       <div>
         <label
           htmlFor="fund-name"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Fund Name
+          {t("admin.portfolio.fundName", "Fund Name")}
         </label>
         <Input
           id="fund-name"
           value={formData.name}
           onChange={handleNameChange}
-          placeholder="e.g. Environmental Impact Fund"
+          placeholder={t(
+            "admin.portfolio.fundNamePlaceholder",
+            "e.g. Environmental Impact Fund",
+          )}
         />
       </div>
 
@@ -248,7 +270,7 @@ function FundForm({
           htmlFor="fund-description"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Description
+          {t("admin.portfolio.description", "Description")}
         </label>
         <textarea
           id="fund-description"
@@ -256,7 +278,10 @@ function FundForm({
           onChange={handleDescChange}
           rows={3}
           className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500"
-          placeholder="Describe the fund's purpose and impact focus..."
+          placeholder={t(
+            "admin.portfolio.descriptionPlaceholder",
+            "Describe the fund's purpose and impact focus...",
+          )}
         />
       </div>
 
@@ -265,7 +290,7 @@ function FundForm({
           htmlFor="fund-category"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Category
+          {t("admin.portfolio.category", "Category")}
         </label>
         <select
           id="fund-category"
@@ -273,7 +298,9 @@ function FundForm({
           onChange={handleCategoryChange}
           className="block w-full rounded-md border border-gray-300 px-3 py-2 text-sm focus:border-emerald-500 focus:ring-emerald-500"
         >
-          <option value="">Select a category</option>
+          <option value="">
+            {t("admin.portfolio.selectCategory", "Select a category")}
+          </option>
           {FUND_CATEGORIES.map((cat) => (
             <option key={cat} value={cat}>
               {cat}
@@ -287,19 +314,21 @@ function FundForm({
           htmlFor="fund-image"
           className="block text-sm font-medium text-gray-700 mb-1"
         >
-          Image URL
+          {t("admin.portfolio.imageUrl", "Image URL")}
         </label>
         <Input
           id="fund-image"
           value={formData.image_url}
           onChange={handleImageChange}
-          placeholder="https://..."
+          placeholder={t("admin.portfolio.imageUrlPlaceholder", "https://...")}
         />
       </div>
 
       <div>
         <p className="block text-sm font-medium text-gray-700 mb-2">
-          Select Charities ({formData.charity_ids.length} selected)
+          {t("admin.portfolio.selectCharities", "Select Charities ({{count}} selected)", {
+            count: formData.charity_ids.length,
+          })}
         </p>
         <CharitySelector
           charities={charities}
@@ -310,10 +339,14 @@ function FundForm({
 
       <div className="flex gap-3 pt-2">
         <Button onClick={onSubmit} disabled={loading || !formData.name}>
-          {loading ? "Saving..." : isEdit ? "Update Fund" : "Create Fund"}
+          {loading
+            ? t("admin.portfolio.saving", "Saving...")
+            : isEdit
+              ? t("admin.portfolio.updateFund", "Update Fund")
+              : t("admin.portfolio.createFund", "Create Fund")}
         </Button>
         <Button variant="secondary" onClick={onCancel} disabled={loading}>
-          Cancel
+          {t("common.cancel", "Cancel")}
         </Button>
       </div>
     </Card>
@@ -327,6 +360,7 @@ function FundForm({
 const AdminPortfolioFunds: React.FC = () => {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const { t } = useTranslation();
   const [funds, setFunds] = useState<PortfolioFundRow[]>([]);
   const [charities, setCharities] = useState<CharityOption[]>([]);
   const [loading, setLoading] = useState(true);
@@ -356,11 +390,11 @@ const AdminPortfolioFunds: React.FC = () => {
       setCharities(charitiesRes.data ?? []);
     } catch (err) {
       Logger.error("Failed to load admin portfolio data", { error: err });
-      showToast("error", "Failed to load data");
+      showToast("error", t("admin.portfolio.errorLoad", "Failed to load data"));
     } finally {
       setLoading(false);
     }
-  }, [showToast]);
+  }, [showToast, t]);
 
   useEffect(() => {
     loadData();
@@ -415,13 +449,13 @@ const AdminPortfolioFunds: React.FC = () => {
         .update({ status: "archived" })
         .eq("id", fundId);
       if (error) {
-        showToast("error", "Failed to archive fund");
+        showToast("error", t("admin.portfolio.errorArchive", "Failed to archive fund"));
       } else {
-        showToast("success", "Fund archived");
+        showToast("success", t("admin.portfolio.fundArchived", "Fund archived"));
         loadData();
       }
     },
-    [showToast, loadData],
+    [showToast, loadData, t],
   );
 
   const handleCancel = useCallback(() => {
@@ -450,13 +484,13 @@ const AdminPortfolioFunds: React.FC = () => {
           .update(updatePayload)
           .eq("id", editingId);
         if (error) throw error;
-        showToast("success", "Fund updated");
+        showToast("success", t("admin.portfolio.fundUpdated", "Fund updated"));
       } else {
         const { error } = await supabase
           .from("portfolio_funds")
           .insert(payload);
         if (error) throw error;
-        showToast("success", "Fund created");
+        showToast("success", t("admin.portfolio.fundCreated", "Fund created"));
       }
 
       setShowForm(false);
@@ -465,11 +499,11 @@ const AdminPortfolioFunds: React.FC = () => {
       loadData();
     } catch (err) {
       Logger.error("Failed to save portfolio fund", { error: err });
-      showToast("error", "Failed to save fund");
+      showToast("error", t("admin.portfolio.errorSave", "Failed to save fund"));
     } finally {
       setSaving(false);
     }
-  }, [formData, editingId, user?.id, showToast, loadData]);
+  }, [formData, editingId, user?.id, showToast, loadData, t]);
 
   if (loading) {
     return (
@@ -485,9 +519,14 @@ const AdminPortfolioFunds: React.FC = () => {
     <div className="max-w-4xl mx-auto px-4 py-8">
       <div className="flex items-center justify-between mb-6">
         <div>
-          <h1 className="text-2xl font-bold text-gray-900">Portfolio Funds</h1>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {t("admin.portfolio.title", "Portfolio Funds")}
+          </h1>
           <p className="text-sm text-gray-500 mt-1">
-            Create and manage curated giving portfolios
+            {t(
+              "admin.portfolio.subtitle",
+              "Create and manage curated giving portfolios",
+            )}
           </p>
         </div>
         {!showForm && (
@@ -496,7 +535,7 @@ const AdminPortfolioFunds: React.FC = () => {
             className="flex items-center gap-2"
           >
             <Plus className="h-4 w-4" />
-            New Fund
+            {t("admin.portfolio.newFund", "New Fund")}
           </Button>
         )}
       </div>
@@ -527,9 +566,14 @@ const AdminPortfolioFunds: React.FC = () => {
         {funds.length === 0 && (
           <div className="text-center py-16">
             <Heart className="h-12 w-12 mx-auto mb-4 text-gray-300" />
-            <p className="text-lg text-gray-500">No portfolio funds yet</p>
+            <p className="text-lg text-gray-500">
+              {t("admin.portfolio.noFundsYet", "No portfolio funds yet")}
+            </p>
             <p className="text-sm text-gray-400 mt-1">
-              Create your first fund to group charities for bundled donations
+              {t(
+                "admin.portfolio.noFundsMessage",
+                "Create your first fund to group charities for bundled donations",
+              )}
             </p>
           </div>
         )}

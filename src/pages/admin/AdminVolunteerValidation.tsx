@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminVolunteerValidation } from "@/hooks/useAdminVolunteerValidation";
 import type {
   AdminValidationRequestFilters,
@@ -41,11 +42,28 @@ function StatsRow({
 }: {
   stats: AdminValidationStats;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const cards = [
-    { label: "Pending", value: stats.totalPending, color: "text-yellow-600" },
-    { label: "Approved", value: stats.totalApproved, color: "text-green-600" },
-    { label: "Rejected", value: stats.totalRejected, color: "text-red-600" },
-    { label: "Expired", value: stats.totalExpired, color: "text-gray-500" },
+    {
+      label: t("admin.validation.pending", "Pending"),
+      value: stats.totalPending,
+      color: "text-yellow-600",
+    },
+    {
+      label: t("admin.validation.approved", "Approved"),
+      value: stats.totalApproved,
+      color: "text-green-600",
+    },
+    {
+      label: t("admin.validation.rejected", "Rejected"),
+      value: stats.totalRejected,
+      color: "text-red-600",
+    },
+    {
+      label: t("admin.validation.expired", "Expired"),
+      value: stats.totalExpired,
+      color: "text-gray-500",
+    },
   ];
   return (
     <div className="grid grid-cols-2 gap-4 sm:grid-cols-4 mb-6">
@@ -65,19 +83,23 @@ function RateRow({
 }: {
   stats: AdminValidationStats;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const expPct = (stats.expirationRate * 100).toFixed(1);
   const rejPct = (stats.rejectionRate * 100).toFixed(1);
   const avgHrs = stats.avgResponseTimeHours.toFixed(1);
   return (
     <div className="flex flex-wrap gap-4 mb-6 text-sm text-gray-600">
       <span>
-        Avg response time: <strong>{avgHrs}h</strong>
+        {t("admin.validation.avgResponseTime", "Avg response time:")}{" "}
+        <strong>{avgHrs}h</strong>
       </span>
       <span>
-        Expiration rate: <strong>{expPct}%</strong>
+        {t("admin.validation.expirationRate", "Expiration rate:")}{" "}
+        <strong>{expPct}%</strong>
       </span>
       <span>
-        Rejection rate: <strong>{rejPct}%</strong>
+        {t("admin.validation.rejectionRate", "Rejection rate:")}{" "}
+        <strong>{rejPct}%</strong>
       </span>
     </div>
   );
@@ -93,6 +115,7 @@ function FilterBar({
   onStatusChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
   onSearchChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-wrap gap-4 mb-6">
       <select
@@ -101,15 +124,15 @@ function FilterBar({
         onChange={onStatusChange}
         aria-label="Filter by status"
       >
-        <option value="">All statuses</option>
-        <option value="pending">Pending</option>
-        <option value="approved">Approved</option>
-        <option value="rejected">Rejected</option>
-        <option value="expired">Expired</option>
+        <option value="">{t("admin.validation.allStatuses", "All statuses")}</option>
+        <option value="pending">{t("admin.validation.pending", "Pending")}</option>
+        <option value="approved">{t("admin.validation.approved", "Approved")}</option>
+        <option value="rejected">{t("admin.validation.rejected", "Rejected")}</option>
+        <option value="expired">{t("admin.validation.expired", "Expired")}</option>
       </select>
       <input
         type="text"
-        placeholder="Search volunteer, org…"
+        placeholder={t("admin.validation.searchPlaceholder", "Search volunteer, org…")}
         className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[220px]"
         defaultValue={filters.search ?? ""}
         onChange={onSearchChange}
@@ -131,6 +154,7 @@ function Pagination({
   onPrev: () => void;
   onNext: () => void;
 }): React.ReactElement | null {
+  const { t } = useTranslation();
   if (totalPages <= 1) return null;
   return (
     <div className="flex items-center justify-between mt-4">
@@ -140,10 +164,10 @@ function Pagination({
         onClick={onPrev}
         disabled={page <= 1}
       >
-        Previous
+        {t("common.previous", "Previous")}
       </Button>
       <span className="text-sm text-gray-500">
-        Page {page} of {totalPages}
+        {t("common.pageOfTotal", "Page {{page}} of {{total}}", { page, total: totalPages })}
       </span>
       <Button
         variant="secondary"
@@ -151,7 +175,7 @@ function Pagination({
         onClick={onNext}
         disabled={page >= totalPages}
       >
-        Next
+        {t("common.next", "Next")}
       </Button>
     </div>
   );
@@ -165,6 +189,7 @@ function RequestRow({
   request: AdminValidationRequestItem;
   onOverride: (_req: AdminValidationRequestItem) => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const handleOverride = useCallback(() => {
     onOverride(request);
   }, [onOverride, request]);
@@ -194,7 +219,7 @@ function RequestRow({
       <td className="px-4 py-3 text-right">
         {request.status === "pending" && (
           <Button variant="secondary" size="sm" onClick={handleOverride}>
-            Override
+            {t("admin.validation.override", "Override")}
           </Button>
         )}
       </td>
@@ -208,10 +233,11 @@ function SuspiciousTable({
 }: {
   patterns: AdminSuspiciousVolunteerPattern[];
 }): React.ReactElement {
+  const { t } = useTranslation();
   if (patterns.length === 0) {
     return (
       <p className="text-sm text-gray-500 py-4 text-center">
-        No suspicious patterns detected.
+        {t("admin.validation.noPatterns", "No suspicious patterns detected.")}
       </p>
     );
   }
@@ -221,16 +247,16 @@ function SuspiciousTable({
         <thead>
           <tr className="bg-gray-50">
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-              Volunteer
+              {t("admin.validation.colVolunteer", "Volunteer")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-              Organisation
+              {t("admin.validation.colOrganisation", "Organisation")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-              Hrs/Week
+              {t("admin.validation.colHrsPerWeek", "Hrs/Week")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-              Total Requests
+              {t("admin.validation.colTotalRequests", "Total Requests")}
             </th>
           </tr>
         </thead>
@@ -276,6 +302,7 @@ function OverrideModal({
   onConfirm,
   onClose,
 }: OverrideModalProps): React.ReactElement {
+  const { t } = useTranslation();
   const [newStatus, setNewStatus] =
     useState<ValidationRequestStatus>("approved");
   const [reason, setReason] = useState("");
@@ -305,34 +332,37 @@ function OverrideModal({
 
   return (
     <Modal
-      title="Override Validation Request"
+      title={t("admin.validation.overrideTitle", "Override Validation Request")}
       onClose={onClose}
       footer={
         <div className="flex gap-2 justify-end">
           <Button variant="secondary" onClick={onClose} disabled={overriding}>
-            Cancel
+            {t("common.cancel", "Cancel")}
           </Button>
           <Button
             variant="primary"
             onClick={handleConfirm}
             disabled={overriding || reason.trim().length === 0}
           >
-            {overriding ? "Saving…" : "Confirm Override"}
+            {overriding
+              ? t("common.saving", "Saving…")
+              : t("admin.validation.confirmOverride", "Confirm Override")}
           </Button>
         </div>
       }
     >
       <div className="space-y-4">
         <p className="text-sm text-gray-700">
-          Volunteer: <strong>{volunteerLabel}</strong> — {request.hoursReported}
-          h on {request.activityDate}
+          {t("admin.validation.colVolunteer", "Volunteer")}:{" "}
+          <strong>{volunteerLabel}</strong> — {request.hoursReported}h on{" "}
+          {request.activityDate}
         </p>
         <div>
           <label
             htmlFor="override-status"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            New Status
+            {t("admin.validation.newStatus", "New Status")}
           </label>
           <select
             id="override-status"
@@ -340,8 +370,8 @@ function OverrideModal({
             value={newStatus}
             onChange={handleStatusChange}
           >
-            <option value="approved">Approved</option>
-            <option value="rejected">Rejected</option>
+            <option value="approved">{t("admin.validation.approved", "Approved")}</option>
+            <option value="rejected">{t("admin.validation.rejected", "Rejected")}</option>
           </select>
         </div>
         <div>
@@ -349,13 +379,13 @@ function OverrideModal({
             htmlFor="override-reason"
             className="block text-sm font-medium text-gray-700 mb-1"
           >
-            Reason (required)
+            {t("admin.validation.reasonRequired", "Reason (required)")}
           </label>
           <textarea
             id="override-reason"
             rows={3}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            placeholder="Explain the reason for overriding this request…"
+            placeholder={t("admin.validation.reasonPlaceholder", "Explain the reason for overriding this request…")}
             value={reason}
             onChange={handleReasonChange}
           />
@@ -377,6 +407,7 @@ type TabId = "requests" | "patterns";
  * and a suspicious patterns alert view for abuse detection.
  */
 export default function AdminVolunteerValidation(): React.ReactElement {
+  const { t } = useTranslation();
   const {
     stats,
     statsLoading,
@@ -497,17 +528,17 @@ export default function AdminVolunteerValidation(): React.ReactElement {
       {/* Header */}
       <div className="flex items-center justify-between mb-6">
         <h1 className="text-2xl font-bold text-gray-900">
-          Volunteer Validation Oversight
+          {t("admin.validation.title", "Volunteer Validation Oversight")}
         </h1>
         <span className="text-sm text-gray-500">
-          {result.totalCount} total requests
+          {t("admin.validation.totalCount", "{{count}} total requests", { count: result.totalCount })}
         </span>
       </div>
 
       {/* Pipeline stats */}
       <Card className="p-6 mb-6">
         <h2 className="text-base font-semibold text-gray-800 mb-4">
-          Pipeline Statistics
+          {t("admin.validation.pipelineStats", "Pipeline Statistics")}
         </h2>
         {statsLoading && <LoadingSpinner size="sm" />}
         {!statsLoading && stats !== null && (
@@ -517,7 +548,9 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           </>
         )}
         {!statsLoading && stats === null && (
-          <p className="text-sm text-gray-500">No statistics available.</p>
+          <p className="text-sm text-gray-500">
+            {t("admin.validation.noStats", "No statistics available.")}
+          </p>
         )}
       </Card>
 
@@ -527,13 +560,13 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px ${activeTab === "requests" ? "border-emerald-500 text-emerald-700" : "border-transparent text-gray-500 hover:text-gray-700"}`}
           onClick={handleTabRequests}
         >
-          Validation Requests
+          {t("admin.validation.requestsTab", "Validation Requests")}
         </button>
         <button
           className={`px-4 py-2 text-sm font-medium border-b-2 -mb-px ${activeTab === "patterns" ? "border-emerald-500 text-emerald-700" : "border-transparent text-gray-500 hover:text-gray-700"}`}
           onClick={handleTabPatterns}
         >
-          Suspicious Patterns
+          {t("admin.validation.patternsTab", "Suspicious Patterns")}
           {suspiciousPatterns.length > 0 && (
             <span className="ml-2 inline-block bg-red-100 text-red-800 text-xs font-semibold px-1.5 py-0.5 rounded-full">
               {suspiciousPatterns.length}
@@ -557,7 +590,7 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           )}
           {!loading && result.requests.length === 0 && (
             <p className="text-sm text-gray-500 text-center py-8">
-              No validation requests found.
+              {t("admin.validation.noRequests", "No validation requests found.")}
             </p>
           )}
           {!loading && result.requests.length > 0 && (
@@ -566,22 +599,22 @@ export default function AdminVolunteerValidation(): React.ReactElement {
                 <thead>
                   <tr className="bg-gray-50">
                     <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Volunteer
+                      {t("admin.validation.colVolunteer", "Volunteer")}
                     </th>
                     <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Organisation
+                      {t("admin.validation.colOrganisation", "Organisation")}
                     </th>
                     <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-                      Hours
+                      {t("admin.validation.colHours", "Hours")}
                     </th>
                     <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Activity Date
+                      {t("admin.validation.colActivityDate", "Activity Date")}
                     </th>
                     <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Status
+                      {t("admin.validation.colStatus", "Status")}
                     </th>
                     <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      Created
+                      {t("admin.validation.colCreated", "Created")}
                     </th>
                     <th className="px-4 py-3" />
                   </tr>
@@ -611,9 +644,7 @@ export default function AdminVolunteerValidation(): React.ReactElement {
       {activeTab === "patterns" && (
         <Card className="p-6">
           <p className="text-sm text-gray-600 mb-4">
-            Volunteers flagged for reporting more than the configured threshold
-            of hours in a rolling 7-day window. These patterns may indicate
-            abuse of the self-reported hours system.
+            {t("admin.validation.patternsDescription", "Volunteers flagged for reporting more than the configured threshold of hours in a rolling 7-day window. These patterns may indicate abuse of the self-reported hours system.")}
           </p>
           {patternsLoading && (
             <div className="flex justify-center py-12">

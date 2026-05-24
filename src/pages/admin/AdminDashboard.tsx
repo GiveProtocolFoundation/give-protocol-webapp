@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { useAuth } from "@/contexts/AuthContext";
 import { trackEvent } from "@/lib/sentry";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   getAdminDashboardStats,
   getAdminRecentActivity,
@@ -41,27 +42,36 @@ function formatRelativeTime(timestamp: string): string {
 }
 
 /** Returns a display label and colour class for a given activity event type. */
-function getActivityMeta(type: string): { label: string; colourClass: string } {
+function getActivityMeta(
+  type: string,
+  t: (key: string, fallback: string) => string,
+): { label: string; colourClass: string } {
   switch (type) {
     case "donation":
-      return { label: "Donation", colourClass: "text-green-700 bg-green-100" };
+      return {
+        label: t("admin.activity.donation", "Donation"),
+        colourClass: "text-green-700 bg-green-100",
+      };
     case "registration":
       return {
-        label: "Registration",
+        label: t("admin.activity.registration", "Registration"),
         colourClass: "text-blue-700 bg-blue-100",
       };
     case "verification":
       return {
-        label: "Verification",
+        label: t("admin.activity.verification", "Verification"),
         colourClass: "text-purple-700 bg-purple-100",
       };
     case "volunteer_hours":
       return {
-        label: "Volunteer Hours",
+        label: t("admin.activity.volunteerHours", "Volunteer Hours"),
         colourClass: "text-orange-700 bg-orange-100",
       };
     default:
-      return { label: "Activity", colourClass: "text-gray-700 bg-gray-100" };
+      return {
+        label: t("admin.activity.default", "Activity"),
+        colourClass: "text-gray-700 bg-gray-100",
+      };
   }
 }
 
@@ -107,6 +117,7 @@ function StatCard({
   trend30d?: number;
   trendLabel?: string;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <Card className="p-6">
       <p className="text-sm font-medium text-gray-500">{label}</p>
@@ -118,7 +129,7 @@ function StatCard({
               <span className="font-semibold text-gray-700">
                 {trend7d.toLocaleString()}
               </span>{" "}
-              last 7d
+              {t("admin.stats.last7d", "last 7d")}
             </span>
           )}
           {trend30d !== undefined && (
@@ -126,7 +137,7 @@ function StatCard({
               <span className="font-semibold text-gray-700">
                 {trend30d.toLocaleString()}
               </span>{" "}
-              last 30d
+              {t("admin.stats.last30d", "last 30d")}
             </span>
           )}
           {trendLabel && <span className="text-gray-400">{trendLabel}</span>}
@@ -142,7 +153,8 @@ function ActivityItem({
 }: {
   activity: AdminActivityEvent;
 }): React.ReactElement {
-  const meta = getActivityMeta(activity.eventType);
+  const { t } = useTranslation();
+  const meta = getActivityMeta(activity.eventType, t);
   return (
     <div className="flex items-center justify-between p-4 mb-3 border rounded-lg">
       <div className="flex-1 min-w-0">
@@ -220,6 +232,7 @@ function QuickActionButton({
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { t } = useTranslation();
 
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
   const [activity, setActivity] = useState<AdminActivityEvent[]>([]);
@@ -308,7 +321,7 @@ const AdminDashboard: React.FC = () => {
       <div className="flex min-h-screen items-center justify-center">
         <Card className="p-6 text-center">
           <h2 className="text-xl font-semibold text-red-600 mb-4">
-            Error Loading Dashboard
+            {t("admin.dashboard.errorTitle", "Error Loading Dashboard")}
           </h2>
           <p className="text-gray-600 mb-4">{error}</p>
           <button
@@ -316,7 +329,7 @@ const AdminDashboard: React.FC = () => {
             className="bg-blue-600 text-gray-900 px-4 py-2 rounded hover:bg-blue-700"
             aria-label="Retry loading dashboard data"
           >
-            Retry
+            {t("common.retry", "Retry")}
           </button>
         </Card>
       </div>
@@ -329,15 +342,17 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <main className="container mx-auto p-6 space-y-6">
-      <h1 className="text-3xl font-bold text-gray-900">Admin Dashboard</h1>
+      <h1 className="text-3xl font-bold text-gray-900">
+        {t("admin.dashboard.title", "Admin Dashboard")}
+      </h1>
 
       {/* Alerts panel */}
       {alerts.length > 0 && (
         <Card className="p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            Alerts{" "}
+            {t("admin.dashboard.alerts", "Alerts")}{" "}
             <span className="ml-2 text-sm font-normal text-red-600">
-              ({alerts.length} pending)
+              ({t("admin.dashboard.alertsPending", "{{count}} pending", { count: alerts.length })})
             </span>
           </h2>
           {alerts.map((alert) => (
@@ -352,45 +367,45 @@ const AdminDashboard: React.FC = () => {
       {/* KPI cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
         <StatCard
-          label="Total Donors"
+          label={t("admin.stats.totalDonors", "Total Donors")}
           value={stats.totalDonors.toLocaleString()}
           trend7d={stats.trends.registrations7d}
           trend30d={stats.trends.registrations30d}
-          trendLabel="new registrations"
+          trendLabel={t("admin.stats.newRegistrations", "new registrations")}
         />
 
         <StatCard
-          label="Charities"
+          label={t("admin.stats.charities", "Charities")}
           value={stats.totalCharities.toLocaleString()}
           trend7d={stats.pendingCharities}
-          trendLabel="pending verification"
+          trendLabel={t("admin.stats.pendingVerification", "pending verification")}
         />
 
         <StatCard
-          label="Verified Charities"
+          label={t("admin.stats.verifiedCharities", "Verified Charities")}
           value={stats.verifiedCharities.toLocaleString()}
         />
 
         <StatCard
-          label="Active Volunteers"
+          label={t("admin.stats.activeVolunteers", "Active Volunteers")}
           value={stats.totalVolunteers.toLocaleString()}
         />
 
         <StatCard
-          label="Total Donation Volume"
+          label={t("admin.stats.totalDonationVolume", "Total Donation Volume")}
           value={formatCurrency(stats.totalVolumeUsd)}
           trend7d={stats.trends.donations7d}
           trend30d={stats.trends.donations30d}
-          trendLabel="donations"
+          trendLabel={t("admin.stats.donations", "donations")}
         />
 
         <StatCard
-          label="Crypto Volume"
+          label={t("admin.stats.cryptoVolume", "Crypto Volume")}
           value={formatCurrency(stats.cryptoVolumeUsd)}
         />
 
         <StatCard
-          label="Fiat Volume"
+          label={t("admin.stats.fiatVolume", "Fiat Volume")}
           value={formatCurrency(stats.fiatVolumeUsd)}
         />
       </div>
@@ -398,10 +413,12 @@ const AdminDashboard: React.FC = () => {
       {/* Recent Activity */}
       <Card className="p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">
-          Recent Activity
+          {t("admin.dashboard.recentActivity", "Recent Activity")}
         </h2>
         {activity.length === 0 ? (
-          <p className="text-gray-500 text-sm">No recent activity.</p>
+          <p className="text-gray-500 text-sm">
+            {t("admin.dashboard.noRecentActivity", "No recent activity.")}
+          </p>
         ) : (
           activity.map((evt) => <ActivityItem key={evt.id} activity={evt} />)
         )}
@@ -410,47 +427,47 @@ const AdminDashboard: React.FC = () => {
       {/* Quick Actions */}
       <Card className="p-6">
         <h2 className="text-xl font-semibold text-gray-900 mb-4">
-          Quick Actions
+          {t("admin.dashboard.quickActions", "Quick Actions")}
         </h2>
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <QuickActionButton
-            title="View Reports"
-            description="Generate detailed analytics"
+            title={t("admin.actions.viewReports", "View Reports")}
+            description={t("admin.actions.viewReportsDesc", "Generate detailed analytics")}
             onClick={handleNavigateReports}
           />
           <QuickActionButton
-            title="Manage Charities"
-            description="Review and approve organizations"
+            title={t("admin.actions.manageCharities", "Manage Charities")}
+            description={t("admin.actions.manageCharitiesDesc", "Review and approve organizations")}
             onClick={handleNavigateCharities}
           />
           <QuickActionButton
-            title="System Settings"
-            description="Configure platform parameters"
+            title={t("admin.actions.systemSettings", "System Settings")}
+            description={t("admin.actions.systemSettingsDesc", "Configure platform parameters")}
             onClick={handleNavigateSettings}
           />
           <QuickActionButton
-            title="Manage Impact Metrics"
-            description="Configure impact calculator data"
+            title={t("admin.actions.manageImpactMetrics", "Manage Impact Metrics")}
+            description={t("admin.actions.manageImpactMetricsDesc", "Configure impact calculator data")}
             onClick={handleNavigateImpactMetrics}
           />
           <QuickActionButton
-            title="Donation Monitoring"
-            description="Monitor, flag, and report on donations"
+            title={t("admin.actions.donationMonitoring", "Donation Monitoring")}
+            description={t("admin.actions.donationMonitoringDesc", "Monitor, flag, and report on donations")}
             onClick={handleNavigateDonations}
           />
           <QuickActionButton
-            title="Content Moderation"
-            description="Hide, flag, and review opportunities and causes"
+            title={t("admin.actions.contentModeration", "Content Moderation")}
+            description={t("admin.actions.contentModerationDesc", "Hide, flag, and review opportunities and causes")}
             onClick={handleNavigateContentModeration}
           />
           <QuickActionButton
-            title="Portfolio Funds"
-            description="Create and manage curated giving portfolios"
+            title={t("admin.actions.portfolioFunds", "Portfolio Funds")}
+            description={t("admin.actions.portfolioFundsDesc", "Create and manage curated giving portfolios")}
             onClick={handleNavigatePortfolioFunds}
           />
           <QuickActionButton
-            title="Charity Requests"
-            description="Review donor requests for unclaimed charities"
+            title={t("admin.actions.charityRequests", "Charity Requests")}
+            description={t("admin.actions.charityRequestsDesc", "Review donor requests for unclaimed charities")}
             onClick={handleNavigateCharityRequests}
           />
         </div>

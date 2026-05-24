@@ -843,5 +843,8 @@ export default {
       "Explain the reason for overriding this request\u2026",
     "admin.validation.saving": "Saving\u2026",
     "admin.validation.confirmOverride": "Confirm Override",
+    "admin.validation.allStatuses": "All statuses",
+    "admin.validation.colStatus": "Status",
+    "admin.validation.colCreated": "Created",
   },
 };

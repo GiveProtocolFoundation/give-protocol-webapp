@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminCharities } from "@/hooks/useAdminCharities";
 import type {
   AdminCharityListItem,
@@ -18,6 +19,7 @@ function StatusBadge({
 }: {
   status: AdminCharityVerificationStatus;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const styles: Record<string, string> = {
     pending: "bg-yellow-100 text-yellow-800",
     verified: "bg-green-100 text-green-800",
@@ -26,11 +28,11 @@ function StatusBadge({
     suspended: "bg-gray-100 text-gray-700",
   };
   const labels: Record<string, string> = {
-    pending: "Pending",
-    verified: "Verified",
-    approved: "Approved",
-    rejected: "Rejected",
-    suspended: "Suspended",
+    pending: t("admin.charity.statusPending", "Pending"),
+    verified: t("admin.charity.statusVerified", "Verified"),
+    approved: t("admin.charity.statusApproved", "Approved"),
+    rejected: t("admin.charity.statusRejected", "Rejected"),
+    suspended: t("admin.charity.statusSuspended", "Suspended"),
   };
   return (
     <span
@@ -47,6 +49,7 @@ function WalletBadge({
 }: {
   address: string | null;
 }): React.ReactElement {
+  const { t } = useTranslation();
   if (address) {
     return (
       <span className="inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">
@@ -56,7 +59,7 @@ function WalletBadge({
   }
   return (
     <span className="inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-500">
-      Not set
+      {t("admin.charity.walletNotSet", "Not set")}
     </span>
   );
 }
@@ -71,6 +74,7 @@ function CharityActions({
   onAction: (charity: AdminCharityListItem, action: string) => void;
   disabled: boolean;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const { verificationStatus: s } = charity;
 
   const handleApprove = useCallback(
@@ -100,7 +104,7 @@ function CharityActions({
             onClick={handleApprove}
             disabled={disabled}
           >
-            Approve
+            {t("admin.charity.approve", "Approve")}
           </Button>
           <Button
             size="sm"
@@ -108,7 +112,7 @@ function CharityActions({
             onClick={handleReject}
             disabled={disabled}
           >
-            Reject
+            {t("admin.charity.reject", "Reject")}
           </Button>
         </>
       )}
@@ -119,7 +123,7 @@ function CharityActions({
           onClick={handleSuspend}
           disabled={disabled}
         >
-          Suspend
+          {t("admin.charity.suspend", "Suspend")}
         </Button>
       )}
       {s === "suspended" && (
@@ -129,7 +133,7 @@ function CharityActions({
           onClick={handleReinstate}
           disabled={disabled}
         >
-          Reinstate
+          {t("admin.charity.reinstate", "Reinstate")}
         </Button>
       )}
       {s === "rejected" && (
@@ -139,7 +143,7 @@ function CharityActions({
           onClick={handleApprove}
           disabled={disabled}
         >
-          Approve
+          {t("admin.charity.approve", "Approve")}
         </Button>
       )}
     </div>
@@ -156,6 +160,7 @@ function FilterBar({
   onStatusChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
   onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="flex flex-wrap gap-4 mb-6">
       <select
@@ -164,15 +169,25 @@ function FilterBar({
         onChange={onStatusChange}
         aria-label="Filter by status"
       >
-        <option value="">All statuses</option>
-        <option value="pending">Pending</option>
-        <option value="verified">Verified</option>
-        <option value="rejected">Rejected</option>
-        <option value="suspended">Suspended</option>
+        <option value="">
+          {t("admin.charity.allStatuses", "All statuses")}
+        </option>
+        <option value="pending">
+          {t("admin.charity.statusPending", "Pending")}
+        </option>
+        <option value="verified">
+          {t("admin.charity.statusVerified", "Verified")}
+        </option>
+        <option value="rejected">
+          {t("admin.charity.statusRejected", "Rejected")}
+        </option>
+        <option value="suspended">
+          {t("admin.charity.statusSuspended", "Suspended")}
+        </option>
       </select>
       <input
         type="text"
-        placeholder="Search by name…"
+        placeholder={t("admin.charity.searchPlaceholder", "Search by name\u2026")}
         className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex-1 min-w-[200px] focus:outline-none focus:ring-2 focus:ring-emerald-500"
         value={filters.search ?? ""}
         onChange={onSearchChange}
@@ -194,6 +209,7 @@ function Pagination({
   onPrev: () => void;
   onNext: () => void;
 }): React.ReactElement | null {
+  const { t } = useTranslation();
   if (totalPages <= 1) return null;
   return (
     <div className="flex items-center justify-between mt-6">
@@ -203,10 +219,13 @@ function Pagination({
         onClick={onPrev}
         disabled={page <= 1}
       >
-        Previous
+        {t("common.previous", "Previous")}
       </Button>
       <span className="text-sm text-gray-600">
-        Page {page} of {totalPages}
+        {t("common.pageOfTotal", "Page {{page}} of {{total}}", {
+          page,
+          total: totalPages,
+        })}
       </span>
       <Button
         size="sm"
@@ -214,7 +233,7 @@ function Pagination({
         onClick={onNext}
         disabled={page >= totalPages}
       >
-        Next
+        {t("common.next", "Next")}
       </Button>
     </div>
   );
@@ -240,13 +259,14 @@ function ActionModal({
   onClose: () => void;
   confirming: boolean;
 }): React.ReactElement | null {
+  const { t } = useTranslation();
   if (!charity) return null;
 
   const ACTION_LABELS: Record<string, string> = {
-    approve: "Approve Charity",
-    reject: "Reject Charity",
-    suspend: "Suspend Charity",
-    reinstate: "Reinstate Charity",
+    approve: t("admin.charity.approveTitle", "Approve Charity"),
+    reject: t("admin.charity.rejectTitle", "Reject Charity"),
+    suspend: t("admin.charity.suspendTitle", "Suspend Charity"),
+    reinstate: t("admin.charity.reinstateTitle", "Reinstate Charity"),
   };
 
   const REASON_REQUIRED = action === "reject" || action === "suspend";
@@ -255,7 +275,7 @@ function ActionModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={ACTION_LABELS[action] ?? "Confirm Action"}
+      title={ACTION_LABELS[action] ?? t("admin.charity.confirmAction", "Confirm Action")}
       size="md"
     >
       <p className="text-sm text-gray-600 mb-4">
@@ -287,7 +307,9 @@ function ActionModal({
       <textarea
         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-y min-h-[80px]"
         placeholder={
-          REASON_REQUIRED ? "Reason (required)" : "Reason (optional)"
+          REASON_REQUIRED
+            ? t("admin.charity.reasonRequired", "Reason (required)")
+            : t("admin.charity.reasonOptional", "Reason (optional)")
         }
         value={reason}
         onChange={onReasonChange}
@@ -300,7 +322,7 @@ function ActionModal({
           onClick={onClose}
           disabled={confirming}
         >
-          Cancel
+          {t("common.cancel", "Cancel")}
         </Button>
         <Button
           variant={
@@ -312,7 +334,9 @@ function ActionModal({
             confirming || (REASON_REQUIRED && reason.trim().length === 0)
           }
         >
-          {confirming ? "Saving…" : (ACTION_LABELS[action] ?? "Confirm")}
+          {confirming
+            ? t("admin.charity.saving", "Saving\u2026")
+            : (ACTION_LABELS[action] ?? t("admin.charity.confirm", "Confirm"))}
         </Button>
       </div>
     </Modal>
@@ -331,28 +355,29 @@ function CharityTable({
   onAction: (charity: AdminCharityListItem, action: string) => void;
   updating: boolean;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left">
         <thead>
           <tr className="bg-gray-50">
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Name
+              {t("admin.charity.colName", "Name")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Category
+              {t("admin.charity.colCategory", "Category")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Status
+              {t("admin.charity.colStatus", "Status")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Joined
+              {t("admin.charity.colJoined", "Joined")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Wallet
+              {t("admin.charity.colWallet", "Wallet")}
             </th>
             <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              Actions
+              {t("admin.charity.colActions", "Actions")}
             </th>
           </tr>
         </thead>
@@ -432,6 +457,7 @@ function CharityRow({
  * and approve/reject/suspend/reinstate actions backed by the admin audit trail.
  */
 const AdminCharityManagement: React.FC = () => {
+  const { t } = useTranslation();
   const {
     result,
     loading,
@@ -564,8 +590,14 @@ const AdminCharityManagement: React.FC = () => {
   return (
     <div className="container mx-auto p-6 space-y-6">
       <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">Charity Management</h1>
-        <span className="text-sm text-gray-500">{result.totalCount} total</span>
+        <h1 className="text-3xl font-bold text-gray-900">
+          {t("admin.charity.title", "Charity Management")}
+        </h1>
+        <span className="text-sm text-gray-500">
+          {t("admin.charity.totalCount", "{{count}} total", {
+            count: result.totalCount,
+          })}
+        </span>
       </div>
 
       <Card className="p-6">
@@ -583,7 +615,10 @@ const AdminCharityManagement: React.FC = () => {
 
         {!loading && result.charities.length === 0 && (
           <p className="text-center py-8 text-gray-500">
-            No charities found matching your filters.
+            {t(
+              "admin.charity.noResults",
+              "No charities found matching your filters.",
+            )}
           </p>
         )}
 
