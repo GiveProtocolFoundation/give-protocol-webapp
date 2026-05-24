@@ -1,17 +1,14 @@
-import React, { useCallback } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useSearchParams } from "react-router-dom";
 import { cn } from "@/utils/cn";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /** Tab identifiers for the browse discovery page. */
 export type DiscoveryTab = "charities" | "causes" | "funds";
 
-const TABS: { id: DiscoveryTab; label: string }[] = [
-  { id: "charities", label: "Charities" },
-  { id: "causes", label: "Causes" },
-  { id: "funds", label: "Portfolio Funds" },
-];
+const TAB_IDS: DiscoveryTab[] = ["charities", "causes", "funds"];
 
-const VALID_TABS = new Set<string>(TABS.map((t) => t.id));
+const VALID_TABS = new Set<string>(TAB_IDS);
 
 /**
  * Reads the current discovery tab from the URL search params.
@@ -68,6 +65,26 @@ export const DiscoveryTabs: React.FC<DiscoveryTabsProps> = ({
   activeTab,
   onTabChange,
 }) => {
+  const { t } = useTranslation();
+
+  const tabs = useMemo(
+    () => [
+      {
+        id: "charities" as DiscoveryTab,
+        label: t("browse.tabs.charities", "Charities"),
+      },
+      {
+        id: "causes" as DiscoveryTab,
+        label: t("browse.tabs.causes", "Causes"),
+      },
+      {
+        id: "funds" as DiscoveryTab,
+        label: t("browse.tabs.funds", "Portfolio Funds"),
+      },
+    ],
+    [t],
+  );
+
   const handleClick = useCallback(
     (event: React.MouseEvent<HTMLButtonElement>) => {
       const tab = event.currentTarget.dataset.tab as DiscoveryTab | undefined;
@@ -80,10 +97,10 @@ export const DiscoveryTabs: React.FC<DiscoveryTabsProps> = ({
 
   return (
     <nav
-      aria-label="Browse categories"
+      aria-label={t("browse.tabs.ariaLabel", "Browse categories")}
       className="flex gap-1 rounded-lg bg-gray-100 dark:bg-gray-800 p-1"
     >
-      {TABS.map((tab) => (
+      {tabs.map((tab) => (
         <button
           key={tab.id}
           type="button"

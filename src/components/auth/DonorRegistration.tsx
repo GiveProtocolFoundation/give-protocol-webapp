@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { Fingerprint, ChevronDown, ChevronUp, Wallet } from "lucide-react";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { validateEmail, validatePassword } from "@/utils/validation";
@@ -48,6 +49,7 @@ export const DonorRegistration: React.FC = () => {
     signInWithWallet,
     isPasskeySupported,
   } = useUnifiedAuth();
+  const { t } = useTranslation();
 
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -55,10 +57,6 @@ export const DonorRegistration: React.FC = () => {
   const [error, setError] = useState("");
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
 
-  /**
-   * handleEmailChange updates email state when the input changes.
-   * @param e - The input change event.
-   */
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEmail(e.target.value);
@@ -67,10 +65,6 @@ export const DonorRegistration: React.FC = () => {
     [],
   );
 
-  /**
-   * handlePasswordChange updates password state when the input changes.
-   * @param e - The input change event.
-   */
   const handlePasswordChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setPassword(e.target.value);
@@ -79,10 +73,6 @@ export const DonorRegistration: React.FC = () => {
     [],
   );
 
-  /**
-   * handleConfirmPasswordChange updates confirmPassword state.
-   * @param e - The input change event.
-   */
   const handleConfirmPasswordChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setConfirmPassword(e.target.value);
@@ -98,7 +88,7 @@ export const DonorRegistration: React.FC = () => {
   const handlePasskeySignUp = useCallback(async () => {
     setError("");
     if (!validateEmail(email)) {
-      setError("Please enter your email address first");
+      setError(t("auth.validation.emailRequired"));
       return;
     }
     try {
@@ -120,7 +110,7 @@ export const DonorRegistration: React.FC = () => {
         setError(message);
       }
     }
-  }, [email, signUpWithEmail, registerPasskey]);
+  }, [email, signUpWithEmail, registerPasskey, t]);
 
   const handleGoogleSignUp = useCallback(async () => {
     setError("");
@@ -144,28 +134,23 @@ export const DonorRegistration: React.FC = () => {
     }
   }, [signInWithWallet]);
 
-  /**
-   * handlePasswordSubmit validates form data and submits registration.
-   * @param e - The form submission event.
-   * @returns Promise<void> indicating completion of the submit action.
-   */
   const handlePasswordSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       setError("");
 
       if (!validateEmail(email)) {
-        setError("Please enter a valid email address");
+        setError(t("auth.validation.invalidEmail"));
         return;
       }
 
       if (!validatePassword(password)) {
-        setError("Password must be at least 8 characters long");
+        setError(t("auth.validation.passwordTooShort"));
         return;
       }
 
       if (password !== confirmPassword) {
-        setError("Passwords do not match");
+        setError(t("auth.validation.passwordMismatch"));
         return;
       }
 
@@ -177,7 +162,7 @@ export const DonorRegistration: React.FC = () => {
         setError(message);
       }
     },
-    [email, password, confirmPassword, signUpWithEmail],
+    [email, password, confirmPassword, signUpWithEmail, t],
   );
 
   return (
@@ -194,7 +179,7 @@ export const DonorRegistration: React.FC = () => {
 
       {/* Email field — shared across all auth paths */}
       <Input
-        label="Email"
+        label={t("common.email")}
         type="email"
         name="email"
         autoComplete="email"
@@ -215,7 +200,9 @@ export const DonorRegistration: React.FC = () => {
           aria-busy={loading}
           icon={<Fingerprint className="h-4 w-4" />}
         >
-          {loading ? "Please wait…" : "Sign up with Passkey"}
+          {loading
+            ? t("auth.donorReg.pleaseWait")
+            : t("auth.donorReg.signUpPasskey")}
         </Button>
       )}
 
@@ -228,7 +215,7 @@ export const DonorRegistration: React.FC = () => {
         disabled={loading}
         icon={<GoogleIcon />}
       >
-        Continue with Google
+        {t("auth.donorReg.withGoogle")}
       </Button>
 
       <Button
@@ -239,7 +226,7 @@ export const DonorRegistration: React.FC = () => {
         disabled={loading}
         icon={<Wallet className="h-4 w-4" />}
       >
-        Connect Wallet
+        {t("auth.donorReg.connectWallet")}
       </Button>
 
       {/* Collapsible password section */}
@@ -250,7 +237,9 @@ export const DonorRegistration: React.FC = () => {
           className="w-full flex items-center justify-between text-sm text-gray-500 hover:text-gray-700 transition-colors py-2"
           aria-expanded={isPasswordOpen}
         >
-          <span className="font-medium">Or set a password</span>
+          <span className="font-medium">
+            {t("auth.donorReg.orSetPassword")}
+          </span>
           {isPasswordOpen ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -264,7 +253,7 @@ export const DonorRegistration: React.FC = () => {
             aria-label="Password registration form"
           >
             <Input
-              label="Password"
+              label={t("common.password")}
               type="password"
               name="password"
               autoComplete="new-password"
@@ -276,7 +265,7 @@ export const DonorRegistration: React.FC = () => {
             />
 
             <Input
-              label="Confirm Password"
+              label={t("common.confirmPassword")}
               type="password"
               name="confirmPassword"
               autoComplete="new-password"
@@ -293,7 +282,9 @@ export const DonorRegistration: React.FC = () => {
               disabled={loading}
               aria-busy={loading}
             >
-              {loading ? "Creating Account..." : "Create Donor Account"}
+              {loading
+                ? t("auth.donorReg.creating")
+                : t("auth.donorReg.createAccount")}
             </Button>
           </form>
         )}
