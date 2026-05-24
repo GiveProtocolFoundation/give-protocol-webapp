@@ -88,8 +88,7 @@ export default {
     "volunteer.hoursVerified": "志工時數已驗證並記錄在區塊鏈上。",
     "volunteer.verificationHash": "驗證雜湊值",
     "volunteer.applicationAccepted": "申請已接受",
-    "volunteer.applicationRecorded":
-      "志工申請已被接受並記錄在區塊鏈上。",
+    "volunteer.applicationRecorded": "志工申請已被接受並記錄在區塊鏈上。",
     "volunteer.acceptanceHash": "接受雜湊值",
     "volunteer.pendingHours": "待驗證志工時數",
     "volunteer.noPendingHours": "沒有待驗證的志工時數。",
@@ -138,13 +137,11 @@ export default {
     "volunteer.skillsPlaceholder": "例如：網頁開發、專案管理、翻譯",
     "volunteer.locationPlaceholder": "例如：遠端、台北、高雄",
     "volunteer.headerImage": "封面圖片",
-    "volunteer.headerImageHelp":
-      "上傳一張圖片顯示在您的機會列表頂部",
+    "volunteer.headerImageHelp": "上傳一張圖片顯示在您的機會列表頂部",
     "volunteer.limitReached": "機會數量已達上限",
     "volunteer.limitReachedMessage":
       "您已達到最多 {{max}} 個活躍志工機會的上限。請關閉或完成一個現有機會後再建立新機會。",
-    "volunteer.opportunityCount":
-      "您有 {{count}} / {{max}} 個活躍機會。",
+    "volunteer.opportunityCount": "您有 {{count}} / {{max}} 個活躍機會。",
 
     // Volunteer - HoursVerificationTab
     "volunteer.hoursVerification": "時數驗證",
@@ -152,8 +149,7 @@ export default {
     "volunteer.formalHours": "已記錄時數",
     "volunteer.selfReported": "自行回報",
     "volunteer.loggedHours": "已記錄志工時數",
-    "volunteer.loggedHoursDescription":
-      "志工透過您的機會記錄的時數",
+    "volunteer.loggedHoursDescription": "志工透過您的機會記錄的時數",
     "volunteer.allCaughtUp": "全部處理完畢！",
     "volunteer.noPendingLoggedHours": "沒有待驗證的已記錄時數。",
     "volunteer.selfReportedHours": "自行回報時數",
@@ -221,8 +217,7 @@ export default {
     "volunteer.contactEmailOptional": "（選填）",
     "volunteer.onboardHelp": "我們可能會聯繫以協助該組織加入平台",
     "volunteer.submittedForValidation": "此紀錄將提交驗證",
-    "volunteer.submittedForValidationTo":
-      "此紀錄將提交給 {{org}} 進行驗證",
+    "volunteer.submittedForValidationTo": "此紀錄將提交給 {{org}} 進行驗證",
     "volunteer.validationExpired": "此日期的驗證期限已過",
     "volunteer.savedAsUnvalidated": "此紀錄將儲存為未驗證",
     "volunteer.describeActivities": "描述您執行的活動...",
@@ -255,8 +250,7 @@ export default {
 
     // Volunteer - VolunteerApplicationForm
     "volunteer.applicationTitle": "志工機會申請",
-    "volunteer.applicationSubtitle":
-      "透過經驗證的貢獻幫助創造永續的影響",
+    "volunteer.applicationSubtitle": "透過經驗證的貢獻幫助創造永續的影響",
     "volunteer.personalInfo": "個人資訊",
     "volunteer.firstName": "名",
     "volunteer.lastName": "姓",
@@ -293,8 +287,7 @@ export default {
     "volunteer.validation.experienceRequired": "請描述您的相關經驗",
     "volunteer.validation.addSkill": "請新增至少一項技能",
     "volunteer.validation.ageRangeRequired": "請選擇您的年齡範圍",
-    "volunteer.validation.consentRequired":
-      "您必須同意所有必要的同意項目",
+    "volunteer.validation.consentRequired": "您必須同意所有必要的同意項目",
     "volunteer.signInToSubmit": "請登入後提交申請",
     "volunteer.submitFailed": "提交申請失敗，請重試。",
 
@@ -319,8 +312,7 @@ export default {
     "volunteer.workSamplesTitle": "作品範例",
     "volunteer.workSamplesLabel": "作品範例連結（以逗號分隔）",
     "volunteer.submitApplicationShort": "提交申請",
-    "volunteer.validation.nameInvalid":
-      "請輸入有效的姓名（2-100 個字元）",
+    "volunteer.validation.nameInvalid": "請輸入有效的姓名（2-100 個字元）",
     "volunteer.validation.provideExperience": "請提供您的經驗資訊",
     "volunteer.validation.selectDay": "請至少選擇一天",
     "volunteer.validation.selectTime": "請至少選擇一個時段",
@@ -328,8 +320,7 @@ export default {
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "我瞭解：",
     "volunteer.specificConsents": "具體同意事項",
-    "volunteer.specificConsentsDesc":
-      "請審閱並表明您對以下各項的同意：",
+    "volunteer.specificConsentsDesc": "請審閱並表明您對以下各項的同意：",
     "volunteer.essentialProcessingTitle": "基本處理（必要）：",
     "volunteer.internationalTransfersTitle": "國際傳輸（如適用）：",
     "volunteer.acknowledgmentTitle": "確認",
@@ -337,10 +328,8 @@ export default {
     "volunteer.privacyNoticeTitle": "隱私聲明：",
     "volunteer.doNotAccept": "不接受",
     "volunteer.acceptAndContinue": "接受並繼續",
-    "volunteer.validation.essentialRequired":
-      "必須同意基本處理才能繼續",
-    "volunteer.validation.agePrivacyRequired":
-      "您必須確認年齡並已閱讀隱私聲明",
+    "volunteer.validation.essentialRequired": "必須同意基本處理才能繼續",
+    "volunteer.validation.agePrivacyRequired": "您必須確認年齡並已閱讀隱私聲明",
 
     // Languages
     "language.english": "英語",
@@ -410,8 +399,7 @@ export default {
 
     // Modal - wallet connection
     "modal.wallet.title": "連接您的錢包",
-    "modal.wallet.description":
-      "連接錢包以解鎖 Give Protocol 的全部功能",
+    "modal.wallet.description": "連接錢包以解鎖 Give Protocol 的全部功能",
     "modal.wallet.benefit1": "在區塊鏈上透明地追蹤您的捐款",
     "modal.wallet.benefit2": "透過貢獻獲得 GIVE 代幣獎勵",
     "modal.wallet.benefit3": "參與協議治理決策",
@@ -427,12 +415,10 @@ export default {
     "modal.walletLink.title": "連結您的錢包",
     "modal.walletLink.description":
       "將錢包連結到您的帳號以進行鏈上捐款、獲取代幣獎勵和參與治理",
-    "modal.walletLink.benefit1":
-      "直接向鏈上已驗證的慈善機構捐贈加密貨幣",
+    "modal.walletLink.benefit1": "直接向鏈上已驗證的慈善機構捐贈加密貨幣",
     "modal.walletLink.benefit2Pre": "累積",
     "modal.walletLink.benefit2Post": "您的貢獻憑證",
-    "modal.walletLink.benefit3":
-      "使用電子郵件或錢包登入 \u2014 同一帳號",
+    "modal.walletLink.benefit3": "使用電子郵件或錢包登入 \u2014 同一帳號",
     "modal.walletLink.buttonLinking": "連結中\u2026",
     "modal.walletLink.buttonLink": "連結錢包",
     "modal.walletLink.buttonConnectFirst": "先連接錢包",
@@ -455,8 +441,7 @@ export default {
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "連接錢包",
     "modal.connect.backAria": "返回網路選擇",
-    "modal.connect.noWallets":
-      "沒有可用於 {{chainType}} 鏈的錢包。",
+    "modal.connect.noWallets": "沒有可用於 {{chainType}} 鏈的錢包。",
     "modal.connect.tryDifferentChain": "嘗試選擇不同的鏈類型。",
     "modal.connect.viewOtherWallets": "檢視其他支援的錢包",
     "modal.connect.termsAgreement": "連接即表示您同意",
@@ -486,8 +471,7 @@ export default {
     "modal.donation.donateToCharity": "捐款給 {{charityName}}",
 
     // Modal - scheduled donation
-    "modal.scheduledDonation.title":
-      "設定每月向 {{charityName}} 的定期捐款",
+    "modal.scheduledDonation.title": "設定每月向 {{charityName}} 的定期捐款",
 
     // Modal - withdrawal
     "modal.withdrawal.title": "申請提款",
@@ -505,8 +489,7 @@ export default {
     "modal.validation.description": "說明",
     "modal.validation.submitted": "提交時間：",
     "modal.validation.daysRemaining": "（剩餘 {{count}} 天可驗證）",
-    "modal.validation.appealNote":
-      "這是先前被拒絕請求的申訴/重新提交",
+    "modal.validation.appealNote": "這是先前被拒絕請求的申訴/重新提交",
     "modal.validation.rejectPrompt":
       "請選擇拒絕此驗證請求的原因。志工將收到通知。",
     "modal.validation.reject": "拒絕",
@@ -532,8 +515,7 @@ export default {
     "validation.rejection.reasonPlaceholder": "選擇原因...",
     "validation.rejection.notesLabel": "附加說明",
     "validation.rejection.optional": "（選填）",
-    "validation.rejection.notesPlaceholder":
-      "提供拒絕的額外說明...",
+    "validation.rejection.notesPlaceholder": "提供拒絕的額外說明...",
 
     // Validation - batch actions
     "validation.batch.deselectAll": "取消全選",
@@ -641,8 +623,7 @@ export default {
     "portfolio.equalDistribution": "均等分配",
     "portfolio.equalDistributionNote":
       "您的捐款將在 {{count}} 個已驗證慈善機構之間均等分配。",
-    "portfolio.eachCharityPercentage":
-      "每個慈善機構收到捐款的 {{percentage}}%",
+    "portfolio.eachCharityPercentage": "每個慈善機構收到捐款的 {{percentage}}%",
     "portfolio.verifiedCharities": "{{count}} 個已驗證慈善機構",
     "portfolio.donateToFundButton": "捐款給基金",
     "portfolio.noFundsAvailable": "目前沒有可用的投資組合基金",
@@ -692,13 +673,11 @@ export default {
     "admin.actions.donationMonitoring": "捐款監控",
     "admin.actions.donationMonitoringDesc": "監控、標記和報告捐款",
     "admin.actions.contentModeration": "內容審核",
-    "admin.actions.contentModerationDesc":
-      "隱藏、標記和審核機會和公益事業",
+    "admin.actions.contentModerationDesc": "隱藏、標記和審核機會和公益事業",
     "admin.actions.portfolioFunds": "投資組合基金",
     "admin.actions.portfolioFundsDesc": "建立和管理精選捐款組合",
     "admin.actions.charityRequests": "慈善機構請求",
-    "admin.actions.charityRequestsDesc":
-      "審核捐款者對未註冊慈善機構的請求",
+    "admin.actions.charityRequestsDesc": "審核捐款者對未註冊慈善機構的請求",
 
     // Admin - Portfolio Funds management page (GIV-256)
     "admin.portfolio.title": "投資組合基金",
@@ -709,14 +688,12 @@ export default {
     "admin.portfolio.fundName": "基金名稱",
     "admin.portfolio.fundNamePlaceholder": "例如：環境影響基金",
     "admin.portfolio.description": "說明",
-    "admin.portfolio.descriptionPlaceholder":
-      "描述基金的目的和影響重點...",
+    "admin.portfolio.descriptionPlaceholder": "描述基金的目的和影響重點...",
     "admin.portfolio.category": "類別",
     "admin.portfolio.selectCategory": "選擇類別",
     "admin.portfolio.imageUrl": "圖片網址",
     "admin.portfolio.imageUrlPlaceholder": "https://...",
-    "admin.portfolio.selectCharities":
-      "選擇慈善機構（已選 {{count}} 個）",
+    "admin.portfolio.selectCharities": "選擇慈善機構（已選 {{count}} 個）",
     "admin.portfolio.noCharitiesFound": "未找到已驗證的慈善機構",
     "admin.portfolio.saving": "儲存中...",
     "admin.portfolio.createFund": "建立基金",
@@ -780,8 +757,7 @@ export default {
     "admin.charityRequests.firstRequest": "首次請求",
     "admin.charityRequests.empty": "尚未提交任何慈善機構請求。",
     "admin.charityRequests.errorTitle": "載入慈善機構請求時發生錯誤",
-    "admin.charityRequests.showing":
-      "顯示 {{shown}} / {{total}} 個唯一 EIN。",
+    "admin.charityRequests.showing": "顯示 {{shown}} / {{total}} 個唯一 EIN。",
 
     // Admin - Volunteer Validation page (GIV-256)
     "admin.validation.title": "志工驗證監督",
@@ -812,8 +788,7 @@ export default {
     "admin.validation.overrideTitle": "覆寫驗證請求",
     "admin.validation.newStatus": "新狀態",
     "admin.validation.reasonRequired": "原因（必填）",
-    "admin.validation.reasonPlaceholder":
-      "說明覆寫此請求的原因\u2026",
+    "admin.validation.reasonPlaceholder": "說明覆寫此請求的原因\u2026",
     "admin.validation.saving": "儲存中\u2026",
     "admin.validation.confirmOverride": "確認覆寫",
     "admin.validation.allStatuses": "所有狀態",

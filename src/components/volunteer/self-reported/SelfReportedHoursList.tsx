@@ -20,12 +20,22 @@ const HoursFilterPanel: React.FC<{
   onDateToChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onClearFilters: () => void;
   hasActiveFilters: boolean;
-}> = ({ filters, onStatusChange, onActivityTypeChange, onDateFromChange, onDateToChange, onClearFilters, hasActiveFilters }) => {
+}> = ({
+  filters,
+  onStatusChange,
+  onActivityTypeChange,
+  onDateFromChange,
+  onDateToChange,
+  onClearFilters,
+  hasActiveFilters,
+}) => {
   const { t } = useTranslation();
   return (
     <div className="mb-6 p-4 bg-gray-50 rounded-lg flex flex-wrap gap-4 items-end">
       <label htmlFor="status-filter" className="block">
-        <span className="block text-xs font-medium text-gray-500 mb-1">{t("volunteer.statusFilter", "Status")}</span>
+        <span className="block text-xs font-medium text-gray-500 mb-1">
+          {t("volunteer.statusFilter", "Status")}
+        </span>
         <select
           id="status-filter"
           value={filters.status || ""}
@@ -33,22 +43,36 @@ const HoursFilterPanel: React.FC<{
           className="block w-36 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-emerald-500 focus:border-emerald-500"
         >
           <option value="">{t("volunteer.allStatuses", "All")}</option>
-          <option value={ValidationStatus.VALIDATED}>{t("status.completed", "Validated")}</option>
-          <option value={ValidationStatus.PENDING}>{t("status.pending", "Pending")}</option>
-          <option value={ValidationStatus.UNVALIDATED}>{t("volunteer.unvalidatedHours", "Unvalidated")}</option>
-          <option value={ValidationStatus.REJECTED}>{t("volunteer.rejectedLabel", "Rejected")}</option>
-          <option value={ValidationStatus.EXPIRED}>{t("admin.validation.expired", "Expired")}</option>
+          <option value={ValidationStatus.VALIDATED}>
+            {t("status.completed", "Validated")}
+          </option>
+          <option value={ValidationStatus.PENDING}>
+            {t("status.pending", "Pending")}
+          </option>
+          <option value={ValidationStatus.UNVALIDATED}>
+            {t("volunteer.unvalidatedHours", "Unvalidated")}
+          </option>
+          <option value={ValidationStatus.REJECTED}>
+            {t("volunteer.rejectedLabel", "Rejected")}
+          </option>
+          <option value={ValidationStatus.EXPIRED}>
+            {t("admin.validation.expired", "Expired")}
+          </option>
         </select>
       </label>
       <label htmlFor="activity-filter" className="block">
-        <span className="block text-xs font-medium text-gray-500 mb-1">{t("volunteer.activityTypeFilter", "Activity Type")}</span>
+        <span className="block text-xs font-medium text-gray-500 mb-1">
+          {t("volunteer.activityTypeFilter", "Activity Type")}
+        </span>
         <select
           id="activity-filter"
           value={filters.activityType || ""}
           onChange={onActivityTypeChange}
           className="block w-44 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-emerald-500 focus:border-emerald-500"
         >
-          <option value="">{t("volunteer.allActivityTypes", "All Types")}</option>
+          <option value="">
+            {t("volunteer.allActivityTypes", "All Types")}
+          </option>
           {Object.entries(ACTIVITY_TYPE_LABELS).map(([value, label]) => (
             <option key={value} value={value}>
               {label}
@@ -57,7 +81,9 @@ const HoursFilterPanel: React.FC<{
         </select>
       </label>
       <label htmlFor="date-from" className="block">
-        <span className="block text-xs font-medium text-gray-500 mb-1">{t("volunteer.filterFrom", "From")}</span>
+        <span className="block text-xs font-medium text-gray-500 mb-1">
+          {t("volunteer.filterFrom", "From")}
+        </span>
         <input
           id="date-from"
           type="date"
@@ -67,7 +93,9 @@ const HoursFilterPanel: React.FC<{
         />
       </label>
       <label htmlFor="date-to" className="block">
-        <span className="block text-xs font-medium text-gray-500 mb-1">{t("volunteer.filterTo", "To")}</span>
+        <span className="block text-xs font-medium text-gray-500 mb-1">
+          {t("volunteer.filterTo", "To")}
+        </span>
         <input
           id="date-to"
           type="date"
@@ -197,8 +225,14 @@ export const SelfReportedHoursList: React.FC<SelfReportedHoursListProps> = ({
           </h3>
           <p className="text-gray-500">
             {hasActiveFilters
-              ? t("volunteer.adjustFilters", "Try adjusting your filters to find records.")
-              : t("volunteer.startLogging", "Start by logging your first volunteer hours.")}
+              ? t(
+                  "volunteer.adjustFilters",
+                  "Try adjusting your filters to find records.",
+                )
+              : t(
+                  "volunteer.startLogging",
+                  "Start by logging your first volunteer hours.",
+                )}
           </p>
         </div>
       ) : (

@@ -164,17 +164,17 @@ export const SelfReportedHoursDashboard: React.FC<
                 ? "bg-blue-100 text-blue-600"
                 : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
             }`}
-            title={t("volunteer.aboutSelfReported", "About Self-Reported Hours")}
+            title={t(
+              "volunteer.aboutSelfReported",
+              "About Self-Reported Hours",
+            )}
           >
             <Info className="h-5 w-5" />
           </button>
         </div>
         <div className="flex items-center gap-3">
           {viewMode === "list" && (
-            <Button
-              onClick={handleCreate}
-              icon={<Plus className="h-4 w-4" />}
-            >
+            <Button onClick={handleCreate} icon={<Plus className="h-4 w-4" />}>
               {t("volunteer.logHoursButton", "Log Hours")}
             </Button>
           )}
@@ -195,9 +195,17 @@ export const SelfReportedHoursDashboard: React.FC<
             <div className="flex items-start gap-3">
               <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-blue-800">
-                <p className="font-medium">{t("volunteer.aboutSelfReported", "About Self-Reported Hours")}</p>
+                <p className="font-medium">
+                  {t(
+                    "volunteer.aboutSelfReported",
+                    "About Self-Reported Hours",
+                  )}
+                </p>
                 <p className="mt-1">
-                  {t("volunteer.selfReportedInfo", "Only hours validated by verified organizations count toward the Global Impact Rankings. Hours for organizations not on our platform can be tracked but will be marked as \u201cUnvalidated\u201d until validation is received.")}
+                  {t(
+                    "volunteer.selfReportedInfo",
+                    "Only hours validated by verified organizations count toward the Global Impact Rankings. Hours for organizations not on our platform can be tracked but will be marked as \u201cUnvalidated\u201d until validation is received.",
+                  )}
                 </p>
               </div>
               <button
@@ -239,7 +247,9 @@ export const SelfReportedHoursDashboard: React.FC<
         {(viewMode === "create" || viewMode === "edit") && (
           <div>
             <h3 className="text-lg font-medium text-gray-900 mb-4">
-              {viewMode === "create" ? t("volunteer.logVolunteerHours", "Log Volunteer Hours") : t("volunteer.editRecord", "Edit Record")}
+              {viewMode === "create"
+                ? t("volunteer.logVolunteerHours", "Log Volunteer Hours")
+                : t("volunteer.editRecord", "Edit Record")}
             </h3>
             <SelfReportedHoursForm
               initialData={
@@ -293,7 +303,10 @@ export const SelfReportedHoursDashboard: React.FC<
               {t("volunteer.deleteRecord", "Delete Record?")}
             </h3>
             <p className="text-sm text-gray-600 mb-4">
-              {t("volunteer.deleteConfirmation", "Are you sure you want to delete this volunteer hours record? This action cannot be undone.")}
+              {t(
+                "volunteer.deleteConfirmation",
+                "Are you sure you want to delete this volunteer hours record? This action cannot be undone.",
+              )}
             </p>
             <div className="flex justify-end gap-3">
               <Button variant="secondary" onClick={cancelDelete}>

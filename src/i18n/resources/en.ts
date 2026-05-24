@@ -953,8 +953,7 @@ export default {
     "auth.panel.subheadline":
       "One account. Donate by card or crypto. Track every dollar on-chain.",
     "auth.panel.statusLabel": "Protocol Status \u00b7 Genesis Phase",
-    "auth.panel.statusDesc":
-      "Building the foundation of transparent giving",
+    "auth.panel.statusDesc": "Building the foundation of transparent giving",
     "auth.panel.runsOn": "Runs on",
 
     // Auth - Wallet connection

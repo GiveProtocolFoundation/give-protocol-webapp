@@ -49,7 +49,12 @@ const VerifyContribution: React.FC = () => {
       <div className="max-w-3xl mx-auto px-4 py-12">
         <div className="flex flex-col items-center justify-center py-12">
           <LoadingSpinner size="lg" />
-          <p className="mt-4 text-gray-600">{t("volunteer.verifyingContribution", "Verifying contribution\u2026")}</p>
+          <p className="mt-4 text-gray-600">
+            {t(
+              "volunteer.verifyingContribution",
+              "Verifying contribution\u2026",
+            )}
+          </p>
         </div>
       </div>
     );
@@ -69,14 +74,22 @@ const VerifyContribution: React.FC = () => {
       <div className="bg-white rounded-lg shadow-md overflow-hidden">
         <div className="p-6 border-b border-gray-200">
           <h1 className="text-2xl font-bold text-gray-900">
-            {t("volunteer.contributionVerification", "Volunteer Contribution Verification")}
+            {t(
+              "volunteer.contributionVerification",
+              "Volunteer Contribution Verification",
+            )}
           </h1>
         </div>
 
         <div className="p-6">
           {!verificationChecked && (
             <div className="text-center py-8">
-              <p className="text-gray-500">{t("volunteer.noHashProvided", "No verification hash provided.")}</p>
+              <p className="text-gray-500">
+                {t(
+                  "volunteer.noHashProvided",
+                  "No verification hash provided.",
+                )}
+              </p>
             </div>
           )}
           {verificationChecked && verification && (
@@ -85,10 +98,16 @@ const VerifyContribution: React.FC = () => {
                 <CheckCircle className="h-6 w-6 text-green-500 mr-3" />
                 <div>
                   <h2 className="text-lg font-medium text-green-800">
-                    {t("volunteer.verificationSuccessful", "Verification Successful")}
+                    {t(
+                      "volunteer.verificationSuccessful",
+                      "Verification Successful",
+                    )}
                   </h2>
                   <p className="text-sm text-green-700">
-                    {t("volunteer.contributionVerifiedBlockchain", "This volunteer contribution has been verified and recorded on the blockchain.")}
+                    {t(
+                      "volunteer.contributionVerifiedBlockchain",
+                      "This volunteer contribution has been verified and recorded on the blockchain.",
+                    )}
                   </p>
                 </div>
               </div>
@@ -97,13 +116,15 @@ const VerifyContribution: React.FC = () => {
                 verification={{
                   id: verification.id,
                   applicantName:
-                    verification.profiles?.name || t("volunteer.unknown", "Unknown Volunteer"),
+                    verification.profiles?.name ||
+                    t("volunteer.unknown", "Unknown Volunteer"),
                   opportunityTitle:
                     verification.volunteer_opportunities?.title ||
                     t("volunteer.unknownOpportunity", "Unknown Opportunity"),
                   charityName:
                     verification.volunteer_opportunities?.charity_details
-                      ?.name || t("volunteer.unknownOrganization", "Unknown Organization"),
+                      ?.name ||
+                    t("volunteer.unknownOrganization", "Unknown Organization"),
                   acceptanceHash: verification.acceptanceHash,
                   verificationHash: verification.verificationHash,
                   acceptedAt: verification.acceptedAt,
@@ -121,7 +142,11 @@ const VerifyContribution: React.FC = () => {
                   {t("volunteer.verificationFailed", "Verification Failed")}
                 </h2>
                 <p className="text-sm text-yellow-700">
-                  {t("volunteer.hashNotFound", "The verification hash {{hash}} could not be found or is invalid.", { hash })}
+                  {t(
+                    "volunteer.hashNotFound",
+                    "The verification hash {{hash}} could not be found or is invalid.",
+                    { hash },
+                  )}
                 </p>
               </div>
             </div>

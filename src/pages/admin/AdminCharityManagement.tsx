@@ -187,7 +187,10 @@ function FilterBar({
       </select>
       <input
         type="text"
-        placeholder={t("admin.charity.searchPlaceholder", "Search by name\u2026")}
+        placeholder={t(
+          "admin.charity.searchPlaceholder",
+          "Search by name\u2026",
+        )}
         className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex-1 min-w-[200px] focus:outline-none focus:ring-2 focus:ring-emerald-500"
         value={filters.search ?? ""}
         onChange={onSearchChange}
@@ -275,7 +278,10 @@ function ActionModal({
     <Modal
       isOpen={isOpen}
       onClose={onClose}
-      title={ACTION_LABELS[action] ?? t("admin.charity.confirmAction", "Confirm Action")}
+      title={
+        ACTION_LABELS[action] ??
+        t("admin.charity.confirmAction", "Confirm Action")
+      }
       size="md"
     >
       <p className="text-sm text-gray-600 mb-4">

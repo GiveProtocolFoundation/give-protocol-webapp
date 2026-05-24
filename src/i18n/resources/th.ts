@@ -75,8 +75,7 @@ export default {
     "volunteer.allTypes": "ประเภททั้งหมด",
     "volunteer.allLanguages": "ทุกภาษา",
     "volunteer.applyNow": "สมัครเลย",
-    "volunteer.noOpportunitiesFound":
-      "ไม่พบโอกาสที่ตรงกับเกณฑ์ของคุณ",
+    "volunteer.noOpportunitiesFound": "ไม่พบโอกาสที่ตรงกับเกณฑ์ของคุณ",
     "volunteer.verify": "ตรวจสอบชั่วโมง",
     "volunteer.verifying": "กำลังตรวจสอบ...",
     "volunteer.reject": "ปฏิเสธ",
@@ -124,23 +123,21 @@ export default {
     "volunteer.workTypeFilter": "ตัวกรองประเภทงาน",
     "volunteer.searchLocation": "เมืองหรือภูมิภาค...",
     "volunteer.searchLocationAria": "ค้นหาสถานที่",
-    "volunteer.signInToApply":
-      "กรุณาเข้าสู่ระบบเพื่อสมัครโอกาสอาสาสมัคร",
+    "volunteer.signInToApply": "กรุณาเข้าสู่ระบบเพื่อสมัครโอกาสอาสาสมัคร",
     "volunteer.applicationSuccess": "ส่งใบสมัครเรียบร้อยแล้ว!",
     "volunteer.removeFilter": "ลบตัวกรอง {{filter}}",
 
     // Volunteer - OpportunityForm
     "volunteer.validation.titleRequired": "จำเป็นต้องระบุชื่อ",
     "volunteer.validation.descriptionRequired": "จำเป็นต้องระบุคำอธิบาย",
-    "volunteer.validation.skillsRequired": "จำเป็นต้องระบุทักษะอย่างน้อยหนึ่งรายการ",
+    "volunteer.validation.skillsRequired":
+      "จำเป็นต้องระบุทักษะอย่างน้อยหนึ่งรายการ",
     "volunteer.validation.locationRequired": "จำเป็นต้องระบุสถานที่",
     "volunteer.profileNotFound": "ไม่พบโปรไฟล์ผู้ใช้",
     "volunteer.correctErrors": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
     "volunteer.createFailed": "ไม่สามารถสร้างโอกาสได้",
-    "volunteer.descriptionPlaceholder":
-      "อธิบายโอกาสอาสาสมัครโดยละเอียด...",
-    "volunteer.skillsPlaceholder":
-      "เช่น พัฒนาเว็บ, จัดการโครงการ, การแปล",
+    "volunteer.descriptionPlaceholder": "อธิบายโอกาสอาสาสมัครโดยละเอียด...",
+    "volunteer.skillsPlaceholder": "เช่น พัฒนาเว็บ, จัดการโครงการ, การแปล",
     "volunteer.locationPlaceholder": "เช่น ทำงานระยะไกล, กรุงเทพฯ, เชียงใหม่",
     "volunteer.headerImage": "รูปภาพส่วนหัว",
     "volunteer.headerImageHelp":
@@ -200,8 +197,7 @@ export default {
     "volunteer.contributionVerifiedBlockchain":
       "การมีส่วนร่วมของอาสาสมัครนี้ได้รับการตรวจสอบและบันทึกบนบล็อกเชนแล้ว",
     "volunteer.verificationFailed": "การตรวจสอบล้มเหลว",
-    "volunteer.hashNotFound":
-      "ไม่พบแฮชการตรวจสอบ {{hash}} หรือไม่ถูกต้อง",
+    "volunteer.hashNotFound": "ไม่พบแฮชการตรวจสอบ {{hash}} หรือไม่ถูกต้อง",
 
     // Volunteer - SelfReportedHoursDashboard
     "volunteer.volunteerHoursTitle": "ชั่วโมงอาสาสมัคร",
@@ -226,10 +222,8 @@ export default {
     "volunteer.enterOrgName": "กรอกชื่อองค์กร",
     "volunteer.contactEmail": "อีเมลติดต่อ",
     "volunteer.contactEmailOptional": "(ไม่บังคับ)",
-    "volunteer.onboardHelp":
-      "เราอาจติดต่อเพื่อช่วยนำองค์กรนี้เข้าสู่ระบบ",
-    "volunteer.submittedForValidation":
-      "บันทึกนี้จะถูกส่งเพื่อการรับรอง",
+    "volunteer.onboardHelp": "เราอาจติดต่อเพื่อช่วยนำองค์กรนี้เข้าสู่ระบบ",
+    "volunteer.submittedForValidation": "บันทึกนี้จะถูกส่งเพื่อการรับรอง",
     "volunteer.submittedForValidationTo":
       "บันทึกนี้จะถูกส่งเพื่อการรับรองไปยัง {{org}}",
     "volunteer.validationExpired":
@@ -252,7 +246,8 @@ export default {
     "volunteer.noMatchingRecords": "ไม่พบบันทึกที่ตรงกัน",
     "volunteer.noHoursLogged": "ยังไม่มีชั่วโมงอาสาสมัครที่บันทึก",
     "volunteer.adjustFilters": "ลองปรับตัวกรองเพื่อค้นหาบันทึก",
-    "volunteer.startLogging": "เริ่มต้นด้วยการบันทึกชั่วโมงอาสาสมัครครั้งแรกของคุณ",
+    "volunteer.startLogging":
+      "เริ่มต้นด้วยการบันทึกชั่วโมงอาสาสมัครครั้งแรกของคุณ",
 
     // Volunteer - SelfReportedHoursStats
     "volunteer.validatedHours": "ชั่วโมงที่ผ่านการรับรอง",
@@ -286,8 +281,7 @@ export default {
     "volunteer.commitmentLevel": "ระดับความมุ่งมั่น",
     "volunteer.commitmentOneTimeDesc": "โครงการเดี่ยวหรืองานระยะสั้น",
     "volunteer.commitmentShortTermDesc": "ไม่กี่สัปดาห์ถึงไม่กี่เดือน",
-    "volunteer.commitmentLongTermDesc":
-      "ความมุ่งมั่นต่อเนื่องหลายเดือนขึ้นไป",
+    "volunteer.commitmentLongTermDesc": "ความมุ่งมั่นต่อเนื่องหลายเดือนขึ้นไป",
     "volunteer.experienceLabel": "บอกเราเกี่ยวกับประสบการณ์ที่เกี่ยวข้องของคุณ",
     "volunteer.experiencePlaceholder":
       "อธิบายภูมิหลัง ทักษะ และแรงจูงใจที่ทำให้คุณต้องการเป็นอาสาสมัครกับ Give Protocol...",
@@ -329,7 +323,8 @@ export default {
     "volunteer.referenceName": "ชื่อบุคคลอ้างอิง {{index}}",
     "volunteer.referenceContact": "ข้อมูลติดต่อบุคคลอ้างอิง {{index}}",
     "volunteer.workSamplesTitle": "ตัวอย่างผลงาน",
-    "volunteer.workSamplesLabel": "ลิงก์ตัวอย่างผลงาน (คั่นด้วยเครื่องหมายจุลภาค)",
+    "volunteer.workSamplesLabel":
+      "ลิงก์ตัวอย่างผลงาน (คั่นด้วยเครื่องหมายจุลภาค)",
     "volunteer.submitApplicationShort": "ส่งใบสมัคร",
     "volunteer.validation.nameInvalid":
       "กรุณากรอกชื่อที่ถูกต้อง (2-100 ตัวอักษร)",
@@ -406,8 +401,7 @@ export default {
     "export.includePersonal": "รวมที่อยู่กระเป๋าเงิน",
     "export.willInclude": "การส่งออกจะรวมถึง:",
     "export.walletAddresses": "ที่อยู่กระเป๋าเงิน (ผู้ส่งและผู้รับ)",
-    "export.volunteerDetails":
-      "รายละเอียดการมีส่วนร่วมของอาสาสมัคร (เมื่อมี)",
+    "export.volunteerDetails": "รายละเอียดการมีส่วนร่วมของอาสาสมัคร (เมื่อมี)",
     "export.verificationHashes": "แฮชการตรวจสอบ (เมื่อมี)",
     "export.cancel": "ยกเลิก",
     "export.download": "ส่งออก CSV",
@@ -427,8 +421,7 @@ export default {
     "modal.wallet.title": "เชื่อมต่อกระเป๋าเงินของคุณ",
     "modal.wallet.description":
       "เชื่อมต่อกระเป๋าเงินเพื่อปลดล็อกคุณสมบัติทั้งหมดของ Give Protocol",
-    "modal.wallet.benefit1":
-      "ติดตามการบริจาคของคุณอย่างโปร่งใสบนบล็อกเชน",
+    "modal.wallet.benefit1": "ติดตามการบริจาคของคุณอย่างโปร่งใสบนบล็อกเชน",
     "modal.wallet.benefit2":
       "รับโทเคน GIVE เป็นรางวัลสำหรับการมีส่วนร่วมของคุณ",
     "modal.wallet.benefit3":
@@ -599,8 +592,7 @@ export default {
 
     // Contribution Tracker (GIV-254)
     "tracker.title": "การจัดอันดับผลกระทบระดับโลก",
-    "tracker.subtitle":
-      "ติดตามและเฉลิมฉลองผลกระทบโดยรวมของชุมชนของเรา",
+    "tracker.subtitle": "ติดตามและเฉลิมฉลองผลกระทบโดยรวมของชุมชนของเรา",
     "tracker.searchPlaceholder": "ค้นหาผู้มีส่วนร่วม...",
     "tracker.exportCSV": "ส่งออก CSV",
     "tracker.exportPDF": "ส่งออก PDF",
@@ -667,7 +659,8 @@ export default {
       "การบริจาคของคุณจะถูกแบ่งเท่าเทียมกันระหว่างองค์กรการกุศลที่ผ่านการตรวจสอบ {{count}} แห่ง",
     "portfolio.eachCharityPercentage":
       "แต่ละองค์กรการกุศลจะได้รับ {{percentage}}% ของการบริจาค",
-    "portfolio.verifiedCharities": "องค์กรการกุศลที่ผ่านการตรวจสอบ {{count}} แห่ง",
+    "portfolio.verifiedCharities":
+      "องค์กรการกุศลที่ผ่านการตรวจสอบ {{count}} แห่ง",
     "portfolio.donateToFundButton": "บริจาคให้กองทุน",
     "portfolio.noFundsAvailable": "ไม่มีกองทุนพอร์ตโฟลิโอที่พร้อมใช้งาน",
     "portfolio.checkBackLater":
@@ -742,7 +735,8 @@ export default {
     "admin.portfolio.selectCategory": "เลือกหมวดหมู่",
     "admin.portfolio.imageUrl": "URL รูปภาพ",
     "admin.portfolio.imageUrlPlaceholder": "https://...",
-    "admin.portfolio.selectCharities": "เลือกองค์กรการกุศล (เลือกแล้ว {{count}} แห่ง)",
+    "admin.portfolio.selectCharities":
+      "เลือกองค์กรการกุศล (เลือกแล้ว {{count}} แห่ง)",
     "admin.portfolio.noCharitiesFound": "ไม่พบองค์กรการกุศลที่ผ่านการตรวจสอบ",
     "admin.portfolio.saving": "กำลังบันทึก...",
     "admin.portfolio.createFund": "สร้างกองทุน",
@@ -804,8 +798,7 @@ export default {
     "admin.charityRequests.latestRequester": "ผู้ร้องขอล่าสุด",
     "admin.charityRequests.latestRequest": "คำขอล่าสุด",
     "admin.charityRequests.firstRequest": "คำขอแรก",
-    "admin.charityRequests.empty":
-      "ยังไม่มีคำขอองค์กรการกุศลที่ส่งเข้ามา",
+    "admin.charityRequests.empty": "ยังไม่มีคำขอองค์กรการกุศลที่ส่งเข้ามา",
     "admin.charityRequests.errorTitle": "ข้อผิดพลาดในการโหลดคำขอองค์กรการกุศล",
     "admin.charityRequests.showing":
       "แสดง {{shown}} จาก {{total}} EIN ที่ไม่ซ้ำกัน",

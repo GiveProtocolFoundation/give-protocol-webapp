@@ -481,7 +481,10 @@ const VolunteerOpportunities: React.FC = () => {
       if (!user) {
         showToast(
           "error",
-          t("volunteer.signInToApply", "Please sign in to apply for volunteer opportunities"),
+          t(
+            "volunteer.signInToApply",
+            "Please sign in to apply for volunteer opportunities",
+          ),
         );
         navigate("/auth");
         return;
@@ -505,7 +508,10 @@ const VolunteerOpportunities: React.FC = () => {
   }, []);
 
   const handleApplicationSuccess = useCallback(() => {
-    showToast("success", t("volunteer.applicationSuccess", "Application submitted successfully!"));
+    showToast(
+      "success",
+      t("volunteer.applicationSuccess", "Application submitted successfully!"),
+    );
     setShowApplicationForm(false);
     setSelectedOpportunity(null);
   }, [showToast]);

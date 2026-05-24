@@ -25,7 +25,13 @@ interface FormSelectProps {
 }
 
 /** Labeled select field for opportunity form. */
-const FormSelect: React.FC<FormSelectProps> = ({ label, name, value, onChange, children }) => (
+const FormSelect: React.FC<FormSelectProps> = ({
+  label,
+  name,
+  value,
+  onChange,
+  children,
+}) => (
   <div>
     <label className="block text-sm font-medium text-gray-700 mb-1">
       {label}
@@ -121,23 +127,43 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
     return input.replaceAll(/[<>]/g, "");
   };
 
-  const validateField = useCallback((name: string, value: string): string => {
-    switch (name) {
-      case "title":
-        return value.trim().length > 0 ? "" : t("volunteer.validation.titleRequired", "Title is required");
-      case "description": {
-        // Safely strip HTML tags to check if there's actual content
-        const textContent = stripHtmlTags(value).trim();
-        return textContent.length > 0 ? "" : t("volunteer.validation.descriptionRequired", "Description is required");
+  const validateField = useCallback(
+    (name: string, value: string): string => {
+      switch (name) {
+        case "title":
+          return value.trim().length > 0
+            ? ""
+            : t("volunteer.validation.titleRequired", "Title is required");
+        case "description": {
+          // Safely strip HTML tags to check if there's actual content
+          const textContent = stripHtmlTags(value).trim();
+          return textContent.length > 0
+            ? ""
+            : t(
+                "volunteer.validation.descriptionRequired",
+                "Description is required",
+              );
+        }
+        case "skills":
+          return value.trim().length > 0
+            ? ""
+            : t(
+                "volunteer.validation.skillsRequired",
+                "At least one skill is required",
+              );
+        case "location":
+          return value.trim().length > 0
+            ? ""
+            : t(
+                "volunteer.validation.locationRequired",
+                "Location is required",
+              );
+        default:
+          return "";
       }
-      case "skills":
-        return value.trim().length > 0 ? "" : t("volunteer.validation.skillsRequired", "At least one skill is required");
-      case "location":
-        return value.trim().length > 0 ? "" : t("volunteer.validation.locationRequired", "Location is required");
-      default:
-        return "";
-    }
-  }, [t]);
+    },
+    [t],
+  );
 
   const handleChange = useCallback(
     (
@@ -218,7 +244,12 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
         // If there are validation errors, don't submit
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);
-          throw new Error(t("volunteer.correctErrors", "Please correct the validation errors"));
+          throw new Error(
+            t(
+              "volunteer.correctErrors",
+              "Please correct the validation errors",
+            ),
+          );
         }
 
         Logger.info("Creating volunteer opportunity", {
@@ -259,7 +290,9 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
         }
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : t("volunteer.createFailed", "Failed to create opportunity");
+          err instanceof Error
+            ? err.message
+            : t("volunteer.createFailed", "Failed to create opportunity");
         setError(errorMessage);
         Logger.error("Failed to create volunteer opportunity", { error: err });
       } finally {
@@ -289,7 +322,10 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
   };
 
   return (
-    <form onSubmit={handleSubmit} className="bg-white rounded-lg shadow-md p-6 space-y-6">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-white rounded-lg shadow-md p-6 space-y-6"
+    >
       <h2 className="text-xl font-semibold text-gray-900">
         {t("volunteer.createOpportunity", "Create Volunteer Opportunity")}
       </h2>
@@ -326,135 +362,144 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
           <span>{error}</span>
         </div>
       )}
+      <Input
+        label={t("volunteer.opportunityTitle", "Opportunity Title")}
+        name="title"
+        value={formData.title}
+        onChange={handleChange}
+        variant="enhanced"
+        required
+        error={validationErrors["title"]}
+      />
+
+      <div>
+        <label
+          htmlFor="opportunity-description"
+          className="block text-sm font-medium text-gray-700 mb-1"
+        >
+          {t("volunteer.description", "Description")}
+        </label>
+        <Editor
+          id="opportunity-description"
+          content={formData.description}
+          onChange={handleDescriptionChange}
+          placeholder={t(
+            "volunteer.descriptionPlaceholder",
+            "Describe the volunteer opportunity in detail...",
+          )}
+          variant="enhanced"
+        />
+        {validationErrors["description"] && (
+          <p className="mt-1 text-sm text-red-600">
+            {validationErrors["description"]}
+          </p>
+        )}
+      </div>
+
+      <ImageUpload
+        value={formData.imageUrl}
+        onChange={handleImageChange}
+        folder={`opportunities/${profile?.id ?? "unknown"}`}
+        label={t("volunteer.headerImage", "Header Image")}
+        helpText={t(
+          "volunteer.headerImageHelp",
+          "Upload an image to display at the top of your opportunity listing",
+        )}
+      />
+
+      <Input
+        label={t("volunteer.skills", "Skills (comma-separated)")}
+        name="skills"
+        value={formData.skills}
+        onChange={handleChange}
+        variant="enhanced"
+        placeholder={t(
+          "volunteer.skillsPlaceholder",
+          "e.g., Web Development, Project Management, Translation",
+        )}
+        required
+        error={validationErrors["skills"]}
+      />
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+        <FormSelect
+          label={t("volunteer.commitment", "Commitment")}
+          name="commitment"
+          value={formData.commitment}
+          onChange={handleChange}
+        >
+          <option value={CommitmentType.ONE_TIME}>
+            {t("volunteer.commitment.oneTime", "One-time")}
+          </option>
+          <option value={CommitmentType.SHORT_TERM}>
+            {t("volunteer.commitment.shortTerm", "Short-term")}
+          </option>
+          <option value={CommitmentType.LONG_TERM}>
+            {t("volunteer.commitment.longTerm", "Long-term")}
+          </option>
+        </FormSelect>
+
+        <FormSelect
+          label={t("volunteer.type", "Type")}
+          name="type"
+          value={formData.type}
+          onChange={handleChange}
+        >
+          <option value={OpportunityType.REMOTE}>
+            {t("volunteer.type.remote", "Remote")}
+          </option>
+          <option value={OpportunityType.ONSITE}>
+            {t("volunteer.type.onsite", "Onsite")}
+          </option>
+          <option value={OpportunityType.HYBRID}>
+            {t("volunteer.type.hybrid", "Hybrid")}
+          </option>
+        </FormSelect>
+      </div>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
         <Input
-          label={t("volunteer.opportunityTitle", "Opportunity Title")}
-          name="title"
-          value={formData.title}
+          label={t("volunteer.location", "Location")}
+          name="location"
+          value={formData.location}
           onChange={handleChange}
           variant="enhanced"
+          placeholder={t(
+            "volunteer.locationPlaceholder",
+            "e.g., Remote, New York, Berlin",
+          )}
           required
-          error={validationErrors["title"]}
+          error={validationErrors["location"]}
         />
 
-        <div>
-          <label
-            htmlFor="opportunity-description"
-            className="block text-sm font-medium text-gray-700 mb-1"
-          >
-            {t("volunteer.description", "Description")}
-          </label>
-          <Editor
-            id="opportunity-description"
-            content={formData.description}
-            onChange={handleDescriptionChange}
-            placeholder={t("volunteer.descriptionPlaceholder", "Describe the volunteer opportunity in detail...")}
-            variant="enhanced"
-          />
-          {validationErrors["description"] && (
-            <p className="mt-1 text-sm text-red-600">
-              {validationErrors["description"]}
-            </p>
-          )}
-        </div>
-
-        <ImageUpload
-          value={formData.imageUrl}
-          onChange={handleImageChange}
-          folder={`opportunities/${profile?.id ?? "unknown"}`}
-          label={t("volunteer.headerImage", "Header Image")}
-          helpText={t(
-            "volunteer.headerImageHelp",
-            "Upload an image to display at the top of your opportunity listing",
-          )}
-        />
-
-        <Input
-          label={t("volunteer.skills", "Skills (comma-separated)")}
-          name="skills"
-          value={formData.skills}
+        <FormSelect
+          label={t("volunteer.workLanguage", "Work Language")}
+          name="workLanguage"
+          value={formData.workLanguage}
           onChange={handleChange}
-          variant="enhanced"
-          placeholder={t("volunteer.skillsPlaceholder", "e.g., Web Development, Project Management, Translation")}
-          required
-          error={validationErrors["skills"]}
-        />
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <FormSelect
-            label={t("volunteer.commitment", "Commitment")}
-            name="commitment"
-            value={formData.commitment}
-            onChange={handleChange}
-          >
-            <option value={CommitmentType.ONE_TIME}>
-              {t("volunteer.commitment.oneTime", "One-time")}
+        >
+          {Object.values(WorkLanguage).map((language) => (
+            <option key={language} value={language}>
+              {t(`language.${language}`, formatLanguageName(language))}
             </option>
-            <option value={CommitmentType.SHORT_TERM}>
-              {t("volunteer.commitment.shortTerm", "Short-term")}
-            </option>
-            <option value={CommitmentType.LONG_TERM}>
-              {t("volunteer.commitment.longTerm", "Long-term")}
-            </option>
-          </FormSelect>
+          ))}
+        </FormSelect>
+      </div>
 
-          <FormSelect
-            label={t("volunteer.type", "Type")}
-            name="type"
-            value={formData.type}
-            onChange={handleChange}
-          >
-            <option value={OpportunityType.REMOTE}>
-              {t("volunteer.type.remote", "Remote")}
-            </option>
-            <option value={OpportunityType.ONSITE}>
-              {t("volunteer.type.onsite", "Onsite")}
-            </option>
-            <option value={OpportunityType.HYBRID}>
-              {t("volunteer.type.hybrid", "Hybrid")}
-            </option>
-          </FormSelect>
-        </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-          <Input
-            label={t("volunteer.location", "Location")}
-            name="location"
-            value={formData.location}
-            onChange={handleChange}
-            variant="enhanced"
-            placeholder={t("volunteer.locationPlaceholder", "e.g., Remote, New York, Berlin")}
-            required
-            error={validationErrors["location"]}
-          />
-
-          <FormSelect
-            label={t("volunteer.workLanguage", "Work Language")}
-            name="workLanguage"
-            value={formData.workLanguage}
-            onChange={handleChange}
-          >
-            {Object.values(WorkLanguage).map((language) => (
-              <option key={language} value={language}>
-                {t(`language.${language}`, formatLanguageName(language))}
-              </option>
-            ))}
-          </FormSelect>
-        </div>
-
-        <div className="flex justify-end space-x-3">
-          {onCancel && (
-            <Button type="button" variant="secondary" onClick={onCancel}>
-              {t("common.cancel", "Cancel")}
-            </Button>
-          )}
-
-          <Button
-            type="submit"
-            disabled={loading || hasReachedLimit || checkingLimit}
-          >
-            {getSubmitButtonText()}
+      <div className="flex justify-end space-x-3">
+        {onCancel && (
+          <Button type="button" variant="secondary" onClick={onCancel}>
+            {t("common.cancel", "Cancel")}
           </Button>
-        </div>
+        )}
+
+        <Button
+          type="submit"
+          disabled={loading || hasReachedLimit || checkingLimit}
+        >
+          {getSubmitButtonText()}
+        </Button>
+      </div>
     </form>
   );
 };

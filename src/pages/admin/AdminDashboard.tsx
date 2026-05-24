@@ -352,7 +352,11 @@ const AdminDashboard: React.FC = () => {
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
             {t("admin.dashboard.alerts", "Alerts")}{" "}
             <span className="ml-2 text-sm font-normal text-red-600">
-              ({t("admin.dashboard.alertsPending", "{{count}} pending", { count: alerts.length })})
+              (
+              {t("admin.dashboard.alertsPending", "{{count}} pending", {
+                count: alerts.length,
+              })}
+              )
             </span>
           </h2>
           {alerts.map((alert) => (
@@ -378,7 +382,10 @@ const AdminDashboard: React.FC = () => {
           label={t("admin.stats.charities", "Charities")}
           value={stats.totalCharities.toLocaleString()}
           trend7d={stats.pendingCharities}
-          trendLabel={t("admin.stats.pendingVerification", "pending verification")}
+          trendLabel={t(
+            "admin.stats.pendingVerification",
+            "pending verification",
+          )}
         />
 
         <StatCard
@@ -432,42 +439,69 @@ const AdminDashboard: React.FC = () => {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
           <QuickActionButton
             title={t("admin.actions.viewReports", "View Reports")}
-            description={t("admin.actions.viewReportsDesc", "Generate detailed analytics")}
+            description={t(
+              "admin.actions.viewReportsDesc",
+              "Generate detailed analytics",
+            )}
             onClick={handleNavigateReports}
           />
           <QuickActionButton
             title={t("admin.actions.manageCharities", "Manage Charities")}
-            description={t("admin.actions.manageCharitiesDesc", "Review and approve organizations")}
+            description={t(
+              "admin.actions.manageCharitiesDesc",
+              "Review and approve organizations",
+            )}
             onClick={handleNavigateCharities}
           />
           <QuickActionButton
             title={t("admin.actions.systemSettings", "System Settings")}
-            description={t("admin.actions.systemSettingsDesc", "Configure platform parameters")}
+            description={t(
+              "admin.actions.systemSettingsDesc",
+              "Configure platform parameters",
+            )}
             onClick={handleNavigateSettings}
           />
           <QuickActionButton
-            title={t("admin.actions.manageImpactMetrics", "Manage Impact Metrics")}
-            description={t("admin.actions.manageImpactMetricsDesc", "Configure impact calculator data")}
+            title={t(
+              "admin.actions.manageImpactMetrics",
+              "Manage Impact Metrics",
+            )}
+            description={t(
+              "admin.actions.manageImpactMetricsDesc",
+              "Configure impact calculator data",
+            )}
             onClick={handleNavigateImpactMetrics}
           />
           <QuickActionButton
             title={t("admin.actions.donationMonitoring", "Donation Monitoring")}
-            description={t("admin.actions.donationMonitoringDesc", "Monitor, flag, and report on donations")}
+            description={t(
+              "admin.actions.donationMonitoringDesc",
+              "Monitor, flag, and report on donations",
+            )}
             onClick={handleNavigateDonations}
           />
           <QuickActionButton
             title={t("admin.actions.contentModeration", "Content Moderation")}
-            description={t("admin.actions.contentModerationDesc", "Hide, flag, and review opportunities and causes")}
+            description={t(
+              "admin.actions.contentModerationDesc",
+              "Hide, flag, and review opportunities and causes",
+            )}
             onClick={handleNavigateContentModeration}
           />
           <QuickActionButton
             title={t("admin.actions.portfolioFunds", "Portfolio Funds")}
-            description={t("admin.actions.portfolioFundsDesc", "Create and manage curated giving portfolios")}
+            description={t(
+              "admin.actions.portfolioFundsDesc",
+              "Create and manage curated giving portfolios",
+            )}
             onClick={handleNavigatePortfolioFunds}
           />
           <QuickActionButton
             title={t("admin.actions.charityRequests", "Charity Requests")}
-            description={t("admin.actions.charityRequestsDesc", "Review donor requests for unclaimed charities")}
+            description={t(
+              "admin.actions.charityRequestsDesc",
+              "Review donor requests for unclaimed charities",
+            )}
             onClick={handleNavigateCharityRequests}
           />
         </div>

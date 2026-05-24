@@ -124,15 +124,28 @@ function FilterBar({
         onChange={onStatusChange}
         aria-label="Filter by status"
       >
-        <option value="">{t("admin.validation.allStatuses", "All statuses")}</option>
-        <option value="pending">{t("admin.validation.pending", "Pending")}</option>
-        <option value="approved">{t("admin.validation.approved", "Approved")}</option>
-        <option value="rejected">{t("admin.validation.rejected", "Rejected")}</option>
-        <option value="expired">{t("admin.validation.expired", "Expired")}</option>
+        <option value="">
+          {t("admin.validation.allStatuses", "All statuses")}
+        </option>
+        <option value="pending">
+          {t("admin.validation.pending", "Pending")}
+        </option>
+        <option value="approved">
+          {t("admin.validation.approved", "Approved")}
+        </option>
+        <option value="rejected">
+          {t("admin.validation.rejected", "Rejected")}
+        </option>
+        <option value="expired">
+          {t("admin.validation.expired", "Expired")}
+        </option>
       </select>
       <input
         type="text"
-        placeholder={t("admin.validation.searchPlaceholder", "Search volunteer, org…")}
+        placeholder={t(
+          "admin.validation.searchPlaceholder",
+          "Search volunteer, org…",
+        )}
         className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[220px]"
         defaultValue={filters.search ?? ""}
         onChange={onSearchChange}
@@ -167,7 +180,10 @@ function Pagination({
         {t("common.previous", "Previous")}
       </Button>
       <span className="text-sm text-gray-500">
-        {t("common.pageOfTotal", "Page {{page}} of {{total}}", { page, total: totalPages })}
+        {t("common.pageOfTotal", "Page {{page}} of {{total}}", {
+          page,
+          total: totalPages,
+        })}
       </span>
       <Button
         variant="secondary"
@@ -370,8 +386,12 @@ function OverrideModal({
             value={newStatus}
             onChange={handleStatusChange}
           >
-            <option value="approved">{t("admin.validation.approved", "Approved")}</option>
-            <option value="rejected">{t("admin.validation.rejected", "Rejected")}</option>
+            <option value="approved">
+              {t("admin.validation.approved", "Approved")}
+            </option>
+            <option value="rejected">
+              {t("admin.validation.rejected", "Rejected")}
+            </option>
           </select>
         </div>
         <div>
@@ -385,7 +405,10 @@ function OverrideModal({
             id="override-reason"
             rows={3}
             className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            placeholder={t("admin.validation.reasonPlaceholder", "Explain the reason for overriding this request…")}
+            placeholder={t(
+              "admin.validation.reasonPlaceholder",
+              "Explain the reason for overriding this request…",
+            )}
             value={reason}
             onChange={handleReasonChange}
           />
@@ -531,7 +554,9 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           {t("admin.validation.title", "Volunteer Validation Oversight")}
         </h1>
         <span className="text-sm text-gray-500">
-          {t("admin.validation.totalCount", "{{count}} total requests", { count: result.totalCount })}
+          {t("admin.validation.totalCount", "{{count}} total requests", {
+            count: result.totalCount,
+          })}
         </span>
       </div>
 
@@ -590,7 +615,10 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           )}
           {!loading && result.requests.length === 0 && (
             <p className="text-sm text-gray-500 text-center py-8">
-              {t("admin.validation.noRequests", "No validation requests found.")}
+              {t(
+                "admin.validation.noRequests",
+                "No validation requests found.",
+              )}
             </p>
           )}
           {!loading && result.requests.length > 0 && (
@@ -644,7 +672,10 @@ export default function AdminVolunteerValidation(): React.ReactElement {
       {activeTab === "patterns" && (
         <Card className="p-6">
           <p className="text-sm text-gray-600 mb-4">
-            {t("admin.validation.patternsDescription", "Volunteers flagged for reporting more than the configured threshold of hours in a rolling 7-day window. These patterns may indicate abuse of the self-reported hours system.")}
+            {t(
+              "admin.validation.patternsDescription",
+              "Volunteers flagged for reporting more than the configured threshold of hours in a rolling 7-day window. These patterns may indicate abuse of the self-reported hours system.",
+            )}
           </p>
           {patternsLoading && (
             <div className="flex justify-center py-12">

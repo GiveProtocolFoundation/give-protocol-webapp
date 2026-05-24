@@ -75,8 +75,7 @@ export default {
     "volunteer.allTypes": "جميع الأنواع",
     "volunteer.allLanguages": "جميع اللغات",
     "volunteer.applyNow": "تقدّم الآن",
-    "volunteer.noOpportunitiesFound":
-      "لم يتم العثور على فرص تطابق معاييرك.",
+    "volunteer.noOpportunitiesFound": "لم يتم العثور على فرص تطابق معاييرك.",
     "volunteer.verify": "التحقق من الساعات",
     "volunteer.verifying": "جارٍ التحقق...",
     "volunteer.reject": "رفض",
@@ -100,7 +99,7 @@ export default {
     "volunteer.createOpportunity": "إنشاء فرصة تطوع",
     "volunteer.createNew": "إنشاء جديد",
     "volunteer.noOpportunitiesYet":
-      "لم يتم إنشاء فرص بعد. انقر على \"إنشاء جديد\" للبدء.",
+      'لم يتم إنشاء فرص بعد. انقر على "إنشاء جديد" للبدء.',
     "volunteer.opportunityTitle": "عنوان الفرصة",
     "volunteer.skills": "المهارات (مفصولة بفواصل)",
     "volunteer.commitment": "الالتزام",
@@ -124,8 +123,7 @@ export default {
     "volunteer.workTypeFilter": "تصفية نوع العمل",
     "volunteer.searchLocation": "المدينة أو المنطقة...",
     "volunteer.searchLocationAria": "البحث عن موقع",
-    "volunteer.signInToApply":
-      "يرجى تسجيل الدخول للتقدم لفرص التطوع",
+    "volunteer.signInToApply": "يرجى تسجيل الدخول للتقدم لفرص التطوع",
     "volunteer.applicationSuccess": "تم تقديم الطلب بنجاح!",
     "volunteer.removeFilter": "إزالة تصفية {{filter}}",
 
@@ -137,19 +135,15 @@ export default {
     "volunteer.profileNotFound": "لم يتم العثور على ملف المستخدم",
     "volunteer.correctErrors": "يرجى تصحيح أخطاء التحقق",
     "volunteer.createFailed": "فشل إنشاء الفرصة",
-    "volunteer.descriptionPlaceholder":
-      "صِف فرصة التطوع بالتفصيل...",
-    "volunteer.skillsPlaceholder":
-      "مثال: تطوير الويب، إدارة المشاريع، الترجمة",
+    "volunteer.descriptionPlaceholder": "صِف فرصة التطوع بالتفصيل...",
+    "volunteer.skillsPlaceholder": "مثال: تطوير الويب، إدارة المشاريع، الترجمة",
     "volunteer.locationPlaceholder": "مثال: عن بُعد، نيويورك، برلين",
     "volunteer.headerImage": "صورة الرأس",
-    "volunteer.headerImageHelp":
-      "ارفع صورة لعرضها في أعلى قائمة الفرصة",
+    "volunteer.headerImageHelp": "ارفع صورة لعرضها في أعلى قائمة الفرصة",
     "volunteer.limitReached": "تم الوصول إلى حد الفرص",
     "volunteer.limitReachedMessage":
       "لقد وصلت إلى الحد الأقصى البالغ {{max}} فرصة تطوع نشطة. يرجى إغلاق أو إكمال فرصة حالية قبل إنشاء فرصة جديدة.",
-    "volunteer.opportunityCount":
-      "لديك {{count}} من أصل {{max}} فرصة نشطة.",
+    "volunteer.opportunityCount": "لديك {{count}} من أصل {{max}} فرصة نشطة.",
 
     // Volunteer - HoursVerificationTab
     "volunteer.hoursVerification": "التحقق من الساعات",
@@ -226,14 +220,11 @@ export default {
     "volunteer.enterOrgName": "أدخل اسم المؤسسة",
     "volunteer.contactEmail": "البريد الإلكتروني للتواصل",
     "volunteer.contactEmailOptional": "(اختياري)",
-    "volunteer.onboardHelp":
-      "قد نتواصل للمساعدة في ضم هذه المؤسسة",
-    "volunteer.submittedForValidation":
-      "سيتم تقديم هذا السجل للتصديق",
+    "volunteer.onboardHelp": "قد نتواصل للمساعدة في ضم هذه المؤسسة",
+    "volunteer.submittedForValidation": "سيتم تقديم هذا السجل للتصديق",
     "volunteer.submittedForValidationTo":
       "سيتم تقديم هذا السجل للتصديق إلى {{org}}",
-    "volunteer.validationExpired":
-      "انتهت فترة التصديق لهذا التاريخ",
+    "volunteer.validationExpired": "انتهت فترة التصديق لهذا التاريخ",
     "volunteer.savedAsUnvalidated": "سيتم حفظ هذا السجل بدون تصديق",
     "volunteer.describeActivities": "صِف الأنشطة التي قمت بها...",
     "volunteer.moreCharsNeeded": "مطلوب {{count}} حرف إضافي",
@@ -273,7 +264,8 @@ export default {
     "volunteer.emailAddress": "البريد الإلكتروني",
     "volunteer.phoneNumber": "رقم الهاتف",
     "volunteer.locationCity": "الموقع/المدينة",
-    "volunteer.locationCityPlaceholder": "مثال: الرياض، المملكة العربية السعودية",
+    "volunteer.locationCityPlaceholder":
+      "مثال: الرياض، المملكة العربية السعودية",
     "volunteer.timeZone": "المنطقة الزمنية",
     "volunteer.selectTimeZone": "اختر المنطقة الزمنية",
     "volunteer.ageRange": "الفئة العمرية",
@@ -286,8 +278,7 @@ export default {
     "volunteer.commitmentLevel": "مستوى الالتزام",
     "volunteer.commitmentOneTimeDesc": "مشروع واحد أو مهام قصيرة المدة",
     "volunteer.commitmentShortTermDesc": "من بضعة أسابيع إلى بضعة أشهر",
-    "volunteer.commitmentLongTermDesc":
-      "التزام مستمر لعدة أشهر أو أكثر",
+    "volunteer.commitmentLongTermDesc": "التزام مستمر لعدة أشهر أو أكثر",
     "volunteer.experienceLabel": "حدّثنا عن خبرتك ذات الصلة",
     "volunteer.experiencePlaceholder":
       "صِف خلفيتك ومهاراتك وما يحفزك للتطوع مع Give Protocol...",
@@ -301,8 +292,7 @@ export default {
     "volunteer.validation.lastNameInvalid": "يرجى إدخال اسم عائلة صالح",
     "volunteer.validation.emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
     "volunteer.validation.phoneInvalid": "يرجى إدخال رقم هاتف صالح",
-    "volunteer.validation.experienceRequired":
-      "يرجى وصف خبرتك ذات الصلة",
+    "volunteer.validation.experienceRequired": "يرجى وصف خبرتك ذات الصلة",
     "volunteer.validation.addSkill": "يرجى إضافة مهارة واحدة على الأقل",
     "volunteer.validation.ageRangeRequired": "يرجى اختيار فئتك العمرية",
     "volunteer.validation.consentRequired":
@@ -331,10 +321,8 @@ export default {
     "volunteer.workSamplesTitle": "نماذج الأعمال",
     "volunteer.workSamplesLabel": "روابط نماذج الأعمال (مفصولة بفواصل)",
     "volunteer.submitApplicationShort": "تقديم الطلب",
-    "volunteer.validation.nameInvalid":
-      "يرجى إدخال اسم صالح (٢-١٠٠ حرف)",
-    "volunteer.validation.provideExperience":
-      "يرجى تقديم معلومات عن خبرتك",
+    "volunteer.validation.nameInvalid": "يرجى إدخال اسم صالح (٢-١٠٠ حرف)",
+    "volunteer.validation.provideExperience": "يرجى تقديم معلومات عن خبرتك",
     "volunteer.validation.selectDay": "يرجى اختيار يوم واحد على الأقل",
     "volunteer.validation.selectTime": "يرجى اختيار وقت واحد على الأقل",
 
@@ -344,8 +332,7 @@ export default {
     "volunteer.specificConsentsDesc":
       "يرجى مراجعة كل من البنود التالية والإشارة إلى موافقتك عليها:",
     "volunteer.essentialProcessingTitle": "المعالجة الأساسية (مطلوبة):",
-    "volunteer.internationalTransfersTitle":
-      "النقل الدولي (إن وُجد):",
+    "volunteer.internationalTransfersTitle": "النقل الدولي (إن وُجد):",
     "volunteer.acknowledgmentTitle": "الإقرار",
     "volunteer.ageConfirmationTitle": "تأكيد العمر:",
     "volunteer.privacyNoticeTitle": "إشعار الخصوصية:",
@@ -406,8 +393,7 @@ export default {
     "export.includePersonal": "تضمين عناوين المحافظ",
     "export.willInclude": "سيتضمن التصدير:",
     "export.walletAddresses": "عناوين المحافظ (المرسل والمستلم)",
-    "export.volunteerDetails":
-      "تفاصيل المساهمة التطوعية (عند الاقتضاء)",
+    "export.volunteerDetails": "تفاصيل المساهمة التطوعية (عند الاقتضاء)",
     "export.verificationHashes": "رموز التحقق (عند الاقتضاء)",
     "export.cancel": "إلغاء",
     "export.download": "تصدير CSV",
@@ -425,21 +411,16 @@ export default {
 
     // Modal - wallet connection
     "modal.wallet.title": "ربط محفظتك",
-    "modal.wallet.description":
-      "اربط محفظة لفتح جميع ميزات Give Protocol",
-    "modal.wallet.benefit1":
-      "تتبع تبرعاتك بشفافية على سلسلة الكتل",
-    "modal.wallet.benefit2":
-      "احصل على رموز GIVE كمكافآت لمساهماتك",
-    "modal.wallet.benefit3":
-      "شارك في قرارات الحوكمة الخاصة بالبروتوكول",
+    "modal.wallet.description": "اربط محفظة لفتح جميع ميزات Give Protocol",
+    "modal.wallet.benefit1": "تتبع تبرعاتك بشفافية على سلسلة الكتل",
+    "modal.wallet.benefit2": "احصل على رموز GIVE كمكافآت لمساهماتك",
+    "modal.wallet.benefit3": "شارك في قرارات الحوكمة الخاصة بالبروتوكول",
     "modal.wallet.connecting": "جارٍ الاتصال...",
     "modal.wallet.clickToConnect": "انقر للاتصال",
     "modal.wallet.noExtension": "لم يتم اكتشاف إضافة محفظة.",
     "modal.wallet.installMetaMask": "ثبّت MetaMask للبدء",
     "modal.wallet.skip": "تخطي في الوقت الحالي",
-    "modal.wallet.footerNote":
-      "يمكنك ربط محفظتك في أي وقت من شريط التنقل",
+    "modal.wallet.footerNote": "يمكنك ربط محفظتك في أي وقت من شريط التنقل",
     "modal.wallet.failedConnect": "فشل الاتصال بالمحفظة",
 
     // Modal - wallet link
@@ -455,8 +436,7 @@ export default {
     "modal.walletLink.buttonLinking": "جارٍ الربط\u2026",
     "modal.walletLink.buttonLink": "ربط المحفظة",
     "modal.walletLink.buttonConnectFirst": "اتصل بالمحفظة أولًا",
-    "modal.walletLink.footerNote":
-      "يمكنك ربط محفظتك في أي وقت من الإعدادات",
+    "modal.walletLink.footerNote": "يمكنك ربط محفظتك في أي وقت من الإعدادات",
     "modal.walletLink.failedLink": "فشل ربط المحفظة",
 
     // Modal - chain selection
@@ -489,13 +469,11 @@ export default {
       "تمت معالجة تبرعك بمبلغ {{amount}} لصالح {{charityName}}.",
     "modal.donation.donationProcessedRecurring":
       "تمت معالجة تبرعك الشهري بمبلغ {{amount}} لصالح {{charityName}}.",
-    "modal.donation.recurringNote":
-      "سيتم الخصم شهريًا حتى تقوم بالإلغاء.",
+    "modal.donation.recurringNote": "سيتم الخصم شهريًا حتى تقوم بالإلغاء.",
     "modal.donation.receiptNote": "تم إرسال إيصال إلى بريدك الإلكتروني.",
     "modal.donation.done": "تم",
     "modal.donation.errorTitle": "حدث خطأ ما",
-    "modal.donation.errorDefault":
-      "حدث خطأ غير متوقع. يرجى المحاولة مجددًا.",
+    "modal.donation.errorDefault": "حدث خطأ غير متوقع. يرجى المحاولة مجددًا.",
     "modal.donation.tryAgain": "أعد المحاولة",
     "modal.donation.close": "إغلاق",
     "modal.donation.amountLabel": "مبلغ التبرع",
@@ -507,8 +485,7 @@ export default {
     "modal.donation.donateToCharity": "تبرع لـ {{charityName}}",
 
     // Modal - scheduled donation
-    "modal.scheduledDonation.title":
-      "جدولة تبرعات شهرية لـ {{charityName}}",
+    "modal.scheduledDonation.title": "جدولة تبرعات شهرية لـ {{charityName}}",
 
     // Modal - withdrawal
     "modal.withdrawal.title": "طلب سحب",
@@ -526,8 +503,7 @@ export default {
     "modal.validation.description": "الوصف",
     "modal.validation.submitted": "تم الإرسال:",
     "modal.validation.daysRemaining": "({{count}} أيام متبقية للتصديق)",
-    "modal.validation.appealNote":
-      "هذا استئناف/إعادة تقديم لطلب مرفوض سابقًا",
+    "modal.validation.appealNote": "هذا استئناف/إعادة تقديم لطلب مرفوض سابقًا",
     "modal.validation.rejectPrompt":
       "يرجى اختيار سبب لرفض طلب التصديق هذا. سيتم إخطار المتطوع.",
     "modal.validation.reject": "رفض",
@@ -553,8 +529,7 @@ export default {
     "validation.rejection.reasonPlaceholder": "اختر سببًا...",
     "validation.rejection.notesLabel": "ملاحظات إضافية",
     "validation.rejection.optional": "(اختياري)",
-    "validation.rejection.notesPlaceholder":
-      "قدّم سياقًا إضافيًا للرفض...",
+    "validation.rejection.notesPlaceholder": "قدّم سياقًا إضافيًا للرفض...",
 
     // Validation - batch actions
     "validation.batch.deselectAll": "إلغاء تحديد الكل",
@@ -599,8 +574,7 @@ export default {
 
     // Contribution Tracker (GIV-254)
     "tracker.title": "تصنيفات الأثر العالمي",
-    "tracker.subtitle":
-      "تتبع والاحتفاء بالأثر الجماعي لمجتمعنا",
+    "tracker.subtitle": "تتبع والاحتفاء بالأثر الجماعي لمجتمعنا",
     "tracker.searchPlaceholder": "البحث عن المساهمين...",
     "tracker.exportCSV": "تصدير CSV",
     "tracker.exportPDF": "تصدير PDF",
@@ -624,8 +598,7 @@ export default {
     "tracker.exportNoData": "لا توجد بيانات متاحة للتصدير",
     "tracker.exportError": "حدث خطأ أثناء تصدير البيانات",
     "tracker.walletNotConnected": "المحفظة غير متصلة",
-    "tracker.connectWalletForAlias":
-      "يرجى ربط محفظتك لتعيين اسم مستعار",
+    "tracker.connectWalletForAlias": "يرجى ربط محفظتك لتعيين اسم مستعار",
     "tracker.invalidAlias": "اسم مستعار غير صالح",
     "tracker.enterValidAlias": "يرجى إدخال اسم مستعار صالح",
 
@@ -670,8 +643,7 @@ export default {
     "portfolio.verifiedCharities": "{{count}} مؤسسة خيرية موثقة",
     "portfolio.donateToFundButton": "تبرع للصندوق",
     "portfolio.noFundsAvailable": "لا توجد صناديق محفظة متاحة",
-    "portfolio.checkBackLater":
-      "تحقق لاحقًا لمعرفة فرص التمويل الجديدة",
+    "portfolio.checkBackLater": "تحقق لاحقًا لمعرفة فرص التمويل الجديدة",
     "portfolio.amountLabel": "المبلغ ({{currency}})",
     "portfolio.invalidAmount": "يرجى إدخال مبلغ صالح",
     "portfolio.donationSuccess": "تم التبرع بنجاح!",
@@ -721,8 +693,7 @@ export default {
     "admin.actions.contentModerationDesc":
       "إخفاء والإبلاغ عن ومراجعة الفرص والقضايا",
     "admin.actions.portfolioFunds": "صناديق المحفظة",
-    "admin.actions.portfolioFundsDesc":
-      "إنشاء وإدارة محافظ العطاء المنسقة",
+    "admin.actions.portfolioFundsDesc": "إنشاء وإدارة محافظ العطاء المنسقة",
     "admin.actions.charityRequests": "طلبات المؤسسات الخيرية",
     "admin.actions.charityRequestsDesc":
       "مراجعة طلبات المتبرعين للمؤسسات الخيرية غير المُطالب بها",
@@ -742,7 +713,8 @@ export default {
     "admin.portfolio.selectCategory": "اختر فئة",
     "admin.portfolio.imageUrl": "رابط الصورة",
     "admin.portfolio.imageUrlPlaceholder": "https://...",
-    "admin.portfolio.selectCharities": "اختيار المؤسسات الخيرية ({{count}} محددة)",
+    "admin.portfolio.selectCharities":
+      "اختيار المؤسسات الخيرية ({{count}} محددة)",
     "admin.portfolio.noCharitiesFound": "لم يتم العثور على مؤسسات خيرية موثقة",
     "admin.portfolio.saving": "جارٍ الحفظ...",
     "admin.portfolio.createFund": "إنشاء الصندوق",
@@ -793,7 +765,8 @@ export default {
     "admin.charity.reasonOptional": "السبب (اختياري)",
     "admin.charity.saving": "جارٍ الحفظ\u2026",
     "admin.charity.confirm": "تأكيد",
-    "admin.charity.noResults": "لم يتم العثور على مؤسسات خيرية تطابق معايير التصفية.",
+    "admin.charity.noResults":
+      "لم يتم العثور على مؤسسات خيرية تطابق معايير التصفية.",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "طلبات المؤسسات الخيرية",
@@ -804,11 +777,9 @@ export default {
     "admin.charityRequests.latestRequester": "آخر مقدم طلب",
     "admin.charityRequests.latestRequest": "آخر طلب",
     "admin.charityRequests.firstRequest": "أول طلب",
-    "admin.charityRequests.empty":
-      "لم يتم تقديم أي طلبات مؤسسات خيرية بعد.",
+    "admin.charityRequests.empty": "لم يتم تقديم أي طلبات مؤسسات خيرية بعد.",
     "admin.charityRequests.errorTitle": "خطأ في تحميل طلبات المؤسسات الخيرية",
-    "admin.charityRequests.showing":
-      "عرض {{shown}} من {{total}} رقم EIN فريد.",
+    "admin.charityRequests.showing": "عرض {{shown}} من {{total}} رقم EIN فريد.",
 
     // Admin - Volunteer Validation page (GIV-256)
     "admin.validation.title": "إشراف على تصديق التطوع",
@@ -839,8 +810,7 @@ export default {
     "admin.validation.overrideTitle": "تجاوز طلب التصديق",
     "admin.validation.newStatus": "الحالة الجديدة",
     "admin.validation.reasonRequired": "السبب (مطلوب)",
-    "admin.validation.reasonPlaceholder":
-      "اشرح سبب تجاوز هذا الطلب\u2026",
+    "admin.validation.reasonPlaceholder": "اشرح سبب تجاوز هذا الطلب\u2026",
     "admin.validation.saving": "جارٍ الحفظ\u2026",
     "admin.validation.confirmOverride": "تأكيد التجاوز",
     "admin.validation.allStatuses": "جميع الحالات",

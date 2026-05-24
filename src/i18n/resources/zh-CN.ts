@@ -88,8 +88,7 @@ export default {
     "volunteer.hoursVerified": "志愿时长已验证并记录在区块链上。",
     "volunteer.verificationHash": "验证哈希",
     "volunteer.applicationAccepted": "申请已接受",
-    "volunteer.applicationRecorded":
-      "志愿者申请已被接受并记录在区块链上。",
+    "volunteer.applicationRecorded": "志愿者申请已被接受并记录在区块链上。",
     "volunteer.acceptanceHash": "接受哈希",
     "volunteer.pendingHours": "待验证志愿时长",
     "volunteer.noPendingHours": "没有待验证的志愿时长。",
@@ -138,13 +137,11 @@ export default {
     "volunteer.skillsPlaceholder": "例如：网页开发、项目管理、翻译",
     "volunteer.locationPlaceholder": "例如：远程、纽约、柏林",
     "volunteer.headerImage": "封面图片",
-    "volunteer.headerImageHelp":
-      "上传一张图片显示在您的机会列表顶部",
+    "volunteer.headerImageHelp": "上传一张图片显示在您的机会列表顶部",
     "volunteer.limitReached": "机会数量已达上限",
     "volunteer.limitReachedMessage":
       "您已达到最多 {{max}} 个活跃志愿机会的上限。请关闭或完成一个现有机会后再创建新机会。",
-    "volunteer.opportunityCount":
-      "您有 {{count}} / {{max}} 个活跃机会。",
+    "volunteer.opportunityCount": "您有 {{count}} / {{max}} 个活跃机会。",
 
     // Volunteer - HoursVerificationTab
     "volunteer.hoursVerification": "时长验证",
@@ -152,8 +149,7 @@ export default {
     "volunteer.formalHours": "已记录时长",
     "volunteer.selfReported": "自行报告",
     "volunteer.loggedHours": "已记录志愿时长",
-    "volunteer.loggedHoursDescription":
-      "志愿者通过您的机会记录的时长",
+    "volunteer.loggedHoursDescription": "志愿者通过您的机会记录的时长",
     "volunteer.allCaughtUp": "全部处理完毕！",
     "volunteer.noPendingLoggedHours": "没有待验证的已记录时长。",
     "volunteer.selfReportedHours": "自行报告时长",
@@ -221,8 +217,7 @@ export default {
     "volunteer.contactEmailOptional": "（选填）",
     "volunteer.onboardHelp": "我们可能会联系以帮助该组织入驻",
     "volunteer.submittedForValidation": "此记录将提交验证",
-    "volunteer.submittedForValidationTo":
-      "此记录将提交给 {{org}} 进行验证",
+    "volunteer.submittedForValidationTo": "此记录将提交给 {{org}} 进行验证",
     "volunteer.validationExpired": "此日期的验证期已过",
     "volunteer.savedAsUnvalidated": "此记录将保存为未验证",
     "volunteer.describeActivities": "描述您执行的活动...",
@@ -255,8 +250,7 @@ export default {
 
     // Volunteer - VolunteerApplicationForm
     "volunteer.applicationTitle": "志愿服务机会申请",
-    "volunteer.applicationSubtitle":
-      "通过经验证的贡献帮助创造可持续的影响",
+    "volunteer.applicationSubtitle": "通过经验证的贡献帮助创造可持续的影响",
     "volunteer.personalInfo": "个人信息",
     "volunteer.firstName": "名",
     "volunteer.lastName": "姓",
@@ -293,8 +287,7 @@ export default {
     "volunteer.validation.experienceRequired": "请描述您的相关经验",
     "volunteer.validation.addSkill": "请添加至少一项技能",
     "volunteer.validation.ageRangeRequired": "请选择您的年龄范围",
-    "volunteer.validation.consentRequired":
-      "您必须同意所有必需的同意项",
+    "volunteer.validation.consentRequired": "您必须同意所有必需的同意项",
     "volunteer.signInToSubmit": "请登录后提交申请",
     "volunteer.submitFailed": "提交申请失败，请重试。",
 
@@ -319,8 +312,7 @@ export default {
     "volunteer.workSamplesTitle": "作品样本",
     "volunteer.workSamplesLabel": "作品样本链接（以逗号分隔）",
     "volunteer.submitApplicationShort": "提交申请",
-    "volunteer.validation.nameInvalid":
-      "请输入有效的姓名（2-100个字符）",
+    "volunteer.validation.nameInvalid": "请输入有效的姓名（2-100个字符）",
     "volunteer.validation.provideExperience": "请提供您的经验信息",
     "volunteer.validation.selectDay": "请至少选择一天",
     "volunteer.validation.selectTime": "请至少选择一个时间段",
@@ -328,8 +320,7 @@ export default {
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "我理解：",
     "volunteer.specificConsents": "具体同意事项",
-    "volunteer.specificConsentsDesc":
-      "请审阅并表明您对以下各项的同意：",
+    "volunteer.specificConsentsDesc": "请审阅并表明您对以下各项的同意：",
     "volunteer.essentialProcessingTitle": "基本处理（必需）：",
     "volunteer.internationalTransfersTitle": "国际传输（如适用）：",
     "volunteer.acknowledgmentTitle": "确认",
@@ -337,10 +328,8 @@ export default {
     "volunteer.privacyNoticeTitle": "隐私声明：",
     "volunteer.doNotAccept": "不接受",
     "volunteer.acceptAndContinue": "接受并继续",
-    "volunteer.validation.essentialRequired":
-      "必须同意基本处理才能继续",
-    "volunteer.validation.agePrivacyRequired":
-      "您必须确认年龄并已阅读隐私声明",
+    "volunteer.validation.essentialRequired": "必须同意基本处理才能继续",
+    "volunteer.validation.agePrivacyRequired": "您必须确认年龄并已阅读隐私声明",
 
     // Languages
     "language.english": "英语",
@@ -410,8 +399,7 @@ export default {
 
     // Modal - wallet connection
     "modal.wallet.title": "连接您的钱包",
-    "modal.wallet.description":
-      "连接钱包以解锁 Give Protocol 的全部功能",
+    "modal.wallet.description": "连接钱包以解锁 Give Protocol 的全部功能",
     "modal.wallet.benefit1": "在区块链上透明地追踪您的捐赠",
     "modal.wallet.benefit2": "通过贡献获得 GIVE 代币奖励",
     "modal.wallet.benefit3": "参与协议治理决策",
@@ -427,12 +415,10 @@ export default {
     "modal.walletLink.title": "关联您的钱包",
     "modal.walletLink.description":
       "将钱包关联到您的账户以进行链上捐赠、获取代币奖励和参与治理",
-    "modal.walletLink.benefit1":
-      "直接向链上已验证的慈善机构捐赠加密货币",
+    "modal.walletLink.benefit1": "直接向链上已验证的慈善机构捐赠加密货币",
     "modal.walletLink.benefit2Pre": "积累",
     "modal.walletLink.benefit2Post": "您的贡献凭证",
-    "modal.walletLink.benefit3":
-      "使用邮箱或钱包登录 \u2014 同一账户",
+    "modal.walletLink.benefit3": "使用邮箱或钱包登录 \u2014 同一账户",
     "modal.walletLink.buttonLinking": "关联中\u2026",
     "modal.walletLink.buttonLink": "关联钱包",
     "modal.walletLink.buttonConnectFirst": "先连接钱包",
@@ -455,8 +441,7 @@ export default {
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "连接钱包",
     "modal.connect.backAria": "返回网络选择",
-    "modal.connect.noWallets":
-      "没有可用于 {{chainType}} 链的钱包。",
+    "modal.connect.noWallets": "没有可用于 {{chainType}} 链的钱包。",
     "modal.connect.tryDifferentChain": "尝试选择不同的链类型。",
     "modal.connect.viewOtherWallets": "查看其他支持的钱包",
     "modal.connect.termsAgreement": "连接即表示您同意",
@@ -486,8 +471,7 @@ export default {
     "modal.donation.donateToCharity": "捐赠给 {{charityName}}",
 
     // Modal - scheduled donation
-    "modal.scheduledDonation.title":
-      "设置每月向 {{charityName}} 的定期捐赠",
+    "modal.scheduledDonation.title": "设置每月向 {{charityName}} 的定期捐赠",
 
     // Modal - withdrawal
     "modal.withdrawal.title": "申请提现",
@@ -505,8 +489,7 @@ export default {
     "modal.validation.description": "描述",
     "modal.validation.submitted": "提交时间：",
     "modal.validation.daysRemaining": "（剩余 {{count}} 天可验证）",
-    "modal.validation.appealNote":
-      "这是先前被拒绝请求的申诉/重新提交",
+    "modal.validation.appealNote": "这是先前被拒绝请求的申诉/重新提交",
     "modal.validation.rejectPrompt":
       "请选择拒绝此验证请求的原因。志愿者将收到通知。",
     "modal.validation.reject": "拒绝",
@@ -532,8 +515,7 @@ export default {
     "validation.rejection.reasonPlaceholder": "选择原因...",
     "validation.rejection.notesLabel": "附加说明",
     "validation.rejection.optional": "（选填）",
-    "validation.rejection.notesPlaceholder":
-      "提供拒绝的额外说明...",
+    "validation.rejection.notesPlaceholder": "提供拒绝的额外说明...",
 
     // Validation - batch actions
     "validation.batch.deselectAll": "取消全选",
@@ -641,8 +623,7 @@ export default {
     "portfolio.equalDistribution": "均等分配",
     "portfolio.equalDistributionNote":
       "您的捐赠将在 {{count}} 个已验证慈善机构之间均等分配。",
-    "portfolio.eachCharityPercentage":
-      "每个慈善机构收到捐赠的 {{percentage}}%",
+    "portfolio.eachCharityPercentage": "每个慈善机构收到捐赠的 {{percentage}}%",
     "portfolio.verifiedCharities": "{{count}} 个已验证慈善机构",
     "portfolio.donateToFundButton": "捐赠给基金",
     "portfolio.noFundsAvailable": "暂无可用的投资组合基金",
@@ -692,13 +673,11 @@ export default {
     "admin.actions.donationMonitoring": "捐赠监控",
     "admin.actions.donationMonitoringDesc": "监控、标记和报告捐赠",
     "admin.actions.contentModeration": "内容审核",
-    "admin.actions.contentModerationDesc":
-      "隐藏、标记和审核机会和事业",
+    "admin.actions.contentModerationDesc": "隐藏、标记和审核机会和事业",
     "admin.actions.portfolioFunds": "投资组合基金",
     "admin.actions.portfolioFundsDesc": "创建和管理精选捐赠组合",
     "admin.actions.charityRequests": "慈善机构请求",
-    "admin.actions.charityRequestsDesc":
-      "审核捐赠者对未注册慈善机构的请求",
+    "admin.actions.charityRequestsDesc": "审核捐赠者对未注册慈善机构的请求",
 
     // Admin - Portfolio Funds management page (GIV-256)
     "admin.portfolio.title": "投资组合基金",
@@ -709,14 +688,12 @@ export default {
     "admin.portfolio.fundName": "基金名称",
     "admin.portfolio.fundNamePlaceholder": "例如：环境影响基金",
     "admin.portfolio.description": "描述",
-    "admin.portfolio.descriptionPlaceholder":
-      "描述基金的目的和影响重点...",
+    "admin.portfolio.descriptionPlaceholder": "描述基金的目的和影响重点...",
     "admin.portfolio.category": "类别",
     "admin.portfolio.selectCategory": "选择类别",
     "admin.portfolio.imageUrl": "图片 URL",
     "admin.portfolio.imageUrlPlaceholder": "https://...",
-    "admin.portfolio.selectCharities":
-      "选择慈善机构（已选 {{count}} 个）",
+    "admin.portfolio.selectCharities": "选择慈善机构（已选 {{count}} 个）",
     "admin.portfolio.noCharitiesFound": "未找到已验证的慈善机构",
     "admin.portfolio.saving": "保存中...",
     "admin.portfolio.createFund": "创建基金",
@@ -780,8 +757,7 @@ export default {
     "admin.charityRequests.firstRequest": "首次请求",
     "admin.charityRequests.empty": "尚未提交任何慈善机构请求。",
     "admin.charityRequests.errorTitle": "加载慈善机构请求出错",
-    "admin.charityRequests.showing":
-      "显示 {{shown}} / {{total}} 个唯一 EIN。",
+    "admin.charityRequests.showing": "显示 {{shown}} / {{total}} 个唯一 EIN。",
 
     // Admin - Volunteer Validation page (GIV-256)
     "admin.validation.title": "志愿者验证监督",
@@ -812,8 +788,7 @@ export default {
     "admin.validation.overrideTitle": "覆盖验证请求",
     "admin.validation.newStatus": "新状态",
     "admin.validation.reasonRequired": "原因（必填）",
-    "admin.validation.reasonPlaceholder":
-      "说明覆盖此请求的原因\u2026",
+    "admin.validation.reasonPlaceholder": "说明覆盖此请求的原因\u2026",
     "admin.validation.saving": "保存中\u2026",
     "admin.validation.confirmOverride": "确认覆盖",
     "admin.validation.allStatuses": "所有状态",

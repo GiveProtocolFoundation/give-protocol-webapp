@@ -100,7 +100,7 @@ export default {
     "volunteer.createOpportunity": "봉사 기회 만들기",
     "volunteer.createNew": "새로 만들기",
     "volunteer.noOpportunitiesYet":
-      "아직 생성된 기회가 없습니다. \"새로 만들기\"를 클릭하여 시작하세요.",
+      '아직 생성된 기회가 없습니다. "새로 만들기"를 클릭하여 시작하세요.',
     "volunteer.opportunityTitle": "기회 제목",
     "volunteer.skills": "기술 (쉼표로 구분)",
     "volunteer.commitment": "참여 기간",
@@ -124,8 +124,7 @@ export default {
     "volunteer.workTypeFilter": "근무 유형 필터",
     "volunteer.searchLocation": "도시 또는 지역...",
     "volunteer.searchLocationAria": "위치 검색",
-    "volunteer.signInToApply":
-      "봉사 기회에 지원하려면 로그인해 주세요",
+    "volunteer.signInToApply": "봉사 기회에 지원하려면 로그인해 주세요",
     "volunteer.applicationSuccess": "신청이 성공적으로 제출되었습니다!",
     "volunteer.removeFilter": "{{filter}} 필터 제거",
 
@@ -139,8 +138,7 @@ export default {
     "volunteer.createFailed": "기회 생성에 실패했습니다",
     "volunteer.descriptionPlaceholder":
       "봉사 기회에 대해 자세히 설명해 주세요...",
-    "volunteer.skillsPlaceholder":
-      "예: 웹 개발, 프로젝트 관리, 번역",
+    "volunteer.skillsPlaceholder": "예: 웹 개발, 프로젝트 관리, 번역",
     "volunteer.locationPlaceholder": "예: 원격, 서울, 부산",
     "volunteer.headerImage": "헤더 이미지",
     "volunteer.headerImageHelp":
@@ -158,8 +156,7 @@ export default {
     "volunteer.formalHours": "기록된 시간",
     "volunteer.selfReported": "자체 보고",
     "volunteer.loggedHours": "기록된 봉사 시간",
-    "volunteer.loggedHoursDescription":
-      "봉사자가 기회를 통해 기록한 시간",
+    "volunteer.loggedHoursDescription": "봉사자가 기회를 통해 기록한 시간",
     "volunteer.allCaughtUp": "모두 처리 완료!",
     "volunteer.noPendingLoggedHours": "검증할 대기 중인 기록 시간이 없습니다.",
     "volunteer.selfReportedHours": "자체 보고 시간",
@@ -228,12 +225,10 @@ export default {
     "volunteer.contactEmailOptional": "(선택 사항)",
     "volunteer.onboardHelp":
       "이 단체의 온보딩을 돕기 위해 연락드릴 수 있습니다",
-    "volunteer.submittedForValidation":
-      "이 기록은 검증을 위해 제출됩니다",
+    "volunteer.submittedForValidation": "이 기록은 검증을 위해 제출됩니다",
     "volunteer.submittedForValidationTo":
       "이 기록은 {{org}}에 검증을 위해 제출됩니다",
-    "volunteer.validationExpired":
-      "이 날짜에 대한 검증 기간이 만료되었습니다",
+    "volunteer.validationExpired": "이 날짜에 대한 검증 기간이 만료되었습니다",
     "volunteer.savedAsUnvalidated": "이 기록은 미검증 상태로 저장됩니다",
     "volunteer.describeActivities": "수행한 활동을 설명해 주세요...",
     "volunteer.moreCharsNeeded": "{{count}}자 더 입력해 주세요",
@@ -286,8 +281,7 @@ export default {
     "volunteer.commitmentLevel": "참여 수준",
     "volunteer.commitmentOneTimeDesc": "단일 프로젝트 또는 단기 작업",
     "volunteer.commitmentShortTermDesc": "몇 주에서 몇 개월",
-    "volunteer.commitmentLongTermDesc":
-      "수개월 이상의 지속적인 참여",
+    "volunteer.commitmentLongTermDesc": "수개월 이상의 지속적인 참여",
     "volunteer.experienceLabel": "관련 경험에 대해 알려주세요",
     "volunteer.experiencePlaceholder":
       "Give Protocol에서 봉사하고자 하는 동기와 배경, 기술에 대해 설명해 주세요...",
@@ -301,8 +295,7 @@ export default {
     "volunteer.validation.lastNameInvalid": "유효한 성을 입력해 주세요",
     "volunteer.validation.emailInvalid": "유효한 이메일 주소를 입력해 주세요",
     "volunteer.validation.phoneInvalid": "유효한 전화번호를 입력해 주세요",
-    "volunteer.validation.experienceRequired":
-      "관련 경험을 설명해 주세요",
+    "volunteer.validation.experienceRequired": "관련 경험을 설명해 주세요",
     "volunteer.validation.addSkill": "최소 하나의 기술을 추가해 주세요",
     "volunteer.validation.ageRangeRequired": "연령대를 선택해 주세요",
     "volunteer.validation.consentRequired":
@@ -331,8 +324,7 @@ export default {
     "volunteer.workSamplesTitle": "작업 샘플",
     "volunteer.workSamplesLabel": "작업 샘플 링크 (쉼표로 구분)",
     "volunteer.submitApplicationShort": "신청서 제출",
-    "volunteer.validation.nameInvalid":
-      "유효한 이름을 입력해 주세요 (2~100자)",
+    "volunteer.validation.nameInvalid": "유효한 이름을 입력해 주세요 (2~100자)",
     "volunteer.validation.provideExperience":
       "경험에 대한 정보를 제공해 주세요",
     "volunteer.validation.selectDay": "최소 하루를 선택해 주세요",
@@ -344,8 +336,7 @@ export default {
     "volunteer.specificConsentsDesc":
       "다음 각 항목을 검토하고 동의 여부를 표시해 주세요:",
     "volunteer.essentialProcessingTitle": "필수 처리 (필수):",
-    "volunteer.internationalTransfersTitle":
-      "국제 전송 (해당되는 경우):",
+    "volunteer.internationalTransfersTitle": "국제 전송 (해당되는 경우):",
     "volunteer.acknowledgmentTitle": "확인",
     "volunteer.ageConfirmationTitle": "연령 확인:",
     "volunteer.privacyNoticeTitle": "개인정보 처리방침:",
@@ -406,8 +397,7 @@ export default {
     "export.includePersonal": "지갑 주소 포함",
     "export.willInclude": "내보내기에 포함될 항목:",
     "export.walletAddresses": "지갑 주소 (발신자 및 수신자)",
-    "export.volunteerDetails":
-      "봉사 기여 세부 정보 (해당되는 경우)",
+    "export.volunteerDetails": "봉사 기여 세부 정보 (해당되는 경우)",
     "export.verificationHashes": "검증 해시 (해당되는 경우)",
     "export.cancel": "취소",
     "export.download": "CSV 내보내기",
@@ -427,12 +417,9 @@ export default {
     "modal.wallet.title": "지갑 연결",
     "modal.wallet.description":
       "Give Protocol의 모든 기능을 사용하려면 지갑을 연결하세요",
-    "modal.wallet.benefit1":
-      "블록체인에서 기부 내역을 투명하게 추적하세요",
-    "modal.wallet.benefit2":
-      "기여에 대한 보상으로 GIVE 토큰을 받으세요",
-    "modal.wallet.benefit3":
-      "프로토콜 거버넌스 의사결정에 참여하세요",
+    "modal.wallet.benefit1": "블록체인에서 기부 내역을 투명하게 추적하세요",
+    "modal.wallet.benefit2": "기여에 대한 보상으로 GIVE 토큰을 받으세요",
+    "modal.wallet.benefit3": "프로토콜 거버넌스 의사결정에 참여하세요",
     "modal.wallet.connecting": "연결 중...",
     "modal.wallet.clickToConnect": "클릭하여 연결",
     "modal.wallet.noExtension": "지갑 확장 프로그램이 감지되지 않았습니다.",
@@ -450,8 +437,7 @@ export default {
       "인증된 자선단체에 직접 온체인으로 암호화폐를 기부하세요",
     "modal.walletLink.benefit2Pre": "기여에 대한",
     "modal.walletLink.benefit2Post": "자격 증명을 획득하세요",
-    "modal.walletLink.benefit3":
-      "이메일 또는 지갑으로 로그인 — 동일한 계정",
+    "modal.walletLink.benefit3": "이메일 또는 지갑으로 로그인 — 동일한 계정",
     "modal.walletLink.buttonLinking": "연동 중\u2026",
     "modal.walletLink.buttonLink": "지갑 연동",
     "modal.walletLink.buttonConnectFirst": "먼저 지갑을 연결하세요",
@@ -475,7 +461,8 @@ export default {
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "지갑 연결",
     "modal.connect.backAria": "네트워크 선택으로 돌아가기",
-    "modal.connect.noWallets": "{{chainType}} 체인에 사용 가능한 지갑이 없습니다.",
+    "modal.connect.noWallets":
+      "{{chainType}} 체인에 사용 가능한 지갑이 없습니다.",
     "modal.connect.tryDifferentChain": "다른 체인 유형을 선택해 보세요.",
     "modal.connect.viewOtherWallets": "지원되는 다른 지갑 보기",
     "modal.connect.termsAgreement": "연결함으로써 다음에 동의합니다:",
@@ -489,8 +476,7 @@ export default {
       "{{charityName}}에 대한 {{amount}} 기부가 처리되었습니다.",
     "modal.donation.donationProcessedRecurring":
       "{{charityName}}에 대한 월 {{amount}} 기부가 처리되었습니다.",
-    "modal.donation.recurringNote":
-      "취소하실 때까지 매월 결제됩니다.",
+    "modal.donation.recurringNote": "취소하실 때까지 매월 결제됩니다.",
     "modal.donation.receiptNote": "영수증이 이메일로 발송되었습니다.",
     "modal.donation.done": "완료",
     "modal.donation.errorTitle": "문제가 발생했습니다",
@@ -507,8 +493,7 @@ export default {
     "modal.donation.donateToCharity": "{{charityName}}에 기부하기",
 
     // Modal - scheduled donation
-    "modal.scheduledDonation.title":
-      "{{charityName}}에 월간 기부 예약",
+    "modal.scheduledDonation.title": "{{charityName}}에 월간 기부 예약",
 
     // Modal - withdrawal
     "modal.withdrawal.title": "출금 요청",
@@ -599,8 +584,7 @@ export default {
 
     // Contribution Tracker (GIV-254)
     "tracker.title": "글로벌 영향력 순위",
-    "tracker.subtitle":
-      "커뮤니티의 집단적 영향력을 추적하고 축하하세요",
+    "tracker.subtitle": "커뮤니티의 집단적 영향력을 추적하고 축하하세요",
     "tracker.searchPlaceholder": "기여자 검색...",
     "tracker.exportCSV": "CSV 내보내기",
     "tracker.exportPDF": "PDF 내보내기",
@@ -624,8 +608,7 @@ export default {
     "tracker.exportNoData": "내보낼 데이터가 없습니다",
     "tracker.exportError": "데이터 내보내기 중 오류가 발생했습니다",
     "tracker.walletNotConnected": "지갑이 연결되지 않았습니다",
-    "tracker.connectWalletForAlias":
-      "별칭을 설정하려면 지갑을 연결해 주세요",
+    "tracker.connectWalletForAlias": "별칭을 설정하려면 지갑을 연결해 주세요",
     "tracker.invalidAlias": "유효하지 않은 별칭",
     "tracker.enterValidAlias": "유효한 별칭을 입력해 주세요",
 
@@ -715,8 +698,7 @@ export default {
     "admin.actions.manageImpactMetrics": "영향력 지표 관리",
     "admin.actions.manageImpactMetricsDesc": "영향력 계산기 데이터 설정",
     "admin.actions.donationMonitoring": "기부 모니터링",
-    "admin.actions.donationMonitoringDesc":
-      "기부 모니터링, 신고 및 보고",
+    "admin.actions.donationMonitoringDesc": "기부 모니터링, 신고 및 보고",
     "admin.actions.contentModeration": "콘텐츠 관리",
     "admin.actions.contentModerationDesc":
       "기회 및 캠페인 숨기기, 신고 및 검토",
@@ -804,8 +786,7 @@ export default {
     "admin.charityRequests.latestRequester": "최근 요청자",
     "admin.charityRequests.latestRequest": "최근 요청",
     "admin.charityRequests.firstRequest": "최초 요청",
-    "admin.charityRequests.empty":
-      "아직 자선단체 요청이 제출되지 않았습니다.",
+    "admin.charityRequests.empty": "아직 자선단체 요청이 제출되지 않았습니다.",
     "admin.charityRequests.errorTitle": "자선단체 요청 로딩 오류",
     "admin.charityRequests.showing":
       "총 {{total}}개 고유 EIN 중 {{shown}}개 표시 중.",

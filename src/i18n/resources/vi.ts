@@ -47,8 +47,7 @@ export default {
 
     // Charity
     "charity.dashboard": "Bảng điều khiển tổ chức từ thiện",
-    "charity.subtitle":
-      "Quản lý quyên góp và chương trình tình nguyện của bạn",
+    "charity.subtitle": "Quản lý quyên góp và chương trình tình nguyện của bạn",
     "charity.activeVolunteers": "Tình nguyện viên hoạt động",
     "charity.transactions": "Giao dịch",
     "charity.volunteers": "Giờ tình nguyện",
@@ -101,7 +100,7 @@ export default {
     "volunteer.createOpportunity": "Tạo cơ hội tình nguyện",
     "volunteer.createNew": "Tạo mới",
     "volunteer.noOpportunitiesYet":
-      "Chưa có cơ hội nào được tạo. Nhấn \"Tạo mới\" để bắt đầu.",
+      'Chưa có cơ hội nào được tạo. Nhấn "Tạo mới" để bắt đầu.',
     "volunteer.opportunityTitle": "Tên cơ hội",
     "volunteer.skills": "Kỹ năng (phân cách bằng dấu phẩy)",
     "volunteer.commitment": "Cam kết",
@@ -133,14 +132,12 @@ export default {
     // Volunteer - OpportunityForm
     "volunteer.validation.titleRequired": "Tiêu đề là bắt buộc",
     "volunteer.validation.descriptionRequired": "Mô tả là bắt buộc",
-    "volunteer.validation.skillsRequired":
-      "Cần ít nhất một kỹ năng",
+    "volunteer.validation.skillsRequired": "Cần ít nhất một kỹ năng",
     "volunteer.validation.locationRequired": "Địa điểm là bắt buộc",
     "volunteer.profileNotFound": "Không tìm thấy hồ sơ người dùng",
     "volunteer.correctErrors": "Vui lòng sửa các lỗi xác thực",
     "volunteer.createFailed": "Tạo cơ hội thất bại",
-    "volunteer.descriptionPlaceholder":
-      "Mô tả chi tiết cơ hội tình nguyện...",
+    "volunteer.descriptionPlaceholder": "Mô tả chi tiết cơ hội tình nguyện...",
     "volunteer.skillsPlaceholder":
       "ví dụ: Phát triển web, Quản lý dự án, Dịch thuật",
     "volunteer.locationPlaceholder": "ví dụ: Từ xa, Hà Nội, TP. Hồ Chí Minh",
@@ -163,8 +160,7 @@ export default {
     "volunteer.loggedHoursDescription":
       "Giờ được ghi nhận bởi tình nguyện viên thông qua các cơ hội của bạn",
     "volunteer.allCaughtUp": "Đã cập nhật hết!",
-    "volunteer.noPendingLoggedHours":
-      "Không có giờ ghi nhận chờ xác minh.",
+    "volunteer.noPendingLoggedHours": "Không có giờ ghi nhận chờ xác minh.",
     "volunteer.selfReportedHours": "Giờ tự khai báo",
 
     // Volunteer - OpportunitiesTab
@@ -231,16 +227,12 @@ export default {
     "volunteer.contactEmailOptional": "(không bắt buộc)",
     "volunteer.onboardHelp":
       "Chúng tôi có thể liên hệ để giúp đưa tổ chức này lên nền tảng",
-    "volunteer.submittedForValidation":
-      "Bản ghi này sẽ được gửi để xác nhận",
+    "volunteer.submittedForValidation": "Bản ghi này sẽ được gửi để xác nhận",
     "volunteer.submittedForValidationTo":
       "Bản ghi này sẽ được gửi để xác nhận tới {{org}}",
-    "volunteer.validationExpired":
-      "Thời hạn xác nhận đã hết cho ngày này",
-    "volunteer.savedAsUnvalidated":
-      "Bản ghi này sẽ được lưu là chưa xác nhận",
-    "volunteer.describeActivities":
-      "Mô tả các hoạt động bạn đã thực hiện...",
+    "volunteer.validationExpired": "Thời hạn xác nhận đã hết cho ngày này",
+    "volunteer.savedAsUnvalidated": "Bản ghi này sẽ được lưu là chưa xác nhận",
+    "volunteer.describeActivities": "Mô tả các hoạt động bạn đã thực hiện...",
     "volunteer.moreCharsNeeded": "Cần thêm {{count}} ký tự",
     "volunteer.updating": "Đang cập nhật...",
     "volunteer.logging": "Đang ghi nhận...",
@@ -256,8 +248,7 @@ export default {
     "volunteer.allActivityTypes": "Tất cả loại",
     "volunteer.noMatchingRecords": "Không có bản ghi phù hợp",
     "volunteer.noHoursLogged": "Chưa có giờ tình nguyện nào được ghi nhận",
-    "volunteer.adjustFilters":
-      "Thử điều chỉnh bộ lọc để tìm bản ghi.",
+    "volunteer.adjustFilters": "Thử điều chỉnh bộ lọc để tìm bản ghi.",
     "volunteer.startLogging":
       "Bắt đầu bằng cách ghi nhận giờ tình nguyện đầu tiên của bạn.",
 
@@ -291,11 +282,9 @@ export default {
       "Bắt đầu nhập kỹ năng của bạn (ví dụ: Lập trình Python, Thuyết trình, Viết đề xuất tài trợ)",
     "volunteer.skillPlaceholderShort": "Nhập kỹ năng và nhấn Enter...",
     "volunteer.commitmentLevel": "Mức độ cam kết",
-    "volunteer.commitmentOneTimeDesc":
-      "Dự án đơn lẻ hoặc nhiệm vụ ngắn hạn",
+    "volunteer.commitmentOneTimeDesc": "Dự án đơn lẻ hoặc nhiệm vụ ngắn hạn",
     "volunteer.commitmentShortTermDesc": "Vài tuần đến vài tháng",
-    "volunteer.commitmentLongTermDesc":
-      "Cam kết liên tục nhiều tháng trở lên",
+    "volunteer.commitmentLongTermDesc": "Cam kết liên tục nhiều tháng trở lên",
     "volunteer.experienceLabel": "Chia sẻ về kinh nghiệm liên quan của bạn",
     "volunteer.experiencePlaceholder":
       "Mô tả nền tảng, kỹ năng và động lực tình nguyện với Give Protocol của bạn...",
@@ -305,26 +294,18 @@ export default {
     "volunteer.submitApplication": "Gửi đơn đăng ký tình nguyện",
     "volunteer.disclaimerText":
       "Bằng việc gửi đơn đăng ký này, bạn xác nhận đã đọc và hiểu chính sách bảo mật và hướng dẫn tình nguyện của Give Protocol. Dữ liệu của bạn sẽ được xử lý theo các quy định bảo vệ dữ liệu hiện hành.",
-    "volunteer.validation.firstNameInvalid":
-      "Vui lòng nhập họ hợp lệ",
-    "volunteer.validation.lastNameInvalid":
-      "Vui lòng nhập tên hợp lệ",
-    "volunteer.validation.emailInvalid":
-      "Vui lòng nhập địa chỉ email hợp lệ",
-    "volunteer.validation.phoneInvalid":
-      "Vui lòng nhập số điện thoại hợp lệ",
+    "volunteer.validation.firstNameInvalid": "Vui lòng nhập họ hợp lệ",
+    "volunteer.validation.lastNameInvalid": "Vui lòng nhập tên hợp lệ",
+    "volunteer.validation.emailInvalid": "Vui lòng nhập địa chỉ email hợp lệ",
+    "volunteer.validation.phoneInvalid": "Vui lòng nhập số điện thoại hợp lệ",
     "volunteer.validation.experienceRequired":
       "Vui lòng mô tả kinh nghiệm liên quan của bạn",
-    "volunteer.validation.addSkill":
-      "Vui lòng thêm ít nhất một kỹ năng",
-    "volunteer.validation.ageRangeRequired":
-      "Vui lòng chọn độ tuổi của bạn",
+    "volunteer.validation.addSkill": "Vui lòng thêm ít nhất một kỹ năng",
+    "volunteer.validation.ageRangeRequired": "Vui lòng chọn độ tuổi của bạn",
     "volunteer.validation.consentRequired":
       "Bạn phải đồng ý với tất cả các mục đồng ý bắt buộc",
-    "volunteer.signInToSubmit":
-      "Vui lòng đăng nhập để gửi đơn đăng ký",
-    "volunteer.submitFailed":
-      "Gửi đơn đăng ký thất bại. Vui lòng thử lại.",
+    "volunteer.signInToSubmit": "Vui lòng đăng nhập để gửi đơn đăng ký",
+    "volunteer.submitFailed": "Gửi đơn đăng ký thất bại. Vui lòng thử lại.",
 
     // Volunteer - ApplicationForm
     "volunteer.applyForTitle": "Đăng ký cho: {{title}}",
@@ -340,8 +321,7 @@ export default {
     "volunteer.relevantExperience": "Kinh nghiệm liên quan *",
     "volunteer.certifications": "Chứng chỉ (phân cách bằng dấu phẩy)",
     "volunteer.interestsAndPreferences": "Sở thích & Ưu tiên",
-    "volunteer.areasOfInterest":
-      "Lĩnh vực quan tâm (phân cách bằng dấu phẩy)",
+    "volunteer.areasOfInterest": "Lĩnh vực quan tâm (phân cách bằng dấu phẩy)",
     "volunteer.referencesTitle": "Người tham chiếu",
     "volunteer.referenceName": "Tên người tham chiếu {{index}}",
     "volunteer.referenceContact": "Liên hệ người tham chiếu {{index}}",
@@ -353,18 +333,15 @@ export default {
       "Vui lòng nhập tên hợp lệ (2-100 ký tự)",
     "volunteer.validation.provideExperience":
       "Vui lòng cung cấp thông tin về kinh nghiệm của bạn",
-    "volunteer.validation.selectDay":
-      "Vui lòng chọn ít nhất một ngày",
-    "volunteer.validation.selectTime":
-      "Vui lòng chọn ít nhất một khung giờ",
+    "volunteer.validation.selectDay": "Vui lòng chọn ít nhất một ngày",
+    "volunteer.validation.selectTime": "Vui lòng chọn ít nhất một khung giờ",
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Tôi hiểu rằng:",
     "volunteer.specificConsents": "ĐỒNG Ý CỤ THỂ",
     "volunteer.specificConsentsDesc":
       "Vui lòng xem xét và cho biết sự đồng ý của bạn đối với từng mục sau:",
-    "volunteer.essentialProcessingTitle":
-      "Xử lý thiết yếu (Bắt buộc):",
+    "volunteer.essentialProcessingTitle": "Xử lý thiết yếu (Bắt buộc):",
     "volunteer.internationalTransfersTitle":
       "Chuyển dữ liệu quốc tế (nếu áp dụng):",
     "volunteer.acknowledgmentTitle": "XÁC NHẬN",
@@ -426,10 +403,8 @@ export default {
     "export.dateRange": "Phạm vi ngày",
     "export.includePersonal": "Bao gồm địa chỉ ví",
     "export.willInclude": "Bản xuất sẽ bao gồm:",
-    "export.walletAddresses":
-      "Địa chỉ ví (người gửi và người nhận)",
-    "export.volunteerDetails":
-      "Chi tiết đóng góp tình nguyện (khi áp dụng)",
+    "export.walletAddresses": "Địa chỉ ví (người gửi và người nhận)",
+    "export.volunteerDetails": "Chi tiết đóng góp tình nguyện (khi áp dụng)",
     "export.verificationHashes": "Mã băm xác minh (khi áp dụng)",
     "export.cancel": "Hủy",
     "export.download": "Xuất CSV",
@@ -438,8 +413,7 @@ export default {
     "skills.endorsements": "Kỹ năng & Xác nhận",
 
     // Home
-    "home.subtitle":
-      "Kết nối nguồn lực đến những mục đích cần chúng nhất",
+    "home.subtitle": "Kết nối nguồn lực đến những mục đích cần chúng nhất",
     "home.startDonating": "Bắt đầu quyên góp",
 
     // Modal - shared
@@ -450,17 +424,14 @@ export default {
     "modal.wallet.title": "Kết nối ví của bạn",
     "modal.wallet.description":
       "Kết nối ví để mở khóa tất cả tính năng của Give Protocol",
-    "modal.wallet.benefit1":
-      "Theo dõi quyên góp minh bạch trên blockchain",
+    "modal.wallet.benefit1": "Theo dõi quyên góp minh bạch trên blockchain",
     "modal.wallet.benefit2":
       "Nhận token GIVE như phần thưởng cho đóng góp của bạn",
-    "modal.wallet.benefit3":
-      "Tham gia các quyết định quản trị cho giao thức",
+    "modal.wallet.benefit3": "Tham gia các quyết định quản trị cho giao thức",
     "modal.wallet.connecting": "Đang kết nối...",
     "modal.wallet.clickToConnect": "Nhấn để kết nối",
     "modal.wallet.noExtension": "Không phát hiện tiện ích mở rộng ví.",
-    "modal.wallet.installMetaMask":
-      "Cài đặt MetaMask để bắt đầu",
+    "modal.wallet.installMetaMask": "Cài đặt MetaMask để bắt đầu",
     "modal.wallet.skip": "Bỏ qua",
     "modal.wallet.footerNote":
       "Bạn có thể kết nối ví bất cứ lúc nào từ thanh điều hướng",
@@ -473,8 +444,7 @@ export default {
     "modal.walletLink.benefit1":
       "Quyên góp tiền mã hóa trực tiếp cho các tổ chức từ thiện đã xác minh trên chain",
     "modal.walletLink.benefit2Pre": "Phát triển",
-    "modal.walletLink.benefit2Post":
-      "thông tin xác thực cho đóng góp của bạn",
+    "modal.walletLink.benefit2Post": "thông tin xác thực cho đóng góp của bạn",
     "modal.walletLink.benefit3":
       "Đăng nhập bằng email hoặc ví \u2014 cùng một tài khoản",
     "modal.walletLink.buttonLinking": "Đang liên kết\u2026",
@@ -486,10 +456,8 @@ export default {
 
     // Modal - chain selection
     "modal.chain.title": "Chào mừng đến với Give Protocol",
-    "modal.chain.subtitle":
-      "Chọn mạng ưu tiên của bạn để bắt đầu",
-    "modal.chain.footerNote":
-      "Bạn có thể chuyển mạng bất cứ lúc nào từ menu",
+    "modal.chain.subtitle": "Chọn mạng ưu tiên của bạn để bắt đầu",
+    "modal.chain.footerNote": "Bạn có thể chuyển mạng bất cứ lúc nào từ menu",
     "modal.chain.connecting": "Đang kết nối...",
     "modal.chain.continue": "Tiếp tục",
     "modal.chain.failedSelect": "Chọn mạng thất bại",
@@ -502,13 +470,10 @@ export default {
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "Kết nối ví",
     "modal.connect.backAria": "Quay lại chọn mạng",
-    "modal.connect.noWallets":
-      "Không có ví khả dụng cho chuỗi {{chainType}}.",
-    "modal.connect.tryDifferentChain":
-      "Thử chọn một loại chuỗi khác.",
+    "modal.connect.noWallets": "Không có ví khả dụng cho chuỗi {{chainType}}.",
+    "modal.connect.tryDifferentChain": "Thử chọn một loại chuỗi khác.",
     "modal.connect.viewOtherWallets": "Xem các ví được hỗ trợ khác",
-    "modal.connect.termsAgreement":
-      "Bằng việc kết nối, bạn đồng ý với",
+    "modal.connect.termsAgreement": "Bằng việc kết nối, bạn đồng ý với",
     "modal.connect.termsLink": "Điều khoản dịch vụ",
     "modal.connect.chainTypeAria": "Loại chuỗi",
     "modal.connect.failedConnect": "Kết nối thất bại",
@@ -521,8 +486,7 @@ export default {
       "Khoản quyên góp hàng tháng {{amount}} của bạn cho {{charityName}} đã được xử lý.",
     "modal.donation.recurringNote":
       "Bạn sẽ bị tính phí hàng tháng cho đến khi hủy.",
-    "modal.donation.receiptNote":
-      "Biên lai đã được gửi đến email của bạn.",
+    "modal.donation.receiptNote": "Biên lai đã được gửi đến email của bạn.",
     "modal.donation.done": "Xong",
     "modal.donation.errorTitle": "Đã xảy ra lỗi",
     "modal.donation.errorDefault":
@@ -533,10 +497,8 @@ export default {
     "modal.donation.perMonth": "mỗi tháng",
     "modal.donation.monthly": "Hàng tháng",
     "modal.donation.oneTime": "Một lần",
-    "modal.donation.loadingPaymentForm":
-      "Đang tải biểu mẫu thanh toán...",
-    "modal.donation.supportMonthly":
-      "Hỗ trợ {{charityName}} hàng tháng",
+    "modal.donation.loadingPaymentForm": "Đang tải biểu mẫu thanh toán...",
+    "modal.donation.supportMonthly": "Hỗ trợ {{charityName}} hàng tháng",
     "modal.donation.donateToCharity": "Quyên góp cho {{charityName}}",
 
     // Modal - scheduled donation
@@ -558,8 +520,7 @@ export default {
     "modal.validation.location": "Địa điểm",
     "modal.validation.description": "Mô tả",
     "modal.validation.submitted": "Đã gửi:",
-    "modal.validation.daysRemaining":
-      "(còn {{count}} ngày để xác nhận)",
+    "modal.validation.daysRemaining": "(còn {{count}} ngày để xác nhận)",
     "modal.validation.appealNote":
       "Đây là đơn kháng cáo/gửi lại của yêu cầu đã bị từ chối trước đó",
     "modal.validation.rejectPrompt":
@@ -569,8 +530,7 @@ export default {
     "modal.validation.processing": "Đang xử lý...",
     "modal.validation.back": "Quay lại",
     "modal.validation.confirmRejection": "Xác nhận từ chối",
-    "modal.validation.selectReasonError":
-      "Vui lòng chọn lý do từ chối",
+    "modal.validation.selectReasonError": "Vui lòng chọn lý do từ chối",
 
     // Toast
     "toast.dismiss": "Bỏ qua thông báo",
@@ -594,8 +554,7 @@ export default {
     // Validation - batch actions
     "validation.batch.deselectAll": "Bỏ chọn tất cả",
     "validation.batch.selectAll": "Chọn tất cả",
-    "validation.batch.selected":
-      "{{selected}} trong số {{total}} đã chọn",
+    "validation.batch.selected": "{{selected}} trong số {{total}} đã chọn",
     "validation.batch.clear": "Xóa",
     "validation.batch.reject": "Từ chối ({{count}})",
     "validation.batch.approve": "Phê duyệt ({{count}})",
@@ -613,13 +572,11 @@ export default {
     "dashboard.overview": "Tổng quan",
     "dashboard.lastUpdated": "Cập nhật lần cuối",
     "dashboard.refreshData": "Làm mới dữ liệu",
-    "dashboard.searchPlaceholder":
-      "Tìm kiếm dự án, tình nguyện viên (Cmd+K)",
+    "dashboard.searchPlaceholder": "Tìm kiếm dự án, tình nguyện viên (Cmd+K)",
     "dashboard.search": "Tìm kiếm",
 
     // Settings - account section (GIV-254)
-    "settings.manageDescription":
-      "Quản lý tài khoản và tùy chọn của bạn",
+    "settings.manageDescription": "Quản lý tài khoản và tùy chọn của bạn",
     "settings.account": "Tài khoản",
     "settings.email": "Email",
     "settings.displayName": "Tên hiển thị",
@@ -643,8 +600,7 @@ export default {
     "tracker.searchPlaceholder": "Tìm kiếm người đóng góp...",
     "tracker.exportCSV": "Xuất CSV",
     "tracker.exportPDF": "Xuất PDF",
-    "tracker.hideContributions":
-      "Ẩn đóng góp của tôi khỏi bảng xếp hạng",
+    "tracker.hideContributions": "Ẩn đóng góp của tôi khỏi bảng xếp hạng",
     "tracker.yourAlias": "Bí danh của bạn:",
     "tracker.changeAlias": "Thay đổi",
     "tracker.setWalletAlias": "Đặt bí danh ví",
@@ -661,25 +617,20 @@ export default {
       "Bảng xếp hạng quyên góp đã được xuất dạng CSV",
     "tracker.exportVolunteerCSV":
       "Bảng xếp hạng tình nguyện đã được xuất dạng CSV",
-    "tracker.exportPDFSuccess":
-      "Bảng xếp hạng đã được xuất dạng PDF",
+    "tracker.exportPDFSuccess": "Bảng xếp hạng đã được xuất dạng PDF",
     "tracker.exportFailed": "Xuất thất bại",
     "tracker.exportNoData": "Không có dữ liệu để xuất",
-    "tracker.exportError":
-      "Đã xảy ra lỗi khi xuất dữ liệu",
+    "tracker.exportError": "Đã xảy ra lỗi khi xuất dữ liệu",
     "tracker.walletNotConnected": "Ví chưa được kết nối",
-    "tracker.connectWalletForAlias":
-      "Vui lòng kết nối ví để đặt bí danh",
+    "tracker.connectWalletForAlias": "Vui lòng kết nối ví để đặt bí danh",
     "tracker.invalidAlias": "Bí danh không hợp lệ",
-    "tracker.enterValidAlias":
-      "Vui lòng nhập bí danh hợp lệ",
+    "tracker.enterValidAlias": "Vui lòng nhập bí danh hợp lệ",
 
     // Charity Portal (GIV-254)
     "charity.portal.deleteTitle": "Xóa {{type}}?",
     "charity.portal.deleteDescription":
       "Hành động này không thể hoàn tác. {{type}} sẽ bị xóa vĩnh viễn.",
-    "charity.portal.walletNotConfigured":
-      "Ví nhận chưa được cấu hình.",
+    "charity.portal.walletNotConfigured": "Ví nhận chưa được cấu hình.",
     "charity.portal.walletDonationNote":
       "Kết nối ví để nhận quyên góp on-chain.",
     "charity.portal.setupWallet": "Thiết lập ví",
@@ -713,17 +664,14 @@ export default {
       "Khoản quyên góp của bạn sẽ được chia đều cho {{count}} tổ chức từ thiện đã xác minh.",
     "portfolio.eachCharityPercentage":
       "Mỗi tổ chức nhận {{percentage}}% quyên góp",
-    "portfolio.verifiedCharities":
-      "{{count}} tổ chức từ thiện đã xác minh",
+    "portfolio.verifiedCharities": "{{count}} tổ chức từ thiện đã xác minh",
     "portfolio.donateToFundButton": "Quyên góp cho quỹ",
     "portfolio.noFundsAvailable": "Không có quỹ danh mục khả dụng",
-    "portfolio.checkBackLater":
-      "Quay lại sau để xem cơ hội tài trợ mới",
+    "portfolio.checkBackLater": "Quay lại sau để xem cơ hội tài trợ mới",
     "portfolio.amountLabel": "Số tiền ({{currency}})",
     "portfolio.invalidAmount": "Vui lòng nhập số tiền hợp lệ",
     "portfolio.donationSuccess": "Quyên góp thành công!",
-    "portfolio.donationFailed":
-      "Quyên góp thất bại. Vui lòng thử lại.",
+    "portfolio.donationFailed": "Quyên góp thất bại. Vui lòng thử lại.",
 
     // Admin - Activity event type labels (GIV-256)
     "admin.activity.donation": "Quyên góp",
@@ -757,11 +705,9 @@ export default {
     "admin.actions.viewReports": "Xem báo cáo",
     "admin.actions.viewReportsDesc": "Tạo phân tích chi tiết",
     "admin.actions.manageCharities": "Quản lý tổ chức từ thiện",
-    "admin.actions.manageCharitiesDesc":
-      "Xem xét và phê duyệt tổ chức",
+    "admin.actions.manageCharitiesDesc": "Xem xét và phê duyệt tổ chức",
     "admin.actions.systemSettings": "Cài đặt hệ thống",
-    "admin.actions.systemSettingsDesc":
-      "Cấu hình các thông số nền tảng",
+    "admin.actions.systemSettingsDesc": "Cấu hình các thông số nền tảng",
     "admin.actions.manageImpactMetrics": "Quản lý chỉ số tác động",
     "admin.actions.manageImpactMetricsDesc":
       "Cấu hình dữ liệu máy tính tác động",
@@ -786,8 +732,7 @@ export default {
     "admin.portfolio.editFund": "Chỉnh sửa quỹ",
     "admin.portfolio.createNewFund": "Tạo quỹ mới",
     "admin.portfolio.fundName": "Tên quỹ",
-    "admin.portfolio.fundNamePlaceholder":
-      "ví dụ: Quỹ tác động môi trường",
+    "admin.portfolio.fundNamePlaceholder": "ví dụ: Quỹ tác động môi trường",
     "admin.portfolio.description": "Mô tả",
     "admin.portfolio.descriptionPlaceholder":
       "Mô tả mục đích và trọng tâm tác động của quỹ...",
@@ -797,8 +742,7 @@ export default {
     "admin.portfolio.imageUrlPlaceholder": "https://...",
     "admin.portfolio.selectCharities":
       "Chọn tổ chức từ thiện (đã chọn {{count}})",
-    "admin.portfolio.noCharitiesFound":
-      "Không tìm thấy tổ chức đã xác minh",
+    "admin.portfolio.noCharitiesFound": "Không tìm thấy tổ chức đã xác minh",
     "admin.portfolio.saving": "Đang lưu...",
     "admin.portfolio.createFund": "Tạo quỹ",
     "admin.portfolio.updateFund": "Cập nhật quỹ",
@@ -862,8 +806,7 @@ export default {
     "admin.charityRequests.firstRequest": "Yêu cầu đầu tiên",
     "admin.charityRequests.empty":
       "Chưa có yêu cầu tổ chức từ thiện nào được gửi.",
-    "admin.charityRequests.errorTitle":
-      "Lỗi tải yêu cầu tổ chức từ thiện",
+    "admin.charityRequests.errorTitle": "Lỗi tải yêu cầu tổ chức từ thiện",
     "admin.charityRequests.showing":
       "Hiển thị {{shown}} trong số {{total}} EIN duy nhất.",
 
@@ -879,8 +822,7 @@ export default {
     "admin.validation.avgResponseTime": "Thời gian phản hồi TB:",
     "admin.validation.expirationRate": "Tỷ lệ hết hạn:",
     "admin.validation.rejectionRate": "Tỷ lệ từ chối:",
-    "admin.validation.searchPlaceholder":
-      "Tìm tình nguyện viên, tổ chức\u2026",
+    "admin.validation.searchPlaceholder": "Tìm tình nguyện viên, tổ chức\u2026",
     "admin.validation.requestsTab": "Yêu cầu xác nhận",
     "admin.validation.patternsTab": "Mẫu đáng ngờ",
     "admin.validation.colVolunteer": "Tình nguyện viên",
@@ -890,10 +832,8 @@ export default {
     "admin.validation.colHrsPerWeek": "Giờ/Tuần",
     "admin.validation.colTotalRequests": "Tổng yêu cầu",
     "admin.validation.override": "Ghi đè",
-    "admin.validation.noPatterns":
-      "Không phát hiện mẫu đáng ngờ nào.",
-    "admin.validation.noRequests":
-      "Không tìm thấy yêu cầu xác nhận.",
+    "admin.validation.noPatterns": "Không phát hiện mẫu đáng ngờ nào.",
+    "admin.validation.noRequests": "Không tìm thấy yêu cầu xác nhận.",
     "admin.validation.patternsDescription":
       "Tình nguyện viên bị đánh dấu vì báo cáo nhiều hơn ngưỡng giờ được cấu hình trong khoảng thời gian 7 ngày liên tục. Các mẫu này có thể cho thấy việc lạm dụng hệ thống giờ tự khai báo.",
     "admin.validation.overrideTitle": "Ghi đè yêu cầu xác nhận",

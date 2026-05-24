@@ -94,13 +94,15 @@ export default {
       "स्वयंसेवक आवेदन स्वीकार किया गया है और ब्लॉकचेन पर दर्ज किया गया है।",
     "volunteer.acceptanceHash": "स्वीकृति हैश",
     "volunteer.pendingHours": "लंबित स्वयंसेवक घंटे",
-    "volunteer.noPendingHours": "सत्यापन के लिए कोई लंबित स्वयंसेवक घंटे नहीं हैं।",
+    "volunteer.noPendingHours":
+      "सत्यापन के लिए कोई लंबित स्वयंसेवक घंटे नहीं हैं।",
     "volunteer.pendingApplications": "लंबित आवेदन",
-    "volunteer.noPendingApplications": "समीक्षा के लिए कोई लंबित आवेदन नहीं हैं।",
+    "volunteer.noPendingApplications":
+      "समीक्षा के लिए कोई लंबित आवेदन नहीं हैं।",
     "volunteer.createOpportunity": "स्वयंसेवक अवसर बनाएं",
     "volunteer.createNew": "नया बनाएं",
     "volunteer.noOpportunitiesYet":
-      "अभी तक कोई अवसर नहीं बनाया गया है। शुरू करने के लिए \"नया बनाएं\" पर क्लिक करें।",
+      'अभी तक कोई अवसर नहीं बनाया गया है। शुरू करने के लिए "नया बनाएं" पर क्लिक करें।',
     "volunteer.opportunityTitle": "अवसर शीर्षक",
     "volunteer.skills": "कौशल (अल्पविराम से अलग)",
     "volunteer.commitment": "प्रतिबद्धता",
@@ -139,8 +141,7 @@ export default {
     "volunteer.createFailed": "अवसर बनाने में विफल",
     "volunteer.descriptionPlaceholder":
       "स्वयंसेवक अवसर का विस्तृत विवरण दें...",
-    "volunteer.skillsPlaceholder":
-      "जैसे, वेब विकास, परियोजना प्रबंधन, अनुवाद",
+    "volunteer.skillsPlaceholder": "जैसे, वेब विकास, परियोजना प्रबंधन, अनुवाद",
     "volunteer.locationPlaceholder": "जैसे, रिमोट, नई दिल्ली, मुंबई",
     "volunteer.headerImage": "हेडर छवि",
     "volunteer.headerImageHelp":
@@ -161,7 +162,8 @@ export default {
     "volunteer.loggedHoursDescription":
       "आपके अवसरों के माध्यम से स्वयंसेवकों द्वारा दर्ज किए गए घंटे",
     "volunteer.allCaughtUp": "सब अद्यतन है!",
-    "volunteer.noPendingLoggedHours": "सत्यापन के लिए कोई लंबित दर्ज घंटे नहीं हैं।",
+    "volunteer.noPendingLoggedHours":
+      "सत्यापन के लिए कोई लंबित दर्ज घंटे नहीं हैं।",
     "volunteer.selfReportedHours": "स्व-रिपोर्टेड घंटे",
 
     // Volunteer - OpportunitiesTab
@@ -200,8 +202,7 @@ export default {
     "volunteer.contributionVerifiedBlockchain":
       "इस स्वयंसेवक योगदान को सत्यापित किया गया है और ब्लॉकचेन पर दर्ज किया गया है।",
     "volunteer.verificationFailed": "सत्यापन विफल",
-    "volunteer.hashNotFound":
-      "सत्यापन हैश {{hash}} नहीं मिला या अमान्य है।",
+    "volunteer.hashNotFound": "सत्यापन हैश {{hash}} नहीं मिला या अमान्य है।",
 
     // Volunteer - SelfReportedHoursDashboard
     "volunteer.volunteerHoursTitle": "स्वयंसेवक घंटे",
@@ -235,7 +236,8 @@ export default {
     "volunteer.validationExpired":
       "इस तिथि के लिए मान्यता अवधि समाप्त हो गई है",
     "volunteer.savedAsUnvalidated": "यह रिकॉर्ड अमान्य के रूप में सहेजा जाएगा",
-    "volunteer.describeActivities": "आपने जो गतिविधियां की हैं उनका वर्णन करें...",
+    "volunteer.describeActivities":
+      "आपने जो गतिविधियां की हैं उनका वर्णन करें...",
     "volunteer.moreCharsNeeded": "{{count}} और अक्षर आवश्यक हैं",
     "volunteer.updating": "अपडेट हो रहा है...",
     "volunteer.logging": "दर्ज हो रहा है...",
@@ -251,7 +253,8 @@ export default {
     "volunteer.allActivityTypes": "सभी प्रकार",
     "volunteer.noMatchingRecords": "कोई मिलान रिकॉर्ड नहीं",
     "volunteer.noHoursLogged": "अभी तक कोई स्वयंसेवक घंटे दर्ज नहीं किए गए",
-    "volunteer.adjustFilters": "रिकॉर्ड खोजने के लिए अपने फ़िल्टर समायोजित करें।",
+    "volunteer.adjustFilters":
+      "रिकॉर्ड खोजने के लिए अपने फ़िल्टर समायोजित करें।",
     "volunteer.startLogging": "अपने पहले स्वयंसेवक घंटे दर्ज करके शुरू करें।",
 
     // Volunteer - SelfReportedHoursStats
@@ -297,7 +300,8 @@ export default {
     "volunteer.submitApplication": "स्वयंसेवक आवेदन जमा करें",
     "volunteer.disclaimerText":
       "यह आवेदन जमा करके, आप स्वीकार करते हैं कि आपने Give Protocol की गोपनीयता नीति और स्वयंसेवक दिशानिर्देशों को पढ़ और समझ लिया है। आपके डेटा को लागू डेटा सुरक्षा विनियमों के अनुसार संसाधित किया जाएगा।",
-    "volunteer.validation.firstNameInvalid": "कृपया एक मान्य पहला नाम दर्ज करें",
+    "volunteer.validation.firstNameInvalid":
+      "कृपया एक मान्य पहला नाम दर्ज करें",
     "volunteer.validation.lastNameInvalid": "कृपया एक मान्य उपनाम दर्ज करें",
     "volunteer.validation.emailInvalid": "कृपया एक मान्य ईमेल पता दर्ज करें",
     "volunteer.validation.phoneInvalid": "कृपया एक मान्य फ़ोन नंबर दर्ज करें",
@@ -308,7 +312,8 @@ export default {
     "volunteer.validation.consentRequired":
       "आपको सभी आवश्यक सहमति मदों से सहमत होना होगा",
     "volunteer.signInToSubmit": "आवेदन जमा करने के लिए कृपया लॉग इन करें",
-    "volunteer.submitFailed": "आवेदन जमा करने में विफल। कृपया पुनः प्रयास करें।",
+    "volunteer.submitFailed":
+      "आवेदन जमा करने में विफल। कृपया पुनः प्रयास करें।",
 
     // Volunteer - ApplicationForm
     "volunteer.applyForTitle": "इसके लिए आवेदन करें: {{title}}",
@@ -406,8 +411,7 @@ export default {
     "export.includePersonal": "वॉलेट पते शामिल करें",
     "export.willInclude": "निर्यात में शामिल होगा:",
     "export.walletAddresses": "वॉलेट पते (प्रेषक और प्राप्तकर्ता)",
-    "export.volunteerDetails":
-      "स्वयंसेवक योगदान विवरण (जब लागू हो)",
+    "export.volunteerDetails": "स्वयंसेवक योगदान विवरण (जब लागू हो)",
     "export.verificationHashes": "सत्यापन हैश (जब लागू हो)",
     "export.cancel": "रद्द करें",
     "export.download": "CSV निर्यात करें",
@@ -416,7 +420,8 @@ export default {
     "skills.endorsements": "कौशल और अनुमोदन",
 
     // Home
-    "home.subtitle": "संसाधनों को उन कारणों से जोड़ना जिन्हें उनकी सबसे अधिक आवश्यकता है",
+    "home.subtitle":
+      "संसाधनों को उन कारणों से जोड़ना जिन्हें उनकी सबसे अधिक आवश्यकता है",
     "home.startDonating": "दान शुरू करें",
 
     // Modal - shared
@@ -431,8 +436,7 @@ export default {
       "ब्लॉकचेन पर अपने दान को पारदर्शी रूप से ट्रैक करें",
     "modal.wallet.benefit2":
       "अपने योगदान के लिए पुरस्कार के रूप में GIVE टोकन प्राप्त करें",
-    "modal.wallet.benefit3":
-      "प्रोटोकॉल के लिए शासन निर्णयों में भाग लें",
+    "modal.wallet.benefit3": "प्रोटोकॉल के लिए शासन निर्णयों में भाग लें",
     "modal.wallet.connecting": "कनेक्ट हो रहा है...",
     "modal.wallet.clickToConnect": "कनेक्ट करने के लिए क्लिक करें",
     "modal.wallet.noExtension": "कोई वॉलेट एक्सटेंशन नहीं मिला।",
@@ -475,8 +479,10 @@ export default {
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "वॉलेट कनेक्ट करें",
     "modal.connect.backAria": "नेटवर्क चयन पर वापस जाएं",
-    "modal.connect.noWallets": "{{chainType}} चेन के लिए कोई वॉलेट उपलब्ध नहीं है।",
-    "modal.connect.tryDifferentChain": "कोई अन्य चेन प्रकार चुनने का प्रयास करें।",
+    "modal.connect.noWallets":
+      "{{chainType}} चेन के लिए कोई वॉलेट उपलब्ध नहीं है।",
+    "modal.connect.tryDifferentChain":
+      "कोई अन्य चेन प्रकार चुनने का प्रयास करें।",
     "modal.connect.viewOtherWallets": "अन्य समर्थित वॉलेट देखें",
     "modal.connect.termsAgreement": "कनेक्ट करके, आप सहमत होते हैं",
     "modal.connect.termsLink": "सेवा की शर्तें",
@@ -566,7 +572,8 @@ export default {
 
     // Dashboard - admin redirect (GIV-254)
     "dashboard.adminTitle": "एडमिन डैशबोर्ड",
-    "dashboard.adminNote": "प्लेटफ़ॉर्म प्रबंधन के लिए कृपया एडमिन पैनल का उपयोग करें।",
+    "dashboard.adminNote":
+      "प्लेटफ़ॉर्म प्रबंधन के लिए कृपया एडमिन पैनल का उपयोग करें।",
     "dashboard.adminButton": "एडमिन पैनल पर जाएं",
     "dashboard.logVolunteerHours": "स्वयंसेवक घंटे दर्ज करें",
     "dashboard.hideVolunteerHours": "स्वयंसेवक घंटे छुपाएं",
@@ -599,8 +606,7 @@ export default {
 
     // Contribution Tracker (GIV-254)
     "tracker.title": "वैश्विक प्रभाव रैंकिंग",
-    "tracker.subtitle":
-      "हमारे समुदाय के सामूहिक प्रभाव को ट्रैक और सराहें",
+    "tracker.subtitle": "हमारे समुदाय के सामूहिक प्रभाव को ट्रैक और सराहें",
     "tracker.searchPlaceholder": "योगदानकर्ता खोजें...",
     "tracker.exportCSV": "CSV निर्यात करें",
     "tracker.exportPDF": "PDF निर्यात करें",
@@ -617,8 +623,10 @@ export default {
     "tracker.donationRankings": "दान रैंकिंग",
     "tracker.volunteerRankings": "स्वयंसेवक रैंकिंग",
     "tracker.exportComplete": "निर्यात पूर्ण",
-    "tracker.exportDonationCSV": "दान लीडरबोर्ड CSV के रूप में निर्यात किया गया",
-    "tracker.exportVolunteerCSV": "स्वयंसेवक लीडरबोर्ड CSV के रूप में निर्यात किया गया",
+    "tracker.exportDonationCSV":
+      "दान लीडरबोर्ड CSV के रूप में निर्यात किया गया",
+    "tracker.exportVolunteerCSV":
+      "स्वयंसेवक लीडरबोर्ड CSV के रूप में निर्यात किया गया",
     "tracker.exportPDFSuccess": "लीडरबोर्ड PDF के रूप में निर्यात किया गया",
     "tracker.exportFailed": "निर्यात विफल",
     "tracker.exportNoData": "निर्यात के लिए कोई डेटा उपलब्ध नहीं",
@@ -633,7 +641,8 @@ export default {
     "charity.portal.deleteTitle": "{{type}} हटाएं?",
     "charity.portal.deleteDescription":
       "यह क्रिया पूर्ववत नहीं की जा सकती। {{type}} स्थायी रूप से हटा दिया जाएगा।",
-    "charity.portal.walletNotConfigured": "प्राप्त करने वाला वॉलेट कॉन्फ़िगर नहीं है।",
+    "charity.portal.walletNotConfigured":
+      "प्राप्त करने वाला वॉलेट कॉन्फ़िगर नहीं है।",
     "charity.portal.walletDonationNote":
       "ऑन-चेन दान प्राप्त करने के लिए वॉलेट कनेक्ट करें।",
     "charity.portal.setupWallet": "वॉलेट सेट अप करें",
@@ -670,8 +679,7 @@ export default {
     "portfolio.verifiedCharities": "{{count}} सत्यापित चैरिटी",
     "portfolio.donateToFundButton": "फंड में दान करें",
     "portfolio.noFundsAvailable": "कोई पोर्टफ़ोलियो फंड उपलब्ध नहीं",
-    "portfolio.checkBackLater":
-      "नए वित्तपोषण अवसरों के लिए बाद में पुनः देखें",
+    "portfolio.checkBackLater": "नए वित्तपोषण अवसरों के लिए बाद में पुनः देखें",
     "portfolio.amountLabel": "राशि ({{currency}})",
     "portfolio.invalidAmount": "कृपया एक मान्य राशि दर्ज करें",
     "portfolio.donationSuccess": "दान सफल!",
@@ -713,7 +721,8 @@ export default {
     "admin.actions.systemSettings": "सिस्टम सेटिंग्स",
     "admin.actions.systemSettingsDesc": "प्लेटफ़ॉर्म पैरामीटर कॉन्फ़िगर करें",
     "admin.actions.manageImpactMetrics": "प्रभाव मेट्रिक्स प्रबंधित करें",
-    "admin.actions.manageImpactMetricsDesc": "प्रभाव कैलकुलेटर डेटा कॉन्फ़िगर करें",
+    "admin.actions.manageImpactMetricsDesc":
+      "प्रभाव कैलकुलेटर डेटा कॉन्फ़िगर करें",
     "admin.actions.donationMonitoring": "दान निगरानी",
     "admin.actions.donationMonitoringDesc":
       "दान की निगरानी, फ़्लैग, और रिपोर्ट करें",
@@ -729,7 +738,8 @@ export default {
 
     // Admin - Portfolio Funds management page (GIV-256)
     "admin.portfolio.title": "पोर्टफ़ोलियो फंड",
-    "admin.portfolio.subtitle": "क्यूरेटेड दान पोर्टफ़ोलियो बनाएं और प्रबंधित करें",
+    "admin.portfolio.subtitle":
+      "क्यूरेटेड दान पोर्टफ़ोलियो बनाएं और प्रबंधित करें",
     "admin.portfolio.newFund": "नया फंड",
     "admin.portfolio.editFund": "फंड संपादित करें",
     "admin.portfolio.createNewFund": "नया फंड बनाएं",

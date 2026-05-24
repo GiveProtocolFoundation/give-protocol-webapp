@@ -2,8 +2,7 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline":
-      "Transparente, grenzenlose Infrastruktur für Großzügigkeit.",
+    "app.tagline": "Transparente, grenzenlose Infrastruktur für Großzügigkeit.",
     "common.cancel": "Abbrechen",
     "common.edit": "Bearbeiten",
     "common.delete": "Löschen",
@@ -35,8 +34,7 @@ export default {
 
     // Dashboard
     "dashboard.title": "Give Dashboard",
-    "dashboard.subtitle":
-      "Verfolgen Sie Ihre Spenden und Freiwilligenbeiträge",
+    "dashboard.subtitle": "Verfolgen Sie Ihre Spenden und Freiwilligenbeiträge",
     "dashboard.totalDonations": "Gesamtspenden",
     "dashboard.volunteerHours": "Freiwilligenstunden",
     "dashboard.skillsEndorsed": "Bestätigte Fähigkeiten",
@@ -49,8 +47,7 @@ export default {
 
     // Charity
     "charity.dashboard": "Wohltätigkeits-Dashboard",
-    "charity.subtitle":
-      "Verwalten Sie Ihre Spenden und Freiwilligenprogramme",
+    "charity.subtitle": "Verwalten Sie Ihre Spenden und Freiwilligenprogramme",
     "charity.activeVolunteers": "Aktive Freiwillige",
     "charity.transactions": "Transaktionen",
     "charity.volunteers": "Freiwilligenstunden",
@@ -136,16 +133,13 @@ export default {
 
     // Volunteer - OpportunityForm
     "volunteer.validation.titleRequired": "Titel ist erforderlich",
-    "volunteer.validation.descriptionRequired":
-      "Beschreibung ist erforderlich",
+    "volunteer.validation.descriptionRequired": "Beschreibung ist erforderlich",
     "volunteer.validation.skillsRequired":
       "Mindestens eine Fähigkeit ist erforderlich",
     "volunteer.validation.locationRequired": "Standort ist erforderlich",
     "volunteer.profileNotFound": "Benutzerprofil nicht gefunden",
-    "volunteer.correctErrors":
-      "Bitte korrigieren Sie die Validierungsfehler",
-    "volunteer.createFailed":
-      "Möglichkeit konnte nicht erstellt werden",
+    "volunteer.correctErrors": "Bitte korrigieren Sie die Validierungsfehler",
+    "volunteer.createFailed": "Möglichkeit konnte nicht erstellt werden",
     "volunteer.descriptionPlaceholder":
       "Beschreiben Sie die Freiwilligenmöglichkeit im Detail...",
     "volunteer.skillsPlaceholder":
@@ -263,8 +257,7 @@ export default {
     "volunteer.allStatuses": "Alle",
     "volunteer.allActivityTypes": "Alle Typen",
     "volunteer.noMatchingRecords": "Keine passenden Einträge",
-    "volunteer.noHoursLogged":
-      "Noch keine Freiwilligenstunden erfasst",
+    "volunteer.noHoursLogged": "Noch keine Freiwilligenstunden erfasst",
     "volunteer.adjustFilters":
       "Versuchen Sie, Ihre Filter anzupassen, um Einträge zu finden.",
     "volunteer.startLogging":
@@ -303,8 +296,7 @@ export default {
     "volunteer.commitmentLevel": "Engagementgrad",
     "volunteer.commitmentOneTimeDesc":
       "Einzelprojekt oder kurzfristige Aufgaben",
-    "volunteer.commitmentShortTermDesc":
-      "Einige Wochen bis wenige Monate",
+    "volunteer.commitmentShortTermDesc": "Einige Wochen bis wenige Monate",
     "volunteer.commitmentLongTermDesc":
       "Fortlaufendes Engagement über mehrere Monate oder länger",
     "volunteer.experienceLabel":
@@ -312,8 +304,7 @@ export default {
     "volunteer.experiencePlaceholder":
       "Beschreiben Sie Ihren Hintergrund, Ihre Fähigkeiten und was Sie motiviert, bei Give Protocol mitzuwirken...",
     "volunteer.consentTitle": "Einwilligung & Vereinbarung",
-    "volunteer.consentHeader":
-      "Einwilligung zur Freiwilligenbewerbung",
+    "volunteer.consentHeader": "Einwilligung zur Freiwilligenbewerbung",
     "volunteer.submitting": "Wird eingereicht...",
     "volunteer.submitApplication": "Freiwilligenbewerbung einreichen",
     "volunteer.disclaimerText":
@@ -358,8 +349,7 @@ export default {
     "volunteer.referenceName": "Referenz {{index}} Name",
     "volunteer.referenceContact": "Referenz {{index}} Kontakt",
     "volunteer.workSamplesTitle": "Arbeitsproben",
-    "volunteer.workSamplesLabel":
-      "Links zu Arbeitsproben (kommagetrennt)",
+    "volunteer.workSamplesLabel": "Links zu Arbeitsproben (kommagetrennt)",
     "volunteer.submitApplicationShort": "Bewerbung einreichen",
     "volunteer.validation.nameInvalid":
       "Bitte geben Sie einen gültigen Namen ein (2–100 Zeichen)",
@@ -409,8 +399,7 @@ export default {
     "contribution.type.volunteerapplication": "Freiwilligenbewerbung",
     "contribution.type.volunteerhours": "Freiwilligenstunden",
     "contribution.type.volunteeracceptance": "Freiwilligenannahme",
-    "contribution.type.volunteerverification":
-      "Freiwilligenverifizierung",
+    "contribution.type.volunteerverification": "Freiwilligenverifizierung",
 
     // Donor/Volunteer
     "donor.volunteer": "Spender/Freiwillige/r",
@@ -439,12 +428,10 @@ export default {
     "export.dateRange": "Datumsbereich",
     "export.includePersonal": "Wallet-Adressen einschließen",
     "export.willInclude": "Der Export wird Folgendes enthalten:",
-    "export.walletAddresses":
-      "Wallet-Adressen (Sender und Empfänger)",
+    "export.walletAddresses": "Wallet-Adressen (Sender und Empfänger)",
     "export.volunteerDetails":
       "Details zu Freiwilligenbeiträgen (falls zutreffend)",
-    "export.verificationHashes":
-      "Verifizierungs-Hashes (falls zutreffend)",
+    "export.verificationHashes": "Verifizierungs-Hashes (falls zutreffend)",
     "export.cancel": "Abbrechen",
     "export.download": "CSV exportieren",
 
@@ -473,13 +460,11 @@ export default {
     "modal.wallet.connecting": "Wird verbunden...",
     "modal.wallet.clickToConnect": "Zum Verbinden klicken",
     "modal.wallet.noExtension": "Keine Wallet-Erweiterung erkannt.",
-    "modal.wallet.installMetaMask":
-      "Installieren Sie MetaMask, um zu beginnen",
+    "modal.wallet.installMetaMask": "Installieren Sie MetaMask, um zu beginnen",
     "modal.wallet.skip": "Vorerst überspringen",
     "modal.wallet.footerNote":
       "Sie können Ihr Wallet jederzeit über die Navigationsleiste verbinden",
-    "modal.wallet.failedConnect":
-      "Wallet konnte nicht verbunden werden",
+    "modal.wallet.failedConnect": "Wallet konnte nicht verbunden werden",
 
     // Modal - wallet link
     "modal.walletLink.title": "Wallet verknüpfen",
@@ -488,18 +473,15 @@ export default {
     "modal.walletLink.benefit1":
       "Spenden Sie Kryptowährung direkt an verifizierte Organisationen on-chain",
     "modal.walletLink.benefit2Pre": "Entwickeln Sie",
-    "modal.walletLink.benefit2Post":
-      "Nachweise für Ihre Beiträge",
+    "modal.walletLink.benefit2Post": "Nachweise für Ihre Beiträge",
     "modal.walletLink.benefit3":
       "Melden Sie sich mit E-Mail oder Wallet an \u2014 dasselbe Konto",
     "modal.walletLink.buttonLinking": "Wird verknüpft\u2026",
     "modal.walletLink.buttonLink": "Wallet verknüpfen",
-    "modal.walletLink.buttonConnectFirst":
-      "Zuerst Wallet verbinden",
+    "modal.walletLink.buttonConnectFirst": "Zuerst Wallet verbinden",
     "modal.walletLink.footerNote":
       "Sie können Ihr Wallet jederzeit in den Einstellungen verknüpfen",
-    "modal.walletLink.failedLink":
-      "Wallet konnte nicht verknüpft werden",
+    "modal.walletLink.failedLink": "Wallet konnte nicht verknüpft werden",
 
     // Modal - chain selection
     "modal.chain.title": "Willkommen bei Give Protocol",
@@ -509,8 +491,7 @@ export default {
       "Sie können das Netzwerk jederzeit über das Menü wechseln",
     "modal.chain.connecting": "Wird verbunden...",
     "modal.chain.continue": "Weiter",
-    "modal.chain.failedSelect":
-      "Netzwerk konnte nicht ausgewählt werden",
+    "modal.chain.failedSelect": "Netzwerk konnte nicht ausgewählt werden",
 
     // Modal - network selection (WalletModal step 1)
     "modal.network.title": "Netzwerk auswählen",
@@ -524,10 +505,8 @@ export default {
       "Keine Wallets für {{chainType}}-Chains verfügbar.",
     "modal.connect.tryDifferentChain":
       "Versuchen Sie, einen anderen Chain-Typ auszuwählen.",
-    "modal.connect.viewOtherWallets":
-      "Andere unterstützte Wallets anzeigen",
-    "modal.connect.termsAgreement":
-      "Durch die Verbindung stimmen Sie den",
+    "modal.connect.viewOtherWallets": "Andere unterstützte Wallets anzeigen",
+    "modal.connect.termsAgreement": "Durch die Verbindung stimmen Sie den",
     "modal.connect.termsLink": "Nutzungsbedingungen",
     "modal.connect.chainTypeAria": "Chain-Typ",
     "modal.connect.failedConnect": "Verbindung fehlgeschlagen",
@@ -552,10 +531,8 @@ export default {
     "modal.donation.perMonth": "pro Monat",
     "modal.donation.monthly": "Monatlich",
     "modal.donation.oneTime": "Einmalig",
-    "modal.donation.loadingPaymentForm":
-      "Zahlungsformular wird geladen...",
-    "modal.donation.supportMonthly":
-      "{{charityName}} monatlich unterstützen",
+    "modal.donation.loadingPaymentForm": "Zahlungsformular wird geladen...",
+    "modal.donation.supportMonthly": "{{charityName}} monatlich unterstützen",
     "modal.donation.donateToCharity": "An {{charityName}} spenden",
 
     // Modal - scheduled donation
@@ -566,10 +543,8 @@ export default {
     "modal.withdrawal.title": "Auszahlung beantragen",
 
     // Modal - validation response
-    "modal.validation.rejectTitle":
-      "Bestätigungsanfrage ablehnen",
-    "modal.validation.reviewTitle":
-      "Bestätigungsanfrage prüfen",
+    "modal.validation.rejectTitle": "Bestätigungsanfrage ablehnen",
+    "modal.validation.reviewTitle": "Bestätigungsanfrage prüfen",
     "modal.validation.volunteer": "Freiwillige/r",
     "modal.validation.activityDetails": "Aktivitätsdetails",
     "modal.validation.date": "Datum",
@@ -598,8 +573,7 @@ export default {
 
     // Error boundary
     "error.somethingWrong": "Etwas ist schiefgelaufen",
-    "error.unexpectedError":
-      "Ein unerwarteter Fehler ist aufgetreten",
+    "error.unexpectedError": "Ein unerwarteter Fehler ist aufgetreten",
     "error.tryAgain": "Erneut versuchen",
     "error.tooManyAttempts": "Zu viele Versuche",
     "error.goHome": "Zur Startseite",
@@ -607,8 +581,7 @@ export default {
 
     // Validation - rejection reason select
     "validation.rejection.reasonLabel": "Ablehnungsgrund",
-    "validation.rejection.reasonPlaceholder":
-      "Grund auswählen...",
+    "validation.rejection.reasonPlaceholder": "Grund auswählen...",
     "validation.rejection.notesLabel": "Zusätzliche Anmerkungen",
     "validation.rejection.optional": "(optional)",
     "validation.rejection.notesPlaceholder":
@@ -617,8 +590,7 @@ export default {
     // Validation - batch actions
     "validation.batch.deselectAll": "Alle abwählen",
     "validation.batch.selectAll": "Alle auswählen",
-    "validation.batch.selected":
-      "{{selected}} von {{total}} ausgewählt",
+    "validation.batch.selected": "{{selected}} von {{total}} ausgewählt",
     "validation.batch.clear": "Zurücksetzen",
     "validation.batch.reject": "Ablehnen ({{count}})",
     "validation.batch.approve": "Genehmigen ({{count}})",
@@ -636,8 +608,7 @@ export default {
     "dashboard.overview": "Übersicht",
     "dashboard.lastUpdated": "Zuletzt aktualisiert",
     "dashboard.refreshData": "Daten aktualisieren",
-    "dashboard.searchPlaceholder":
-      "Projekte, Freiwillige suchen (Cmd+K)",
+    "dashboard.searchPlaceholder": "Projekte, Freiwillige suchen (Cmd+K)",
     "dashboard.search": "Suchen",
 
     // Settings - account section (GIV-254)
@@ -666,8 +637,7 @@ export default {
     "tracker.searchPlaceholder": "Beitragende suchen...",
     "tracker.exportCSV": "CSV exportieren",
     "tracker.exportPDF": "PDF exportieren",
-    "tracker.hideContributions":
-      "Meine Beiträge aus Rankings ausblenden",
+    "tracker.hideContributions": "Meine Beiträge aus Rankings ausblenden",
     "tracker.yourAlias": "Ihr Alias:",
     "tracker.changeAlias": "Ändern",
     "tracker.setWalletAlias": "Wallet-Alias festlegen",
@@ -675,35 +645,29 @@ export default {
     "tracker.aliasDescription":
       "Ihr Alias wird in der Beitragsübersicht anstelle Ihrer Wallet-Adresse angezeigt.",
     "tracker.aliasLabel": "Alias",
-    "tracker.aliasPlaceholder":
-      "Geben Sie Ihren bevorzugten Alias ein",
+    "tracker.aliasPlaceholder": "Geben Sie Ihren bevorzugten Alias ein",
     "tracker.saveAlias": "Alias speichern",
     "tracker.donationRankings": "Spendenrankings",
     "tracker.volunteerRankings": "Freiwilligenrankings",
     "tracker.exportComplete": "Export abgeschlossen",
-    "tracker.exportDonationCSV":
-      "Spendenrangliste als CSV exportiert",
-    "tracker.exportVolunteerCSV":
-      "Freiwilligenrangliste als CSV exportiert",
+    "tracker.exportDonationCSV": "Spendenrangliste als CSV exportiert",
+    "tracker.exportVolunteerCSV": "Freiwilligenrangliste als CSV exportiert",
     "tracker.exportPDFSuccess": "Rangliste als PDF exportiert",
     "tracker.exportFailed": "Export fehlgeschlagen",
-    "tracker.exportNoData":
-      "Keine Daten zum Exportieren verfügbar",
+    "tracker.exportNoData": "Keine Daten zum Exportieren verfügbar",
     "tracker.exportError":
       "Beim Exportieren der Daten ist ein Fehler aufgetreten",
     "tracker.walletNotConnected": "Wallet nicht verbunden",
     "tracker.connectWalletForAlias":
       "Bitte verbinden Sie Ihr Wallet, um einen Alias festzulegen",
     "tracker.invalidAlias": "Ungültiger Alias",
-    "tracker.enterValidAlias":
-      "Bitte geben Sie einen gültigen Alias ein",
+    "tracker.enterValidAlias": "Bitte geben Sie einen gültigen Alias ein",
 
     // Charity Portal (GIV-254)
     "charity.portal.deleteTitle": "{{type}} löschen?",
     "charity.portal.deleteDescription":
       "Diese Aktion kann nicht rückgängig gemacht werden. {{type}} wird dauerhaft entfernt.",
-    "charity.portal.walletNotConfigured":
-      "Empfangs-Wallet nicht konfiguriert.",
+    "charity.portal.walletNotConfigured": "Empfangs-Wallet nicht konfiguriert.",
     "charity.portal.walletDonationNote":
       "Verbinden Sie ein Wallet, um On-Chain-Spenden zu erhalten.",
     "charity.portal.setupWallet": "Wallet einrichten",
@@ -730,24 +694,20 @@ export default {
     "portfolio.donationAmount": "Spendenbetrag:",
     "portfolio.platformFee": "Plattformgebühr ({{percentage}}%):",
     "portfolio.toCharities": "An Organisationen:",
-    "portfolio.eachCharityReceives":
-      "Jede Organisation erhält:",
+    "portfolio.eachCharityReceives": "Jede Organisation erhält:",
     "portfolio.donateToFund": "An {{name}} spenden",
     "portfolio.equalDistribution": "Gleichmäßige Verteilung",
     "portfolio.equalDistributionNote":
       "Ihre Spende wird gleichmäßig auf {{count}} verifizierte Organisationen aufgeteilt.",
     "portfolio.eachCharityPercentage":
       "Jede Organisation erhält {{percentage}}% der Spenden",
-    "portfolio.verifiedCharities":
-      "{{count}} verifizierte Organisationen",
+    "portfolio.verifiedCharities": "{{count}} verifizierte Organisationen",
     "portfolio.donateToFundButton": "An Fonds spenden",
-    "portfolio.noFundsAvailable":
-      "Keine Portfolio-Fonds verfügbar",
+    "portfolio.noFundsAvailable": "Keine Portfolio-Fonds verfügbar",
     "portfolio.checkBackLater":
       "Schauen Sie später nach neuen Fördermöglichkeiten",
     "portfolio.amountLabel": "Betrag ({{currency}})",
-    "portfolio.invalidAmount":
-      "Bitte geben Sie einen gültigen Betrag ein",
+    "portfolio.invalidAmount": "Bitte geben Sie einen gültigen Betrag ein",
     "portfolio.donationSuccess": "Spende erfolgreich!",
     "portfolio.donationFailed":
       "Spende fehlgeschlagen. Bitte versuchen Sie es erneut.",
@@ -766,17 +726,14 @@ export default {
     "admin.dashboard.recentActivity": "Letzte Aktivitäten",
     "admin.dashboard.noRecentActivity": "Keine letzten Aktivitäten.",
     "admin.dashboard.quickActions": "Schnellaktionen",
-    "admin.dashboard.errorTitle":
-      "Fehler beim Laden des Dashboards",
+    "admin.dashboard.errorTitle": "Fehler beim Laden des Dashboards",
     "admin.stats.last7d": "letzte 7 Tage",
     "admin.stats.last30d": "letzte 30 Tage",
     "admin.stats.totalDonors": "Spender gesamt",
     "admin.stats.newRegistrations": "neue Registrierungen",
     "admin.stats.charities": "Organisationen",
-    "admin.stats.pendingVerification":
-      "ausstehende Verifizierung",
-    "admin.stats.verifiedCharities":
-      "Verifizierte Organisationen",
+    "admin.stats.pendingVerification": "ausstehende Verifizierung",
+    "admin.stats.verifiedCharities": "Verifizierte Organisationen",
     "admin.stats.activeVolunteers": "Aktive Freiwillige",
     "admin.stats.totalDonationVolume": "Gesamtspendenvolumen",
     "admin.stats.cryptoVolume": "Krypto-Volumen",
@@ -785,17 +742,12 @@ export default {
 
     // Admin - Quick Actions (GIV-256)
     "admin.actions.viewReports": "Berichte anzeigen",
-    "admin.actions.viewReportsDesc":
-      "Detaillierte Analysen erstellen",
-    "admin.actions.manageCharities":
-      "Organisationen verwalten",
-    "admin.actions.manageCharitiesDesc":
-      "Organisationen prüfen und genehmigen",
+    "admin.actions.viewReportsDesc": "Detaillierte Analysen erstellen",
+    "admin.actions.manageCharities": "Organisationen verwalten",
+    "admin.actions.manageCharitiesDesc": "Organisationen prüfen und genehmigen",
     "admin.actions.systemSettings": "Systemeinstellungen",
-    "admin.actions.systemSettingsDesc":
-      "Plattformparameter konfigurieren",
-    "admin.actions.manageImpactMetrics":
-      "Wirkungskennzahlen verwalten",
+    "admin.actions.systemSettingsDesc": "Plattformparameter konfigurieren",
+    "admin.actions.manageImpactMetrics": "Wirkungskennzahlen verwalten",
     "admin.actions.manageImpactMetricsDesc":
       "Daten des Wirkungsrechners konfigurieren",
     "admin.actions.donationMonitoring": "Spendenüberwachung",
@@ -819,8 +771,7 @@ export default {
     "admin.portfolio.editFund": "Fonds bearbeiten",
     "admin.portfolio.createNewFund": "Neuen Fonds erstellen",
     "admin.portfolio.fundName": "Fondsname",
-    "admin.portfolio.fundNamePlaceholder":
-      "z. B. Umweltwirkungsfonds",
+    "admin.portfolio.fundNamePlaceholder": "z. B. Umweltwirkungsfonds",
     "admin.portfolio.description": "Beschreibung",
     "admin.portfolio.descriptionPlaceholder":
       "Beschreiben Sie den Zweck und Wirkungsschwerpunkt des Fonds...",
@@ -845,13 +796,11 @@ export default {
     "admin.portfolio.statusPaused": "Pausiert",
     "admin.portfolio.statusArchived": "Archiviert",
     "admin.portfolio.errorLoad": "Daten konnten nicht geladen werden",
-    "admin.portfolio.errorArchive":
-      "Fonds konnte nicht archiviert werden",
+    "admin.portfolio.errorArchive": "Fonds konnte nicht archiviert werden",
     "admin.portfolio.fundArchived": "Fonds archiviert",
     "admin.portfolio.fundUpdated": "Fonds aktualisiert",
     "admin.portfolio.fundCreated": "Fonds erstellt",
-    "admin.portfolio.errorSave":
-      "Fonds konnte nicht gespeichert werden",
+    "admin.portfolio.errorSave": "Fonds konnte nicht gespeichert werden",
 
     // Admin - Charity Management page (GIV-256)
     "admin.charity.title": "Organisationsverwaltung",
@@ -877,8 +826,7 @@ export default {
     "admin.charity.approveTitle": "Organisation genehmigen",
     "admin.charity.rejectTitle": "Organisation ablehnen",
     "admin.charity.suspendTitle": "Organisation sperren",
-    "admin.charity.reinstateTitle":
-      "Organisation wiederherstellen",
+    "admin.charity.reinstateTitle": "Organisation wiederherstellen",
     "admin.charity.confirmAction": "Aktion bestätigen",
     "admin.charity.reasonRequired": "Grund (erforderlich)",
     "admin.charity.reasonOptional": "Grund (optional)",
@@ -904,8 +852,7 @@ export default {
       "{{shown}} von {{total}} eindeutigen EINs werden angezeigt.",
 
     // Admin - Volunteer Validation page (GIV-256)
-    "admin.validation.title":
-      "Aufsicht über Freiwilligenbestätigung",
+    "admin.validation.title": "Aufsicht über Freiwilligenbestätigung",
     "admin.validation.totalCount": "{{count}} Anfragen insgesamt",
     "admin.validation.pipelineStats": "Pipeline-Statistiken",
     "admin.validation.noStats": "Keine Statistiken verfügbar.",
@@ -913,12 +860,10 @@ export default {
     "admin.validation.approved": "Genehmigt",
     "admin.validation.rejected": "Abgelehnt",
     "admin.validation.expired": "Abgelaufen",
-    "admin.validation.avgResponseTime":
-      "Durchschn. Antwortzeit:",
+    "admin.validation.avgResponseTime": "Durchschn. Antwortzeit:",
     "admin.validation.expirationRate": "Ablaufrate:",
     "admin.validation.rejectionRate": "Ablehnungsrate:",
-    "admin.validation.searchPlaceholder":
-      "Freiwillige, Org. suchen\u2026",
+    "admin.validation.searchPlaceholder": "Freiwillige, Org. suchen\u2026",
     "admin.validation.requestsTab": "Bestätigungsanfragen",
     "admin.validation.patternsTab": "Verdächtige Muster",
     "admin.validation.colVolunteer": "Freiwillige/r",
@@ -928,21 +873,17 @@ export default {
     "admin.validation.colHrsPerWeek": "Std./Woche",
     "admin.validation.colTotalRequests": "Anfragen gesamt",
     "admin.validation.override": "Überschreiben",
-    "admin.validation.noPatterns":
-      "Keine verdächtigen Muster erkannt.",
-    "admin.validation.noRequests":
-      "Keine Bestätigungsanfragen gefunden.",
+    "admin.validation.noPatterns": "Keine verdächtigen Muster erkannt.",
+    "admin.validation.noRequests": "Keine Bestätigungsanfragen gefunden.",
     "admin.validation.patternsDescription":
       "Freiwillige, die in einem rollierenden 7-Tage-Fenster mehr als den konfigurierten Schwellenwert an Stunden gemeldet haben. Diese Muster können auf Missbrauch des Selbstmeldesystems hinweisen.",
-    "admin.validation.overrideTitle":
-      "Bestätigungsanfrage überschreiben",
+    "admin.validation.overrideTitle": "Bestätigungsanfrage überschreiben",
     "admin.validation.newStatus": "Neuer Status",
     "admin.validation.reasonRequired": "Grund (erforderlich)",
     "admin.validation.reasonPlaceholder":
       "Begründen Sie das Überschreiben dieser Anfrage\u2026",
     "admin.validation.saving": "Wird gespeichert\u2026",
-    "admin.validation.confirmOverride":
-      "Überschreibung bestätigen",
+    "admin.validation.confirmOverride": "Überschreibung bestätigen",
     "admin.validation.allStatuses": "Alle Status",
     "admin.validation.colStatus": "Status",
     "admin.validation.colCreated": "Erstellt",

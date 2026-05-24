@@ -157,7 +157,10 @@ const AdminCharityRequests: React.FC = () => {
                   {t("admin.charityRequests.requests", "Requests")}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
-                  {t("admin.charityRequests.latestRequester", "Latest Requester")}
+                  {t(
+                    "admin.charityRequests.latestRequester",
+                    "Latest Requester",
+                  )}
                 </th>
                 <th className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
                   {t("admin.charityRequests.latestRequest", "Latest Request")}
@@ -178,10 +181,14 @@ const AdminCharityRequests: React.FC = () => {
 
       {totalCount > requests.length && (
         <p className="text-xs text-gray-500">
-          {t("admin.charityRequests.showing", "Showing {{shown}} of {{total}} unique EINs.", {
-            shown: requests.length,
-            total: totalCount,
-          })}
+          {t(
+            "admin.charityRequests.showing",
+            "Showing {{shown}} of {{total}} unique EINs.",
+            {
+              shown: requests.length,
+              total: totalCount,
+            },
+          )}
         </p>
       )}
     </main>

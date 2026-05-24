@@ -85,71 +85,79 @@ const AvailabilitySection: React.FC<{
 }> = ({ formData, validationErrors, selectClasses, handlers }) => {
   const { t } = useTranslation();
   return (
-  <div className="space-y-4">
-    <h3 className="text-lg font-medium text-gray-900">{t("volunteer.availabilityTitle", "Availability")}</h3>
-    <p className="block text-sm font-medium text-gray-700 mb-1">
-      {t("volunteer.preferredDays", "Preferred Days")}
-    </p>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-      {[
-        "Monday",
-        "Tuesday",
-        "Wednesday",
-        "Thursday",
-        "Friday",
-        "Saturday",
-        "Sunday",
-      ].map((day) => (
-        <label key={day} className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            checked={formData.availability.days.includes(day)}
-            onChange={handlers.handleDaysChange(day)}
-            className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 mr-2"
-          />
-          {day}
-        </label>
-      ))}
-    </div>
-    {validationErrors["availability.days"] && (
-      <p className="text-sm text-red-600 mb-1">
-        {validationErrors["availability.days"]}
+    <div className="space-y-4">
+      <h3 className="text-lg font-medium text-gray-900">
+        {t("volunteer.availabilityTitle", "Availability")}
+      </h3>
+      <p className="block text-sm font-medium text-gray-700 mb-1">
+        {t("volunteer.preferredDays", "Preferred Days")}
       </p>
-    )}
-    <p className="block text-sm font-medium text-gray-700 mb-1 mt-4">
-      {t("volunteer.preferredTimes", "Preferred Times")}
-    </p>
-    <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
-      {["Morning", "Afternoon", "Evening"].map((time) => (
-        <label key={time} className="flex items-center space-x-2">
-          <input
-            type="checkbox"
-            checked={formData.availability.times.includes(time)}
-            onChange={handlers.handleTimesChange(time)}
-            className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 mr-2"
-          />
-          {time}
-        </label>
-      ))}
-    </div>
-    {validationErrors["availability.times"] && (
-      <p className="text-sm text-red-600 mb-1">
-        {validationErrors["availability.times"]}
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {[
+          "Monday",
+          "Tuesday",
+          "Wednesday",
+          "Thursday",
+          "Friday",
+          "Saturday",
+          "Sunday",
+        ].map((day) => (
+          <label key={day} className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={formData.availability.days.includes(day)}
+              onChange={handlers.handleDaysChange(day)}
+              className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 mr-2"
+            />
+            {day}
+          </label>
+        ))}
+      </div>
+      {validationErrors["availability.days"] && (
+        <p className="text-sm text-red-600 mb-1">
+          {validationErrors["availability.days"]}
+        </p>
+      )}
+      <p className="block text-sm font-medium text-gray-700 mb-1 mt-4">
+        {t("volunteer.preferredTimes", "Preferred Times")}
       </p>
-    )}
-    <label className="block text-sm font-medium text-gray-700 mb-1 mt-4">
-      {t("volunteer.commitmentLevelLabel", "Commitment Level")}{" "}
-      <select
-        value={formData.commitmentType}
-        onChange={handlers.handleCommitmentChange}
-        className={`${selectClasses} mt-1`}
-      >
-        <option value="one-time">{t("volunteer.commitment.oneTime", "One-time")}</option>
-        <option value="short-term">{t("volunteer.commitment.shortTerm", "Short-term")}</option>
-        <option value="long-term">{t("volunteer.commitment.longTerm", "Long-term")}</option>
-      </select>
-    </label>
-  </div>
+      <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
+        {["Morning", "Afternoon", "Evening"].map((time) => (
+          <label key={time} className="flex items-center space-x-2">
+            <input
+              type="checkbox"
+              checked={formData.availability.times.includes(time)}
+              onChange={handlers.handleTimesChange(time)}
+              className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 mr-2"
+            />
+            {time}
+          </label>
+        ))}
+      </div>
+      {validationErrors["availability.times"] && (
+        <p className="text-sm text-red-600 mb-1">
+          {validationErrors["availability.times"]}
+        </p>
+      )}
+      <label className="block text-sm font-medium text-gray-700 mb-1 mt-4">
+        {t("volunteer.commitmentLevelLabel", "Commitment Level")}{" "}
+        <select
+          value={formData.commitmentType}
+          onChange={handlers.handleCommitmentChange}
+          className={`${selectClasses} mt-1`}
+        >
+          <option value="one-time">
+            {t("volunteer.commitment.oneTime", "One-time")}
+          </option>
+          <option value="short-term">
+            {t("volunteer.commitment.shortTerm", "Short-term")}
+          </option>
+          <option value="long-term">
+            {t("volunteer.commitment.longTerm", "Long-term")}
+          </option>
+        </select>
+      </label>
+    </div>
   );
 };
 
@@ -167,143 +175,166 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-  <form onSubmit={onSubmit} className="space-y-6">
-    {/* Personal Information */}
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-900">
-        {t("volunteer.personalInfo", "Personal Information")}
-      </h3>
-      <Input
-        label={t("volunteer.fullName", "Full Name *")}
-        value={formData.fullName}
-        onChange={handlers.handleFullNameChange}
-        required
-        className={inputClasses}
-        error={validationErrors["fullName"]}
-      />
-      <Input
-        label={t("volunteer.phoneRequired", "Phone Number *")}
-        type="tel"
-        value={formData.phoneNumber}
-        onChange={handlers.handlePhoneChange}
-        required
-        className={inputClasses}
-        error={validationErrors["phoneNumber"]}
-      />
-      <Input
-        label={t("volunteer.emailRequired", "Email Address *")}
-        type="email"
-        value={formData.email}
-        onChange={handlers.handleEmailChange}
-        required
-        className={inputClasses}
-        error={validationErrors["email"]}
-      />
-      <Input
-        label={t("volunteer.dateOfBirth", "Date of Birth")}
-        type="date"
-        value={formData.dateOfBirth}
-        onChange={handlers.handleDateOfBirthChange}
-        className={inputClasses}
-      />
-    </div>
-
-    {/* Availability */}
-    <AvailabilitySection
-      formData={formData}
-      validationErrors={validationErrors}
-      selectClasses={selectClasses}
-      handlers={handlers}
-    />
-
-    {/* Skills & Experience */}
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-900">{t("volunteer.skillsAndExperience", "Skills & Experience")}</h3>
-      <label className="block">
-        <span className="text-sm font-medium text-gray-700 mb-1 block">
-          {t("volunteer.relevantExperience", "Relevant Experience *")}
-        </span>
-        <textarea
-          value={formData.experience}
-          onChange={handlers.handleExperienceChange}
-          rows={4}
-          className={textareaClasses}
+    <form onSubmit={onSubmit} className="space-y-6">
+      {/* Personal Information */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("volunteer.personalInfo", "Personal Information")}
+        </h3>
+        <Input
+          label={t("volunteer.fullName", "Full Name *")}
+          value={formData.fullName}
+          onChange={handlers.handleFullNameChange}
           required
+          className={inputClasses}
+          error={validationErrors["fullName"]}
         />
-        {validationErrors["experience"] && (
-          <p className="text-sm text-red-600 mb-1">
-            {validationErrors["experience"]}
-          </p>
-        )}
-      </label>
-      <Input
-        label={t("volunteer.skills", "Skills (comma-separated)")}
-        value={formData.skills}
-        onChange={handlers.handleSkillsChange}
-        className={inputClasses}
-      />
-      <Input
-        label={t("volunteer.certifications", "Certifications (comma-separated)")}
-        value={formData.certifications}
-        onChange={handlers.handleCertificationsChange}
-        className={inputClasses}
-      />
-    </div>
+        <Input
+          label={t("volunteer.phoneRequired", "Phone Number *")}
+          type="tel"
+          value={formData.phoneNumber}
+          onChange={handlers.handlePhoneChange}
+          required
+          className={inputClasses}
+          error={validationErrors["phoneNumber"]}
+        />
+        <Input
+          label={t("volunteer.emailRequired", "Email Address *")}
+          type="email"
+          value={formData.email}
+          onChange={handlers.handleEmailChange}
+          required
+          className={inputClasses}
+          error={validationErrors["email"]}
+        />
+        <Input
+          label={t("volunteer.dateOfBirth", "Date of Birth")}
+          type="date"
+          value={formData.dateOfBirth}
+          onChange={handlers.handleDateOfBirthChange}
+          className={inputClasses}
+        />
+      </div>
 
-    {/* Interests */}
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-900">
-        {t("volunteer.interestsAndPreferences", "Interests & Preferences")}
-      </h3>
-      <Input
-        label={t("volunteer.areasOfInterest", "Areas of Interest (comma-separated)")}
-        value={formData.interests}
-        onChange={handlers.handleInterestsChange}
-        className={inputClasses}
+      {/* Availability */}
+      <AvailabilitySection
+        formData={formData}
+        validationErrors={validationErrors}
+        selectClasses={selectClasses}
+        handlers={handlers}
       />
-    </div>
 
-    {/* References */}
-    <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-900">{t("volunteer.referencesTitle", "References")}</h3>
-      {formData.references.map((ref, index) => (
-        <div key={ref.id} className="space-y-2">
-          <Input
-            label={t("volunteer.referenceName", "Reference {{index}} Name", { index: index + 1 })}
-            value={ref.name}
-            onChange={handlers.handleReferenceNameChange(index)}
-            className={inputClasses}
+      {/* Skills & Experience */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("volunteer.skillsAndExperience", "Skills & Experience")}
+        </h3>
+        <label className="block">
+          <span className="text-sm font-medium text-gray-700 mb-1 block">
+            {t("volunteer.relevantExperience", "Relevant Experience *")}
+          </span>
+          <textarea
+            value={formData.experience}
+            onChange={handlers.handleExperienceChange}
+            rows={4}
+            className={textareaClasses}
+            required
           />
-          <Input
-            label={t("volunteer.referenceContact", "Reference {{index}} Contact", { index: index + 1 })}
-            value={ref.contact}
-            onChange={handlers.handleReferenceContactChange(index)}
-            className={inputClasses}
-          />
-        </div>
-      ))}
-    </div>
+          {validationErrors["experience"] && (
+            <p className="text-sm text-red-600 mb-1">
+              {validationErrors["experience"]}
+            </p>
+          )}
+        </label>
+        <Input
+          label={t("volunteer.skills", "Skills (comma-separated)")}
+          value={formData.skills}
+          onChange={handlers.handleSkillsChange}
+          className={inputClasses}
+        />
+        <Input
+          label={t(
+            "volunteer.certifications",
+            "Certifications (comma-separated)",
+          )}
+          value={formData.certifications}
+          onChange={handlers.handleCertificationsChange}
+          className={inputClasses}
+        />
+      </div>
 
-    {/* Work Samples */}
-    <div>
-      <h3 className="text-lg font-medium text-gray-900 mb-2">{t("volunteer.workSamplesTitle", "Work Samples")}</h3>
-      <Input
-        label={t("volunteer.workSamplesLabel", "Links to Work Samples (comma-separated)")}
-        value={formData.workSamples}
-        onChange={handlers.handleWorkSamplesChange}
-        className={inputClasses}
-      />
-    </div>
+      {/* Interests */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("volunteer.interestsAndPreferences", "Interests & Preferences")}
+        </h3>
+        <Input
+          label={t(
+            "volunteer.areasOfInterest",
+            "Areas of Interest (comma-separated)",
+          )}
+          value={formData.interests}
+          onChange={handlers.handleInterestsChange}
+          className={inputClasses}
+        />
+      </div>
 
-    <div className="flex justify-end space-x-3">
-      <Button variant="secondary" onClick={onClose} disabled={loading}>
-        {t("common.cancel", "Cancel")}
-      </Button>
-      <Button type="submit" disabled={loading}>
-        {loading ? t("volunteer.submitting", "Submitting...") : t("volunteer.submitApplicationShort", "Submit Application")}
-      </Button>
-    </div>
-  </form>
+      {/* References */}
+      <div className="space-y-4">
+        <h3 className="text-lg font-medium text-gray-900">
+          {t("volunteer.referencesTitle", "References")}
+        </h3>
+        {formData.references.map((ref, index) => (
+          <div key={ref.id} className="space-y-2">
+            <Input
+              label={t("volunteer.referenceName", "Reference {{index}} Name", {
+                index: index + 1,
+              })}
+              value={ref.name}
+              onChange={handlers.handleReferenceNameChange(index)}
+              className={inputClasses}
+            />
+            <Input
+              label={t(
+                "volunteer.referenceContact",
+                "Reference {{index}} Contact",
+                { index: index + 1 },
+              )}
+              value={ref.contact}
+              onChange={handlers.handleReferenceContactChange(index)}
+              className={inputClasses}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Work Samples */}
+      <div>
+        <h3 className="text-lg font-medium text-gray-900 mb-2">
+          {t("volunteer.workSamplesTitle", "Work Samples")}
+        </h3>
+        <Input
+          label={t(
+            "volunteer.workSamplesLabel",
+            "Links to Work Samples (comma-separated)",
+          )}
+          value={formData.workSamples}
+          onChange={handlers.handleWorkSamplesChange}
+          className={inputClasses}
+        />
+      </div>
+
+      <div className="flex justify-end space-x-3">
+        <Button variant="secondary" onClick={onClose} disabled={loading}>
+          {t("common.cancel", "Cancel")}
+        </Button>
+        <Button type="submit" disabled={loading}>
+          {loading
+            ? t("volunteer.submitting", "Submitting...")
+            : t("volunteer.submitApplicationShort", "Submit Application")}
+        </Button>
+      </div>
+    </form>
   );
 };
 
@@ -645,7 +676,9 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90dvh] overflow-y-auto p-6 space-y-4">
         <h2 className="text-2xl font-semibold text-gray-900">
-          {t("volunteer.applyForTitle", "Apply for: {{title}}", { title: opportunityTitle })}
+          {t("volunteer.applyForTitle", "Apply for: {{title}}", {
+            title: opportunityTitle,
+          })}
         </h2>
 
         {error && (

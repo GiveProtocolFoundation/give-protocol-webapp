@@ -55,7 +55,10 @@ export const VerificationLookup: React.FC = () => {
             <Input
               value={hash}
               onChange={handleHashChange}
-              placeholder={t("volunteer.hashPlaceholder", "Enter verification hash")}
+              placeholder={t(
+                "volunteer.hashPlaceholder",
+                "Enter verification hash",
+              )}
               className="w-full"
             />
           </div>
@@ -65,7 +68,9 @@ export const VerificationLookup: React.FC = () => {
             className="whitespace-nowrap"
           >
             <Search className="h-4 w-4 mr-2" />
-            {loading ? t("volunteer.searching", "Searching...") : t("volunteer.verifyHash", "Verify Hash")}
+            {loading
+              ? t("volunteer.searching", "Searching...")
+              : t("volunteer.verifyHash", "Verify Hash")}
           </Button>
         </div>
       </form>
@@ -77,7 +82,8 @@ export const VerificationLookup: React.FC = () => {
               verification={{
                 id: verification.id,
                 applicantName:
-                  verification.profiles?.name || t("volunteer.unknown", "Unknown Volunteer"),
+                  verification.profiles?.name ||
+                  t("volunteer.unknown", "Unknown Volunteer"),
                 opportunityTitle:
                   verification.volunteer_opportunities?.title ||
                   t("volunteer.unknownOpportunity", "Unknown Opportunity"),
@@ -96,10 +102,16 @@ export const VerificationLookup: React.FC = () => {
               <AlertCircle className="h-5 w-5 text-yellow-500 mt-0.5 mr-3 flex-shrink-0" />
               <div>
                 <h3 className="text-sm font-medium text-yellow-800">
-                  {t("volunteer.verificationNotFound", "Verification Not Found")}
+                  {t(
+                    "volunteer.verificationNotFound",
+                    "Verification Not Found",
+                  )}
                 </h3>
                 <p className="mt-1 text-sm text-yellow-700">
-                  {t("volunteer.verificationNotFoundMessage", "The hash you provided could not be found in our records. Please check the hash and try again.")}
+                  {t(
+                    "volunteer.verificationNotFoundMessage",
+                    "The hash you provided could not be found in our records. Please check the hash and try again.",
+                  )}
                 </p>
               </div>
             </div>

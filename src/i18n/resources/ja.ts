@@ -2,8 +2,7 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline":
-      "透明でボーダーレスな寛容さのためのインフラストラクチャー。",
+    "app.tagline": "透明でボーダーレスな寛容さのためのインフラストラクチャー。",
     "common.cancel": "キャンセル",
     "common.edit": "編集",
     "common.delete": "削除",
@@ -35,8 +34,7 @@ export default {
 
     // Dashboard
     "dashboard.title": "Give ダッシュボード",
-    "dashboard.subtitle":
-      "寄付とボランティア貢献を追跡します",
+    "dashboard.subtitle": "寄付とボランティア貢献を追跡します",
     "dashboard.totalDonations": "総寄付額",
     "dashboard.volunteerHours": "ボランティア時間",
     "dashboard.skillsEndorsed": "承認されたスキル",
@@ -49,8 +47,7 @@ export default {
 
     // Charity
     "charity.dashboard": "チャリティダッシュボード",
-    "charity.subtitle":
-      "寄付とボランティアプログラムを管理します",
+    "charity.subtitle": "寄付とボランティアプログラムを管理します",
     "charity.activeVolunteers": "アクティブなボランティア",
     "charity.transactions": "取引",
     "charity.volunteers": "ボランティア時間",
@@ -97,11 +94,9 @@ export default {
       "ボランティア申請が承認され、ブロックチェーンに記録されました。",
     "volunteer.acceptanceHash": "承認ハッシュ",
     "volunteer.pendingHours": "保留中のボランティア時間",
-    "volunteer.noPendingHours":
-      "検証待ちのボランティア時間はありません。",
+    "volunteer.noPendingHours": "検証待ちのボランティア時間はありません。",
     "volunteer.pendingApplications": "保留中の申請",
-    "volunteer.noPendingApplications":
-      "レビュー待ちの申請はありません。",
+    "volunteer.noPendingApplications": "レビュー待ちの申請はありません。",
     "volunteer.createOpportunity": "ボランティア機会を作成",
     "volunteer.createNew": "新規作成",
     "volunteer.noOpportunitiesYet":
@@ -137,16 +132,14 @@ export default {
     // Volunteer - OpportunityForm
     "volunteer.validation.titleRequired": "タイトルは必須です",
     "volunteer.validation.descriptionRequired": "説明は必須です",
-    "volunteer.validation.skillsRequired":
-      "少なくとも1つのスキルが必要です",
+    "volunteer.validation.skillsRequired": "少なくとも1つのスキルが必要です",
     "volunteer.validation.locationRequired": "場所は必須です",
     "volunteer.profileNotFound": "ユーザープロフィールが見つかりません",
     "volunteer.correctErrors": "バリデーションエラーを修正してください",
     "volunteer.createFailed": "機会の作成に失敗しました",
     "volunteer.descriptionPlaceholder":
       "ボランティア機会の詳細を記述してください...",
-    "volunteer.skillsPlaceholder":
-      "例：Web開発、プロジェクト管理、翻訳",
+    "volunteer.skillsPlaceholder": "例：Web開発、プロジェクト管理、翻訳",
     "volunteer.locationPlaceholder": "例：リモート、東京、大阪",
     "volunteer.headerImage": "ヘッダー画像",
     "volunteer.headerImageHelp":
@@ -167,8 +160,7 @@ export default {
     "volunteer.loggedHoursDescription":
       "ボランティアが機会を通じて記録した時間",
     "volunteer.allCaughtUp": "すべて対応済みです！",
-    "volunteer.noPendingLoggedHours":
-      "検証待ちの記録済み時間はありません。",
+    "volunteer.noPendingLoggedHours": "検証待ちの記録済み時間はありません。",
     "volunteer.selfReportedHours": "自己申告時間",
 
     // Volunteer - OpportunitiesTab
@@ -235,16 +227,12 @@ export default {
     "volunteer.contactEmailOptional": "（任意）",
     "volunteer.onboardHelp":
       "この団体のオンボーディングのためにご連絡する場合があります",
-    "volunteer.submittedForValidation":
-      "この記録は検証のために提出されます",
+    "volunteer.submittedForValidation": "この記録は検証のために提出されます",
     "volunteer.submittedForValidationTo":
       "この記録は {{org}} への検証のために提出されます",
-    "volunteer.validationExpired":
-      "この日付の検証期間は終了しています",
-    "volunteer.savedAsUnvalidated":
-      "この記録は未検証として保存されます",
-    "volunteer.describeActivities":
-      "実施した活動内容を記述してください...",
+    "volunteer.validationExpired": "この日付の検証期間は終了しています",
+    "volunteer.savedAsUnvalidated": "この記録は未検証として保存されます",
+    "volunteer.describeActivities": "実施した活動内容を記述してください...",
     "volunteer.moreCharsNeeded": "あと{{count}}文字必要です",
     "volunteer.updating": "更新中...",
     "volunteer.logging": "記録中...",
@@ -259,12 +247,10 @@ export default {
     "volunteer.allStatuses": "すべて",
     "volunteer.allActivityTypes": "すべてのタイプ",
     "volunteer.noMatchingRecords": "一致する記録がありません",
-    "volunteer.noHoursLogged":
-      "まだボランティア時間が記録されていません",
+    "volunteer.noHoursLogged": "まだボランティア時間が記録されていません",
     "volunteer.adjustFilters":
       "フィルターを調整して記録を検索してみてください。",
-    "volunteer.startLogging":
-      "最初のボランティア時間を記録しましょう。",
+    "volunteer.startLogging": "最初のボランティア時間を記録しましょう。",
 
     // Volunteer - SelfReportedHoursStats
     "volunteer.validatedHours": "検証済み時間",
@@ -297,11 +283,9 @@ export default {
     "volunteer.skillPlaceholderShort":
       "スキルを入力してEnterキーを押してください...",
     "volunteer.commitmentLevel": "コミットメントレベル",
-    "volunteer.commitmentOneTimeDesc":
-      "単発のプロジェクトまたは短期間のタスク",
+    "volunteer.commitmentOneTimeDesc": "単発のプロジェクトまたは短期間のタスク",
     "volunteer.commitmentShortTermDesc": "数週間から数ヶ月程度",
-    "volunteer.commitmentLongTermDesc":
-      "数ヶ月以上の継続的なコミットメント",
+    "volunteer.commitmentLongTermDesc": "数ヶ月以上の継続的なコミットメント",
     "volunteer.experienceLabel": "関連する経験についてお聞かせください",
     "volunteer.experiencePlaceholder":
       "あなたの経歴、スキル、Give Protocolでボランティアをしたい動機を記述してください...",
@@ -311,24 +295,17 @@ export default {
     "volunteer.submitApplication": "ボランティア申請を送信",
     "volunteer.disclaimerText":
       "この申請を送信することにより、Give Protocolのプライバシーポリシーとボランティアガイドラインを読み、理解したことを認めます。お客様のデータは、適用されるデータ保護規制に従って処理されます。",
-    "volunteer.validation.firstNameInvalid":
-      "有効な名前を入力してください",
-    "volunteer.validation.lastNameInvalid":
-      "有効な姓を入力してください",
+    "volunteer.validation.firstNameInvalid": "有効な名前を入力してください",
+    "volunteer.validation.lastNameInvalid": "有効な姓を入力してください",
     "volunteer.validation.emailInvalid":
       "有効なメールアドレスを入力してください",
-    "volunteer.validation.phoneInvalid":
-      "有効な電話番号を入力してください",
-    "volunteer.validation.experienceRequired":
-      "関連する経験を記述してください",
-    "volunteer.validation.addSkill":
-      "少なくとも1つのスキルを追加してください",
-    "volunteer.validation.ageRangeRequired":
-      "年齢層を選択してください",
+    "volunteer.validation.phoneInvalid": "有効な電話番号を入力してください",
+    "volunteer.validation.experienceRequired": "関連する経験を記述してください",
+    "volunteer.validation.addSkill": "少なくとも1つのスキルを追加してください",
+    "volunteer.validation.ageRangeRequired": "年齢層を選択してください",
     "volunteer.validation.consentRequired":
       "すべての必須同意項目に同意する必要があります",
-    "volunteer.signInToSubmit":
-      "申請を送信するにはサインインしてください",
+    "volunteer.signInToSubmit": "申請を送信するにはサインインしてください",
     "volunteer.submitFailed":
       "申請の送信に失敗しました。もう一度お試しください。",
 
@@ -351,15 +328,13 @@ export default {
     "volunteer.referenceName": "推薦者{{index}}の氏名",
     "volunteer.referenceContact": "推薦者{{index}}の連絡先",
     "volunteer.workSamplesTitle": "作品サンプル",
-    "volunteer.workSamplesLabel":
-      "作品サンプルへのリンク（カンマ区切り）",
+    "volunteer.workSamplesLabel": "作品サンプルへのリンク（カンマ区切り）",
     "volunteer.submitApplicationShort": "申請を送信",
     "volunteer.validation.nameInvalid":
       "有効な名前を入力してください（2〜100文字）",
     "volunteer.validation.provideExperience":
       "経験に関する情報を入力してください",
-    "volunteer.validation.selectDay":
-      "少なくとも1つの曜日を選択してください",
+    "volunteer.validation.selectDay": "少なくとも1つの曜日を選択してください",
     "volunteer.validation.selectTime":
       "少なくとも1つの時間帯を選択してください",
 
@@ -368,10 +343,8 @@ export default {
     "volunteer.specificConsents": "個別の同意事項",
     "volunteer.specificConsentsDesc":
       "以下の各項目を確認し、同意を表明してください：",
-    "volunteer.essentialProcessingTitle":
-      "必須処理（必須）：",
-    "volunteer.internationalTransfersTitle":
-      "国際転送（該当する場合）：",
+    "volunteer.essentialProcessingTitle": "必須処理（必須）：",
+    "volunteer.internationalTransfersTitle": "国際転送（該当する場合）：",
     "volunteer.acknowledgmentTitle": "確認事項",
     "volunteer.ageConfirmationTitle": "年齢確認：",
     "volunteer.privacyNoticeTitle": "プライバシー通知：",
@@ -431,12 +404,9 @@ export default {
     "export.dateRange": "日付範囲",
     "export.includePersonal": "ウォレットアドレスを含める",
     "export.willInclude": "エクスポートに含まれるもの：",
-    "export.walletAddresses":
-      "ウォレットアドレス（送信者と受信者）",
-    "export.volunteerDetails":
-      "ボランティア貢献の詳細（該当する場合）",
-    "export.verificationHashes":
-      "検証ハッシュ（該当する場合）",
+    "export.walletAddresses": "ウォレットアドレス（送信者と受信者）",
+    "export.volunteerDetails": "ボランティア貢献の詳細（該当する場合）",
+    "export.verificationHashes": "検証ハッシュ（該当する場合）",
     "export.cancel": "キャンセル",
     "export.download": "CSV エクスポート",
 
@@ -444,8 +414,7 @@ export default {
     "skills.endorsements": "スキルと推薦",
 
     // Home
-    "home.subtitle":
-      "最も必要とされている活動にリソースをつなぎます",
+    "home.subtitle": "最も必要とされている活動にリソースをつなぎます",
     "home.startDonating": "寄付を始める",
 
     // Modal - shared
@@ -456,18 +425,14 @@ export default {
     "modal.wallet.title": "ウォレットを接続",
     "modal.wallet.description":
       "ウォレットを接続して Give Protocol のすべての機能を利用しましょう",
-    "modal.wallet.benefit1":
-      "ブロックチェーン上で寄付を透明に追跡できます",
+    "modal.wallet.benefit1": "ブロックチェーン上で寄付を透明に追跡できます",
     "modal.wallet.benefit2":
       "貢献に対する報酬として GIVE トークンを受け取れます",
-    "modal.wallet.benefit3":
-      "プロトコルのガバナンス決定に参加できます",
+    "modal.wallet.benefit3": "プロトコルのガバナンス決定に参加できます",
     "modal.wallet.connecting": "接続中...",
     "modal.wallet.clickToConnect": "クリックして接続",
-    "modal.wallet.noExtension":
-      "ウォレット拡張機能が検出されませんでした。",
-    "modal.wallet.installMetaMask":
-      "MetaMask をインストールして始めましょう",
+    "modal.wallet.noExtension": "ウォレット拡張機能が検出されませんでした。",
+    "modal.wallet.installMetaMask": "MetaMask をインストールして始めましょう",
     "modal.wallet.skip": "今はスキップ",
     "modal.wallet.footerNote":
       "ナビゲーションバーからいつでもウォレットを接続できます",
@@ -485,29 +450,23 @@ export default {
       "メールまたはウォレットでサインイン \u2014 同じアカウントです",
     "modal.walletLink.buttonLinking": "リンク中\u2026",
     "modal.walletLink.buttonLink": "ウォレットをリンク",
-    "modal.walletLink.buttonConnectFirst":
-      "まずウォレットを接続",
-    "modal.walletLink.footerNote":
-      "設定からいつでもウォレットをリンクできます",
-    "modal.walletLink.failedLink":
-      "ウォレットのリンクに失敗しました",
+    "modal.walletLink.buttonConnectFirst": "まずウォレットを接続",
+    "modal.walletLink.footerNote": "設定からいつでもウォレットをリンクできます",
+    "modal.walletLink.failedLink": "ウォレットのリンクに失敗しました",
 
     // Modal - chain selection
     "modal.chain.title": "Give Protocol へようこそ",
-    "modal.chain.subtitle":
-      "ご希望のネットワークを選択して始めましょう",
+    "modal.chain.subtitle": "ご希望のネットワークを選択して始めましょう",
     "modal.chain.footerNote":
       "メニューからいつでもネットワークを切り替えられます",
     "modal.chain.connecting": "接続中...",
     "modal.chain.continue": "続行",
-    "modal.chain.failedSelect":
-      "ネットワークの選択に失敗しました",
+    "modal.chain.failedSelect": "ネットワークの選択に失敗しました",
 
     // Modal - network selection (WalletModal step 1)
     "modal.network.title": "ネットワークを選択",
     "modal.network.nextStep": "次のステップ：ウォレットを接続",
-    "modal.network.learnMore":
-      "ネットワーク選択について詳しく",
+    "modal.network.learnMore": "ネットワーク選択について詳しく",
 
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "ウォレットを接続",
@@ -516,8 +475,7 @@ export default {
       "{{chainType}}チェーンで利用可能なウォレットがありません。",
     "modal.connect.tryDifferentChain":
       "別のチェーンタイプを選択してみてください。",
-    "modal.connect.viewOtherWallets":
-      "他の対応ウォレットを表示",
+    "modal.connect.viewOtherWallets": "他の対応ウォレットを表示",
     "modal.connect.termsAgreement": "接続することにより、",
     "modal.connect.termsLink": "利用規約",
     "modal.connect.chainTypeAria": "チェーンタイプ",
@@ -529,10 +487,8 @@ export default {
       "{{charityName}}への{{amount}}の寄付が処理されました。",
     "modal.donation.donationProcessedRecurring":
       "{{charityName}}への月額{{amount}}の寄付が処理されました。",
-    "modal.donation.recurringNote":
-      "キャンセルするまで毎月課金されます。",
-    "modal.donation.receiptNote":
-      "領収書がメールで送信されました。",
+    "modal.donation.recurringNote": "キャンセルするまで毎月課金されます。",
+    "modal.donation.receiptNote": "領収書がメールで送信されました。",
     "modal.donation.done": "完了",
     "modal.donation.errorTitle": "問題が発生しました",
     "modal.donation.errorDefault":
@@ -543,15 +499,12 @@ export default {
     "modal.donation.perMonth": "/ 月",
     "modal.donation.monthly": "月額",
     "modal.donation.oneTime": "一回限り",
-    "modal.donation.loadingPaymentForm":
-      "支払いフォームを読み込み中...",
-    "modal.donation.supportMonthly":
-      "{{charityName}}を月額で支援",
+    "modal.donation.loadingPaymentForm": "支払いフォームを読み込み中...",
+    "modal.donation.supportMonthly": "{{charityName}}を月額で支援",
     "modal.donation.donateToCharity": "{{charityName}}に寄付",
 
     // Modal - scheduled donation
-    "modal.scheduledDonation.title":
-      "{{charityName}}への月額寄付を設定",
+    "modal.scheduledDonation.title": "{{charityName}}への月額寄付を設定",
 
     // Modal - withdrawal
     "modal.withdrawal.title": "出金リクエスト",
@@ -568,10 +521,8 @@ export default {
     "modal.validation.location": "場所",
     "modal.validation.description": "説明",
     "modal.validation.submitted": "提出日：",
-    "modal.validation.daysRemaining":
-      "（検証まで残り{{count}}日）",
-    "modal.validation.appealNote":
-      "これは以前却下されたリクエストの再申請です",
+    "modal.validation.daysRemaining": "（検証まで残り{{count}}日）",
+    "modal.validation.appealNote": "これは以前却下されたリクエストの再申請です",
     "modal.validation.rejectPrompt":
       "この検証リクエストを却下する理由を選択してください。ボランティアに通知されます。",
     "modal.validation.reject": "却下",
@@ -579,8 +530,7 @@ export default {
     "modal.validation.processing": "処理中...",
     "modal.validation.back": "戻る",
     "modal.validation.confirmRejection": "却下を確認",
-    "modal.validation.selectReasonError":
-      "却下理由を選択してください",
+    "modal.validation.selectReasonError": "却下理由を選択してください",
 
     // Toast
     "toast.dismiss": "通知を閉じる",
@@ -604,8 +554,7 @@ export default {
     // Validation - batch actions
     "validation.batch.deselectAll": "すべて選択解除",
     "validation.batch.selectAll": "すべて選択",
-    "validation.batch.selected":
-      "{{total}}件中{{selected}}件を選択",
+    "validation.batch.selected": "{{total}}件中{{selected}}件を選択",
     "validation.batch.clear": "クリア",
     "validation.batch.reject": "却下 ({{count}})",
     "validation.batch.approve": "承認 ({{count}})",
@@ -623,13 +572,11 @@ export default {
     "dashboard.overview": "概要",
     "dashboard.lastUpdated": "最終更新",
     "dashboard.refreshData": "データを更新",
-    "dashboard.searchPlaceholder":
-      "プロジェクト、ボランティアを検索 (Cmd+K)",
+    "dashboard.searchPlaceholder": "プロジェクト、ボランティアを検索 (Cmd+K)",
     "dashboard.search": "検索",
 
     // Settings - account section (GIV-254)
-    "settings.manageDescription":
-      "アカウントと設定を管理します",
+    "settings.manageDescription": "アカウントと設定を管理します",
     "settings.account": "アカウント",
     "settings.email": "メールアドレス",
     "settings.displayName": "表示名",
@@ -653,8 +600,7 @@ export default {
     "tracker.searchPlaceholder": "貢献者を検索...",
     "tracker.exportCSV": "CSV エクスポート",
     "tracker.exportPDF": "PDF エクスポート",
-    "tracker.hideContributions":
-      "ランキングから自分の貢献を非表示にする",
+    "tracker.hideContributions": "ランキングから自分の貢献を非表示にする",
     "tracker.yourAlias": "あなたのエイリアス：",
     "tracker.changeAlias": "変更",
     "tracker.setWalletAlias": "ウォレットエイリアスを設定",
@@ -671,19 +617,15 @@ export default {
       "寄付ランキングをCSVとしてエクスポートしました",
     "tracker.exportVolunteerCSV":
       "ボランティアランキングをCSVとしてエクスポートしました",
-    "tracker.exportPDFSuccess":
-      "ランキングをPDFとしてエクスポートしました",
+    "tracker.exportPDFSuccess": "ランキングをPDFとしてエクスポートしました",
     "tracker.exportFailed": "エクスポート失敗",
-    "tracker.exportNoData":
-      "エクスポートするデータがありません",
-    "tracker.exportError":
-      "データのエクスポート中にエラーが発生しました",
+    "tracker.exportNoData": "エクスポートするデータがありません",
+    "tracker.exportError": "データのエクスポート中にエラーが発生しました",
     "tracker.walletNotConnected": "ウォレットが接続されていません",
     "tracker.connectWalletForAlias":
       "エイリアスを設定するにはウォレットを接続してください",
     "tracker.invalidAlias": "無効なエイリアス",
-    "tracker.enterValidAlias":
-      "有効なエイリアスを入力してください",
+    "tracker.enterValidAlias": "有効なエイリアスを入力してください",
 
     // Charity Portal (GIV-254)
     "charity.portal.deleteTitle": "{{type}}を削除しますか？",
@@ -715,8 +657,7 @@ export default {
     "portfolio.devNative": "DEV（ネイティブ）",
     "portfolio.testToken": "TEST トークン",
     "portfolio.donationAmount": "寄付金額：",
-    "portfolio.platformFee":
-      "プラットフォーム手数料 ({{percentage}}%)：",
+    "portfolio.platformFee": "プラットフォーム手数料 ({{percentage}}%)：",
     "portfolio.toCharities": "チャリティへ：",
     "portfolio.eachCharityReceives": "各チャリティの受取額：",
     "portfolio.donateToFund": "{{name}}に寄付",
@@ -729,13 +670,11 @@ export default {
     "portfolio.donateToFundButton": "ファンドに寄付",
     "portfolio.noFundsAvailable":
       "利用可能なポートフォリオファンドがありません",
-    "portfolio.checkBackLater":
-      "新しいファンディング機会をお待ちください",
+    "portfolio.checkBackLater": "新しいファンディング機会をお待ちください",
     "portfolio.amountLabel": "金額 ({{currency}})",
     "portfolio.invalidAmount": "有効な金額を入力してください",
     "portfolio.donationSuccess": "寄付が成功しました！",
-    "portfolio.donationFailed":
-      "寄付に失敗しました。もう一度お試しください。",
+    "portfolio.donationFailed": "寄付に失敗しました。もう一度お試しください。",
 
     // Admin - Activity event type labels (GIV-256)
     "admin.activity.donation": "寄付",
@@ -749,11 +688,9 @@ export default {
     "admin.dashboard.alerts": "アラート",
     "admin.dashboard.alertsPending": "{{count}}件保留中",
     "admin.dashboard.recentActivity": "最近のアクティビティ",
-    "admin.dashboard.noRecentActivity":
-      "最近のアクティビティはありません。",
+    "admin.dashboard.noRecentActivity": "最近のアクティビティはありません。",
     "admin.dashboard.quickActions": "クイックアクション",
-    "admin.dashboard.errorTitle":
-      "ダッシュボードの読み込みエラー",
+    "admin.dashboard.errorTitle": "ダッシュボードの読み込みエラー",
     "admin.stats.last7d": "過去7日間",
     "admin.stats.last30d": "過去30日間",
     "admin.stats.totalDonors": "総寄付者数",
@@ -771,15 +708,11 @@ export default {
     "admin.actions.viewReports": "レポートを表示",
     "admin.actions.viewReportsDesc": "詳細な分析を作成",
     "admin.actions.manageCharities": "チャリティを管理",
-    "admin.actions.manageCharitiesDesc":
-      "団体のレビューと承認",
+    "admin.actions.manageCharitiesDesc": "団体のレビューと承認",
     "admin.actions.systemSettings": "システム設定",
-    "admin.actions.systemSettingsDesc":
-      "プラットフォームパラメータを設定",
-    "admin.actions.manageImpactMetrics":
-      "インパクト指標を管理",
-    "admin.actions.manageImpactMetricsDesc":
-      "インパクト計算データを設定",
+    "admin.actions.systemSettingsDesc": "プラットフォームパラメータを設定",
+    "admin.actions.manageImpactMetrics": "インパクト指標を管理",
+    "admin.actions.manageImpactMetricsDesc": "インパクト計算データを設定",
     "admin.actions.donationMonitoring": "寄付モニタリング",
     "admin.actions.donationMonitoringDesc":
       "寄付の監視、フラグ付け、レポート作成",
@@ -801,8 +734,7 @@ export default {
     "admin.portfolio.editFund": "ファンドを編集",
     "admin.portfolio.createNewFund": "新規ファンドを作成",
     "admin.portfolio.fundName": "ファンド名",
-    "admin.portfolio.fundNamePlaceholder":
-      "例：環境インパクトファンド",
+    "admin.portfolio.fundNamePlaceholder": "例：環境インパクトファンド",
     "admin.portfolio.description": "説明",
     "admin.portfolio.descriptionPlaceholder":
       "ファンドの目的とインパクトの焦点を記述してください...",
@@ -812,13 +744,11 @@ export default {
     "admin.portfolio.imageUrlPlaceholder": "https://...",
     "admin.portfolio.selectCharities":
       "チャリティを選択（{{count}}件選択済み）",
-    "admin.portfolio.noCharitiesFound":
-      "認証済みチャリティが見つかりません",
+    "admin.portfolio.noCharitiesFound": "認証済みチャリティが見つかりません",
     "admin.portfolio.saving": "保存中...",
     "admin.portfolio.createFund": "ファンドを作成",
     "admin.portfolio.updateFund": "ファンドを更新",
-    "admin.portfolio.noFundsYet":
-      "まだポートフォリオファンドがありません",
+    "admin.portfolio.noFundsYet": "まだポートフォリオファンドがありません",
     "admin.portfolio.noFundsMessage":
       "最初のファンドを作成して、チャリティをグループ化し一括寄付を可能にしましょう",
     "admin.portfolio.charity": "チャリティ",
@@ -828,13 +758,11 @@ export default {
     "admin.portfolio.statusPaused": "一時停止",
     "admin.portfolio.statusArchived": "アーカイブ済み",
     "admin.portfolio.errorLoad": "データの読み込みに失敗しました",
-    "admin.portfolio.errorArchive":
-      "ファンドのアーカイブに失敗しました",
+    "admin.portfolio.errorArchive": "ファンドのアーカイブに失敗しました",
     "admin.portfolio.fundArchived": "ファンドをアーカイブしました",
     "admin.portfolio.fundUpdated": "ファンドを更新しました",
     "admin.portfolio.fundCreated": "ファンドを作成しました",
-    "admin.portfolio.errorSave":
-      "ファンドの保存に失敗しました",
+    "admin.portfolio.errorSave": "ファンドの保存に失敗しました",
 
     // Admin - Charity Management page (GIV-256)
     "admin.charity.title": "チャリティ管理",
@@ -880,8 +808,7 @@ export default {
     "admin.charityRequests.firstRequest": "最初のリクエスト",
     "admin.charityRequests.empty":
       "チャリティリクエストはまだ提出されていません。",
-    "admin.charityRequests.errorTitle":
-      "チャリティリクエストの読み込みエラー",
+    "admin.charityRequests.errorTitle": "チャリティリクエストの読み込みエラー",
     "admin.charityRequests.showing":
       "{{total}}件中{{shown}}件のユニークなEINを表示しています。",
 
@@ -897,8 +824,7 @@ export default {
     "admin.validation.avgResponseTime": "平均応答時間：",
     "admin.validation.expirationRate": "期限切れ率：",
     "admin.validation.rejectionRate": "却下率：",
-    "admin.validation.searchPlaceholder":
-      "ボランティア、団体を検索\u2026",
+    "admin.validation.searchPlaceholder": "ボランティア、団体を検索\u2026",
     "admin.validation.requestsTab": "検証リクエスト",
     "admin.validation.patternsTab": "不審なパターン",
     "admin.validation.colVolunteer": "ボランティア",
@@ -908,10 +834,8 @@ export default {
     "admin.validation.colHrsPerWeek": "時間/週",
     "admin.validation.colTotalRequests": "総リクエスト数",
     "admin.validation.override": "オーバーライド",
-    "admin.validation.noPatterns":
-      "不審なパターンは検出されませんでした。",
-    "admin.validation.noRequests":
-      "検証リクエストが見つかりません。",
+    "admin.validation.noPatterns": "不審なパターンは検出されませんでした。",
+    "admin.validation.noRequests": "検証リクエストが見つかりません。",
     "admin.validation.patternsDescription":
       "7日間のローリングウィンドウで設定されたしきい値を超える時間を報告したボランティアにフラグが付けられています。これらのパターンは、自己申告時間システムの悪用を示している可能性があります。",
     "admin.validation.overrideTitle": "検証リクエストをオーバーライド",

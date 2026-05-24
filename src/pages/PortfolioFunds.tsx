@@ -83,7 +83,9 @@ const DonationSummary: React.FC<{
     <div className="mb-4 bg-gray-50 p-3 rounded-md text-sm">
       <div className="flex justify-between">
         <span>{t("portfolio.donationAmount", "Donation Amount:")}</span>
-        <span>{amount} {tokenLabel}</span>
+        <span>
+          {amount} {tokenLabel}
+        </span>
       </div>
       <div className="flex justify-between text-gray-600">
         <span>
@@ -91,11 +93,15 @@ const DonationSummary: React.FC<{
             percentage: platformFee / 100,
           })}
         </span>
-        <span>{fee} {tokenLabel}</span>
+        <span>
+          {fee} {tokenLabel}
+        </span>
       </div>
       <div className="flex justify-between font-medium border-t pt-1">
         <span>{t("portfolio.toCharities", "To Charities:")}</span>
-        <span>{net} {tokenLabel}</span>
+        <span>
+          {net} {tokenLabel}
+        </span>
       </div>
       <div className="text-xs text-gray-500 mt-2">
         {t("portfolio.eachCharityReceives", "Each charity receives:")}{" "}
@@ -132,7 +138,10 @@ const DonationModal: React.FC<DonationModalProps> = ({
 
   const handleDonation = useCallback(async () => {
     if (!amount || Number.parseFloat(amount) <= 0) {
-      showToast("error", t("portfolio.invalidAmount", "Please enter a valid amount"));
+      showToast(
+        "error",
+        t("portfolio.invalidAmount", "Please enter a valid amount"),
+      );
       return;
     }
 
@@ -146,12 +155,18 @@ const DonationModal: React.FC<DonationModalProps> = ({
         await donateToFund(fund.id, tokenAddress, amount);
       }
 
-      showToast("success", t("portfolio.donationSuccess", "Donation successful!"));
+      showToast(
+        "success",
+        t("portfolio.donationSuccess", "Donation successful!"),
+      );
       onSuccess();
       onClose();
     } catch (error) {
       console.error("Donation failed:", error);
-      showToast("error", t("portfolio.donationFailed", "Donation failed. Please try again."));
+      showToast(
+        "error",
+        t("portfolio.donationFailed", "Donation failed. Please try again."),
+      );
     }
   }, [
     amount,
@@ -214,12 +229,16 @@ const DonationModal: React.FC<DonationModalProps> = ({
       />
       <div className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-lg shadow-2xl max-w-md w-[95%] z-50 p-6">
         <h2 className="text-2xl font-bold mb-4">
-          {t("portfolio.donateToFund", "Donate to {{name}}", { name: fund.name })}
+          {t("portfolio.donateToFund", "Donate to {{name}}", {
+            name: fund.name,
+          })}
         </h2>
 
         <p className="text-gray-600 text-sm mb-4">{fund.description}</p>
         <p className="text-sm text-blue-800 bg-blue-50 p-3 rounded-lg mb-4">
-          <strong>{t("portfolio.equalDistribution", "Equal Distribution")}:</strong>{" "}
+          <strong>
+            {t("portfolio.equalDistribution", "Equal Distribution")}:
+          </strong>{" "}
           {t(
             "portfolio.equalDistributionNote",
             "Your donation will be split equally among {{count}} verified charities.",
@@ -288,7 +307,9 @@ const DonationModal: React.FC<DonationModalProps> = ({
 };
 
 /** Distribution info banner showing how donations are split among charities. */
-const DistributionInfo: React.FC<{ charityCount: number }> = ({ charityCount }) => {
+const DistributionInfo: React.FC<{ charityCount: number }> = ({
+  charityCount,
+}) => {
   const { t } = useTranslation();
   return (
     <div className="bg-blue-50 p-3 rounded-lg mb-4 flex items-start">
@@ -310,7 +331,10 @@ const DistributionInfo: React.FC<{ charityCount: number }> = ({ charityCount }) 
 };
 
 /** Card displaying a single portfolio fund with description and donate button. */
-const FundCard: React.FC<{ fund: PortfolioFund; onDonate: () => void }> = ({ fund, onDonate }) => {
+const FundCard: React.FC<{ fund: PortfolioFund; onDonate: () => void }> = ({
+  fund,
+  onDonate,
+}) => {
   const { t } = useTranslation();
   return (
     <Card className="overflow-hidden hover:shadow-lg transition-shadow p-6">
@@ -321,7 +345,9 @@ const FundCard: React.FC<{ fund: PortfolioFund; onDonate: () => void }> = ({ fun
           {t("common.active", "Active")}
         </span>
       </div>
-      <p className="text-gray-600 mb-4 text-sm leading-relaxed">{fund.description}</p>
+      <p className="text-gray-600 mb-4 text-sm leading-relaxed">
+        {fund.description}
+      </p>
       <p className="flex items-center text-sm text-gray-500 mb-3">
         <Users className="h-4 w-4 mr-2" />
         {t("portfolio.verifiedCharities", "{{count}} Verified Charities", {
@@ -425,11 +451,15 @@ const PortfolioFunds: React.FC = () => {
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={200}>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {funds.map((fund) => (
-            <FundCard key={fund.id} fund={fund} onDonate={createDonateHandler(fund)} />
-          ))}
-        </div>
+          <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+            {funds.map((fund) => (
+              <FundCard
+                key={fund.id}
+                fund={fund}
+                onDonate={createDonateHandler(fund)}
+              />
+            ))}
+          </div>
         </ScrollReveal>
 
         {funds.length === 0 && !loading && (

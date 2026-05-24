@@ -326,9 +326,13 @@ function FundForm({
 
       <div>
         <p className="block text-sm font-medium text-gray-700 mb-2">
-          {t("admin.portfolio.selectCharities", "Select Charities ({{count}} selected)", {
-            count: formData.charity_ids.length,
-          })}
+          {t(
+            "admin.portfolio.selectCharities",
+            "Select Charities ({{count}} selected)",
+            {
+              count: formData.charity_ids.length,
+            },
+          )}
         </p>
         <CharitySelector
           charities={charities}
@@ -449,9 +453,15 @@ const AdminPortfolioFunds: React.FC = () => {
         .update({ status: "archived" })
         .eq("id", fundId);
       if (error) {
-        showToast("error", t("admin.portfolio.errorArchive", "Failed to archive fund"));
+        showToast(
+          "error",
+          t("admin.portfolio.errorArchive", "Failed to archive fund"),
+        );
       } else {
-        showToast("success", t("admin.portfolio.fundArchived", "Fund archived"));
+        showToast(
+          "success",
+          t("admin.portfolio.fundArchived", "Fund archived"),
+        );
         loadData();
       }
     },

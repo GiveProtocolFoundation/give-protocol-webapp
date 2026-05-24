@@ -49,8 +49,7 @@ export default {
 
     // Charity
     "charity.dashboard": "Panel de la Organización",
-    "charity.subtitle":
-      "Administre sus donaciones y programas de voluntariado",
+    "charity.subtitle": "Administre sus donaciones y programas de voluntariado",
     "charity.activeVolunteers": "Voluntarios Activos",
     "charity.transactions": "Transacciones",
     "charity.volunteers": "Horas de Voluntariado",
@@ -136,10 +135,8 @@ export default {
 
     // Volunteer - OpportunityForm
     "volunteer.validation.titleRequired": "El título es obligatorio",
-    "volunteer.validation.descriptionRequired":
-      "La descripción es obligatoria",
-    "volunteer.validation.skillsRequired":
-      "Se requiere al menos una habilidad",
+    "volunteer.validation.descriptionRequired": "La descripción es obligatoria",
+    "volunteer.validation.skillsRequired": "Se requiere al menos una habilidad",
     "volunteer.validation.locationRequired": "La ubicación es obligatoria",
     "volunteer.profileNotFound": "Perfil de usuario no encontrado",
     "volunteer.correctErrors": "Por favor corrija los errores de validación",
@@ -182,8 +179,7 @@ export default {
     "volunteer.unknownOpportunity": "Oportunidad Desconocida",
 
     // Volunteer - VerificationLookup
-    "volunteer.verifyContribution":
-      "Verificar Contribución de Voluntariado",
+    "volunteer.verifyContribution": "Verificar Contribución de Voluntariado",
     "volunteer.hashPlaceholder": "Ingrese el hash de verificación",
     "volunteer.searching": "Buscando...",
     "volunteer.verifyHash": "Verificar Hash",
@@ -205,8 +201,7 @@ export default {
 
     // Volunteer - VerifyContribution page
     "volunteer.verifyingContribution": "Verificando contribución\u2026",
-    "volunteer.noHashProvided":
-      "No se proporcionó un hash de verificación.",
+    "volunteer.noHashProvided": "No se proporcionó un hash de verificación.",
     "volunteer.verificationSuccessful": "Verificación Exitosa",
     "volunteer.contributionVerifiedBlockchain":
       "Esta contribución voluntaria ha sido verificada y registrada en la blockchain.",
@@ -247,8 +242,7 @@ export default {
       "El período de validación ha expirado para esta fecha",
     "volunteer.savedAsUnvalidated":
       "Este registro se guardará como no validado",
-    "volunteer.describeActivities":
-      "Describa las actividades que realizó...",
+    "volunteer.describeActivities": "Describa las actividades que realizó...",
     "volunteer.moreCharsNeeded": "{{count}} caracteres más necesarios",
     "volunteer.updating": "Actualizando...",
     "volunteer.logging": "Registrando...",
@@ -263,8 +257,7 @@ export default {
     "volunteer.allStatuses": "Todos",
     "volunteer.allActivityTypes": "Todos los Tipos",
     "volunteer.noMatchingRecords": "No se encontraron registros",
-    "volunteer.noHoursLogged":
-      "Aún no se han registrado horas de voluntariado",
+    "volunteer.noHoursLogged": "Aún no se han registrado horas de voluntariado",
     "volunteer.adjustFilters":
       "Intente ajustar sus filtros para encontrar registros.",
     "volunteer.startLogging":
@@ -280,8 +273,7 @@ export default {
     "volunteer.recordPlural": "registros",
 
     // Volunteer - VolunteerApplicationForm
-    "volunteer.applicationTitle":
-      "Solicitud de Oportunidad de Voluntariado",
+    "volunteer.applicationTitle": "Solicitud de Oportunidad de Voluntariado",
     "volunteer.applicationSubtitle":
       "Ayude a crear un impacto sostenible a través de contribuciones verificadas",
     "volunteer.personalInfo": "Información Personal",
@@ -304,39 +296,29 @@ export default {
     "volunteer.commitmentLevel": "Nivel de Compromiso",
     "volunteer.commitmentOneTimeDesc":
       "Proyecto único o tareas de corta duración",
-    "volunteer.commitmentShortTermDesc":
-      "Unas semanas a algunos meses",
+    "volunteer.commitmentShortTermDesc": "Unas semanas a algunos meses",
     "volunteer.commitmentLongTermDesc":
       "Compromiso continuo de varios meses o más",
-    "volunteer.experienceLabel":
-      "Cuéntenos sobre su experiencia relevante",
+    "volunteer.experienceLabel": "Cuéntenos sobre su experiencia relevante",
     "volunteer.experiencePlaceholder":
       "Describa su experiencia, habilidades y qué le motiva a ser voluntario con Give Protocol...",
     "volunteer.consentTitle": "Consentimiento y Acuerdo",
-    "volunteer.consentHeader":
-      "Consentimiento de Solicitud de Voluntariado",
+    "volunteer.consentHeader": "Consentimiento de Solicitud de Voluntariado",
     "volunteer.submitting": "Enviando...",
     "volunteer.submitApplication": "Enviar Solicitud de Voluntariado",
     "volunteer.disclaimerText":
       "Al enviar esta solicitud, usted reconoce que ha leído y comprendido la política de privacidad y las directrices para voluntarios de Give Protocol. Sus datos serán procesados de acuerdo con las regulaciones de protección de datos aplicables.",
-    "volunteer.validation.firstNameInvalid":
-      "Ingrese un nombre válido",
-    "volunteer.validation.lastNameInvalid":
-      "Ingrese un apellido válido",
-    "volunteer.validation.emailInvalid":
-      "Ingrese un correo electrónico válido",
-    "volunteer.validation.phoneInvalid":
-      "Ingrese un número de teléfono válido",
+    "volunteer.validation.firstNameInvalid": "Ingrese un nombre válido",
+    "volunteer.validation.lastNameInvalid": "Ingrese un apellido válido",
+    "volunteer.validation.emailInvalid": "Ingrese un correo electrónico válido",
+    "volunteer.validation.phoneInvalid": "Ingrese un número de teléfono válido",
     "volunteer.validation.experienceRequired":
       "Describa su experiencia relevante",
-    "volunteer.validation.addSkill":
-      "Agregue al menos una habilidad",
-    "volunteer.validation.ageRangeRequired":
-      "Seleccione su rango de edad",
+    "volunteer.validation.addSkill": "Agregue al menos una habilidad",
+    "volunteer.validation.ageRangeRequired": "Seleccione su rango de edad",
     "volunteer.validation.consentRequired":
       "Debe aceptar todos los elementos de consentimiento requeridos",
-    "volunteer.signInToSubmit":
-      "Inicie sesión para enviar una solicitud",
+    "volunteer.signInToSubmit": "Inicie sesión para enviar una solicitud",
     "volunteer.submitFailed":
       "Error al enviar la solicitud. Intente nuevamente.",
 
@@ -354,8 +336,7 @@ export default {
     "volunteer.relevantExperience": "Experiencia Relevante *",
     "volunteer.certifications": "Certificaciones (separadas por comas)",
     "volunteer.interestsAndPreferences": "Intereses y Preferencias",
-    "volunteer.areasOfInterest":
-      "Áreas de Interés (separadas por comas)",
+    "volunteer.areasOfInterest": "Áreas de Interés (separadas por comas)",
     "volunteer.referencesTitle": "Referencias",
     "volunteer.referenceName": "Nombre de Referencia {{index}}",
     "volunteer.referenceContact": "Contacto de Referencia {{index}}",
@@ -367,18 +348,15 @@ export default {
       "Ingrese un nombre válido (2-100 caracteres)",
     "volunteer.validation.provideExperience":
       "Proporcione información sobre su experiencia",
-    "volunteer.validation.selectDay":
-      "Seleccione al menos un día",
-    "volunteer.validation.selectTime":
-      "Seleccione al menos un horario",
+    "volunteer.validation.selectDay": "Seleccione al menos un día",
+    "volunteer.validation.selectTime": "Seleccione al menos un horario",
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Entiendo que:",
     "volunteer.specificConsents": "CONSENTIMIENTOS ESPECÍFICOS",
     "volunteer.specificConsentsDesc":
       "Revise e indique su consentimiento para cada uno de los siguientes:",
-    "volunteer.essentialProcessingTitle":
-      "Procesamiento Esencial (Requerido):",
+    "volunteer.essentialProcessingTitle": "Procesamiento Esencial (Requerido):",
     "volunteer.internationalTransfersTitle":
       "Transferencias Internacionales (si aplica):",
     "volunteer.acknowledgmentTitle": "RECONOCIMIENTO",
@@ -411,8 +389,7 @@ export default {
     "contribution.type.volunteerapplication": "Solicitud de Voluntariado",
     "contribution.type.volunteerhours": "Horas de Voluntariado",
     "contribution.type.volunteeracceptance": "Aceptación de Voluntariado",
-    "contribution.type.volunteerverification":
-      "Verificación de Voluntariado",
+    "contribution.type.volunteerverification": "Verificación de Voluntariado",
 
     // Donor/Volunteer
     "donor.volunteer": "Donante/Voluntario",
@@ -445,8 +422,7 @@ export default {
       "Direcciones de billetera (remitente y destinatario)",
     "export.volunteerDetails":
       "Detalles de contribución voluntaria (cuando aplique)",
-    "export.verificationHashes":
-      "Hashes de verificación (cuando aplique)",
+    "export.verificationHashes": "Hashes de verificación (cuando aplique)",
     "export.cancel": "Cancelar",
     "export.download": "Exportar CSV",
 
@@ -454,8 +430,7 @@ export default {
     "skills.endorsements": "Habilidades y Avales",
 
     // Home
-    "home.subtitle":
-      "Conectando recursos con las causas que más los necesitan",
+    "home.subtitle": "Conectando recursos con las causas que más los necesitan",
     "home.startDonating": "Comenzar a Donar",
 
     // Modal - shared
@@ -474,10 +449,8 @@ export default {
       "Participe en decisiones de gobernanza del protocolo",
     "modal.wallet.connecting": "Conectando...",
     "modal.wallet.clickToConnect": "Clic para conectar",
-    "modal.wallet.noExtension":
-      "No se detectó extensión de billetera.",
-    "modal.wallet.installMetaMask":
-      "Instale MetaMask para comenzar",
+    "modal.wallet.noExtension": "No se detectó extensión de billetera.",
+    "modal.wallet.installMetaMask": "Instale MetaMask para comenzar",
     "modal.wallet.skip": "Omitir por ahora",
     "modal.wallet.footerNote":
       "Puede conectar su billetera en cualquier momento desde la barra de navegación",
@@ -490,22 +463,19 @@ export default {
     "modal.walletLink.benefit1":
       "Done criptomonedas directamente a organizaciones verificadas on-chain",
     "modal.walletLink.benefit2Pre": "Desarrolle",
-    "modal.walletLink.benefit2Post":
-      "credenciales por sus contribuciones",
+    "modal.walletLink.benefit2Post": "credenciales por sus contribuciones",
     "modal.walletLink.benefit3":
       "Inicie sesión con correo o billetera \u2014 misma cuenta",
     "modal.walletLink.buttonLinking": "Vinculando\u2026",
     "modal.walletLink.buttonLink": "Vincular Billetera",
-    "modal.walletLink.buttonConnectFirst":
-      "Conectar Billetera Primero",
+    "modal.walletLink.buttonConnectFirst": "Conectar Billetera Primero",
     "modal.walletLink.footerNote":
       "Puede vincular su billetera en cualquier momento desde Configuración",
     "modal.walletLink.failedLink": "Error al vincular la billetera",
 
     // Modal - chain selection
     "modal.chain.title": "Bienvenido a Give Protocol",
-    "modal.chain.subtitle":
-      "Elija su red preferida para comenzar",
+    "modal.chain.subtitle": "Elija su red preferida para comenzar",
     "modal.chain.footerNote":
       "Puede cambiar de red en cualquier momento desde el menú",
     "modal.chain.connecting": "Conectando...",
@@ -515,8 +485,7 @@ export default {
     // Modal - network selection (WalletModal step 1)
     "modal.network.title": "Seleccionar Red",
     "modal.network.nextStep": "Siguiente Paso: Conectar Billetera",
-    "modal.network.learnMore":
-      "Más información sobre la selección de red",
+    "modal.network.learnMore": "Más información sobre la selección de red",
 
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "Conectar Billetera",
@@ -525,8 +494,7 @@ export default {
       "No hay billeteras disponibles para cadenas {{chainType}}.",
     "modal.connect.tryDifferentChain":
       "Intente seleccionar un tipo de cadena diferente.",
-    "modal.connect.viewOtherWallets":
-      "Ver otras billeteras compatibles",
+    "modal.connect.viewOtherWallets": "Ver otras billeteras compatibles",
     "modal.connect.termsAgreement": "Al conectar, acepta los",
     "modal.connect.termsLink": "Términos de Servicio",
     "modal.connect.chainTypeAria": "Tipo de cadena",
@@ -552,10 +520,8 @@ export default {
     "modal.donation.perMonth": "por mes",
     "modal.donation.monthly": "Mensual",
     "modal.donation.oneTime": "Única Vez",
-    "modal.donation.loadingPaymentForm":
-      "Cargando formulario de pago...",
-    "modal.donation.supportMonthly":
-      "Apoyar a {{charityName}} Mensualmente",
+    "modal.donation.loadingPaymentForm": "Cargando formulario de pago...",
+    "modal.donation.supportMonthly": "Apoyar a {{charityName}} Mensualmente",
     "modal.donation.donateToCharity": "Donar a {{charityName}}",
 
     // Modal - scheduled donation
@@ -577,8 +543,7 @@ export default {
     "modal.validation.location": "Ubicación",
     "modal.validation.description": "Descripción",
     "modal.validation.submitted": "Enviado:",
-    "modal.validation.daysRemaining":
-      "({{count}} días restantes para validar)",
+    "modal.validation.daysRemaining": "({{count}} días restantes para validar)",
     "modal.validation.appealNote":
       "Esta es una apelación/reenvío de una solicitud previamente rechazada",
     "modal.validation.rejectPrompt":
@@ -588,8 +553,7 @@ export default {
     "modal.validation.processing": "Procesando...",
     "modal.validation.back": "Volver",
     "modal.validation.confirmRejection": "Confirmar Rechazo",
-    "modal.validation.selectReasonError":
-      "Seleccione una razón de rechazo",
+    "modal.validation.selectReasonError": "Seleccione una razón de rechazo",
 
     // Toast
     "toast.dismiss": "Descartar notificación",
@@ -604,8 +568,7 @@ export default {
 
     // Validation - rejection reason select
     "validation.rejection.reasonLabel": "Razón de Rechazo",
-    "validation.rejection.reasonPlaceholder":
-      "Seleccione una razón...",
+    "validation.rejection.reasonPlaceholder": "Seleccione una razón...",
     "validation.rejection.notesLabel": "Notas Adicionales",
     "validation.rejection.optional": "(opcional)",
     "validation.rejection.notesPlaceholder":
@@ -614,8 +577,7 @@ export default {
     // Validation - batch actions
     "validation.batch.deselectAll": "Deseleccionar todo",
     "validation.batch.selectAll": "Seleccionar todo",
-    "validation.batch.selected":
-      "{{selected}} de {{total}} seleccionados",
+    "validation.batch.selected": "{{selected}} de {{total}} seleccionados",
     "validation.batch.clear": "Limpiar",
     "validation.batch.reject": "Rechazar ({{count}})",
     "validation.batch.approve": "Aprobar ({{count}})",
@@ -633,13 +595,11 @@ export default {
     "dashboard.overview": "Resumen",
     "dashboard.lastUpdated": "Última actualización",
     "dashboard.refreshData": "Actualizar datos",
-    "dashboard.searchPlaceholder":
-      "Buscar proyectos, voluntarios (Cmd+K)",
+    "dashboard.searchPlaceholder": "Buscar proyectos, voluntarios (Cmd+K)",
     "dashboard.search": "Buscar",
 
     // Settings - account section (GIV-254)
-    "settings.manageDescription":
-      "Administre su cuenta y preferencias",
+    "settings.manageDescription": "Administre su cuenta y preferencias",
     "settings.account": "Cuenta",
     "settings.email": "Correo Electrónico",
     "settings.displayName": "Nombre para Mostrar",
@@ -663,8 +623,7 @@ export default {
     "tracker.searchPlaceholder": "Buscar contribuyentes...",
     "tracker.exportCSV": "Exportar CSV",
     "tracker.exportPDF": "Exportar PDF",
-    "tracker.hideContributions":
-      "Ocultar mis contribuciones de los rankings",
+    "tracker.hideContributions": "Ocultar mis contribuciones de los rankings",
     "tracker.yourAlias": "Su alias:",
     "tracker.changeAlias": "Cambiar",
     "tracker.setWalletAlias": "Establecer Alias de Billetera",
@@ -677,15 +636,12 @@ export default {
     "tracker.donationRankings": "Rankings de Donaciones",
     "tracker.volunteerRankings": "Rankings de Voluntariado",
     "tracker.exportComplete": "Exportación Completa",
-    "tracker.exportDonationCSV":
-      "Tabla de donaciones exportada como CSV",
-    "tracker.exportVolunteerCSV":
-      "Tabla de voluntariado exportada como CSV",
+    "tracker.exportDonationCSV": "Tabla de donaciones exportada como CSV",
+    "tracker.exportVolunteerCSV": "Tabla de voluntariado exportada como CSV",
     "tracker.exportPDFSuccess": "Tabla exportada como PDF",
     "tracker.exportFailed": "Error en la Exportación",
     "tracker.exportNoData": "No hay datos disponibles para exportar",
-    "tracker.exportError":
-      "Ocurrió un error al exportar los datos",
+    "tracker.exportError": "Ocurrió un error al exportar los datos",
     "tracker.walletNotConnected": "Billetera no conectada",
     "tracker.connectWalletForAlias":
       "Conecte su billetera para establecer un alias",
@@ -696,8 +652,7 @@ export default {
     "charity.portal.deleteTitle": "¿Eliminar {{type}}?",
     "charity.portal.deleteDescription":
       "Esta acción no se puede deshacer. El/la {{type}} será eliminado/a permanentemente.",
-    "charity.portal.walletNotConfigured":
-      "Billetera receptora no configurada.",
+    "charity.portal.walletNotConfigured": "Billetera receptora no configurada.",
     "charity.portal.walletDonationNote":
       "Conecte una billetera para recibir donaciones on-chain.",
     "charity.portal.setupWallet": "Configurar Billetera",
@@ -731,18 +686,15 @@ export default {
       "Su donación se dividirá equitativamente entre {{count}} organizaciones verificadas.",
     "portfolio.eachCharityPercentage":
       "Cada organización recibe el {{percentage}}% de las donaciones",
-    "portfolio.verifiedCharities":
-      "{{count}} Organizaciones Verificadas",
+    "portfolio.verifiedCharities": "{{count}} Organizaciones Verificadas",
     "portfolio.donateToFundButton": "Donar al Fondo",
-    "portfolio.noFundsAvailable":
-      "No hay fondos de portafolio disponibles",
+    "portfolio.noFundsAvailable": "No hay fondos de portafolio disponibles",
     "portfolio.checkBackLater":
       "Vuelva más tarde para nuevas oportunidades de financiamiento",
     "portfolio.amountLabel": "Monto ({{currency}})",
     "portfolio.invalidAmount": "Ingrese un monto válido",
     "portfolio.donationSuccess": "¡Donación exitosa!",
-    "portfolio.donationFailed":
-      "Error en la donación. Intente nuevamente.",
+    "portfolio.donationFailed": "Error en la donación. Intente nuevamente.",
 
     // Admin - Activity event type labels (GIV-256)
     "admin.activity.donation": "Donación",
@@ -758,8 +710,7 @@ export default {
     "admin.dashboard.recentActivity": "Actividad Reciente",
     "admin.dashboard.noRecentActivity": "Sin actividad reciente.",
     "admin.dashboard.quickActions": "Acciones Rápidas",
-    "admin.dashboard.errorTitle":
-      "Error al Cargar el Panel de Administración",
+    "admin.dashboard.errorTitle": "Error al Cargar el Panel de Administración",
     "admin.stats.last7d": "últimos 7d",
     "admin.stats.last30d": "últimos 30d",
     "admin.stats.totalDonors": "Donantes Totales",
@@ -777,13 +728,11 @@ export default {
     "admin.actions.viewReports": "Ver Informes",
     "admin.actions.viewReportsDesc": "Generar análisis detallados",
     "admin.actions.manageCharities": "Gestionar Organizaciones",
-    "admin.actions.manageCharitiesDesc":
-      "Revisar y aprobar organizaciones",
+    "admin.actions.manageCharitiesDesc": "Revisar y aprobar organizaciones",
     "admin.actions.systemSettings": "Configuración del Sistema",
     "admin.actions.systemSettingsDesc":
       "Configurar parámetros de la plataforma",
-    "admin.actions.manageImpactMetrics":
-      "Gestionar Métricas de Impacto",
+    "admin.actions.manageImpactMetrics": "Gestionar Métricas de Impacto",
     "admin.actions.manageImpactMetricsDesc":
       "Configurar datos de la calculadora de impacto",
     "admin.actions.donationMonitoring": "Monitoreo de Donaciones",
@@ -807,8 +756,7 @@ export default {
     "admin.portfolio.editFund": "Editar Fondo",
     "admin.portfolio.createNewFund": "Crear Nuevo Fondo",
     "admin.portfolio.fundName": "Nombre del Fondo",
-    "admin.portfolio.fundNamePlaceholder":
-      "ej., Fondo de Impacto Ambiental",
+    "admin.portfolio.fundNamePlaceholder": "ej., Fondo de Impacto Ambiental",
     "admin.portfolio.description": "Descripción",
     "admin.portfolio.descriptionPlaceholder":
       "Describa el propósito y enfoque de impacto del fondo...",
@@ -889,8 +837,7 @@ export default {
       "Mostrando {{shown}} de {{total}} EINs únicos.",
 
     // Admin - Volunteer Validation page (GIV-256)
-    "admin.validation.title":
-      "Supervisión de Validación de Voluntariado",
+    "admin.validation.title": "Supervisión de Validación de Voluntariado",
     "admin.validation.totalCount": "{{count}} solicitudes en total",
     "admin.validation.pipelineStats": "Estadísticas del Pipeline",
     "admin.validation.noStats": "No hay estadísticas disponibles.",
@@ -901,8 +848,7 @@ export default {
     "admin.validation.avgResponseTime": "Tiempo promedio de respuesta:",
     "admin.validation.expirationRate": "Tasa de expiración:",
     "admin.validation.rejectionRate": "Tasa de rechazo:",
-    "admin.validation.searchPlaceholder":
-      "Buscar voluntario, org\u2026",
+    "admin.validation.searchPlaceholder": "Buscar voluntario, org\u2026",
     "admin.validation.requestsTab": "Solicitudes de Validación",
     "admin.validation.patternsTab": "Patrones Sospechosos",
     "admin.validation.colVolunteer": "Voluntario",
@@ -912,14 +858,12 @@ export default {
     "admin.validation.colHrsPerWeek": "Hrs/Semana",
     "admin.validation.colTotalRequests": "Total de Solicitudes",
     "admin.validation.override": "Anular",
-    "admin.validation.noPatterns":
-      "No se detectaron patrones sospechosos.",
+    "admin.validation.noPatterns": "No se detectaron patrones sospechosos.",
     "admin.validation.noRequests":
       "No se encontraron solicitudes de validación.",
     "admin.validation.patternsDescription":
       "Voluntarios marcados por reportar más del umbral configurado de horas en una ventana móvil de 7 días. Estos patrones pueden indicar abuso del sistema de horas auto-reportadas.",
-    "admin.validation.overrideTitle":
-      "Anular Solicitud de Validación",
+    "admin.validation.overrideTitle": "Anular Solicitud de Validación",
     "admin.validation.newStatus": "Nuevo Estado",
     "admin.validation.reasonRequired": "Razón (requerida)",
     "admin.validation.reasonPlaceholder":
