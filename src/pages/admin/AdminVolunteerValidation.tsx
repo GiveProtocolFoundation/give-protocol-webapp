@@ -322,7 +322,6 @@ function OverrideModal({
   const [newStatus, setNewStatus] =
     useState<ValidationRequestStatus>("approved");
   const [reason, setReason] = useState("");
-
   const handleStatusChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       setNewStatus(e.target.value as ValidationRequestStatus);
@@ -346,33 +345,114 @@ function OverrideModal({
     request.volunteerEmail ??
     request.volunteerId;
 
+  const OverrideValidationBody = ({
+    volunteerLabel,
+    request,
+    newStatus,
+    handleStatusChange,
+    reason,
+    handleReasonChange,
+    t,
+  }: {
+    volunteerLabel: string;
+    request: typeof request;
+    newStatus: ValidationRequestStatus;
+    handleStatusChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
+    reason: string;
+    handleReasonChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+    t: typeof t;
+  }) => (
+    <div className="space-y-4">
+      <p className="text-sm text-gray-700">
+        {t("admin.validation.colVolunteer", "Volunteer")}:{" "}
+        <strong>{volunteerLabel}</strong> — {request.hoursReported}h on{" "}
+        {request.activityDate}
+      </p>
+      <div className="grid grid-cols-2 gap-4">
+        <div>
+          <Label htmlFor="status">
+            {t("admin.validation.colStatus", "Status")}
+          </Label>
+          <Select id="status" value={newStatus} onChange={handleStatusChange}>
+            {Object.values(ValidationRequestStatus).map((status) => (
+              <option key={status} value={status}>
+                {t(`admin.validation.status.${status}`, status)}
+              </option>
+            ))}
+          </Select>
+        </div>
+        <div>
+          <Label htmlFor="reason">
+            {t("admin.validation.colReason", "Reason")}
+          </Label>
+          <TextArea
+            id="reason"
+            rows={4}
+            value={reason}
+            onChange={handleReasonChange}
+          />
+        </div>
+      </div>
+    </div>
+  );
+
+  const OverrideValidationFooter = ({
+    onClose,
+    handleConfirm,
+    overriding,
+    reason,
+    t,
+  }: {
+    onClose: () => void;
+    handleConfirm: () => void;
+    overriding: boolean;
+    reason: string;
+    t: typeof t;
+  }) => (
+    <div className="flex gap-2 justify-end">
+      <Button variant="secondary" onClick={onClose} disabled={overriding}>
+        {t("common.cancel", "Cancel")}
+      </Button>
+      <Button
+        variant="primary"
+        onClick={handleConfirm}
+        disabled={overriding || reason.trim().length === 0}
+      >
+        {overriding
+          ? t("common.saving", "Saving…")
+          : t(
+              "admin.validation.confirmOverride",
+              "Confirm Override",
+            )}
+      </Button>
+    </div>
+  );
+
   return (
     <Modal
       title={t("admin.validation.overrideTitle", "Override Validation Request")}
       onClose={onClose}
       footer={
-        <div className="flex gap-2 justify-end">
-          <Button variant="secondary" onClick={onClose} disabled={overriding}>
-            {t("common.cancel", "Cancel")}
-          </Button>
-          <Button
-            variant="primary"
-            onClick={handleConfirm}
-            disabled={overriding || reason.trim().length === 0}
-          >
-            {overriding
-              ? t("common.saving", "Saving…")
-              : t("admin.validation.confirmOverride", "Confirm Override")}
-          </Button>
-        </div>
+        <OverrideValidationFooter
+          onClose={onClose}
+          handleConfirm={handleConfirm}
+          overriding={overriding}
+          reason={reason}
+          t={t}
+        />
       }
     >
-      <div className="space-y-4">
-        <p className="text-sm text-gray-700">
-          {t("admin.validation.colVolunteer", "Volunteer")}:{" "}
-          <strong>{volunteerLabel}</strong> — {request.hoursReported}h on{" "}
-          {request.activityDate}
-        </p>
+      <OverrideValidationBody
+        volunteerLabel={volunteerLabel}
+        request={request}
+        newStatus={newStatus}
+        handleStatusChange={handleStatusChange}
+        reason={reason}
+        handleReasonChange={handleReasonChange}
+        t={t}
+      />
+    </Modal>
+  );
         <div>
           <label
             htmlFor="override-status"
