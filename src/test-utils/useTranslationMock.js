@@ -22,6 +22,14 @@ const tFn = (key, fallback, options) => {
 };
 
 export const useTranslation = jest.fn(() => ({
-  t: tFn,
+  t: (key, fallback, params) => {
+    let text = fallback ?? key;
+    if (params && typeof text === "string") {
+      Object.entries(params).forEach(([k, v]) => {
+        text = text.replace(new RegExp(`\\{\\{${k}\\}\\}`, "g"), String(v));
+      });
+    }
+    return text;
+  },
   language: "en",
 }));

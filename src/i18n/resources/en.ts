@@ -843,5 +843,290 @@ export default {
       "Explain the reason for overriding this request\u2026",
     "admin.validation.saving": "Saving\u2026",
     "admin.validation.confirmOverride": "Confirm Override",
+    "admin.validation.allStatuses": "All statuses",
+    "admin.validation.colStatus": "Status",
+    "admin.validation.colCreated": "Created",
+
+    // Home - Hero section (GIV-253 / GIV-263 fix)
+    "home.hero.title": "Transparent Giving",
+    "home.hero.titleAccent": "Sustainable Impact",
+    "home.hero.description":
+      "Radically transparent philanthropy for the digital age. Built for impact, backed by verifiable technology. Every contribution traceable from donor to destination.",
+    "home.hero.visionTitle": "Our Vision",
+    "home.hero.visionText":
+      "Give Protocol is architecting the future of high-integrity giving. We leverage advanced technological infrastructure to bridge the gap between global capital and local impact. By integrating seamless digital-asset support with traditional giving methods, we are creating resilient funding ecosystems that transform one-time gifts into perpetual engines of support for the world\u2019s most vital causes.",
+    "home.comingSoon": "Coming Soon",
+    "home.readDocs": "Read Documentation",
+
+    // Home - Features section
+    "home.features.sectionTitle": "Your Gateway to Transparent Philanthropy",
+    "home.features.sectionSubtitle":
+      "Multichain infrastructure for seamless giving \u2014 crypto or fiat \u2014 with complete transparency",
+    "home.features.highEfficiency.title": "High-Efficiency Giving",
+    "home.features.highEfficiency.description":
+      "Contribute directly to verified organizations with zero ambiguity. Our automated ledger provides real-time verification, ensuring your support is deployed exactly where it is needed most.",
+    "home.features.equityFunds.title": "Charitable Equity Funds",
+    "home.features.equityFunds.description":
+      "Move beyond one-off donations by contributing to smart-managed equity funds. We utilize sophisticated, low-risk digital strategies to turn your principal into a perpetual stream of funding, sustaining charitable missions for generations to come.",
+    "home.features.impactFunds.title": "Impact Funds",
+    "home.features.impactFunds.description":
+      "Pool resources for specific causes. Environmental, education, poverty relief - your donation amplified through collective action.",
+    "home.features.verifiedOrgs.title": "Verified Organizations",
+    "home.features.verifiedOrgs.description":
+      "Browse any registered organization, or look for the verified badge. Organizations that opt in to our vetting process earn on-chain verification donors can trust.",
+    "home.features.blockchainVerified.title": "Blockchain Verified",
+    "home.features.blockchainVerified.description":
+      "Soul-bound tokens recognize volunteer contributions. Skills, hours, and impact - all permanently recorded on-chain.",
+    "home.features.bridgingModes.title": "Bridging Modes of Giving",
+    "home.features.bridgingModes.description":
+      "Whether you are giving in USD or digital assets, our multi-network architecture ensures your contribution moves at the speed of the modern world.",
+
+    // Home - User roles section
+    "home.roles.title": "Built for Everyone Changing the World",
+    "home.roles.donors.title": "For Donors",
+    "home.roles.donors.item1": "Give in crypto or fiat \u2014 your choice",
+    "home.roles.donors.item2": "Governance participation",
+    "home.roles.donors.item3": "On-chain reputation building",
+    "home.roles.nonprofits.title": "For Non-Profit Organizations",
+    "home.roles.nonprofits.item1": "Access new donor demographics",
+    "home.roles.nonprofits.item2": "Sustainable funding via CEFs",
+    "home.roles.nonprofits.item3": "Enhanced transparency reporting",
+    "home.roles.volunteers.title": "For Volunteers",
+    "home.roles.volunteers.item1": "Verifiable contribution records",
+    "home.roles.volunteers.item2": "Portable skill credentials (SBTs)",
+    "home.roles.volunteers.item3": "Achievement badges & recognition",
+
+    // Home - Impact section
+    "home.impact.title": "Planned Impact Funds",
+    "home.impact.environmental.title": "Environmental Impact Fund",
+    "home.impact.environmental.description":
+      "Supporting reforestation, ocean cleanup, and renewable energy initiatives. Pooled donations directed to verified environmental organizations making measurable impact.",
+    "home.impact.education.title": "Education Opportunity Fund",
+    "home.impact.education.description":
+      "Providing scholarships, digital learning tools, and teacher training. Collective funding amplified to support educational initiatives in underserved communities.",
+
+    // Home - CTA section
+    "home.cta.title": "Ready to Transform Giving?",
+    "home.cta.subtitle":
+      "Be among the first to experience transparent, blockchain-powered philanthropy. Join our community building a better future for charitable giving.",
+
+    // Home - Navigation
+    "home.nav.features": "Features",
+    "home.nav.impact": "Impact",
+    "home.nav.charities": "Charities",
+    "home.nav.volunteer": "Volunteer",
+
+    // Home - Footer
+    "home.footer.brand.tagline":
+      "Transforming philanthropy through blockchain transparency and sustainable funding.",
+    "home.footer.product.title": "Product",
+    "home.footer.product.impactFunds": "Impact Funds",
+    "home.footer.product.charities": "For Charities",
+    "home.footer.product.volunteers": "For Volunteers",
+    "home.footer.resources.title": "Resources",
+    "home.footer.resources.whitepaper": "Whitepaper (Coming Soon)",
+    "home.footer.resources.blog": "Blog (Coming Soon)",
+    "home.footer.resources.community": "Community (Coming Soon)",
+    "home.footer.connect.title": "Connect",
+    "home.footer.connect.contact": "Contact (Coming Soon)",
+    "home.footer.copyright":
+      "Give Protocol. Multichain by design. Powered by Give Protocol volunteers.",
+
+    // Auth - Sign in page (GIV-253 / GIV-263 fix)
+    "auth.signin.welcomeBack": "Welcome back",
+    "auth.signin.subtitle": "Sign in to your Give Protocol account",
+    "auth.signin.emailPlaceholder": "Email",
+    "auth.signin.passwordPlaceholder": "Password",
+    "auth.signin.submitting": "Signing in\u2026",
+    "auth.signin.withPasskey": "Sign in with Passkey",
+    "auth.signin.withGoogle": "Continue with Google",
+    "auth.signin.or": "or",
+    "auth.signin.newToProtocol": "New to Give Protocol?",
+    "auth.signin.createAccount": "Create an account \u2192",
+    "auth.signin.forgotPasswordLink": "Forgot password? \u2192",
+    "auth.signin.sslEncrypted": "256-bit SSL encrypted",
+    "auth.signin.terms": "Terms",
+    "auth.signin.privacy": "Privacy",
+
+    // Auth - Left panel
+    "auth.panel.headline": "Smart giving, transparent impact.",
+    "auth.panel.subheadline":
+      "One account. Donate by card or crypto. Track every dollar on-chain.",
+    "auth.panel.statusLabel": "Protocol Status \u00b7 Genesis Phase",
+    "auth.panel.statusDesc": "Building the foundation of transparent giving",
+    "auth.panel.runsOn": "Runs on",
+
+    // Auth - Wallet connection
+    "auth.wallet.connect": "Connect Wallet",
+    "auth.wallet.connecting": "Connecting wallet\u2026",
+    "auth.wallet.signing": "Signing message\u2026",
+    "auth.wallet.verifying": "Verifying\u2026",
+    "auth.wallet.openingSession": "Opening session\u2026",
+
+    // Auth - Validation
+    "auth.validation.emailRequired": "Please enter your email address first",
+    "auth.validation.invalidEmail": "Please enter a valid email address",
+    "auth.validation.passwordTooShort":
+      "Password must be at least 8 characters long",
+    "auth.validation.passwordMismatch": "Passwords do not match",
+
+    // Login page (GIV-253 / GIV-263 fix)
+    "auth.login.welcomeHeading": "Welcome to Give Protocol",
+    "auth.login.signInOrConnect": "Sign In or Connect",
+    "auth.login.skipToContent": "Skip to login content",
+    "auth.login.donorTitle": "Donor Sign In",
+    "auth.login.donorSubtitle": "Sign in to access your giving dashboard",
+    "auth.login.charityTitle": "Nonprofit Portal",
+    "auth.login.charitySubtitle":
+      "Manage your organization profile and donations",
+    "auth.login.back": "\u2190 Back",
+    "auth.login.continueDonor": "Continue as Donor",
+    "auth.login.connecting": "Connecting\u2026",
+    "auth.login.connectWalletSignIn": "Connect Wallet & Sign In",
+    "auth.login.newToPlatform": "New to Give Protocol?",
+    "auth.login.newDonorSignUp": "New Donor Sign Up",
+    "auth.login.manageNonprofit": "I manage a Nonprofit Profile",
+    "auth.login.nonprofitTrayTitle": "New to Give Protocol?",
+    "auth.login.createNonprofitAccount": "Create a Nonprofit Account",
+    "auth.login.registerOrg": "Register your organization on Give Protocol",
+    "auth.login.needHelp": "Need help?",
+    "auth.login.forgotUsernameBtn": "Forgot username?",
+    "auth.login.forgotPasswordBtn": "Forgot password?",
+
+    // Donor login
+    "auth.donorLogin.mismatch":
+      "Donor User Account Not Found. This email is registered as a charity account. Please use the Charity Login.",
+    "auth.donorLogin.signingIn": "Signing in\u2026",
+    "auth.donorLogin.redirecting": "Redirecting in {{count}}...",
+
+    // Donor registration
+    "auth.donorReg.pleaseWait": "Please wait\u2026",
+    "auth.donorReg.signUpPasskey": "Sign up with Passkey",
+    "auth.donorReg.withGoogle": "Continue with Google",
+    "auth.donorReg.connectWallet": "Connect Wallet",
+    "auth.donorReg.orSetPassword": "Or set a password",
+    "auth.donorReg.creating": "Creating Account...",
+    "auth.donorReg.createAccount": "Create Donor Account",
+
+    // Charity login
+    "auth.charityLogin.mismatch":
+      "This email is registered as a donor account. Please sign in at the donor portal.",
+    "auth.charityLogin.signingIn": "Signing in...",
+    "auth.charityLogin.or": "or",
+    "auth.charityLogin.connecting": "Connecting...",
+    "auth.charityLogin.connectWallet": "Connect Wallet",
+
+    // Forgot credentials
+    "auth.forgot.resetPassword": "Reset Password",
+    "auth.forgot.forgotUsername": "Forgot Username",
+    "auth.forgot.passwordDesc":
+      "Enter your email address and we\u2019ll send you a link to reset your password.",
+    "auth.forgot.usernameDesc":
+      "Enter your email address and we\u2019ll send you your username.",
+    "auth.forgot.passwordSuccess":
+      "Password reset instructions sent to your email",
+    "auth.forgot.usernameSuccess": "Username reminder sent to your email",
+    "auth.forgot.checkEmail": "Check your email",
+    "auth.forgot.backToSignIn": "Back to Sign In",
+    "auth.forgot.emailPlaceholder": "Enter your email address",
+    "auth.forgot.genericError": "An error occurred. Please try again.",
+    "auth.forgot.sending": "Sending...",
+    "auth.forgot.sendResetLink": "Send Reset Link",
+    "auth.forgot.sendUsername": "Send Username",
+
+    // Organization search
+    "auth.orgSearch.orgNameLabel": "Organization Name",
+    "auth.orgSearch.searchPlaceholder": "Search by organization name...",
+    "auth.orgSearch.countryLabel": "Country",
+    "auth.orgSearch.allCountries": "All Countries",
+    "auth.orgSearch.searchPrompt":
+      "Search our database to find and claim your organization.",
+    "auth.orgSearch.noResults": "No organizations found.",
+    "auth.orgSearch.loadMore": "Load more results",
+    "auth.orgSearch.cantFind": "Can\u2019t find your organization?",
+    "auth.orgSearch.registerManually": "Register manually",
+
+    // Charity claim form
+    "charity.claim.orgDetails": "Organization Details (from Registry)",
+    "charity.claim.orgNameLabel": "Name",
+    "charity.claim.einLabel": "EIN",
+    "charity.claim.locationLabel": "Location",
+    "charity.claim.contactInfo": "Contact Information",
+    "charity.claim.contactName": "Contact Name",
+    "charity.claim.contactEmail": "Contact Email",
+    "charity.claim.accountSecurity": "Account Security",
+    "charity.claim.password": "Password",
+    "charity.claim.confirmPassword": "Confirm Password",
+    "charity.claim.backToSearch": "Back to search",
+    "charity.claim.creating": "Creating Account...",
+    "charity.claim.submit": "Claim Organization",
+    "charity.claim.validation.name":
+      "Name must be between 2 and 100 characters",
+    "charity.claim.validation.email": "Please enter a valid email address",
+    "charity.claim.validation.password":
+      "Password must be at least 8 characters long",
+    "charity.claim.validation.confirmPassword": "Passwords do not match",
+    "charity.claim.validation.fix": "Please correct the validation errors",
+    "charity.claim.error.creation": "Account creation failed",
+    "charity.claim.error.generic": "Failed to create account",
+
+    // Charity vetting form
+    "charity.vetting.orgDetails": "Organization Details",
+    "charity.vetting.orgName": "Organization Name",
+    "charity.vetting.description": "Description",
+    "charity.vetting.taxId": "Tax or Registration ID",
+    "charity.vetting.countryLabel": "Country",
+    "charity.vetting.selectCountry": "Select Country",
+    "charity.vetting.address": "Address",
+    "charity.vetting.streetAddress": "Street Address",
+    "charity.vetting.city": "City",
+    "charity.vetting.state": "State/Province",
+    "charity.vetting.postalCode": "Postal Code",
+    "charity.vetting.contactInfo": "Contact Information",
+    "charity.vetting.contactName": "Contact Name",
+    "charity.vetting.contactEmail": "Contact Email",
+    "charity.vetting.accountSecurity": "Account Security",
+    "charity.vetting.password": "Password",
+    "charity.vetting.confirmPassword": "Confirm Password",
+    "charity.vetting.submitting": "Submitting Application...",
+    "charity.vetting.submit": "Submit Charity Application",
+    "charity.vetting.validation.orgName":
+      "Organization name must be between 2 and 100 characters",
+    "charity.vetting.validation.contactName":
+      "Contact name must be between 2 and 100 characters",
+    "charity.vetting.validation.email": "Please enter a valid email address",
+    "charity.vetting.validation.password":
+      "Password must be at least 8 characters long",
+    "charity.vetting.validation.confirmPassword": "Passwords do not match",
+    "charity.vetting.validation.description": "Description is required",
+    "charity.vetting.validation.category": "Category is required",
+    "charity.vetting.validation.taxId": "Tax ID is required",
+    "charity.vetting.validation.streetAddress": "Street address is required",
+    "charity.vetting.validation.city": "City is required",
+    "charity.vetting.validation.country": "Country is required",
+    "charity.vetting.validation.fix": "Please correct the validation errors",
+    "charity.vetting.error.generic": "Failed to submit application",
+
+    // Common - shared auth fields
+    "common.email": "Email",
+    "common.password": "Password",
+    "common.confirmPassword": "Confirm Password",
+
+    // Footer component (GIV-253 / GIV-263 fix)
+    "footer.brand.tagline":
+      "Removing barriers to sustainable charitable giving.",
+    "footer.resources.title": "Resources",
+    "footer.resources.faq": "FAQ",
+    "footer.resources.about": "About Us",
+    "footer.legal.title": "Legal",
+    "footer.legal.terms": "Terms of Service",
+    "footer.legal.privacy": "Privacy Policy",
+    "footer.connect.title": "Connect",
+    "footer.copyright": "Give Protocol. All rights reserved.",
+
+    // Navigation - additional (GIV-253 / GIV-263 fix)
+    "nav.signIn": "Sign In",
+    "nav.signOut": "Sign Out",
+    "nav.privacy": "Privacy",
   },
 };
