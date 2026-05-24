@@ -572,7 +572,7 @@ describe("AuthContext", () => {
           password: "password",
           options: {
             data: { type: "donor" },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?email=test%40example.com`,
           },
         });
         expect(mockShowToast).toHaveBeenCalledWith(
@@ -635,7 +635,7 @@ describe("AuthContext", () => {
               type: "charity",
               name: "Test Charity",
             },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?email=test%40example.com`,
           },
         });
       });

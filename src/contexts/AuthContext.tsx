@@ -541,7 +541,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               type,
               ...metadata,
             },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?email=${encodeURIComponent(email)}`,
           },
         });
 
