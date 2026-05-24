@@ -69,7 +69,7 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
         setSelectedWallet(null);
       }
     },
-    [connect, onClose, onConnected, t]
+    [connect, onClose, onConnected, t],
   );
 
   const handleWalletButtonClick = useCallback(
@@ -80,7 +80,7 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
         handleWalletConnect(wallet);
       }
     },
-    [installedWallets, handleWalletConnect]
+    [installedWallets, handleWalletConnect],
   );
 
   const handleSkip = useCallback(() => {

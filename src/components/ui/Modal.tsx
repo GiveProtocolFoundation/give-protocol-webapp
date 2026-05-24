@@ -63,7 +63,7 @@ export const Modal: React.FC<ModalProps> = ({
 
       if (event.key === "Tab" && modalRef.current) {
         const focusable = modalRef.current.querySelectorAll<HTMLElement>(
-          'a[href], button:not([disabled]), textarea, input:not([disabled]), select, [tabindex]:not([tabindex="-1"])'
+          'a[href], button:not([disabled]), textarea, input:not([disabled]), select, [tabindex]:not([tabindex="-1"])',
         );
         if (focusable.length === 0) return;
 
@@ -79,7 +79,7 @@ export const Modal: React.FC<ModalProps> = ({
         }
       }
     },
-    [closeOnEscape, onClose]
+    [closeOnEscape, onClose],
   );
 
   // Handle backdrop click
