@@ -4,6 +4,7 @@ import { CharityOrganizationCard } from "./CharityOrganizationCard";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CharityGridProps {
   searchTerm: string;
@@ -25,6 +26,7 @@ export const CharityGrid: React.FC<CharityGridProps> = ({
   onPlatformOnly,
   className,
 }) => {
+  const { t } = useTranslation();
   const { organizations, loading, hasMore, error, loadMore } =
     useCharityOrganizationSearch({
       searchTerm,
@@ -54,7 +56,10 @@ export const CharityGrid: React.FC<CharityGridProps> = ({
     return (
       <div className="text-center py-12">
         <p className="text-gray-500">
-          Enter a search term or add a location filter to find charities.
+          {t(
+            "browse.charity.searchPrompt",
+            "Enter a search term or add a location filter to find charities.",
+          )}
         </p>
       </div>
     );
@@ -72,7 +77,10 @@ export const CharityGrid: React.FC<CharityGridProps> = ({
     return (
       <div className="text-center py-12">
         <p className="text-gray-500">
-          No charities found matching your criteria.
+          {t(
+            "browse.charity.noResults",
+            "No charities found matching your criteria.",
+          )}
         </p>
       </div>
     );
@@ -95,7 +103,9 @@ export const CharityGrid: React.FC<CharityGridProps> = ({
             onClick={handleLoadMore}
             disabled={loading}
           >
-            {loading ? "Loading..." : "Load More"}
+            {loading
+              ? t("browse.charity.loading", "Loading...")
+              : t("browse.charity.loadMore", "Load More")}
           </Button>
         </div>
       )}

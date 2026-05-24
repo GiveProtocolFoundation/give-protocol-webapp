@@ -2,6 +2,7 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { Card } from "../ui/Card";
 import { PortfolioFund } from "../../types/charity";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface PortfolioGridProps {
   searchTerm: string;
@@ -19,6 +20,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
   searchTerm,
   category,
 }) => {
+  const { t } = useTranslation();
   // Sample portfolio funds - replace with actual data fetching
   const portfolios: PortfolioFund[] = [
     {
@@ -99,7 +101,7 @@ export const PortfolioGrid: React.FC<PortfolioGridProps> = ({
               <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[0.65rem] leading-none">
                 &#9829;
               </span>{" "}
-              Donate to Fund
+              {t("browse.funds.donateCta", "Donate to Fund")}
             </div>
           </Card>
         </Link>
