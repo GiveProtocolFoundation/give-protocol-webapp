@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo } from "react";
+import i18next from "i18next";
 import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 import { Button } from "./ui/Button";
 import { Logger } from "@/utils/logger";
@@ -218,10 +219,10 @@ export class ErrorBoundary extends Component<Props, State> {
               <AlertTriangle className="h-12 w-12 text-red-500" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
-              Something went wrong
+              {i18next.t("error.somethingWrong")}
             </h2>
             <p className="text-gray-600 mb-6 text-center">
-              {this.state.error?.message || "An unexpected error occurred"}
+              {this.state.error?.message || i18next.t("error.unexpectedError")}
             </p>
             <div className="space-y-3">
               <Button
@@ -232,21 +233,21 @@ export class ErrorBoundary extends Component<Props, State> {
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 {this.state.recoveryAttempts >= MAX_RECOVERY_ATTEMPTS
-                  ? "Too many attempts"
-                  : "Try Again"}
+                  ? i18next.t("error.tooManyAttempts")
+                  : i18next.t("error.tryAgain")}
               </Button>
               <Button
                 onClick={this.handleNavigateHome}
                 className="w-full flex items-center justify-center"
               >
                 <Home className="h-4 w-4 mr-2" />
-                Go to Homepage
+                {i18next.t("error.goHome")}
               </Button>
             </div>
             {process.env.NODE_ENV === "development" && this.state.errorInfo && (
               <details className="mt-4 p-4 bg-gray-50 rounded-md">
                 <summary className="text-sm text-gray-700 cursor-pointer">
-                  Error Details
+                  {i18next.t("error.details")}
                 </summary>
                 <pre className="mt-2 text-xs text-gray-600 overflow-auto whitespace-pre-wrap">
                   {this.state.error?.stack}

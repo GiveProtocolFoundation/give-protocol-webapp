@@ -182,397 +182,149 @@ export default {
     "home.subtitle": "Connecting resources to the causes that need them most",
     "home.startDonating": "Start Donating",
 
-    // Common additions
-    "common.email": "Email",
-    "common.password": "Password",
-    "common.loading": "Loading...",
-    "common.confirmPassword": "Confirm Password",
+    // Modal - shared
+    "modal.close": "Close modal",
+    "modal.closeAriaLabel": "Close",
 
-    // Navigation additions
-    "nav.signIn": "Sign In",
-    "nav.signOut": "Sign Out",
-    "nav.privacy": "Privacy",
+    // Modal - wallet connection
+    "modal.wallet.title": "Connect Your Wallet",
+    "modal.wallet.description":
+      "Connect a wallet to unlock all features of Give Protocol",
+    "modal.wallet.benefit1":
+      "Track your donations transparently on the blockchain",
+    "modal.wallet.benefit2":
+      "Receive GIVE tokens as rewards for your contributions",
+    "modal.wallet.benefit3":
+      "Participate in governance decisions for the protocol",
+    "modal.wallet.connecting": "Connecting...",
+    "modal.wallet.clickToConnect": "Click to connect",
+    "modal.wallet.noExtension": "No wallet extension detected.",
+    "modal.wallet.installMetaMask": "Install MetaMask to get started",
+    "modal.wallet.skip": "Skip for now",
+    "modal.wallet.footerNote":
+      "You can connect your wallet anytime from the navigation bar",
+    "modal.wallet.failedConnect": "Failed to connect wallet",
 
-    // Settings additions
-    "settings.displayPreferences": "Display Preferences",
-    "settings.theme": "Theme",
-    "settings.light": "Light",
-    "settings.dark": "Dark",
+    // Modal - wallet link
+    "modal.walletLink.title": "Link Your Wallet",
+    "modal.walletLink.description":
+      "Link a wallet to your account for on-chain donations, token rewards, and governance",
+    "modal.walletLink.benefit1":
+      "Donate crypto directly to verified charities on-chain",
+    "modal.walletLink.benefit2Pre": "Develop",
+    "modal.walletLink.benefit2Post": "credentials for your contributions",
+    "modal.walletLink.benefit3":
+      "Sign in with either email or wallet \u2014 same account",
+    "modal.walletLink.buttonLinking": "Linking\u2026",
+    "modal.walletLink.buttonLink": "Link Wallet",
+    "modal.walletLink.buttonConnectFirst": "Connect Wallet First",
+    "modal.walletLink.footerNote":
+      "You can link your wallet anytime from Settings",
+    "modal.walletLink.failedLink": "Failed to link wallet",
 
-    // Auth panel (left side)
-    "auth.panel.statusLabel": "Protocol Status",
-    "auth.panel.statusDesc": "All systems operational",
-    "auth.panel.runsOn": "Runs on",
-    "auth.panel.headline": "Smart giving. Maximum reach.",
-    "auth.panel.subheadline":
-      "Blockchain-powered giving for transparent impact.",
+    // Modal - chain selection
+    "modal.chain.title": "Welcome to Give Protocol",
+    "modal.chain.subtitle": "Choose your preferred network to get started",
+    "modal.chain.footerNote": "You can switch networks anytime from the menu",
+    "modal.chain.connecting": "Connecting...",
+    "modal.chain.continue": "Continue",
+    "modal.chain.failedSelect": "Failed to select network",
 
-    // Auth sign in
-    "auth.signin.welcomeBack": "Welcome back",
-    "auth.signin.subtitle": "Sign in to your Give Protocol account",
-    "auth.signin.emailPlaceholder": "Email",
-    "auth.signin.passwordPlaceholder": "Password",
-    "auth.signin.submitting": "Signing in...",
-    "auth.signin.withPasskey": "Sign in with Passkey",
-    "auth.signin.withGoogle": "Continue with Google",
-    "auth.signin.or": "or",
-    "auth.signin.newToProtocol": "New to Give Protocol?",
-    "auth.signin.createAccount": "Create an account",
-    "auth.signin.forgotPasswordLink": "Forgot password?",
-    "auth.signin.sslEncrypted": "256-bit SSL encrypted",
-    "auth.signin.terms": "Terms",
-    "auth.signin.privacy": "Privacy",
+    // Modal - network selection (WalletModal step 1)
+    "modal.network.title": "Select Network",
+    "modal.network.nextStep": "Next Step: Connect Wallet",
+    "modal.network.learnMore": "Learn more about network selection",
 
-    // Auth wallet steps
-    "auth.wallet.connecting": "Connecting wallet...",
-    "auth.wallet.signing": "Signing message...",
-    "auth.wallet.verifying": "Verifying signature...",
-    "auth.wallet.openingSession": "Opening session...",
-    "auth.wallet.connect": "Connect Wallet",
+    // Modal - wallet connect (WalletModal step 2)
+    "modal.connect.title": "Connect Wallet",
+    "modal.connect.backAria": "Back to network selection",
+    "modal.connect.noWallets": "No wallets available for {{chainType}} chains.",
+    "modal.connect.tryDifferentChain": "Try selecting a different chain type.",
+    "modal.connect.viewOtherWallets": "View other supported wallets",
+    "modal.connect.termsAgreement": "By connecting, you agree to the",
+    "modal.connect.termsLink": "Terms of Service",
+    "modal.connect.chainTypeAria": "Chain type",
+    "modal.connect.failedConnect": "Connection failed",
 
-    // Auth charity login
-    "auth.charityLogin.mismatch":
-      "This email is registered as a donor account. Please sign in at the donor portal.",
-    "auth.charityLogin.or": "or",
+    // Modal - donation
+    "modal.donation.successTitle": "Thank You!",
+    "modal.donation.donationProcessedOneTime":
+      "Your donation of {{amount}} to {{charityName}} has been processed.",
+    "modal.donation.donationProcessedRecurring":
+      "Your monthly donation of {{amount}} to {{charityName}} has been processed.",
+    "modal.donation.recurringNote":
+      "You\u2019ll be charged monthly until you cancel.",
+    "modal.donation.receiptNote": "A receipt has been sent to your email.",
+    "modal.donation.done": "Done",
+    "modal.donation.errorTitle": "Something Went Wrong",
+    "modal.donation.errorDefault":
+      "An unexpected error occurred. Please try again.",
+    "modal.donation.tryAgain": "Try Again",
+    "modal.donation.close": "Close",
+    "modal.donation.amountLabel": "Donation Amount",
+    "modal.donation.perMonth": "per month",
+    "modal.donation.monthly": "Monthly",
+    "modal.donation.oneTime": "One-Time",
+    "modal.donation.loadingPaymentForm": "Loading payment form...",
+    "modal.donation.supportMonthly": "Support {{charityName}} Monthly",
+    "modal.donation.donateToCharity": "Donate to {{charityName}}",
 
-    // Auth donor login
-    "auth.donorLogin.mismatch":
-      "This email is registered as a charity account. Please sign in at the charity portal.",
-    "auth.donorLogin.signingIn": "Signing in...",
+    // Modal - scheduled donation
+    "modal.scheduledDonation.title":
+      "Schedule Monthly Donations to {{charityName}}",
 
-    // Auth donor registration
-    "auth.donorReg.pleaseWait": "Please wait...",
-    "auth.donorReg.signUpPasskey": "Sign up with Passkey",
-    "auth.donorReg.withGoogle": "Continue with Google",
-    "auth.donorReg.connectWallet": "Connect Wallet",
-    "auth.donorReg.orSetPassword": "Or set a password",
-    "auth.donorReg.creating": "Creating account...",
-    "auth.donorReg.createAccount": "Create Donor Account",
+    // Modal - withdrawal
+    "modal.withdrawal.title": "Request Withdrawal",
 
-    // Auth validation
-    "auth.validation.emailRequired": "Email is required",
-    "auth.validation.invalidEmail": "Please enter a valid email address",
-    "auth.validation.passwordTooShort":
-      "Password must be at least 8 characters",
-    "auth.validation.passwordMismatch": "Passwords do not match",
+    // Modal - validation response
+    "modal.validation.rejectTitle": "Reject Validation Request",
+    "modal.validation.reviewTitle": "Review Validation Request",
+    "modal.validation.volunteer": "Volunteer",
+    "modal.validation.activityDetails": "Activity Details",
+    "modal.validation.date": "Date",
+    "modal.validation.hour": "hour",
+    "modal.validation.hours": "hours",
+    "modal.validation.activityType": "Activity Type",
+    "modal.validation.location": "Location",
+    "modal.validation.description": "Description",
+    "modal.validation.submitted": "Submitted:",
+    "modal.validation.daysRemaining": "({{count}} days remaining to validate)",
+    "modal.validation.appealNote":
+      "This is an appeal/resubmission of a previously rejected request",
+    "modal.validation.rejectPrompt":
+      "Please select a reason for rejecting this validation request. The volunteer will be notified.",
+    "modal.validation.reject": "Reject",
+    "modal.validation.approve": "Approve",
+    "modal.validation.processing": "Processing...",
+    "modal.validation.back": "Back",
+    "modal.validation.confirmRejection": "Confirm Rejection",
+    "modal.validation.selectReasonError": "Please select a rejection reason",
 
-    // Auth sign up
-    "auth.signup.heading": "Create your donor account",
-    "auth.signup.subtitle": "Start your transparent giving journey",
-    "auth.signup.displayName": "Display name (optional)",
-    "auth.signup.emailPlaceholder": "Email",
-    "auth.signup.withPasskey": "Sign up with Passkey",
-    "auth.signup.withGoogle": "Continue with Google",
-    "auth.signup.connectWallet": "Connect Wallet",
-    "auth.signup.orSetPassword": "Or set a password",
-    "auth.signup.passwordPlaceholder": "Password",
-    "auth.signup.confirmPasswordPlaceholder": "Confirm password",
-    "auth.signup.submit": "Create Account",
-    "auth.signup.submitting": "Creating account...",
-    "auth.signup.alreadyHaveAccount": "Already have an account?",
-    "auth.signup.signInLink": "Sign in",
-    "auth.signup.manageNonprofit": "I manage a Nonprofit Profile",
-    "auth.signup.trustText": "By creating an account you agree to our",
-    "auth.signup.and": "and",
-    "auth.signup.privacyPolicy": "Privacy Policy",
-    "auth.signup.panel.headline": "Transparent giving, reimagined",
+    // Toast
+    "toast.dismiss": "Dismiss notification",
 
-    // Auth forgot credentials
-    "auth.forgot.resetPassword": "Reset Password",
-    "auth.forgot.forgotUsername": "Forgot Username",
-    "auth.forgot.passwordDesc":
-      "Enter your email address and we'll send you a reset link.",
-    "auth.forgot.usernameDesc":
-      "Enter your email address and we'll send you your username.",
-    "auth.forgot.passwordSuccess": "Password reset email sent",
-    "auth.forgot.usernameSuccess": "Username reminder sent",
-    "auth.forgot.genericError": "Something went wrong. Please try again.",
-    "auth.forgot.checkEmail": "Check your email",
-    "auth.forgot.backToSignIn": "Back to sign in",
-    "auth.forgot.emailPlaceholder": "Enter your email address",
-    "auth.forgot.sending": "Sending...",
-    "auth.forgot.sendResetLink": "Send Reset Link",
-    "auth.forgot.sendUsername": "Send Username",
+    // Error boundary
+    "error.somethingWrong": "Something went wrong",
+    "error.unexpectedError": "An unexpected error occurred",
+    "error.tryAgain": "Try Again",
+    "error.tooManyAttempts": "Too many attempts",
+    "error.goHome": "Go to Homepage",
+    "error.details": "Error Details",
 
-    // Auth login page (Login.tsx)
-    "auth.login.back": "Back",
-    "auth.login.donorTitle": "Donor Sign In",
-    "auth.login.donorSubtitle": "Sign in to access your giving dashboard",
-    "auth.login.charityTitle": "Nonprofit Sign In",
-    "auth.login.charitySubtitle":
-      "Manage your organization profile and donations",
-    "auth.login.nonprofitTrayTitle": "Nonprofit Portal",
-    "auth.login.createNonprofitAccount": "Create a Nonprofit Account",
-    "auth.login.registerOrg": "Register your organization",
-    "auth.login.needHelp": "Need help?",
-    "auth.login.forgotUsernameBtn": "Forgot username?",
-    "auth.login.forgotPasswordBtn": "Forgot password?",
-    "auth.login.continueDonor": "Continue as Donor",
-    "auth.login.connectWalletSignIn": "Connect Wallet & Sign In",
-    "auth.login.newToPlatform": "New to Give Protocol?",
-    "auth.login.newDonorSignUp": "New Donor Sign Up",
-    "auth.login.manageNonprofit": "I manage a Nonprofit Profile",
-    "auth.login.connecting": "Connecting...",
-    "auth.login.skipToContent": "Skip to main content",
-    "auth.login.welcomeHeading": "Welcome to Give Protocol",
-    "auth.login.signInOrConnect": "Sign In or Connect",
+    // Validation - rejection reason select
+    "validation.rejection.reasonLabel": "Rejection Reason",
+    "validation.rejection.reasonPlaceholder": "Select a reason...",
+    "validation.rejection.notesLabel": "Additional Notes",
+    "validation.rejection.optional": "(optional)",
+    "validation.rejection.notesPlaceholder":
+      "Provide additional context for the rejection...",
 
-    // Browse - general
-    "browse.donate": "Donate",
-    "browse.verified": "Verified",
-
-    // Browse - tabs
-    "browse.tabs.charities": "Charities",
-    "browse.tabs.causes": "Causes",
-    "browse.tabs.funds": "Portfolio Funds",
-    "browse.tabs.ariaLabel": "Browse categories",
-
-    // Browse - hero & stats
-    "browse.hero.title": "Giving, verified on-chain.",
-    "browse.hero.subtitle":
-      "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
-    "browse.stats.networks": "Networks supported",
-    "browse.stats.sectors": "Charitable sectors",
-    "browse.stats.verifiedOrgs": "Verified organizations",
-    "browse.stats.onChain": "On-chain",
-    "browse.stats.volunteerHours": "Volunteer hours",
-
-    // Browse - filters
-    "browse.filter.searchPlaceholder": "Search charities...",
-    "browse.filter.searchAria": "Search charities",
-    "browse.filter.locationPlaceholder": "City, state, or country...",
-    "browse.filter.locationAria": "Search location",
-    "browse.filter.ariaLabel": "Filter charities",
-
-    // Browse - results
-    "browse.results.ariaLabel": "Charity results",
-    "browse.results.empty":
-      "No organizations match that search yet. Try a different keyword or add a location filter.",
-
-    // Browse - causes carousel
-    "browse.causes.heading": "Featured causes",
-    "browse.causes.subheading": "Support specific projects making real impact.",
-    "browse.causes.raised": "raised",
-    "browse.causes.percentOf": "% of",
-    "browse.causes.badge": "Cause",
-    "browse.causes.by": "by",
-    "browse.causes.supportCta": "Support This Cause",
-    "browse.causes.empty": "No causes available yet. Check back soon!",
-    "browse.causes.ariaLabel": "Featured causes",
-    "browse.causes.prevAria": "Previous featured causes",
-    "browse.causes.nextAria": "Next featured causes",
-    "browse.causes.noResults": "No causes found matching your criteria.",
-    "browse.causes.giveCta": "Give to Cause",
-
-    // Browse - featured charities carousel
-    "browse.featured.heading": "Featured organizations",
-    "browse.featured.subheading":
-      "A rotating look at verified charities on Give Protocol.",
-    "browse.featured.ariaLabel": "Featured organizations",
-    "browse.featured.prevAria": "Previous featured organizations",
-    "browse.featured.nextAria": "Next featured organizations",
-
-    // Browse - portfolio funds carousel
-    "browse.funds.heading": "Portfolio Funds",
-    "browse.funds.subheading":
-      "Curated giving portfolios that distribute donations across verified charities.",
-    "browse.funds.badge": "Portfolio Fund",
-    "browse.funds.charity": "charity",
-    "browse.funds.charities": "charities",
-    "browse.funds.donateCta": "Donate to Fund",
-    "browse.funds.empty": "No portfolio funds available yet. Check back soon!",
-    "browse.funds.ariaLabel": "Portfolio Funds",
-    "browse.funds.prevAria": "Previous portfolio funds",
-    "browse.funds.nextAria": "Next portfolio funds",
-
-    // Charity profile page
-    "charity.profile.verified501c3": "Verified 501(c)(3)",
-    "charity.profile.statusClaimed": "Claimed",
-    "charity.profile.statusUnclaimed": "Unclaimed — IRS data only",
-    "charity.profile.rowEin": "EIN",
-    "charity.profile.rowName": "Name",
-    "charity.profile.rowLocation": "Location",
-    "charity.profile.rowRulingYear": "Ruling year",
-    "charity.profile.rowNteeCode": "NTEE code",
-    "charity.profile.rowDeductibility": "Deductibility",
-    "charity.profile.rowAffiliation": "Affiliation",
-    "charity.profile.rowClassification": "Classification",
-    "charity.profile.rowFoundation": "Foundation type",
-    "charity.profile.rowActivityCodes": "Activity codes",
-    "charity.profile.rowOrgType": "Organization type",
-    "charity.profile.rowSubsection": "Subsection",
-    "charity.profile.rowStatus": "Status",
-    "charity.profile.registryRecord": "Registry Public Record",
-    "charity.profile.registrySource":
-      "Data sourced from official charity registry.",
-    "charity.profile.einDisplay": "EIN",
-    "charity.profile.registeredYear": "Registered {{year}}",
-    "charity.profile.shareAria": "Share",
-    "charity.profile.copied": "Copied!",
-    "charity.profile.about": "About",
-    "charity.profile.activityIntro":
-      "This organization's activities include: activity codes",
-    "charity.profile.notCustomized":
-      "This description has not been customized yet.",
-    "charity.profile.claimProfile": "Claim this profile",
-    "charity.profile.noDescription": "No description available.",
-    "charity.profile.toAddOne": "to add one.",
-    "charity.profile.contact": "Contact",
-    "charity.profile.notFound": "We couldn't find a charity with this EIN.",
-
-    // Charity profile donate widget
-    "charity.profile.donate.walletUnset":
-      "This charity hasn't set up a wallet yet — your donation will be held by Give Protocol Foundation until claimed.",
-    "charity.profile.donate.feeNote":
-      "0% platform fee on direct donations. Network gas fees apply.",
-    "charity.profile.donate.support": "Support {{charityName}}",
-
-    // Charity claim form
-    "charity.claim.orgDetails": "Organization Details (from Registry)",
-    "charity.claim.orgNameLabel": "Organization Name",
-    "charity.claim.einLabel": "EIN",
-    "charity.claim.locationLabel": "Location",
-    "charity.claim.contactInfo": "Contact Information",
-    "charity.claim.contactName": "Contact Name",
-    "charity.claim.contactEmail": "Contact Email",
-    "charity.claim.accountSecurity": "Account Security",
-    "charity.claim.password": "Password",
-    "charity.claim.confirmPassword": "Confirm Password",
-    "charity.claim.creating": "Creating Account...",
-    "charity.claim.submit": "Claim Organization",
-    "charity.claim.validation.name":
-      "Contact name must be between 2 and 100 characters",
-    "charity.claim.validation.email": "Please enter a valid email address",
-    "charity.claim.validation.password":
-      "Password must be at least 8 characters long",
-    "charity.claim.validation.confirmPassword": "Passwords do not match",
-    "charity.claim.validation.fix": "Please correct the validation errors",
-    "charity.claim.error.creation": "Account creation failed",
-    "charity.claim.error.generic": "Failed to create account",
-    "charity.claim.backToSearch": "Back to search",
-
-    // Home page
-    "home.hero.title": "Transparent Giving",
-    "home.hero.titleAccent": "for Everyone",
-    "home.hero.description":
-      "Give Protocol makes charitable giving transparent, borderless, and efficient through blockchain technology.",
-    "home.hero.visionTitle": "Our Vision",
-    "home.hero.visionText":
-      "We are removing barriers to sustainable charitable giving by connecting donors directly to verified organizations worldwide.",
-    "home.comingSoon": "Coming Soon",
-    "home.readDocs": "Read Documentation",
-    "home.features.sectionTitle": "Your Gateway to Transparent Philanthropy",
-    "home.features.sectionSubtitle":
-      "Everything you need to give with confidence and purpose.",
-    "home.features.highEfficiency.title": "High-Efficiency Giving",
-    "home.features.highEfficiency.description":
-      "Zero platform fees on crypto donations mean more of your money reaches the cause.",
-    "home.features.equityFunds.title": "Charitable Equity Funds",
-    "home.features.equityFunds.description":
-      "Pool donations into diversified funds that distribute to multiple vetted charities.",
-    "home.features.impactFunds.title": "Impact Funds",
-    "home.features.impactFunds.description":
-      "Thematic funds focused on specific causes like climate, education, or healthcare.",
-    "home.features.verifiedOrgs.title": "Verified Organizations",
-    "home.features.verifiedOrgs.description":
-      "Every charity is vetted and verified before joining the Give Protocol registry.",
-    "home.features.blockchainVerified.title": "Blockchain Verified",
-    "home.features.blockchainVerified.description":
-      "Every donation is recorded on-chain, providing immutable proof of your generosity.",
-    "home.features.bridgingModes.title": "Multi-Chain Support",
-    "home.features.bridgingModes.description":
-      "Donate across multiple blockchains with seamless bridging and conversion.",
-    "home.roles.title": "Built for Everyone Changing the World",
-    "home.roles.donors.title": "For Donors",
-    "home.roles.donors.item1": "Browse verified charities",
-    "home.roles.donors.item2": "Track your donations on-chain",
-    "home.roles.donors.item3": "Zero platform fees",
-    "home.roles.nonprofits.title": "For Non-Profit Organizations",
-    "home.roles.nonprofits.item1": "Claim your organization profile",
-    "home.roles.nonprofits.item2": "Receive crypto and fiat donations",
-    "home.roles.nonprofits.item3": "Build donor trust with transparency",
-    "home.roles.volunteers.title": "For Volunteers",
-    "home.roles.volunteers.item1": "Discover volunteer opportunities",
-    "home.roles.volunteers.item2": "Log and verify volunteer hours",
-    "home.roles.volunteers.item3": "Earn on-chain credentials",
-    "home.impact.title": "Planned Impact Funds",
-    "home.impact.environmental.title": "Environmental Impact Fund",
-    "home.impact.environmental.description":
-      "Supporting organizations working to protect our planet.",
-    "home.impact.education.title": "Education Opportunity Fund",
-    "home.impact.education.description":
-      "Funding access to quality education for underserved communities.",
-    "home.cta.title": "Ready to Transform Giving?",
-    "home.cta.subtitle":
-      "Join the movement toward transparent, borderless philanthropy.",
-    "home.nav.features": "Features",
-    "home.nav.impact": "Impact",
-    "home.nav.charities": "Charities",
-    "home.nav.volunteer": "Volunteer",
-    "home.footer.brand.tagline":
-      "Give Protocol is removing barriers to sustainable charitable giving through blockchain technology.",
-    "home.footer.product.title": "Product",
-    "home.footer.product.impactFunds": "Impact Funds",
-    "home.footer.product.charities": "Charities",
-    "home.footer.product.volunteers": "Volunteers",
-    "home.footer.resources.title": "Resources",
-    "home.footer.resources.whitepaper": "Whitepaper",
-    "home.footer.resources.blog": "Blog",
-    "home.footer.resources.community": "Community",
-    "home.footer.connect.title": "Connect",
-    "home.footer.connect.contact": "Contact Us",
-    "home.footer.copyright": "Give Protocol. All rights reserved.",
-
-    // Footer component
-    "footer.brand.tagline":
-      "Give Protocol is removing barriers to sustainable charitable giving through blockchain technology.",
-    "footer.resources.title": "Resources",
-    "footer.resources.faq": "FAQ",
-    "footer.resources.about": "About Us",
-    "footer.legal.title": "Legal",
-    "footer.legal.terms": "Terms of Service",
-    "footer.legal.privacy": "Privacy Policy",
-    "footer.connect.title": "Connect",
-    "footer.copyright": "Give Protocol. All rights reserved.",
-
-    // Charity vetting form
-    "charity.vetting.categoryLabel": "Category of Entity",
-    "charity.vetting.selectCategory": "Select a category",
-    "charity.vetting.countryLabel": "Country",
-    "charity.vetting.selectCountry": "Select a country",
-    "charity.vetting.validation.orgName":
-      "Organization name must be between 2 and 100 characters",
-    "charity.vetting.validation.contactName":
-      "Contact name must be between 2 and 100 characters",
-    "charity.vetting.validation.email": "Please enter a valid email address",
-    "charity.vetting.validation.password":
-      "Password must be at least 8 characters long",
-    "charity.vetting.validation.confirmPassword": "Passwords do not match",
-    "charity.vetting.validation.description": "Description is required",
-    "charity.vetting.validation.category": "Category is required",
-    "charity.vetting.validation.taxId": "Tax ID or Registration ID is required",
-    "charity.vetting.validation.streetAddress": "Street address is required",
-    "charity.vetting.validation.city": "City is required",
-    "charity.vetting.validation.country": "Country is required",
-    "charity.vetting.validation.fix":
-      "Please fix the errors above before submitting",
-    "charity.vetting.orgDetails": "Organization Details",
-    "charity.vetting.orgName": "Organization Name",
-    "charity.vetting.description": "Description",
-    "charity.vetting.taxId": "Tax or Registration ID",
-    "charity.vetting.address": "Address",
-    "charity.vetting.streetAddress": "Street Address",
-    "charity.vetting.city": "City",
-    "charity.vetting.state": "State / Province",
-    "charity.vetting.postalCode": "Postal Code",
-    "charity.vetting.contactInfo": "Contact Information",
-    "charity.vetting.contactName": "Contact Name",
-    "charity.vetting.contactEmail": "Contact Email",
-    "charity.vetting.accountSecurity": "Account Security",
-    "charity.vetting.password": "Password",
-    "charity.vetting.confirmPassword": "Confirm Password",
-    "charity.vetting.submitting": "Submitting...",
-    "charity.vetting.submit": "Submit Charity Application",
-    "charity.vetting.error.generic": "Something went wrong. Please try again.",
+    // Validation - batch actions
+    "validation.batch.deselectAll": "Deselect all",
+    "validation.batch.selectAll": "Select all",
+    "validation.batch.selected": "{{selected}} of {{total}} selected",
+    "validation.batch.clear": "Clear",
+    "validation.batch.reject": "Reject ({{count}})",
+    "validation.batch.approve": "Approve ({{count}})",
   },
 };
