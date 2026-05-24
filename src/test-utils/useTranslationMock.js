@@ -5,6 +5,12 @@ import en from "../i18n/resources/en.ts";
 
 const translations = en.translation;
 
+/**
+ * @param {string} key - Translation key to look up
+ * @param {string} [fallback] - Fallback text if key is not found
+ * @param {Record<string, string | number>} [options] - Interpolation values
+ * @returns {string} Resolved translation string
+ */
 const tFn = (key, fallback, options) => {
   let text = fallback ?? translations[key] ?? key;
   if (options && typeof text === "string") {
