@@ -329,7 +329,8 @@ export default {
 
     // Browse - hero & stats
     "browse.hero.title": "Giving, verified on-chain.",
-    "browse.hero.subtitle": "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
+    "browse.hero.subtitle":
+      "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
     "browse.stats.networks": "Networks supported",
     "browse.stats.sectors": "Charitable sectors",
     "browse.stats.verifiedOrgs": "Verified organizations",
@@ -345,7 +346,8 @@ export default {
 
     // Browse - results
     "browse.results.ariaLabel": "Charity results",
-    "browse.results.empty": "No organizations match that search yet. Try a different keyword or add a location filter.",
+    "browse.results.empty":
+      "No organizations match that search yet. Try a different keyword or add a location filter.",
 
     // Browse - causes carousel
     "browse.causes.heading": "Featured causes",
@@ -364,14 +366,16 @@ export default {
 
     // Browse - featured charities carousel
     "browse.featured.heading": "Featured organizations",
-    "browse.featured.subheading": "A rotating look at verified charities on Give Protocol.",
+    "browse.featured.subheading":
+      "A rotating look at verified charities on Give Protocol.",
     "browse.featured.ariaLabel": "Featured organizations",
     "browse.featured.prevAria": "Previous featured organizations",
     "browse.featured.nextAria": "Next featured organizations",
 
     // Browse - portfolio funds carousel
     "browse.funds.heading": "Portfolio Funds",
-    "browse.funds.subheading": "Curated giving portfolios that distribute donations across verified charities.",
+    "browse.funds.subheading":
+      "Curated giving portfolios that distribute donations across verified charities.",
     "browse.funds.badge": "Portfolio Fund",
     "browse.funds.charity": "charity",
     "browse.funds.charities": "charities",
@@ -399,14 +403,17 @@ export default {
     "charity.profile.rowSubsection": "Subsection",
     "charity.profile.rowStatus": "Status",
     "charity.profile.registryRecord": "Registry Public Record",
-    "charity.profile.registrySource": "Data sourced from official charity registry.",
+    "charity.profile.registrySource":
+      "Data sourced from official charity registry.",
     "charity.profile.einDisplay": "EIN",
     "charity.profile.registeredYear": "Registered {{year}}",
     "charity.profile.shareAria": "Share",
     "charity.profile.copied": "Copied!",
     "charity.profile.about": "About",
-    "charity.profile.activityIntro": "This organization's activities include: activity codes",
-    "charity.profile.notCustomized": "This description has not been customized yet.",
+    "charity.profile.activityIntro":
+      "This organization's activities include: activity codes",
+    "charity.profile.notCustomized":
+      "This description has not been customized yet.",
     "charity.profile.claimProfile": "Claim this profile",
     "charity.profile.noDescription": "No description available.",
     "charity.profile.toAddOne": "to add one.",
