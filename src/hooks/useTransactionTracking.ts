@@ -3,6 +3,7 @@ import { useToast } from "../contexts/ToastContext";
 import { supabase } from "../lib/supabase";
 import { useProfile } from "./useProfile";
 
+/** A user financial transaction record (donation or withdrawal). */
 export interface Transaction {
   id: string;
   type: "donation" | "withdrawal";
@@ -60,6 +61,14 @@ export function useTransactionTracking() {
     }
   }, [profile?.id, showToast]);
 
+  /**
+   * Records a new transaction for the current user.
+   * @param type - Transaction type
+   * @param amount - Transaction amount
+   * @param txHash - Optional blockchain transaction hash
+   * @param metadata - Optional additional transaction metadata
+   * @returns Promise that resolves when the transaction is recorded
+   */
   const trackTransaction = async (
     type: Transaction["type"],
     amount: number,

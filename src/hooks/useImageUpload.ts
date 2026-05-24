@@ -24,19 +24,23 @@ export const IMAGE_UPLOAD_CONFIG = {
   BUCKET_NAME: "opportunity-images",
 };
 
+/** MIME type of an image file accepted by the upload handler. */
 export type AllowedImageType =
   (typeof IMAGE_UPLOAD_CONFIG.ALLOWED_TYPES)[number];
 
+/** Result of a successful image upload containing the public URL and storage path. */
 export interface ImageUploadResult {
   url: string;
   path: string;
 }
 
+/** Structured error returned when image upload validation or upload fails. */
 export interface ImageUploadError {
   code: "FILE_TOO_LARGE" | "INVALID_TYPE" | "UPLOAD_FAILED" | "BUCKET_ERROR";
   message: string;
 }
 
+/** Return value of the useImageUpload hook. */
 export interface UseImageUploadReturn {
   uploading: boolean;
   progress: number;

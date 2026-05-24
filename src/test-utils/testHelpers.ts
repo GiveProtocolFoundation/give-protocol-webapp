@@ -79,6 +79,11 @@ export const renderWithProviders = (
   const { queryClient, ...renderOptions } = options || {};
   const testQueryClient = queryClient || createTestQueryClient();
 
+  /**
+   * Wraps the component under test with QueryClientProvider and BrowserRouter.
+   * @param props - React FC props with children
+   * @returns Wrapped React element
+   */
   const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     React.createElement(
       QueryClientProvider,
@@ -132,6 +137,11 @@ export const renderWithAllProviders = (
 
   const testQueryClient = queryClient || createTestQueryClient();
 
+  /**
+   * Wraps the component under test with AllProviders (full context support).
+   * @param props - React FC props with children
+   * @returns Wrapped React element
+   */
   const Wrapper: React.FC<{ children: React.ReactNode }> = ({ children }) =>
     React.createElement(
       AllProviders,

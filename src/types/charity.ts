@@ -1,17 +1,61 @@
 import { Timestamp, UUID } from "./common";
 import { TokenAmount } from "./blockchain";
 
+/* eslint-disable no-unused-vars */
+// Members are used via CharityCategory.X (property access), which the base
+// no-unused-vars rule doesn't recognise as a use of the member identifier.
 export enum CharityCategory {
-  _EDUCATION = "education", // Prefixed with _ as currently unused
-  _HEALTHCARE = "healthcare", // Prefixed with _ as currently unused
-  _ENVIRONMENT = "environment", // Prefixed with _ as currently unused
-  _POVERTY = "poverty", // Prefixed with _ as currently unused
-  _DISASTER_RELIEF = "disaster_relief", // Prefixed with _ as currently unused
-  _ANIMAL_WELFARE = "animal_welfare", // Prefixed with _ as currently unused
-  _ARTS_CULTURE = "arts_culture", // Prefixed with _ as currently unused
-  _COMMUNITY = "community", // Prefixed with _ as currently unused
+  EDUCATION = "education",
+  HEALTH_MEDICAL = "health_medical",
+  MENTAL_HEALTH = "mental_health",
+  ENVIRONMENT_CONSERVATION = "environment_conservation",
+  HUMAN_SERVICES = "human_services",
+  HOUSING_SHELTER = "housing_shelter",
+  FOOD_SECURITY_NUTRITION = "food_security_nutrition",
+  ARTS_CULTURE_HUMANITIES = "arts_culture_humanities",
+  RELIGION_SPIRITUAL = "religion_spiritual",
+  ANIMAL_WELFARE = "animal_welfare",
+  DISASTER_RELIEF = "disaster_relief",
+  INTERNATIONAL_DEVELOPMENT = "international_development",
+  CIVIL_RIGHTS_ADVOCACY = "civil_rights_advocacy",
+  WOMEN_GENDER_EQUALITY = "women_gender_equality",
+  COMMUNITY_ECONOMIC_DEVELOPMENT = "community_economic_development",
+  YOUTH_DEVELOPMENT = "youth_development",
+  SCIENCE_TECHNOLOGY = "science_technology",
+  GRANTMAKING_FOUNDATIONS = "grantmaking_foundations",
+  PUBLIC_SAFETY = "public_safety",
+  SPORTS_RECREATION = "sports_recreation",
+  OTHER = "other",
 }
+/* eslint-enable no-unused-vars */
 
+/** Human-readable labels for each CharityCategory value. */
+export const CHARITY_CATEGORY_LABELS: Record<CharityCategory, string> = {
+  [CharityCategory.EDUCATION]: "Education",
+  [CharityCategory.HEALTH_MEDICAL]: "Health & Medical",
+  [CharityCategory.MENTAL_HEALTH]: "Mental Health",
+  [CharityCategory.ENVIRONMENT_CONSERVATION]: "Environment & Conservation",
+  [CharityCategory.HUMAN_SERVICES]: "Human Services",
+  [CharityCategory.HOUSING_SHELTER]: "Housing & Shelter",
+  [CharityCategory.FOOD_SECURITY_NUTRITION]: "Food Security & Nutrition",
+  [CharityCategory.ARTS_CULTURE_HUMANITIES]: "Arts, Culture & Humanities",
+  [CharityCategory.RELIGION_SPIRITUAL]: "Religion & Spiritual Organizations",
+  [CharityCategory.ANIMAL_WELFARE]: "Animal Welfare",
+  [CharityCategory.DISASTER_RELIEF]: "Disaster Relief & Humanitarian Aid",
+  [CharityCategory.INTERNATIONAL_DEVELOPMENT]: "International Development",
+  [CharityCategory.CIVIL_RIGHTS_ADVOCACY]: "Civil Rights & Advocacy",
+  [CharityCategory.WOMEN_GENDER_EQUALITY]: "Women's & Gender Equality",
+  [CharityCategory.COMMUNITY_ECONOMIC_DEVELOPMENT]:
+    "Community & Economic Development",
+  [CharityCategory.YOUTH_DEVELOPMENT]: "Youth Development",
+  [CharityCategory.SCIENCE_TECHNOLOGY]: "Science & Technology",
+  [CharityCategory.GRANTMAKING_FOUNDATIONS]: "Grantmaking & Foundations",
+  [CharityCategory.PUBLIC_SAFETY]: "Public Safety",
+  [CharityCategory.SPORTS_RECREATION]: "Sports & Recreation",
+  [CharityCategory.OTHER]: "Other",
+};
+
+/** Core fields shared by all charity records. */
 export interface CharityBase {
   readonly id: UUID;
   name: string;
@@ -23,6 +67,7 @@ export interface CharityBase {
   updatedAt: Timestamp;
 }
 
+/** Supplemental metadata for a charity, including media URLs and social links. */
 export interface CharityMeta {
   logoUrl?: string;
   bannerUrl?: string;
@@ -33,6 +78,7 @@ export interface CharityMeta {
   documents: CharityDocument[];
 }
 
+/** A compliance or reporting document associated with a charity. */
 export interface CharityDocument {
   id: UUID;
   type: "registration" | "audit" | "report";
@@ -40,6 +86,7 @@ export interface CharityDocument {
   verifiedAt?: Timestamp;
 }
 
+/** Aggregated donation and impact statistics for a charity. */
 export interface CharityStats {
   totalDonations: number;
   totalAmount: TokenAmount;
@@ -49,6 +96,7 @@ export interface CharityStats {
   impactMetrics: ImpactMetric[];
 }
 
+/** A single quantifiable impact measurement for a charity. */
 export interface ImpactMetric {
   id: UUID;
   name: string;
@@ -58,6 +106,7 @@ export interface ImpactMetric {
   timestamp: Timestamp;
 }
 
+/** Verification status and supporting documents for a charity. */
 export interface CharityVerification {
   isVerified: boolean;
   verifiedAt?: Timestamp;
@@ -65,6 +114,7 @@ export interface CharityVerification {
   documents: VerificationDocument[];
 }
 
+/** An individual document submitted for charity verification. */
 export interface VerificationDocument {
   id: UUID;
   type: string;
@@ -73,6 +123,7 @@ export interface VerificationDocument {
   verifiedBy?: UUID;
 }
 
+/** Full charity record including metadata, stats, verification, and campaigns. */
 export interface Charity extends CharityBase {
   meta: CharityMeta;
   stats: CharityStats;
@@ -80,6 +131,7 @@ export interface Charity extends CharityBase {
   campaigns: Campaign[];
 }
 
+/** A fundraising campaign run by a charity. */
 export interface Campaign {
   readonly id: UUID;
   charityId: UUID;
@@ -93,6 +145,7 @@ export interface Campaign {
   updates: CampaignUpdate[];
 }
 
+/** Lifecycle state of a fundraising campaign. */
 export type CampaignStatus =
   | "draft"
   | "active"
@@ -100,6 +153,7 @@ export type CampaignStatus =
   | "completed"
   | "cancelled";
 
+/** A progress update posted to a campaign, with optional attachments. */
 export interface CampaignUpdate {
   readonly id: UUID;
   campaignId: UUID;
@@ -109,6 +163,7 @@ export interface CampaignUpdate {
   attachments: CampaignAttachment[];
 }
 
+/** An image or document attached to a campaign update. */
 export interface CampaignAttachment {
   id: UUID;
   type: "image" | "document";

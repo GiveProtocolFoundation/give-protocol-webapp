@@ -12,8 +12,14 @@ const mockValue = {
 
 export const ToastContext = createContext(mockValue);
 
+/** Returns the mock Toast context value for use in tests. */
 export const useToast = () => useContext(ToastContext);
 
+/**
+ * Mock Toast context provider for tests.
+ * @param {{ children: import('react').ReactNode }} props - Component props
+ * @returns React element wrapping children with the mock context
+ */
 export const ToastProvider = ({ children }) =>
   React.createElement(ToastContext.Provider, { value: mockValue }, children);
 

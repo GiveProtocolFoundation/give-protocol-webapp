@@ -19,8 +19,14 @@ const mockValue = {
 
 const Web3Context = createContext(mockValue);
 
+/** Returns the mock Web3 context value for use in tests. */
 export const useWeb3 = () => useContext(Web3Context);
 
+/**
+ * Mock Web3 context provider for tests.
+ * @param {{ children: import('react').ReactNode }} props - Component props
+ * @returns React element wrapping children with the mock context
+ */
 export const Web3Provider = ({ children }) =>
   React.createElement(Web3Context.Provider, { value: mockValue }, children);
 

@@ -340,7 +340,7 @@ const FAQ_SECTIONS: FAQSectionData[] = [
           <p>
             Organizations can register at{" "}
             <a
-              href="/auth/charity"
+              href="/auth/signup?type=charity"
               className="text-emerald-600 underline hover:text-emerald-700"
             >
               the charity registration page

@@ -62,6 +62,7 @@ export const useScrollDirection = () => {
       return undefined;
     }
 
+    /** Updates scroll direction state when the window is scrolled. */
     const handleScroll = () => {
       const currentScrollY = window.scrollY;
 
@@ -89,6 +90,11 @@ export const useScrollDirection = () => {
  * @returns Function to scroll to a specific element or position
  */
 export const useSmoothScroll = () => {
+  /**
+   * Smoothly scrolls to the element with the given ID.
+   * @param elementId - DOM element ID to scroll to
+   * @param offset - Pixel offset to subtract from the scroll position
+   */
   const scrollToElement = (elementId: string, offset = 0) => {
     const element = document.getElementById(elementId);
     if (element) {
@@ -102,6 +108,7 @@ export const useSmoothScroll = () => {
     }
   };
 
+  /** Smoothly scrolls the page back to the top. */
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,

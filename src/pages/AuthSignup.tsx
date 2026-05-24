@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   ShieldCheck,
   Building2,
@@ -345,7 +345,6 @@ const SignupRightPanel: React.FC = () => {
   const [password, setPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
-  const [successMessage, setSuccessMessage] = useState<string | null>(null);
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
 
   const {
@@ -379,7 +378,6 @@ const SignupRightPanel: React.FC = () => {
     async (e: React.FormEvent) => {
       e.preventDefault();
       setFormError(null);
-      setSuccessMessage(null);
 
       if (!validateEmail(email)) {
         setFormError(t("auth.validation.invalidEmail"));
@@ -402,7 +400,9 @@ const SignupRightPanel: React.FC = () => {
           metadata.name = displayName.trim();
         }
         await signUpWithEmail(email, password, metadata);
-        setSuccessMessage("Check your email to confirm your account.");
+        navigate(
+          `/auth/registration-success?type=donor&email=${encodeURIComponent(email)}`,
+        );
       } catch (err) {
         const msg = err instanceof Error ? err.message : "Registration failed";
         setFormError(msg);
@@ -414,7 +414,6 @@ const SignupRightPanel: React.FC = () => {
 
   const handlePasskeySignUp = useCallback(async () => {
     setFormError(null);
-    setSuccessMessage(null);
     if (!validateEmail(email)) {
       setFormError(t("auth.validation.emailRequired"));
       return;
@@ -442,7 +441,6 @@ const SignupRightPanel: React.FC = () => {
 
   const handleGoogleSignUp = useCallback(async () => {
     setFormError(null);
-    setSuccessMessage(null);
     try {
       await signInWithGoogle();
     } catch (err) {
@@ -454,7 +452,6 @@ const SignupRightPanel: React.FC = () => {
 
   const handleWalletSignUp = useCallback(async () => {
     setFormError(null);
-    setSuccessMessage(null);
     try {
       await signInWithWallet();
     } catch (err) {
@@ -545,13 +542,6 @@ const SignupRightPanel: React.FC = () => {
         >
           {t("auth.signup.subtitle")}
         </p>
-
-        {/* Success message */}
-        {successMessage !== null && (
-          <output className="flex items-center gap-2 p-3 mb-4 bg-emerald-50 border border-emerald-200 text-emerald-700 rounded-lg text-sm">
-            {successMessage}
-          </output>
-        )}
 
         {/* Error alert */}
         {formError !== null && (

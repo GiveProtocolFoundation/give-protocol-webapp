@@ -6,7 +6,6 @@ import { Input } from "@/components/ui/Input";
 import { PasswordStrengthBar } from "@/components/auth/PasswordStrengthBar";
 import { useTranslation } from "@/hooks/useTranslation";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/useToast";
 import {
   validateEmail,
   validatePassword,
@@ -249,12 +248,9 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           }
         }
 
-        showToast(
-          "success",
-          "Account Created",
-          "Please check your email to verify your account.",
+        navigate(
+          `/auth/registration-success?type=charity-claim&email=${encodeURIComponent(formData.contactEmail)}`,
         );
-        navigate("/auth");
       } catch (err) {
         const message =
           err instanceof Error ? err.message : t("charity.claim.error.generic");

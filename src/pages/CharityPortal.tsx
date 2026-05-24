@@ -1,7 +1,6 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useProfile } from "@/hooks/useProfile";
 import { Plus, Heart, RefreshCw, Wallet, Search } from "lucide-react";
 import {
@@ -23,10 +22,7 @@ import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { CharityOnboardingChecklist } from "@/components/charity/CharityOnboardingChecklist";
 import { VerificationStatusBanner } from "@/components/charity/VerificationStatusBanner";
-import {
-  getCharityWalletAddress,
-  updateCharityWalletAddress,
-} from "@/services/charityProfileService";
+import { getCharityWalletAddress } from "@/services/charityProfileService";
 
 // Type definitions for Supabase data structures
 interface DonationData {
@@ -465,7 +461,6 @@ function formatLastUpdated(date: Date): string {
 export const CharityPortal: React.FC = () => {
   const { user, userType } = useAuth();
   const userId = user?.id ?? null;
-  const { walletAddress: connectedWalletAddress } = useUnifiedAuth();
   const { profile, loading: profileLoading } = useProfile();
   const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabKey>("transactions");
@@ -1092,17 +1087,13 @@ export const CharityPortal: React.FC = () => {
     [],
   );
 
-  const handleWalletLinked = useCallback(async () => {
-    if (connectedWalletAddress && userId) {
-      const success = await updateCharityWalletAddress(
-        userId,
-        connectedWalletAddress,
-      );
-      if (success) {
-        setCharityWalletAddress(connectedWalletAddress);
-      }
-    }
-  }, [connectedWalletAddress, userId]);
+  // Linking a personal wallet to the user account does NOT automatically set
+  // the charity's official receiving wallet — that flow now requires a signed
+  // attestation + email confirmation. See DesignatedWalletCard on the
+  // Organization tab. The legacy auto-write was a security bug.
+  const handleWalletLinked = useCallback(() => {
+    // intentional no-op
+  }, []);
 
   const handleOnboardingNavigate = useCallback((tab: string) => {
     const validTabs: TabKey[] = [

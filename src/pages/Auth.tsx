@@ -640,17 +640,6 @@ const AuthRightPanel: React.FC = () => {
           </Link>
         </p>
 
-        {/* Nonprofit button */}
-        <Link
-          to="/auth/charity"
-          className="w-full flex items-center justify-center gap-2 py-3 px-4 rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-700 transition-colors duration-200 group border-t border-gray-100 dark:border-gray-800 mt-5"
-        >
-          <Building2 className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
-          <span className="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-white">
-            I manage a Nonprofit Profile
-          </span>
-        </Link>
-
         {/* Forgot password */}
         <button
           type="button"

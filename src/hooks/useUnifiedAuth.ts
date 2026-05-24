@@ -26,6 +26,7 @@ interface UnifiedUser {
   displayName: string | null;
 }
 
+/** Current step in the wallet-based authentication flow. */
 export type WalletAuthStep =
   | "connecting"
   | "signing"

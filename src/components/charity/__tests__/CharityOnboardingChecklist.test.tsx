@@ -2,8 +2,8 @@ import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { CharityOnboardingChecklist } from "../CharityOnboardingChecklist";
-import { useWeb3 } from "@/contexts/Web3Context";
 import { supabase } from "@/lib/supabase";
+import { getDesignationState } from "@/services/walletDesignationService";
 
 // Override the moduleNameMapper supabase mock with a testable jest.fn()
 jest.mock("@/lib/supabase", () => ({
@@ -12,8 +12,8 @@ jest.mock("@/lib/supabase", () => ({
   },
 }));
 
-// useWeb3 is provided by moduleNameMapper → web3ContextMock.js (jest.fn)
-const mockUseWeb3 = jest.mocked(useWeb3);
+// getDesignationState is mocked via moduleNameMapper → walletDesignationServiceMock.js
+const mockGetDesignationState = getDesignationState as unknown as jest.Mock;
 
 // Typed reference to the from mock for per-test control
 interface MockResult {
@@ -55,9 +55,8 @@ describe("CharityOnboardingChecklist", () => {
   beforeEach(() => {
     jest.clearAllMocks();
     fromMock.mockImplementation(() => makeChain(DEFAULT_RESULT));
+    mockGetDesignationState.mockResolvedValue(null);
   });
-
-  const WALLET = "0xAbCd1234567890AbCd1234567890AbCd12345678";
 
   const renderChecklist = (
     props: {
@@ -85,7 +84,7 @@ describe("CharityOnboardingChecklist", () => {
         screen.getByText("Upload logo or banner image"),
       ).toBeInTheDocument();
       expect(
-        screen.getByText("Connect wallet for receiving donations"),
+        screen.getByText("Designate official receiving wallet"),
       ).toBeInTheDocument();
       expect(
         screen.getByText("Set up bank details for fiat off-ramp"),
@@ -140,65 +139,29 @@ describe("CharityOnboardingChecklist", () => {
     });
   });
 
-  it("auto-marks connect_wallet complete when wallet is connected and addresses match", async () => {
-    mockUseWeb3.mockReturnValue({
-      provider: null,
-      signer: null,
-      address: WALLET,
-      chainId: 8453,
-      isConnected: true,
-      isConnecting: false,
-      error: null,
-      connect: jest.fn(),
-      disconnect: jest.fn(),
-      switchChain: jest.fn(),
+  it("auto-marks connect_wallet complete when designation status is 'active'", async () => {
+    mockGetDesignationState.mockResolvedValue({
+      status: "active",
+      walletAddress: "0xAbCd1234567890AbCd1234567890AbCd12345678",
+      walletKind: "eoa",
+      designatedAt: "2026-05-17T12:00:00Z",
     });
-    renderChecklist({ walletAddress: WALLET });
+    renderChecklist();
     await waitFor(() => {
       expect(
         screen.getByRole("button", {
-          name: /uncheck connect wallet for receiving donations/i,
+          name: /uncheck designate official receiving wallet/i,
         }),
       ).toBeInTheDocument();
     });
   });
 
-  it("does not auto-mark connect_wallet complete when connected but addresses do not match", async () => {
-    mockUseWeb3.mockReturnValue({
-      provider: null,
-      signer: null,
-      address: "0x0000000000000000000000000000000000000000",
-      chainId: 8453,
-      isConnected: true,
-      isConnecting: false,
-      error: null,
-      connect: jest.fn(),
-      disconnect: jest.fn(),
-      switchChain: jest.fn(),
-    });
-    renderChecklist({ walletAddress: WALLET });
-    await waitFor(() => {
-      expect(screen.getByText("0 of 5 steps complete")).toBeInTheDocument();
-    });
-    expect(
-      screen.queryByRole("button", {
-        name: /uncheck connect wallet for receiving donations/i,
-      }),
-    ).not.toBeInTheDocument();
-  });
-
-  it("does not auto-mark connect_wallet complete when no walletAddress prop is provided", async () => {
-    mockUseWeb3.mockReturnValue({
-      provider: null,
-      signer: null,
-      address: WALLET,
-      chainId: 8453,
-      isConnected: true,
-      isConnecting: false,
-      error: null,
-      connect: jest.fn(),
-      disconnect: jest.fn(),
-      switchChain: jest.fn(),
+  it("does not auto-mark connect_wallet complete when designation status is 'pending_email_confirmation'", async () => {
+    mockGetDesignationState.mockResolvedValue({
+      status: "pending_email_confirmation",
+      walletAddress: null,
+      walletKind: "eoa",
+      designatedAt: null,
     });
     renderChecklist();
     await waitFor(() => {
@@ -206,26 +169,16 @@ describe("CharityOnboardingChecklist", () => {
     });
   });
 
-  it("auto-marks connect_wallet complete with case-insensitive address comparison", async () => {
-    mockUseWeb3.mockReturnValue({
-      provider: null,
-      signer: null,
-      address: WALLET.toLowerCase(),
-      chainId: 8453,
-      isConnected: true,
-      isConnecting: false,
-      error: null,
-      connect: jest.fn(),
-      disconnect: jest.fn(),
-      switchChain: jest.fn(),
+  it("does not auto-mark connect_wallet complete when designation status is 'unset'", async () => {
+    mockGetDesignationState.mockResolvedValue({
+      status: "unset",
+      walletAddress: null,
+      walletKind: null,
+      designatedAt: null,
     });
-    renderChecklist({ walletAddress: WALLET.toUpperCase() });
+    renderChecklist();
     await waitFor(() => {
-      expect(
-        screen.getByRole("button", {
-          name: /uncheck connect wallet for receiving donations/i,
-        }),
-      ).toBeInTheDocument();
+      expect(screen.getByText("0 of 5 steps complete")).toBeInTheDocument();
     });
   });
 

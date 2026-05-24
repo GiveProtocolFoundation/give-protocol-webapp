@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
@@ -11,6 +12,7 @@ import {
   validateName,
 } from "@/utils/validation";
 import { AlertCircle } from "lucide-react";
+import { CharityCategory, CHARITY_CATEGORY_LABELS } from "@/types/charity";
 
 interface CountrySelectProps {
   value: string;
@@ -18,6 +20,40 @@ interface CountrySelectProps {
   countries: { code: string; name: string }[];
   error?: string;
 }
+
+interface CategorySelectProps {
+  value: string;
+  onChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
+  error?: string;
+}
+
+/** Category of entity dropdown selector with validation error display. */
+const CategorySelect: React.FC<CategorySelectProps> = ({
+  value,
+  onChange,
+  error,
+}) => (
+  <label className="block">
+    <span className="text-sm font-medium text-gray-700 mb-1 block">
+      Category of Entity
+    </span>
+    <select
+      name="category"
+      value={value}
+      onChange={onChange}
+      className="block w-full border border-slate-200 dark:border-gray-600 shadow-none bg-white dark:bg-gray-700 rounded-lg px-4 py-2.5 focus:border-emerald-600 focus:ring-0 focus:outline-none text-gray-900 dark:text-gray-100"
+      required
+    >
+      <option value="">Select Category</option>
+      {(Object.values(CharityCategory) as CharityCategory[]).map((cat) => (
+        <option key={cat} value={cat}>
+          {CHARITY_CATEGORY_LABELS[cat]}
+        </option>
+      ))}
+    </select>
+    {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+  </label>
+);
 
 /** Country dropdown selector with validation error display. */
 function CountrySelect({
@@ -224,6 +260,9 @@ export const CharityVettingForm: React.FC = () => {
             name: formData.contactName,
           },
         });
+        navigate(
+          `/auth/registration-success?type=charity-vetting&email=${encodeURIComponent(formData.contactEmail)}`,
+        );
       } catch (err) {
         const message =
           err instanceof Error
@@ -274,13 +313,9 @@ export const CharityVettingForm: React.FC = () => {
         )}
       </label>
 
-      <Input
-        label="Category of Entity"
-        name="category"
-        variant="fintech"
+      <CategorySelect
         value={formData.category}
         onChange={handleChange}
-        required
         error={validationErrors["category"]}
       />
 
@@ -323,7 +358,6 @@ export const CharityVettingForm: React.FC = () => {
           variant="fintech"
           value={formData.state}
           onChange={handleChange}
-          required
           error={validationErrors["state"]}
         />
       </div>
@@ -341,7 +375,6 @@ export const CharityVettingForm: React.FC = () => {
           variant="fintech"
           value={formData.postalCode}
           onChange={handleChange}
-          required
           error={validationErrors["postalCode"]}
         />
       </div>

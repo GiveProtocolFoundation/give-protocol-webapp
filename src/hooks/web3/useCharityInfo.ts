@@ -26,6 +26,7 @@ export function useCharityInfo(
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    /** Fetches charity info from the smart contract for the given address. */
     const fetchCharityInfo = async () => {
       if (!contract || !charityAddress) {
         setCharityInfo(null);

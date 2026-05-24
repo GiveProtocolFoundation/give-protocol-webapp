@@ -25,6 +25,9 @@ import { useMultiChainContext } from "@/contexts/MultiChainContext";
 import { DOCS_CONFIG } from "@/config/docs";
 import { NETWORKS } from "./Wallet/types";
 
+const NAV_LINK_BASE =
+  "flex items-center whitespace-nowrap px-3 h-[60px] text-sm font-medium tracking-wide transition-colors duration-200 border-b-2";
+
 // Desktop navigation links component
 const DesktopNavLinks: React.FC<{
   isLimitedNavPage: boolean;
@@ -42,27 +45,21 @@ const DesktopNavLinks: React.FC<{
   if (isLimitedNavPage) {
     return (
       <>
-        <Link
-          to="/about"
-          className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/about")}`}
-        >
+        <Link to="/about" className={`${NAV_LINK_BASE} ${isActive("/about")}`}>
           {t("nav.about")}
         </Link>
         <a
           href={DOCS_CONFIG.url}
-          className="flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 text-[rgba(255,255,255,0.75)] hover:text-emerald-300"
+          className={`${NAV_LINK_BASE} border-transparent text-[rgba(255,255,255,0.75)] hover:text-emerald-300`}
         >
           {t("nav.docs")}
         </a>
-        <Link
-          to="/legal"
-          className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/legal")}`}
-        >
+        <Link to="/legal" className={`${NAV_LINK_BASE} ${isActive("/legal")}`}>
           {t("nav.legal")}
         </Link>
         <Link
           to="/privacy"
-          className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/privacy")}`}
+          className={`${NAV_LINK_BASE} ${isActive("/privacy")}`}
         >
           {t("nav.privacy")}
         </Link>
@@ -72,15 +69,12 @@ const DesktopNavLinks: React.FC<{
 
   return (
     <>
-      <Link
-        to="/browse"
-        className={`flex items-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/browse")}`}
-      >
+      <Link to="/browse" className={`${NAV_LINK_BASE} ${isActive("/browse")}`}>
         {t("nav.browse")}
       </Link>
       <Link
         to="/opportunities"
-        className={`flex items-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/opportunities")}`}
+        className={`${NAV_LINK_BASE} ${isActive("/opportunities")}`}
       >
         {t("nav.opportunities")}
       </Link>
@@ -88,15 +82,13 @@ const DesktopNavLinks: React.FC<{
         <>
           <Link
             to="/contributions"
-            className={`flex items-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/contributions")}`}
+            className={`${NAV_LINK_BASE} ${isActive("/contributions")}`}
           >
             {t("nav.contributions")}
           </Link>
           <button
             onClick={handleDashboardClick}
-            className={`flex items-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${
-              isActive("/give-dashboard") || isActive("/charity-portal")
-            }`}
+            className="inline-flex items-center whitespace-nowrap px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-colors duration-200"
           >
             {t("nav.dashboard")}
           </button>
@@ -250,10 +242,10 @@ const NavHeader: React.FC = () => (
     className="flex items-center gap-2.5"
     aria-label="Give Protocol home"
   >
-    <Logo className="h-7 w-7" />
+    <Logo className="h-8 w-8" />
     <span
-      className="font-inter text-white"
-      style={{ fontSize: "1.1rem", letterSpacing: "-0.01em" }}
+      className="font-inter font-semibold text-white whitespace-nowrap"
+      style={{ fontSize: "1.15rem", letterSpacing: "-0.01em" }}
     >
       Give Protocol
     </span>
@@ -505,8 +497,8 @@ export const AppNavbar: React.FC = () => {
   const isActive = useCallback(
     (path: string) =>
       location.pathname === path
-        ? "bg-white/15 text-white font-semibold"
-        : "text-[rgba(255,255,255,0.75)] hover:text-emerald-300",
+        ? "border-emerald-300 text-white"
+        : "border-transparent text-[rgba(255,255,255,0.75)] hover:text-emerald-300",
     [location.pathname],
   );
 
@@ -569,9 +561,9 @@ export const AppNavbar: React.FC = () => {
       aria-label="Application navigation"
     >
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-[60px]">
-        <div className="flex items-center">
+        <div className="flex items-center h-full">
           <NavHeader />
-          <div className="hidden md:ml-6 md:flex md:gap-6">
+          <div className="hidden md:ml-8 md:flex md:items-center md:gap-1 h-full">
             <DesktopNavLinks
               isLimitedNavPage={isLimitedNavPage}
               isActive={isActive}
