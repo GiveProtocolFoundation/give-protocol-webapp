@@ -119,7 +119,9 @@ describe("AppNavbar", () => {
 
     it("does not render Contributions link when not authenticated", () => {
       renderNavbar();
-      expect(screen.queryByText("Contribution Tracker")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Contribution Tracker"),
+      ).not.toBeInTheDocument();
     });
 
     it("does not render Dashboard button when not authenticated", () => {

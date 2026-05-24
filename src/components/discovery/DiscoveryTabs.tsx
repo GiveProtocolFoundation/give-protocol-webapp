@@ -69,9 +69,18 @@ export const DiscoveryTabs: React.FC<DiscoveryTabsProps> = ({
 
   const tabs = useMemo(
     () => [
-      { id: "charities" as DiscoveryTab, label: t("browse.tabs.charities", "Charities") },
-      { id: "causes" as DiscoveryTab, label: t("browse.tabs.causes", "Causes") },
-      { id: "funds" as DiscoveryTab, label: t("browse.tabs.funds", "Portfolio Funds") },
+      {
+        id: "charities" as DiscoveryTab,
+        label: t("browse.tabs.charities", "Charities"),
+      },
+      {
+        id: "causes" as DiscoveryTab,
+        label: t("browse.tabs.causes", "Causes"),
+      },
+      {
+        id: "funds" as DiscoveryTab,
+        label: t("browse.tabs.funds", "Portfolio Funds"),
+      },
     ],
     [t],
   );

@@ -204,7 +204,8 @@ export default {
     "auth.panel.statusDesc": "All systems operational",
     "auth.panel.runsOn": "Runs on",
     "auth.panel.headline": "Smart giving. Maximum reach.",
-    "auth.panel.subheadline": "Blockchain-powered giving for transparent impact.",
+    "auth.panel.subheadline":
+      "Blockchain-powered giving for transparent impact.",
 
     // Auth sign in
     "auth.signin.welcomeBack": "Welcome back",
@@ -230,11 +231,13 @@ export default {
     "auth.wallet.connect": "Connect Wallet",
 
     // Auth charity login
-    "auth.charityLogin.mismatch": "This email is registered as a donor account. Please sign in at the donor portal.",
+    "auth.charityLogin.mismatch":
+      "This email is registered as a donor account. Please sign in at the donor portal.",
     "auth.charityLogin.or": "or",
 
     // Auth donor login
-    "auth.donorLogin.mismatch": "This email is registered as a charity account. Please sign in at the charity portal.",
+    "auth.donorLogin.mismatch":
+      "This email is registered as a charity account. Please sign in at the charity portal.",
     "auth.donorLogin.signingIn": "Signing in...",
 
     // Auth donor registration
@@ -249,7 +252,8 @@ export default {
     // Auth validation
     "auth.validation.emailRequired": "Email is required",
     "auth.validation.invalidEmail": "Please enter a valid email address",
-    "auth.validation.passwordTooShort": "Password must be at least 8 characters",
+    "auth.validation.passwordTooShort":
+      "Password must be at least 8 characters",
     "auth.validation.passwordMismatch": "Passwords do not match",
 
     // Auth sign up
@@ -276,8 +280,10 @@ export default {
     // Auth forgot credentials
     "auth.forgot.resetPassword": "Reset Password",
     "auth.forgot.forgotUsername": "Forgot Username",
-    "auth.forgot.passwordDesc": "Enter your email address and we'll send you a reset link.",
-    "auth.forgot.usernameDesc": "Enter your email address and we'll send you your username.",
+    "auth.forgot.passwordDesc":
+      "Enter your email address and we'll send you a reset link.",
+    "auth.forgot.usernameDesc":
+      "Enter your email address and we'll send you your username.",
     "auth.forgot.passwordSuccess": "Password reset email sent",
     "auth.forgot.usernameSuccess": "Username reminder sent",
     "auth.forgot.genericError": "Something went wrong. Please try again.",
@@ -293,7 +299,8 @@ export default {
     "auth.login.donorTitle": "Donor Sign In",
     "auth.login.donorSubtitle": "Sign in to access your giving dashboard",
     "auth.login.charityTitle": "Nonprofit Sign In",
-    "auth.login.charitySubtitle": "Manage your organization profile and donations",
+    "auth.login.charitySubtitle":
+      "Manage your organization profile and donations",
     "auth.login.nonprofitTrayTitle": "Nonprofit Portal",
     "auth.login.createNonprofitAccount": "Create a Nonprofit Account",
     "auth.login.registerOrg": "Register your organization",
@@ -315,8 +322,10 @@ export default {
     "browse.verified": "Verified",
 
     // Charity profile donate widget
-    "charity.profile.donate.walletUnset": "This charity hasn't set up a wallet yet — your donation will be held by Give Protocol Foundation until claimed.",
-    "charity.profile.donate.feeNote": "0% platform fee on direct donations. Network gas fees apply.",
+    "charity.profile.donate.walletUnset":
+      "This charity hasn't set up a wallet yet — your donation will be held by Give Protocol Foundation until claimed.",
+    "charity.profile.donate.feeNote":
+      "0% platform fee on direct donations. Network gas fees apply.",
     "charity.profile.donate.support": "Support {{charityName}}",
 
     // Charity claim form
@@ -332,9 +341,11 @@ export default {
     "charity.claim.confirmPassword": "Confirm Password",
     "charity.claim.creating": "Creating Account...",
     "charity.claim.submit": "Claim Organization",
-    "charity.claim.validation.name": "Contact name must be between 2 and 100 characters",
+    "charity.claim.validation.name":
+      "Contact name must be between 2 and 100 characters",
     "charity.claim.validation.email": "Please enter a valid email address",
-    "charity.claim.validation.password": "Password must be at least 8 characters long",
+    "charity.claim.validation.password":
+      "Password must be at least 8 characters long",
     "charity.claim.validation.confirmPassword": "Passwords do not match",
     "charity.claim.validation.fix": "Please correct the validation errors",
     "charity.claim.error.creation": "Account creation failed",
@@ -344,25 +355,34 @@ export default {
     // Home page
     "home.hero.title": "Transparent Giving",
     "home.hero.titleAccent": "for Everyone",
-    "home.hero.description": "Give Protocol makes charitable giving transparent, borderless, and efficient through blockchain technology.",
+    "home.hero.description":
+      "Give Protocol makes charitable giving transparent, borderless, and efficient through blockchain technology.",
     "home.hero.visionTitle": "Our Vision",
-    "home.hero.visionText": "We are removing barriers to sustainable charitable giving by connecting donors directly to verified organizations worldwide.",
+    "home.hero.visionText":
+      "We are removing barriers to sustainable charitable giving by connecting donors directly to verified organizations worldwide.",
     "home.comingSoon": "Coming Soon",
     "home.readDocs": "Read Documentation",
     "home.features.sectionTitle": "Your Gateway to Transparent Philanthropy",
-    "home.features.sectionSubtitle": "Everything you need to give with confidence and purpose.",
+    "home.features.sectionSubtitle":
+      "Everything you need to give with confidence and purpose.",
     "home.features.highEfficiency.title": "High-Efficiency Giving",
-    "home.features.highEfficiency.description": "Zero platform fees on crypto donations mean more of your money reaches the cause.",
+    "home.features.highEfficiency.description":
+      "Zero platform fees on crypto donations mean more of your money reaches the cause.",
     "home.features.equityFunds.title": "Charitable Equity Funds",
-    "home.features.equityFunds.description": "Pool donations into diversified funds that distribute to multiple vetted charities.",
+    "home.features.equityFunds.description":
+      "Pool donations into diversified funds that distribute to multiple vetted charities.",
     "home.features.impactFunds.title": "Impact Funds",
-    "home.features.impactFunds.description": "Thematic funds focused on specific causes like climate, education, or healthcare.",
+    "home.features.impactFunds.description":
+      "Thematic funds focused on specific causes like climate, education, or healthcare.",
     "home.features.verifiedOrgs.title": "Verified Organizations",
-    "home.features.verifiedOrgs.description": "Every charity is vetted and verified before joining the Give Protocol registry.",
+    "home.features.verifiedOrgs.description":
+      "Every charity is vetted and verified before joining the Give Protocol registry.",
     "home.features.blockchainVerified.title": "Blockchain Verified",
-    "home.features.blockchainVerified.description": "Every donation is recorded on-chain, providing immutable proof of your generosity.",
+    "home.features.blockchainVerified.description":
+      "Every donation is recorded on-chain, providing immutable proof of your generosity.",
     "home.features.bridgingModes.title": "Multi-Chain Support",
-    "home.features.bridgingModes.description": "Donate across multiple blockchains with seamless bridging and conversion.",
+    "home.features.bridgingModes.description":
+      "Donate across multiple blockchains with seamless bridging and conversion.",
     "home.roles.title": "Built for Everyone Changing the World",
     "home.roles.donors.title": "For Donors",
     "home.roles.donors.item1": "Browse verified charities",
@@ -378,16 +398,20 @@ export default {
     "home.roles.volunteers.item3": "Earn on-chain credentials",
     "home.impact.title": "Planned Impact Funds",
     "home.impact.environmental.title": "Environmental Impact Fund",
-    "home.impact.environmental.description": "Supporting organizations working to protect our planet.",
+    "home.impact.environmental.description":
+      "Supporting organizations working to protect our planet.",
     "home.impact.education.title": "Education Opportunity Fund",
-    "home.impact.education.description": "Funding access to quality education for underserved communities.",
+    "home.impact.education.description":
+      "Funding access to quality education for underserved communities.",
     "home.cta.title": "Ready to Transform Giving?",
-    "home.cta.subtitle": "Join the movement toward transparent, borderless philanthropy.",
+    "home.cta.subtitle":
+      "Join the movement toward transparent, borderless philanthropy.",
     "home.nav.features": "Features",
     "home.nav.impact": "Impact",
     "home.nav.charities": "Charities",
     "home.nav.volunteer": "Volunteer",
-    "home.footer.brand.tagline": "Give Protocol is removing barriers to sustainable charitable giving through blockchain technology.",
+    "home.footer.brand.tagline":
+      "Give Protocol is removing barriers to sustainable charitable giving through blockchain technology.",
     "home.footer.product.title": "Product",
     "home.footer.product.impactFunds": "Impact Funds",
     "home.footer.product.charities": "Charities",
@@ -401,7 +425,8 @@ export default {
     "home.footer.copyright": "Give Protocol. All rights reserved.",
 
     // Footer component
-    "footer.brand.tagline": "Give Protocol is removing barriers to sustainable charitable giving through blockchain technology.",
+    "footer.brand.tagline":
+      "Give Protocol is removing barriers to sustainable charitable giving through blockchain technology.",
     "footer.resources.title": "Resources",
     "footer.resources.faq": "FAQ",
     "footer.resources.about": "About Us",
@@ -416,10 +441,13 @@ export default {
     "charity.vetting.selectCategory": "Select a category",
     "charity.vetting.countryLabel": "Country",
     "charity.vetting.selectCountry": "Select a country",
-    "charity.vetting.validation.orgName": "Organization name must be between 2 and 100 characters",
-    "charity.vetting.validation.contactName": "Contact name must be between 2 and 100 characters",
+    "charity.vetting.validation.orgName":
+      "Organization name must be between 2 and 100 characters",
+    "charity.vetting.validation.contactName":
+      "Contact name must be between 2 and 100 characters",
     "charity.vetting.validation.email": "Please enter a valid email address",
-    "charity.vetting.validation.password": "Password must be at least 8 characters long",
+    "charity.vetting.validation.password":
+      "Password must be at least 8 characters long",
     "charity.vetting.validation.confirmPassword": "Passwords do not match",
     "charity.vetting.validation.description": "Description is required",
     "charity.vetting.validation.category": "Category is required",
@@ -427,7 +455,8 @@ export default {
     "charity.vetting.validation.streetAddress": "Street address is required",
     "charity.vetting.validation.city": "City is required",
     "charity.vetting.validation.country": "Country is required",
-    "charity.vetting.validation.fix": "Please fix the errors above before submitting",
+    "charity.vetting.validation.fix":
+      "Please fix the errors above before submitting",
     "charity.vetting.orgDetails": "Organization Details",
     "charity.vetting.orgName": "Organization Name",
     "charity.vetting.description": "Description",

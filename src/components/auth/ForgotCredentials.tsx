@@ -29,7 +29,9 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
   const { t } = useTranslation();
 
   const isPassword = type === "password";
-  const title = isPassword ? t("auth.forgot.resetPassword") : t("auth.forgot.forgotUsername");
+  const title = isPassword
+    ? t("auth.forgot.resetPassword")
+    : t("auth.forgot.forgotUsername");
   const description = isPassword
     ? t("auth.forgot.passwordDesc")
     : t("auth.forgot.usernameDesc");
@@ -134,9 +136,18 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
           />
         </div>
 
-        {error && <div role="alert" className="text-sm text-red-600">{error}</div>}
+        {error && (
+          <div role="alert" className="text-sm text-red-600">
+            {error}
+          </div>
+        )}
 
-        <Button type="submit" className="w-full min-h-[48px]" disabled={loading} aria-busy={loading}>
+        <Button
+          type="submit"
+          className="w-full min-h-[48px]"
+          disabled={loading}
+          aria-busy={loading}
+        >
           {loading
             ? t("auth.forgot.sending")
             : isPassword

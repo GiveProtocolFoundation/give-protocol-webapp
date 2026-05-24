@@ -98,13 +98,16 @@ interface FeaturedCharitiesCarouselProps {
  */
 export const FeaturedCharitiesCarousel: React.FC<
   FeaturedCharitiesCarouselProps
-> = ({
-  heading,
-  subheading,
-}) => {
+> = ({ heading, subheading }) => {
   const { t } = useTranslation();
-  const displayHeading = heading ?? t("browse.featured.heading", "Featured organizations");
-  const displaySubheading = subheading ?? t("browse.featured.subheading", "A rotating look at verified charities on Give Protocol.");
+  const displayHeading =
+    heading ?? t("browse.featured.heading", "Featured organizations");
+  const displaySubheading =
+    subheading ??
+    t(
+      "browse.featured.subheading",
+      "A rotating look at verified charities on Give Protocol.",
+    );
   const { charities, loading } = useFeaturedCharities();
   const [pageIndex, setPageIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -157,7 +160,9 @@ export const FeaturedCharitiesCarousel: React.FC<
 
   if (loading) {
     return (
-      <section aria-label={t("browse.featured.ariaLabel", "Featured organizations")}>
+      <section
+        aria-label={t("browse.featured.ariaLabel", "Featured organizations")}
+      >
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
             {displayHeading}
@@ -204,7 +209,10 @@ export const FeaturedCharitiesCarousel: React.FC<
             <button
               type="button"
               onClick={handlePrev}
-              aria-label={t("browse.featured.prevAria", "Previous featured organizations")}
+              aria-label={t(
+                "browse.featured.prevAria",
+                "Previous featured organizations",
+              )}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronLeft aria-hidden="true" className="h-4 w-4" />
@@ -212,7 +220,10 @@ export const FeaturedCharitiesCarousel: React.FC<
             <button
               type="button"
               onClick={handleNext}
-              aria-label={t("browse.featured.nextAria", "Next featured organizations")}
+              aria-label={t(
+                "browse.featured.nextAria",
+                "Next featured organizations",
+              )}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronRight aria-hidden="true" className="h-4 w-4" />

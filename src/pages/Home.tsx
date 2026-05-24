@@ -250,9 +250,7 @@ function HomeFooterBrand() {
         />
         <span className="text-xl font-bold">{t("app.name")}</span>
       </div>
-      <p className="text-gray-400 text-sm">
-        {t("home.footer.brand.tagline")}
-      </p>
+      <p className="text-gray-400 text-sm">{t("home.footer.brand.tagline")}</p>
     </div>
   );
 }
@@ -401,9 +399,18 @@ function HomeFooter() {
     <footer className="relative z-10 container mx-auto px-6 py-12 border-t border-white/10">
       <div className="grid md:grid-cols-4 gap-8 mb-8">
         <HomeFooterBrand />
-        <HomeFooterLinks title={t("home.footer.product.title")} links={productLinks} />
-        <HomeFooterLinks title={t("home.footer.resources.title")} links={resourceLinks} />
-        <HomeFooterLinks title={t("home.footer.connect.title")} links={connectLinks} />
+        <HomeFooterLinks
+          title={t("home.footer.product.title")}
+          links={productLinks}
+        />
+        <HomeFooterLinks
+          title={t("home.footer.resources.title")}
+          links={resourceLinks}
+        />
+        <HomeFooterLinks
+          title={t("home.footer.connect.title")}
+          links={connectLinks}
+        />
       </div>
       <div className="pt-8 border-t border-white/10 text-center text-gray-400 text-sm">
         <p>

@@ -93,9 +93,12 @@ function RaisedStatsRow({
   const { t } = useTranslation();
   return (
     <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-      <span>${raised.toLocaleString()} {t("browse.causes.raised", "raised")}</span>
       <span>
-        {pct}{t("browse.causes.percentOf", "% of")} ${target.toLocaleString()}
+        ${raised.toLocaleString()} {t("browse.causes.raised", "raised")}
+      </span>
+      <span>
+        {pct}
+        {t("browse.causes.percentOf", "% of")} ${target.toLocaleString()}
       </span>
     </div>
   );
@@ -180,8 +183,14 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
   subheading,
 }) => {
   const { t } = useTranslation();
-  const displayHeading = heading ?? t("browse.causes.heading", "Featured causes");
-  const displaySubheading = subheading ?? t("browse.causes.subheading", "Support specific projects making real impact.");
+  const displayHeading =
+    heading ?? t("browse.causes.heading", "Featured causes");
+  const displaySubheading =
+    subheading ??
+    t(
+      "browse.causes.subheading",
+      "Support specific projects making real impact.",
+    );
   const { causes, loading } = useFeaturedCauses();
   const [pageIndex, setPageIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -262,7 +271,12 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
         </div>
         <div className="text-center py-16 text-gray-500 dark:text-gray-400">
           <Target className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-          <p>{t("browse.causes.empty", "No causes available yet. Check back soon!")}</p>
+          <p>
+            {t(
+              "browse.causes.empty",
+              "No causes available yet. Check back soon!",
+            )}
+          </p>
         </div>
       </section>
     );
@@ -295,7 +309,10 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
             <button
               type="button"
               onClick={handlePrev}
-              aria-label={t("browse.causes.prevAria", "Previous featured causes")}
+              aria-label={t(
+                "browse.causes.prevAria",
+                "Previous featured causes",
+              )}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronLeft aria-hidden="true" className="h-4 w-4" />

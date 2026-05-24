@@ -112,7 +112,10 @@ function RegistryPublicRecord({
   const rows = useMemo(
     () => [
       { label: t("charity.profile.rowEin", "EIN"), value: charityRecord.ein },
-      { label: t("charity.profile.rowName", "Name"), value: charityRecord.name },
+      {
+        label: t("charity.profile.rowName", "Name"),
+        value: charityRecord.name,
+      },
       {
         label: t("charity.profile.rowLocation", "Location"),
         value:
@@ -120,8 +123,14 @@ function RegistryPublicRecord({
             .filter(Boolean)
             .join(", ") || "—",
       },
-      { label: t("charity.profile.rowRulingYear", "Ruling year"), value: formatRulingYear(charityRecord.ruling) },
-      { label: t("charity.profile.rowNteeCode", "NTEE code"), value: formatNteeCode(charityRecord.ntee_cd) },
+      {
+        label: t("charity.profile.rowRulingYear", "Ruling year"),
+        value: formatRulingYear(charityRecord.ruling),
+      },
+      {
+        label: t("charity.profile.rowNteeCode", "NTEE code"),
+        value: formatNteeCode(charityRecord.ntee_cd),
+      },
       {
         label: t("charity.profile.rowDeductibility", "Deductibility"),
         value: lookupIrsCode("deductibility", charityRecord.deductibility),
@@ -130,7 +139,10 @@ function RegistryPublicRecord({
         label: t("charity.profile.rowAffiliation", "Affiliation"),
         value: lookupIrsCode("affiliation", charityRecord.affiliation),
       },
-      { label: t("charity.profile.rowClassification", "Classification"), value: charityRecord.classification ?? "—" },
+      {
+        label: t("charity.profile.rowClassification", "Classification"),
+        value: charityRecord.classification ?? "—",
+      },
       {
         label: t("charity.profile.rowFoundation", "Foundation type"),
         value: lookupIrsCode("foundation", charityRecord.foundation),
@@ -139,9 +151,18 @@ function RegistryPublicRecord({
         label: t("charity.profile.rowActivityCodes", "Activity codes"),
         value: formatActivityCodes(charityRecord.activity),
       },
-      { label: t("charity.profile.rowOrgType", "Organization type"), value: charityRecord.organization ?? "—" },
-      { label: t("charity.profile.rowSubsection", "Subsection"), value: charityRecord.subsection ?? "—" },
-      { label: t("charity.profile.rowStatus", "Status"), value: charityRecord.status ?? "—" },
+      {
+        label: t("charity.profile.rowOrgType", "Organization type"),
+        value: charityRecord.organization ?? "—",
+      },
+      {
+        label: t("charity.profile.rowSubsection", "Subsection"),
+        value: charityRecord.subsection ?? "—",
+      },
+      {
+        label: t("charity.profile.rowStatus", "Status"),
+        value: charityRecord.status ?? "—",
+      },
     ],
     [charityRecord, t],
   );
@@ -175,7 +196,10 @@ function RegistryPublicRecord({
             ))}
           </dl>
           <p className="text-xs text-gray-400 mt-3 pt-3 border-t border-gray-100">
-            {t("charity.profile.registrySource", "Data sourced from official charity registry.")}
+            {t(
+              "charity.profile.registrySource",
+              "Data sourced from official charity registry.",
+            )}
           </p>
         </div>
       )}
@@ -267,14 +291,22 @@ function HeaderInfo({
         {profile && <StatusPill profile={profile} />}
       </div>
       <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-gray-500">
-        <span>{t("charity.profile.einDisplay", "EIN")} {ein}</span>
+        <span>
+          {t("charity.profile.einDisplay", "EIN")} {ein}
+        </span>
         {location && (
           <span className="flex items-center gap-1">
             <MapPin className="h-3.5 w-3.5" />
             {location}
           </span>
         )}
-        {rulingYear !== "—" && <span>{t("charity.profile.registeredYear", "Registered {{year}}", { year: rulingYear })}</span>}
+        {rulingYear !== "—" && (
+          <span>
+            {t("charity.profile.registeredYear", "Registered {{year}}", {
+              year: rulingYear,
+            })}
+          </span>
+        )}
       </div>
       <div className="flex flex-wrap gap-1.5 mt-1">
         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -394,7 +426,9 @@ function AboutCard({
   const { t } = useTranslation();
   return (
     <Card hover={false} className="p-5">
-      <h3 className="text-sm font-semibold text-gray-900 mb-2">{t("charity.profile.about", "About")}</h3>
+      <h3 className="text-sm font-semibold text-gray-900 mb-2">
+        {t("charity.profile.about", "About")}
+      </h3>
       {description || missionStatement || mission ? (
         <p className="text-sm text-gray-600 leading-relaxed">
           {description ?? missionStatement ?? mission}
@@ -404,11 +438,17 @@ function AboutCard({
           {activity && activity !== "000000000" ? (
             <>
               <p>
-                {t("charity.profile.activityIntro", "This organization's activities include: activity codes")}{" "}
+                {t(
+                  "charity.profile.activityIntro",
+                  "This organization's activities include: activity codes",
+                )}{" "}
                 {formatActivityCodes(activity)}.
               </p>
               <p className="italic text-gray-400 mt-2">
-                {t("charity.profile.notCustomized", "This description has not been customized yet.")}{" "}
+                {t(
+                  "charity.profile.notCustomized",
+                  "This description has not been customized yet.",
+                )}{" "}
                 <a
                   href={`/claim/${einDigits}`}
                   className="text-emerald-600 hover:underline not-italic"
@@ -460,7 +500,9 @@ function ContactCard({
   const { t } = useTranslation();
   return (
     <Card hover={false} className="p-5">
-      <h3 className="text-sm font-semibold text-gray-900 mb-3">{t("charity.profile.contact", "Contact")}</h3>
+      <h3 className="text-sm font-semibold text-gray-900 mb-3">
+        {t("charity.profile.contact", "Contact")}
+      </h3>
       <div className="space-y-2 text-sm">
         {website && (
           <a
@@ -581,7 +623,10 @@ function CharityProfilePage() {
             className="h-10 w-10 text-gray-300 mx-auto mb-4"
           />
           <p className="text-gray-600">
-            {t("charity.profile.notFound", "We couldn't find a charity with this EIN.")}
+            {t(
+              "charity.profile.notFound",
+              "We couldn't find a charity with this EIN.",
+            )}
           </p>
         </Card>
       </div>

@@ -200,7 +200,9 @@ export const DonorRegistration: React.FC = () => {
           aria-busy={loading}
           icon={<Fingerprint className="h-4 w-4" />}
         >
-          {loading ? t("auth.donorReg.pleaseWait") : t("auth.donorReg.signUpPasskey")}
+          {loading
+            ? t("auth.donorReg.pleaseWait")
+            : t("auth.donorReg.signUpPasskey")}
         </Button>
       )}
 
@@ -235,7 +237,9 @@ export const DonorRegistration: React.FC = () => {
           className="w-full flex items-center justify-between text-sm text-gray-500 hover:text-gray-700 transition-colors py-2"
           aria-expanded={isPasswordOpen}
         >
-          <span className="font-medium">{t("auth.donorReg.orSetPassword")}</span>
+          <span className="font-medium">
+            {t("auth.donorReg.orSetPassword")}
+          </span>
           {isPasswordOpen ? (
             <ChevronUp className="h-4 w-4" />
           ) : (
@@ -278,7 +282,9 @@ export const DonorRegistration: React.FC = () => {
               disabled={loading}
               aria-busy={loading}
             >
-              {loading ? t("auth.donorReg.creating") : t("auth.donorReg.createAccount")}
+              {loading
+                ? t("auth.donorReg.creating")
+                : t("auth.donorReg.createAccount")}
             </Button>
           </form>
         )}

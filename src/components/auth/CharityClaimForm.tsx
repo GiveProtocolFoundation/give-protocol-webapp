@@ -32,15 +32,22 @@ const RegistryDetailsPanel: React.FC<{
         {t("charity.claim.orgDetails")}
       </h3>
       <p>
-        <span className="font-medium text-gray-700">{t("charity.claim.orgNameLabel")}:</span>{" "}
+        <span className="font-medium text-gray-700">
+          {t("charity.claim.orgNameLabel")}:
+        </span>{" "}
         {organization.name}
       </p>
       <p>
-        <span className="font-medium text-gray-700">{t("charity.claim.einLabel")}:</span> {organization.ein}
+        <span className="font-medium text-gray-700">
+          {t("charity.claim.einLabel")}:
+        </span>{" "}
+        {organization.ein}
       </p>
       {registryLocation && (
         <p>
-          <span className="font-medium text-gray-700">{t("charity.claim.locationLabel")}:</span>{" "}
+          <span className="font-medium text-gray-700">
+            {t("charity.claim.locationLabel")}:
+          </span>{" "}
           {registryLocation}
         </p>
       )}
@@ -104,9 +111,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
     (name: string, value: string): string => {
       switch (name) {
         case "contactName":
-          return validateName(value)
-            ? ""
-            : t("charity.claim.validation.name");
+          return validateName(value) ? "" : t("charity.claim.validation.name");
         case "contactEmail":
           return validateEmail(value)
             ? ""
@@ -116,7 +121,9 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
             ? ""
             : t("charity.claim.validation.password");
         case "confirmPassword":
-          return value === formData.password ? "" : t("charity.claim.validation.confirmPassword");
+          return value === formData.password
+            ? ""
+            : t("charity.claim.validation.confirmPassword");
         default:
           return "";
       }

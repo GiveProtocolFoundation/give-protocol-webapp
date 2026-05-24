@@ -107,13 +107,16 @@ interface FeaturedPortfolioFundsCarouselProps {
  */
 export const FeaturedPortfolioFundsCarousel: React.FC<
   FeaturedPortfolioFundsCarouselProps
-> = ({
-  heading,
-  subheading,
-}) => {
+> = ({ heading, subheading }) => {
   const { t } = useTranslation();
-  const displayHeading = heading ?? t("browse.funds.heading", "Portfolio Funds");
-  const displaySubheading = subheading ?? t("browse.funds.subheading", "Curated giving portfolios that distribute donations across verified charities.");
+  const displayHeading =
+    heading ?? t("browse.funds.heading", "Portfolio Funds");
+  const displaySubheading =
+    subheading ??
+    t(
+      "browse.funds.subheading",
+      "Curated giving portfolios that distribute donations across verified charities.",
+    );
   const { funds, loading } = useFeaturedPortfolioFunds();
   const [pageIndex, setPageIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -194,7 +197,12 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
         </div>
         <div className="text-center py-16 text-gray-500 dark:text-gray-400">
           <Heart className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-          <p>{t("browse.funds.empty", "No portfolio funds available yet. Check back soon!")}</p>
+          <p>
+            {t(
+              "browse.funds.empty",
+              "No portfolio funds available yet. Check back soon!",
+            )}
+          </p>
         </div>
       </section>
     );
@@ -227,7 +235,10 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
             <button
               type="button"
               onClick={handlePrev}
-              aria-label={t("browse.funds.prevAria", "Previous portfolio funds")}
+              aria-label={t(
+                "browse.funds.prevAria",
+                "Previous portfolio funds",
+              )}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronLeft aria-hidden="true" className="h-4 w-4" />

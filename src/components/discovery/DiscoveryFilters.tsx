@@ -155,7 +155,10 @@ export const DiscoveryFilters: React.FC<DiscoveryFiltersProps> = ({
             type="search"
             value={value.searchTerm}
             onChange={handleSearchChange}
-            placeholder={t("browse.filter.searchPlaceholder", "Search charities...")}
+            placeholder={t(
+              "browse.filter.searchPlaceholder",
+              "Search charities...",
+            )}
             aria-label={t("browse.filter.searchAria", "Search charities")}
             className="w-full h-11 pl-10 pr-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400"
           />
@@ -171,7 +174,10 @@ export const DiscoveryFilters: React.FC<DiscoveryFiltersProps> = ({
               value={locationInput}
               onChange={handleLocationInputChange}
               onKeyDown={handleLocationKeyDown}
-              placeholder={t("browse.filter.locationPlaceholder", "City, state, or country...")}
+              placeholder={t(
+                "browse.filter.locationPlaceholder",
+                "City, state, or country...",
+              )}
               aria-label={t("browse.filter.locationAria", "Search location")}
               className="w-full h-11 pl-10 pr-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400"
             />

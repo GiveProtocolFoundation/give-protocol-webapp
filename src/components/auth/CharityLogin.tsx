@@ -20,7 +20,9 @@ export const CharityLogin: React.FC = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
   const [fieldErrors, setFieldErrors] = useState({ email: "", password: "" });
-  const [redirectCountdown, setRedirectCountdown] = useState<number | null>(null);
+  const [redirectCountdown, setRedirectCountdown] = useState<number | null>(
+    null,
+  );
   const [walletLoading, setWalletLoading] = useState(false);
   const redirectTarget = useRef<string | null>(null);
 
@@ -36,7 +38,10 @@ export const CharityLogin: React.FC = () => {
       }
       return undefined;
     }
-    const id = setTimeout(() => setRedirectCountdown((c) => (c !== null ? c - 1 : null)), 1000);
+    const id = setTimeout(
+      () => setRedirectCountdown((c) => (c !== null ? c - 1 : null)),
+      1000,
+    );
     return () => clearTimeout(id);
   }, [redirectCountdown, navigate]);
 
@@ -72,7 +77,12 @@ export const CharityLogin: React.FC = () => {
 
         // Check for account type mismatch
         if (message.includes("registered as a donor account")) {
-          setError(t("auth.charityLogin.mismatch", "This email is registered as a donor account. Please sign in at the donor portal."));
+          setError(
+            t(
+              "auth.charityLogin.mismatch",
+              "This email is registered as a donor account. Please sign in at the donor portal.",
+            ),
+          );
 
           // Disconnect wallet and start countdown redirect
           await disconnect();
@@ -115,7 +125,14 @@ export const CharityLogin: React.FC = () => {
           <span>
             {error}
             {redirectCountdown !== null && redirectCountdown > 0 && (
-              <>{" "}{t("auth.donorLogin.redirecting", "Redirecting in {{count}}...", { count: redirectCountdown })}</>
+              <>
+                {" "}
+                {t(
+                  "auth.donorLogin.redirecting",
+                  "Redirecting in {{count}}...",
+                  { count: redirectCountdown },
+                )}
+              </>
             )}
           </span>
         </div>
@@ -155,12 +172,16 @@ export const CharityLogin: React.FC = () => {
           disabled={loading}
           aria-busy={loading}
         >
-          {emailLoading ? t("auth.charityLogin.signingIn", "Signing in...") : t("auth.login", "Sign In")}
+          {emailLoading
+            ? t("auth.charityLogin.signingIn", "Signing in...")
+            : t("auth.login", "Sign In")}
         </Button>
       </form>
       <div className="flex items-center gap-3 my-5">
         <div className="flex-1 h-px bg-gray-200" />
-        <span className="text-xs text-gray-400 font-medium">{t("auth.charityLogin.or")}</span>
+        <span className="text-xs text-gray-400 font-medium">
+          {t("auth.charityLogin.or")}
+        </span>
         <div className="flex-1 h-px bg-gray-200" />
       </div>
       <Button
@@ -171,7 +192,9 @@ export const CharityLogin: React.FC = () => {
         onClick={handleWalletLogin}
         icon={<Wallet className="h-4 w-4" />}
       >
-        {walletLoading ? t("auth.charityLogin.connecting", "Connecting...") : t("auth.charityLogin.connectWallet", "Connect Wallet")}
+        {walletLoading
+          ? t("auth.charityLogin.connecting", "Connecting...")
+          : t("auth.charityLogin.connectWallet", "Connect Wallet")}
       </Button>
     </div>
   );

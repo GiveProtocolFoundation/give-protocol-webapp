@@ -73,7 +73,12 @@ export const CauseGrid: React.FC<CauseGridProps> = ({
   if (filteredCauses.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">{t("browse.causes.noResults", "No causes found matching your criteria.")}</p>
+        <p className="text-gray-500">
+          {t(
+            "browse.causes.noResults",
+            "No causes found matching your criteria.",
+          )}
+        </p>
       </div>
     );
   }

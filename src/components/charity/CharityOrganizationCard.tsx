@@ -53,7 +53,9 @@ export const CharityOrganizationCard: React.FC<
             aria-hidden="true"
             className="h-4 w-4 mr-2 text-gray-400 shrink-0"
           />
-          <span>{t("browse.charity.einLabel", "EIN")}: {organization.ein}</span>
+          <span>
+            {t("browse.charity.einLabel", "EIN")}: {organization.ein}
+          </span>
         </div>
 
         {location && (
@@ -75,7 +77,8 @@ export const CharityOrganizationCard: React.FC<
         )}
         {organization.deductibility && (
           <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded">
-            {t("browse.charity.deductibilityLabel", "Deductibility")}: {organization.deductibility}
+            {t("browse.charity.deductibilityLabel", "Deductibility")}:{" "}
+            {organization.deductibility}
           </span>
         )}
       </div>

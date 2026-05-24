@@ -22,7 +22,9 @@ const CharityCardContent: React.FC<{ charity: Charity }> = ({ charity }) => {
         )}
         <span className="ml-2 text-sm text-gray-500">{charity.country}</span>
       </div>
-      <h3 className="text-xl font-semibold text-gray-900 mb-2">{charity.name}</h3>
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        {charity.name}
+      </h3>
       <p className="text-gray-600">{charity.description}</p>
     </div>
   );

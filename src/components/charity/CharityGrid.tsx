@@ -56,7 +56,10 @@ export const CharityGrid: React.FC<CharityGridProps> = ({
     return (
       <div className="text-center py-12">
         <p className="text-gray-500">
-          {t("browse.charity.searchPrompt", "Enter a search term or add a location filter to find charities.")}
+          {t(
+            "browse.charity.searchPrompt",
+            "Enter a search term or add a location filter to find charities.",
+          )}
         </p>
       </div>
     );
@@ -74,7 +77,10 @@ export const CharityGrid: React.FC<CharityGridProps> = ({
     return (
       <div className="text-center py-12">
         <p className="text-gray-500">
-          {t("browse.charity.noResults", "No charities found matching your criteria.")}
+          {t(
+            "browse.charity.noResults",
+            "No charities found matching your criteria.",
+          )}
         </p>
       </div>
     );
@@ -97,7 +103,9 @@ export const CharityGrid: React.FC<CharityGridProps> = ({
             onClick={handleLoadMore}
             disabled={loading}
           >
-            {loading ? t("browse.charity.loading", "Loading...") : t("browse.charity.loadMore", "Load More")}
+            {loading
+              ? t("browse.charity.loading", "Loading...")
+              : t("browse.charity.loadMore", "Load More")}
           </Button>
         </div>
       )}

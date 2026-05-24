@@ -64,7 +64,10 @@ export const PublicDiscoveryView: React.FC = () => {
           {t("browse.hero.title", "Giving, verified on-chain.")}
         </h1>
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-xl">
-          {t("browse.hero.subtitle", "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.")}
+          {t(
+            "browse.hero.subtitle",
+            "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
+          )}
         </p>
       </div>
 
@@ -134,7 +137,10 @@ export const PublicDiscoveryView: React.FC = () => {
           </div>
           {!loading && organizations.length === 0 && (
             <div className="text-center py-16 text-gray-500 dark:text-gray-400">
-              {t("browse.results.empty", "No organizations match that search yet. Try a different keyword or add a location filter.")}
+              {t(
+                "browse.results.empty",
+                "No organizations match that search yet. Try a different keyword or add a location filter.",
+              )}
             </div>
           )}
         </section>

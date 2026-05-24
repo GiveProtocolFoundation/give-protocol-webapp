@@ -19,9 +19,13 @@ interface CountrySelectProps {
   error?: string;
 }
 
-
 /** Country dropdown selector with validation error display. */
-function CountrySelect({ value, onChange, countries, error }: CountrySelectProps) {
+function CountrySelect({
+  value,
+  onChange,
+  countries,
+  error,
+}: CountrySelectProps) {
   const { t } = useTranslation();
   return (
     <label className="block">
@@ -106,21 +110,38 @@ export const CharityVettingForm: React.FC = () => {
         case "organizationName":
           return validateName(value)
             ? ""
-            : t("charity.vetting.validation.orgName", "Organization name must be between 2 and 100 characters");
+            : t(
+                "charity.vetting.validation.orgName",
+                "Organization name must be between 2 and 100 characters",
+              );
         case "contactName":
           return validateName(value)
             ? ""
-            : t("charity.vetting.validation.contactName", "Contact name must be between 2 and 100 characters");
+            : t(
+                "charity.vetting.validation.contactName",
+                "Contact name must be between 2 and 100 characters",
+              );
         case "contactEmail":
           return validateEmail(value)
             ? ""
-            : t("charity.vetting.validation.email", "Please enter a valid email address");
+            : t(
+                "charity.vetting.validation.email",
+                "Please enter a valid email address",
+              );
         case "password":
           return validatePassword(value)
             ? ""
-            : t("charity.vetting.validation.password", "Password must be at least 8 characters long");
+            : t(
+                "charity.vetting.validation.password",
+                "Password must be at least 8 characters long",
+              );
         case "confirmPassword":
-          return value === formData.password ? "" : t("charity.vetting.validation.confirmPassword", "Passwords do not match");
+          return value === formData.password
+            ? ""
+            : t(
+                "charity.vetting.validation.confirmPassword",
+                "Passwords do not match",
+              );
         default:
           return "";
       }
@@ -205,7 +226,9 @@ export const CharityVettingForm: React.FC = () => {
         });
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : t("charity.vetting.error.generic");
+          err instanceof Error
+            ? err.message
+            : t("charity.vetting.error.generic");
         setError(message);
       }
     },
@@ -271,7 +294,9 @@ export const CharityVettingForm: React.FC = () => {
         error={validationErrors["taxId"]}
       />
 
-      <h3 className="text-lg font-semibold text-gray-900">{t("charity.vetting.address")}</h3>
+      <h3 className="text-lg font-semibold text-gray-900">
+        {t("charity.vetting.address")}
+      </h3>
       <Input
         label={t("charity.vetting.streetAddress")}
         name="streetAddress"
@@ -343,7 +368,9 @@ export const CharityVettingForm: React.FC = () => {
         required
         error={validationErrors["contactEmail"]}
       />
-      <h3 className="text-lg font-semibold text-gray-900">{t("charity.vetting.accountSecurity")}</h3>
+      <h3 className="text-lg font-semibold text-gray-900">
+        {t("charity.vetting.accountSecurity")}
+      </h3>
       <div className="space-y-1">
         <Input
           label={t("charity.vetting.password")}
@@ -373,7 +400,9 @@ export const CharityVettingForm: React.FC = () => {
         className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
         disabled={loading}
       >
-        {loading ? t("charity.vetting.submitting") : t("charity.vetting.submit")}
+        {loading
+          ? t("charity.vetting.submitting")
+          : t("charity.vetting.submit")}
       </Button>
     </form>
   );

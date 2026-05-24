@@ -115,7 +115,10 @@ const RunsOnTags: React.FC = () => {
   const { t } = useTranslation();
   return (
     <div>
-      <div className="flex items-center gap-2" style={{ marginBottom: "0.6rem" }}>
+      <div
+        className="flex items-center gap-2"
+        style={{ marginBottom: "0.6rem" }}
+      >
         <span
           style={{
             fontSize: "0.68rem",
@@ -169,7 +172,10 @@ const SignupLeftPanel: React.FC = () => {
         className="absolute inset-0 pointer-events-none"
         style={ATMOSPHERE_STYLE}
       />
-      <div className="absolute inset-0 pointer-events-none" style={GRID_STYLE} />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={GRID_STYLE}
+      />
       <div
         className="absolute rounded-full animate-orbDrift pointer-events-none"
         style={{
@@ -596,7 +602,9 @@ const SignupRightPanel: React.FC = () => {
         {/* Divider */}
         <div className="flex items-center gap-3 my-4">
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-          <span className="text-xs text-gray-400 font-medium">{t("auth.signin.or")}</span>
+          <span className="text-xs text-gray-400 font-medium">
+            {t("auth.signin.or")}
+          </span>
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
         </div>
 

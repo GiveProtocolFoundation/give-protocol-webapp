@@ -17,9 +17,7 @@ function FooterBrand() {
         <Logo className="h-6 w-6 mr-2" />
         Give Protocol
       </Link>
-      <p className="text-sm text-white/90">
-        {t("footer.brand.tagline")}
-      </p>
+      <p className="text-sm text-white/90">{t("footer.brand.tagline")}</p>
     </div>
   );
 }

@@ -63,7 +63,10 @@ interface LoginHelpersProps {
 }
 
 /** Help links below the login form for recovering username or password */
-function LoginHelpers({ onForgotUsername, onForgotPassword }: LoginHelpersProps) {
+function LoginHelpers({
+  onForgotUsername,
+  onForgotPassword,
+}: LoginHelpersProps) {
   const { t } = useTranslation();
   return (
     <nav className="mt-6 space-y-4" aria-label="Login help options">
@@ -72,7 +75,9 @@ function LoginHelpers({ onForgotUsername, onForgotPassword }: LoginHelpersProps)
           <div className="w-full border-t border-gray-300" />
         </div>
         <div className="relative flex justify-center text-base">
-          <span className="px-2 bg-white text-gray-700">{t("auth.login.needHelp")}</span>
+          <span className="px-2 bg-white text-gray-700">
+            {t("auth.login.needHelp")}
+          </span>
         </div>
       </div>
 
@@ -188,12 +193,16 @@ const Login: React.FC = () => {
               disabled={isConnecting}
               className="font-semibold"
             >
-              {isConnecting ? t("auth.login.connecting") : t("auth.login.connectWalletSignIn")}
+              {isConnecting
+                ? t("auth.login.connecting")
+                : t("auth.login.connectWalletSignIn")}
             </Button>
 
             {/* Sign up prompt */}
             <div className="text-center space-y-1 pt-2">
-              <p className="text-sm text-gray-500">{t("auth.login.newToPlatform")}</p>
+              <p className="text-sm text-gray-500">
+                {t("auth.login.newToPlatform")}
+              </p>
               <Link
                 to="/register"
                 className="inline-block text-sm text-emerald-700 hover:text-emerald-800 font-semibold hover:underline decoration-emerald-500 decoration-2 underline-offset-4 transition-all duration-200 py-1 px-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"

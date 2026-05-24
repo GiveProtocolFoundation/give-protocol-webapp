@@ -51,7 +51,10 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
         <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
           <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700">
-            {t("charity.profile.donate.walletUnset", "This charity hasn't set up a wallet yet — your donation will be held by Give Protocol Foundation until claimed.")}
+            {t(
+              "charity.profile.donate.walletUnset",
+              "This charity hasn't set up a wallet yet — your donation will be held by Give Protocol Foundation until claimed.",
+            )}
           </p>
         </div>
       )}
@@ -65,7 +68,10 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
       </Button>
 
       <p className="text-xs text-gray-400 text-center">
-        {t("charity.profile.donate.feeNote", "0% platform fee on direct donations. Network gas fees apply.")}
+        {t(
+          "charity.profile.donate.feeNote",
+          "0% platform fee on direct donations. Network gas fees apply.",
+        )}
       </p>
     </div>
   );
@@ -75,7 +81,9 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
       {mode === "sidebar" ? (
         <Card hover={false} className="p-5">
           <h3 className="text-sm font-semibold text-gray-900 mb-3">
-            {t("charity.profile.donate.support", "Support {{charityName}}", { charityName })}
+            {t("charity.profile.donate.support", "Support {{charityName}}", {
+              charityName,
+            })}
           </h3>
           {body}
         </Card>

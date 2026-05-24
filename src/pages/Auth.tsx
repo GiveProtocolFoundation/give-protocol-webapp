@@ -71,75 +71,75 @@ const GRID_STYLE: React.CSSProperties = {
 const ProtocolStatusBanner: React.FC = () => {
   const { t } = useTranslation();
   return (
-  <div
-    className="relative flex items-center gap-4 overflow-hidden"
-    style={{
-      background: "rgba(255,255,255,0.04)",
-      border: "1px solid rgba(52,211,153,0.2)",
-      borderRadius: 12,
-      padding: "1rem 1.25rem",
-      backdropFilter: "blur(12px)",
-      WebkitBackdropFilter: "blur(12px)",
-    }}
-  >
     <div
-      className="absolute inset-0 pointer-events-none"
+      className="relative flex items-center gap-4 overflow-hidden"
       style={{
-        background:
-          "linear-gradient(90deg, rgba(52,211,153,0.06) 0%, transparent 70%)",
+        background: "rgba(255,255,255,0.04)",
+        border: "1px solid rgba(52,211,153,0.2)",
+        borderRadius: 12,
+        padding: "1rem 1.25rem",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
       }}
-    />
-    <div className="relative shrink-0" style={{ width: 10, height: 10 }}>
+    >
       <div
-        className="rounded-full relative z-10"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          width: 10,
-          height: 10,
-          background: "var(--emerald-400)",
-          boxShadow: "0 0 8px var(--emerald-400)",
+          background:
+            "linear-gradient(90deg, rgba(52,211,153,0.06) 0%, transparent 70%)",
         }}
       />
-      <span
-        className="absolute rounded-full animate-ripple"
-        style={{ inset: -5, border: "1.5px solid var(--emerald-400)" }}
+      <div className="relative shrink-0" style={{ width: 10, height: 10 }}>
+        <div
+          className="rounded-full relative z-10"
+          style={{
+            width: 10,
+            height: 10,
+            background: "var(--emerald-400)",
+            boxShadow: "0 0 8px var(--emerald-400)",
+          }}
+        />
+        <span
+          className="absolute rounded-full animate-ripple"
+          style={{ inset: -5, border: "1.5px solid var(--emerald-400)" }}
+        />
+        <span
+          className="absolute rounded-full animate-ripple"
+          style={{
+            inset: -5,
+            border: "1.5px solid var(--emerald-400)",
+            animationDelay: "0.8s",
+          }}
+        />
+      </div>
+      <div
+        className="shrink-0"
+        style={{ width: 1, height: 32, background: "rgba(52,211,153,0.2)" }}
       />
-      <span
-        className="absolute rounded-full animate-ripple"
-        style={{
-          inset: -5,
-          border: "1.5px solid var(--emerald-400)",
-          animationDelay: "0.8s",
-        }}
-      />
+      <div className="relative z-10">
+        <p
+          style={{
+            fontSize: "0.67rem",
+            fontWeight: 600,
+            color: "var(--emerald-400)",
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            marginBottom: "0.2rem",
+          }}
+        >
+          {t("auth.panel.statusLabel")}
+        </p>
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "rgba(255,255,255,0.75)",
+            lineHeight: 1.4,
+          }}
+        >
+          {t("auth.panel.statusDesc")}
+        </p>
+      </div>
     </div>
-    <div
-      className="shrink-0"
-      style={{ width: 1, height: 32, background: "rgba(52,211,153,0.2)" }}
-    />
-    <div className="relative z-10">
-      <p
-        style={{
-          fontSize: "0.67rem",
-          fontWeight: 600,
-          color: "var(--emerald-400)",
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          marginBottom: "0.2rem",
-        }}
-      >
-        {t("auth.panel.statusLabel")}
-      </p>
-      <p
-        style={{
-          fontSize: "0.85rem",
-          color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.4,
-        }}
-      >
-        {t("auth.panel.statusDesc")}
-      </p>
-    </div>
-  </div>
   );
 };
 
@@ -147,46 +147,49 @@ const ProtocolStatusBanner: React.FC = () => {
 const RunsOnTags: React.FC = () => {
   const { t } = useTranslation();
   return (
-  <div>
-    <div className="flex items-center gap-2" style={{ marginBottom: "0.6rem" }}>
-      <span
-        style={{
-          fontSize: "0.68rem",
-          color: "rgba(255,255,255,0.7)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          fontWeight: 500,
-          whiteSpace: "nowrap",
-        }}
-      >
-        {t("auth.panel.runsOn")}
-      </span>
+    <div>
       <div
-        className="flex-1"
-        style={{ height: 1, background: "rgba(255,255,255,0.07)" }}
-      />
+        className="flex items-center gap-2"
+        style={{ marginBottom: "0.6rem" }}
+      >
+        <span
+          style={{
+            fontSize: "0.68rem",
+            color: "rgba(255,255,255,0.7)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            fontWeight: 500,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {t("auth.panel.runsOn")}
+        </span>
+        <div
+          className="flex-1"
+          style={{ height: 1, background: "rgba(255,255,255,0.07)" }}
+        />
+      </div>
+      <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
+        {["Moonbeam", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
+          (tag) => (
+            <span
+              key={tag}
+              style={{
+                color: "rgba(255,255,255,0.7)",
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 6,
+                padding: "0.25rem 0.6rem",
+                fontSize: "0.68rem",
+                fontWeight: 500,
+              }}
+            >
+              {tag}
+            </span>
+          ),
+        )}
+      </div>
     </div>
-    <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
-      {["Moonbeam", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
-        (tag) => (
-          <span
-            key={tag}
-            style={{
-              color: "rgba(255,255,255,0.7)",
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 6,
-              padding: "0.25rem 0.6rem",
-              fontSize: "0.68rem",
-              fontWeight: 500,
-            }}
-          >
-            {tag}
-          </span>
-        ),
-      )}
-    </div>
-  </div>
   );
 };
 
@@ -194,74 +197,77 @@ const RunsOnTags: React.FC = () => {
 const AuthLeftPanel: React.FC = () => {
   const { t } = useTranslation();
   return (
-  <div
-    className="hidden lg:flex relative flex-col justify-center overflow-hidden"
-    style={{ backgroundColor: "#064e3b", padding: "3.5rem" }}
-  >
     <div
-      className="absolute inset-0 pointer-events-none"
-      style={ATMOSPHERE_STYLE}
-    />
-    <div className="absolute inset-0 pointer-events-none" style={GRID_STYLE} />
-    <div
-      className="absolute rounded-full animate-orbDrift pointer-events-none"
-      style={{
-        width: 200,
-        height: 200,
-        top: -60,
-        right: -40,
-        background: "var(--emerald-400)",
-        filter: "blur(60px)",
-        opacity: 0.25,
-      }}
-    />
-    <div
-      className="absolute rounded-full animate-orbDrift pointer-events-none"
-      style={{
-        width: 160,
-        height: 160,
-        bottom: 80,
-        left: -30,
-        background: "var(--emerald-600)",
-        filter: "blur(60px)",
-        opacity: 0.25,
-        animationDelay: "-3s",
-      }}
-    />
-    <div className="relative z-10">
-      <h2
-        className="font-serif text-white animate-fadeUp"
-        style={{
-          fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
-          lineHeight: 1.12,
-          letterSpacing: "-0.02em",
-          marginBottom: "1.25rem",
-        }}
-      >
-        {t("auth.panel.headline")}
-      </h2>
-      <p
-        className="animate-fadeUp"
-        style={{
-          fontSize: "0.9rem",
-          color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.6,
-          maxWidth: 340,
-          fontWeight: 300,
-          animationDelay: "0.2s",
-        }}
-      >
-        {t("auth.panel.subheadline")}
-      </p>
+      className="hidden lg:flex relative flex-col justify-center overflow-hidden"
+      style={{ backgroundColor: "#064e3b", padding: "3.5rem" }}
+    >
       <div
-        className="space-y-4 animate-fadeUp"
-        style={{ marginTop: "2.5rem", animationDelay: "0.8s" }}
-      >
-        <ProtocolStatusBanner />
-        <RunsOnTags />
+        className="absolute inset-0 pointer-events-none"
+        style={ATMOSPHERE_STYLE}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={GRID_STYLE}
+      />
+      <div
+        className="absolute rounded-full animate-orbDrift pointer-events-none"
+        style={{
+          width: 200,
+          height: 200,
+          top: -60,
+          right: -40,
+          background: "var(--emerald-400)",
+          filter: "blur(60px)",
+          opacity: 0.25,
+        }}
+      />
+      <div
+        className="absolute rounded-full animate-orbDrift pointer-events-none"
+        style={{
+          width: 160,
+          height: 160,
+          bottom: 80,
+          left: -30,
+          background: "var(--emerald-600)",
+          filter: "blur(60px)",
+          opacity: 0.25,
+          animationDelay: "-3s",
+        }}
+      />
+      <div className="relative z-10">
+        <h2
+          className="font-serif text-white animate-fadeUp"
+          style={{
+            fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
+            lineHeight: 1.12,
+            letterSpacing: "-0.02em",
+            marginBottom: "1.25rem",
+          }}
+        >
+          {t("auth.panel.headline")}
+        </h2>
+        <p
+          className="animate-fadeUp"
+          style={{
+            fontSize: "0.9rem",
+            color: "rgba(255,255,255,0.75)",
+            lineHeight: 1.6,
+            maxWidth: 340,
+            fontWeight: 300,
+            animationDelay: "0.2s",
+          }}
+        >
+          {t("auth.panel.subheadline")}
+        </p>
+        <div
+          className="space-y-4 animate-fadeUp"
+          style={{ marginTop: "2.5rem", animationDelay: "0.8s" }}
+        >
+          <ProtocolStatusBanner />
+          <RunsOnTags />
+        </div>
       </div>
     </div>
-  </div>
   );
 };
 
@@ -283,35 +289,35 @@ const SignInFormFields: React.FC<{
 }) => {
   const { t } = useTranslation();
   return (
-  <form onSubmit={onSubmit} className="space-y-4">
-    <FormInput
-      icon={<Mail className="h-4 w-4" />}
-      type="email"
-      value={email}
-      onChange={onEmailChange}
-      placeholder={t("auth.signin.emailPlaceholder")}
-      required
-      autoComplete="email"
-    />
-    <FormInput
-      icon={<Lock className="h-4 w-4" />}
-      type="password"
-      value={password}
-      onChange={onPasswordChange}
-      placeholder={t("auth.signin.passwordPlaceholder")}
-      required
-      autoComplete="current-password"
-    />
-    <Button
-      type="submit"
-      fullWidth
-      size="lg"
-      disabled={loading}
-      className="font-semibold"
-    >
-      {loading ? t("auth.signin.submitting") : t("auth.login")}
-    </Button>
-  </form>
+    <form onSubmit={onSubmit} className="space-y-4">
+      <FormInput
+        icon={<Mail className="h-4 w-4" />}
+        type="email"
+        value={email}
+        onChange={onEmailChange}
+        placeholder={t("auth.signin.emailPlaceholder")}
+        required
+        autoComplete="email"
+      />
+      <FormInput
+        icon={<Lock className="h-4 w-4" />}
+        type="password"
+        value={password}
+        onChange={onPasswordChange}
+        placeholder={t("auth.signin.passwordPlaceholder")}
+        required
+        autoComplete="current-password"
+      />
+      <Button
+        type="submit"
+        fullWidth
+        size="lg"
+        disabled={loading}
+        className="font-semibold"
+      >
+        {loading ? t("auth.signin.submitting") : t("auth.login")}
+      </Button>
+    </form>
   );
 };
 
@@ -590,7 +596,9 @@ const AuthRightPanel: React.FC = () => {
         {/* Divider */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-          <span className="text-xs text-gray-400 font-medium">{t("auth.signin.or")}</span>
+          <span className="text-xs text-gray-400 font-medium">
+            {t("auth.signin.or")}
+          </span>
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
         </div>
 
