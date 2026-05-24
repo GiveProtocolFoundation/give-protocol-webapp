@@ -586,12 +586,17 @@ export const GiveDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white p-8 rounded-lg shadow-md text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Admin Dashboard
+            {t("dashboard.adminTitle", "Admin Dashboard")}
           </h2>
           <p className="text-gray-600 mb-6">
-            Please use the admin panel to manage the platform.
+            {t(
+              "dashboard.adminNote",
+              "Please use the admin panel to manage the platform.",
+            )}
           </p>
-          <Button onClick={handleAdminRedirect}>Go to Admin Panel</Button>
+          <Button onClick={handleAdminRedirect}>
+            {t("dashboard.adminButton", "Go to Admin Panel")}
+          </Button>
         </div>
       </div>
     );
@@ -615,7 +620,9 @@ export const GiveDashboard: React.FC = () => {
             className="flex items-center"
           >
             <ClipboardList className="h-4 w-4 mr-2" />
-            {showVolunteerHours ? "Hide" : "Log"} Volunteer Hours
+            {showVolunteerHours
+              ? t("dashboard.hideVolunteerHours", "Hide Volunteer Hours")
+              : t("dashboard.logVolunteerHours", "Log Volunteer Hours")}
           </Button>
           <Button
             variant="ghost"
@@ -623,7 +630,9 @@ export const GiveDashboard: React.FC = () => {
             className="flex items-center border border-gray-200 text-gray-700 hover:bg-gray-50"
           >
             <Calendar className="h-4 w-4 mr-2" />
-            {showScheduledDonations ? "Hide" : "View"} Monthly Donations
+            {showScheduledDonations
+              ? t("dashboard.hideMonthlyDonations", "Hide Monthly Donations")
+              : t("dashboard.viewMonthlyDonations", "View Monthly Donations")}
           </Button>
           <Button
             variant="ghost"
@@ -631,7 +640,7 @@ export const GiveDashboard: React.FC = () => {
             className="flex items-center border border-gray-200 text-gray-700 hover:bg-gray-50"
           >
             <Settings className="h-4 w-4 mr-2" />
-            Wallet Settings
+            {t("dashboard.walletSettings", "Wallet Settings")}
           </Button>
         </div>
       </header>

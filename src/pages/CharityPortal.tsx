@@ -394,22 +394,23 @@ function ConfirmDeleteModal({
   onConfirm,
   onCancel,
 }: ConfirmDeleteModalProps) {
+  const { t } = useTranslation();
   const label = type === "cause" ? "cause" : "opportunity";
   return (
     <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
       <div className="bg-surface-overlay rounded-xl shadow-xl p-6 max-w-sm w-full mx-4">
         <h2 className="text-lg font-semibold text-content-primary mb-2">
-          Delete {label}?
+          {t("charity.portal.deleteTitle", { type: label })}
         </h2>
         <p className="text-content-secondary text-sm mb-6">
-          This action cannot be undone. The {label} will be permanently removed.
+          {t("charity.portal.deleteDescription", { type: label })}
         </p>
         <div className="flex gap-3 justify-end">
           <Button variant="secondary" onClick={onCancel}>
-            Cancel
+            {t("common.cancel")}
           </Button>
           <Button variant="danger" onClick={onConfirm}>
-            Delete
+            {t("common.delete")}
           </Button>
         </div>
       </div>
@@ -419,16 +420,17 @@ function ConfirmDeleteModal({
 
 /** Integrated notice shown when the charity has no receiving wallet configured. */
 function CharityWalletBanner({ onOpen }: { onOpen: () => void }) {
+  const { t } = useTranslation();
   return (
     <div className="bg-accent-subtle/30 dark:bg-accent-subtle/15 border-l-2 border-line-accent border-y border-r border-line-accent/30 rounded-r-md py-2.5 pl-4 pr-3 mb-6 flex items-center justify-between gap-4">
       <div className="flex items-center gap-3 min-w-0">
         <Wallet className="h-4 w-4 text-accent-base shrink-0" />
         <p className="text-sm text-content-secondary truncate">
           <span className="font-medium text-content-primary">
-            Receiving wallet not configured.
+            {t("charity.portal.walletNotConfigured")}
           </span>{" "}
           <span className="text-content-muted">
-            Connect a wallet to receive on-chain donations.
+            {t("charity.portal.walletDonationNote")}
           </span>
         </p>
       </div>
@@ -436,7 +438,7 @@ function CharityWalletBanner({ onOpen }: { onOpen: () => void }) {
         onClick={onOpen}
         className="text-sm font-medium text-accent-base hover:text-accent-hover hover:underline shrink-0"
       >
-        Set Up Wallet
+        {t("charity.portal.setupWallet")}
       </button>
     </div>
   );
@@ -445,15 +447,19 @@ function CharityWalletBanner({ onOpen }: { onOpen: () => void }) {
 /**
  * Formats a date as a human-readable relative timestamp.
  * @param date - The date to format
- * @returns A string like "Just now", "1 minute ago", "5 minutes ago", or a locale time string
+ * @param t - Translation function
+ * @returns A translated relative time string or a locale time string
  */
-function formatLastUpdated(date: Date): string {
+function formatLastUpdated(
+  date: Date,
+  t: (_key: string, _opts?: string | Record<string, unknown>) => string,
+): string {
   const now = new Date();
   const diffMs = now.getTime() - date.getTime();
   const diffMins = Math.floor(diffMs / 60000);
-  if (diffMins < 1) return "Just now";
-  if (diffMins === 1) return "1 minute ago";
-  if (diffMins < 60) return `${diffMins} minutes ago`;
+  if (diffMins < 1) return t("timestamp.justNow");
+  if (diffMins === 1) return t("timestamp.oneMinuteAgo");
+  if (diffMins < 60) return t("timestamp.minutesAgo", { count: diffMins });
   return date.toLocaleTimeString();
 }
 
@@ -1261,7 +1267,7 @@ export const CharityPortal: React.FC = () => {
 
         {/* Stats Row with Last Updated */}
         <OverviewHeader
-          lastUpdatedText={lastUpdated ? formatLastUpdated(lastUpdated) : ""}
+          lastUpdatedText={lastUpdated ? formatLastUpdated(lastUpdated, t) : ""}
           onRefresh={handleRefresh}
           t={t}
         />

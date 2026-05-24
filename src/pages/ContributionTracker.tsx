@@ -12,6 +12,7 @@ import { useWalletAlias } from "@/hooks/useWalletAlias";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useToast } from "@/contexts/ToastContext";
 import { Logger } from "@/utils/logger";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   exportLeaderboardToPDF,
   exportDonationLeaderboardToCSV,
@@ -40,57 +41,92 @@ const ContributionFilters: React.FC<{
   onChangeAlias: () => void;
   onSetAlias: () => void;
 }> = ({
-  searchTerm, onSearchChange, timeRange, onTimeRangeChange,
-  region, onRegionChange, showOptOut, onOptOutChange,
-  onExportCsv, onExportPdf, isConnected, alias, onChangeAlias, onSetAlias,
-}) => (
-  <div className="mb-8 bg-white p-6 rounded-lg shadow-md flex flex-col gap-4">
-    <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
-      <div className="flex-grow relative">
-        <input
-          type="text"
-          placeholder="Search contributors..."
-          value={searchTerm}
-          onChange={onSearchChange}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
-        />
-        <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-      </div>
-      <TimeRangeFilter value={timeRange} onChange={onTimeRangeChange} />
-      <Button variant="secondary" onClick={onExportCsv} className="flex items-center">
-        <Download className="h-4 w-4 mr-2" />
-        Export CSV
-      </Button>
-      <Button variant="secondary" onClick={onExportPdf} className="flex items-center">
-        <Download className="h-4 w-4 mr-2" />
-        Export PDF
-      </Button>
-    </div>
-    <div className="mt-4 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
-      <RegionFilter value={region} onChange={onRegionChange} />
-      <label className="flex items-center space-x-2 text-sm text-gray-600">
-        <input
-          type="checkbox"
-          checked={showOptOut}
-          onChange={onOptOutChange}
-          className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
-        />
-        <span>Hide my contributions from rankings</span>
-      </label>
-      {isConnected && alias && (
-        <div className="flex items-center space-x-2">
-          <span className="text-sm text-gray-600">
-            Your alias: <span className="font-medium text-emerald-600">{alias}</span>
-          </span>
-          <Button variant="secondary" size="sm" onClick={onChangeAlias}>Change</Button>
+  searchTerm,
+  onSearchChange,
+  timeRange,
+  onTimeRangeChange,
+  region,
+  onRegionChange,
+  showOptOut,
+  onOptOutChange,
+  onExportCsv,
+  onExportPdf,
+  isConnected,
+  alias,
+  onChangeAlias,
+  onSetAlias,
+}) => {
+  const { t } = useTranslation();
+  return (
+    <div className="mb-8 bg-white p-6 rounded-lg shadow-md flex flex-col gap-4">
+      <div className="flex flex-col md:flex-row gap-4 items-start md:items-center">
+        <div className="flex-grow relative">
+          <input
+            type="text"
+            placeholder={t(
+              "tracker.searchPlaceholder",
+              "Search contributors...",
+            )}
+            value={searchTerm}
+            onChange={onSearchChange}
+            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
+          />
+          <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
         </div>
-      )}
-      {isConnected && !alias && (
-        <Button variant="secondary" size="sm" onClick={onSetAlias}>Set Wallet Alias</Button>
-      )}
+        <TimeRangeFilter value={timeRange} onChange={onTimeRangeChange} />
+        <Button
+          variant="secondary"
+          onClick={onExportCsv}
+          className="flex items-center"
+        >
+          <Download className="h-4 w-4 mr-2" />
+          {t("tracker.exportCSV", "Export CSV")}
+        </Button>
+        <Button
+          variant="secondary"
+          onClick={onExportPdf}
+          className="flex items-center"
+        >
+          <Download className="h-4 w-4 mr-2" />
+          {t("tracker.exportPDF", "Export PDF")}
+        </Button>
+      </div>
+      <div className="mt-4 flex flex-col md:flex-row gap-4 items-start md:items-center justify-between">
+        <RegionFilter value={region} onChange={onRegionChange} />
+        <label className="flex items-center space-x-2 text-sm text-gray-600">
+          <input
+            type="checkbox"
+            checked={showOptOut}
+            onChange={onOptOutChange}
+            className="rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          />
+          <span>
+            {t(
+              "tracker.hideContributions",
+              "Hide my contributions from rankings",
+            )}
+          </span>
+        </label>
+        {isConnected && alias && (
+          <div className="flex items-center space-x-2">
+            <span className="text-sm text-gray-600">
+              {t("tracker.yourAlias", "Your alias:")}{" "}
+              <span className="font-medium text-emerald-600">{alias}</span>
+            </span>
+            <Button variant="secondary" size="sm" onClick={onChangeAlias}>
+              {t("tracker.changeAlias", "Change")}
+            </Button>
+          </div>
+        )}
+        {isConnected && !alias && (
+          <Button variant="secondary" size="sm" onClick={onSetAlias}>
+            {t("tracker.setWalletAlias", "Set Wallet Alias")}
+          </Button>
+        )}
+      </div>
     </div>
-  </div>
-);
+  );
+};
 
 /** Modal for setting a wallet alias on the contribution tracker. */
 const AliasModal: React.FC<{
@@ -98,33 +134,51 @@ const AliasModal: React.FC<{
   onAliasChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onSave: () => void;
   onClose: () => void;
-}> = ({ newAlias, onAliasChange, onSave, onClose }) => (
-  <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
-    <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 space-y-4">
-      <h2 className="text-xl font-semibold text-gray-900">Set Wallet Alias</h2>
-      <p className="text-gray-600">
-        Your alias will be displayed on the contribution tracker instead of your wallet address.
-      </p>
-      <div>
-        <label htmlFor="alias-input" className="block text-sm font-medium text-gray-700 mb-2">
-          Alias
-        </label>
-        <input
-          id="alias-input"
-          type="text"
-          value={newAlias}
-          onChange={onAliasChange}
-          placeholder="Enter your preferred alias"
-          className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
-        />
+}> = ({ newAlias, onAliasChange, onSave, onClose }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
+      <div className="bg-white rounded-lg shadow-xl max-w-md w-full p-6 space-y-4">
+        <h2 className="text-xl font-semibold text-gray-900">
+          {t("tracker.aliasTitle", "Set Wallet Alias")}
+        </h2>
+        <p className="text-gray-600">
+          {t(
+            "tracker.aliasDescription",
+            "Your alias will be displayed on the contribution tracker instead of your wallet address.",
+          )}
+        </p>
+        <div>
+          <label
+            htmlFor="alias-input"
+            className="block text-sm font-medium text-gray-700 mb-2"
+          >
+            {t("tracker.aliasLabel", "Alias")}
+          </label>
+          <input
+            id="alias-input"
+            type="text"
+            value={newAlias}
+            onChange={onAliasChange}
+            placeholder={t(
+              "tracker.aliasPlaceholder",
+              "Enter your preferred alias",
+            )}
+            className="w-full px-3 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
+          />
+        </div>
+        <footer className="flex justify-end space-x-3">
+          <Button variant="secondary" onClick={onClose}>
+            {t("common.cancel", "Cancel")}
+          </Button>
+          <Button onClick={onSave}>
+            {t("tracker.saveAlias", "Save Alias")}
+          </Button>
+        </footer>
       </div>
-      <footer className="flex justify-end space-x-3">
-        <Button variant="secondary" onClick={onClose}>Cancel</Button>
-        <Button onClick={onSave}>Save Alias</Button>
-      </footer>
     </div>
-  </div>
-);
+  );
+};
 
 /** Public contribution tracker page with filterable donation and volunteer data. */
 export const ContributionTracker: React.FC = () => {
@@ -138,6 +192,7 @@ export const ContributionTracker: React.FC = () => {
   const { alias, setWalletAlias } = useWalletAlias();
   const { isConnected, address } = useWeb3();
   const { showToast } = useToast();
+  const { t } = useTranslation();
   const [activeTab, setActiveTab] = useState<"donations" | "volunteer">(
     (location.state?.activeTab as "donations" | "volunteer") || "donations",
   );
@@ -203,8 +258,11 @@ export const ContributionTracker: React.FC = () => {
             exportDonationLeaderboardToCSV(donationData, exportOptions);
             showToast(
               "success",
-              "Export Complete",
-              "Donation leaderboard exported as CSV",
+              t("tracker.exportComplete", "Export Complete"),
+              t(
+                "tracker.exportDonationCSV",
+                "Donation leaderboard exported as CSV",
+              ),
             );
           } else {
             // Mock volunteer leaderboard data for export
@@ -241,8 +299,11 @@ export const ContributionTracker: React.FC = () => {
             exportVolunteerLeaderboardToCSV(volunteerData, exportOptions);
             showToast(
               "success",
-              "Export Complete",
-              "Volunteer leaderboard exported as CSV",
+              t("tracker.exportComplete", "Export Complete"),
+              t(
+                "tracker.exportVolunteerCSV",
+                "Volunteer leaderboard exported as CSV",
+              ),
             );
           }
         } else if (format === "pdf") {
@@ -260,23 +321,27 @@ export const ContributionTracker: React.FC = () => {
             );
             showToast(
               "success",
-              "Export Complete",
-              "Leaderboard exported as PDF",
+              t("tracker.exportComplete", "Export Complete"),
+              t("tracker.exportPDFSuccess", "Leaderboard exported as PDF"),
             );
           } else {
-            showToast("error", "Export Failed", "No data available to export");
+            showToast(
+              "error",
+              t("tracker.exportFailed", "Export Failed"),
+              t("tracker.exportNoData", "No data available to export"),
+            );
           }
         }
       } catch (error) {
         Logger.error("Export failed", { error, format });
         showToast(
           "error",
-          "Export Failed",
-          "An error occurred while exporting data",
+          t("tracker.exportFailed", "Export Failed"),
+          t("tracker.exportError", "An error occurred while exporting data"),
         );
       }
     },
-    [timeRange, region, activeTab, showToast],
+    [timeRange, region, activeTab, showToast, t],
   );
 
   const handleExportCsv = useCallback(
@@ -302,14 +367,21 @@ export const ContributionTracker: React.FC = () => {
     if (!isConnected || !address) {
       showToast(
         "error",
-        "Wallet not connected",
-        "Please connect your wallet to set an alias",
+        t("tracker.walletNotConnected", "Wallet not connected"),
+        t(
+          "tracker.connectWalletForAlias",
+          "Please connect your wallet to set an alias",
+        ),
       );
       return;
     }
 
     if (!newAlias.trim()) {
-      showToast("error", "Invalid alias", "Please enter a valid alias");
+      showToast(
+        "error",
+        t("tracker.invalidAlias", "Invalid alias"),
+        t("tracker.enterValidAlias", "Please enter a valid alias"),
+      );
       return;
     }
 
@@ -318,7 +390,7 @@ export const ContributionTracker: React.FC = () => {
       setNewAlias("");
       setShowAliasModal(false);
     }
-  }, [isConnected, address, newAlias, showToast, setWalletAlias]);
+  }, [isConnected, address, newAlias, showToast, setWalletAlias, t]);
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -353,10 +425,13 @@ export const ContributionTracker: React.FC = () => {
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
       {/* Header */}
       <h1 className="text-3xl font-bold text-gray-900 mb-2">
-        Global Impact Rankings
+        {t("tracker.title", "Global Impact Rankings")}
       </h1>
       <p className="mb-8 text-gray-600">
-        Track and celebrate the collective impact of our community
+        {t(
+          "tracker.subtitle",
+          "Track and celebrate the collective impact of our community",
+        )}
       </p>
 
       {/* Global Stats */}
@@ -398,12 +473,19 @@ export const ContributionTracker: React.FC = () => {
         className="space-y-6"
       >
         <TabsList>
-          <TabsTrigger value="donations">Donation Rankings</TabsTrigger>
-          <TabsTrigger value="volunteer">Volunteer Rankings</TabsTrigger>
+          <TabsTrigger value="donations">
+            {t("tracker.donationRankings", "Donation Rankings")}
+          </TabsTrigger>
+          <TabsTrigger value="volunteer">
+            {t("tracker.volunteerRankings", "Volunteer Rankings")}
+          </TabsTrigger>
         </TabsList>
 
         <TabsContent value="donations">
-          <div ref={donationLeaderboardRef} className="bg-white rounded-lg shadow-md p-6">
+          <div
+            ref={donationLeaderboardRef}
+            className="bg-white rounded-lg shadow-md p-6"
+          >
             <DonationLeaderboard
               timeRange={timeRange}
               region={region}
@@ -413,7 +495,10 @@ export const ContributionTracker: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="volunteer">
-          <div ref={volunteerLeaderboardRef} className="bg-white rounded-lg shadow-md p-6">
+          <div
+            ref={volunteerLeaderboardRef}
+            className="bg-white rounded-lg shadow-md p-6"
+          >
             <VolunteerLeaderboard
               timeRange={timeRange}
               region={region}

@@ -6,10 +6,12 @@ import { SetPasswordSettings } from "@/components/settings/SetPasswordSettings";
 import { WalletAliasSettings } from "@/components/settings/WalletAliasSettings";
 import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /** Dashboard settings page with linked accounts, phone, password, and account preferences. */
 const DashboardSettings: React.FC = () => {
   const { user, email, authMethod } = useUnifiedAuth();
+  const { t } = useTranslation();
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
@@ -19,10 +21,13 @@ const DashboardSettings: React.FC = () => {
         </div>
         <div>
           <h1 className="text-xl font-semibold text-gray-900 dark:text-white">
-            Settings
+            {t("settings.title", "Settings")}
           </h1>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            Manage your account and preferences
+            {t(
+              "settings.manageDescription",
+              "Manage your account and preferences",
+            )}
           </p>
         </div>
       </div>
@@ -30,18 +35,20 @@ const DashboardSettings: React.FC = () => {
       {/* Account info */}
       <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 mb-6 text-sm">
         <h3 className="text-sm font-semibold text-gray-900 dark:text-white mb-3">
-          Account
+          {t("settings.account", "Account")}
         </h3>
         {email !== null && (
           <div className="flex justify-between mb-2">
-            <span className="text-gray-500 dark:text-gray-400">Email</span>
+            <span className="text-gray-500 dark:text-gray-400">
+              {t("settings.email", "Email")}
+            </span>
             <span className="text-gray-900 dark:text-white">{email}</span>
           </div>
         )}
         {user?.displayName !== null && user?.displayName !== undefined && (
           <div className="flex justify-between mb-2">
             <span className="text-gray-500 dark:text-gray-400">
-              Display name
+              {t("settings.displayName", "Display name")}
             </span>
             <span className="text-gray-900 dark:text-white">
               {user.displayName}
@@ -49,13 +56,17 @@ const DashboardSettings: React.FC = () => {
           </div>
         )}
         <div className="flex justify-between mb-2">
-          <span className="text-gray-500 dark:text-gray-400">Auth method</span>
+          <span className="text-gray-500 dark:text-gray-400">
+            {t("settings.authMethod", "Auth method")}
+          </span>
           <span className="text-gray-900 dark:text-white capitalize">
             {authMethod ?? "email"}
           </span>
         </div>
         <div className="flex justify-between">
-          <span className="text-gray-500 dark:text-gray-400">Role</span>
+          <span className="text-gray-500 dark:text-gray-400">
+            {t("settings.role", "Role")}
+          </span>
           <span className="text-gray-900 dark:text-white capitalize">
             {user?.role ?? "donor"}
           </span>
