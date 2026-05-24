@@ -6,6 +6,7 @@ import { useVolunteerVerification } from "@/hooks/useVolunteerVerification";
 import { VolunteerVerificationCard } from "./VolunteerVerificationCard";
 import { Logger } from "@/utils/logger";
 import { VolunteerVerification } from "@/types/volunteer";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /**
  * Form that looks up a volunteer verification record by its hash and renders the result.
@@ -17,6 +18,7 @@ export const VerificationLookup: React.FC = () => {
   const { getVerificationByHash, loading, error } = useVolunteerVerification();
   const [verification, setVerification] =
     useState<VolunteerVerification | null>(null);
+  const { t } = useTranslation();
 
   const handleSearch = useCallback(
     async (e: React.FormEvent) => {
@@ -44,7 +46,7 @@ export const VerificationLookup: React.FC = () => {
   return (
     <div className="bg-white rounded-lg shadow-md p-6">
       <h2 className="text-xl font-semibold text-gray-900 mb-4">
-        Verify Volunteer Contribution
+        {t("volunteer.verifyContribution", "Verify Volunteer Contribution")}
       </h2>
 
       <form onSubmit={handleSearch} className="mb-6">
@@ -53,7 +55,7 @@ export const VerificationLookup: React.FC = () => {
             <Input
               value={hash}
               onChange={handleHashChange}
-              placeholder="Enter verification hash"
+              placeholder={t("volunteer.hashPlaceholder", "Enter verification hash")}
               className="w-full"
             />
           </div>
@@ -63,7 +65,7 @@ export const VerificationLookup: React.FC = () => {
             className="whitespace-nowrap"
           >
             <Search className="h-4 w-4 mr-2" />
-            {loading ? "Searching..." : "Verify Hash"}
+            {loading ? t("volunteer.searching", "Searching...") : t("volunteer.verifyHash", "Verify Hash")}
           </Button>
         </div>
       </form>
@@ -75,13 +77,13 @@ export const VerificationLookup: React.FC = () => {
               verification={{
                 id: verification.id,
                 applicantName:
-                  verification.profiles?.name || "Unknown Volunteer",
+                  verification.profiles?.name || t("volunteer.unknown", "Unknown Volunteer"),
                 opportunityTitle:
                   verification.volunteer_opportunities?.title ||
-                  "Unknown Opportunity",
+                  t("volunteer.unknownOpportunity", "Unknown Opportunity"),
                 charityName:
                   verification.volunteer_opportunities?.charity_details?.name ||
-                  "Unknown Organization",
+                  t("volunteer.unknownOrganization", "Unknown Organization"),
                 acceptanceHash: verification.acceptanceHash,
                 verificationHash: verification.verificationHash,
                 acceptedAt: verification.acceptedAt,
@@ -94,11 +96,10 @@ export const VerificationLookup: React.FC = () => {
               <AlertCircle className="h-5 w-5 text-yellow-500 mt-0.5 mr-3 flex-shrink-0" />
               <div>
                 <h3 className="text-sm font-medium text-yellow-800">
-                  Verification Not Found
+                  {t("volunteer.verificationNotFound", "Verification Not Found")}
                 </h3>
                 <p className="mt-1 text-sm text-yellow-700">
-                  The hash you provided could not be found in our records.
-                  Please check the hash and try again.
+                  {t("volunteer.verificationNotFoundMessage", "The hash you provided could not be found in our records. Please check the hash and try again.")}
                 </p>
               </div>
             </div>

@@ -2,6 +2,7 @@ import React from 'react';
 import { Card } from '@/components/ui/Card';
 import { VolunteerHoursStats, ValidationStatus } from '@/types/selfReportedHours';
 import { CheckCircle, Clock, XCircle, HelpCircle } from 'lucide-react';
+import { useTranslation } from '@/hooks/useTranslation';
 
 interface SelfReportedHoursStatsProps {
   stats: VolunteerHoursStats;
@@ -15,9 +16,11 @@ interface SelfReportedHoursStatsProps {
 export const SelfReportedHoursStats: React.FC<SelfReportedHoursStatsProps> = ({
   stats,
 }) => {
+  const { t } = useTranslation();
+
   const statCards = [
     {
-      label: 'Validated Hours',
+      label: t("volunteer.validatedHours", "Validated Hours"),
       value: stats.totalValidatedHours,
       count: stats.recordsByStatus[ValidationStatus.VALIDATED],
       icon: CheckCircle,
@@ -26,7 +29,7 @@ export const SelfReportedHoursStats: React.FC<SelfReportedHoursStatsProps> = ({
       valueColor: 'text-emerald-600',
     },
     {
-      label: 'Pending Validation',
+      label: t("volunteer.pendingValidation", "Pending Validation"),
       value: stats.totalPendingHours,
       count: stats.recordsByStatus[ValidationStatus.PENDING],
       icon: Clock,
@@ -35,7 +38,7 @@ export const SelfReportedHoursStats: React.FC<SelfReportedHoursStatsProps> = ({
       valueColor: 'text-amber-600',
     },
     {
-      label: 'Unvalidated Hours',
+      label: t("volunteer.unvalidatedHours", "Unvalidated Hours"),
       value: stats.totalUnvalidatedHours + stats.totalExpiredHours,
       count: stats.recordsByStatus[ValidationStatus.UNVALIDATED] + stats.recordsByStatus[ValidationStatus.EXPIRED],
       icon: HelpCircle,
@@ -44,7 +47,7 @@ export const SelfReportedHoursStats: React.FC<SelfReportedHoursStatsProps> = ({
       valueColor: 'text-gray-600',
     },
     {
-      label: 'Rejected',
+      label: t("volunteer.rejectedLabel", "Rejected"),
       value: stats.totalRejectedHours,
       count: stats.recordsByStatus[ValidationStatus.REJECTED],
       icon: XCircle,
@@ -70,10 +73,10 @@ export const SelfReportedHoursStats: React.FC<SelfReportedHoursStatsProps> = ({
               <p className="text-sm font-medium text-gray-600">{stat.label}</p>
               <p className={`text-2xl font-semibold ${stat.valueColor}`}>
                 {stat.value.toFixed(1)}
-                <span className="text-sm font-normal text-gray-500 ml-1">hrs</span>
+                <span className="text-sm font-normal text-gray-500 ml-1">{t("volunteer.hoursUnit", "hrs")}</span>
               </p>
               <p className="text-xs text-gray-400">
-                {stat.count} {stat.count === 1 ? 'record' : 'records'}
+                {stat.count} {stat.count === 1 ? t("volunteer.recordSingular", "record") : t("volunteer.recordPlural", "records")}
               </p>
             </div>
           </Card>

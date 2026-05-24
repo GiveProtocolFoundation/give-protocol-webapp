@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Plus, X, Info } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface SelfReportedHoursDashboardProps {
   collapsed?: boolean;
@@ -45,6 +46,7 @@ export const SelfReportedHoursDashboard: React.FC<
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const { t } = useTranslation();
 
   const toggleInfo = useCallback(() => {
     setShowInfo((prev) => !prev);
@@ -152,7 +154,7 @@ export const SelfReportedHoursDashboard: React.FC<
       <div className="p-6 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold text-gray-900">
-            Volunteer Hours
+            {t("volunteer.volunteerHoursTitle", "Volunteer Hours")}
           </h2>
           <button
             type="button"
@@ -162,7 +164,7 @@ export const SelfReportedHoursDashboard: React.FC<
                 ? "bg-blue-100 text-blue-600"
                 : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
             }`}
-            title="About Self-Reported Hours"
+            title={t("volunteer.aboutSelfReported", "About Self-Reported Hours")}
           >
             <Info className="h-5 w-5" />
           </button>
@@ -173,7 +175,7 @@ export const SelfReportedHoursDashboard: React.FC<
               onClick={handleCreate}
               icon={<Plus className="h-4 w-4" />}
             >
-              Log Hours
+              {t("volunteer.logHoursButton", "Log Hours")}
             </Button>
           )}
           {onToggle && (
@@ -182,7 +184,7 @@ export const SelfReportedHoursDashboard: React.FC<
               onClick={onToggle}
               icon={<X className="h-4 w-4" />}
             >
-              Close
+              {t("common.close", "Close")}
             </Button>
           )}
         </div>
@@ -193,12 +195,9 @@ export const SelfReportedHoursDashboard: React.FC<
             <div className="flex items-start gap-3">
               <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-blue-800">
-                <p className="font-medium">About Self-Reported Hours</p>
+                <p className="font-medium">{t("volunteer.aboutSelfReported", "About Self-Reported Hours")}</p>
                 <p className="mt-1">
-                  Only hours validated by verified organizations count toward
-                  the Global Impact Rankings. Hours for organizations not on our
-                  platform can be tracked but will be marked as
-                  &ldquo;Unvalidated&rdquo; until validation is received.
+                  {t("volunteer.selfReportedInfo", "Only hours validated by verified organizations count toward the Global Impact Rankings. Hours for organizations not on our platform can be tracked but will be marked as \u201cUnvalidated\u201d until validation is received.")}
                 </p>
               </div>
               <button
@@ -240,7 +239,7 @@ export const SelfReportedHoursDashboard: React.FC<
         {(viewMode === "create" || viewMode === "edit") && (
           <div>
             <h3 className="text-lg font-medium text-gray-900 mb-4">
-              {viewMode === "create" ? "Log Volunteer Hours" : "Edit Record"}
+              {viewMode === "create" ? t("volunteer.logVolunteerHours", "Log Volunteer Hours") : t("volunteer.editRecord", "Edit Record")}
             </h3>
             <SelfReportedHoursForm
               initialData={
@@ -270,10 +269,10 @@ export const SelfReportedHoursDashboard: React.FC<
           <div>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">
-                Record Details
+                {t("volunteer.recordDetails", "Record Details")}
               </h3>
               <Button variant="ghost" onClick={handleCancel}>
-                Back to List
+                {t("volunteer.backToList", "Back to List")}
               </Button>
             </div>
             {/* View details - simplified for now */}
@@ -291,18 +290,17 @@ export const SelfReportedHoursDashboard: React.FC<
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
           <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Delete Record?
+              {t("volunteer.deleteRecord", "Delete Record?")}
             </h3>
             <p className="text-sm text-gray-600 mb-4">
-              Are you sure you want to delete this volunteer hours record? This
-              action cannot be undone.
+              {t("volunteer.deleteConfirmation", "Are you sure you want to delete this volunteer hours record? This action cannot be undone.")}
             </p>
             <div className="flex justify-end gap-3">
               <Button variant="secondary" onClick={cancelDelete}>
-                Cancel
+                {t("common.cancel", "Cancel")}
               </Button>
               <Button variant="danger" onClick={confirmDelete}>
-                Delete
+                {t("common.delete", "Delete")}
               </Button>
             </div>
           </div>

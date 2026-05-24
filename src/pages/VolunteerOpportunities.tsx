@@ -141,10 +141,11 @@ function WorkTypeToggle({
   onOnsiteClick: () => void;
   onHybridClick: () => void;
 }) {
+  const { t } = useTranslation();
   return (
     <fieldset
       className="inline-flex rounded-full bg-gray-100 p-0.5 border border-gray-200 shrink-0 m-0"
-      aria-label="Work type filter"
+      aria-label={t("volunteer.workTypeFilter", "Work type filter")}
     >
       <button
         type="button"
@@ -156,7 +157,7 @@ function WorkTypeToggle({
             : "text-gray-500 hover:text-gray-700",
         )}
       >
-        Remote
+        {t("volunteer.type.remote", "Remote")}
       </button>
       <button
         type="button"
@@ -168,7 +169,7 @@ function WorkTypeToggle({
             : "text-gray-500 hover:text-gray-700",
         )}
       >
-        On-site
+        {t("volunteer.type.onSite", "On-site")}
       </button>
       <button
         type="button"
@@ -180,7 +181,7 @@ function WorkTypeToggle({
             : "text-gray-500 hover:text-gray-700",
         )}
       >
-        Hybrid
+        {t("volunteer.type.hybrid", "Hybrid")}
       </button>
     </fieldset>
   );
@@ -369,8 +370,8 @@ function OpportunityFilters({
           wrapperClass="relative flex-[2]"
           inputClass="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm"
           type="text"
-          placeholder="City or region..."
-          aria-label="Search location"
+          placeholder={t("volunteer.searchLocation", "City or region...")}
+          aria-label={t("volunteer.searchLocationAria", "Search location")}
           value={locationSearch}
           onChange={onLocationChange}
         />
@@ -480,7 +481,7 @@ const VolunteerOpportunities: React.FC = () => {
       if (!user) {
         showToast(
           "error",
-          "Please sign in to apply for volunteer opportunities",
+          t("volunteer.signInToApply", "Please sign in to apply for volunteer opportunities"),
         );
         navigate("/auth");
         return;
@@ -504,7 +505,7 @@ const VolunteerOpportunities: React.FC = () => {
   }, []);
 
   const handleApplicationSuccess = useCallback(() => {
-    showToast("success", "Application submitted successfully!");
+    showToast("success", t("volunteer.applicationSuccess", "Application submitted successfully!"));
     setShowApplicationForm(false);
     setSelectedOpportunity(null);
   }, [showToast]);

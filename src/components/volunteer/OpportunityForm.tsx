@@ -124,20 +124,20 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
   const validateField = useCallback((name: string, value: string): string => {
     switch (name) {
       case "title":
-        return value.trim().length > 0 ? "" : "Title is required";
+        return value.trim().length > 0 ? "" : t("volunteer.validation.titleRequired", "Title is required");
       case "description": {
         // Safely strip HTML tags to check if there's actual content
         const textContent = stripHtmlTags(value).trim();
-        return textContent.length > 0 ? "" : "Description is required";
+        return textContent.length > 0 ? "" : t("volunteer.validation.descriptionRequired", "Description is required");
       }
       case "skills":
-        return value.trim().length > 0 ? "" : "At least one skill is required";
+        return value.trim().length > 0 ? "" : t("volunteer.validation.skillsRequired", "At least one skill is required");
       case "location":
-        return value.trim().length > 0 ? "" : "Location is required";
+        return value.trim().length > 0 ? "" : t("volunteer.validation.locationRequired", "Location is required");
       default:
         return "";
     }
-  }, []);
+  }, [t]);
 
   const handleChange = useCallback(
     (
@@ -189,7 +189,7 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
       e.preventDefault();
 
       if (!profile?.id) {
-        setError("User profile not found");
+        setError(t("volunteer.profileNotFound", "User profile not found"));
         return;
       }
 
@@ -218,7 +218,7 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
         // If there are validation errors, don't submit
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);
-          throw new Error("Please correct the validation errors");
+          throw new Error(t("volunteer.correctErrors", "Please correct the validation errors"));
         }
 
         Logger.info("Creating volunteer opportunity", {
@@ -259,7 +259,7 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
         }
       } catch (err) {
         const errorMessage =
-          err instanceof Error ? err.message : "Failed to create opportunity";
+          err instanceof Error ? err.message : t("volunteer.createFailed", "Failed to create opportunity");
         setError(errorMessage);
         Logger.error("Failed to create volunteer opportunity", { error: err });
       } finally {
@@ -347,7 +347,7 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
             id="opportunity-description"
             content={formData.description}
             onChange={handleDescriptionChange}
-            placeholder="Describe the volunteer opportunity in detail..."
+            placeholder={t("volunteer.descriptionPlaceholder", "Describe the volunteer opportunity in detail...")}
             variant="enhanced"
           />
           {validationErrors["description"] && (
@@ -374,7 +374,7 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
           value={formData.skills}
           onChange={handleChange}
           variant="enhanced"
-          placeholder="e.g., Web Development, Project Management, Translation"
+          placeholder={t("volunteer.skillsPlaceholder", "e.g., Web Development, Project Management, Translation")}
           required
           error={validationErrors["skills"]}
         />
@@ -422,7 +422,7 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
             value={formData.location}
             onChange={handleChange}
             variant="enhanced"
-            placeholder="e.g., Remote, New York, Berlin"
+            placeholder={t("volunteer.locationPlaceholder", "e.g., Remote, New York, Berlin")}
             required
             error={validationErrors["location"]}
           />

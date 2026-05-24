@@ -12,6 +12,7 @@ import {
 } from "@/utils/validation";
 import { AlertCircle } from "lucide-react";
 import { encryptVolunteerApplicationPII } from "@/utils/crypto/piiEncryption";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface ApplicationFormProps {
   opportunityId: string;
@@ -81,11 +82,13 @@ const AvailabilitySection: React.FC<{
   validationErrors: Record<string, string>;
   selectClasses: string;
   handlers: ApplicationFormContentProps["handlers"];
-}> = ({ formData, validationErrors, selectClasses, handlers }) => (
+}> = ({ formData, validationErrors, selectClasses, handlers }) => {
+  const { t } = useTranslation();
+  return (
   <div className="space-y-4">
-    <h3 className="text-lg font-medium text-gray-900">Availability</h3>
+    <h3 className="text-lg font-medium text-gray-900">{t("volunteer.availabilityTitle", "Availability")}</h3>
     <p className="block text-sm font-medium text-gray-700 mb-1">
-      Preferred Days
+      {t("volunteer.preferredDays", "Preferred Days")}
     </p>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
       {[
@@ -114,7 +117,7 @@ const AvailabilitySection: React.FC<{
       </p>
     )}
     <p className="block text-sm font-medium text-gray-700 mb-1 mt-4">
-      Preferred Times
+      {t("volunteer.preferredTimes", "Preferred Times")}
     </p>
     <div className="grid grid-cols-1 sm:grid-cols-2 gap-2">
       {["Morning", "Afternoon", "Evening"].map((time) => (
@@ -135,19 +138,20 @@ const AvailabilitySection: React.FC<{
       </p>
     )}
     <label className="block text-sm font-medium text-gray-700 mb-1 mt-4">
-      Commitment Level{" "}
+      {t("volunteer.commitmentLevelLabel", "Commitment Level")}{" "}
       <select
         value={formData.commitmentType}
         onChange={handlers.handleCommitmentChange}
         className={`${selectClasses} mt-1`}
       >
-        <option value="one-time">One-time</option>
-        <option value="short-term">Short-term</option>
-        <option value="long-term">Long-term</option>
+        <option value="one-time">{t("volunteer.commitment.oneTime", "One-time")}</option>
+        <option value="short-term">{t("volunteer.commitment.shortTerm", "Short-term")}</option>
+        <option value="long-term">{t("volunteer.commitment.longTerm", "Long-term")}</option>
       </select>
     </label>
   </div>
-);
+  );
+};
 
 /** Form layout with personal info, availability, skills, references, and work samples fields. */
 const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
@@ -160,15 +164,17 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
   onSubmit,
   onClose,
   handlers,
-}) => (
+}) => {
+  const { t } = useTranslation();
+  return (
   <form onSubmit={onSubmit} className="space-y-6">
     {/* Personal Information */}
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-900">
-        Personal Information
+        {t("volunteer.personalInfo", "Personal Information")}
       </h3>
       <Input
-        label="Full Name *"
+        label={t("volunteer.fullName", "Full Name *")}
         value={formData.fullName}
         onChange={handlers.handleFullNameChange}
         required
@@ -176,7 +182,7 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
         error={validationErrors["fullName"]}
       />
       <Input
-        label="Phone Number *"
+        label={t("volunteer.phoneRequired", "Phone Number *")}
         type="tel"
         value={formData.phoneNumber}
         onChange={handlers.handlePhoneChange}
@@ -185,7 +191,7 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
         error={validationErrors["phoneNumber"]}
       />
       <Input
-        label="Email Address *"
+        label={t("volunteer.emailRequired", "Email Address *")}
         type="email"
         value={formData.email}
         onChange={handlers.handleEmailChange}
@@ -194,7 +200,7 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
         error={validationErrors["email"]}
       />
       <Input
-        label="Date of Birth"
+        label={t("volunteer.dateOfBirth", "Date of Birth")}
         type="date"
         value={formData.dateOfBirth}
         onChange={handlers.handleDateOfBirthChange}
@@ -212,10 +218,10 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
 
     {/* Skills & Experience */}
     <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-900">Skills & Experience</h3>
+      <h3 className="text-lg font-medium text-gray-900">{t("volunteer.skillsAndExperience", "Skills & Experience")}</h3>
       <label className="block">
         <span className="text-sm font-medium text-gray-700 mb-1 block">
-          Relevant Experience *
+          {t("volunteer.relevantExperience", "Relevant Experience *")}
         </span>
         <textarea
           value={formData.experience}
@@ -231,13 +237,13 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
         )}
       </label>
       <Input
-        label="Skills (comma-separated)"
+        label={t("volunteer.skills", "Skills (comma-separated)")}
         value={formData.skills}
         onChange={handlers.handleSkillsChange}
         className={inputClasses}
       />
       <Input
-        label="Certifications (comma-separated)"
+        label={t("volunteer.certifications", "Certifications (comma-separated)")}
         value={formData.certifications}
         onChange={handlers.handleCertificationsChange}
         className={inputClasses}
@@ -247,10 +253,10 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
     {/* Interests */}
     <div className="space-y-4">
       <h3 className="text-lg font-medium text-gray-900">
-        Interests & Preferences
+        {t("volunteer.interestsAndPreferences", "Interests & Preferences")}
       </h3>
       <Input
-        label="Areas of Interest (comma-separated)"
+        label={t("volunteer.areasOfInterest", "Areas of Interest (comma-separated)")}
         value={formData.interests}
         onChange={handlers.handleInterestsChange}
         className={inputClasses}
@@ -259,17 +265,17 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
 
     {/* References */}
     <div className="space-y-4">
-      <h3 className="text-lg font-medium text-gray-900">References</h3>
+      <h3 className="text-lg font-medium text-gray-900">{t("volunteer.referencesTitle", "References")}</h3>
       {formData.references.map((ref, index) => (
         <div key={ref.id} className="space-y-2">
           <Input
-            label={`Reference ${index + 1} Name`}
+            label={t("volunteer.referenceName", "Reference {{index}} Name", { index: index + 1 })}
             value={ref.name}
             onChange={handlers.handleReferenceNameChange(index)}
             className={inputClasses}
           />
           <Input
-            label={`Reference ${index + 1} Contact`}
+            label={t("volunteer.referenceContact", "Reference {{index}} Contact", { index: index + 1 })}
             value={ref.contact}
             onChange={handlers.handleReferenceContactChange(index)}
             className={inputClasses}
@@ -280,9 +286,9 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
 
     {/* Work Samples */}
     <div>
-      <h3 className="text-lg font-medium text-gray-900 mb-2">Work Samples</h3>
+      <h3 className="text-lg font-medium text-gray-900 mb-2">{t("volunteer.workSamplesTitle", "Work Samples")}</h3>
       <Input
-        label="Links to Work Samples (comma-separated)"
+        label={t("volunteer.workSamplesLabel", "Links to Work Samples (comma-separated)")}
         value={formData.workSamples}
         onChange={handlers.handleWorkSamplesChange}
         className={inputClasses}
@@ -291,14 +297,15 @@ const ApplicationFormContent: React.FC<ApplicationFormContentProps> = ({
 
     <div className="flex justify-end space-x-3">
       <Button variant="secondary" onClick={onClose} disabled={loading}>
-        Cancel
+        {t("common.cancel", "Cancel")}
       </Button>
       <Button type="submit" disabled={loading}>
-        {loading ? "Submitting..." : "Submit Application"}
+        {loading ? t("volunteer.submitting", "Submitting...") : t("volunteer.submitApplicationShort", "Submit Application")}
       </Button>
     </div>
   </form>
-);
+  );
+};
 
 /** Multi-step volunteer application form with validation and Supabase submission. */
 export const ApplicationForm: React.FC<ApplicationFormProps> = ({
@@ -314,6 +321,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const { t } = useTranslation();
 
   const [formData, setFormData] = useState({
     fullName: "",
@@ -637,7 +645,7 @@ export const ApplicationForm: React.FC<ApplicationFormProps> = ({
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center p-4 z-50">
       <div className="bg-white rounded-lg shadow-xl max-w-2xl w-full max-h-[90dvh] overflow-y-auto p-6 space-y-4">
         <h2 className="text-2xl font-semibold text-gray-900">
-          Apply for: {opportunityTitle}
+          {t("volunteer.applyForTitle", "Apply for: {{title}}", { title: opportunityTitle })}
         </h2>
 
         {error && (
