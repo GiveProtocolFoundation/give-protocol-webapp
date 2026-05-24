@@ -385,8 +385,12 @@ function OverrideModal({
           value={newStatus}
           onChange={handleStatusChange}
         >
-          <option value="approved">{t("admin.validation.approved", "Approved")}</option>
-          <option value="rejected">{t("admin.validation.rejected", "Rejected")}</option>
+          <option value="approved">
+            {t("admin.validation.approved", "Approved")}
+          </option>
+          <option value="rejected">
+            {t("admin.validation.rejected", "Rejected")}
+          </option>
         </select>
         <label
           htmlFor="override-reason"
@@ -398,7 +402,10 @@ function OverrideModal({
           id="override-reason"
           rows={3}
           className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          placeholder={t("admin.validation.reasonPlaceholder", "Explain the reason for overriding this request…")}
+          placeholder={t(
+            "admin.validation.reasonPlaceholder",
+            "Explain the reason for overriding this request…",
+          )}
           value={reason}
           onChange={handleReasonChange}
         />
