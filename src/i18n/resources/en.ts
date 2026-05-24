@@ -317,9 +317,101 @@ export default {
     "auth.login.welcomeHeading": "Welcome to Give Protocol",
     "auth.login.signInOrConnect": "Sign In or Connect",
 
-    // Browse
+    // Browse - general
     "browse.donate": "Donate",
     "browse.verified": "Verified",
+
+    // Browse - tabs
+    "browse.tabs.charities": "Charities",
+    "browse.tabs.causes": "Causes",
+    "browse.tabs.funds": "Portfolio Funds",
+    "browse.tabs.ariaLabel": "Browse categories",
+
+    // Browse - hero & stats
+    "browse.hero.title": "Giving, verified on-chain.",
+    "browse.hero.subtitle": "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
+    "browse.stats.networks": "Networks supported",
+    "browse.stats.sectors": "Charitable sectors",
+    "browse.stats.verifiedOrgs": "Verified organizations",
+    "browse.stats.onChain": "On-chain",
+    "browse.stats.volunteerHours": "Volunteer hours",
+
+    // Browse - filters
+    "browse.filter.searchPlaceholder": "Search charities...",
+    "browse.filter.searchAria": "Search charities",
+    "browse.filter.locationPlaceholder": "City, state, or country...",
+    "browse.filter.locationAria": "Search location",
+    "browse.filter.ariaLabel": "Filter charities",
+
+    // Browse - results
+    "browse.results.ariaLabel": "Charity results",
+    "browse.results.empty": "No organizations match that search yet. Try a different keyword or add a location filter.",
+
+    // Browse - causes carousel
+    "browse.causes.heading": "Featured causes",
+    "browse.causes.subheading": "Support specific projects making real impact.",
+    "browse.causes.raised": "raised",
+    "browse.causes.percentOf": "% of",
+    "browse.causes.badge": "Cause",
+    "browse.causes.by": "by",
+    "browse.causes.supportCta": "Support This Cause",
+    "browse.causes.empty": "No causes available yet. Check back soon!",
+    "browse.causes.ariaLabel": "Featured causes",
+    "browse.causes.prevAria": "Previous featured causes",
+    "browse.causes.nextAria": "Next featured causes",
+    "browse.causes.noResults": "No causes found matching your criteria.",
+    "browse.causes.giveCta": "Give to Cause",
+
+    // Browse - featured charities carousel
+    "browse.featured.heading": "Featured organizations",
+    "browse.featured.subheading": "A rotating look at verified charities on Give Protocol.",
+    "browse.featured.ariaLabel": "Featured organizations",
+    "browse.featured.prevAria": "Previous featured organizations",
+    "browse.featured.nextAria": "Next featured organizations",
+
+    // Browse - portfolio funds carousel
+    "browse.funds.heading": "Portfolio Funds",
+    "browse.funds.subheading": "Curated giving portfolios that distribute donations across verified charities.",
+    "browse.funds.badge": "Portfolio Fund",
+    "browse.funds.charity": "charity",
+    "browse.funds.charities": "charities",
+    "browse.funds.donateCta": "Donate to Fund",
+    "browse.funds.empty": "No portfolio funds available yet. Check back soon!",
+    "browse.funds.ariaLabel": "Portfolio Funds",
+    "browse.funds.prevAria": "Previous portfolio funds",
+    "browse.funds.nextAria": "Next portfolio funds",
+
+    // Charity profile page
+    "charity.profile.verified501c3": "Verified 501(c)(3)",
+    "charity.profile.statusClaimed": "Claimed",
+    "charity.profile.statusUnclaimed": "Unclaimed — IRS data only",
+    "charity.profile.rowEin": "EIN",
+    "charity.profile.rowName": "Name",
+    "charity.profile.rowLocation": "Location",
+    "charity.profile.rowRulingYear": "Ruling year",
+    "charity.profile.rowNteeCode": "NTEE code",
+    "charity.profile.rowDeductibility": "Deductibility",
+    "charity.profile.rowAffiliation": "Affiliation",
+    "charity.profile.rowClassification": "Classification",
+    "charity.profile.rowFoundation": "Foundation type",
+    "charity.profile.rowActivityCodes": "Activity codes",
+    "charity.profile.rowOrgType": "Organization type",
+    "charity.profile.rowSubsection": "Subsection",
+    "charity.profile.rowStatus": "Status",
+    "charity.profile.registryRecord": "Registry Public Record",
+    "charity.profile.registrySource": "Data sourced from official charity registry.",
+    "charity.profile.einDisplay": "EIN",
+    "charity.profile.registeredYear": "Registered {{year}}",
+    "charity.profile.shareAria": "Share",
+    "charity.profile.copied": "Copied!",
+    "charity.profile.about": "About",
+    "charity.profile.activityIntro": "This organization's activities include: activity codes",
+    "charity.profile.notCustomized": "This description has not been customized yet.",
+    "charity.profile.claimProfile": "Claim this profile",
+    "charity.profile.noDescription": "No description available.",
+    "charity.profile.toAddOne": "to add one.",
+    "charity.profile.contact": "Contact",
+    "charity.profile.notFound": "We couldn't find a charity with this EIN.",
 
     // Charity profile donate widget
     "charity.profile.donate.walletUnset":
