@@ -632,10 +632,7 @@ export const GiveDashboard: React.FC = () => {
             <Calendar className="h-4 w-4 mr-2" />
             {showScheduledDonations
               ? t("dashboard.hideMonthlyDonations", "Hide Monthly Donations")
-              : t(
-                  "dashboard.viewMonthlyDonations",
-                  "View Monthly Donations",
-                )}
+              : t("dashboard.viewMonthlyDonations", "View Monthly Donations")}
           </Button>
           <Button
             variant="ghost"

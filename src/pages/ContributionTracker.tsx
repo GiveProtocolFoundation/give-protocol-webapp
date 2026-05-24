@@ -41,9 +41,20 @@ const ContributionFilters: React.FC<{
   onChangeAlias: () => void;
   onSetAlias: () => void;
 }> = ({
-  searchTerm, onSearchChange, timeRange, onTimeRangeChange,
-  region, onRegionChange, showOptOut, onOptOutChange,
-  onExportCsv, onExportPdf, isConnected, alias, onChangeAlias, onSetAlias,
+  searchTerm,
+  onSearchChange,
+  timeRange,
+  onTimeRangeChange,
+  region,
+  onRegionChange,
+  showOptOut,
+  onOptOutChange,
+  onExportCsv,
+  onExportPdf,
+  isConnected,
+  alias,
+  onChangeAlias,
+  onSetAlias,
 }) => {
   const { t } = useTranslation();
   return (
@@ -52,7 +63,10 @@ const ContributionFilters: React.FC<{
         <div className="flex-grow relative">
           <input
             type="text"
-            placeholder={t("tracker.searchPlaceholder", "Search contributors...")}
+            placeholder={t(
+              "tracker.searchPlaceholder",
+              "Search contributors...",
+            )}
             value={searchTerm}
             onChange={onSearchChange}
             className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
@@ -60,11 +74,19 @@ const ContributionFilters: React.FC<{
           <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
         </div>
         <TimeRangeFilter value={timeRange} onChange={onTimeRangeChange} />
-        <Button variant="secondary" onClick={onExportCsv} className="flex items-center">
+        <Button
+          variant="secondary"
+          onClick={onExportCsv}
+          className="flex items-center"
+        >
           <Download className="h-4 w-4 mr-2" />
           {t("tracker.exportCSV", "Export CSV")}
         </Button>
-        <Button variant="secondary" onClick={onExportPdf} className="flex items-center">
+        <Button
+          variant="secondary"
+          onClick={onExportPdf}
+          className="flex items-center"
+        >
           <Download className="h-4 w-4 mr-2" />
           {t("tracker.exportPDF", "Export PDF")}
         </Button>
@@ -149,7 +171,9 @@ const AliasModal: React.FC<{
           <Button variant="secondary" onClick={onClose}>
             {t("common.cancel", "Cancel")}
           </Button>
-          <Button onClick={onSave}>{t("tracker.saveAlias", "Save Alias")}</Button>
+          <Button onClick={onSave}>
+            {t("tracker.saveAlias", "Save Alias")}
+          </Button>
         </footer>
       </div>
     </div>
@@ -313,10 +337,7 @@ export const ContributionTracker: React.FC = () => {
         showToast(
           "error",
           t("tracker.exportFailed", "Export Failed"),
-          t(
-            "tracker.exportError",
-            "An error occurred while exporting data",
-          ),
+          t("tracker.exportError", "An error occurred while exporting data"),
         );
       }
     },
@@ -461,7 +482,10 @@ export const ContributionTracker: React.FC = () => {
         </TabsList>
 
         <TabsContent value="donations">
-          <div ref={donationLeaderboardRef} className="bg-white rounded-lg shadow-md p-6">
+          <div
+            ref={donationLeaderboardRef}
+            className="bg-white rounded-lg shadow-md p-6"
+          >
             <DonationLeaderboard
               timeRange={timeRange}
               region={region}
@@ -471,7 +495,10 @@ export const ContributionTracker: React.FC = () => {
         </TabsContent>
 
         <TabsContent value="volunteer">
-          <div ref={volunteerLeaderboardRef} className="bg-white rounded-lg shadow-md p-6">
+          <div
+            ref={volunteerLeaderboardRef}
+            className="bg-white rounded-lg shadow-md p-6"
+          >
             <VolunteerLeaderboard
               timeRange={timeRange}
               region={region}

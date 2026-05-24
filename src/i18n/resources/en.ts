@@ -184,8 +184,7 @@ export default {
     "volunteer.unknownOrganization": "Unknown Organization",
 
     // Volunteer - VolunteerVerificationCard
-    "volunteer.contributionVerification":
-      "Volunteer Contribution Verification",
+    "volunteer.contributionVerification": "Volunteer Contribution Verification",
     "volunteer.volunteerLabel": "Volunteer",
     "volunteer.opportunityLabel": "Opportunity",
     "volunteer.organizationLabel": "Organization",
@@ -235,10 +234,8 @@ export default {
       "This record will be submitted for validation to {{org}}",
     "volunteer.validationExpired":
       "Validation period has expired for this date",
-    "volunteer.savedAsUnvalidated":
-      "This record will be saved as unvalidated",
-    "volunteer.describeActivities":
-      "Describe the activities you performed...",
+    "volunteer.savedAsUnvalidated": "This record will be saved as unvalidated",
+    "volunteer.describeActivities": "Describe the activities you performed...",
     "volunteer.moreCharsNeeded": "{{count}} more characters needed",
     "volunteer.updating": "Updating...",
     "volunteer.logging": "Logging...",
@@ -254,10 +251,8 @@ export default {
     "volunteer.allActivityTypes": "All Types",
     "volunteer.noMatchingRecords": "No matching records",
     "volunteer.noHoursLogged": "No volunteer hours logged yet",
-    "volunteer.adjustFilters":
-      "Try adjusting your filters to find records.",
-    "volunteer.startLogging":
-      "Start by logging your first volunteer hours.",
+    "volunteer.adjustFilters": "Try adjusting your filters to find records.",
+    "volunteer.startLogging": "Start by logging your first volunteer hours.",
 
     // Volunteer - SelfReportedHoursStats
     "volunteer.validatedHours": "Validated Hours",
@@ -289,8 +284,7 @@ export default {
       "Start typing your skills (e.g., Python programming, Public speaking, Grant writing)",
     "volunteer.skillPlaceholderShort": "Type a skill and press Enter...",
     "volunteer.commitmentLevel": "Commitment Level",
-    "volunteer.commitmentOneTimeDesc":
-      "Single project or short-duration tasks",
+    "volunteer.commitmentOneTimeDesc": "Single project or short-duration tasks",
     "volunteer.commitmentShortTermDesc": "Few weeks to a few months",
     "volunteer.commitmentLongTermDesc":
       "Ongoing commitment of several months or more",
@@ -303,25 +297,18 @@ export default {
     "volunteer.submitApplication": "Submit Volunteer Application",
     "volunteer.disclaimerText":
       "By submitting this application, you acknowledge that you have read and understood Give Protocol\u2019s privacy policy and volunteer guidelines. Your data will be processed in accordance with applicable data protection regulations.",
-    "volunteer.validation.firstNameInvalid":
-      "Please enter a valid first name",
-    "volunteer.validation.lastNameInvalid":
-      "Please enter a valid last name",
-    "volunteer.validation.emailInvalid":
-      "Please enter a valid email address",
-    "volunteer.validation.phoneInvalid":
-      "Please enter a valid phone number",
+    "volunteer.validation.firstNameInvalid": "Please enter a valid first name",
+    "volunteer.validation.lastNameInvalid": "Please enter a valid last name",
+    "volunteer.validation.emailInvalid": "Please enter a valid email address",
+    "volunteer.validation.phoneInvalid": "Please enter a valid phone number",
     "volunteer.validation.experienceRequired":
       "Please describe your relevant experience",
     "volunteer.validation.addSkill": "Please add at least one skill",
-    "volunteer.validation.ageRangeRequired":
-      "Please select your age range",
+    "volunteer.validation.ageRangeRequired": "Please select your age range",
     "volunteer.validation.consentRequired":
       "You must agree to all required consent items",
-    "volunteer.signInToSubmit":
-      "Please log in to submit an application",
-    "volunteer.submitFailed":
-      "Failed to submit application. Please try again.",
+    "volunteer.signInToSubmit": "Please log in to submit an application",
+    "volunteer.submitFailed": "Failed to submit application. Please try again.",
 
     // Volunteer - ApplicationForm
     "volunteer.applyForTitle": "Apply for: {{title}}",
@@ -342,25 +329,21 @@ export default {
     "volunteer.referenceName": "Reference {{index}} Name",
     "volunteer.referenceContact": "Reference {{index}} Contact",
     "volunteer.workSamplesTitle": "Work Samples",
-    "volunteer.workSamplesLabel":
-      "Links to Work Samples (comma-separated)",
+    "volunteer.workSamplesLabel": "Links to Work Samples (comma-separated)",
     "volunteer.submitApplicationShort": "Submit Application",
     "volunteer.validation.nameInvalid":
       "Please enter a valid name (2-100 characters)",
     "volunteer.validation.provideExperience":
       "Please provide information about your experience",
-    "volunteer.validation.selectDay":
-      "Please select at least one day",
-    "volunteer.validation.selectTime":
-      "Please select at least one time",
+    "volunteer.validation.selectDay": "Please select at least one day",
+    "volunteer.validation.selectTime": "Please select at least one time",
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "I understand that:",
     "volunteer.specificConsents": "SPECIFIC CONSENTS",
     "volunteer.specificConsentsDesc":
       "Please review and indicate your consent to each of the following:",
-    "volunteer.essentialProcessingTitle":
-      "Essential Processing (Required):",
+    "volunteer.essentialProcessingTitle": "Essential Processing (Required):",
     "volunteer.internationalTransfersTitle":
       "International Transfers (if applicable):",
     "volunteer.acknowledgmentTitle": "ACKNOWLEDGMENT",
@@ -730,8 +713,7 @@ export default {
     "admin.actions.systemSettings": "System Settings",
     "admin.actions.systemSettingsDesc": "Configure platform parameters",
     "admin.actions.manageImpactMetrics": "Manage Impact Metrics",
-    "admin.actions.manageImpactMetricsDesc":
-      "Configure impact calculator data",
+    "admin.actions.manageImpactMetricsDesc": "Configure impact calculator data",
     "admin.actions.donationMonitoring": "Donation Monitoring",
     "admin.actions.donationMonitoringDesc":
       "Monitor, flag, and report on donations",
