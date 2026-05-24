@@ -14,6 +14,7 @@ import {
   type FeaturedCause,
 } from "@/hooks/useFeaturedCauses";
 import { cn } from "@/utils/cn";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const AUTO_ADVANCE_MS = 6000;
 const CARDS_PER_PAGE = 3;
@@ -89,11 +90,15 @@ function RaisedStatsRow({
   target: number;
   pct: number;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="flex justify-between text-xs text-gray-500 dark:text-gray-400">
-      <span>${raised.toLocaleString()} raised</span>
       <span>
-        {pct}% of ${target.toLocaleString()}
+        ${raised.toLocaleString()} {t("browse.causes.raised", "raised")}
+      </span>
+      <span>
+        {pct}
+        {t("browse.causes.percentOf", "% of")} ${target.toLocaleString()}
       </span>
     </div>
   );
@@ -101,6 +106,7 @@ function RaisedStatsRow({
 
 /** Single featured-cause card rendered inside a carousel page. */
 function FeaturedCauseCard({ cause }: { cause: FeaturedCause }) {
+  const { t } = useTranslation();
   const pct =
     cause.targetAmount > 0
       ? Math.round((cause.raisedAmount / cause.targetAmount) * 100)
@@ -112,7 +118,7 @@ function FeaturedCauseCard({ cause }: { cause: FeaturedCause }) {
         <CauseCoverImage imageUrl={cause.imageUrl} name={cause.name} />
         <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/90 dark:bg-gray-900/90 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-full shadow-sm">
           <Target aria-hidden="true" className="h-3.5 w-3.5" />
-          Cause
+          {t("browse.causes.badge", "Cause")}
         </span>
       </div>
 
@@ -132,7 +138,7 @@ function FeaturedCauseCard({ cause }: { cause: FeaturedCause }) {
         </Link>
 
         <p className="mt-1 text-xs text-gray-500 dark:text-gray-400">
-          by {cause.charityName}
+          {t("browse.causes.by", "by")} {cause.charityName}
         </p>
 
         <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-2">
@@ -153,7 +159,7 @@ function FeaturedCauseCard({ cause }: { cause: FeaturedCause }) {
             to={`/causes/${cause.id}`}
             className="w-full inline-flex items-center justify-center rounded-[10px] bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
           >
-            Support This Cause
+            {t("browse.causes.supportCta", "Support This Cause")}
           </Link>
         </div>
       </div>
@@ -173,9 +179,18 @@ interface FeaturedCausesCarouselProps {
  * @returns Carousel component or null when no causes exist
  */
 export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
-  heading = "Featured causes",
-  subheading = "Support specific projects making real impact.",
+  heading,
+  subheading,
 }) => {
+  const { t } = useTranslation();
+  const displayHeading =
+    heading ?? t("browse.causes.heading", "Featured causes");
+  const displaySubheading =
+    subheading ??
+    t(
+      "browse.causes.subheading",
+      "Support specific projects making real impact.",
+    );
   const { causes, loading } = useFeaturedCauses();
   const [pageIndex, setPageIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -227,13 +242,13 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
 
   if (loading) {
     return (
-      <section aria-label="Featured causes">
+      <section aria-label={t("browse.causes.ariaLabel", "Featured causes")}>
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {heading}
+            {displayHeading}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {subheading}
+            {displaySubheading}
           </p>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
@@ -245,18 +260,23 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
 
   if (pages.length === 0) {
     return (
-      <section aria-label="Featured causes">
+      <section aria-label={t("browse.causes.ariaLabel", "Featured causes")}>
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {heading}
+            {displayHeading}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {subheading}
+            {displaySubheading}
           </p>
         </div>
         <div className="text-center py-16 text-gray-500 dark:text-gray-400">
           <Target className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-          <p>No causes available yet. Check back soon!</p>
+          <p>
+            {t(
+              "browse.causes.empty",
+              "No causes available yet. Check back soon!",
+            )}
+          </p>
         </div>
       </section>
     );
@@ -267,7 +287,7 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
 
   return (
     <section
-      aria-label="Featured causes"
+      aria-label={t("browse.causes.ariaLabel", "Featured causes")}
       aria-roledescription="carousel"
       aria-live="polite"
       onMouseEnter={handlePause}
@@ -278,10 +298,10 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
       <div className="flex items-end justify-between gap-4 mb-4">
         <div>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {heading}
+            {displayHeading}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {subheading}
+            {displaySubheading}
           </p>
         </div>
         {showNav && (
@@ -289,7 +309,10 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
             <button
               type="button"
               onClick={handlePrev}
-              aria-label="Previous featured causes"
+              aria-label={t(
+                "browse.causes.prevAria",
+                "Previous featured causes",
+              )}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronLeft aria-hidden="true" className="h-4 w-4" />
@@ -297,7 +320,7 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
             <button
               type="button"
               onClick={handleNext}
-              aria-label="Next featured causes"
+              aria-label={t("browse.causes.nextAria", "Next featured causes")}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronRight aria-hidden="true" className="h-4 w-4" />

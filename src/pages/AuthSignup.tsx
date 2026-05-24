@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Link, Navigate, useNavigate } from "react-router-dom";
+import { Link, Navigate } from "react-router-dom";
 import {
   ShieldCheck,
   Building2,
@@ -15,6 +15,7 @@ import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
 import { FormInput } from "@/components/ui/FormInput";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { validateEmail, validatePassword } from "@/utils/validation";
 import { Logger } from "@/utils/logger";
 
@@ -34,201 +35,208 @@ const GRID_STYLE: React.CSSProperties = {
 };
 
 /** Protocol status banner with pulse indicator. */
-const ProtocolStatusBanner: React.FC = () => (
-  <div
-    className="relative flex items-center gap-4 overflow-hidden"
-    style={{
-      background: "rgba(255,255,255,0.04)",
-      border: "1px solid rgba(52,211,153,0.2)",
-      borderRadius: 12,
-      padding: "1rem 1.25rem",
-      backdropFilter: "blur(12px)",
-      WebkitBackdropFilter: "blur(12px)",
-    }}
-  >
+const ProtocolStatusBanner: React.FC = () => {
+  const { t } = useTranslation();
+  return (
     <div
-      className="absolute inset-0 pointer-events-none"
+      className="relative flex items-center gap-4 overflow-hidden"
       style={{
-        background:
-          "linear-gradient(90deg, rgba(52,211,153,0.06) 0%, transparent 70%)",
+        background: "rgba(255,255,255,0.04)",
+        border: "1px solid rgba(52,211,153,0.2)",
+        borderRadius: 12,
+        padding: "1rem 1.25rem",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
       }}
-    />
-    <div className="relative shrink-0" style={{ width: 10, height: 10 }}>
+    >
       <div
-        className="rounded-full relative z-10"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          width: 10,
-          height: 10,
-          background: "var(--emerald-400)",
-          boxShadow: "0 0 8px var(--emerald-400)",
+          background:
+            "linear-gradient(90deg, rgba(52,211,153,0.06) 0%, transparent 70%)",
         }}
       />
-      <span
-        className="absolute rounded-full animate-ripple"
-        style={{ inset: -5, border: "1.5px solid var(--emerald-400)" }}
-      />
-      <span
-        className="absolute rounded-full animate-ripple"
-        style={{
-          inset: -5,
-          border: "1.5px solid var(--emerald-400)",
-          animationDelay: "0.8s",
-        }}
-      />
-    </div>
-    <div
-      className="shrink-0"
-      style={{ width: 1, height: 32, background: "rgba(52,211,153,0.2)" }}
-    />
-    <div className="relative z-10">
-      <p
-        style={{
-          fontSize: "0.67rem",
-          fontWeight: 600,
-          color: "var(--emerald-400)",
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          marginBottom: "0.2rem",
-        }}
-      >
-        Protocol Status &middot; Genesis Phase
-      </p>
-      <p
-        style={{
-          fontSize: "0.85rem",
-          color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.4,
-        }}
-      >
-        Building the{" "}
-        <strong className="text-white font-semibold">
-          foundation of transparent giving
-        </strong>
-      </p>
-    </div>
-  </div>
-);
-
-/** "Runs on" trust tags row. */
-const RunsOnTags: React.FC = () => (
-  <div>
-    <div className="flex items-center gap-2" style={{ marginBottom: "0.6rem" }}>
-      <span
-        style={{
-          fontSize: "0.68rem",
-          color: "rgba(255,255,255,0.7)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          fontWeight: 500,
-          whiteSpace: "nowrap",
-        }}
-      >
-        Runs on
-      </span>
+      <div className="relative shrink-0" style={{ width: 10, height: 10 }}>
+        <div
+          className="rounded-full relative z-10"
+          style={{
+            width: 10,
+            height: 10,
+            background: "var(--emerald-400)",
+            boxShadow: "0 0 8px var(--emerald-400)",
+          }}
+        />
+        <span
+          className="absolute rounded-full animate-ripple"
+          style={{ inset: -5, border: "1.5px solid var(--emerald-400)" }}
+        />
+        <span
+          className="absolute rounded-full animate-ripple"
+          style={{
+            inset: -5,
+            border: "1.5px solid var(--emerald-400)",
+            animationDelay: "0.8s",
+          }}
+        />
+      </div>
       <div
-        className="flex-1"
-        style={{ height: 1, background: "rgba(255,255,255,0.07)" }}
+        className="shrink-0"
+        style={{ width: 1, height: 32, background: "rgba(52,211,153,0.2)" }}
       />
-    </div>
-    <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
-      {["Moonbeam", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
-        (tag) => (
-          <span
-            key={tag}
-            style={{
-              color: "rgba(255,255,255,0.7)",
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 6,
-              padding: "0.25rem 0.6rem",
-              fontSize: "0.68rem",
-              fontWeight: 500,
-            }}
-          >
-            {tag}
-          </span>
-        ),
-      )}
-    </div>
-  </div>
-);
-
-/** Dark left panel for the auth signup page. */
-const SignupLeftPanel: React.FC = () => (
-  <div
-    className="hidden lg:flex relative flex-col justify-center overflow-hidden"
-    style={{ backgroundColor: "#064e3b", padding: "3.5rem" }}
-  >
-    <div
-      className="absolute inset-0 pointer-events-none"
-      style={ATMOSPHERE_STYLE}
-    />
-    <div className="absolute inset-0 pointer-events-none" style={GRID_STYLE} />
-    <div
-      className="absolute rounded-full animate-orbDrift pointer-events-none"
-      style={{
-        width: 200,
-        height: 200,
-        top: -60,
-        right: -40,
-        background: "var(--emerald-400)",
-        filter: "blur(60px)",
-        opacity: 0.25,
-      }}
-    />
-    <div
-      className="absolute rounded-full animate-orbDrift pointer-events-none"
-      style={{
-        width: 160,
-        height: 160,
-        bottom: 80,
-        left: -30,
-        background: "var(--emerald-600)",
-        filter: "blur(60px)",
-        opacity: 0.25,
-        animationDelay: "-3s",
-      }}
-    />
-    <div className="relative z-10">
-      <h2
-        className="font-serif text-white animate-fadeUp"
-        style={{
-          fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
-          lineHeight: 1.12,
-          letterSpacing: "-0.02em",
-          marginBottom: "1.25rem",
-        }}
-      >
-        Join the future of
-        <br />
-        <span style={{ color: "var(--emerald-300)" }} className="italic">
-          transparent
-        </span>{" "}
-        giving.
-      </h2>
-      <p
-        className="animate-fadeUp"
-        style={{
-          fontSize: "0.9rem",
-          color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.6,
-          maxWidth: 340,
-          fontWeight: 300,
-          animationDelay: "0.2s",
-        }}
-      >
-        One account. Donate by card or crypto. Track every dollar on-chain.
-      </p>
-      <div
-        className="space-y-4 animate-fadeUp"
-        style={{ marginTop: "2.5rem", animationDelay: "0.8s" }}
-      >
-        <ProtocolStatusBanner />
-        <RunsOnTags />
+      <div className="relative z-10">
+        <p
+          style={{
+            fontSize: "0.67rem",
+            fontWeight: 600,
+            color: "var(--emerald-400)",
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            marginBottom: "0.2rem",
+          }}
+        >
+          {t("auth.panel.statusLabel")}
+        </p>
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "rgba(255,255,255,0.75)",
+            lineHeight: 1.4,
+          }}
+        >
+          {t("auth.panel.statusDesc")}
+        </p>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+/** "Runs on" trust tags row. */
+const RunsOnTags: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <div
+        className="flex items-center gap-2"
+        style={{ marginBottom: "0.6rem" }}
+      >
+        <span
+          style={{
+            fontSize: "0.68rem",
+            color: "rgba(255,255,255,0.7)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            fontWeight: 500,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {t("auth.panel.runsOn")}
+        </span>
+        <div
+          className="flex-1"
+          style={{ height: 1, background: "rgba(255,255,255,0.07)" }}
+        />
+      </div>
+      <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
+        {["Moonbeam", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
+          (tag) => (
+            <span
+              key={tag}
+              style={{
+                color: "rgba(255,255,255,0.7)",
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 6,
+                padding: "0.25rem 0.6rem",
+                fontSize: "0.68rem",
+                fontWeight: 500,
+              }}
+            >
+              {tag}
+            </span>
+          ),
+        )}
+      </div>
+    </div>
+  );
+};
+
+/** Dark left panel for the auth signup page. */
+const SignupLeftPanel: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <div
+      className="hidden lg:flex relative flex-col justify-center overflow-hidden"
+      style={{ backgroundColor: "#064e3b", padding: "3.5rem" }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={ATMOSPHERE_STYLE}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={GRID_STYLE}
+      />
+      <div
+        className="absolute rounded-full animate-orbDrift pointer-events-none"
+        style={{
+          width: 200,
+          height: 200,
+          top: -60,
+          right: -40,
+          background: "var(--emerald-400)",
+          filter: "blur(60px)",
+          opacity: 0.25,
+        }}
+      />
+      <div
+        className="absolute rounded-full animate-orbDrift pointer-events-none"
+        style={{
+          width: 160,
+          height: 160,
+          bottom: 80,
+          left: -30,
+          background: "var(--emerald-600)",
+          filter: "blur(60px)",
+          opacity: 0.25,
+          animationDelay: "-3s",
+        }}
+      />
+      <div className="relative z-10">
+        <h2
+          className="font-serif text-white animate-fadeUp"
+          style={{
+            fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
+            lineHeight: 1.12,
+            letterSpacing: "-0.02em",
+            marginBottom: "1.25rem",
+          }}
+        >
+          {t("auth.signup.panel.headline")}
+        </h2>
+        <p
+          className="animate-fadeUp"
+          style={{
+            fontSize: "0.9rem",
+            color: "rgba(255,255,255,0.75)",
+            lineHeight: 1.6,
+            maxWidth: 340,
+            fontWeight: 300,
+            animationDelay: "0.2s",
+          }}
+        >
+          {t("auth.panel.subheadline")}
+        </p>
+        <div
+          className="space-y-4 animate-fadeUp"
+          style={{ marginTop: "2.5rem", animationDelay: "0.8s" }}
+        >
+          <ProtocolStatusBanner />
+          <RunsOnTags />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /** Google "G" icon for social auth button. */
 const GoogleIcon: React.FC = () => (
@@ -277,58 +285,61 @@ const CollapsiblePasswordSection: React.FC<{
   onPasswordChange,
   onConfirmPasswordChange,
   onSubmit,
-}) => (
-  <div className="mt-4">
-    <button
-      type="button"
-      onClick={onToggle}
-      className="w-full flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors py-2"
-      aria-expanded={isOpen}
-    >
-      <span className="font-medium">Or set a password</span>
-      {isOpen ? (
-        <ChevronUp className="h-4 w-4" />
-      ) : (
-        <ChevronDown className="h-4 w-4" />
+}) => {
+  const { t } = useTranslation();
+  return (
+    <div className="mt-4">
+      <button
+        type="button"
+        onClick={onToggle}
+        className="w-full flex items-center justify-between text-sm text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-200 transition-colors py-2"
+        aria-expanded={isOpen}
+      >
+        <span className="font-medium">{t("auth.signup.orSetPassword")}</span>
+        {isOpen ? (
+          <ChevronUp className="h-4 w-4" />
+        ) : (
+          <ChevronDown className="h-4 w-4" />
+        )}
+      </button>
+      {isOpen && (
+        <form onSubmit={onSubmit} className="space-y-3 mt-3">
+          <FormInput
+            icon={<Lock className="h-4 w-4" />}
+            type="password"
+            value={password}
+            onChange={onPasswordChange}
+            placeholder={t("auth.signup.passwordPlaceholder")}
+            required
+            autoComplete="new-password"
+          />
+          <FormInput
+            icon={<Lock className="h-4 w-4" />}
+            type="password"
+            value={confirmPassword}
+            onChange={onConfirmPasswordChange}
+            placeholder={t("auth.signup.confirmPasswordPlaceholder")}
+            required
+            autoComplete="new-password"
+          />
+          <Button
+            type="submit"
+            fullWidth
+            size="lg"
+            disabled={loading}
+            className="font-semibold"
+          >
+            {loading ? t("auth.signup.submitting") : t("auth.signup.submit")}
+          </Button>
+        </form>
       )}
-    </button>
-    {isOpen && (
-      <form onSubmit={onSubmit} className="space-y-3 mt-3">
-        <FormInput
-          icon={<Lock className="h-4 w-4" />}
-          type="password"
-          value={password}
-          onChange={onPasswordChange}
-          placeholder="Password"
-          required
-          autoComplete="new-password"
-        />
-        <FormInput
-          icon={<Lock className="h-4 w-4" />}
-          type="password"
-          value={confirmPassword}
-          onChange={onConfirmPasswordChange}
-          placeholder="Confirm password"
-          required
-          autoComplete="new-password"
-        />
-        <Button
-          type="submit"
-          fullWidth
-          size="lg"
-          disabled={loading}
-          className="font-semibold"
-        >
-          {loading ? "Creating account\u2026" : "Create Account"}
-        </Button>
-      </form>
-    )}
-  </div>
-);
+    </div>
+  );
+};
 
 /** Right panel content with passwordless-first sign-up and auth method buttons. */
 const SignupRightPanel: React.FC = () => {
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -369,17 +380,17 @@ const SignupRightPanel: React.FC = () => {
       setFormError(null);
 
       if (!validateEmail(email)) {
-        setFormError("Please enter a valid email address");
+        setFormError(t("auth.validation.invalidEmail"));
         return;
       }
 
       if (!validatePassword(password)) {
-        setFormError("Password must be at least 8 characters long");
+        setFormError(t("auth.validation.passwordTooShort"));
         return;
       }
 
       if (password !== confirmPassword) {
-        setFormError("Passwords do not match");
+        setFormError(t("auth.validation.passwordMismatch"));
         return;
       }
 
@@ -398,13 +409,13 @@ const SignupRightPanel: React.FC = () => {
         Logger.error("Email sign-up failed", { error: msg });
       }
     },
-    [displayName, email, navigate, password, confirmPassword, signUpWithEmail],
+    [displayName, email, password, confirmPassword, signUpWithEmail, t],
   );
 
   const handlePasskeySignUp = useCallback(async () => {
     setFormError(null);
     if (!validateEmail(email)) {
-      setFormError("Please enter your email address first");
+      setFormError(t("auth.validation.emailRequired"));
       return;
     }
     try {
@@ -426,7 +437,7 @@ const SignupRightPanel: React.FC = () => {
         Logger.error("Passkey sign-up failed", { error: msg });
       }
     }
-  }, [email, signUpWithEmail, registerPasskey]);
+  }, [email, signUpWithEmail, registerPasskey, t]);
 
   const handleGoogleSignUp = useCallback(async () => {
     setFormError(null);
@@ -520,7 +531,7 @@ const SignupRightPanel: React.FC = () => {
             marginBottom: "0.4rem",
           }}
         >
-          Create your donor account
+          {t("auth.signup.heading")}
         </h1>
         <p
           style={{
@@ -529,7 +540,7 @@ const SignupRightPanel: React.FC = () => {
             marginBottom: "2rem",
           }}
         >
-          Start your transparent giving journey
+          {t("auth.signup.subtitle")}
         </p>
 
         {/* Error alert */}
@@ -549,7 +560,7 @@ const SignupRightPanel: React.FC = () => {
             type="text"
             value={displayName}
             onChange={handleDisplayNameChange}
-            placeholder="Display name (optional)"
+            placeholder={t("auth.signup.displayName")}
             autoComplete="name"
           />
           <FormInput
@@ -557,7 +568,7 @@ const SignupRightPanel: React.FC = () => {
             type="email"
             value={email}
             onChange={handleEmailChange}
-            placeholder="Email"
+            placeholder={t("auth.signup.emailPlaceholder")}
             required
             autoComplete="email"
           />
@@ -574,14 +585,16 @@ const SignupRightPanel: React.FC = () => {
             icon={<Fingerprint className="h-4 w-4" />}
             className="font-semibold mb-3"
           >
-            Sign up with Passkey
+            {t("auth.signup.withPasskey")}
           </Button>
         )}
 
         {/* Divider */}
         <div className="flex items-center gap-3 my-4">
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-          <span className="text-xs text-gray-400 font-medium">or</span>
+          <span className="text-xs text-gray-400 font-medium">
+            {t("auth.signin.or")}
+          </span>
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
         </div>
 
@@ -597,7 +610,7 @@ const SignupRightPanel: React.FC = () => {
             disabled={loading}
             className="font-semibold"
           >
-            Continue with Google
+            {t("auth.signup.withGoogle")}
           </Button>
 
           <Button
@@ -610,7 +623,7 @@ const SignupRightPanel: React.FC = () => {
             disabled={loading}
             className="font-semibold"
           >
-            Connect Wallet
+            {t("auth.signup.connectWallet")}
           </Button>
         </div>
 
@@ -628,12 +641,12 @@ const SignupRightPanel: React.FC = () => {
 
         {/* Sign in prompt */}
         <p className="mt-6 text-center text-sm text-gray-500">
-          Already have an account?{" "}
+          {t("auth.signup.alreadyHaveAccount")}{" "}
           <Link
             to="/auth"
             className="font-semibold text-emerald-700 hover:text-emerald-800 hover:underline decoration-emerald-500 decoration-2 underline-offset-4"
           >
-            Sign in &rarr;
+            {t("auth.signup.signInLink")}
           </Link>
         </p>
 
@@ -644,7 +657,7 @@ const SignupRightPanel: React.FC = () => {
         >
           <Building2 className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
           <span className="text-sm font-medium text-gray-600 dark:text-gray-300 group-hover:text-gray-800 dark:group-hover:text-white">
-            I manage a Nonprofit Profile
+            {t("auth.signup.manageNonprofit")}
           </span>
         </Link>
 
@@ -662,21 +675,21 @@ const SignupRightPanel: React.FC = () => {
             aria-hidden="true"
             className="inline h-3 w-3 mr-1 align-text-bottom"
           />
-          256-bit SSL encrypted. By creating an account you agree to our{" "}
+          {t("auth.signup.trustText")}{" "}
           <Link
             to="/legal"
             className="underline"
             style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
           >
-            Terms
+            {t("auth.signin.terms")}
           </Link>{" "}
-          and{" "}
+          {t("auth.signup.and")}{" "}
           <Link
             to="/privacy"
             className="underline"
             style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
           >
-            Privacy Policy
+            {t("auth.signup.privacyPolicy")}
           </Link>
           .
         </p>

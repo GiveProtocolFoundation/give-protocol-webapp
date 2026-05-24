@@ -72,7 +72,7 @@ describe("Auth", () => {
 
     it("renders the transparent impact tagline", () => {
       renderAuth();
-      expect(screen.getByText("transparent")).toBeInTheDocument();
+      expect(screen.getByText(/transparent impact/)).toBeInTheDocument();
       expect(screen.getByText(/impact/)).toBeInTheDocument();
     });
   });

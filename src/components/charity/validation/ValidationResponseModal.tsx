@@ -246,10 +246,13 @@ export const ValidationResponseModal: React.FC<
               {/* Request Info */}
               <div className="text-sm text-gray-500 mb-6">
                 <p>
-                  {t("modal.validation.submitted")} {formatDate(item.createdAt, true)}
+                  {t("modal.validation.submitted")}{" "}
+                  {formatDate(item.createdAt, true)}
                   {item.daysRemaining !== undefined && (
                     <span className="ml-2 text-amber-600">
-                      {t("modal.validation.daysRemaining", { count: item.daysRemaining })}
+                      {t("modal.validation.daysRemaining", {
+                        count: item.daysRemaining,
+                      })}
                     </span>
                   )}
                 </p>
@@ -294,7 +297,9 @@ export const ValidationResponseModal: React.FC<
                 disabled={processing}
                 icon={<CheckCircle className="h-4 w-4" />}
               >
-                {processing ? t("modal.validation.processing") : t("modal.validation.approve")}
+                {processing
+                  ? t("modal.validation.processing")
+                  : t("modal.validation.approve")}
               </Button>
             </>
           ) : (
@@ -311,7 +316,9 @@ export const ValidationResponseModal: React.FC<
                 onClick={handleConfirmReject}
                 disabled={processing || !rejectionReason}
               >
-                {processing ? t("modal.validation.processing") : t("modal.validation.confirmRejection")}
+                {processing
+                  ? t("modal.validation.processing")
+                  : t("modal.validation.confirmRejection")}
               </Button>
             </>
           )}

@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 import { ShieldCheck, Wallet, Mail, Lock, Fingerprint } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
@@ -60,201 +61,208 @@ const GRID_STYLE: React.CSSProperties = {
 };
 
 /** Protocol status banner with pulse indicator. */
-const ProtocolStatusBanner: React.FC = () => (
-  <div
-    className="relative flex items-center gap-4 overflow-hidden"
-    style={{
-      background: "rgba(255,255,255,0.04)",
-      border: "1px solid rgba(52,211,153,0.2)",
-      borderRadius: 12,
-      padding: "1rem 1.25rem",
-      backdropFilter: "blur(12px)",
-      WebkitBackdropFilter: "blur(12px)",
-    }}
-  >
+const ProtocolStatusBanner: React.FC = () => {
+  const { t } = useTranslation();
+  return (
     <div
-      className="absolute inset-0 pointer-events-none"
+      className="relative flex items-center gap-4 overflow-hidden"
       style={{
-        background:
-          "linear-gradient(90deg, rgba(52,211,153,0.06) 0%, transparent 70%)",
+        background: "rgba(255,255,255,0.04)",
+        border: "1px solid rgba(52,211,153,0.2)",
+        borderRadius: 12,
+        padding: "1rem 1.25rem",
+        backdropFilter: "blur(12px)",
+        WebkitBackdropFilter: "blur(12px)",
       }}
-    />
-    <div className="relative shrink-0" style={{ width: 10, height: 10 }}>
+    >
       <div
-        className="rounded-full relative z-10"
+        className="absolute inset-0 pointer-events-none"
         style={{
-          width: 10,
-          height: 10,
-          background: "var(--emerald-400)",
-          boxShadow: "0 0 8px var(--emerald-400)",
+          background:
+            "linear-gradient(90deg, rgba(52,211,153,0.06) 0%, transparent 70%)",
         }}
       />
-      <span
-        className="absolute rounded-full animate-ripple"
-        style={{ inset: -5, border: "1.5px solid var(--emerald-400)" }}
-      />
-      <span
-        className="absolute rounded-full animate-ripple"
-        style={{
-          inset: -5,
-          border: "1.5px solid var(--emerald-400)",
-          animationDelay: "0.8s",
-        }}
-      />
-    </div>
-    <div
-      className="shrink-0"
-      style={{ width: 1, height: 32, background: "rgba(52,211,153,0.2)" }}
-    />
-    <div className="relative z-10">
-      <p
-        style={{
-          fontSize: "0.67rem",
-          fontWeight: 600,
-          color: "var(--emerald-400)",
-          textTransform: "uppercase",
-          letterSpacing: "0.1em",
-          marginBottom: "0.2rem",
-        }}
-      >
-        Protocol Status &middot; Genesis Phase
-      </p>
-      <p
-        style={{
-          fontSize: "0.85rem",
-          color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.4,
-        }}
-      >
-        Building the{" "}
-        <strong className="text-white font-semibold">
-          foundation of transparent giving
-        </strong>
-      </p>
-    </div>
-  </div>
-);
-
-/** "Runs on" trust tags row. */
-const RunsOnTags: React.FC = () => (
-  <div>
-    <div className="flex items-center gap-2" style={{ marginBottom: "0.6rem" }}>
-      <span
-        style={{
-          fontSize: "0.68rem",
-          color: "rgba(255,255,255,0.7)",
-          textTransform: "uppercase",
-          letterSpacing: "0.08em",
-          fontWeight: 500,
-          whiteSpace: "nowrap",
-        }}
-      >
-        Runs on
-      </span>
+      <div className="relative shrink-0" style={{ width: 10, height: 10 }}>
+        <div
+          className="rounded-full relative z-10"
+          style={{
+            width: 10,
+            height: 10,
+            background: "var(--emerald-400)",
+            boxShadow: "0 0 8px var(--emerald-400)",
+          }}
+        />
+        <span
+          className="absolute rounded-full animate-ripple"
+          style={{ inset: -5, border: "1.5px solid var(--emerald-400)" }}
+        />
+        <span
+          className="absolute rounded-full animate-ripple"
+          style={{
+            inset: -5,
+            border: "1.5px solid var(--emerald-400)",
+            animationDelay: "0.8s",
+          }}
+        />
+      </div>
       <div
-        className="flex-1"
-        style={{ height: 1, background: "rgba(255,255,255,0.07)" }}
+        className="shrink-0"
+        style={{ width: 1, height: 32, background: "rgba(52,211,153,0.2)" }}
       />
-    </div>
-    <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
-      {["Moonbeam", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
-        (tag) => (
-          <span
-            key={tag}
-            style={{
-              color: "rgba(255,255,255,0.7)",
-              background: "rgba(255,255,255,0.08)",
-              border: "1px solid rgba(255,255,255,0.08)",
-              borderRadius: 6,
-              padding: "0.25rem 0.6rem",
-              fontSize: "0.68rem",
-              fontWeight: 500,
-            }}
-          >
-            {tag}
-          </span>
-        ),
-      )}
-    </div>
-  </div>
-);
-
-/** Dark left panel for the auth page. */
-const AuthLeftPanel: React.FC = () => (
-  <div
-    className="hidden lg:flex relative flex-col justify-center overflow-hidden"
-    style={{ backgroundColor: "#064e3b", padding: "3.5rem" }}
-  >
-    <div
-      className="absolute inset-0 pointer-events-none"
-      style={ATMOSPHERE_STYLE}
-    />
-    <div className="absolute inset-0 pointer-events-none" style={GRID_STYLE} />
-    <div
-      className="absolute rounded-full animate-orbDrift pointer-events-none"
-      style={{
-        width: 200,
-        height: 200,
-        top: -60,
-        right: -40,
-        background: "var(--emerald-400)",
-        filter: "blur(60px)",
-        opacity: 0.25,
-      }}
-    />
-    <div
-      className="absolute rounded-full animate-orbDrift pointer-events-none"
-      style={{
-        width: 160,
-        height: 160,
-        bottom: 80,
-        left: -30,
-        background: "var(--emerald-600)",
-        filter: "blur(60px)",
-        opacity: 0.25,
-        animationDelay: "-3s",
-      }}
-    />
-    <div className="relative z-10">
-      <h2
-        className="font-serif text-white animate-fadeUp"
-        style={{
-          fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
-          lineHeight: 1.12,
-          letterSpacing: "-0.02em",
-          marginBottom: "1.25rem",
-        }}
-      >
-        Smart giving,
-        <br />
-        <span style={{ color: "var(--emerald-300)" }} className="italic">
-          transparent
-        </span>{" "}
-        impact.
-      </h2>
-      <p
-        className="animate-fadeUp"
-        style={{
-          fontSize: "0.9rem",
-          color: "rgba(255,255,255,0.75)",
-          lineHeight: 1.6,
-          maxWidth: 340,
-          fontWeight: 300,
-          animationDelay: "0.2s",
-        }}
-      >
-        One account. Donate by card or crypto. Track every dollar on-chain.
-      </p>
-      <div
-        className="space-y-4 animate-fadeUp"
-        style={{ marginTop: "2.5rem", animationDelay: "0.8s" }}
-      >
-        <ProtocolStatusBanner />
-        <RunsOnTags />
+      <div className="relative z-10">
+        <p
+          style={{
+            fontSize: "0.67rem",
+            fontWeight: 600,
+            color: "var(--emerald-400)",
+            textTransform: "uppercase",
+            letterSpacing: "0.1em",
+            marginBottom: "0.2rem",
+          }}
+        >
+          {t("auth.panel.statusLabel")}
+        </p>
+        <p
+          style={{
+            fontSize: "0.85rem",
+            color: "rgba(255,255,255,0.75)",
+            lineHeight: 1.4,
+          }}
+        >
+          {t("auth.panel.statusDesc")}
+        </p>
       </div>
     </div>
-  </div>
-);
+  );
+};
+
+/** "Runs on" trust tags row. */
+const RunsOnTags: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <div
+        className="flex items-center gap-2"
+        style={{ marginBottom: "0.6rem" }}
+      >
+        <span
+          style={{
+            fontSize: "0.68rem",
+            color: "rgba(255,255,255,0.7)",
+            textTransform: "uppercase",
+            letterSpacing: "0.08em",
+            fontWeight: 500,
+            whiteSpace: "nowrap",
+          }}
+        >
+          {t("auth.panel.runsOn")}
+        </span>
+        <div
+          className="flex-1"
+          style={{ height: 1, background: "rgba(255,255,255,0.07)" }}
+        />
+      </div>
+      <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
+        {["Moonbeam", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
+          (tag) => (
+            <span
+              key={tag}
+              style={{
+                color: "rgba(255,255,255,0.7)",
+                background: "rgba(255,255,255,0.08)",
+                border: "1px solid rgba(255,255,255,0.08)",
+                borderRadius: 6,
+                padding: "0.25rem 0.6rem",
+                fontSize: "0.68rem",
+                fontWeight: 500,
+              }}
+            >
+              {tag}
+            </span>
+          ),
+        )}
+      </div>
+    </div>
+  );
+};
+
+/** Dark left panel for the auth page. */
+const AuthLeftPanel: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <div
+      className="hidden lg:flex relative flex-col justify-center overflow-hidden"
+      style={{ backgroundColor: "#064e3b", padding: "3.5rem" }}
+    >
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={ATMOSPHERE_STYLE}
+      />
+      <div
+        className="absolute inset-0 pointer-events-none"
+        style={GRID_STYLE}
+      />
+      <div
+        className="absolute rounded-full animate-orbDrift pointer-events-none"
+        style={{
+          width: 200,
+          height: 200,
+          top: -60,
+          right: -40,
+          background: "var(--emerald-400)",
+          filter: "blur(60px)",
+          opacity: 0.25,
+        }}
+      />
+      <div
+        className="absolute rounded-full animate-orbDrift pointer-events-none"
+        style={{
+          width: 160,
+          height: 160,
+          bottom: 80,
+          left: -30,
+          background: "var(--emerald-600)",
+          filter: "blur(60px)",
+          opacity: 0.25,
+          animationDelay: "-3s",
+        }}
+      />
+      <div className="relative z-10">
+        <h2
+          className="font-serif text-white animate-fadeUp"
+          style={{
+            fontSize: "clamp(2rem, 3.5vw, 2.75rem)",
+            lineHeight: 1.12,
+            letterSpacing: "-0.02em",
+            marginBottom: "1.25rem",
+          }}
+        >
+          {t("auth.panel.headline")}
+        </h2>
+        <p
+          className="animate-fadeUp"
+          style={{
+            fontSize: "0.9rem",
+            color: "rgba(255,255,255,0.75)",
+            lineHeight: 1.6,
+            maxWidth: 340,
+            fontWeight: 300,
+            animationDelay: "0.2s",
+          }}
+        >
+          {t("auth.panel.subheadline")}
+        </p>
+        <div
+          className="space-y-4 animate-fadeUp"
+          style={{ marginTop: "2.5rem", animationDelay: "0.8s" }}
+        >
+          <ProtocolStatusBanner />
+          <RunsOnTags />
+        </div>
+      </div>
+    </div>
+  );
+};
 
 /** Sign-in form fields extracted to reduce JSX nesting depth. */
 const SignInFormFields: React.FC<{
@@ -271,56 +279,60 @@ const SignInFormFields: React.FC<{
   onEmailChange,
   onPasswordChange,
   onSubmit,
-}) => (
-  <form onSubmit={onSubmit} className="space-y-4">
-    <FormInput
-      icon={<Mail className="h-4 w-4" />}
-      type="email"
-      value={email}
-      onChange={onEmailChange}
-      placeholder="Email"
-      required
-      autoComplete="email"
-    />
-    <FormInput
-      icon={<Lock className="h-4 w-4" />}
-      type="password"
-      value={password}
-      onChange={onPasswordChange}
-      placeholder="Password"
-      required
-      autoComplete="current-password"
-    />
-    <Button
-      type="submit"
-      fullWidth
-      size="lg"
-      disabled={loading}
-      className="font-semibold"
-    >
-      {loading ? "Signing in\u2026" : "Sign In"}
-    </Button>
-  </form>
-);
+}) => {
+  const { t } = useTranslation();
+  return (
+    <form onSubmit={onSubmit} className="space-y-4">
+      <FormInput
+        icon={<Mail className="h-4 w-4" />}
+        type="email"
+        value={email}
+        onChange={onEmailChange}
+        placeholder={t("auth.signin.emailPlaceholder")}
+        required
+        autoComplete="email"
+      />
+      <FormInput
+        icon={<Lock className="h-4 w-4" />}
+        type="password"
+        value={password}
+        onChange={onPasswordChange}
+        placeholder={t("auth.signin.passwordPlaceholder")}
+        required
+        autoComplete="current-password"
+      />
+      <Button
+        type="submit"
+        fullWidth
+        size="lg"
+        disabled={loading}
+        className="font-semibold"
+      >
+        {loading ? t("auth.signin.submitting") : t("auth.login")}
+      </Button>
+    </form>
+  );
+};
 
-/** Returns the human-readable label for each wallet auth step. */
-function walletStepLabel(step: WalletAuthStep): string {
+/** Returns the i18n key for each wallet auth step. */
+function walletStepKey(step: WalletAuthStep): string {
   switch (step) {
     case "connecting":
-      return "Connecting wallet\u2026";
+      return "auth.wallet.connecting";
     case "signing":
-      return "Signing message\u2026";
+      return "auth.wallet.signing";
     case "verifying":
-      return "Verifying\u2026";
+      return "auth.wallet.verifying";
     case "session":
-      return "Opening session\u2026";
+      return "auth.wallet.openingSession";
     default:
-      return "Connect Wallet";
+      return "auth.wallet.connect";
   }
 }
 
 /** Right panel content with sign-in form and wallet authentication. */
 const AuthRightPanel: React.FC = () => {
+  const { t } = useTranslation();
   const [view, setView] = useState<View>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -512,7 +524,7 @@ const AuthRightPanel: React.FC = () => {
             marginBottom: "0.4rem",
           }}
         >
-          Welcome back
+          {t("auth.signin.welcomeBack")}
         </h1>
         <p
           style={{
@@ -521,7 +533,7 @@ const AuthRightPanel: React.FC = () => {
             marginBottom: "2rem",
           }}
         >
-          Sign in to your Give Protocol account
+          {t("auth.signin.subtitle")}
         </p>
 
         {/* Error alert */}
@@ -556,7 +568,7 @@ const AuthRightPanel: React.FC = () => {
             icon={<Fingerprint className="h-4 w-4" />}
             className="font-semibold mt-4"
           >
-            Sign in with Passkey
+            {t("auth.signin.withPasskey")}
           </Button>
         )}
 
@@ -571,13 +583,15 @@ const AuthRightPanel: React.FC = () => {
           icon={<GoogleIcon />}
           className="font-semibold mt-3"
         >
-          Continue with Google
+          {t("auth.signin.withGoogle")}
         </Button>
 
         {/* Divider */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-          <span className="text-xs text-gray-400 font-medium">or</span>
+          <span className="text-xs text-gray-400 font-medium">
+            {t("auth.signin.or")}
+          </span>
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
         </div>
 
@@ -597,7 +611,7 @@ const AuthRightPanel: React.FC = () => {
           disabled={loading}
           className="font-semibold"
         >
-          {walletStepLabel(walletAuthStep)}
+          {t(walletStepKey(walletAuthStep))}
         </Button>
 
         <WalletModal
@@ -610,12 +624,12 @@ const AuthRightPanel: React.FC = () => {
 
         {/* Sign up prompt */}
         <p className="mt-6 text-center text-sm text-gray-500">
-          New to Give Protocol?{" "}
+          {t("auth.signin.newToProtocol")}{" "}
           <Link
             to="/auth/signup"
             className="font-semibold text-emerald-700 hover:text-emerald-800 hover:underline decoration-emerald-500 decoration-2 underline-offset-4"
           >
-            Create an account &rarr;
+            {t("auth.signin.createAccount")}
           </Link>
         </p>
 
@@ -625,7 +639,7 @@ const AuthRightPanel: React.FC = () => {
           onClick={handleShowForgotPassword}
           className="mt-4 w-full text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
         >
-          Forgot password? &rarr;
+          {t("auth.signin.forgotPasswordLink")}
         </button>
 
         {/* Trust signal */}
@@ -642,13 +656,13 @@ const AuthRightPanel: React.FC = () => {
             aria-hidden="true"
             className="inline h-3 w-3 mr-1 align-text-bottom"
           />
-          256-bit SSL encrypted &middot;{" "}
+          {t("auth.signin.sslEncrypted")} &middot;{" "}
           <Link
             to="/legal"
             className="underline"
             style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
           >
-            Terms
+            {t("auth.signin.terms")}
           </Link>{" "}
           &middot;{" "}
           <Link
@@ -656,7 +670,7 @@ const AuthRightPanel: React.FC = () => {
             className="underline"
             style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
           >
-            Privacy
+            {t("auth.signin.privacy")}
           </Link>
         </p>
       </div>

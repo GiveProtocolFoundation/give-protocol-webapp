@@ -61,7 +61,7 @@ const DesktopNavLinks: React.FC<{
           to="/privacy"
           className={`${NAV_LINK_BASE} ${isActive("/privacy")}`}
         >
-          Privacy
+          {t("nav.privacy")}
         </Link>
       </>
     );
@@ -148,7 +148,7 @@ const MobileNavLinks: React.FC<{
           className={`block px-3 py-3 rounded-md text-[0.82rem] font-medium ${isActive("/privacy")}`}
           onClick={handleLinkClick}
         >
-          Privacy
+          {t("nav.privacy")}
         </Link>
       </>
     );
@@ -278,6 +278,8 @@ const NavActions: React.FC<{
   onDisconnect,
   onSignOut,
 }) => {
+  const { t } = useTranslation();
+
   // Determine wallet provider from globalThis.ethereum
   const getWalletProvider = useCallback((): WalletProviderType => {
     const browserGlobal = globalThis as typeof globalThis & Window;
@@ -323,7 +325,7 @@ const NavActions: React.FC<{
               to="/auth"
               className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors duration-200"
             >
-              Sign In
+              {t("nav.signIn")}
             </Link>
           </>
         )}
@@ -336,7 +338,7 @@ const NavActions: React.FC<{
               aria-label="Sign out"
             >
               <LogOut className="h-4 w-4" />
-              <span className="hidden md:inline">Sign Out</span>
+              <span className="hidden md:inline">{t("nav.signOut")}</span>
             </button>
           </>
         )}
@@ -602,7 +604,7 @@ export const AppNavbar: React.FC = () => {
             className="flex items-center gap-2 w-full px-3 py-3 rounded-md text-[0.82rem] font-medium text-[rgba(255,255,255,0.75)] hover:text-emerald-300"
           >
             <LogOut className="h-4 w-4" />
-            Sign Out
+            {t("nav.signOut")}
           </button>
         )}
       </MobileMenu>

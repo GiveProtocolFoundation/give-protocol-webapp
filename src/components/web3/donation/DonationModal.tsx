@@ -540,7 +540,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({
           {state.paymentMethod !== "crypto" && !isMounted && (
             <div className="flex flex-col items-center justify-center py-12 text-gray-500 dark:text-gray-400">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent mb-3" />
-              <p className="text-sm">{t("modal.donation.loadingPaymentForm")}</p>
+              <p className="text-sm">
+                {t("modal.donation.loadingPaymentForm")}
+              </p>
             </div>
           )}
           {state.paymentMethod !== "crypto" && isMounted && (

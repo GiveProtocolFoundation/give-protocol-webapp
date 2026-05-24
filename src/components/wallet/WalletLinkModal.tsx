@@ -39,7 +39,8 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
       onLinked?.();
       onClose();
     } catch (err) {
-      const msg = err instanceof Error ? err.message : t("modal.walletLink.failedLink");
+      const msg =
+        err instanceof Error ? err.message : t("modal.walletLink.failedLink");
       if (
         msg.toLowerCase().includes("user rejected") ||
         msg.toLowerCase().includes("user denied")
