@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { useTranslation } from "react-i18next";
 import { Wallet, ArrowRight } from "lucide-react";
 import { NetworkGrid } from "./NetworkGrid";
 import {
@@ -26,6 +27,7 @@ export const ChainSelectionModal: React.FC<ChainSelectionModalProps> = ({
   onComplete,
   detectedChainId,
 }) => {
+  const { t } = useTranslation();
   const { availableChains, selectChain, isSupported } = useChain();
   const { isConnected, switchChain, chainId: walletChainId } = useWeb3();
 
@@ -67,12 +69,12 @@ export const ChainSelectionModal: React.FC<ChainSelectionModalProps> = ({
       onComplete();
     } catch (err) {
       const errorMessage =
-        err instanceof Error ? err.message : "Failed to select network";
+        err instanceof Error ? err.message : t("modal.chain.failedSelect");
       setError(errorMessage);
     } finally {
       setIsProcessing(false);
     }
-  }, [selectedId, selectChain, onComplete, isConnected, walletChainId, switchChain]);
+  }, [selectedId, selectChain, onComplete, isConnected, walletChainId, switchChain, t]);
 
   if (!isOpen) return null;
 
@@ -97,10 +99,10 @@ export const ChainSelectionModal: React.FC<ChainSelectionModalProps> = ({
             <Wallet className="w-7 h-7 text-gray-300" />
           </div>
           <h2 id="chain-selection-title" className="text-xl font-semibold text-white mb-1">
-            Welcome to Give Protocol
+            {t("modal.chain.title")}
           </h2>
           <p className="text-sm text-gray-400">
-            Choose your preferred network to get started
+            {t("modal.chain.subtitle")}
           </p>
         </div>
 
@@ -122,7 +124,7 @@ export const ChainSelectionModal: React.FC<ChainSelectionModalProps> = ({
           )}
 
           <p className="text-xs text-gray-500 text-center mb-4">
-            You can switch networks anytime from the menu
+            {t("modal.chain.footerNote")}
           </p>
 
           <button
@@ -140,11 +142,11 @@ export const ChainSelectionModal: React.FC<ChainSelectionModalProps> = ({
             {isProcessing ? (
               <>
                 <div className="w-5 h-5 border-2 border-white/30 border-t-white rounded-full animate-spin mr-2" />
-                Connecting...
+                {t("modal.chain.connecting")}
               </>
             ) : (
               <>
-                Continue
+                {t("modal.chain.continue")}
                 <ArrowRight className="w-5 h-5 ml-2" />
               </>
             )}

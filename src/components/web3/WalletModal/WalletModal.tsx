@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import type { ChainType, UnifiedWalletProvider } from "@/types/wallet";
 import type { ChainId, ChainConfig } from "@/contexts/ChainContext";
@@ -34,7 +35,9 @@ const NetworkDialogContent: React.FC<{
   onNetworkSelect: (_e: React.MouseEvent<HTMLButtonElement>) => void;
   onContinue: () => void;
   onClose: () => void;
-}> = ({ chains, selectedNetworkId, onNetworkSelect, onContinue, onClose }) => (
+}> = ({ chains, selectedNetworkId, onNetworkSelect, onContinue, onClose }) => {
+  const { t } = useTranslation();
+  return (
   <dialog
     open
     className="relative w-full max-w-md mx-4 bg-white/80 backdrop-blur-[10px] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-white/30"
@@ -47,13 +50,13 @@ const NetworkDialogContent: React.FC<{
         id="wallet-modal-title"
         className="text-lg font-semibold text-gray-900"
       >
-        Select Network
+        {t("modal.network.title")}
       </h3>
       <button
         type="button"
         onClick={onClose}
         className="p-1 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors text-xl leading-none"
-        aria-label="Close modal"
+        aria-label={t("modal.close")}
       >
         &times;
       </button>
@@ -77,19 +80,20 @@ const NetworkDialogContent: React.FC<{
         disabled={selectedNetworkId === null}
         className="w-full px-8 py-3 bg-gradient-to-r from-teal-500 to-green-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
       >
-        Next Step: Connect Wallet
+        {t("modal.network.nextStep")}
       </button>
       <div className="mt-3 text-center">
         <a
           href="/network-selection"
           className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
         >
-          Learn more about network selection
+          {t("modal.network.learnMore")}
         </a>
       </div>
     </div>
   </dialog>
-);
+  );
+};
 
 /** Dialog content for wallet modal with chain tabs, wallet list, and footer. */
 const WalletDialogContent: React.FC<{
@@ -112,7 +116,9 @@ const WalletDialogContent: React.FC<{
   filteredWallets,
   connectingWallet,
   onSelectWallet,
-}) => (
+}) => {
+  const { t } = useTranslation();
+  return (
   <dialog
     open
     className="relative w-full max-w-md mx-4 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700"
@@ -126,7 +132,7 @@ const WalletDialogContent: React.FC<{
           type="button"
           onClick={onBack}
           className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-          aria-label="Back to network selection"
+          aria-label={t("modal.connect.backAria")}
         >
           <ArrowLeft className="w-5 h-5" />
         </button>
@@ -134,7 +140,7 @@ const WalletDialogContent: React.FC<{
           id="wallet-modal-title"
           className="text-lg font-semibold text-gray-900 dark:text-white"
         >
-          Connect Wallet
+          {t("modal.connect.title")}
         </h3>
       </div>
       <button
@@ -142,7 +148,7 @@ const WalletDialogContent: React.FC<{
         onClick={onClose}
         disabled={isConnecting}
         className="p-1 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors disabled:opacity-50 text-xl leading-none"
-        aria-label="Close modal"
+        aria-label={t("modal.close")}
       >
         &times;
       </button>
@@ -152,7 +158,7 @@ const WalletDialogContent: React.FC<{
     <div
       className="flex px-6 pt-4 gap-2"
       role="tablist"
-      aria-label="Chain type"
+      aria-label={t("modal.connect.chainTypeAria")}
     >
       {CHAIN_TABS.map(({ type, label, activeClass }) => (
         <button
@@ -187,9 +193,9 @@ const WalletDialogContent: React.FC<{
     <div className="px-3 py-4 max-h-96 overflow-y-auto space-y-1" role="menu">
       {filteredWallets.length === 0 ? (
         <p className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
-          No wallets available for {selectedChainType.toUpperCase()} chains.
+          {t("modal.connect.noWallets", { chainType: selectedChainType.toUpperCase() })}
           <span className="block text-sm text-gray-400 dark:text-gray-500 mt-1">
-            Try selecting a different chain type.
+            {t("modal.connect.tryDifferentChain")}
           </span>
         </p>
       ) : (
@@ -214,20 +220,21 @@ const WalletDialogContent: React.FC<{
         rel="noopener noreferrer"
         className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
       >
-        View other supported wallets
+        {t("modal.connect.viewOtherWallets")}
       </a>
       <p className="text-xs text-gray-400 dark:text-gray-500">
-        By connecting, you agree to the{" "}
+        {t("modal.connect.termsAgreement")}{" "}
         <a
           href="/terms"
           className="text-emerald-600 dark:text-emerald-400 hover:underline"
         >
-          Terms of Service
+          {t("modal.connect.termsLink")}
         </a>
       </p>
     </div>
   </dialog>
-);
+  );
+};
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -257,6 +264,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
   onConnect,
   initialChainType = "evm",
 }) => {
+  const { t } = useTranslation();
   const [step, setStep] = useState<ModalStep>("network");
   const [selectedNetworkId, setSelectedNetworkId] = useState<ChainId | null>(
     null,
@@ -349,7 +357,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
         onClose();
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Connection failed";
+          err instanceof Error ? err.message : t("modal.connect.failedConnect");
         setError(message);
         Logger.error("Wallet connection failed in modal", {
           wallet: wallet.name,
@@ -360,7 +368,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
         setConnectingWallet(null);
       }
     },
-    [onConnect, selectedChainType, onClose],
+    [onConnect, selectedChainType, onClose, t],
   );
 
   const handleBackdropClick = useCallback(() => {
@@ -396,7 +404,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
           type="button"
           className="absolute inset-0 w-full h-full cursor-default"
           onClick={handleBackdropClick}
-          aria-label="Close modal"
+          aria-label={t("modal.close")}
           tabIndex={-1}
         />
 

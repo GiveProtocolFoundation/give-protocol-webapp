@@ -1,4 +1,5 @@
 import React from "react";
+import { useTranslation } from "react-i18next";
 import { X, CheckCircle, AlertCircle, Loader2, Info } from "lucide-react";
 import { cn } from "../../utils/cn";
 
@@ -23,6 +24,7 @@ export const Toast: React.FC<ToastProps> = ({
   message,
   onClose,
 }) => {
+  const { t } = useTranslation();
   const icons = {
     success: CheckCircle,
     error: AlertCircle,
@@ -62,7 +64,7 @@ export const Toast: React.FC<ToastProps> = ({
         <button
           type="button"
           onClick={onClose}
-          aria-label="Dismiss notification"
+          aria-label={t("toast.dismiss")}
           className="ml-4 flex-shrink-0 inline-flex items-center justify-center rounded-md text-gray-400 hover:text-gray-500 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-1 p-1.5 min-h-[44px] min-w-[44px]"
         >
           <X aria-hidden="true" className="h-5 w-5" />

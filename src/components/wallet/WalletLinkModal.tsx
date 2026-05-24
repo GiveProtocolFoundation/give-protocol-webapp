@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Wallet, ShieldCheck, X, AlertCircle } from "lucide-react";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
@@ -26,6 +27,7 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
   onClose,
   onLinked,
 }) => {
+  const { t } = useTranslation();
   const { linkWallet, isWalletConnected, loading } = useUnifiedAuth();
   const [linkError, setLinkError] = useState<string | null>(null);
 
@@ -37,7 +39,7 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
       onLinked?.();
       onClose();
     } catch (err) {
-      const msg = err instanceof Error ? err.message : "Failed to link wallet";
+      const msg = err instanceof Error ? err.message : t("modal.walletLink.failedLink");
       if (
         msg.toLowerCase().includes("user rejected") ||
         msg.toLowerCase().includes("user denied")
@@ -47,7 +49,7 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
       setLinkError(msg);
       Logger.error("Wallet link failed in modal", { error: msg });
     }
-  }, [linkWallet, onClose, onLinked]);
+  }, [linkWallet, onClose, onLinked, t]);
 
   const handleSkip = useCallback(() => {
     Logger.info("User dismissed wallet link modal");
@@ -56,11 +58,11 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
 
   let buttonLabel: string;
   if (loading) {
-    buttonLabel = "Linking\u2026";
+    buttonLabel = t("modal.walletLink.buttonLinking");
   } else if (isWalletConnected) {
-    buttonLabel = "Link Wallet";
+    buttonLabel = t("modal.walletLink.buttonLink");
   } else {
-    buttonLabel = "Connect Wallet First";
+    buttonLabel = t("modal.walletLink.buttonConnectFirst");
   }
 
   return (
@@ -76,20 +78,17 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
       </span>
       <div className="text-center mb-6">
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          Link Your Wallet
+          {t("modal.walletLink.title")}
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
-          Link a wallet to your account for on-chain donations, token rewards,
-          and governance
+          {t("modal.walletLink.description")}
         </p>
       </div>
 
       <ul className="bg-gray-50 dark:bg-gray-700/50 rounded-xl p-4 mb-6 space-y-3">
+        <BenefitItem>{t("modal.walletLink.benefit1")}</BenefitItem>
         <BenefitItem>
-          Donate crypto directly to verified charities on-chain
-        </BenefitItem>
-        <BenefitItem>
-          Develop{" "}
+          {t("modal.walletLink.benefit2Pre")}{" "}
           <a
             href={`${DOCS_CONFIG.url}/docs/volunteers/earning-credentials/`}
             target="_blank"
@@ -98,11 +97,9 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
           >
             SBT
           </a>{" "}
-          credentials for your contributions
+          {t("modal.walletLink.benefit2Post")}
         </BenefitItem>
-        <BenefitItem>
-          Sign in with either email or wallet — same account
-        </BenefitItem>
+        <BenefitItem>{t("modal.walletLink.benefit3")}</BenefitItem>
       </ul>
 
       {linkError && (
@@ -132,12 +129,12 @@ export const WalletLinkModal: React.FC<WalletLinkModalProps> = ({
           className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
         >
           <X className="h-4 w-4 mr-1" />
-          Skip for now
+          {t("modal.wallet.skip")}
         </Button>
       </div>
 
       <p className="text-xs text-center text-gray-400 dark:text-gray-500 mt-4">
-        You can link your wallet anytime from Settings
+        {t("modal.walletLink.footerNote")}
       </p>
     </Modal>
   );

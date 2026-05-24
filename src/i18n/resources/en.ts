@@ -181,5 +181,150 @@ export default {
     // Home
     "home.subtitle": "Connecting resources to the causes that need them most",
     "home.startDonating": "Start Donating",
+
+    // Modal - shared
+    "modal.close": "Close modal",
+    "modal.closeAriaLabel": "Close",
+
+    // Modal - wallet connection
+    "modal.wallet.title": "Connect Your Wallet",
+    "modal.wallet.description":
+      "Connect a wallet to unlock all features of Give Protocol",
+    "modal.wallet.benefit1":
+      "Track your donations transparently on the blockchain",
+    "modal.wallet.benefit2":
+      "Receive GIVE tokens as rewards for your contributions",
+    "modal.wallet.benefit3":
+      "Participate in governance decisions for the protocol",
+    "modal.wallet.connecting": "Connecting...",
+    "modal.wallet.clickToConnect": "Click to connect",
+    "modal.wallet.noExtension": "No wallet extension detected.",
+    "modal.wallet.installMetaMask": "Install MetaMask to get started",
+    "modal.wallet.skip": "Skip for now",
+    "modal.wallet.footerNote":
+      "You can connect your wallet anytime from the navigation bar",
+    "modal.wallet.failedConnect": "Failed to connect wallet",
+
+    // Modal - wallet link
+    "modal.walletLink.title": "Link Your Wallet",
+    "modal.walletLink.description":
+      "Link a wallet to your account for on-chain donations, token rewards, and governance",
+    "modal.walletLink.benefit1":
+      "Donate crypto directly to verified charities on-chain",
+    "modal.walletLink.benefit2Pre": "Develop",
+    "modal.walletLink.benefit2Post": "credentials for your contributions",
+    "modal.walletLink.benefit3":
+      "Sign in with either email or wallet \u2014 same account",
+    "modal.walletLink.buttonLinking": "Linking\u2026",
+    "modal.walletLink.buttonLink": "Link Wallet",
+    "modal.walletLink.buttonConnectFirst": "Connect Wallet First",
+    "modal.walletLink.footerNote":
+      "You can link your wallet anytime from Settings",
+    "modal.walletLink.failedLink": "Failed to link wallet",
+
+    // Modal - chain selection
+    "modal.chain.title": "Welcome to Give Protocol",
+    "modal.chain.subtitle": "Choose your preferred network to get started",
+    "modal.chain.footerNote": "You can switch networks anytime from the menu",
+    "modal.chain.connecting": "Connecting...",
+    "modal.chain.continue": "Continue",
+    "modal.chain.failedSelect": "Failed to select network",
+
+    // Modal - network selection (WalletModal step 1)
+    "modal.network.title": "Select Network",
+    "modal.network.nextStep": "Next Step: Connect Wallet",
+    "modal.network.learnMore": "Learn more about network selection",
+
+    // Modal - wallet connect (WalletModal step 2)
+    "modal.connect.title": "Connect Wallet",
+    "modal.connect.backAria": "Back to network selection",
+    "modal.connect.noWallets": "No wallets available for {{chainType}} chains.",
+    "modal.connect.tryDifferentChain": "Try selecting a different chain type.",
+    "modal.connect.viewOtherWallets": "View other supported wallets",
+    "modal.connect.termsAgreement": "By connecting, you agree to the",
+    "modal.connect.termsLink": "Terms of Service",
+    "modal.connect.chainTypeAria": "Chain type",
+    "modal.connect.failedConnect": "Connection failed",
+
+    // Modal - donation
+    "modal.donation.successTitle": "Thank You!",
+    "modal.donation.donationProcessedOneTime":
+      "Your donation of {{amount}} to {{charityName}} has been processed.",
+    "modal.donation.donationProcessedRecurring":
+      "Your monthly donation of {{amount}} to {{charityName}} has been processed.",
+    "modal.donation.recurringNote":
+      "You\u2019ll be charged monthly until you cancel.",
+    "modal.donation.receiptNote": "A receipt has been sent to your email.",
+    "modal.donation.done": "Done",
+    "modal.donation.errorTitle": "Something Went Wrong",
+    "modal.donation.errorDefault":
+      "An unexpected error occurred. Please try again.",
+    "modal.donation.tryAgain": "Try Again",
+    "modal.donation.close": "Close",
+    "modal.donation.amountLabel": "Donation Amount",
+    "modal.donation.perMonth": "per month",
+    "modal.donation.monthly": "Monthly",
+    "modal.donation.oneTime": "One-Time",
+    "modal.donation.loadingPaymentForm": "Loading payment form...",
+    "modal.donation.supportMonthly": "Support {{charityName}} Monthly",
+    "modal.donation.donateToCharity": "Donate to {{charityName}}",
+
+    // Modal - scheduled donation
+    "modal.scheduledDonation.title":
+      "Schedule Monthly Donations to {{charityName}}",
+
+    // Modal - withdrawal
+    "modal.withdrawal.title": "Request Withdrawal",
+
+    // Modal - validation response
+    "modal.validation.rejectTitle": "Reject Validation Request",
+    "modal.validation.reviewTitle": "Review Validation Request",
+    "modal.validation.volunteer": "Volunteer",
+    "modal.validation.activityDetails": "Activity Details",
+    "modal.validation.date": "Date",
+    "modal.validation.hour": "hour",
+    "modal.validation.hours": "hours",
+    "modal.validation.activityType": "Activity Type",
+    "modal.validation.location": "Location",
+    "modal.validation.description": "Description",
+    "modal.validation.submitted": "Submitted:",
+    "modal.validation.daysRemaining": "({{count}} days remaining to validate)",
+    "modal.validation.appealNote":
+      "This is an appeal/resubmission of a previously rejected request",
+    "modal.validation.rejectPrompt":
+      "Please select a reason for rejecting this validation request. The volunteer will be notified.",
+    "modal.validation.reject": "Reject",
+    "modal.validation.approve": "Approve",
+    "modal.validation.processing": "Processing...",
+    "modal.validation.back": "Back",
+    "modal.validation.confirmRejection": "Confirm Rejection",
+    "modal.validation.selectReasonError": "Please select a rejection reason",
+
+    // Toast
+    "toast.dismiss": "Dismiss notification",
+
+    // Error boundary
+    "error.somethingWrong": "Something went wrong",
+    "error.unexpectedError": "An unexpected error occurred",
+    "error.tryAgain": "Try Again",
+    "error.tooManyAttempts": "Too many attempts",
+    "error.goHome": "Go to Homepage",
+    "error.details": "Error Details",
+
+    // Validation - rejection reason select
+    "validation.rejection.reasonLabel": "Rejection Reason",
+    "validation.rejection.reasonPlaceholder": "Select a reason...",
+    "validation.rejection.notesLabel": "Additional Notes",
+    "validation.rejection.optional": "(optional)",
+    "validation.rejection.notesPlaceholder":
+      "Provide additional context for the rejection...",
+
+    // Validation - batch actions
+    "validation.batch.deselectAll": "Deselect all",
+    "validation.batch.selectAll": "Select all",
+    "validation.batch.selected": "{{selected}} of {{total}} selected",
+    "validation.batch.clear": "Clear",
+    "validation.batch.reject": "Reject ({{count}})",
+    "validation.batch.approve": "Approve ({{count}})",
   },
 };
