@@ -4,6 +4,7 @@ import { Building2, MapPin } from "lucide-react";
 import type { CharityOrganization } from "@/types/charityOrganization";
 import { Card } from "@/components/ui/Card";
 import { cn } from "@/utils/cn";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CharityOrganizationCardProps {
   organization: CharityOrganization;
@@ -24,6 +25,7 @@ interface CharityOrganizationCardProps {
 export const CharityOrganizationCard: React.FC<
   CharityOrganizationCardProps
 > = ({ organization, onSelect, selected }) => {
+  const { t } = useTranslation();
   const location = [organization.city, organization.state, organization.zip]
     .filter(Boolean)
     .join(", ");
@@ -40,7 +42,7 @@ export const CharityOrganizationCard: React.FC<
         </h3>
         {organization.is_on_platform && (
           <span className="ml-2 shrink-0 px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-            On Platform
+            {t("browse.charity.onPlatform", "On Platform")}
           </span>
         )}
       </div>
@@ -51,7 +53,7 @@ export const CharityOrganizationCard: React.FC<
             aria-hidden="true"
             className="h-4 w-4 mr-2 text-gray-400 shrink-0"
           />
-          <span>EIN: {organization.ein}</span>
+          <span>{t("browse.charity.einLabel", "EIN")}: {organization.ein}</span>
         </div>
 
         {location && (
@@ -68,12 +70,12 @@ export const CharityOrganizationCard: React.FC<
       <div className="flex flex-wrap gap-2 mt-3">
         {organization.ntee_cd && (
           <span className="px-2 py-1 bg-emerald-50 text-emerald-700 text-xs font-medium rounded">
-            NTEE: {organization.ntee_cd}
+            {t("browse.charity.nteeLabel", "NTEE")}: {organization.ntee_cd}
           </span>
         )}
         {organization.deductibility && (
           <span className="px-2 py-1 bg-gray-100 text-gray-700 text-xs font-medium rounded">
-            Deductibility: {organization.deductibility}
+            {t("browse.charity.deductibilityLabel", "Deductibility")}: {organization.deductibility}
           </span>
         )}
       </div>

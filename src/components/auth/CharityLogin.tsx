@@ -3,6 +3,7 @@ import { useNavigate, useLocation } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useWeb3 } from "@/contexts/Web3Context";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { AlertCircle, Wallet } from "lucide-react";
@@ -12,6 +13,7 @@ export const CharityLogin: React.FC = () => {
   const { login, loading: emailLoading } = useAuth();
   const { signInWithWallet } = useUnifiedAuth();
   const { disconnect } = useWeb3();
+  const { t } = useTranslation();
   const navigate = useNavigate();
   const location = useLocation();
   const [email, setEmail] = useState("");
@@ -70,9 +72,7 @@ export const CharityLogin: React.FC = () => {
 
         // Check for account type mismatch
         if (message.includes("registered as a donor account")) {
-          setError(
-            "Charity User Not Found. This email is registered as a donor account. Please use the Donor Login.",
-          );
+          setError(t("auth.charityLogin.mismatch", "This email is registered as a donor account. Please sign in at the donor portal."));
 
           // Disconnect wallet and start countdown redirect
           await disconnect();
@@ -83,7 +83,7 @@ export const CharityLogin: React.FC = () => {
         }
       }
     },
-    [email, password, login, disconnect, navigate],
+    [email, password, login, disconnect, navigate, t],
   );
 
   const handleWalletLogin = useCallback(async () => {
@@ -115,7 +115,7 @@ export const CharityLogin: React.FC = () => {
           <span>
             {error}
             {redirectCountdown !== null && redirectCountdown > 0 && (
-              <> Redirecting in {redirectCountdown}&hellip;</>
+              <>{" "}{t("auth.donorLogin.redirecting", "Redirecting in {{count}}...", { count: redirectCountdown })}</>
             )}
           </span>
         </div>
@@ -126,7 +126,7 @@ export const CharityLogin: React.FC = () => {
         aria-label="Charity login form"
       >
         <Input
-          label="Email"
+          label={t("common.email")}
           type="email"
           name="email"
           autoComplete="email"
@@ -138,7 +138,7 @@ export const CharityLogin: React.FC = () => {
           aria-required="true"
         />
         <Input
-          label="Password"
+          label={t("common.password")}
           type="password"
           name="password"
           autoComplete="current-password"
@@ -155,12 +155,12 @@ export const CharityLogin: React.FC = () => {
           disabled={loading}
           aria-busy={loading}
         >
-          {emailLoading ? "Signing in..." : "Sign In"}
+          {emailLoading ? t("auth.charityLogin.signingIn", "Signing in...") : t("auth.login", "Sign In")}
         </Button>
       </form>
       <div className="flex items-center gap-3 my-5">
         <div className="flex-1 h-px bg-gray-200" />
-        <span className="text-xs text-gray-400 font-medium">or</span>
+        <span className="text-xs text-gray-400 font-medium">{t("auth.charityLogin.or")}</span>
         <div className="flex-1 h-px bg-gray-200" />
       </div>
       <Button
@@ -171,7 +171,7 @@ export const CharityLogin: React.FC = () => {
         onClick={handleWalletLogin}
         icon={<Wallet className="h-4 w-4" />}
       >
-        {walletLoading ? "Connecting..." : "Connect Wallet"}
+        {walletLoading ? t("auth.charityLogin.connecting", "Connecting...") : t("auth.charityLogin.connectWallet", "Connect Wallet")}
       </Button>
     </div>
   );

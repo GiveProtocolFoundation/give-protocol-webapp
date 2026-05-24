@@ -1,5 +1,6 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   ShieldCheck,
   Building2,
@@ -67,7 +68,9 @@ const GRID_STYLE: React.CSSProperties = {
 };
 
 /** Protocol status banner with pulse indicator. */
-const ProtocolStatusBanner: React.FC = () => (
+const ProtocolStatusBanner: React.FC = () => {
+  const { t } = useTranslation();
+  return (
   <div
     className="relative flex items-center gap-4 overflow-hidden"
     style={{
@@ -124,7 +127,7 @@ const ProtocolStatusBanner: React.FC = () => (
           marginBottom: "0.2rem",
         }}
       >
-        Protocol Status &middot; Genesis Phase
+        {t("auth.panel.statusLabel")}
       </p>
       <p
         style={{
@@ -133,17 +136,17 @@ const ProtocolStatusBanner: React.FC = () => (
           lineHeight: 1.4,
         }}
       >
-        Building the{" "}
-        <strong className="text-white font-semibold">
-          foundation of transparent giving
-        </strong>
+        {t("auth.panel.statusDesc")}
       </p>
     </div>
   </div>
-);
+  );
+};
 
 /** "Runs on" trust tags row. */
-const RunsOnTags: React.FC = () => (
+const RunsOnTags: React.FC = () => {
+  const { t } = useTranslation();
+  return (
   <div>
     <div className="flex items-center gap-2" style={{ marginBottom: "0.6rem" }}>
       <span
@@ -156,7 +159,7 @@ const RunsOnTags: React.FC = () => (
           whiteSpace: "nowrap",
         }}
       >
-        Runs on
+        {t("auth.panel.runsOn")}
       </span>
       <div
         className="flex-1"
@@ -184,10 +187,13 @@ const RunsOnTags: React.FC = () => (
       )}
     </div>
   </div>
-);
+  );
+};
 
 /** Dark left panel for the auth page. */
-const AuthLeftPanel: React.FC = () => (
+const AuthLeftPanel: React.FC = () => {
+  const { t } = useTranslation();
+  return (
   <div
     className="hidden lg:flex relative flex-col justify-center overflow-hidden"
     style={{ backgroundColor: "#064e3b", padding: "3.5rem" }}
@@ -232,12 +238,7 @@ const AuthLeftPanel: React.FC = () => (
           marginBottom: "1.25rem",
         }}
       >
-        Smart giving,
-        <br />
-        <span style={{ color: "var(--emerald-300)" }} className="italic">
-          transparent
-        </span>{" "}
-        impact.
+        {t("auth.panel.headline")}
       </h2>
       <p
         className="animate-fadeUp"
@@ -250,7 +251,7 @@ const AuthLeftPanel: React.FC = () => (
           animationDelay: "0.2s",
         }}
       >
-        One account. Donate by card or crypto. Track every dollar on-chain.
+        {t("auth.panel.subheadline")}
       </p>
       <div
         className="space-y-4 animate-fadeUp"
@@ -261,7 +262,8 @@ const AuthLeftPanel: React.FC = () => (
       </div>
     </div>
   </div>
-);
+  );
+};
 
 /** Sign-in form fields extracted to reduce JSX nesting depth. */
 const SignInFormFields: React.FC<{
@@ -278,14 +280,16 @@ const SignInFormFields: React.FC<{
   onEmailChange,
   onPasswordChange,
   onSubmit,
-}) => (
+}) => {
+  const { t } = useTranslation();
+  return (
   <form onSubmit={onSubmit} className="space-y-4">
     <FormInput
       icon={<Mail className="h-4 w-4" />}
       type="email"
       value={email}
       onChange={onEmailChange}
-      placeholder="Email"
+      placeholder={t("auth.signin.emailPlaceholder")}
       required
       autoComplete="email"
     />
@@ -294,7 +298,7 @@ const SignInFormFields: React.FC<{
       type="password"
       value={password}
       onChange={onPasswordChange}
-      placeholder="Password"
+      placeholder={t("auth.signin.passwordPlaceholder")}
       required
       autoComplete="current-password"
     />
@@ -305,29 +309,31 @@ const SignInFormFields: React.FC<{
       disabled={loading}
       className="font-semibold"
     >
-      {loading ? "Signing in\u2026" : "Sign In"}
+      {loading ? t("auth.signin.submitting") : t("auth.login")}
     </Button>
   </form>
-);
+  );
+};
 
-/** Returns the human-readable label for each wallet auth step. */
-function walletStepLabel(step: WalletAuthStep): string {
+/** Returns the i18n key for each wallet auth step. */
+function walletStepKey(step: WalletAuthStep): string {
   switch (step) {
     case "connecting":
-      return "Connecting wallet\u2026";
+      return "auth.wallet.connecting";
     case "signing":
-      return "Signing message\u2026";
+      return "auth.wallet.signing";
     case "verifying":
-      return "Verifying\u2026";
+      return "auth.wallet.verifying";
     case "session":
-      return "Opening session\u2026";
+      return "auth.wallet.openingSession";
     default:
-      return "Connect Wallet";
+      return "auth.wallet.connect";
   }
 }
 
 /** Right panel content with sign-in form and wallet authentication. */
 const AuthRightPanel: React.FC = () => {
+  const { t } = useTranslation();
   const [view, setView] = useState<View>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -519,7 +525,7 @@ const AuthRightPanel: React.FC = () => {
             marginBottom: "0.4rem",
           }}
         >
-          Welcome back
+          {t("auth.signin.welcomeBack")}
         </h1>
         <p
           style={{
@@ -528,7 +534,7 @@ const AuthRightPanel: React.FC = () => {
             marginBottom: "2rem",
           }}
         >
-          Sign in to your Give Protocol account
+          {t("auth.signin.subtitle")}
         </p>
 
         {/* Error alert */}
@@ -563,7 +569,7 @@ const AuthRightPanel: React.FC = () => {
             icon={<Fingerprint className="h-4 w-4" />}
             className="font-semibold mt-4"
           >
-            Sign in with Passkey
+            {t("auth.signin.withPasskey")}
           </Button>
         )}
 
@@ -578,13 +584,13 @@ const AuthRightPanel: React.FC = () => {
           icon={<GoogleIcon />}
           className="font-semibold mt-3"
         >
-          Continue with Google
+          {t("auth.signin.withGoogle")}
         </Button>
 
         {/* Divider */}
         <div className="flex items-center gap-3 my-5">
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-          <span className="text-xs text-gray-400 font-medium">or</span>
+          <span className="text-xs text-gray-400 font-medium">{t("auth.signin.or")}</span>
           <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
         </div>
 
@@ -604,7 +610,7 @@ const AuthRightPanel: React.FC = () => {
           disabled={loading}
           className="font-semibold"
         >
-          {walletStepLabel(walletAuthStep)}
+          {t(walletStepKey(walletAuthStep))}
         </Button>
 
         <WalletModal
@@ -617,12 +623,12 @@ const AuthRightPanel: React.FC = () => {
 
         {/* Sign up prompt */}
         <p className="mt-6 text-center text-sm text-gray-500">
-          New to Give Protocol?{" "}
+          {t("auth.signin.newToProtocol")}{" "}
           <Link
             to="/auth/signup"
             className="font-semibold text-emerald-700 hover:text-emerald-800 hover:underline decoration-emerald-500 decoration-2 underline-offset-4"
           >
-            Create an account &rarr;
+            {t("auth.signin.createAccount")}
           </Link>
         </p>
 
@@ -643,7 +649,7 @@ const AuthRightPanel: React.FC = () => {
           onClick={handleShowForgotPassword}
           className="mt-4 w-full text-center text-sm text-gray-400 hover:text-gray-600 transition-colors"
         >
-          Forgot password? &rarr;
+          {t("auth.signin.forgotPasswordLink")}
         </button>
 
         {/* Trust signal */}
@@ -660,13 +666,13 @@ const AuthRightPanel: React.FC = () => {
             aria-hidden="true"
             className="inline h-3 w-3 mr-1 align-text-bottom"
           />
-          256-bit SSL encrypted &middot;{" "}
+          {t("auth.signin.sslEncrypted")} &middot;{" "}
           <Link
             to="/legal"
             className="underline"
             style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
           >
-            Terms
+            {t("auth.signin.terms")}
           </Link>{" "}
           &middot;{" "}
           <Link
@@ -674,7 +680,7 @@ const AuthRightPanel: React.FC = () => {
             className="underline"
             style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
           >
-            Privacy
+            {t("auth.signin.privacy")}
           </Link>
         </p>
       </div>

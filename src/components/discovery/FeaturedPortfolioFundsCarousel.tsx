@@ -14,6 +14,7 @@ import {
   type FeaturedPortfolioFund,
 } from "@/hooks/useFeaturedPortfolioFunds";
 import { cn } from "@/utils/cn";
+import { useTranslation } from "@/hooks/useTranslation";
 
 const AUTO_ADVANCE_MS = 6000;
 const CARDS_PER_PAGE = 3;
@@ -30,6 +31,7 @@ function chunk<T>(items: T[], size: number): T[][] {
 
 /** Single featured-fund card rendered inside a carousel page. */
 function FeaturedFundCard({ fund }: { fund: FeaturedPortfolioFund }) {
+  const { t } = useTranslation();
   return (
     <Card className="flex flex-col h-full overflow-hidden">
       <div className="relative aspect-[16/9] bg-gray-100 dark:bg-gray-800">
@@ -50,7 +52,7 @@ function FeaturedFundCard({ fund }: { fund: FeaturedPortfolioFund }) {
         )}
         <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/90 dark:bg-gray-900/90 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-full shadow-sm">
           <Heart aria-hidden="true" className="h-3.5 w-3.5" />
-          Portfolio Fund
+          {t("browse.funds.badge", "Portfolio Fund")}
         </span>
       </div>
 
@@ -62,7 +64,9 @@ function FeaturedFundCard({ fund }: { fund: FeaturedPortfolioFund }) {
           <span className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
             <Users aria-hidden="true" className="h-3.5 w-3.5" />
             {fund.charityCount}{" "}
-            {fund.charityCount === 1 ? "charity" : "charities"}
+            {fund.charityCount === 1
+              ? t("browse.funds.charity", "charity")
+              : t("browse.funds.charities", "charities")}
           </span>
         </div>
 
@@ -82,7 +86,7 @@ function FeaturedFundCard({ fund }: { fund: FeaturedPortfolioFund }) {
             to={`/portfolio/${fund.id}`}
             className="w-full inline-flex items-center justify-center rounded-[10px] bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
           >
-            Donate to Fund
+            {t("browse.funds.donateCta", "Donate to Fund")}
           </Link>
         </div>
       </div>
@@ -104,9 +108,12 @@ interface FeaturedPortfolioFundsCarouselProps {
 export const FeaturedPortfolioFundsCarousel: React.FC<
   FeaturedPortfolioFundsCarouselProps
 > = ({
-  heading = "Portfolio Funds",
-  subheading = "Curated giving portfolios that distribute donations across verified charities.",
+  heading,
+  subheading,
 }) => {
+  const { t } = useTranslation();
+  const displayHeading = heading ?? t("browse.funds.heading", "Portfolio Funds");
+  const displaySubheading = subheading ?? t("browse.funds.subheading", "Curated giving portfolios that distribute donations across verified charities.");
   const { funds, loading } = useFeaturedPortfolioFunds();
   const [pageIndex, setPageIndex] = useState(0);
   const [paused, setPaused] = useState(false);
@@ -158,13 +165,13 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
 
   if (loading) {
     return (
-      <section aria-label="Portfolio Funds">
+      <section aria-label={t("browse.funds.ariaLabel", "Portfolio Funds")}>
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {heading}
+            {displayHeading}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {subheading}
+            {displaySubheading}
           </p>
         </div>
         <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
@@ -176,18 +183,18 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
 
   if (pages.length === 0) {
     return (
-      <section aria-label="Portfolio Funds">
+      <section aria-label={t("browse.funds.ariaLabel", "Portfolio Funds")}>
         <div className="mb-4">
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {heading}
+            {displayHeading}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {subheading}
+            {displaySubheading}
           </p>
         </div>
         <div className="text-center py-16 text-gray-500 dark:text-gray-400">
           <Heart className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-          <p>No portfolio funds available yet. Check back soon!</p>
+          <p>{t("browse.funds.empty", "No portfolio funds available yet. Check back soon!")}</p>
         </div>
       </section>
     );
@@ -198,7 +205,7 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
 
   return (
     <section
-      aria-label="Portfolio Funds"
+      aria-label={t("browse.funds.ariaLabel", "Portfolio Funds")}
       aria-roledescription="carousel"
       aria-live="polite"
       onMouseEnter={handlePause}
@@ -209,10 +216,10 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
       <div className="flex items-end justify-between gap-4 mb-4">
         <div>
           <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {heading}
+            {displayHeading}
           </h2>
           <p className="text-sm text-gray-500 dark:text-gray-400">
-            {subheading}
+            {displaySubheading}
           </p>
         </div>
         {showNav && (
@@ -220,7 +227,7 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
             <button
               type="button"
               onClick={handlePrev}
-              aria-label="Previous portfolio funds"
+              aria-label={t("browse.funds.prevAria", "Previous portfolio funds")}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronLeft aria-hidden="true" className="h-4 w-4" />
@@ -228,7 +235,7 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
             <button
               type="button"
               onClick={handleNext}
-              aria-label="Next portfolio funds"
+              aria-label={t("browse.funds.nextAria", "Next portfolio funds")}
               className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
             >
               <ChevronRight aria-hidden="true" className="h-4 w-4" />

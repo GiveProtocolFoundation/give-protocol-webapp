@@ -4,6 +4,7 @@ import { ArrowLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PasswordStrengthBar } from "@/components/auth/PasswordStrengthBar";
+import { useTranslation } from "@/hooks/useTranslation";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "@/hooks/useToast";
 import {
@@ -23,26 +24,29 @@ interface CharityClaimFormProps {
 const RegistryDetailsPanel: React.FC<{
   organization: CharityOrganization;
   registryLocation: string;
-}> = ({ organization, registryLocation }) => (
-  <div className="bg-gray-50 p-4 rounded-lg text-sm space-y-1">
-    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-      Organization Details (from Registry)
-    </h3>
-    <p>
-      <span className="font-medium text-gray-700">Name:</span>{" "}
-      {organization.name}
-    </p>
-    <p>
-      <span className="font-medium text-gray-700">EIN:</span> {organization.ein}
-    </p>
-    {registryLocation && (
+}> = ({ organization, registryLocation }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="bg-gray-50 p-4 rounded-lg text-sm space-y-1">
+      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+        {t("charity.claim.orgDetails")}
+      </h3>
       <p>
-        <span className="font-medium text-gray-700">Location:</span>{" "}
-        {registryLocation}
+        <span className="font-medium text-gray-700">{t("charity.claim.orgNameLabel")}:</span>{" "}
+        {organization.name}
       </p>
-    )}
-  </div>
-);
+      <p>
+        <span className="font-medium text-gray-700">{t("charity.claim.einLabel")}:</span> {organization.ein}
+      </p>
+      {registryLocation && (
+        <p>
+          <span className="font-medium text-gray-700">{t("charity.claim.locationLabel")}:</span>{" "}
+          {registryLocation}
+        </p>
+      )}
+    </div>
+  );
+};
 
 /**
  * Claim registration form for a charity found via IRS search.
@@ -58,6 +62,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 }) => {
   const navigate = useNavigate();
   const { showToast } = useToast();
+  const { t } = useTranslation();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState<
@@ -101,22 +106,22 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         case "contactName":
           return validateName(value)
             ? ""
-            : "Name must be between 2 and 100 characters";
+            : t("charity.claim.validation.name");
         case "contactEmail":
           return validateEmail(value)
             ? ""
-            : "Please enter a valid email address";
+            : t("charity.claim.validation.email");
         case "password":
           return validatePassword(value)
             ? ""
-            : "Password must be at least 8 characters long";
+            : t("charity.claim.validation.password");
         case "confirmPassword":
-          return value === formData.password ? "" : "Passwords do not match";
+          return value === formData.password ? "" : t("charity.claim.validation.confirmPassword");
         default:
           return "";
       }
     },
-    [formData.password],
+    [formData.password, t],
   );
 
   const handleSubmit = useCallback(
@@ -142,7 +147,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 
       if (Object.keys(errors).length > 0) {
         setValidationErrors(errors);
-        setError("Please correct the validation errors");
+        setError(t("charity.claim.validation.fix"));
         return;
       }
 
@@ -170,7 +175,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 
         const userId = signUpData.user?.id;
         if (!userId) {
-          setError("Account creation failed");
+          setError(t("charity.claim.error.creation"));
           return;
         }
 
@@ -245,13 +250,13 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         navigate("/auth");
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Failed to create account";
+          err instanceof Error ? err.message : t("charity.claim.error.generic");
         setError(message);
       } finally {
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, showToast],
+    [formData, organization, validateField, navigate, showToast, t],
   );
 
   return (
@@ -262,7 +267,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         className="flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4 mr-1" />
-        Back to search
+        {t("charity.claim.backToSearch")}
       </button>
 
       <form onSubmit={handleSubmit} className="space-y-6">
@@ -279,10 +284,10 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         />
 
         <h3 className="text-lg font-semibold text-gray-900">
-          Contact Information
+          {t("charity.claim.contactInfo")}
         </h3>
         <Input
-          label="Contact Name"
+          label={t("charity.claim.contactName")}
           name="contactName"
           variant="fintech"
           value={formData.contactName}
@@ -291,7 +296,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           error={validationErrors["contactName"]}
         />
         <Input
-          label="Contact Email"
+          label={t("charity.claim.contactEmail")}
           type="email"
           name="contactEmail"
           variant="fintech"
@@ -301,11 +306,11 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           error={validationErrors["contactEmail"]}
         />
         <h3 className="text-lg font-semibold text-gray-900">
-          Account Security
+          {t("charity.claim.accountSecurity")}
         </h3>
         <div className="space-y-1">
           <Input
-            label="Password"
+            label={t("charity.claim.password")}
             type="password"
             name="password"
             variant="fintech"
@@ -317,7 +322,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           <PasswordStrengthBar password={formData.password} />
         </div>
         <Input
-          label="Confirm Password"
+          label={t("charity.claim.confirmPassword")}
           type="password"
           name="confirmPassword"
           variant="fintech"
@@ -332,7 +337,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
           disabled={submitting}
         >
-          {submitting ? "Creating Account..." : "Claim Organization"}
+          {submitting ? t("charity.claim.creating") : t("charity.claim.submit")}
         </Button>
       </form>
     </>

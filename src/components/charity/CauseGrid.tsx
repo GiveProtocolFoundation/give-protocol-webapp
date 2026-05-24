@@ -1,6 +1,7 @@
 import React from "react";
 import { Link } from "react-router-dom";
 import { Cause } from "../../types/charity";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface CauseGridProps {
   searchTerm: string;
@@ -18,6 +19,7 @@ export const CauseGrid: React.FC<CauseGridProps> = ({
   searchTerm,
   category,
 }) => {
+  const { t } = useTranslation();
   // Sample causes - replace with actual data fetching
   const causes: Cause[] = [
     {
@@ -71,7 +73,7 @@ export const CauseGrid: React.FC<CauseGridProps> = ({
   if (filteredCauses.length === 0) {
     return (
       <div className="text-center py-12">
-        <p className="text-gray-500">No causes found matching your criteria.</p>
+        <p className="text-gray-500">{t("browse.causes.noResults", "No causes found matching your criteria.")}</p>
       </div>
     );
   }
@@ -106,7 +108,7 @@ export const CauseGrid: React.FC<CauseGridProps> = ({
               <span className="w-5 h-5 rounded-full bg-white/20 flex items-center justify-center text-[0.65rem] leading-none">
                 &#9829;
               </span>{" "}
-              Give to Cause
+              {t("browse.causes.giveCta", "Give to Cause")}
             </div>
           </div>
         </Link>

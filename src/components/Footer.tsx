@@ -2,10 +2,12 @@ import React from "react";
 import { Link } from "react-router-dom";
 import { FaBluesky, FaGithub, FaDiscord } from "react-icons/fa6";
 import { Logo } from "@/components/Logo";
+import { useTranslation } from "@/hooks/useTranslation";
 import { DOCS_CONFIG } from "@/config/docs";
 
 /** Footer branding with logo and tagline. */
 function FooterBrand() {
+  const { t } = useTranslation();
   return (
     <div className="flex-1 min-w-0 lg:pr-16 mb-4 lg:mb-0">
       <Link
@@ -16,7 +18,7 @@ function FooterBrand() {
         Give Protocol
       </Link>
       <p className="text-sm text-white/90">
-        Removing barriers to sustainable charitable giving.
+        {t("footer.brand.tagline")}
       </p>
     </div>
   );
@@ -24,10 +26,11 @@ function FooterBrand() {
 
 /** Footer resource navigation links. */
 function FooterResources() {
+  const { t } = useTranslation();
   return (
     <div className="flex-1 min-w-0 lg:pl-16">
       <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
-        Resources
+        {t("footer.resources.title")}
       </h3>
       <ul className="space-y-2">
         <li>
@@ -35,7 +38,7 @@ function FooterResources() {
             to="/faq"
             className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
           >
-            FAQ
+            {t("footer.resources.faq")}
           </Link>
         </li>
         <li>
@@ -43,7 +46,7 @@ function FooterResources() {
             href={DOCS_CONFIG.url}
             className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
           >
-            Documentation
+            {t("nav.docs")}
           </a>
         </li>
         <li>
@@ -51,7 +54,7 @@ function FooterResources() {
             to="/about"
             className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
           >
-            About Us
+            {t("footer.resources.about")}
           </Link>
         </li>
       </ul>
@@ -61,10 +64,11 @@ function FooterResources() {
 
 /** Footer legal navigation links. */
 function FooterLegal() {
+  const { t } = useTranslation();
   return (
     <div className="flex-1 min-w-0">
       <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
-        Legal
+        {t("footer.legal.title")}
       </h3>
       <ul className="space-y-2">
         <li>
@@ -72,7 +76,7 @@ function FooterLegal() {
             to="/legal"
             className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
           >
-            Terms of Service
+            {t("footer.legal.terms")}
           </Link>
         </li>
         <li>
@@ -80,7 +84,7 @@ function FooterLegal() {
             to="/privacy"
             className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
           >
-            Privacy Policy
+            {t("footer.legal.privacy")}
           </Link>
         </li>
       </ul>
@@ -90,10 +94,11 @@ function FooterLegal() {
 
 /** Footer social media icon links. */
 function FooterConnect() {
+  const { t } = useTranslation();
   return (
     <div className="flex-1 min-w-0">
       <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
-        Connect
+        {t("footer.connect.title")}
       </h3>
       <div className="flex space-x-4">
         <a
@@ -124,6 +129,7 @@ function FooterConnect() {
 
 /** Site-wide footer with resource links, legal links, and social media icons. */
 export const Footer: React.FC = () => {
+  const { t } = useTranslation();
   return (
     <footer className="bg-gradient-to-r from-emerald-600 to-teal-600 border-t border-emerald-700">
       <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
@@ -135,7 +141,7 @@ export const Footer: React.FC = () => {
         </div>
         <div className="mt-16 border-t border-white/20 pt-8">
           <p className="text-sm text-white/90">
-            © {new Date().getFullYear()} Give Protocol. All rights reserved.
+            © {new Date().getFullYear()} {t("footer.copyright")}
           </p>
         </div>
       </div>

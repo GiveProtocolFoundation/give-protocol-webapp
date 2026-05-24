@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { resolveLocation } from "@/utils/locationResolver";
 import type { LocationFilter } from "@/utils/locationResolver";
 import { cn } from "@/utils/cn";
+import { useTranslation } from "@/hooks/useTranslation";
 import type {
   DiscoveryFilterCategory,
   DiscoveryFiltersState,
@@ -29,6 +30,7 @@ export const DiscoveryFilters: React.FC<DiscoveryFiltersProps> = ({
   showViewToggle = true,
   className,
 }) => {
+  const { t } = useTranslation();
   const [locationInput, setLocationInput] = useState("");
 
   const handleSearchChange = useCallback(
@@ -126,19 +128,19 @@ export const DiscoveryFilters: React.FC<DiscoveryFiltersProps> = ({
             variant={value.viewMode === "charities" ? "primary" : "secondary"}
             onClick={handleCharitiesClick}
           >
-            Charities
+            {t("browse.tabs.charities", "Charities")}
           </Button>
           <Button
             variant={value.viewMode === "causes" ? "primary" : "secondary"}
             onClick={handleCausesClick}
           >
-            Causes
+            {t("browse.tabs.causes", "Causes")}
           </Button>
           <Button
             variant={value.viewMode === "portfolios" ? "primary" : "secondary"}
             onClick={handlePortfoliosClick}
           >
-            Portfolio Funds
+            {t("browse.tabs.funds", "Portfolio Funds")}
           </Button>
         </div>
       )}
@@ -153,8 +155,8 @@ export const DiscoveryFilters: React.FC<DiscoveryFiltersProps> = ({
             type="search"
             value={value.searchTerm}
             onChange={handleSearchChange}
-            placeholder="Search charities..."
-            aria-label="Search charities"
+            placeholder={t("browse.filter.searchPlaceholder", "Search charities...")}
+            aria-label={t("browse.filter.searchAria", "Search charities")}
             className="w-full h-11 pl-10 pr-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400"
           />
         </div>
@@ -169,8 +171,8 @@ export const DiscoveryFilters: React.FC<DiscoveryFiltersProps> = ({
               value={locationInput}
               onChange={handleLocationInputChange}
               onKeyDown={handleLocationKeyDown}
-              placeholder="City, state, or country..."
-              aria-label="Search location"
+              placeholder={t("browse.filter.locationPlaceholder", "City, state, or country...")}
+              aria-label={t("browse.filter.locationAria", "Search location")}
               className="w-full h-11 pl-10 pr-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400"
             />
           </div>
