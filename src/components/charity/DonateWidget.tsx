@@ -61,7 +61,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   const hasLegacyWallet = Boolean(walletAddress);
   const isGrandfathered =
     hasLegacyWallet && (walletDesignationStatus ?? "unset") === "unset";
-  const isPending =
+  const _isPending =
     walletDesignationStatus === "pending_signature_verification" ||
     walletDesignationStatus === "pending_email_confirmation";
   const allowDonate =

@@ -3,7 +3,6 @@ import { Link, Navigate, useLocation } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
 import {
   ShieldCheck,
-  Building2,
   Wallet,
   Mail,
   Lock,
