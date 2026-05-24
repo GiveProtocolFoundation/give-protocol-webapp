@@ -19,6 +19,7 @@ export default {
     'settings.title': 'सेटिंग्स',
     'settings.language': 'भाषा',
     'settings.currency': 'मुद्रा',
+    'settings.displayPreferences': 'प्रदर्शन प्राथमिकताएं',
     
     // Auth
     'auth.login': 'साइन इन करें',

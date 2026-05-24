@@ -1,15 +1,24 @@
 import React from "react";
 import { jest } from "@jest/globals";
-import { render, screen } from "@testing-library/react";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import DashboardSettings from "../DashboardSettings";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
+import { useSettings } from "@/contexts/SettingsContext";
 
 // All sub-section components (LinkedAccountsSection, PhoneSettings,
 // SetPasswordSettings, WalletAliasSettings, PrivacySettings) are stubbed via
 // moduleNameMapper so this file only exercises DashboardSettings itself.
+// useSettings and useTranslation are also globally mocked via moduleNameMapper.
 
 const mockUseUnifiedAuth = jest.mocked(useUnifiedAuth);
+const mockUseSettings = jest.mocked(useSettings);
+
+const defaultLanguageOptions = [
+  { value: "en" as const, label: "English" },
+  { value: "es" as const, label: "Español" },
+  { value: "fr" as const, label: "Français" },
+];
 
 const baseAuthState = {
   user: null,
@@ -177,6 +186,68 @@ describe("DashboardSettings", () => {
     it("renders the Privacy settings section", () => {
       renderPage();
       expect(screen.getByTestId("privacy-settings")).toBeInTheDocument();
+    });
+  });
+
+  describe("Display Preferences — language selector", () => {
+    const mockSetLanguage = jest.fn();
+
+    beforeEach(() => {
+      mockUseSettings.mockReturnValue({
+        language: "en",
+        setLanguage: mockSetLanguage,
+        currency: "USD",
+        setCurrency: jest.fn(),
+        theme: "light",
+        setTheme: jest.fn(),
+        languageOptions: defaultLanguageOptions,
+        currencyOptions: [],
+      });
+    });
+
+    it("renders the Display Preferences section heading", () => {
+      renderPage();
+      expect(
+        screen.getByRole("heading", { name: /display preferences/i }),
+      ).toBeInTheDocument();
+    });
+
+    it("renders all language option buttons", () => {
+      renderPage();
+      expect(screen.getByRole("button", { name: "English" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Español" })).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: "Français" })).toBeInTheDocument();
+    });
+
+    it("marks the current language as pressed (aria-pressed=true)", () => {
+      renderPage();
+      expect(
+        screen.getByRole("button", { name: "English" }),
+      ).toHaveAttribute("aria-pressed", "true");
+      expect(
+        screen.getByRole("button", { name: "Español" }),
+      ).toHaveAttribute("aria-pressed", "false");
+    });
+
+    it("calls setLanguage with the selected language code when clicked", () => {
+      renderPage();
+      fireEvent.click(screen.getByRole("button", { name: "Español" }));
+      expect(mockSetLanguage).toHaveBeenCalledWith("es");
+    });
+
+    it("renders no language buttons when languageOptions is empty", () => {
+      mockUseSettings.mockReturnValue({
+        language: "en",
+        setLanguage: mockSetLanguage,
+        currency: "USD",
+        setCurrency: jest.fn(),
+        theme: "light",
+        setTheme: jest.fn(),
+        languageOptions: [],
+        currencyOptions: [],
+      });
+      renderPage();
+      expect(screen.queryByRole("button", { name: "English" })).not.toBeInTheDocument();
     });
   });
 });

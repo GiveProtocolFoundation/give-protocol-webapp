@@ -19,6 +19,7 @@ export default {
     'settings.title': 'الإعدادات',
     'settings.language': 'اللغة',
     'settings.currency': 'العملة',
+    'settings.displayPreferences': 'تفضيلات العرض',
     
     // Auth
     'auth.login': 'تسجيل الدخول',

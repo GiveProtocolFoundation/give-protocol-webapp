@@ -19,6 +19,7 @@ export default {
     'settings.title': '設定',
     'settings.language': '言語',
     'settings.currency': '通貨',
+    'settings.displayPreferences': '表示設定',
     
     // Auth
     'auth.login': 'サインイン',

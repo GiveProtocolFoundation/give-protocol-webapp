@@ -19,6 +19,7 @@ export default {
     'settings.title': '설정',
     'settings.language': '언어',
     'settings.currency': '통화',
+    'settings.displayPreferences': '디스플레이 설정',
     
     // Auth
     'auth.login': '로그인',

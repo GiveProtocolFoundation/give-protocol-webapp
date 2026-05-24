@@ -19,6 +19,7 @@ export default {
     'settings.title': 'การตั้งค่า',
     'settings.language': 'ภาษา',
     'settings.currency': 'สกุลเงิน',
+    'settings.displayPreferences': 'การตั้งค่าการแสดงผล',
     
     // Auth
     'auth.login': 'เข้าสู่ระบบ',

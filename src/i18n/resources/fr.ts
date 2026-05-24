@@ -19,6 +19,7 @@ export default {
     'settings.title': 'Paramètres',
     'settings.language': 'Langue',
     'settings.currency': 'Devise',
+    'settings.displayPreferences': 'Préférences d\'affichage',
     
     // Auth
     'auth.login': 'Connexion',

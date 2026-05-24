@@ -19,6 +19,7 @@ export default {
     'settings.title': 'Cài Đặt',
     'settings.language': 'Ngôn Ngữ',
     'settings.currency': 'Tiền Tệ',
+    'settings.displayPreferences': 'Tùy Chọn Hiển Thị',
     
     // Auth
     'auth.login': 'Đăng Nhập',

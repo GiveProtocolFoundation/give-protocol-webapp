@@ -19,6 +19,7 @@ export default {
     'settings.title': 'Configuración',
     'settings.language': 'Idioma',
     'settings.currency': 'Moneda',
+    'settings.displayPreferences': 'Preferencias de pantalla',
     
     // Auth
     'auth.login': 'Iniciar Sesión',

@@ -19,6 +19,7 @@ export default {
     'settings.title': '设置',
     'settings.language': '语言',
     'settings.currency': '货币',
+    'settings.displayPreferences': '显示偏好',
     
     // Auth
     'auth.login': '登录',
