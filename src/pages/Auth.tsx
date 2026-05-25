@@ -269,9 +269,9 @@ const SignInFormFields: React.FC<{
   email: string;
   password: string;
   loading: boolean;
-  onEmailChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onEmailChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onPasswordChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (_e: React.FormEvent) => void;
 }> = ({
   email,
   password,

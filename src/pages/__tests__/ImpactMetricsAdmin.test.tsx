@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -81,9 +80,7 @@ describe("ImpactMetricsAdmin", () => {
   describe("Page title and layout", () => {
     it("renders the page title", () => {
       renderComponent();
-      expect(
-        screen.getByText("Impact Metrics Management"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Impact Metrics Management")).toBeInTheDocument();
     });
 
     it("renders the Add Metric button", () => {

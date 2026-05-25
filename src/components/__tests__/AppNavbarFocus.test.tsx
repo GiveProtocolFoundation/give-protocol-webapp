@@ -2,7 +2,6 @@
  * Tests for AppNavbar WCAG 2.4.3 focus management (GIV-109)
  * Verifies that keyboard focus moves correctly when the mobile menu opens/closes.
  */
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";

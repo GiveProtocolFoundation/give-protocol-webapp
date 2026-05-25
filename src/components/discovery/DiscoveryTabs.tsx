@@ -16,6 +16,7 @@ const VALID_TABS = new Set<string>(TAB_IDS);
  * @param searchParams - URLSearchParams instance
  * @returns The active discovery tab
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function readTabParam(searchParams: URLSearchParams): DiscoveryTab {
   const raw = searchParams.get("tab") ?? "";
   return VALID_TABS.has(raw) ? (raw as DiscoveryTab) : "charities";
@@ -25,7 +26,11 @@ export function readTabParam(searchParams: URLSearchParams): DiscoveryTab {
  * Hook that manages the active discovery tab via URL search params.
  * @returns Current tab and setter callback
  */
-export function useDiscoveryTab(): [DiscoveryTab, (tab: DiscoveryTab) => void] {
+// eslint-disable-next-line react-refresh/only-export-components
+export function useDiscoveryTab(): [
+  DiscoveryTab,
+  (_tab: DiscoveryTab) => void,
+] {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = readTabParam(searchParams);
 
@@ -52,7 +57,7 @@ export function useDiscoveryTab(): [DiscoveryTab, (tab: DiscoveryTab) => void] {
 
 interface DiscoveryTabsProps {
   activeTab: DiscoveryTab;
-  onTabChange: (tab: DiscoveryTab) => void;
+  onTabChange: (_tab: DiscoveryTab) => void;
 }
 
 /**

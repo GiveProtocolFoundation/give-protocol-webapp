@@ -67,7 +67,6 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
   onBack,
 }) => {
   const navigate = useNavigate();
-  const { showToast } = useToast();
   const { t } = useTranslation();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -259,7 +258,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, showToast, t],
+    [formData, organization, validateField, navigate, t],
   );
 
   return (

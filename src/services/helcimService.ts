@@ -236,6 +236,7 @@ export async function fetchHelcimCheckoutToken(
  * These are bare function declarations that become window properties.
  */
 declare global {
+  // eslint-disable-next-line no-unused-vars
   interface Window {
     appendHelcimPayIframe?: (
       _token: string,

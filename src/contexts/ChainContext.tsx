@@ -66,7 +66,8 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
   const showTestnets = ENV.SHOW_TESTNETS;
 
   // Initialize with SSR-safe default; hydrate from localStorage in useEffect
-  const [selectedChainId, setSelectedChainId] = useState<ChainId>(DEFAULT_CHAIN_ID);
+  const [selectedChainId, setSelectedChainId] =
+    useState<ChainId>(DEFAULT_CHAIN_ID);
 
   // Hydrate chain selection from localStorage after mount
   useEffect(() => {
@@ -115,12 +116,9 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
   }, []);
 
   // Get chain by ID
-  const getChain = useCallback(
-    (chainId: ChainId): ChainConfig | undefined => {
-      return CHAIN_CONFIGS[chainId];
-    },
-    [],
-  );
+  const getChain = useCallback((chainId: ChainId): ChainConfig | undefined => {
+    return CHAIN_CONFIGS[chainId];
+  }, []);
 
   const contextValue = React.useMemo(
     () => ({
@@ -150,5 +148,6 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { CHAIN_IDS, CHAIN_CONFIGS } from "../config/contracts";
 export type { ChainId, ChainConfig } from "../config/contracts";

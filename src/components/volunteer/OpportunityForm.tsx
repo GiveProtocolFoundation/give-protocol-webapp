@@ -299,7 +299,7 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
         setLoading(false);
       }
     },
-    [formData, profile?.id, onSuccess, navigate, validateField],
+    [formData, profile?.id, onSuccess, navigate, t, validateField],
   );
 
   /** Converts a snake_case language code to Title Case display name. */

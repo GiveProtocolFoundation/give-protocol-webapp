@@ -1,4 +1,3 @@
-import React from "react";
 import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import type { CharityOrganization } from "@/types/charityOrganization";
@@ -7,11 +6,14 @@ import type { CharityOrganization } from "@/types/charityOrganization";
 import { useCharityOrganizationSearch } from "@/hooks/useCharityOrganizationSearch";
 import { CharityOrgAutocomplete } from "./CharityOrgAutocomplete";
 
-const mockUseCharityOrgSearch = useCharityOrganizationSearch as jest.MockedFunction<
-  typeof useCharityOrganizationSearch
->;
+const mockUseCharityOrgSearch =
+  useCharityOrganizationSearch as jest.MockedFunction<
+    typeof useCharityOrganizationSearch
+  >;
 
-const makeOrg = (overrides: Partial<CharityOrganization> = {}): CharityOrganization => ({
+const makeOrg = (
+  overrides: Partial<CharityOrganization> = {},
+): CharityOrganization => ({
   id: "co-uuid-1",
   ein: "12-3456789",
   name: "American Red Cross",
@@ -123,7 +125,10 @@ describe("CharityOrgAutocomplete", () => {
   });
 
   it("shows 'On Platform' badge for is_on_platform orgs", () => {
-    const org = makeOrg({ is_on_platform: true, platform_charity_id: "profile-uuid-1" });
+    const org = makeOrg({
+      is_on_platform: true,
+      platform_charity_id: "profile-uuid-1",
+    });
     mockUseCharityOrgSearch.mockReturnValue({
       ...IDLE_STATE,
       organizations: [org],

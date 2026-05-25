@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -26,9 +25,7 @@ describe("ScheduledDonationsPage", () => {
         userType: "donor",
       }),
     );
-    mockUseWeb3.mockReturnValue(
-      createMockWeb3({ isConnected: true }),
-    );
+    mockUseWeb3.mockReturnValue(createMockWeb3({ isConnected: true }));
   });
 
   describe("Rendering", () => {
@@ -50,27 +47,19 @@ describe("ScheduledDonationsPage", () => {
 
     it("renders the ScheduledDonations component", () => {
       renderComponent();
-      expect(
-        screen.getByTestId("scheduled-donations"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("scheduled-donations")).toBeInTheDocument();
     });
   });
 
   describe("Wallet not connected", () => {
     it("shows connect wallet prompt when wallet is not connected", () => {
-      mockUseWeb3.mockReturnValue(
-        createMockWeb3({ isConnected: false }),
-      );
+      mockUseWeb3.mockReturnValue(createMockWeb3({ isConnected: false }));
       renderComponent();
-      expect(
-        screen.getByText("Connect Your Wallet"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Connect Your Wallet")).toBeInTheDocument();
     });
 
     it("shows connect wallet description", () => {
-      mockUseWeb3.mockReturnValue(
-        createMockWeb3({ isConnected: false }),
-      );
+      mockUseWeb3.mockReturnValue(createMockWeb3({ isConnected: false }));
       renderComponent();
       expect(
         screen.getByText(
@@ -80,13 +69,9 @@ describe("ScheduledDonationsPage", () => {
     });
 
     it("renders Connect Wallet button", () => {
-      mockUseWeb3.mockReturnValue(
-        createMockWeb3({ isConnected: false }),
-      );
+      mockUseWeb3.mockReturnValue(createMockWeb3({ isConnected: false }));
       renderComponent();
-      expect(
-        screen.getByText("Connect Wallet"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
     });
   });
 

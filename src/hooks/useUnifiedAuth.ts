@@ -316,7 +316,7 @@ export function useUnifiedAuth(): UnifiedAuthState {
         setWalletAuthStep(null);
       }
     },
-    [web3.provider, web3.connect],
+    [web3],
   );
 
   const linkWallet = useCallback(async () => {
@@ -387,7 +387,7 @@ export function useUnifiedAuth(): UnifiedAuthState {
     } finally {
       setLoading(false);
     }
-  }, [auth.user, web3.isConnected, web3.connect, web3.provider]);
+  }, [auth.user, web3]);
 
   const unlinkWallet = useCallback(async () => {
     try {
@@ -529,7 +529,7 @@ export function useUnifiedAuth(): UnifiedAuthState {
     } finally {
       setLoading(false);
     }
-  }, [web3.isConnected, web3.disconnect]);
+  }, [web3]);
 
   return {
     user: unifiedUser,

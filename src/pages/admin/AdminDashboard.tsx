@@ -44,7 +44,7 @@ function formatRelativeTime(timestamp: string): string {
 /** Returns a display label and colour class for a given activity event type. */
 function getActivityMeta(
   type: string,
-  t: (key: string, fallback: string) => string,
+  t: (_key: string, _fallback: string) => string,
 ): { label: string; colourClass: string } {
   switch (type) {
     case "donation":

@@ -13,7 +13,7 @@ interface EthereumProvider {
   isRabby?: boolean;
   isBraveWallet?: boolean;
   providers?: EthereumProvider[];
-  request: (args: { method: string; params?: unknown[] }) => Promise<unknown>;
+  request: (_args: { method: string; params?: unknown[] }) => Promise<unknown>;
 }
 
 /**

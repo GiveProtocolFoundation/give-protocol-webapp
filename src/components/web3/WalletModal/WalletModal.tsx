@@ -4,7 +4,7 @@
  */
 
 import React, { useState, useCallback, useMemo, useEffect } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import type { ChainType, UnifiedWalletProvider } from "@/types/wallet";
 import type { ChainId, ChainConfig } from "@/contexts/ChainContext";

@@ -30,12 +30,13 @@ export interface SocialPlatform {
   id: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
-  getShareUrl: (url: string, message: string) => string;
+  getShareUrl: (_url: string, _message: string) => string;
 }
 
 /**
  * Catalog of supported social sharing platforms with their labels, icons, and share-URL builders.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {
     id: "facebook",

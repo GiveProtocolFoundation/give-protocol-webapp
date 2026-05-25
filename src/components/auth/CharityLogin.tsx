@@ -93,7 +93,7 @@ export const CharityLogin: React.FC = () => {
         }
       }
     },
-    [email, password, login, disconnect, navigate, t],
+    [email, password, login, disconnect, t],
   );
 
   const handleWalletLogin = useCallback(async () => {

@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { createMockAuth } from "@/test-utils/mockSetup";
@@ -53,18 +52,14 @@ describe("RequestCharityWidget", () => {
 
     it("renders outreach text", () => {
       renderWidget();
-      expect(
-        screen.getByText(/Let us know you/),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Let us know you/)).toBeInTheDocument();
     });
   });
 
   describe("Authenticated user", () => {
     it("shows request button for authenticated user", () => {
       renderWidget();
-      expect(
-        screen.getByText("Request this Charity"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Request this Charity")).toBeInTheDocument();
     });
 
     it("shows Requested state when user has already requested", async () => {
@@ -144,9 +139,7 @@ describe("RequestCharityWidget", () => {
 
     it("shows request button for unauthenticated user", () => {
       renderWidget();
-      expect(
-        screen.getByText("Request this Charity"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Request this Charity")).toBeInTheDocument();
     });
 
     it("shows sign-in toast when unauthenticated user clicks request", async () => {

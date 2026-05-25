@@ -27,13 +27,14 @@ module.exports = {
       jsx: true,
     },
   },
-  plugins: ["react-refresh", "jest"],
+  plugins: ["react-refresh", "jest", "@typescript-eslint"],
   rules: {
     "react-refresh/only-export-components": [
       "warn",
       { allowConstantExport: true },
     ],
-    "no-unused-vars": [
+    "no-unused-vars": "off",
+    "@typescript-eslint/no-unused-vars": [
       "warn",
       {
         argsIgnorePattern: "^_",

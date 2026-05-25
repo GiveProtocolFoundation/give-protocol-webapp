@@ -162,7 +162,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
             isPhantom?: boolean;
             isMetaMask?: boolean;
             providers?: ProviderLike[];
-            request: (args: {
+            request: (_args: {
               method: string;
               params?: unknown[];
             }) => Promise<unknown>;

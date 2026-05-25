@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -184,7 +183,9 @@ describe("AdminCharityManagement", () => {
       await waitFor(() => {
         expect(screen.getByLabelText("Reason")).toBeInTheDocument();
       });
-      expect(screen.getByRole("heading", { name: "Approve Charity" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Approve Charity" }),
+      ).toBeInTheDocument();
     });
 
     it("calls approveCharity on confirm", async () => {

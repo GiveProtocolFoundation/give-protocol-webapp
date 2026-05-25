@@ -1,4 +1,4 @@
-import React from "react";
+import type React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, act } from "@testing-library/react";
 import { CharityPortal } from "../CharityPortal";
@@ -326,6 +326,7 @@ describe("CharityPortal", () => {
   });
 
   describe("Error Handling", () => {
+    // eslint-disable-next-line jest/expect-expect
     it("handles auth errors gracefully", async () => {
       mockUseAuth.mockReturnValue(
         createMockAuth({
@@ -342,6 +343,7 @@ describe("CharityPortal", () => {
       });
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it("handles profile fetch errors", async () => {
       mockUseProfile.mockReturnValue(
         createMockProfile({
@@ -359,6 +361,7 @@ describe("CharityPortal", () => {
   });
 
   describe("User Type Restrictions", () => {
+    // eslint-disable-next-line jest/expect-expect
     it("handles non-charity user access", async () => {
       mockUseAuth.mockReturnValue(
         createMockAuth({
@@ -407,6 +410,7 @@ describe("CharityPortal", () => {
       });
     });
 
+    // eslint-disable-next-line jest/expect-expect
     it("handles different language settings", async () => {
       mockUseTranslation.mockReturnValue(
         createMockTranslation({

@@ -59,27 +59,50 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   //   - 'pending_*'                                       → block (designation in progress)
   //   - any other (no wallet)                             → block
   const hasLegacyWallet = Boolean(walletAddress);
-  const isGrandfathered =
-    hasLegacyWallet && (walletDesignationStatus ?? "unset") === "unset";
-  const _isPending =
+  const isPending =
     walletDesignationStatus === "pending_signature_verification" ||
     walletDesignationStatus === "pending_email_confirmation";
+  // Show legacy banner only when status is explicitly "unset" (not null/undefined)
+  const showLegacyBanner =
+    hasLegacyWallet && walletDesignationStatus === "unset";
   const allowDonate =
     walletDesignationStatus === "active" ||
     // During a wallet change cooldown the OLD wallet stays active for donations.
     walletDesignationStatus === "pending_change_cooldown" ||
     (walletDesignationStatus == null && hasLegacyWallet) ||
-    isGrandfathered;
+    showLegacyBanner;
 
   const body = (
     <div className="space-y-4">
-      {!allowDonate && (
+      {showLegacyBanner && (
+        <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
+          <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
+          <p className="text-xs text-amber-700">
+            {t(
+              "charity.profile.donate.walletLegacy",
+              "This charity is using a legacy wallet address.",
+            )}
+          </p>
+        </div>
+      )}
+      {isPending && (
+        <div className="flex items-start gap-2 p-2.5 bg-blue-50 border border-blue-200 rounded-lg">
+          <AlertTriangle className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
+          <p className="text-xs text-blue-700">
+            {t(
+              "charity.profile.donate.walletPending",
+              "This charity is finishing wallet setup — donations are temporarily unavailable.",
+            )}
+          </p>
+        </div>
+      )}
+      {!allowDonate && !isPending && (
         <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
           <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700">
             {t(
               "charity.profile.donate.walletUnset",
-              "This charity hasn't set up a wallet yet — your donation will be held by Give Protocol Foundation until claimed.",
+              "This charity hasn't set up an official receiving wallet yet.",
             )}
           </p>
         </div>

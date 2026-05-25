@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
@@ -94,6 +95,7 @@ function CountrySelect({
  * @returns {JSX.Element} The charity vetting form component.
  */
 export const CharityVettingForm: React.FC = () => {
+  const navigate = useNavigate();
   const { register, loading } = useAuth();
   const { t } = useTranslation();
   const { countries } = useCountries();
@@ -270,7 +272,7 @@ export const CharityVettingForm: React.FC = () => {
         setError(message);
       }
     },
-    [formData, register, validateField, t],
+    [formData, navigate, register, validateField, t],
   );
 
   return (

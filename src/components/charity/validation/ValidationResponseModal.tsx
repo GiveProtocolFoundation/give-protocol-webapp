@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { RejectionReasonSelect } from "./RejectionReasonSelect";
 import {

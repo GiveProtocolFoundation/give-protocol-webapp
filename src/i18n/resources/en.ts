@@ -25,7 +25,6 @@ export default {
     "settings.title": "Settings",
     "settings.language": "Language",
     "settings.currency": "Currency",
-    "settings.displayPreferences": "Display Preferences",
 
     // Auth
     "auth.login": "Sign In",
@@ -420,208 +419,435 @@ export default {
     "home.subtitle": "Connecting resources to the causes that need them most",
     "home.startDonating": "Start Donating",
 
-    // Browse — general
-    "browse.verified": "Verified",
-    "browse.donate": "Donate",
+    // Modal - shared
+    "modal.close": "Close modal",
+    "modal.closeAriaLabel": "Close",
 
-    // Browse — hero
-    "browse.hero.title": "Giving, verified on-chain.",
-    "browse.hero.subtitle":
-      "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
+    // Modal - wallet connection
+    "modal.wallet.title": "Connect Your Wallet",
+    "modal.wallet.description":
+      "Connect a wallet to unlock all features of Give Protocol",
+    "modal.wallet.benefit1":
+      "Track your donations transparently on the blockchain",
+    "modal.wallet.benefit2":
+      "Receive GIVE tokens as rewards for your contributions",
+    "modal.wallet.benefit3":
+      "Participate in governance decisions for the protocol",
+    "modal.wallet.connecting": "Connecting...",
+    "modal.wallet.clickToConnect": "Click to connect",
+    "modal.wallet.noExtension": "No wallet extension detected.",
+    "modal.wallet.installMetaMask": "Install MetaMask to get started",
+    "modal.wallet.skip": "Skip for now",
+    "modal.wallet.footerNote":
+      "You can connect your wallet anytime from the navigation bar",
+    "modal.wallet.failedConnect": "Failed to connect wallet",
 
-    // Browse — stats
-    "browse.stats.networks": "Networks supported",
-    "browse.stats.sectors": "Charitable sectors",
-    "browse.stats.verifiedOrgs": "Verified organizations",
-    "browse.stats.volunteerHours": "Volunteer hours",
-    "browse.stats.onChain": "On-chain",
+    // Modal - wallet link
+    "modal.walletLink.title": "Link Your Wallet",
+    "modal.walletLink.description":
+      "Link a wallet to your account for on-chain donations, token rewards, and governance",
+    "modal.walletLink.benefit1":
+      "Donate crypto directly to verified charities on-chain",
+    "modal.walletLink.benefit2Pre": "Develop",
+    "modal.walletLink.benefit2Post": "credentials for your contributions",
+    "modal.walletLink.benefit3":
+      "Sign in with either email or wallet \u2014 same account",
+    "modal.walletLink.buttonLinking": "Linking\u2026",
+    "modal.walletLink.buttonLink": "Link Wallet",
+    "modal.walletLink.buttonConnectFirst": "Connect Wallet First",
+    "modal.walletLink.footerNote":
+      "You can link your wallet anytime from Settings",
+    "modal.walletLink.failedLink": "Failed to link wallet",
 
-    // Browse — tabs
-    "browse.tabs.charities": "Charities",
-    "browse.tabs.causes": "Causes",
-    "browse.tabs.funds": "Portfolio Funds",
-    "browse.tabs.ariaLabel": "Browse categories",
+    // Modal - chain selection
+    "modal.chain.title": "Welcome to Give Protocol",
+    "modal.chain.subtitle": "Choose your preferred network to get started",
+    "modal.chain.footerNote": "You can switch networks anytime from the menu",
+    "modal.chain.connecting": "Connecting...",
+    "modal.chain.continue": "Continue",
+    "modal.chain.failedSelect": "Failed to select network",
 
-    // Browse — filters
-    "browse.filter.searchPlaceholder": "Search charities...",
-    "browse.filter.searchAria": "Search charities",
-    "browse.filter.locationPlaceholder": "City, state, or country...",
-    "browse.filter.locationAria": "Search location",
-    "browse.filter.ariaLabel": "Filter charities",
+    // Modal - network selection (WalletModal step 1)
+    "modal.network.title": "Select Network",
+    "modal.network.nextStep": "Next Step: Connect Wallet",
+    "modal.network.learnMore": "Learn more about network selection",
 
-    // Browse — results
-    "browse.results.ariaLabel": "Charity results",
-    "browse.results.empty":
-      "No organizations match that search yet. Try a different keyword or add a location filter.",
+    // Modal - wallet connect (WalletModal step 2)
+    "modal.connect.title": "Connect Wallet",
+    "modal.connect.backAria": "Back to network selection",
+    "modal.connect.noWallets": "No wallets available for {{chainType}} chains.",
+    "modal.connect.tryDifferentChain": "Try selecting a different chain type.",
+    "modal.connect.viewOtherWallets": "View other supported wallets",
+    "modal.connect.termsAgreement": "By connecting, you agree to the",
+    "modal.connect.termsLink": "Terms of Service",
+    "modal.connect.chainTypeAria": "Chain type",
+    "modal.connect.failedConnect": "Connection failed",
 
-    // Browse — charity list
-    "browse.charity.onPlatform": "On Platform",
-    "browse.charity.einLabel": "EIN",
-    "browse.charity.nteeLabel": "NTEE",
-    "browse.charity.deductibilityLabel": "Deductibility",
-    "browse.charity.searchPrompt":
-      "Enter a search term or add a location filter to find charities.",
-    "browse.charity.noResults": "No charities found matching your criteria.",
-    "browse.charity.loadMore": "Load More",
-    "browse.charity.loading": "Loading...",
+    // Modal - donation
+    "modal.donation.successTitle": "Thank You!",
+    "modal.donation.donationProcessedOneTime":
+      "Your donation of {{amount}} to {{charityName}} has been processed.",
+    "modal.donation.donationProcessedRecurring":
+      "Your monthly donation of {{amount}} to {{charityName}} has been processed.",
+    "modal.donation.recurringNote":
+      "You\u2019ll be charged monthly until you cancel.",
+    "modal.donation.receiptNote": "A receipt has been sent to your email.",
+    "modal.donation.done": "Done",
+    "modal.donation.errorTitle": "Something Went Wrong",
+    "modal.donation.errorDefault":
+      "An unexpected error occurred. Please try again.",
+    "modal.donation.tryAgain": "Try Again",
+    "modal.donation.close": "Close",
+    "modal.donation.amountLabel": "Donation Amount",
+    "modal.donation.perMonth": "per month",
+    "modal.donation.monthly": "Monthly",
+    "modal.donation.oneTime": "One-Time",
+    "modal.donation.loadingPaymentForm": "Loading payment form...",
+    "modal.donation.supportMonthly": "Support {{charityName}} Monthly",
+    "modal.donation.donateToCharity": "Donate to {{charityName}}",
 
-    // Browse — featured charities carousel
-    "browse.featured.heading": "Featured organizations",
-    "browse.featured.subheading":
-      "A rotating look at verified charities on Give Protocol.",
-    "browse.featured.ariaLabel": "Featured organizations",
-    "browse.featured.prevAria": "Previous featured organizations",
-    "browse.featured.nextAria": "Next featured organizations",
+    // Modal - scheduled donation
+    "modal.scheduledDonation.title":
+      "Schedule Monthly Donations to {{charityName}}",
 
-    // Browse — featured causes carousel
-    "browse.causes.badge": "Cause",
-    "browse.causes.heading": "Featured causes",
-    "browse.causes.subheading": "Support specific projects making real impact.",
-    "browse.causes.ariaLabel": "Featured causes",
-    "browse.causes.prevAria": "Previous featured causes",
-    "browse.causes.nextAria": "Next featured causes",
-    "browse.causes.empty": "No causes available yet. Check back soon!",
-    "browse.causes.by": "by",
-    "browse.causes.raised": "raised",
-    "browse.causes.percentOf": "% of",
-    "browse.causes.supportCta": "Support This Cause",
-    "browse.causes.noResults": "No causes found matching your criteria.",
-    "browse.causes.giveCta": "Give to Cause",
+    // Modal - withdrawal
+    "modal.withdrawal.title": "Request Withdrawal",
 
-    // Browse — featured portfolio funds carousel
-    "browse.funds.badge": "Portfolio Fund",
-    "browse.funds.charity": "charity",
-    "browse.funds.charities": "charities",
-    "browse.funds.heading": "Portfolio Funds",
-    "browse.funds.subheading":
-      "Curated giving portfolios that distribute donations across verified charities.",
-    "browse.funds.ariaLabel": "Portfolio Funds",
-    "browse.funds.prevAria": "Previous portfolio funds",
-    "browse.funds.nextAria": "Next portfolio funds",
-    "browse.funds.empty": "No portfolio funds available yet. Check back soon!",
-    "browse.funds.donateCta": "Donate to Fund",
+    // Modal - validation response
+    "modal.validation.rejectTitle": "Reject Validation Request",
+    "modal.validation.reviewTitle": "Review Validation Request",
+    "modal.validation.volunteer": "Volunteer",
+    "modal.validation.activityDetails": "Activity Details",
+    "modal.validation.date": "Date",
+    "modal.validation.hour": "hour",
+    "modal.validation.hours": "hours",
+    "modal.validation.activityType": "Activity Type",
+    "modal.validation.location": "Location",
+    "modal.validation.description": "Description",
+    "modal.validation.submitted": "Submitted:",
+    "modal.validation.daysRemaining": "({{count}} days remaining to validate)",
+    "modal.validation.appealNote":
+      "This is an appeal/resubmission of a previously rejected request",
+    "modal.validation.rejectPrompt":
+      "Please select a reason for rejecting this validation request. The volunteer will be notified.",
+    "modal.validation.reject": "Reject",
+    "modal.validation.approve": "Approve",
+    "modal.validation.processing": "Processing...",
+    "modal.validation.back": "Back",
+    "modal.validation.confirmRejection": "Confirm Rejection",
+    "modal.validation.selectReasonError": "Please select a rejection reason",
 
-    // Charity profile — status
-    "charity.profile.verified501c3": "Verified 501(c)(3)",
-    "charity.profile.statusClaimed": "Claimed",
-    "charity.profile.statusUnclaimed": "Unclaimed — IRS data only",
+    // Toast
+    "toast.dismiss": "Dismiss notification",
 
-    // Charity profile — registry record
-    "charity.profile.registryRecord": "Registry Public Record",
-    "charity.profile.rowEin": "EIN",
-    "charity.profile.rowName": "Name",
-    "charity.profile.rowLocation": "Location",
-    "charity.profile.rowRulingYear": "Ruling year",
-    "charity.profile.rowNteeCode": "NTEE code",
-    "charity.profile.rowDeductibility": "Deductibility",
-    "charity.profile.rowAffiliation": "Affiliation",
-    "charity.profile.rowClassification": "Classification",
-    "charity.profile.rowFoundation": "Foundation type",
-    "charity.profile.rowActivityCodes": "Activity codes",
-    "charity.profile.rowOrgType": "Organization type",
-    "charity.profile.rowSubsection": "Subsection",
-    "charity.profile.rowStatus": "Status",
-    "charity.profile.registrySource":
-      "Data sourced from official charity registry.",
+    // Error boundary
+    "error.somethingWrong": "Something went wrong",
+    "error.unexpectedError": "An unexpected error occurred",
+    "error.tryAgain": "Try Again",
+    "error.tooManyAttempts": "Too many attempts",
+    "error.goHome": "Go to Homepage",
+    "error.details": "Error Details",
 
-    // Charity profile — cards
-    "charity.profile.unknownOrg": "Unknown Organization",
-    "charity.profile.about": "About",
-    "charity.profile.activityIntro":
-      "This organization's activities include: activity codes",
-    "charity.profile.notCustomized":
-      "This description has not been customized yet.",
-    "charity.profile.claimProfile": "Claim this profile",
-    "charity.profile.noDescription": "No description available.",
-    "charity.profile.toAddOne": "to add one.",
-    "charity.profile.contact": "Contact",
-    "charity.profile.shareAria": "Share",
-    "charity.profile.copied": "Copied!",
-    "charity.profile.einDisplay": "EIN",
-    "charity.profile.registeredYear": "Registered {{year}}",
-    "charity.profile.notFound": "We couldn't find a charity with this EIN.",
+    // Validation - rejection reason select
+    "validation.rejection.reasonLabel": "Rejection Reason",
+    "validation.rejection.reasonPlaceholder": "Select a reason...",
+    "validation.rejection.notesLabel": "Additional Notes",
+    "validation.rejection.optional": "(optional)",
+    "validation.rejection.notesPlaceholder":
+      "Provide additional context for the rejection...",
 
-    // Charity profile — donate widget
-    "charity.profile.donate.walletPending":
-      "This charity is finishing wallet setup. Donations will be enabled once confirmation is complete.",
-    "charity.profile.donate.walletUnset":
-      "This charity hasn't set up an official receiving wallet yet. Donations are disabled until setup is finished.",
-    "charity.profile.donate.walletLegacy":
-      "This charity is using a legacy wallet address. They've been asked to re-designate via the new secure flow.",
-    "charity.profile.donate.feeNote":
-      "0% platform fee on direct donations. Network gas fees apply.",
-    "charity.profile.donate.support": "Support {{charityName}}",
+    // Validation - batch actions
+    "validation.batch.deselectAll": "Deselect all",
+    "validation.batch.selectAll": "Select all",
+    "validation.batch.selected": "{{selected}} of {{total}} selected",
+    "validation.batch.clear": "Clear",
+    "validation.batch.reject": "Reject ({{count}})",
+    "validation.batch.approve": "Approve ({{count}})",
 
-    // Charity claim form
-    "charity.claim.orgDetails": "Organization Details (from Registry)",
-    "charity.claim.orgNameLabel": "Name",
-    "charity.claim.einLabel": "EIN",
-    "charity.claim.locationLabel": "Location",
-    "charity.claim.backToSearch": "Back to search",
-    "charity.claim.contactInfo": "Contact Information",
-    "charity.claim.contactName": "Contact Name",
-    "charity.claim.contactEmail": "Contact Email",
-    "charity.claim.accountSecurity": "Account Security",
-    "charity.claim.password": "Password",
-    "charity.claim.confirmPassword": "Confirm Password",
-    "charity.claim.creating": "Creating Account...",
-    "charity.claim.submit": "Claim Organization",
-    "charity.claim.validation.name":
-      "Name must be between 2 and 100 characters",
-    "charity.claim.validation.email": "Please enter a valid email address",
-    "charity.claim.validation.password":
-      "Password must be at least 8 characters long",
-    "charity.claim.validation.confirmPassword": "Passwords do not match",
-    "charity.claim.validation.fix": "Please correct the validation errors",
-    "charity.claim.error.creation": "Account creation failed",
-    "charity.claim.error.generic": "Failed to create account",
+    // Dashboard - admin redirect (GIV-254)
+    "dashboard.adminTitle": "Admin Dashboard",
+    "dashboard.adminNote": "Please use the admin panel to manage the platform.",
+    "dashboard.adminButton": "Go to Admin Panel",
+    "dashboard.logVolunteerHours": "Log Volunteer Hours",
+    "dashboard.hideVolunteerHours": "Hide Volunteer Hours",
+    "dashboard.viewMonthlyDonations": "View Monthly Donations",
+    "dashboard.hideMonthlyDonations": "Hide Monthly Donations",
+    "dashboard.walletSettings": "Wallet Settings",
+    "dashboard.overview": "Overview",
+    "dashboard.lastUpdated": "Last updated",
+    "dashboard.refreshData": "Refresh data",
+    "dashboard.searchPlaceholder": "Search projects, volunteers (Cmd+K)",
+    "dashboard.search": "Search",
 
-    // Charity vetting form
-    "charity.vetting.categoryLabel": "Category of Entity",
-    "charity.vetting.selectCategory": "Select Category",
-    "charity.vetting.countryLabel": "Country",
-    "charity.vetting.selectCountry": "Select Country",
-    "charity.vetting.orgDetails": "Organization Details",
-    "charity.vetting.orgName": "Organization Name",
-    "charity.vetting.description": "Description",
-    "charity.vetting.taxId": "Tax or Registration ID",
-    "charity.vetting.address": "Address",
-    "charity.vetting.streetAddress": "Street Address",
-    "charity.vetting.city": "City",
-    "charity.vetting.state": "State/Province",
-    "charity.vetting.postalCode": "Postal Code",
-    "charity.vetting.contactInfo": "Contact Information",
-    "charity.vetting.contactName": "Contact Name",
-    "charity.vetting.contactEmail": "Contact Email",
-    "charity.vetting.accountSecurity": "Account Security",
-    "charity.vetting.password": "Password",
-    "charity.vetting.confirmPassword": "Confirm Password",
-    "charity.vetting.submitting": "Submitting Application...",
-    "charity.vetting.submit": "Submit Charity Application",
-    "charity.vetting.validation.orgName":
-      "Organization name must be between 2 and 100 characters",
-    "charity.vetting.validation.contactName":
-      "Contact name must be between 2 and 100 characters",
-    "charity.vetting.validation.email": "Please enter a valid email address",
-    "charity.vetting.validation.password":
-      "Password must be at least 8 characters long",
-    "charity.vetting.validation.confirmPassword": "Passwords do not match",
-    "charity.vetting.validation.fix": "Please correct the validation errors",
-    "charity.vetting.validation.description": "Description is required",
-    "charity.vetting.validation.category": "Category is required",
-    "charity.vetting.validation.taxId": "Tax ID is required",
-    "charity.vetting.validation.streetAddress": "Street address is required",
-    "charity.vetting.validation.city": "City is required",
-    "charity.vetting.validation.country": "Country is required",
-    "charity.vetting.error.generic": "Failed to submit application",
+    // Settings - account section (GIV-254)
+    "settings.manageDescription": "Manage your account and preferences",
+    "settings.account": "Account",
+    "settings.email": "Email",
+    "settings.displayName": "Display name",
+    "settings.authMethod": "Auth method",
+    "settings.role": "Role",
 
-    // Home — landing page
-    "home.comingSoon": "Coming Soon",
-    "home.readDocs": "Read Documentation",
-    "home.nav.features": "Features",
-    "home.nav.impact": "Impact",
-    "home.nav.charities": "Charities",
-    "home.nav.volunteer": "Volunteer",
+    // Common additional (GIV-254)
+    "common.refresh": "Refresh",
+    "common.all": "All",
+    "common.loading": "Loading...",
+    "common.close": "Close",
+    "common.back": "Back",
+
+    // Cause (GIV-254)
+    "cause.createCause": "Create Cause",
+
+    // Contribution Tracker (GIV-254)
+    "tracker.title": "Global Impact Rankings",
+    "tracker.subtitle":
+      "Track and celebrate the collective impact of our community",
+    "tracker.searchPlaceholder": "Search contributors...",
+    "tracker.exportCSV": "Export CSV",
+    "tracker.exportPDF": "Export PDF",
+    "tracker.hideContributions": "Hide my contributions from rankings",
+    "tracker.yourAlias": "Your alias:",
+    "tracker.changeAlias": "Change",
+    "tracker.setWalletAlias": "Set Wallet Alias",
+    "tracker.aliasTitle": "Set Wallet Alias",
+    "tracker.aliasDescription":
+      "Your alias will be displayed on the contribution tracker instead of your wallet address.",
+    "tracker.aliasLabel": "Alias",
+    "tracker.aliasPlaceholder": "Enter your preferred alias",
+    "tracker.saveAlias": "Save Alias",
+    "tracker.donationRankings": "Donation Rankings",
+    "tracker.volunteerRankings": "Volunteer Rankings",
+    "tracker.exportComplete": "Export Complete",
+    "tracker.exportDonationCSV": "Donation leaderboard exported as CSV",
+    "tracker.exportVolunteerCSV": "Volunteer leaderboard exported as CSV",
+    "tracker.exportPDFSuccess": "Leaderboard exported as PDF",
+    "tracker.exportFailed": "Export Failed",
+    "tracker.exportNoData": "No data available to export",
+    "tracker.exportError": "An error occurred while exporting data",
+    "tracker.walletNotConnected": "Wallet not connected",
+    "tracker.connectWalletForAlias":
+      "Please connect your wallet to set an alias",
+    "tracker.invalidAlias": "Invalid alias",
+    "tracker.enterValidAlias": "Please enter a valid alias",
+
+    // Charity Portal (GIV-254)
+    "charity.portal.deleteTitle": "Delete {{type}}?",
+    "charity.portal.deleteDescription":
+      "This action cannot be undone. The {{type}} will be permanently removed.",
+    "charity.portal.walletNotConfigured": "Receiving wallet not configured.",
+    "charity.portal.walletDonationNote":
+      "Connect a wallet to receive on-chain donations.",
+    "charity.portal.setupWallet": "Set Up Wallet",
+
+    // Timestamps (GIV-254)
+    "timestamp.justNow": "Just now",
+    "timestamp.oneMinuteAgo": "1 minute ago",
+    "timestamp.minutesAgo": "{{count}} minutes ago",
+
+    // Common additions (GIV-256)
+    "common.previous": "Previous",
+    "common.next": "Next",
+    "common.pageOfTotal": "Page {{page}} of {{total}}",
+    "common.retry": "Retry",
+    "common.processing": "Processing...",
+    "common.saving": "Saving...",
+    "common.donate": "Donate",
+    "common.active": "Active",
+
+    // Portfolio Funds - public page (GIV-256)
+    "portfolio.donationType": "Donation Type",
+    "portfolio.devNative": "DEV (Native)",
+    "portfolio.testToken": "TEST Token",
+    "portfolio.donationAmount": "Donation Amount:",
+    "portfolio.platformFee": "Platform Fee ({{percentage}}%):",
+    "portfolio.toCharities": "To Charities:",
+    "portfolio.eachCharityReceives": "Each charity receives:",
+    "portfolio.donateToFund": "Donate to {{name}}",
+    "portfolio.equalDistribution": "Equal Distribution",
+    "portfolio.equalDistributionNote":
+      "Your donation will be split equally among {{count}} verified charities.",
+    "portfolio.eachCharityPercentage":
+      "Each charity receives {{percentage}}% of donations",
+    "portfolio.verifiedCharities": "{{count}} Verified Charities",
+    "portfolio.donateToFundButton": "Donate to Fund",
+    "portfolio.noFundsAvailable": "No portfolio funds available",
+    "portfolio.checkBackLater":
+      "Check back later for new funding opportunities",
+    "portfolio.amountLabel": "Amount ({{currency}})",
+    "portfolio.invalidAmount": "Please enter a valid amount",
+    "portfolio.donationSuccess": "Donation successful!",
+    "portfolio.donationFailed": "Donation failed. Please try again.",
+
+    // Admin - Activity event type labels (GIV-256)
+    "admin.activity.donation": "Donation",
+    "admin.activity.registration": "Registration",
+    "admin.activity.verification": "Verification",
+    "admin.activity.volunteerHours": "Volunteer Hours",
+    "admin.activity.default": "Activity",
+
+    // Admin - Dashboard page (GIV-256)
+    "admin.dashboard.title": "Admin Dashboard",
+    "admin.dashboard.alerts": "Alerts",
+    "admin.dashboard.alertsPending": "{{count}} pending",
+    "admin.dashboard.recentActivity": "Recent Activity",
+    "admin.dashboard.noRecentActivity": "No recent activity.",
+    "admin.dashboard.quickActions": "Quick Actions",
+    "admin.dashboard.errorTitle": "Error Loading Dashboard",
+    "admin.stats.last7d": "last 7d",
+    "admin.stats.last30d": "last 30d",
+    "admin.stats.totalDonors": "Total Donors",
+    "admin.stats.newRegistrations": "new registrations",
+    "admin.stats.charities": "Charities",
+    "admin.stats.pendingVerification": "pending verification",
+    "admin.stats.verifiedCharities": "Verified Charities",
+    "admin.stats.activeVolunteers": "Active Volunteers",
+    "admin.stats.totalDonationVolume": "Total Donation Volume",
+    "admin.stats.cryptoVolume": "Crypto Volume",
+    "admin.stats.fiatVolume": "Fiat Volume",
+    "admin.stats.donations": "donations",
+
+    // Admin - Quick Actions (GIV-256)
+    "admin.actions.viewReports": "View Reports",
+    "admin.actions.viewReportsDesc": "Generate detailed analytics",
+    "admin.actions.manageCharities": "Manage Charities",
+    "admin.actions.manageCharitiesDesc": "Review and approve organizations",
+    "admin.actions.systemSettings": "System Settings",
+    "admin.actions.systemSettingsDesc": "Configure platform parameters",
+    "admin.actions.manageImpactMetrics": "Manage Impact Metrics",
+    "admin.actions.manageImpactMetricsDesc": "Configure impact calculator data",
+    "admin.actions.donationMonitoring": "Donation Monitoring",
+    "admin.actions.donationMonitoringDesc":
+      "Monitor, flag, and report on donations",
+    "admin.actions.contentModeration": "Content Moderation",
+    "admin.actions.contentModerationDesc":
+      "Hide, flag, and review opportunities and causes",
+    "admin.actions.portfolioFunds": "Portfolio Funds",
+    "admin.actions.portfolioFundsDesc":
+      "Create and manage curated giving portfolios",
+    "admin.actions.charityRequests": "Charity Requests",
+    "admin.actions.charityRequestsDesc":
+      "Review donor requests for unclaimed charities",
+
+    // Admin - Portfolio Funds management page (GIV-256)
+    "admin.portfolio.title": "Portfolio Funds",
+    "admin.portfolio.subtitle": "Create and manage curated giving portfolios",
+    "admin.portfolio.newFund": "New Fund",
+    "admin.portfolio.editFund": "Edit Fund",
+    "admin.portfolio.createNewFund": "Create New Fund",
+    "admin.portfolio.fundName": "Fund Name",
+    "admin.portfolio.fundNamePlaceholder": "e.g. Environmental Impact Fund",
+    "admin.portfolio.description": "Description",
+    "admin.portfolio.descriptionPlaceholder":
+      "Describe the fund's purpose and impact focus...",
+    "admin.portfolio.category": "Category",
+    "admin.portfolio.selectCategory": "Select a category",
+    "admin.portfolio.imageUrl": "Image URL",
+    "admin.portfolio.imageUrlPlaceholder": "https://...",
+    "admin.portfolio.selectCharities": "Select Charities ({{count}} selected)",
+    "admin.portfolio.noCharitiesFound": "No verified charities found",
+    "admin.portfolio.saving": "Saving...",
+    "admin.portfolio.createFund": "Create Fund",
+    "admin.portfolio.updateFund": "Update Fund",
+    "admin.portfolio.noFundsYet": "No portfolio funds yet",
+    "admin.portfolio.noFundsMessage":
+      "Create your first fund to group charities for bundled donations",
+    "admin.portfolio.charity": "charity",
+    "admin.portfolio.charities": "charities",
+    "admin.portfolio.createdOn": "Created {{date}}",
+    "admin.portfolio.statusActive": "active",
+    "admin.portfolio.statusPaused": "paused",
+    "admin.portfolio.statusArchived": "archived",
+    "admin.portfolio.errorLoad": "Failed to load data",
+    "admin.portfolio.errorArchive": "Failed to archive fund",
+    "admin.portfolio.fundArchived": "Fund archived",
+    "admin.portfolio.fundUpdated": "Fund updated",
+    "admin.portfolio.fundCreated": "Fund created",
+    "admin.portfolio.errorSave": "Failed to save fund",
+
+    // Admin - Charity Management page (GIV-256)
+    "admin.charity.title": "Charity Management",
+    "admin.charity.totalCount": "{{count}} total",
+    "admin.charity.allStatuses": "All statuses",
+    "admin.charity.searchPlaceholder": "Search by name\u2026",
+    "admin.charity.colName": "Name",
+    "admin.charity.colCategory": "Category",
+    "admin.charity.colStatus": "Status",
+    "admin.charity.colJoined": "Joined",
+    "admin.charity.colWallet": "Wallet",
+    "admin.charity.colActions": "Actions",
+    "admin.charity.walletNotSet": "Not set",
+    "admin.charity.approve": "Approve",
+    "admin.charity.reject": "Reject",
+    "admin.charity.suspend": "Suspend",
+    "admin.charity.reinstate": "Reinstate",
+    "admin.charity.statusPending": "Pending",
+    "admin.charity.statusVerified": "Verified",
+    "admin.charity.statusApproved": "Approved",
+    "admin.charity.statusRejected": "Rejected",
+    "admin.charity.statusSuspended": "Suspended",
+    "admin.charity.approveTitle": "Approve Charity",
+    "admin.charity.rejectTitle": "Reject Charity",
+    "admin.charity.suspendTitle": "Suspend Charity",
+    "admin.charity.reinstateTitle": "Reinstate Charity",
+    "admin.charity.confirmAction": "Confirm Action",
+    "admin.charity.reasonRequired": "Reason (required)",
+    "admin.charity.reasonOptional": "Reason (optional)",
+    "admin.charity.saving": "Saving\u2026",
+    "admin.charity.confirm": "Confirm",
+    "admin.charity.noResults": "No charities found matching your filters.",
+
+    // Admin - Charity Requests page (GIV-256)
+    "admin.charityRequests.title": "Charity Requests",
+    "admin.charityRequests.subtitle":
+      "Donor-submitted requests for unclaimed charities, grouped by EIN. Highest-interest organizations should be prioritized for outreach.",
+    "admin.charityRequests.ein": "EIN",
+    "admin.charityRequests.requests": "Requests",
+    "admin.charityRequests.latestRequester": "Latest Requester",
+    "admin.charityRequests.latestRequest": "Latest Request",
+    "admin.charityRequests.firstRequest": "First Request",
+    "admin.charityRequests.empty":
+      "No charity requests have been submitted yet.",
+    "admin.charityRequests.errorTitle": "Error Loading Charity Requests",
+    "admin.charityRequests.showing":
+      "Showing {{shown}} of {{total}} unique EINs.",
+
+    // Admin - Volunteer Validation page (GIV-256)
+    "admin.validation.title": "Volunteer Validation Oversight",
+    "admin.validation.totalCount": "{{count}} total requests",
+    "admin.validation.pipelineStats": "Pipeline Statistics",
+    "admin.validation.noStats": "No statistics available.",
+    "admin.validation.pending": "Pending",
+    "admin.validation.approved": "Approved",
+    "admin.validation.rejected": "Rejected",
+    "admin.validation.expired": "Expired",
+    "admin.validation.avgResponseTime": "Avg response time:",
+    "admin.validation.expirationRate": "Expiration rate:",
+    "admin.validation.rejectionRate": "Rejection rate:",
+    "admin.validation.searchPlaceholder": "Search volunteer, org\u2026",
+    "admin.validation.requestsTab": "Validation Requests",
+    "admin.validation.patternsTab": "Suspicious Patterns",
+    "admin.validation.colVolunteer": "Volunteer",
+    "admin.validation.colOrganisation": "Organisation",
+    "admin.validation.colHours": "Hours",
+    "admin.validation.colActivityDate": "Activity Date",
+    "admin.validation.colHrsPerWeek": "Hrs/Week",
+    "admin.validation.colTotalRequests": "Total Requests",
+    "admin.validation.override": "Override",
+    "admin.validation.noPatterns": "No suspicious patterns detected.",
+    "admin.validation.noRequests": "No validation requests found.",
+    "admin.validation.patternsDescription":
+      "Volunteers flagged for reporting more than the configured threshold of hours in a rolling 7-day window. These patterns may indicate abuse of the self-reported hours system.",
+    "admin.validation.overrideTitle": "Override Validation Request",
+    "admin.validation.newStatus": "New Status",
+    "admin.validation.reasonRequired": "Reason (required)",
+    "admin.validation.reasonPlaceholder":
+      "Explain the reason for overriding this request\u2026",
+    "admin.validation.saving": "Saving\u2026",
+    "admin.validation.confirmOverride": "Confirm Override",
+    "admin.validation.allStatuses": "All statuses",
+    "admin.validation.colStatus": "Status",
+    "admin.validation.colCreated": "Created",
+
+    // Home - Hero section (GIV-253 / GIV-263 fix)
     "home.hero.title": "Transparent Giving",
     "home.hero.titleAccent": "Sustainable Impact",
     "home.hero.description":
@@ -629,6 +855,10 @@ export default {
     "home.hero.visionTitle": "Our Vision",
     "home.hero.visionText":
       "Give Protocol is architecting the future of high-integrity giving. We leverage advanced technological infrastructure to bridge the gap between global capital and local impact. By integrating seamless digital-asset support with traditional giving methods, we are creating resilient funding ecosystems that transform one-time gifts into perpetual engines of support for the world\u2019s most vital causes.",
+    "home.comingSoon": "Coming Soon",
+    "home.readDocs": "Read Documentation",
+
+    // Home - Features section
     "home.features.sectionTitle": "Your Gateway to Transparent Philanthropy",
     "home.features.sectionSubtitle":
       "Multichain infrastructure for seamless giving \u2014 crypto or fiat \u2014 with complete transparency",
@@ -650,6 +880,8 @@ export default {
     "home.features.bridgingModes.title": "Bridging Modes of Giving",
     "home.features.bridgingModes.description":
       "Whether you are giving in USD or digital assets, our multi-network architecture ensures your contribution moves at the speed of the modern world.",
+
+    // Home - User roles section
     "home.roles.title": "Built for Everyone Changing the World",
     "home.roles.donors.title": "For Donors",
     "home.roles.donors.item1": "Give in crypto or fiat \u2014 your choice",
@@ -663,6 +895,8 @@ export default {
     "home.roles.volunteers.item1": "Verifiable contribution records",
     "home.roles.volunteers.item2": "Portable skill credentials (SBTs)",
     "home.roles.volunteers.item3": "Achievement badges & recognition",
+
+    // Home - Impact section
     "home.impact.title": "Planned Impact Funds",
     "home.impact.environmental.title": "Environmental Impact Fund",
     "home.impact.environmental.description":
@@ -670,9 +904,19 @@ export default {
     "home.impact.education.title": "Education Opportunity Fund",
     "home.impact.education.description":
       "Providing scholarships, digital learning tools, and teacher training. Collective funding amplified to support educational initiatives in underserved communities.",
+
+    // Home - CTA section
     "home.cta.title": "Ready to Transform Giving?",
     "home.cta.subtitle":
       "Be among the first to experience transparent, blockchain-powered philanthropy. Join our community building a better future for charitable giving.",
+
+    // Home - Navigation
+    "home.nav.features": "Features",
+    "home.nav.impact": "Impact",
+    "home.nav.charities": "Charities",
+    "home.nav.volunteer": "Volunteer",
+
+    // Home - Footer
     "home.footer.brand.tagline":
       "Transforming philanthropy through blockchain transparency and sustainable funding.",
     "home.footer.product.title": "Product",
@@ -688,38 +932,7 @@ export default {
     "home.footer.copyright":
       "Give Protocol. Multichain by design. Powered by Give Protocol volunteers.",
 
-    // App Footer (Footer.tsx)
-    "footer.brand.tagline":
-      "Removing barriers to sustainable charitable giving.",
-    "footer.resources.title": "Resources",
-    "footer.resources.faq": "FAQ",
-    "footer.resources.about": "About Us",
-    "footer.legal.title": "Legal",
-    "footer.legal.terms": "Terms of Service",
-    "footer.legal.privacy": "Privacy Policy",
-    "footer.connect.title": "Connect",
-    "footer.copyright": "Give Protocol. All rights reserved.",
-
-    // Common field labels
-    "common.email": "Email",
-    "common.password": "Password",
-    "common.confirmPassword": "Confirm Password",
-
-    // Nav additions
-    "nav.privacy": "Privacy",
-    "nav.signIn": "Sign In",
-    "nav.signOut": "Sign Out",
-
-    // Auth panel (shared left-panel content)
-    "auth.panel.statusLabel": "Protocol Status \u00b7 Genesis Phase",
-    "auth.panel.statusDesc": "Building the foundation of transparent giving",
-    "auth.panel.runsOn": "Runs on",
-    "auth.panel.headline": "Smart giving, transparent impact.",
-    "auth.panel.subheadline":
-      "One account. Donate by card or crypto. Track every dollar on-chain.",
-    "auth.signup.panel.headline": "Join the future of transparent giving.",
-
-    // Auth sign-in (Auth.tsx)
+    // Auth - Sign in page (GIV-253 / GIV-263 fix)
     "auth.signin.welcomeBack": "Welcome back",
     "auth.signin.subtitle": "Sign in to your Give Protocol account",
     "auth.signin.emailPlaceholder": "Email",
@@ -735,79 +948,58 @@ export default {
     "auth.signin.terms": "Terms",
     "auth.signin.privacy": "Privacy",
 
-    // Auth wallet steps (Auth.tsx)
+    // Auth - Left panel
+    "auth.panel.headline": "Smart giving, transparent impact.",
+    "auth.panel.subheadline":
+      "One account. Donate by card or crypto. Track every dollar on-chain.",
+    "auth.panel.statusLabel": "Protocol Status \u00b7 Genesis Phase",
+    "auth.panel.statusDesc": "Building the foundation of transparent giving",
+    "auth.panel.runsOn": "Runs on",
+
+    // Auth - Wallet connection
+    "auth.wallet.connect": "Connect Wallet",
     "auth.wallet.connecting": "Connecting wallet\u2026",
     "auth.wallet.signing": "Signing message\u2026",
     "auth.wallet.verifying": "Verifying\u2026",
     "auth.wallet.openingSession": "Opening session\u2026",
-    "auth.wallet.connect": "Connect Wallet",
 
-    // Auth sign-up (AuthSignup.tsx)
-    "auth.signup.heading": "Create your donor account",
-    "auth.signup.subtitle": "Start your transparent giving journey",
-    "auth.signup.displayName": "Display name (optional)",
-    "auth.signup.emailPlaceholder": "Email",
-    "auth.signup.withPasskey": "Sign up with Passkey",
-    "auth.signup.withGoogle": "Continue with Google",
-    "auth.signup.connectWallet": "Connect Wallet",
-    "auth.signup.orSetPassword": "Or set a password",
-    "auth.signup.passwordPlaceholder": "Password",
-    "auth.signup.confirmPasswordPlaceholder": "Confirm password",
-    "auth.signup.submit": "Create Account",
-    "auth.signup.submitting": "Creating account\u2026",
-    "auth.signup.alreadyHaveAccount": "Already have an account?",
-    "auth.signup.signInLink": "Sign in \u2192",
-    "auth.signup.manageNonprofit": "I manage a Nonprofit Profile",
-    "auth.signup.trustText":
-      "256-bit SSL encrypted. By creating an account you agree to our",
-    "auth.signup.and": "and",
-    "auth.signup.privacyPolicy": "Privacy Policy",
-
-    // Auth validation errors
+    // Auth - Validation
+    "auth.validation.emailRequired": "Please enter your email address first",
     "auth.validation.invalidEmail": "Please enter a valid email address",
     "auth.validation.passwordTooShort":
       "Password must be at least 8 characters long",
     "auth.validation.passwordMismatch": "Passwords do not match",
-    "auth.validation.emailRequired": "Please enter your email address first",
 
-    // Login page (Login.tsx)
-    "auth.login.back": "\u2190 Back",
+    // Login page (GIV-253 / GIV-263 fix)
+    "auth.login.welcomeHeading": "Welcome to Give Protocol",
+    "auth.login.signInOrConnect": "Sign In or Connect",
+    "auth.login.skipToContent": "Skip to login content",
     "auth.login.donorTitle": "Donor Sign In",
     "auth.login.donorSubtitle": "Sign in to access your giving dashboard",
     "auth.login.charityTitle": "Nonprofit Portal",
     "auth.login.charitySubtitle":
       "Manage your organization profile and donations",
+    "auth.login.back": "\u2190 Back",
+    "auth.login.continueDonor": "Continue as Donor",
+    "auth.login.connecting": "Connecting\u2026",
+    "auth.login.connectWalletSignIn": "Connect Wallet & Sign In",
+    "auth.login.newToPlatform": "New to Give Protocol?",
+    "auth.login.newDonorSignUp": "New Donor Sign Up",
+    "auth.login.manageNonprofit": "I manage a Nonprofit Profile",
     "auth.login.nonprofitTrayTitle": "New to Give Protocol?",
     "auth.login.createNonprofitAccount": "Create a Nonprofit Account",
     "auth.login.registerOrg": "Register your organization on Give Protocol",
     "auth.login.needHelp": "Need help?",
     "auth.login.forgotUsernameBtn": "Forgot username?",
     "auth.login.forgotPasswordBtn": "Forgot password?",
-    "auth.login.continueDonor": "Continue as Donor",
-    "auth.login.connectWalletSignIn": "Connect Wallet & Sign In",
-    "auth.login.newToPlatform": "New to Give Protocol?",
-    "auth.login.newDonorSignUp": "New Donor Sign Up",
-    "auth.login.manageNonprofit": "I manage a Nonprofit Profile",
-    "auth.login.connecting": "Connecting\u2026",
-    "auth.login.skipToContent": "Skip to login content",
-    "auth.login.welcomeHeading": "Welcome to Give Protocol",
-    "auth.login.signInOrConnect": "Sign In or Connect",
 
-    // Donor login (DonorLogin.tsx)
-    "auth.donorLogin.signingIn": "Signing in\u2026",
-    "auth.donorLogin.redirecting": "Redirecting in {{count}}\u2026",
+    // Donor login
     "auth.donorLogin.mismatch":
       "Donor User Account Not Found. This email is registered as a charity account. Please use the Charity Login.",
+    "auth.donorLogin.signingIn": "Signing in\u2026",
+    "auth.donorLogin.redirecting": "Redirecting in {{count}}...",
 
-    // Charity login (CharityLogin.tsx)
-    "auth.charityLogin.signingIn": "Signing in...",
-    "auth.charityLogin.or": "or",
-    "auth.charityLogin.connectWallet": "Connect Wallet",
-    "auth.charityLogin.connecting": "Connecting...",
-    "auth.charityLogin.mismatch":
-      "Charity User Not Found. This email is registered as a donor account. Please use the Donor Login.",
-
-    // Donor registration (DonorRegistration.tsx)
+    // Donor registration
     "auth.donorReg.pleaseWait": "Please wait\u2026",
     "auth.donorReg.signUpPasskey": "Sign up with Passkey",
     "auth.donorReg.withGoogle": "Continue with Google",
@@ -816,7 +1008,15 @@ export default {
     "auth.donorReg.creating": "Creating Account...",
     "auth.donorReg.createAccount": "Create Donor Account",
 
-    // Forgot credentials (ForgotCredentials.tsx)
+    // Charity login
+    "auth.charityLogin.mismatch":
+      "This email is registered as a donor account. Please sign in at the donor portal.",
+    "auth.charityLogin.signingIn": "Signing in...",
+    "auth.charityLogin.or": "or",
+    "auth.charityLogin.connecting": "Connecting...",
+    "auth.charityLogin.connectWallet": "Connect Wallet",
+
+    // Forgot credentials
     "auth.forgot.resetPassword": "Reset Password",
     "auth.forgot.forgotUsername": "Forgot Username",
     "auth.forgot.passwordDesc":
@@ -826,41 +1026,15 @@ export default {
     "auth.forgot.passwordSuccess":
       "Password reset instructions sent to your email",
     "auth.forgot.usernameSuccess": "Username reminder sent to your email",
-    "auth.forgot.backToSignIn": "Back to Sign In",
     "auth.forgot.checkEmail": "Check your email",
+    "auth.forgot.backToSignIn": "Back to Sign In",
     "auth.forgot.emailPlaceholder": "Enter your email address",
+    "auth.forgot.genericError": "An error occurred. Please try again.",
     "auth.forgot.sending": "Sending...",
     "auth.forgot.sendResetLink": "Send Reset Link",
     "auth.forgot.sendUsername": "Send Username",
-    "auth.forgot.genericError": "An error occurred. Please try again.",
 
-    // Registration success (RegistrationSuccess.tsx)
-    "auth.success.accountCreated": "Account created successfully",
-    "auth.success.checkEmail":
-      "Please check your email to verify your account.",
-    "auth.success.verificationSent":
-      "Verification email sent! Please check your inbox.",
-    "auth.success.resendButton": "Resend verification email",
-    "auth.success.resendSending": "Sending...",
-    "auth.success.returnToLogin": "Return to login",
-    "auth.success.noEmail": "No email address found. Please return to login.",
-    "auth.success.charityVetting.heading": "Application Submitted",
-    "auth.success.charityVetting.message":
-      "Your application has been submitted and is under review. Once verified, you will receive an email with access to your Charity Portal.",
-    "auth.success.charityVetting.nextSteps":
-      "Our team will review your application and reach out via email with next steps.",
-    "auth.success.charityClaim.heading": "Claim Submitted",
-    "auth.success.charityClaim.message":
-      "Your claim has been submitted. Once verified, you will receive access to manage your organization.",
-    "auth.success.charityClaim.nextSteps":
-      "Our team will verify your claim and grant you access once confirmed.",
-    "auth.success.donor.heading": "Welcome to Give Protocol",
-    "auth.success.donor.message":
-      "After verifying your email, you can start exploring charities and making donations.",
-    "auth.success.donor.nextSteps":
-      "Check your inbox and click the verification link to get started.",
-
-    // Charity organization search (CharityOrganizationSearch.tsx)
+    // Organization search
     "auth.orgSearch.orgNameLabel": "Organization Name",
     "auth.orgSearch.searchPlaceholder": "Search by organization name...",
     "auth.orgSearch.countryLabel": "Country",
@@ -871,5 +1045,266 @@ export default {
     "auth.orgSearch.loadMore": "Load more results",
     "auth.orgSearch.cantFind": "Can\u2019t find your organization?",
     "auth.orgSearch.registerManually": "Register manually",
+
+    // Charity claim form
+    "charity.claim.orgDetails": "Organization Details (from Registry)",
+    "charity.claim.orgNameLabel": "Name",
+    "charity.claim.einLabel": "EIN",
+    "charity.claim.locationLabel": "Location",
+    "charity.claim.contactInfo": "Contact Information",
+    "charity.claim.contactName": "Contact Name",
+    "charity.claim.contactEmail": "Contact Email",
+    "charity.claim.accountSecurity": "Account Security",
+    "charity.claim.password": "Password",
+    "charity.claim.confirmPassword": "Confirm Password",
+    "charity.claim.backToSearch": "Back to search",
+    "charity.claim.creating": "Creating Account...",
+    "charity.claim.submit": "Claim Organization",
+    "charity.claim.validation.name":
+      "Name must be between 2 and 100 characters",
+    "charity.claim.validation.email": "Please enter a valid email address",
+    "charity.claim.validation.password":
+      "Password must be at least 8 characters long",
+    "charity.claim.validation.confirmPassword": "Passwords do not match",
+    "charity.claim.validation.fix": "Please correct the validation errors",
+    "charity.claim.error.creation": "Account creation failed",
+    "charity.claim.error.generic": "Failed to create account",
+
+    // Charity vetting form
+    "charity.vetting.orgDetails": "Organization Details",
+    "charity.vetting.orgName": "Organization Name",
+    "charity.vetting.description": "Description",
+    "charity.vetting.taxId": "Tax or Registration ID",
+    "charity.vetting.countryLabel": "Country",
+    "charity.vetting.selectCountry": "Select Country",
+    "charity.vetting.address": "Address",
+    "charity.vetting.streetAddress": "Street Address",
+    "charity.vetting.city": "City",
+    "charity.vetting.state": "State/Province",
+    "charity.vetting.postalCode": "Postal Code",
+    "charity.vetting.contactInfo": "Contact Information",
+    "charity.vetting.contactName": "Contact Name",
+    "charity.vetting.contactEmail": "Contact Email",
+    "charity.vetting.accountSecurity": "Account Security",
+    "charity.vetting.password": "Password",
+    "charity.vetting.confirmPassword": "Confirm Password",
+    "charity.vetting.submitting": "Submitting Application...",
+    "charity.vetting.submit": "Submit Charity Application",
+    "charity.vetting.validation.orgName":
+      "Organization name must be between 2 and 100 characters",
+    "charity.vetting.validation.contactName":
+      "Contact name must be between 2 and 100 characters",
+    "charity.vetting.validation.email": "Please enter a valid email address",
+    "charity.vetting.validation.password":
+      "Password must be at least 8 characters long",
+    "charity.vetting.validation.confirmPassword": "Passwords do not match",
+    "charity.vetting.validation.description": "Description is required",
+    "charity.vetting.validation.category": "Category is required",
+    "charity.vetting.validation.taxId": "Tax ID is required",
+    "charity.vetting.validation.streetAddress": "Street address is required",
+    "charity.vetting.validation.city": "City is required",
+    "charity.vetting.validation.country": "Country is required",
+    "charity.vetting.validation.fix": "Please correct the validation errors",
+    "charity.vetting.error.generic": "Failed to submit application",
+
+    // Common - shared auth fields
+    "common.email": "Email",
+    "common.password": "Password",
+    "common.confirmPassword": "Confirm Password",
+
+    // Footer component (GIV-253 / GIV-263 fix)
+    "footer.brand.tagline":
+      "Removing barriers to sustainable charitable giving.",
+    "footer.resources.title": "Resources",
+    "footer.resources.faq": "FAQ",
+    "footer.resources.about": "About Us",
+    "footer.legal.title": "Legal",
+    "footer.legal.terms": "Terms of Service",
+    "footer.legal.privacy": "Privacy Policy",
+    "footer.connect.title": "Connect",
+    "footer.copyright": "Give Protocol. All rights reserved.",
+
+    // Navigation - additional (GIV-253 / GIV-263 fix)
+    "nav.signIn": "Sign In",
+    "nav.signOut": "Sign Out",
+    "nav.privacy": "Privacy",
+
+    // Auth - Signup page (GIV-264)
+    "auth.signup.heading": "Create your account",
+    "auth.signup.subtitle": "Join the transparent giving movement",
+    "auth.signup.displayName": "Display name",
+    "auth.signup.emailPlaceholder": "Email",
+    "auth.signup.passwordPlaceholder": "Password",
+    "auth.signup.confirmPasswordPlaceholder": "Confirm password",
+    "auth.signup.submit": "Create Account",
+    "auth.signup.submitting": "Creating account\u2026",
+    "auth.signup.withPasskey": "Sign up with Passkey",
+    "auth.signup.withGoogle": "Continue with Google",
+    "auth.signup.connectWallet": "Connect Wallet",
+    "auth.signup.orSetPassword": "Or set a password",
+    "auth.signup.alreadyHaveAccount": "Already have an account?",
+    "auth.signup.signInLink": "Sign in",
+    "auth.signup.manageNonprofit": "Manage a nonprofit?",
+    "auth.signup.trustText": "Your data is protected by",
+    "auth.signup.and": "and",
+    "auth.signup.privacyPolicy": "Privacy Policy",
+    "auth.signup.panel.headline": "Giving that you can verify.",
+
+    // Browse - Discovery (GIV-264)
+    "browse.hero.title": "Giving, verified on-chain.",
+    "browse.stats.networks": "Networks supported",
+    "browse.stats.sectors": "Charitable sectors",
+    "browse.stats.verifiedOrgs": "Verified organizations",
+    "browse.stats.onChain": "On-chain",
+    "browse.stats.volunteerHours": "Volunteer hours",
+    "browse.verified": "Verified",
+    "browse.donate": "Donate",
+    "browse.filter.ariaLabel": "Filter charities",
+    "browse.filter.searchAria": "Search charities",
+    "browse.filter.locationAria": "Search location",
+    "browse.results.ariaLabel": "Charity results",
+    "browse.tabs.charities": "Charities",
+    "browse.tabs.causes": "Causes",
+    "browse.tabs.funds": "Portfolio Funds",
+    "browse.tabs.ariaLabel": "Browse categories",
+    "browse.featured.heading": "Featured organizations",
+    "browse.featured.ariaLabel": "Featured organizations",
+    "browse.featured.nextAria": "Next featured organizations",
+    "browse.causes.heading": "Featured causes",
+    "browse.causes.ariaLabel": "Featured causes",
+    "browse.causes.badge": "Cause",
+    "browse.causes.raised": "raised",
+    "browse.causes.percentOf": "% of",
+    "browse.causes.by": "by",
+    "browse.causes.supportCta": "Support This Cause",
+    "browse.causes.giveCta": "Give",
+    "browse.causes.nextAria": "Next featured causes",
+    "browse.funds.heading": "Portfolio Funds",
+    "browse.funds.ariaLabel": "Portfolio Funds",
+    "browse.funds.badge": "Portfolio Fund",
+    "browse.funds.charity": "charity",
+    "browse.funds.charities": "charities",
+    "browse.funds.donateCta": "Donate to Fund",
+    "browse.funds.nextAria": "Next portfolio funds",
+    "browse.charity.einLabel": "EIN",
+    "browse.charity.nteeLabel": "NTEE Code",
+    "browse.charity.deductibilityLabel": "Deductibility",
+    "browse.charity.onPlatform": "On Platform",
+    "browse.charity.loading": "Loading\u2026",
+    "browse.charity.loadMore": "Load More",
+
+    // Causes (charity portal) (GIV-264)
+    "cause.causes": "Causes",
+    "cause.createNew": "Create New",
+    "cause.noCausesTitle": "No causes yet",
+    "cause.name": "Name",
+    "cause.description": "Description",
+    "cause.category": "Category",
+    "cause.targetAmount": "Target Amount",
+    "cause.headerImage": "Header Image",
+    "cause.impact": "Impact",
+    "cause.impactHelp": "Describe the expected impact of this cause.",
+    "cause.location": "Location",
+    "cause.timeline": "Timeline",
+    "cause.partners": "Partners",
+    "cause.limitReached": "Cause limit reached",
+
+    // Impact Profile (GIV-264)
+    "impact.statistics": "Impact Statistics",
+    "impact.statLabel": "Label",
+    "impact.statValue": "Value",
+    "impact.missionStatement": "Mission Statement",
+    "impact.missionPlaceholder": "Our mission is to...",
+    "impact.highlights": "Impact Highlights",
+    "impact.highlight": "Impact highlight",
+    "impact.addHighlight": "Add Highlight",
+    "impact.profile": "Impact Profile",
+    "impact.loadError": "Failed to load impact profile",
+    "impact.saveError": "Failed to save impact profile",
+    "impact.saveSuccess": "Impact profile saved successfully",
+
+    // Organization Profile (GIV-264)
+    "organization.yearFounded": "Year Founded",
+    "organization.address": "Address",
+    "organization.street": "Street Address",
+    "organization.city": "City",
+    "organization.stateProvince": "State/Province",
+    "organization.postalCode": "Postal Code",
+    "organization.country": "Country",
+    "organization.contactInfo": "Contact Information",
+    "organization.phone": "Phone",
+    "organization.email": "Email",
+    "organization.website": "Website",
+    "organization.socialMedia": "Social Media",
+    "organization.publicFeed": "Public Feed",
+    "organization.communityMedia": "Community & Media",
+    "organization.profile": "Organization Profile",
+    "organization.loadError": "Failed to load organization profile",
+    "organization.saveError": "Failed to save organization profile",
+
+    // Common - additional (GIV-264)
+    "common.remove": "Remove",
+    "common.saveChanges": "Save Changes",
+
+    // Dashboard - additional stats (GIV-264)
+    "dashboard.thisMonth": "This month",
+    "dashboard.verified": "Verified volunteers",
+    "dashboard.hoursLogged": "Hours logged",
+    "dashboard.endorsements": "Endorsements",
+    "dashboard.organizationsHelped": "Organizations Helped",
+    "dashboard.yourOrganizationsHelped": "Your Organizations Helped",
+
+    // Transactions (charity portal) (GIV-264)
+    "transactions.createCampaign": "Create your first campaign",
+
+    // Contributions - empty state (GIV-264)
+    "contributions.emptyTitle": "Your giving journey starts here",
+    "contributions.browseCharities": "Browse charities",
+
+    // Charity Profile Page (GIV-264)
+    "charity.profile.verified501c3": "Verified 501(c)(3)",
+    "charity.profile.statusClaimed": "Claimed",
+    "charity.profile.statusUnclaimed": "Unclaimed \u2014 IRS data only",
+    "charity.profile.rowEin": "EIN",
+    "charity.profile.rowName": "Name",
+    "charity.profile.rowLocation": "Location",
+    "charity.profile.rowRulingYear": "Ruling year",
+    "charity.profile.rowNteeCode": "NTEE code",
+    "charity.profile.rowDeductibility": "Deductibility",
+    "charity.profile.rowAffiliation": "Affiliation",
+    "charity.profile.rowClassification": "Classification",
+    "charity.profile.rowFoundation": "Foundation type",
+    "charity.profile.rowActivityCodes": "Activity codes",
+    "charity.profile.rowOrgType": "Organization type",
+    "charity.profile.rowSubsection": "Subsection",
+    "charity.profile.rowStatus": "Status",
+    "charity.profile.registryRecord": "Registry Public Record",
+    "charity.profile.einDisplay": "EIN",
+    "charity.profile.registeredYear": "Registered {{year}}",
+    "charity.profile.shareAria": "Share",
+    "charity.profile.copied": "Copied!",
+    "charity.profile.about": "About",
+    "charity.profile.claimProfile": "Claim this profile",
+    "charity.profile.noDescription": "No description available.",
+    "charity.profile.toAddOne": "to add one.",
+    "charity.profile.contact": "Contact",
+    "charity.profile.donate.support": "Support",
+    "charity.profile.donate.walletUnset":
+      "This charity hasn't set up an official receiving wallet yet.",
+    "charity.profile.donate.walletPending":
+      "This charity is finishing wallet setup — donations are temporarily unavailable.",
+    "charity.profile.donate.walletLegacy":
+      "This charity is using a legacy wallet address.",
+    "charity.profile.donate.feeNote":
+      "0% platform fee on direct donations. Network gas fees apply.",
+
+    // Portfolio Funds page (GIV-264)
+    "portfolio.title": "Portfolio Funds",
+
+    // Settings - theme (GIV-264)
+    "settings.displayPreferences": "Display Preferences",
+    "settings.theme": "Theme",
+    "settings.light": "Light",
+    "settings.dark": "Dark",
   },
 };

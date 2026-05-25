@@ -28,8 +28,8 @@ interface CharityOpportunity {
 
 interface OpportunitiesTabProps {
   opportunities: CharityOpportunity[];
-  onEdit: (opportunityId: string) => void;
-  onDelete: (opportunityId: string) => void;
+  onEdit: (_opportunityId: string) => void;
+  onDelete: (_opportunityId: string) => void;
 }
 
 /** Header with title and create button for the opportunities section. */

@@ -1,4 +1,3 @@
-import React from "react";
 import { describe, it, expect, jest } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { SentryFallback } from "../SentryFallback";

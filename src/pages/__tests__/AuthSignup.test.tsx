@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
@@ -59,13 +58,13 @@ describe("AuthSignup", () => {
   describe("Heading", () => {
     it("renders the sign-up heading", () => {
       renderAuthSignup();
-      expect(screen.getByText("Create your donor account")).toBeInTheDocument();
+      expect(screen.getByText("Create your account")).toBeInTheDocument();
     });
 
     it("renders the subtitle text", () => {
       renderAuthSignup();
       expect(
-        screen.getByText("Start your transparent giving journey"),
+        screen.getByText("Join the transparent giving movement"),
       ).toBeInTheDocument();
     });
   });
@@ -78,9 +77,7 @@ describe("AuthSignup", () => {
 
     it("renders the display name input", () => {
       renderAuthSignup();
-      expect(
-        screen.getByPlaceholderText("Display name (optional)"),
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("Display name")).toBeInTheDocument();
     });
 
     it("does not render password inputs by default", () => {
@@ -134,9 +131,7 @@ describe("AuthSignup", () => {
 
     it("renders the nonprofit profile link", () => {
       renderAuthSignup();
-      expect(
-        screen.getByText("I manage a Nonprofit Profile"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Manage a nonprofit?")).toBeInTheDocument();
     });
   });
 
@@ -321,7 +316,7 @@ describe("AuthSignup", () => {
     it("includes display name in metadata when provided", async () => {
       mockSignUpWithEmail.mockResolvedValueOnce(undefined); // skipcq: JS-W1042
       renderAuthSignup();
-      fireEvent.change(screen.getByPlaceholderText("Display name (optional)"), {
+      fireEvent.change(screen.getByPlaceholderText("Display name"), {
         target: { value: "Jane Doe" },
       });
       fireEvent.change(screen.getByPlaceholderText("Email"), {

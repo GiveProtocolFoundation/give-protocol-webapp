@@ -1,5 +1,4 @@
 /* eslint-disable react/prop-types -- props are typed via Sentry.FallbackRender; eslint's prop-types check doesn't see TS-only signatures */
-import React from "react";
 import type * as Sentry from "@sentry/react";
 import { ErrorBoundary } from "./ErrorBoundary";
 

@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Mock providers for testing components that require context
  * This file provides lightweight mock implementations of all app contexts
