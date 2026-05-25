@@ -1143,7 +1143,8 @@ export default {
     "browse.filter.searchPlaceholder": "ค้นหาองค์กรการกุศล...",
     "browse.filter.locationPlaceholder": "เมือง รัฐ หรือประเทศ...",
     "browse.whyGiveProtocol.heading": "ทำไมต้อง Give Protocol?",
-    "browse.whyGiveProtocol.verified.title": "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบ",
+    "browse.whyGiveProtocol.verified.title":
+      "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบ",
     "browse.whyGiveProtocol.verified.description":
       "ทุกองค์กรจะถูกตรวจสอบกับทะเบียนสาธารณะก่อนที่จะปรากฏบนแพลตฟอร์ม",
     "browse.whyGiveProtocol.onchain.title": "ความโปร่งใสบนบล็อกเชน",

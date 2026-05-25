@@ -32,7 +32,10 @@ export const Layout: React.FC<LayoutProps> = ({ children }) => {
         {t("common.skipToMainContent", "Skip to main content")}
       </a>
       <AppNavbar />
-      <main id="main-content" className="flex-grow w-full max-w-[1440px] mx-auto">
+      <main
+        id="main-content"
+        className="flex-grow w-full max-w-[1440px] mx-auto"
+      >
         {children}
       </main>
       <Footer />

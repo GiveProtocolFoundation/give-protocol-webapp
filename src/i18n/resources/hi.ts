@@ -1166,7 +1166,8 @@ export default {
     "browse.whyGiveProtocol.onchain.title": "ऑन-चेन पारदर्शिता",
     "browse.whyGiveProtocol.onchain.description":
       "दान को ब्लॉकचेन पर दर्ज किया जाता है ताकि आप अपने वॉलेट से लेकर कारण तक अपने प्रभाव को ट्रैक कर सकें।",
-    "browse.whyGiveProtocol.volunteer.title": "सिर्फ पैसा नहीं, समय भी दान करें",
+    "browse.whyGiveProtocol.volunteer.title":
+      "सिर्फ पैसा नहीं, समय भी दान करें",
     "browse.whyGiveProtocol.volunteer.description":
       "स्वयंसेवी घंटों को चैरिटी द्वारा सत्यापित किया जाता है और आपकी प्रोटोकॉल प्रतिष्ठा में गिना जाता है।",
     "browse.news.heading": "प्लेटफ़ॉर्म समाचार",
