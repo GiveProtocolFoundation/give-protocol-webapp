@@ -159,7 +159,8 @@ describe("tokens config", () => {
   describe("getTokenByAddressOnChain", () => {
     it("should find token by address on specific chain", () => {
       const baseUSDC = BASE_TOKENS.find((t) => t.symbol === "USDC");
-      const token = getTokenByAddressOnChain(baseUSDC!.address, 8453);
+      expect(baseUSDC).toBeDefined();
+      const token = getTokenByAddressOnChain(baseUSDC?.address ?? "", 8453);
       expect(token).toBeDefined();
       expect(token?.symbol).toBe("USDC");
     });
