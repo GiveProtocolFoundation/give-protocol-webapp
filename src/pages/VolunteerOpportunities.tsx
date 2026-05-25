@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { VolunteerApplicationForm } from "../components/volunteer/VolunteerApplicationForm";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { WorkLanguage } from "@/types/volunteer";
 import { useToast } from "@/contexts/ToastContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -430,6 +431,7 @@ function OpportunityFilters({
  * @returns VolunteerOpportunities page element
  */
 const VolunteerOpportunities: React.FC = () => {
+  usePageTitle("Volunteer Opportunities");
   const [searchTerm, setSearchTerm] = useState("");
   const [locationSearch, setLocationSearch] = useState("");
   const [selectedSkill, setSelectedSkill] = useState("");

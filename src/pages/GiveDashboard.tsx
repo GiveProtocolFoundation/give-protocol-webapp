@@ -20,6 +20,7 @@ import type { Transaction } from "@/types/contribution";
 import { DonationExportModal } from "@/components/contribution/DonationExportModal";
 import { formatDate } from "@/utils/date";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { CurrencyDisplay } from "@/components/CurrencyDisplay";
 import { WalletAliasSettings } from "@/components/settings/WalletAliasSettings";
 import { ScheduledDonations } from "@/components/donor/ScheduledDonations";
@@ -417,6 +418,7 @@ function ContributionsEmptyState({
  * @returns GiveDashboard page element
  */
 export const GiveDashboard: React.FC = () => {
+  usePageTitle("Dashboard");
   const [_view, _setView] = useState<View>("select"); // Prefixed as unused
   const { user, userType } = useAuth();
   const { isConnected } = useWeb3();

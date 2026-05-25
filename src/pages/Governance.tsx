@@ -2,6 +2,7 @@ import React from "react";
 import type { LucideIcon } from "lucide-react";
 import { Shield, Users, Vote, Scale, Clock, AlertTriangle } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 /** Bullet-point item with emerald dot indicator. */
 const BulletItem: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = "mb-2" }) => (
@@ -111,6 +112,7 @@ const GovernanceNotice: React.FC = () => (
 
 /** Governance overview page describing the Give Protocol DAO structure and voting mechanics. */
 export const Governance: React.FC = () => {
+  usePageTitle("Governance");
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
       <h1 className="text-4xl font-bold text-gray-900 mb-4 text-center animate-fade-in-up">

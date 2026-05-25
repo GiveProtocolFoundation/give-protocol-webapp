@@ -3,6 +3,7 @@ import type { LucideIcon } from 'lucide-react';
 import { Users, Target, Heart, Shield, Globe, TrendingUp } from 'lucide-react';
 import { StaticPageLayout } from '@/components/layout/StaticPageLayout';
 import { ScrollReveal } from '@/components/ui/ScrollReveal';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 /** Mission card with icon, heading, and description. */
 const InfoCard: React.FC<{ icon: LucideIcon; title: string; children: React.ReactNode }> = ({ icon: Icon, title, children }) => (
@@ -140,6 +141,7 @@ const JoinUsSection: React.FC = () => (
 
 /** About page describing the Give Protocol mission, values, and vision. */
 export const About: React.FC = () => {
+  usePageTitle("About");
   return (
     <StaticPageLayout
       title="About Give Protocol"

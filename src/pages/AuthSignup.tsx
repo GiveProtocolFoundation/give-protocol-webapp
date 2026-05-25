@@ -16,6 +16,7 @@ import { Button } from "@/components/ui/Button";
 import { FormInput } from "@/components/ui/FormInput";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { validateEmail, validatePassword } from "@/utils/validation";
 import { Logger } from "@/utils/logger";
 
@@ -272,6 +273,7 @@ const CollapsiblePasswordSection: React.FC<{
   password: string;
   confirmPassword: string;
   loading: boolean;
+  hasError?: boolean;
   onToggle: () => void;
   onPasswordChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onConfirmPasswordChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
@@ -281,6 +283,7 @@ const CollapsiblePasswordSection: React.FC<{
   password,
   confirmPassword,
   loading,
+  hasError,
   onToggle,
   onPasswordChange,
   onConfirmPasswordChange,
@@ -312,6 +315,8 @@ const CollapsiblePasswordSection: React.FC<{
             placeholder={t("auth.signup.passwordPlaceholder")}
             required
             autoComplete="new-password"
+            aria-describedby={hasError ? "signup-form-error" : undefined}
+            aria-invalid={Boolean(hasError)}
           />
           <FormInput
             icon={<Lock className="h-4 w-4" />}
@@ -321,6 +326,8 @@ const CollapsiblePasswordSection: React.FC<{
             placeholder={t("auth.signup.confirmPasswordPlaceholder")}
             required
             autoComplete="new-password"
+            aria-describedby={hasError ? "signup-form-error" : undefined}
+            aria-invalid={Boolean(hasError)}
           />
           <Button
             type="submit"
@@ -555,6 +562,7 @@ const SignupRightPanel: React.FC = () => {
         {/* Error alert */}
         {formError !== null && (
           <div
+            id="signup-form-error"
             className="flex items-center gap-2 p-3 mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm"
             role="alert"
           >
@@ -580,6 +588,8 @@ const SignupRightPanel: React.FC = () => {
             placeholder={t("auth.signup.emailPlaceholder")}
             required
             autoComplete="email"
+            aria-describedby={formError ? "signup-form-error" : undefined}
+            aria-invalid={Boolean(formError)}
           />
         </div>
 
@@ -642,6 +652,7 @@ const SignupRightPanel: React.FC = () => {
           password={password}
           confirmPassword={confirmPassword}
           loading={loading}
+          hasError={formError !== null}
           onToggle={handlePasswordToggle}
           onPasswordChange={handlePasswordChange}
           onConfirmPasswordChange={handleConfirmPasswordChange}
@@ -708,11 +719,14 @@ const SignupRightPanel: React.FC = () => {
 };
 
 /** Unified sign-up page with passwordless-first auth and wallet registration. */
-const AuthSignup: React.FC = () => (
-  <div className="min-h-[calc(100vh-60px)] grid grid-cols-1 lg:grid-cols-[5fr_6fr]">
-    <SignupLeftPanel />
-    <SignupRightPanel />
-  </div>
-);
+const AuthSignup: React.FC = () => {
+  usePageTitle("Create Account");
+  return (
+    <div className="min-h-[calc(100vh-60px)] grid grid-cols-1 lg:grid-cols-[5fr_6fr]">
+      <SignupLeftPanel />
+      <SignupRightPanel />
+    </div>
+  );
+};
 
 export default AuthSignup;

@@ -9,9 +9,11 @@ import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useSettings } from "@/contexts/SettingsContext";
 import type { Language } from "@/contexts/SettingsContext";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 /** Dashboard settings page with linked accounts, phone, password, and account preferences. */
 const DashboardSettings: React.FC = () => {
+  usePageTitle("Settings");
   const { user, email, authMethod } = useUnifiedAuth();
   const { language, languageOptions, setLanguage } = useSettings();
   const { t } = useTranslation();

@@ -13,6 +13,7 @@ import { useWeb3 } from "@/contexts/Web3Context";
 import { useToast } from "@/contexts/ToastContext";
 import { Logger } from "@/utils/logger";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import {
   exportLeaderboardToPDF,
   exportDonationLeaderboardToCSV,
@@ -182,6 +183,7 @@ const AliasModal: React.FC<{
 
 /** Public contribution tracker page with filterable donation and volunteer data. */
 export const ContributionTracker: React.FC = () => {
+  usePageTitle("Contribution Tracker");
   const location = useLocation();
   const [timeRange, setTimeRange] = useState<TimeRange>("all");
   const [region, setRegion] = useState<Region>("all");

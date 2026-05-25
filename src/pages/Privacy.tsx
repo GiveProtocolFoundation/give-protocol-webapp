@@ -1,9 +1,11 @@
 import React from 'react';
 import { StaticPageLayout } from '@/components/layout/StaticPageLayout';
 import { ImportantNotice } from '@/components/ui/ImportantNotice';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 /** Privacy policy page displaying GiveProtocol's data handling practices. */
 export const Privacy: React.FC = () => {
+  usePageTitle("Privacy Policy");
   return (
     <StaticPageLayout 
       title="GiveProtocol Privacy Policy"

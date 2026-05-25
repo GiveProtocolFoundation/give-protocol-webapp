@@ -1,9 +1,11 @@
 import React, { useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { DOCS_CONFIG } from '@/config/docs';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 /** Documentation page that redirects to the external docs site. */
 export const Documentation: React.FC = () => {
+  usePageTitle("Documentation");
   const navigate = useNavigate();
   
   useEffect(() => {

@@ -1,9 +1,11 @@
 import React from 'react';
 import { StaticPageLayout } from '@/components/layout/StaticPageLayout';
 import { ImportantNotice } from '@/components/ui/ImportantNotice';
+import { usePageTitle } from '@/hooks/usePageTitle';
 
 /** Terms and conditions page for the Give Protocol platform. */
 export const Legal: React.FC = () => {
+  usePageTitle("Terms & Conditions");
   return (
     <StaticPageLayout
       title="GIVE PROTOCOL - TERMS AND CONDITIONS"
