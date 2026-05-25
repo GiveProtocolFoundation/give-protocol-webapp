@@ -8,12 +8,20 @@ import { DonationHistory } from "@/components/donor/DonationHistory";
 import { Transaction } from "@/types/contribution";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
+/**
+ * DonorPortal component that displays donor information, statistics,
+ * and donation history for authenticated users.
+ * @returns {JSX.Element} The rendered DonorPortal component.
+ */
 export const DonorPortal: React.FC = () => {
   const { user, userType } = useAuth();
   const { loading: profileLoading } = useProfile();
   const { data, loading: dataLoading, error } = useDonorData();
 
-  // Convert donation data to Transaction format for the DonationHistory component
+  /**
+   * Formats raw donation data into Transaction objects for the DonationHistory component.
+   * @returns {Transaction[]} An array of formatted transactions.
+   */
   const formatDonationsAsTransactions = (): Transaction[] => {
     if (!data?.donations) return [];
 
