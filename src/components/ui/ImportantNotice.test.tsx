@@ -18,7 +18,7 @@ describe("ImportantNotice", () => {
 
   it("should apply warning variant classes", () => {
     const { container } = render(
-      <ImportantNotice variant="warning">Warning text</ImportantNotice>
+      <ImportantNotice variant="warning">Warning text</ImportantNotice>,
     );
     const div = container.firstElementChild as HTMLElement;
     expect(div.className).toContain("bg-yellow-50");
@@ -27,7 +27,7 @@ describe("ImportantNotice", () => {
 
   it("should apply highlight variant classes", () => {
     const { container } = render(
-      <ImportantNotice variant="highlight">Highlight text</ImportantNotice>
+      <ImportantNotice variant="highlight">Highlight text</ImportantNotice>,
     );
     const div = container.firstElementChild as HTMLElement;
     expect(div.className).toContain("bg-gray-50");
@@ -36,7 +36,7 @@ describe("ImportantNotice", () => {
 
   it("should render warning icon for warning variant", () => {
     const { container } = render(
-      <ImportantNotice variant="warning">Warning</ImportantNotice>
+      <ImportantNotice variant="warning">Warning</ImportantNotice>,
     );
     // Warning variant wraps content in a flex container with icon
     const flexDiv = container.querySelector(".flex.items-start");
@@ -45,7 +45,7 @@ describe("ImportantNotice", () => {
 
   it("should not render icon for non-warning variants", () => {
     const { container } = render(
-      <ImportantNotice variant="info">Info</ImportantNotice>
+      <ImportantNotice variant="info">Info</ImportantNotice>,
     );
     const flexDiv = container.querySelector(".flex.items-start");
     expect(flexDiv).toBeNull();

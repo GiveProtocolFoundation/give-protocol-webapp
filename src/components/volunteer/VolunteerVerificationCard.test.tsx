@@ -21,60 +21,42 @@ const FULL_VERIFICATION = {
 
 describe("VolunteerVerificationCard", () => {
   it("should render verification title", () => {
-    render(
-      <VolunteerVerificationCard
-        verification={{ id: "v-1" }}
-      />,
-    );
+    render(<VolunteerVerificationCard verification={{ id: "v-1" }} />);
     expect(
       screen.getByText("Volunteer Contribution Verification"),
     ).toBeTruthy();
   });
 
   it("should render applicant name when provided", () => {
-    render(
-      <VolunteerVerificationCard verification={FULL_VERIFICATION} />,
-    );
+    render(<VolunteerVerificationCard verification={FULL_VERIFICATION} />);
     expect(screen.getByText("Jane Doe")).toBeTruthy();
   });
 
   it("should render opportunity title when provided", () => {
-    render(
-      <VolunteerVerificationCard verification={FULL_VERIFICATION} />,
-    );
+    render(<VolunteerVerificationCard verification={FULL_VERIFICATION} />);
     expect(screen.getByText("Beach Cleanup")).toBeTruthy();
   });
 
   it("should render charity name when provided", () => {
-    render(
-      <VolunteerVerificationCard verification={FULL_VERIFICATION} />,
-    );
+    render(<VolunteerVerificationCard verification={FULL_VERIFICATION} />);
     expect(screen.getByText("Ocean Alliance")).toBeTruthy();
   });
 
   it("should render verification hashes", () => {
-    render(
-      <VolunteerVerificationCard verification={FULL_VERIFICATION} />,
-    );
+    render(<VolunteerVerificationCard verification={FULL_VERIFICATION} />);
     expect(screen.getByText("0xabc123")).toBeTruthy();
     expect(screen.getByText("0xdef456")).toBeTruthy();
   });
 
   it("should render blockchain reference with explorer link", () => {
-    render(
-      <VolunteerVerificationCard verification={FULL_VERIFICATION} />,
-    );
+    render(<VolunteerVerificationCard verification={FULL_VERIFICATION} />);
     expect(screen.getByText("Blockchain Reference")).toBeTruthy();
     const link = screen.getByText("0x12345678...").closest("a");
     expect(link?.getAttribute("href")).toContain("moonbase.moonscan.io");
   });
 
   it("should not render optional fields when missing", () => {
-    render(
-      <VolunteerVerificationCard
-        verification={{ id: "v-2" }}
-      />,
-    );
+    render(<VolunteerVerificationCard verification={{ id: "v-2" }} />);
     expect(screen.queryByText("Volunteer")).toBeNull();
     expect(screen.queryByText("Opportunity")).toBeNull();
     expect(screen.queryByText("Organization")).toBeNull();

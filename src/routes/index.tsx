@@ -101,9 +101,7 @@ const AdminReports = lazy(() => import("@/pages/admin/AdminReports"));
 const AdminPortfolioFunds = lazy(
   () => import("@/pages/admin/AdminPortfolioFunds"),
 );
-const AdminPlatformNews = lazy(
-  () => import("@/pages/admin/AdminPlatformNews"),
-);
+const AdminPlatformNews = lazy(() => import("@/pages/admin/AdminPlatformNews"));
 const AdminCharityRequests = lazy(
   () => import("@/pages/admin/AdminCharityRequests"),
 );

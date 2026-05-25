@@ -70,9 +70,7 @@ describe("ConsentForm", () => {
     renderForm();
     fireEvent.click(getCheckbox("essential-processing"));
     fireEvent.click(screen.getByText("Accept and Continue"));
-    expect(
-      screen.getByText(/confirm your age.*Privacy Notice/),
-    ).toBeTruthy();
+    expect(screen.getByText(/confirm your age.*Privacy Notice/)).toBeTruthy();
   });
 
   it("should call onAccept when all required checkboxes checked", () => {

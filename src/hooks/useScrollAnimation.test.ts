@@ -18,15 +18,16 @@ beforeEach(() => {
   mockUnobserve.mockClear();
   mockDisconnect.mockClear();
 
-  (global as unknown as { IntersectionObserver: unknown }).IntersectionObserver =
-    jest.fn((callback: IntersectionObserverCallback) => {
-      intersectionCallback = callback;
-      return {
-        observe: mockObserve,
-        unobserve: mockUnobserve,
-        disconnect: mockDisconnect,
-      };
-    });
+  (
+    global as unknown as { IntersectionObserver: unknown }
+  ).IntersectionObserver = jest.fn((callback: IntersectionObserverCallback) => {
+    intersectionCallback = callback;
+    return {
+      observe: mockObserve,
+      unobserve: mockUnobserve,
+      disconnect: mockDisconnect,
+    };
+  });
 });
 
 describe("useScrollAnimation", () => {

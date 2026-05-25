@@ -37,7 +37,9 @@ describe("EVM chain config", () => {
     });
 
     it("should mark testnets correctly", () => {
-      expect(EVM_CHAIN_CONFIGS[EVM_CHAIN_IDS.BASE_SEPOLIA].isTestnet).toBe(true);
+      expect(EVM_CHAIN_CONFIGS[EVM_CHAIN_IDS.BASE_SEPOLIA].isTestnet).toBe(
+        true,
+      );
       expect(EVM_CHAIN_CONFIGS[EVM_CHAIN_IDS.BASE].isTestnet).toBe(false);
     });
   });

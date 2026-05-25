@@ -19,7 +19,10 @@ interface PlatformNewsRow {
   updated_at: string;
 }
 
-function makeRow(id: string, overrides?: Partial<PlatformNewsRow>): PlatformNewsRow {
+function makeRow(
+  id: string,
+  overrides?: Partial<PlatformNewsRow>,
+): PlatformNewsRow {
   return {
     id,
     title: `News ${id}`,

@@ -4,7 +4,9 @@ import { useAuthState } from "./useAuthState";
 import { supabase } from "@/lib/supabase";
 
 const mockGetSession = supabase.auth.getSession as ReturnType<typeof jest.fn>;
-const mockOnAuthStateChange = supabase.auth.onAuthStateChange as ReturnType<typeof jest.fn>;
+const mockOnAuthStateChange = supabase.auth.onAuthStateChange as ReturnType<
+  typeof jest.fn
+>;
 
 describe("useAuthState", () => {
   beforeEach(() => {

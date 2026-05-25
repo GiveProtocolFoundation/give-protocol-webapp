@@ -65,9 +65,7 @@ describe("FeaturedPortfolioFundsCarousel", () => {
 
   it("should show empty state when no funds", () => {
     renderCarousel();
-    expect(
-      screen.getByText(/No portfolio funds available yet/),
-    ).toBeTruthy();
+    expect(screen.getByText(/No portfolio funds available yet/)).toBeTruthy();
   });
 
   it("should render funds when available", () => {
@@ -103,9 +101,7 @@ describe("FeaturedPortfolioFundsCarousel", () => {
       error: null,
     });
     renderCarousel();
-    expect(
-      screen.getByLabelText("Previous portfolio funds"),
-    ).toBeTruthy();
+    expect(screen.getByLabelText("Previous portfolio funds")).toBeTruthy();
     expect(screen.getByLabelText("Next portfolio funds")).toBeTruthy();
   });
 

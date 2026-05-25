@@ -727,8 +727,7 @@ export default {
     "admin.actions.charityRequestsDesc":
       "Review donor requests for unclaimed charities",
     "admin.actions.platformNews": "Platform News",
-    "admin.actions.platformNewsDesc":
-      "Manage news items on the browse page",
+    "admin.actions.platformNewsDesc": "Manage news items on the browse page",
 
     // Admin - Platform News management page (GIV-279)
     "admin.news.title": "Platform News",
@@ -739,8 +738,7 @@ export default {
     "admin.news.titleLabel": "Title",
     "admin.news.titlePlaceholder": "e.g. Quarterly impact report",
     "admin.news.contentLabel": "Content / Excerpt",
-    "admin.news.contentPlaceholder":
-      "Brief description of the news item...",
+    "admin.news.contentPlaceholder": "Brief description of the news item...",
     "admin.news.urlLabel": "Link URL",
     "admin.news.urlPlaceholder": "/news/my-article",
     "admin.news.imageLabel": "Image URL (optional)",

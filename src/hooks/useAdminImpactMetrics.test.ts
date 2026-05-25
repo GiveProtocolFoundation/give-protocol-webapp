@@ -82,7 +82,10 @@ describe("useAdminImpactMetrics", () => {
   });
 
   it("should handle create error", async () => {
-    setMockResult("fund_impact_metrics", { data: null, error: new Error("Insert failed") });
+    setMockResult("fund_impact_metrics", {
+      data: null,
+      error: new Error("Insert failed"),
+    });
 
     const { result } = renderHook(() => useAdminImpactMetrics());
 
@@ -116,7 +119,10 @@ describe("useAdminImpactMetrics", () => {
   });
 
   it("should handle delete error", async () => {
-    setMockResult("fund_impact_metrics", { data: null, error: new Error("Delete failed") });
+    setMockResult("fund_impact_metrics", {
+      data: null,
+      error: new Error("Delete failed"),
+    });
 
     const { result } = renderHook(() => useAdminImpactMetrics());
 

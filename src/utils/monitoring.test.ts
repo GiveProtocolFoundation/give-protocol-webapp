@@ -42,10 +42,7 @@ describe("MonitoringService", () => {
       const storedMetrics = [
         { timestamp: 1000, event: "stored_event", data: {} },
       ];
-      localStorage.setItem(
-        "monitoring_metrics",
-        JSON.stringify(storedMetrics),
-      );
+      localStorage.setItem("monitoring_metrics", JSON.stringify(storedMetrics));
 
       const instance = MonitoringService.getInstance();
       const metrics = instance.exportMetrics();

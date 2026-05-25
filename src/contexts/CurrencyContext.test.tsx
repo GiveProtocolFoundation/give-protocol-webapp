@@ -1,5 +1,12 @@
 import React from "react";
-import { describe, it, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import {
   CurrencyProvider,
@@ -9,12 +16,8 @@ import {
 // Logger and priceFeed are auto-mocked via moduleNameMapper
 
 function TestConsumer() {
-  const {
-    selectedCurrency,
-    isLoading,
-    convertToFiat,
-    convertFromFiat,
-  } = useCurrencyContext();
+  const { selectedCurrency, isLoading, convertToFiat, convertFromFiat } =
+    useCurrencyContext();
 
   return (
     <div>

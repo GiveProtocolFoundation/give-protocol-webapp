@@ -4,7 +4,8 @@ import { CSRFProtection } from "./csrf";
 describe("CSRFProtection", () => {
   beforeEach(() => {
     // Reset internal state by re-initializing
-    document.cookie = "csrf-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
+    document.cookie =
+      "csrf-token=; expires=Thu, 01 Jan 1970 00:00:00 UTC; path=/;";
     CSRFProtection.initialize();
   });
 

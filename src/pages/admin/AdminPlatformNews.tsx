@@ -158,7 +158,10 @@ function NewsForm({
   onCancel: () => void;
   loading: boolean;
   isEdit: boolean;
-  onFieldChange: (_field: keyof PlatformNewsFormData, _value: string | boolean) => void;
+  onFieldChange: (
+    _field: keyof PlatformNewsFormData,
+    _value: string | boolean,
+  ) => void;
 }) {
   const { t } = useTranslation();
 
@@ -347,7 +350,9 @@ function NewsForm({
       <div className="flex gap-3 pt-2">
         <Button
           onClick={onSubmit}
-          disabled={loading || !formData.title.trim() || !formData.content.trim()}
+          disabled={
+            loading || !formData.title.trim() || !formData.content.trim()
+          }
         >
           {loading
             ? t("admin.news.saving", "Saving...")
@@ -370,8 +375,16 @@ function NewsForm({
 const AdminPlatformNews: React.FC = () => {
   const { showToast } = useToast();
   const { t } = useTranslation();
-  const { items, loading, saving, error, create, update, toggleActive, remove } =
-    useAdminPlatformNews();
+  const {
+    items,
+    loading,
+    saving,
+    error,
+    create,
+    update,
+    toggleActive,
+    remove,
+  } = useAdminPlatformNews();
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<PlatformNewsFormData>(emptyFormData);

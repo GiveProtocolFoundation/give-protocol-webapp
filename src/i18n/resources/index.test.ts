@@ -91,7 +91,19 @@ describe("i18n resources", () => {
   });
 
   it("all non-English languages should have translation keys", () => {
-    const languages = { es, de, fr, ja, "zh-CN": zhCN, "zh-TW": zhTW, th, vi, ko, ar, hi };
+    const languages = {
+      es,
+      de,
+      fr,
+      ja,
+      "zh-CN": zhCN,
+      "zh-TW": zhTW,
+      th,
+      vi,
+      ko,
+      ar,
+      hi,
+    };
 
     Object.entries(languages).forEach(([_lang, resource]) => {
       const langKeyCount = Object.keys(resource.translation).length;
