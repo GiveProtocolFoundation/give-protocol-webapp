@@ -1,10 +1,4 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-  startTransition,
-} from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 
 /** BCP 47 language code for the user's preferred display language. */
 export type Language =
@@ -107,45 +101,76 @@ export const useSettings = () => {
   return context;
 };
 
+/** Retrieves a cookie value by name from document.cookie. */
+const getCookie = (name: string): string | null => {
+  if (typeof document === "undefined") return null;
+  const value = `; ${document.cookie}`;
+  const parts = value.split(`; ${name}=`);
+  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+  return null;
+};
+
+/** All supported language codes — used to validate localStorage values set by i18next LanguageDetector. */
+const VALID_LANGUAGES: readonly Language[] = [
+  "en",
+  "es",
+  "de",
+  "fr",
+  "ja",
+  "zh-CN",
+  "zh-TW",
+  "th",
+  "vi",
+  "ko",
+  "ar",
+  "hi",
+];
+
+/**
+ * SSR-safe initial language — reads localStorage on client, defaults to "en" on server.
+ * Normalizes BCP 47 tags (e.g. "en-US" → "en") that i18next LanguageDetector may store.
+ */
+const getInitialLanguage = (): Language => {
+  if (typeof window === "undefined") return "en";
+  const stored = localStorage.getItem("language");
+  if (!stored) return "en";
+  if (VALID_LANGUAGES.includes(stored as Language)) return stored as Language;
+  const primary = stored.split("-")[0];
+  return (
+    (VALID_LANGUAGES.find((l) => l === primary) as Language | undefined) || "en"
+  );
+};
+
+/** SSR-safe initial currency — reads localStorage on client, defaults to "USD" on server. */
+const getInitialCurrency = (): Currency =>
+  typeof window !== "undefined"
+    ? (localStorage.getItem("currency") as Currency) || "USD"
+    : "USD";
+
+/** SSR-safe initial theme — reads cookie/localStorage on client, defaults to "light" on server. */
+const getInitialTheme = (): Theme =>
+  typeof window !== "undefined"
+    ? (getCookie("theme") as Theme) ||
+      (localStorage.getItem("theme") as Theme) ||
+      "light"
+    : "light";
+
 /**
  * React provider that exposes user preferences (language, currency, theme) through {@link useSettings}.
- * State is initialized with SSR-safe defaults and hydrated from `localStorage` and cookies on mount.
+ * State is initialized directly from localStorage/cookies to avoid race conditions.
  * @param props - Standard React children to render inside the provider.
  * @returns The provider element wrapping its children.
  */
 export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   children,
 }) => {
-  // Initialize with SSR-safe defaults; hydrate from localStorage/cookies in useEffect
-  const [language, setLanguageState] = useState<Language>("en");
-  const [currency, setCurrencyState] = useState<Currency>("USD");
-  const [theme, setThemeState] = useState<Theme>("light");
+  const [language, setLanguageState] = useState<Language>(getInitialLanguage);
+  const [currency, setCurrencyState] = useState<Currency>(getInitialCurrency);
+  const [theme, setThemeState] = useState<Theme>(getInitialTheme);
 
-  // Hydrate state from localStorage/cookies after mount to avoid SSR mismatch
+  // Apply theme class to document on mount
   useEffect(() => {
-    /** Retrieves a cookie value by name from document.cookie. */
-    const getCookie = (name: string): string | null => {
-      const value = `; ${document.cookie}`;
-      const parts = value.split(`; ${name}=`);
-      if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
-      return null;
-    };
-
-    const storedLang = localStorage.getItem("language") as Language | null;
-    const storedCurrency = localStorage.getItem("currency") as Currency | null;
-    const cookieTheme = getCookie("theme") as Theme | null;
-    const localTheme = localStorage.getItem("theme") as Theme | null;
-    const resolvedTheme = cookieTheme || localTheme || "light";
-
-    // Wrap in startTransition so hydration completes before React processes these
-    startTransition(() => {
-      if (storedLang) setLanguageState(storedLang);
-      if (storedCurrency) setCurrencyState(storedCurrency);
-      setThemeState(resolvedTheme);
-    });
-
-    // Apply theme class to document (DOM mutation, not a React state update)
-    if (resolvedTheme === "dark") {
+    if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
