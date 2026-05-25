@@ -2,20 +2,14 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline": "โครงสร้างพื้นฐานที่โปร่งใสและไร้พรมแดนเพื่อการให้",
-    "common.cancel": "ยกเลิก",
-    "common.edit": "แก้ไข",
-    "common.delete": "ลบ",
-    "common.creating": "กำลังสร้าง...",
-    "common.unknown": "ไม่ทราบ",
-    "common.notAvailable": "ไม่มีข้อมูล",
+    "app.tagline": "ส่งเสริมการเปลี่ยนแปลงผ่านการบริจาคอย่างชาญฉลาด",
 
     // Navigation
     "nav.browse": "ค้นหาองค์กรการกุศล",
     "nav.opportunities": "โอกาสอาสาสมัคร",
     "nav.contributions": "ติดตามการมีส่วนร่วม",
     "nav.governance": "การกำกับดูแล",
-    "nav.dashboard": "แดชบอร์ด Give",
+    "nav.dashboard": "แดชบอร์ด",
     "nav.about": "เกี่ยวกับเรา",
     "nav.docs": "เอกสาร",
     "nav.legal": "ข้อมูลทางกฎหมาย",
@@ -25,6 +19,7 @@ export default {
     "settings.title": "การตั้งค่า",
     "settings.language": "ภาษา",
     "settings.currency": "สกุลเงิน",
+    "settings.displayPreferences": "การตั้งค่าการแสดงผล",
 
     // Auth
     "auth.login": "เข้าสู่ระบบ",
@@ -33,17 +28,12 @@ export default {
     "auth.forgotPassword": "ลืมรหัสผ่าน?",
 
     // Dashboard
-    "dashboard.title": "แดชบอร์ด Give",
+    "dashboard.title": "แดชบอร์ด",
     "dashboard.subtitle": "ติดตามการบริจาคและการมีส่วนร่วมของอาสาสมัคร",
     "dashboard.totalDonations": "ยอดบริจาครวม",
     "dashboard.volunteerHours": "ชั่วโมงอาสาสมัคร",
     "dashboard.skillsEndorsed": "ทักษะที่ได้รับการรับรอง",
     "dashboard.contributions": "การมีส่วนร่วม",
-    "dashboard.yourTotalDonated": "ยอดบริจาคของคุณ",
-    "dashboard.yourVolunteerHours": "ชั่วโมงอาสาสมัครของคุณ",
-    "dashboard.yourSkillsEndorsed": "ทักษะที่คุณได้รับการรับรอง",
-    "dashboard.impactGrowth": "การเติบโตของผลกระทบ",
-    "dashboard.charitiesSupported": "องค์กรการกุศลที่สนับสนุน",
 
     // Charity
     "charity.dashboard": "แดชบอร์ดองค์กรการกุศล",
@@ -52,9 +42,6 @@ export default {
     "charity.transactions": "ธุรกรรม",
     "charity.volunteers": "ชั่วโมงอาสาสมัคร",
     "charity.applications": "การสมัคร",
-    "charity.totalReceived": "ยอดรับรวม",
-    "charity.equityPoolValue": "มูลค่ากองทุนส่วนร่วม",
-    "charity.availableBalance": "ยอดคงเหลือที่ใช้ได้",
 
     // Contributions
     "contributions.date": "วันที่",
@@ -66,343 +53,24 @@ export default {
     "contributions.export": "ส่งออก CSV",
 
     // Volunteer
-    "volunteer.opportunities": "โอกาสอาสาสมัคร",
-    "volunteer.searchOpportunities": "ค้นหาโอกาส...",
-    "volunteer.selectSkill": "เลือกทักษะ",
-    "volunteer.selectType": "เลือกประเภท",
-    "volunteer.selectLanguage": "เลือกภาษา",
-    "volunteer.allSkills": "ทักษะทั้งหมด",
-    "volunteer.allTypes": "ประเภททั้งหมด",
-    "volunteer.allLanguages": "ทุกภาษา",
-    "volunteer.applyNow": "สมัครเลย",
-    "volunteer.noOpportunitiesFound": "ไม่พบโอกาสที่ตรงกับเกณฑ์ของคุณ",
     "volunteer.verify": "ตรวจสอบชั่วโมง",
-    "volunteer.verifying": "กำลังตรวจสอบ...",
     "volunteer.reject": "ปฏิเสธ",
     "volunteer.accept": "ยอมรับ",
-    "volunteer.processing": "กำลังดำเนินการ...",
     "volunteer.hours": "ชั่วโมงเมื่อ",
     "volunteer.description": "คำอธิบาย",
     "volunteer.appliedFor": "สมัครสำหรับ",
-    "volunteer.verificationComplete": "การตรวจสอบเสร็จสมบูรณ์",
-    "volunteer.hoursVerified":
-      "ชั่วโมงอาสาสมัครได้รับการตรวจสอบและบันทึกบนบล็อกเชนแล้ว",
-    "volunteer.verificationHash": "แฮชการตรวจสอบ",
-    "volunteer.applicationAccepted": "การสมัครได้รับการยอมรับ",
-    "volunteer.applicationRecorded":
-      "การสมัครอาสาสมัครได้รับการยอมรับและบันทึกบนบล็อกเชนแล้ว",
-    "volunteer.acceptanceHash": "แฮชการยอมรับ",
-    "volunteer.pendingHours": "ชั่วโมงอาสาสมัครที่รอดำเนินการ",
-    "volunteer.noPendingHours": "ไม่มีชั่วโมงอาสาสมัครที่รอการตรวจสอบ",
-    "volunteer.pendingApplications": "การสมัครที่รอดำเนินการ",
-    "volunteer.noPendingApplications": "ไม่มีการสมัครที่รอการตรวจสอบ",
-    "volunteer.createOpportunity": "สร้างโอกาสอาสาสมัคร",
-    "volunteer.createNew": "สร้างใหม่",
-    "volunteer.noOpportunitiesYet":
-      'ยังไม่มีโอกาสที่สร้างขึ้น คลิก "สร้างใหม่" เพื่อเริ่มต้น',
-    "volunteer.opportunityTitle": "ชื่อโอกาส",
-    "volunteer.skills": "ทักษะ (คั่นด้วยเครื่องหมายจุลภาค)",
-    "volunteer.commitment": "ระดับความมุ่งมั่น",
-    "volunteer.location": "สถานที่",
-    "volunteer.type": "ประเภท",
-    "volunteer.workLanguage": "ภาษาในการทำงาน",
-    "volunteer.status": "สถานะ",
-
-    // Volunteer commitment types
-    "volunteer.commitment.oneTime": "ครั้งเดียว",
-    "volunteer.commitment.shortTerm": "ระยะสั้น",
-    "volunteer.commitment.longTerm": "ระยะยาว",
-
-    // Volunteer types
-    "volunteer.type.remote": "ทำงานระยะไกล",
-    "volunteer.type.onsite": "ทำงานที่สถานที่",
-    "volunteer.type.hybrid": "ผสมผสาน",
-    "volunteer.type.onSite": "ทำงานที่สถานที่",
-
-    // Volunteer - Opportunities page
-    "volunteer.workTypeFilter": "ตัวกรองประเภทงาน",
-    "volunteer.searchLocation": "เมืองหรือภูมิภาค...",
-    "volunteer.searchLocationAria": "ค้นหาสถานที่",
-    "volunteer.signInToApply": "กรุณาเข้าสู่ระบบเพื่อสมัครโอกาสอาสาสมัคร",
-    "volunteer.applicationSuccess": "ส่งใบสมัครเรียบร้อยแล้ว!",
-    "volunteer.removeFilter": "ลบตัวกรอง {{filter}}",
-
-    // Volunteer - OpportunityForm
-    "volunteer.validation.titleRequired": "จำเป็นต้องระบุชื่อ",
-    "volunteer.validation.descriptionRequired": "จำเป็นต้องระบุคำอธิบาย",
-    "volunteer.validation.skillsRequired":
-      "จำเป็นต้องระบุทักษะอย่างน้อยหนึ่งรายการ",
-    "volunteer.validation.locationRequired": "จำเป็นต้องระบุสถานที่",
-    "volunteer.profileNotFound": "ไม่พบโปรไฟล์ผู้ใช้",
-    "volunteer.correctErrors": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
-    "volunteer.createFailed": "ไม่สามารถสร้างโอกาสได้",
-    "volunteer.descriptionPlaceholder": "อธิบายโอกาสอาสาสมัครโดยละเอียด...",
-    "volunteer.skillsPlaceholder": "เช่น พัฒนาเว็บ, จัดการโครงการ, การแปล",
-    "volunteer.locationPlaceholder": "เช่น ทำงานระยะไกล, กรุงเทพฯ, เชียงใหม่",
-    "volunteer.headerImage": "รูปภาพส่วนหัว",
-    "volunteer.headerImageHelp":
-      "อัปโหลดรูปภาพเพื่อแสดงที่ด้านบนของรายการโอกาสของคุณ",
-    "volunteer.limitReached": "ถึงขีดจำกัดโอกาสแล้ว",
-    "volunteer.limitReachedMessage":
-      "คุณมีโอกาสอาสาสมัครที่ใช้งานอยู่ถึงจำนวนสูงสุด {{max}} รายการแล้ว กรุณาปิดหรือดำเนินการโอกาสที่มีอยู่ให้เสร็จก่อนสร้างรายการใหม่",
-    "volunteer.opportunityCount":
-      "คุณมีโอกาสที่ใช้งานอยู่ {{count}} จาก {{max}} รายการ",
-
-    // Volunteer - HoursVerificationTab
-    "volunteer.hoursVerification": "การตรวจสอบชั่วโมง",
-    "volunteer.hoursVerificationDescription":
-      "ตรวจสอบและยืนยันการส่งชั่วโมงอาสาสมัคร",
-    "volunteer.formalHours": "ชั่วโมงที่บันทึก",
-    "volunteer.selfReported": "รายงานด้วยตนเอง",
-    "volunteer.loggedHours": "ชั่วโมงอาสาสมัครที่บันทึก",
-    "volunteer.loggedHoursDescription":
-      "ชั่วโมงที่บันทึกโดยอาสาสมัครผ่านโอกาสของคุณ",
-    "volunteer.allCaughtUp": "อัปเดตครบถ้วนแล้ว!",
-    "volunteer.noPendingLoggedHours": "ไม่มีชั่วโมงที่บันทึกรอการตรวจสอบ",
-    "volunteer.selfReportedHours": "ชั่วโมงที่รายงานด้วยตนเอง",
-
-    // Volunteer - OpportunitiesTab
-    "volunteer.noOpportunitiesTitle": "ยังไม่มีโอกาส",
-    "volunteer.activeCount": "โอกาสที่ใช้งานอยู่ {{count}} จาก {{max}} รายการ",
-    "volunteer.moreSkills": "+{{count}} เพิ่มเติม",
-
-    // Volunteer - ApplicationsTab
-    "volunteer.noApplications": "ไม่มีการสมัครที่รอดำเนินการ",
-    "volunteer.unknownOpportunity": "โอกาสที่ไม่ทราบ",
-
-    // Volunteer - VerificationLookup
-    "volunteer.verifyContribution": "ตรวจสอบการมีส่วนร่วมของอาสาสมัคร",
-    "volunteer.hashPlaceholder": "กรอกแฮชการตรวจสอบ",
-    "volunteer.searching": "กำลังค้นหา...",
-    "volunteer.verifyHash": "ตรวจสอบแฮช",
-    "volunteer.verificationNotFound": "ไม่พบการตรวจสอบ",
-    "volunteer.verificationNotFoundMessage":
-      "ไม่พบแฮชที่คุณระบุในบันทึกของเรา กรุณาตรวจสอบแฮชและลองอีกครั้ง",
-    "volunteer.unknownOrganization": "องค์กรที่ไม่ทราบ",
-
-    // Volunteer - VolunteerVerificationCard
-    "volunteer.contributionVerification": "การตรวจสอบการมีส่วนร่วมของอาสาสมัคร",
-    "volunteer.volunteerLabel": "อาสาสมัคร",
-    "volunteer.opportunityLabel": "โอกาส",
-    "volunteer.organizationLabel": "องค์กร",
-    "volunteer.acceptedOn": "ยอมรับเมื่อ",
-    "volunteer.verifiedOn": "ตรวจสอบเมื่อ",
-    "volunteer.verificationHashes": "แฮชการตรวจสอบ",
-    "volunteer.blockchainReference": "อ้างอิงบล็อกเชน",
-
-    // Volunteer - VerifyContribution page
-    "volunteer.verifyingContribution": "กำลังตรวจสอบการมีส่วนร่วม\u2026",
-    "volunteer.noHashProvided": "ไม่ได้ระบุแฮชการตรวจสอบ",
-    "volunteer.verificationSuccessful": "การตรวจสอบสำเร็จ",
-    "volunteer.contributionVerifiedBlockchain":
-      "การมีส่วนร่วมของอาสาสมัครนี้ได้รับการตรวจสอบและบันทึกบนบล็อกเชนแล้ว",
-    "volunteer.verificationFailed": "การตรวจสอบล้มเหลว",
-    "volunteer.hashNotFound": "ไม่พบแฮชการตรวจสอบ {{hash}} หรือไม่ถูกต้อง",
-
-    // Volunteer - SelfReportedHoursDashboard
-    "volunteer.volunteerHoursTitle": "ชั่วโมงอาสาสมัคร",
-    "volunteer.aboutSelfReported": "เกี่ยวกับชั่วโมงที่รายงานด้วยตนเอง",
-    "volunteer.selfReportedInfo":
-      "เฉพาะชั่วโมงที่ได้รับการรับรองจากองค์กรที่ผ่านการตรวจสอบเท่านั้นที่จะนับรวมใน Global Impact Rankings ชั่วโมงสำหรับองค์กรที่ไม่อยู่ในแพลตฟอร์มของเราสามารถติดตามได้ แต่จะถูกทำเครื่องหมายเป็น \u201cไม่ผ่านการรับรอง\u201d จนกว่าจะได้รับการรับรอง",
-    "volunteer.logHoursButton": "บันทึกชั่วโมง",
-    "volunteer.logVolunteerHours": "บันทึกชั่วโมงอาสาสมัคร",
-    "volunteer.editRecord": "แก้ไขบันทึก",
-    "volunteer.recordDetails": "รายละเอียดบันทึก",
-    "volunteer.backToList": "กลับไปยังรายการ",
-    "volunteer.deleteRecord": "ลบบันทึก?",
-    "volunteer.deleteConfirmation":
-      "คุณแน่ใจหรือไม่ว่าต้องการลบบันทึกชั่วโมงอาสาสมัครนี้? การดำเนินการนี้ไม่สามารถย้อนกลับได้",
-
-    // Volunteer - SelfReportedHoursForm
-    "volunteer.activityType": "ประเภทกิจกรรม",
-    "volunteer.organization": "องค์กร",
-    "volunteer.searchRegistry": "ค้นหาทะเบียน",
-    "volunteer.notListed": "ไม่อยู่ในรายการ",
-    "volunteer.organizationName": "ชื่อองค์กร",
-    "volunteer.enterOrgName": "กรอกชื่อองค์กร",
-    "volunteer.contactEmail": "อีเมลติดต่อ",
-    "volunteer.contactEmailOptional": "(ไม่บังคับ)",
-    "volunteer.onboardHelp": "เราอาจติดต่อเพื่อช่วยนำองค์กรนี้เข้าสู่ระบบ",
-    "volunteer.submittedForValidation": "บันทึกนี้จะถูกส่งเพื่อการรับรอง",
-    "volunteer.submittedForValidationTo":
-      "บันทึกนี้จะถูกส่งเพื่อการรับรองไปยัง {{org}}",
-    "volunteer.validationExpired":
-      "ระยะเวลาการรับรองหมดอายุสำหรับวันที่นี้แล้ว",
-    "volunteer.savedAsUnvalidated": "บันทึกนี้จะถูกบันทึกเป็นไม่ผ่านการรับรอง",
-    "volunteer.describeActivities": "อธิบายกิจกรรมที่คุณดำเนินการ...",
-    "volunteer.moreCharsNeeded": "ต้องการอีก {{count}} ตัวอักษร",
-    "volunteer.updating": "กำลังอัปเดต...",
-    "volunteer.logging": "กำลังบันทึก...",
-    "volunteer.updateHours": "อัปเดตชั่วโมง",
-
-    // Volunteer - SelfReportedHoursList
-    "volunteer.statusFilter": "สถานะ",
-    "volunteer.activityTypeFilter": "ประเภทกิจกรรม",
-    "volunteer.filterFrom": "ตั้งแต่",
-    "volunteer.filterTo": "ถึง",
-    "volunteer.clearFilters": "ล้างตัวกรอง",
-    "volunteer.allStatuses": "ทั้งหมด",
-    "volunteer.allActivityTypes": "ทุกประเภท",
-    "volunteer.noMatchingRecords": "ไม่พบบันทึกที่ตรงกัน",
-    "volunteer.noHoursLogged": "ยังไม่มีชั่วโมงอาสาสมัครที่บันทึก",
-    "volunteer.adjustFilters": "ลองปรับตัวกรองเพื่อค้นหาบันทึก",
-    "volunteer.startLogging":
-      "เริ่มต้นด้วยการบันทึกชั่วโมงอาสาสมัครครั้งแรกของคุณ",
-
-    // Volunteer - SelfReportedHoursStats
-    "volunteer.validatedHours": "ชั่วโมงที่ผ่านการรับรอง",
-    "volunteer.pendingValidation": "รอการรับรอง",
-    "volunteer.unvalidatedHours": "ชั่วโมงที่ไม่ผ่านการรับรอง",
-    "volunteer.rejectedLabel": "ถูกปฏิเสธ",
-    "volunteer.hoursUnit": "ชม.",
-    "volunteer.recordSingular": "บันทึก",
-    "volunteer.recordPlural": "บันทึก",
-
-    // Volunteer - VolunteerApplicationForm
-    "volunteer.applicationTitle": "ใบสมัครอาสาสมัคร",
-    "volunteer.applicationSubtitle":
-      "ช่วยสร้างผลกระทบอย่างยั่งยืนผ่านการมีส่วนร่วมที่ผ่านการตรวจสอบ",
-    "volunteer.personalInfo": "ข้อมูลส่วนบุคคล",
-    "volunteer.firstName": "ชื่อ",
-    "volunteer.lastName": "นามสกุล",
-    "volunteer.emailAddress": "ที่อยู่อีเมล",
-    "volunteer.phoneNumber": "หมายเลขโทรศัพท์",
-    "volunteer.locationCity": "สถานที่/เมือง",
-    "volunteer.locationCityPlaceholder": "เช่น กรุงเทพฯ",
-    "volunteer.timeZone": "เขตเวลา",
-    "volunteer.selectTimeZone": "เลือกเขตเวลา",
-    "volunteer.ageRange": "ช่วงอายุ",
-    "volunteer.selectAgeRange": "เลือกช่วงอายุ",
-    "volunteer.skillsAndInterests": "ทักษะและความสนใจ",
-    "volunteer.skillsLabel": "ทักษะและด้านที่สนใจ",
-    "volunteer.skillPlaceholderFull":
-      "เริ่มพิมพ์ทักษะของคุณ (เช่น การเขียนโปรแกรม Python, การพูดในที่สาธารณะ, การเขียนข้อเสนอทุน)",
-    "volunteer.skillPlaceholderShort": "พิมพ์ทักษะแล้วกด Enter...",
-    "volunteer.commitmentLevel": "ระดับความมุ่งมั่น",
-    "volunteer.commitmentOneTimeDesc": "โครงการเดี่ยวหรืองานระยะสั้น",
-    "volunteer.commitmentShortTermDesc": "ไม่กี่สัปดาห์ถึงไม่กี่เดือน",
-    "volunteer.commitmentLongTermDesc": "ความมุ่งมั่นต่อเนื่องหลายเดือนขึ้นไป",
-    "volunteer.experienceLabel": "บอกเราเกี่ยวกับประสบการณ์ที่เกี่ยวข้องของคุณ",
-    "volunteer.experiencePlaceholder":
-      "อธิบายภูมิหลัง ทักษะ และแรงจูงใจที่ทำให้คุณต้องการเป็นอาสาสมัครกับ Give Protocol...",
-    "volunteer.consentTitle": "ความยินยอมและข้อตกลง",
-    "volunteer.consentHeader": "ความยินยอมในการสมัครอาสาสมัคร",
-    "volunteer.submitting": "กำลังส่ง...",
-    "volunteer.submitApplication": "ส่งใบสมัครอาสาสมัคร",
-    "volunteer.disclaimerText":
-      "การส่งใบสมัครนี้แสดงว่าคุณรับทราบว่าคุณได้อ่านและเข้าใจนโยบายความเป็นส่วนตัวและแนวทางอาสาสมัครของ Give Protocol แล้ว ข้อมูลของคุณจะได้รับการประมวลผลตามกฎหมายคุ้มครองข้อมูลที่เกี่ยวข้อง",
-    "volunteer.validation.firstNameInvalid": "กรุณากรอกชื่อที่ถูกต้อง",
-    "volunteer.validation.lastNameInvalid": "กรุณากรอกนามสกุลที่ถูกต้อง",
-    "volunteer.validation.emailInvalid": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
-    "volunteer.validation.phoneInvalid": "กรุณากรอกหมายเลขโทรศัพท์ที่ถูกต้อง",
-    "volunteer.validation.experienceRequired":
-      "กรุณาอธิบายประสบการณ์ที่เกี่ยวข้องของคุณ",
-    "volunteer.validation.addSkill": "กรุณาเพิ่มทักษะอย่างน้อยหนึ่งรายการ",
-    "volunteer.validation.ageRangeRequired": "กรุณาเลือกช่วงอายุของคุณ",
-    "volunteer.validation.consentRequired":
-      "คุณต้องยอมรับรายการความยินยอมที่จำเป็นทั้งหมด",
-    "volunteer.signInToSubmit": "กรุณาเข้าสู่ระบบเพื่อส่งใบสมัคร",
-    "volunteer.submitFailed": "ไม่สามารถส่งใบสมัครได้ กรุณาลองอีกครั้ง",
-
-    // Volunteer - ApplicationForm
-    "volunteer.applyForTitle": "สมัครสำหรับ: {{title}}",
-    "volunteer.fullName": "ชื่อเต็ม *",
-    "volunteer.phoneRequired": "หมายเลขโทรศัพท์ *",
-    "volunteer.emailRequired": "ที่อยู่อีเมล *",
-    "volunteer.dateOfBirth": "วันเกิด",
-    "volunteer.availabilityTitle": "ความพร้อม",
-    "volunteer.preferredDays": "วันที่ต้องการ",
-    "volunteer.preferredTimes": "เวลาที่ต้องการ",
-    "volunteer.commitmentLevelLabel": "ระดับความมุ่งมั่น",
-    "volunteer.skillsAndExperience": "ทักษะและประสบการณ์",
-    "volunteer.relevantExperience": "ประสบการณ์ที่เกี่ยวข้อง *",
-    "volunteer.certifications": "ใบรับรอง (คั่นด้วยเครื่องหมายจุลภาค)",
-    "volunteer.interestsAndPreferences": "ความสนใจและความชอบ",
-    "volunteer.areasOfInterest": "ด้านที่สนใจ (คั่นด้วยเครื่องหมายจุลภาค)",
-    "volunteer.referencesTitle": "บุคคลอ้างอิง",
-    "volunteer.referenceName": "ชื่อบุคคลอ้างอิง {{index}}",
-    "volunteer.referenceContact": "ข้อมูลติดต่อบุคคลอ้างอิง {{index}}",
-    "volunteer.workSamplesTitle": "ตัวอย่างผลงาน",
-    "volunteer.workSamplesLabel":
-      "ลิงก์ตัวอย่างผลงาน (คั่นด้วยเครื่องหมายจุลภาค)",
-    "volunteer.submitApplicationShort": "ส่งใบสมัคร",
-    "volunteer.validation.nameInvalid":
-      "กรุณากรอกชื่อที่ถูกต้อง (2-100 ตัวอักษร)",
-    "volunteer.validation.provideExperience":
-      "กรุณาให้ข้อมูลเกี่ยวกับประสบการณ์ของคุณ",
-    "volunteer.validation.selectDay": "กรุณาเลือกวันอย่างน้อยหนึ่งวัน",
-    "volunteer.validation.selectTime": "กรุณาเลือกเวลาอย่างน้อยหนึ่งช่วง",
-
-    // Volunteer - ConsentForm
-    "volunteer.consentUnderstand": "ข้าพเจ้าเข้าใจว่า:",
-    "volunteer.specificConsents": "ความยินยอมเฉพาะ",
-    "volunteer.specificConsentsDesc":
-      "กรุณาตรวจสอบและระบุความยินยอมของคุณในแต่ละรายการต่อไปนี้:",
-    "volunteer.essentialProcessingTitle": "การประมวลผลที่จำเป็น (จำเป็น):",
-    "volunteer.internationalTransfersTitle":
-      "การถ่ายโอนข้อมูลระหว่างประเทศ (ถ้ามี):",
-    "volunteer.acknowledgmentTitle": "การรับทราบ",
-    "volunteer.ageConfirmationTitle": "การยืนยันอายุ:",
-    "volunteer.privacyNoticeTitle": "ประกาศความเป็นส่วนตัว:",
-    "volunteer.doNotAccept": "ไม่ยอมรับ",
-    "volunteer.acceptAndContinue": "ยอมรับและดำเนินการต่อ",
-    "volunteer.validation.essentialRequired":
-      "จำเป็นต้องให้ความยินยอมในการประมวลผลที่จำเป็นเพื่อดำเนินการต่อ",
-    "volunteer.validation.agePrivacyRequired":
-      "คุณต้องยืนยันอายุและว่าคุณได้อ่านประกาศความเป็นส่วนตัวแล้ว",
-
-    // Languages
-    "language.english": "อังกฤษ",
-    "language.spanish": "สเปน",
-    "language.german": "เยอรมัน",
-    "language.french": "ฝรั่งเศส",
-    "language.japanese": "ญี่ปุ่น",
-    "language.chinese_simplified": "จีน (ตัวย่อ)",
-    "language.chinese_traditional": "จีน (ตัวเต็ม)",
-    "language.thai": "ไทย",
-    "language.vietnamese": "เวียดนาม",
-    "language.korean": "เกาหลี",
-    "language.arabic": "อาหรับ",
-    "language.hindi": "ฮินดี",
-    "language.multiple": "หลายภาษา",
-
-    // Contribution types
-    "contribution.type.donation": "การบริจาค",
-    "contribution.type.volunteerapplication": "การสมัครอาสาสมัคร",
-    "contribution.type.volunteerhours": "ชั่วโมงอาสาสมัคร",
-    "contribution.type.volunteeracceptance": "การยอมรับอาสาสมัคร",
-    "contribution.type.volunteerverification": "การตรวจสอบอาสาสมัคร",
-
-    // Donor/Volunteer
-    "donor.volunteer": "ผู้บริจาค/อาสาสมัคร",
-    "donor.anonymous": "ไม่ระบุชื่อ",
-    "volunteer.unknown": "อาสาสมัครที่ไม่ทราบ",
 
     // Statuses
     "status.completed": "เสร็จสิ้น",
     "status.pending": "รอดำเนินการ",
     "status.failed": "ล้มเหลว",
 
-    // Blockchain
-    "blockchain.block": "บล็อก",
-
-    // Filter
-    "filter.allYears": "ทุกปี",
-    "filter.allTypes": "ทุกประเภท",
-    "filter.donations": "การบริจาค",
-    "filter.volunteerApplications": "การสมัครอาสาสมัคร",
-    "filter.volunteerHours": "ชั่วโมงอาสาสมัคร",
-    "filter.fiatDonations": "การบริจาคสกุลเงินปกติ",
-
     // Export
     "export.title": "ส่งออกข้อมูลการมีส่วนร่วม",
     "export.filename": "ชื่อไฟล์",
     "export.dateRange": "ช่วงวันที่",
-    "export.includePersonal": "รวมที่อยู่กระเป๋าเงิน",
+    "export.includePersonal": "รวมที่อยู่กระเป๋าเงินและข้อมูลส่วนบุคคล",
     "export.willInclude": "การส่งออกจะรวมถึง:",
-    "export.walletAddresses": "ที่อยู่กระเป๋าเงิน (ผู้ส่งและผู้รับ)",
-    "export.volunteerDetails": "รายละเอียดการมีส่วนร่วมของอาสาสมัคร (เมื่อมี)",
-    "export.verificationHashes": "แฮชการตรวจสอบ (เมื่อมี)",
     "export.cancel": "ยกเลิก",
     "export.download": "ส่งออก CSV",
 

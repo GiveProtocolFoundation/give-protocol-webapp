@@ -2,20 +2,14 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline": "उदारता के लिए पारदर्शी, सीमाहीन अवसंरचना।",
-    "common.cancel": "रद्द करें",
-    "common.edit": "संपादित करें",
-    "common.delete": "हटाएं",
-    "common.creating": "बना रहे हैं...",
-    "common.unknown": "अज्ञात",
-    "common.notAvailable": "उपलब्ध नहीं",
+    "app.tagline": "स्मार्ट दान के माध्यम से परिवर्तन को सशक्त बनाएं",
 
     // Navigation
     "nav.browse": "चैरिटी ब्राउज़ करें",
     "nav.opportunities": "स्वयंसेवक अवसर",
     "nav.contributions": "योगदान ट्रैकर",
     "nav.governance": "शासन",
-    "nav.dashboard": "Give डैशबोर्ड",
+    "nav.dashboard": "डैशबोर्ड",
     "nav.about": "हमारे बारे में",
     "nav.docs": "दस्तावेज़",
     "nav.legal": "कानूनी",
@@ -25,6 +19,7 @@ export default {
     "settings.title": "सेटिंग्स",
     "settings.language": "भाषा",
     "settings.currency": "मुद्रा",
+    "settings.displayPreferences": "प्रदर्शन प्राथमिकताएं",
 
     // Auth
     "auth.login": "साइन इन करें",
@@ -33,17 +28,12 @@ export default {
     "auth.forgotPassword": "पासवर्ड भूल गए?",
 
     // Dashboard
-    "dashboard.title": "Give डैशबोर्ड",
+    "dashboard.title": "डैशबोर्ड",
     "dashboard.subtitle": "अपने दान और स्वयंसेवक योगदान को ट्रैक करें",
     "dashboard.totalDonations": "कुल दान",
     "dashboard.volunteerHours": "स्वयंसेवक घंटे",
     "dashboard.skillsEndorsed": "अनुमोदित कौशल",
     "dashboard.contributions": "योगदान",
-    "dashboard.yourTotalDonated": "आपका कुल दान",
-    "dashboard.yourVolunteerHours": "आपके स्वयंसेवक घंटे",
-    "dashboard.yourSkillsEndorsed": "आपके अनुमोदित कौशल",
-    "dashboard.impactGrowth": "प्रभाव वृद्धि",
-    "dashboard.charitiesSupported": "समर्थित चैरिटी",
 
     // Charity
     "charity.dashboard": "चैरिटी डैशबोर्ड",
@@ -52,9 +42,6 @@ export default {
     "charity.transactions": "लेनदेन",
     "charity.volunteers": "स्वयंसेवक घंटे",
     "charity.applications": "आवेदन",
-    "charity.totalReceived": "कुल प्राप्त",
-    "charity.equityPoolValue": "इक्विटी पूल मूल्य",
-    "charity.availableBalance": "उपलब्ध शेष",
 
     // Contributions
     "contributions.date": "तिथि",
@@ -66,353 +53,24 @@ export default {
     "contributions.export": "CSV निर्यात करें",
 
     // Volunteer
-    "volunteer.opportunities": "स्वयंसेवक अवसर",
-    "volunteer.searchOpportunities": "अवसर खोजें...",
-    "volunteer.selectSkill": "कौशल चुनें",
-    "volunteer.selectType": "प्रकार चुनें",
-    "volunteer.selectLanguage": "भाषा चुनें",
-    "volunteer.allSkills": "सभी कौशल",
-    "volunteer.allTypes": "सभी प्रकार",
-    "volunteer.allLanguages": "सभी भाषाएं",
-    "volunteer.applyNow": "अभी आवेदन करें",
-    "volunteer.noOpportunitiesFound":
-      "आपके मानदंड से मेल खाते कोई अवसर नहीं मिले।",
     "volunteer.verify": "घंटे सत्यापित करें",
-    "volunteer.verifying": "सत्यापित हो रहा है...",
     "volunteer.reject": "अस्वीकार करें",
     "volunteer.accept": "स्वीकार करें",
-    "volunteer.processing": "प्रसंस्करण हो रहा है...",
     "volunteer.hours": "घंटे",
     "volunteer.description": "विवरण",
-    "volunteer.appliedFor": "इसके लिए आवेदन किया",
-    "volunteer.verificationComplete": "सत्यापन पूर्ण",
-    "volunteer.hoursVerified":
-      "स्वयंसेवक घंटों को सत्यापित किया गया है और ब्लॉकचेन पर दर्ज किया गया है।",
-    "volunteer.verificationHash": "सत्यापन हैश",
-    "volunteer.applicationAccepted": "आवेदन स्वीकृत",
-    "volunteer.applicationRecorded":
-      "स्वयंसेवक आवेदन स्वीकार किया गया है और ब्लॉकचेन पर दर्ज किया गया है।",
-    "volunteer.acceptanceHash": "स्वीकृति हैश",
-    "volunteer.pendingHours": "लंबित स्वयंसेवक घंटे",
-    "volunteer.noPendingHours":
-      "सत्यापन के लिए कोई लंबित स्वयंसेवक घंटे नहीं हैं।",
-    "volunteer.pendingApplications": "लंबित आवेदन",
-    "volunteer.noPendingApplications":
-      "समीक्षा के लिए कोई लंबित आवेदन नहीं हैं।",
-    "volunteer.createOpportunity": "स्वयंसेवक अवसर बनाएं",
-    "volunteer.createNew": "नया बनाएं",
-    "volunteer.noOpportunitiesYet":
-      'अभी तक कोई अवसर नहीं बनाया गया है। शुरू करने के लिए "नया बनाएं" पर क्लिक करें।',
-    "volunteer.opportunityTitle": "अवसर शीर्षक",
-    "volunteer.skills": "कौशल (अल्पविराम से अलग)",
-    "volunteer.commitment": "प्रतिबद्धता",
-    "volunteer.location": "स्थान",
-    "volunteer.type": "प्रकार",
-    "volunteer.workLanguage": "कार्य भाषा",
-    "volunteer.status": "स्थिति",
-
-    // Volunteer commitment types
-    "volunteer.commitment.oneTime": "एक बार",
-    "volunteer.commitment.shortTerm": "अल्पकालिक",
-    "volunteer.commitment.longTerm": "दीर्घकालिक",
-
-    // Volunteer types
-    "volunteer.type.remote": "रिमोट",
-    "volunteer.type.onsite": "स्थल पर",
-    "volunteer.type.hybrid": "हाइब्रिड",
-    "volunteer.type.onSite": "स्थल पर",
-
-    // Volunteer - Opportunities page
-    "volunteer.workTypeFilter": "कार्य प्रकार फ़िल्टर",
-    "volunteer.searchLocation": "शहर या क्षेत्र...",
-    "volunteer.searchLocationAria": "स्थान खोजें",
-    "volunteer.signInToApply":
-      "स्वयंसेवक अवसरों के लिए आवेदन करने हेतु कृपया साइन इन करें",
-    "volunteer.applicationSuccess": "आवेदन सफलतापूर्वक जमा किया गया!",
-    "volunteer.removeFilter": "{{filter}} फ़िल्टर हटाएं",
-
-    // Volunteer - OpportunityForm
-    "volunteer.validation.titleRequired": "शीर्षक आवश्यक है",
-    "volunteer.validation.descriptionRequired": "विवरण आवश्यक है",
-    "volunteer.validation.skillsRequired": "कम से कम एक कौशल आवश्यक है",
-    "volunteer.validation.locationRequired": "स्थान आवश्यक है",
-    "volunteer.profileNotFound": "उपयोगकर्ता प्रोफ़ाइल नहीं मिली",
-    "volunteer.correctErrors": "कृपया सत्यापन त्रुटियों को सही करें",
-    "volunteer.createFailed": "अवसर बनाने में विफल",
-    "volunteer.descriptionPlaceholder":
-      "स्वयंसेवक अवसर का विस्तृत विवरण दें...",
-    "volunteer.skillsPlaceholder": "जैसे, वेब विकास, परियोजना प्रबंधन, अनुवाद",
-    "volunteer.locationPlaceholder": "जैसे, रिमोट, नई दिल्ली, मुंबई",
-    "volunteer.headerImage": "हेडर छवि",
-    "volunteer.headerImageHelp":
-      "अपनी अवसर सूची के शीर्ष पर प्रदर्शित करने के लिए एक छवि अपलोड करें",
-    "volunteer.limitReached": "अवसर सीमा पूर्ण",
-    "volunteer.limitReachedMessage":
-      "आपने अधिकतम {{max}} सक्रिय स्वयंसेवक अवसरों की सीमा पूरी कर ली है। कृपया नया बनाने से पहले किसी मौजूदा अवसर को बंद करें या पूरा करें।",
-    "volunteer.opportunityCount":
-      "आपके {{max}} में से {{count}} सक्रिय अवसर हैं।",
-
-    // Volunteer - HoursVerificationTab
-    "volunteer.hoursVerification": "घंटों का सत्यापन",
-    "volunteer.hoursVerificationDescription":
-      "स्वयंसेवक घंटों की प्रस्तुतियों की समीक्षा और सत्यापन करें",
-    "volunteer.formalHours": "दर्ज किए गए घंटे",
-    "volunteer.selfReported": "स्व-रिपोर्टेड",
-    "volunteer.loggedHours": "दर्ज किए गए स्वयंसेवक घंटे",
-    "volunteer.loggedHoursDescription":
-      "आपके अवसरों के माध्यम से स्वयंसेवकों द्वारा दर्ज किए गए घंटे",
-    "volunteer.allCaughtUp": "सब अद्यतन है!",
-    "volunteer.noPendingLoggedHours":
-      "सत्यापन के लिए कोई लंबित दर्ज घंटे नहीं हैं।",
-    "volunteer.selfReportedHours": "स्व-रिपोर्टेड घंटे",
-
-    // Volunteer - OpportunitiesTab
-    "volunteer.noOpportunitiesTitle": "अभी कोई अवसर नहीं",
-    "volunteer.activeCount": "{{max}} में से {{count}} सक्रिय अवसर",
-    "volunteer.moreSkills": "+{{count}} और",
-
-    // Volunteer - ApplicationsTab
-    "volunteer.noApplications": "कोई लंबित आवेदन नहीं",
-    "volunteer.unknownOpportunity": "अज्ञात अवसर",
-
-    // Volunteer - VerificationLookup
-    "volunteer.verifyContribution": "स्वयंसेवक योगदान सत्यापित करें",
-    "volunteer.hashPlaceholder": "सत्यापन हैश दर्ज करें",
-    "volunteer.searching": "खोज रहे हैं...",
-    "volunteer.verifyHash": "हैश सत्यापित करें",
-    "volunteer.verificationNotFound": "सत्यापन नहीं मिला",
-    "volunteer.verificationNotFoundMessage":
-      "आपके द्वारा दिया गया हैश हमारे रिकॉर्ड में नहीं मिला। कृपया हैश की जांच करें और पुनः प्रयास करें।",
-    "volunteer.unknownOrganization": "अज्ञात संगठन",
-
-    // Volunteer - VolunteerVerificationCard
-    "volunteer.contributionVerification": "स्वयंसेवक योगदान सत्यापन",
-    "volunteer.volunteerLabel": "स्वयंसेवक",
-    "volunteer.opportunityLabel": "अवसर",
-    "volunteer.organizationLabel": "संगठन",
-    "volunteer.acceptedOn": "स्वीकृति तिथि",
-    "volunteer.verifiedOn": "सत्यापन तिथि",
-    "volunteer.verificationHashes": "सत्यापन हैश",
-    "volunteer.blockchainReference": "ब्लॉकचेन संदर्भ",
-
-    // Volunteer - VerifyContribution page
-    "volunteer.verifyingContribution": "योगदान सत्यापित हो रहा है\u2026",
-    "volunteer.noHashProvided": "कोई सत्यापन हैश प्रदान नहीं किया गया।",
-    "volunteer.verificationSuccessful": "सत्यापन सफल",
-    "volunteer.contributionVerifiedBlockchain":
-      "इस स्वयंसेवक योगदान को सत्यापित किया गया है और ब्लॉकचेन पर दर्ज किया गया है।",
-    "volunteer.verificationFailed": "सत्यापन विफल",
-    "volunteer.hashNotFound": "सत्यापन हैश {{hash}} नहीं मिला या अमान्य है।",
-
-    // Volunteer - SelfReportedHoursDashboard
-    "volunteer.volunteerHoursTitle": "स्वयंसेवक घंटे",
-    "volunteer.aboutSelfReported": "स्व-रिपोर्टेड घंटों के बारे में",
-    "volunteer.selfReportedInfo":
-      "केवल सत्यापित संगठनों द्वारा मान्य किए गए घंटे ही वैश्विक प्रभाव रैंकिंग में गिने जाते हैं। हमारे प्लेटफ़ॉर्म पर नहीं मौजूद संगठनों के लिए घंटे ट्रैक किए जा सकते हैं, लेकिन मान्यता प्राप्त होने तक उन्हें \u201cअमान्य\u201d के रूप में चिह्नित किया जाएगा।",
-    "volunteer.logHoursButton": "घंटे दर्ज करें",
-    "volunteer.logVolunteerHours": "स्वयंसेवक घंटे दर्ज करें",
-    "volunteer.editRecord": "रिकॉर्ड संपादित करें",
-    "volunteer.recordDetails": "रिकॉर्ड विवरण",
-    "volunteer.backToList": "सूची पर वापस जाएं",
-    "volunteer.deleteRecord": "रिकॉर्ड हटाएं?",
-    "volunteer.deleteConfirmation":
-      "क्या आप वाकई इस स्वयंसेवक घंटों के रिकॉर्ड को हटाना चाहते हैं? यह क्रिया पूर्ववत नहीं की जा सकती।",
-
-    // Volunteer - SelfReportedHoursForm
-    "volunteer.activityType": "गतिविधि प्रकार",
-    "volunteer.organization": "संगठन",
-    "volunteer.searchRegistry": "रजिस्ट्री खोजें",
-    "volunteer.notListed": "सूचीबद्ध नहीं",
-    "volunteer.organizationName": "संगठन का नाम",
-    "volunteer.enterOrgName": "संगठन का नाम दर्ज करें",
-    "volunteer.contactEmail": "संपर्क ईमेल",
-    "volunteer.contactEmailOptional": "(वैकल्पिक)",
-    "volunteer.onboardHelp":
-      "हम इस संगठन को जोड़ने में मदद के लिए संपर्क कर सकते हैं",
-    "volunteer.submittedForValidation":
-      "यह रिकॉर्ड मान्यता के लिए प्रस्तुत किया जाएगा",
-    "volunteer.submittedForValidationTo":
-      "यह रिकॉर्ड {{org}} को मान्यता के लिए प्रस्तुत किया जाएगा",
-    "volunteer.validationExpired":
-      "इस तिथि के लिए मान्यता अवधि समाप्त हो गई है",
-    "volunteer.savedAsUnvalidated": "यह रिकॉर्ड अमान्य के रूप में सहेजा जाएगा",
-    "volunteer.describeActivities":
-      "आपने जो गतिविधियां की हैं उनका वर्णन करें...",
-    "volunteer.moreCharsNeeded": "{{count}} और अक्षर आवश्यक हैं",
-    "volunteer.updating": "अपडेट हो रहा है...",
-    "volunteer.logging": "दर्ज हो रहा है...",
-    "volunteer.updateHours": "घंटे अपडेट करें",
-
-    // Volunteer - SelfReportedHoursList
-    "volunteer.statusFilter": "स्थिति",
-    "volunteer.activityTypeFilter": "गतिविधि प्रकार",
-    "volunteer.filterFrom": "से",
-    "volunteer.filterTo": "तक",
-    "volunteer.clearFilters": "फ़िल्टर साफ़ करें",
-    "volunteer.allStatuses": "सभी",
-    "volunteer.allActivityTypes": "सभी प्रकार",
-    "volunteer.noMatchingRecords": "कोई मिलान रिकॉर्ड नहीं",
-    "volunteer.noHoursLogged": "अभी तक कोई स्वयंसेवक घंटे दर्ज नहीं किए गए",
-    "volunteer.adjustFilters":
-      "रिकॉर्ड खोजने के लिए अपने फ़िल्टर समायोजित करें।",
-    "volunteer.startLogging": "अपने पहले स्वयंसेवक घंटे दर्ज करके शुरू करें।",
-
-    // Volunteer - SelfReportedHoursStats
-    "volunteer.validatedHours": "मान्य घंटे",
-    "volunteer.pendingValidation": "मान्यता लंबित",
-    "volunteer.unvalidatedHours": "अमान्य घंटे",
-    "volunteer.rejectedLabel": "अस्वीकृत",
-    "volunteer.hoursUnit": "घंटे",
-    "volunteer.recordSingular": "रिकॉर्ड",
-    "volunteer.recordPlural": "रिकॉर्ड",
-
-    // Volunteer - VolunteerApplicationForm
-    "volunteer.applicationTitle": "स्वयंसेवक अवसर आवेदन",
-    "volunteer.applicationSubtitle":
-      "सत्यापित योगदान के माध्यम से सतत प्रभाव बनाने में सहायता करें",
-    "volunteer.personalInfo": "व्यक्तिगत जानकारी",
-    "volunteer.firstName": "पहला नाम",
-    "volunteer.lastName": "उपनाम",
-    "volunteer.emailAddress": "ईमेल पता",
-    "volunteer.phoneNumber": "फ़ोन नंबर",
-    "volunteer.locationCity": "स्थान/शहर",
-    "volunteer.locationCityPlaceholder": "जैसे, नई दिल्ली, भारत",
-    "volunteer.timeZone": "समय क्षेत्र",
-    "volunteer.selectTimeZone": "समय क्षेत्र चुनें",
-    "volunteer.ageRange": "आयु सीमा",
-    "volunteer.selectAgeRange": "आयु सीमा चुनें",
-    "volunteer.skillsAndInterests": "कौशल और रुचियां",
-    "volunteer.skillsLabel": "कौशल और रुचि के क्षेत्र",
-    "volunteer.skillPlaceholderFull":
-      "अपने कौशल टाइप करना शुरू करें (जैसे, Python प्रोग्रामिंग, सार्वजनिक भाषण, अनुदान लेखन)",
-    "volunteer.skillPlaceholderShort": "कौशल टाइप करें और Enter दबाएं...",
-    "volunteer.commitmentLevel": "प्रतिबद्धता स्तर",
-    "volunteer.commitmentOneTimeDesc": "एकल परियोजना या अल्पकालिक कार्य",
-    "volunteer.commitmentShortTermDesc": "कुछ सप्ताह से कुछ महीने",
-    "volunteer.commitmentLongTermDesc":
-      "कई महीनों या उससे अधिक की निरंतर प्रतिबद्धता",
-    "volunteer.experienceLabel": "अपने प्रासंगिक अनुभव के बारे में बताएं",
-    "volunteer.experiencePlaceholder":
-      "अपनी पृष्ठभूमि, कौशल, और Give Protocol के साथ स्वयंसेवा करने की प्रेरणा का वर्णन करें...",
-    "volunteer.consentTitle": "सहमति और समझौता",
-    "volunteer.consentHeader": "स्वयंसेवक आवेदन सहमति",
-    "volunteer.submitting": "जमा हो रहा है...",
-    "volunteer.submitApplication": "स्वयंसेवक आवेदन जमा करें",
-    "volunteer.disclaimerText":
-      "यह आवेदन जमा करके, आप स्वीकार करते हैं कि आपने Give Protocol की गोपनीयता नीति और स्वयंसेवक दिशानिर्देशों को पढ़ और समझ लिया है। आपके डेटा को लागू डेटा सुरक्षा विनियमों के अनुसार संसाधित किया जाएगा।",
-    "volunteer.validation.firstNameInvalid":
-      "कृपया एक मान्य पहला नाम दर्ज करें",
-    "volunteer.validation.lastNameInvalid": "कृपया एक मान्य उपनाम दर्ज करें",
-    "volunteer.validation.emailInvalid": "कृपया एक मान्य ईमेल पता दर्ज करें",
-    "volunteer.validation.phoneInvalid": "कृपया एक मान्य फ़ोन नंबर दर्ज करें",
-    "volunteer.validation.experienceRequired":
-      "कृपया अपने प्रासंगिक अनुभव का वर्णन करें",
-    "volunteer.validation.addSkill": "कृपया कम से कम एक कौशल जोड़ें",
-    "volunteer.validation.ageRangeRequired": "कृपया अपनी आयु सीमा चुनें",
-    "volunteer.validation.consentRequired":
-      "आपको सभी आवश्यक सहमति मदों से सहमत होना होगा",
-    "volunteer.signInToSubmit": "आवेदन जमा करने के लिए कृपया लॉग इन करें",
-    "volunteer.submitFailed":
-      "आवेदन जमा करने में विफल। कृपया पुनः प्रयास करें।",
-
-    // Volunteer - ApplicationForm
-    "volunteer.applyForTitle": "इसके लिए आवेदन करें: {{title}}",
-    "volunteer.fullName": "पूरा नाम *",
-    "volunteer.phoneRequired": "फ़ोन नंबर *",
-    "volunteer.emailRequired": "ईमेल पता *",
-    "volunteer.dateOfBirth": "जन्म तिथि",
-    "volunteer.availabilityTitle": "उपलब्धता",
-    "volunteer.preferredDays": "पसंदीदा दिन",
-    "volunteer.preferredTimes": "पसंदीदा समय",
-    "volunteer.commitmentLevelLabel": "प्रतिबद्धता स्तर",
-    "volunteer.skillsAndExperience": "कौशल और अनुभव",
-    "volunteer.relevantExperience": "प्रासंगिक अनुभव *",
-    "volunteer.certifications": "प्रमाणपत्र (अल्पविराम से अलग)",
-    "volunteer.interestsAndPreferences": "रुचियां और प्राथमिकताएं",
-    "volunteer.areasOfInterest": "रुचि के क्षेत्र (अल्पविराम से अलग)",
-    "volunteer.referencesTitle": "संदर्भ",
-    "volunteer.referenceName": "संदर्भ {{index}} नाम",
-    "volunteer.referenceContact": "संदर्भ {{index}} संपर्क",
-    "volunteer.workSamplesTitle": "कार्य नमूने",
-    "volunteer.workSamplesLabel": "कार्य नमूनों के लिंक (अल्पविराम से अलग)",
-    "volunteer.submitApplicationShort": "आवेदन जमा करें",
-    "volunteer.validation.nameInvalid":
-      "कृपया एक मान्य नाम दर्ज करें (2-100 अक्षर)",
-    "volunteer.validation.provideExperience":
-      "कृपया अपने अनुभव के बारे में जानकारी प्रदान करें",
-    "volunteer.validation.selectDay": "कृपया कम से कम एक दिन चुनें",
-    "volunteer.validation.selectTime": "कृपया कम से कम एक समय चुनें",
-
-    // Volunteer - ConsentForm
-    "volunteer.consentUnderstand": "मैं समझता/समझती हूं कि:",
-    "volunteer.specificConsents": "विशिष्ट सहमतियां",
-    "volunteer.specificConsentsDesc":
-      "कृपया निम्नलिखित प्रत्येक मद की समीक्षा करें और अपनी सहमति दें:",
-    "volunteer.essentialProcessingTitle": "आवश्यक प्रसंस्करण (अनिवार्य):",
-    "volunteer.internationalTransfersTitle":
-      "अंतर्राष्ट्रीय स्थानांतरण (यदि लागू हो):",
-    "volunteer.acknowledgmentTitle": "स्वीकृति",
-    "volunteer.ageConfirmationTitle": "आयु पुष्टि:",
-    "volunteer.privacyNoticeTitle": "गोपनीयता सूचना:",
-    "volunteer.doNotAccept": "स्वीकार न करें",
-    "volunteer.acceptAndContinue": "स्वीकार करें और जारी रखें",
-    "volunteer.validation.essentialRequired":
-      "आगे बढ़ने के लिए आवश्यक प्रसंस्करण सहमति आवश्यक है",
-    "volunteer.validation.agePrivacyRequired":
-      "आपको अपनी आयु की पुष्टि करनी होगी और यह सुनिश्चित करना होगा कि आपने गोपनीयता सूचना पढ़ ली है",
-
-    // Languages
-    "language.english": "अंग्रेज़ी",
-    "language.spanish": "स्पेनिश",
-    "language.german": "जर्मन",
-    "language.french": "फ़्रेंच",
-    "language.japanese": "जापानी",
-    "language.chinese_simplified": "चीनी (सरलीकृत)",
-    "language.chinese_traditional": "चीनी (पारंपरिक)",
-    "language.thai": "थाई",
-    "language.vietnamese": "वियतनामी",
-    "language.korean": "कोरियाई",
-    "language.arabic": "अरबी",
-    "language.hindi": "हिन्दी",
-    "language.multiple": "एकाधिक भाषाएं",
-
-    // Contribution types
-    "contribution.type.donation": "दान",
-    "contribution.type.volunteerapplication": "स्वयंसेवक आवेदन",
-    "contribution.type.volunteerhours": "स्वयंसेवक घंटे",
-    "contribution.type.volunteeracceptance": "स्वयंसेवक स्वीकृति",
-    "contribution.type.volunteerverification": "स्वयंसेवक सत्यापन",
-
-    // Donor/Volunteer
-    "donor.volunteer": "दाता/स्वयंसेवक",
-    "donor.anonymous": "अनाम",
-    "volunteer.unknown": "अज्ञात स्वयंसेवक",
+    "volunteer.appliedFor": "के लिए आवेदन किया",
 
     // Statuses
     "status.completed": "पूर्ण",
     "status.pending": "लंबित",
     "status.failed": "विफल",
 
-    // Blockchain
-    "blockchain.block": "ब्लॉक",
-
-    // Filter
-    "filter.allYears": "सभी वर्ष",
-    "filter.allTypes": "सभी प्रकार",
-    "filter.donations": "दान",
-    "filter.volunteerApplications": "स्वयंसेवक आवेदन",
-    "filter.volunteerHours": "स्वयंसेवक घंटे",
-    "filter.fiatDonations": "फ़िएट दान",
-
     // Export
     "export.title": "योगदान डेटा निर्यात करें",
     "export.filename": "फ़ाइल नाम",
     "export.dateRange": "तिथि सीमा",
-    "export.includePersonal": "वॉलेट पते शामिल करें",
+    "export.includePersonal": "वॉलेट पते और व्यक्तिगत जानकारी शामिल करें",
     "export.willInclude": "निर्यात में शामिल होगा:",
-    "export.walletAddresses": "वॉलेट पते (प्रेषक और प्राप्तकर्ता)",
-    "export.volunteerDetails": "स्वयंसेवक योगदान विवरण (जब लागू हो)",
-    "export.verificationHashes": "सत्यापन हैश (जब लागू हो)",
     "export.cancel": "रद्द करें",
     "export.download": "CSV निर्यात करें",
 

@@ -2,20 +2,14 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline": "بنية تحتية شفافة وبلا حدود للعطاء.",
-    "common.cancel": "إلغاء",
-    "common.edit": "تعديل",
-    "common.delete": "حذف",
-    "common.creating": "جارٍ الإنشاء...",
-    "common.unknown": "غير معروف",
-    "common.notAvailable": "غ/م",
+    "app.tagline": "تمكين التغيير من خلال العطاء الذكي",
 
     // Navigation
     "nav.browse": "تصفح المؤسسات الخيرية",
     "nav.opportunities": "فرص التطوع",
     "nav.contributions": "متتبع المساهمات",
     "nav.governance": "الحوكمة",
-    "nav.dashboard": "لوحة العطاء",
+    "nav.dashboard": "لوحة التحكم",
     "nav.about": "حول",
     "nav.docs": "الوثائق",
     "nav.legal": "المعلومات القانونية",
@@ -25,6 +19,7 @@ export default {
     "settings.title": "الإعدادات",
     "settings.language": "اللغة",
     "settings.currency": "العملة",
+    "settings.displayPreferences": "تفضيلات العرض",
 
     // Auth
     "auth.login": "تسجيل الدخول",
@@ -33,17 +28,12 @@ export default {
     "auth.forgotPassword": "نسيت كلمة المرور؟",
 
     // Dashboard
-    "dashboard.title": "لوحة العطاء",
-    "dashboard.subtitle": "تتبع تبرعاتك ومساهماتك التطوعية",
+    "dashboard.title": "لوحة التحكم",
+    "dashboard.subtitle": "تتبع تبرعاتك ومساهمات التطوع",
     "dashboard.totalDonations": "إجمالي التبرعات",
     "dashboard.volunteerHours": "ساعات التطوع",
-    "dashboard.skillsEndorsed": "المهارات المُعتمَدة",
+    "dashboard.skillsEndorsed": "المهارات المعتمدة",
     "dashboard.contributions": "المساهمات",
-    "dashboard.yourTotalDonated": "إجمالي تبرعاتك",
-    "dashboard.yourVolunteerHours": "ساعات تطوعك",
-    "dashboard.yourSkillsEndorsed": "مهاراتك المُعتمَدة",
-    "dashboard.impactGrowth": "نمو الأثر",
-    "dashboard.charitiesSupported": "المؤسسات المدعومة",
 
     // Charity
     "charity.dashboard": "لوحة تحكم المؤسسة الخيرية",
@@ -52,9 +42,6 @@ export default {
     "charity.transactions": "المعاملات",
     "charity.volunteers": "ساعات التطوع",
     "charity.applications": "الطلبات",
-    "charity.totalReceived": "إجمالي المُستلَم",
-    "charity.equityPoolValue": "قيمة مجمع حقوق الملكية",
-    "charity.availableBalance": "الرصيد المتاح",
 
     // Contributions
     "contributions.date": "التاريخ",
@@ -66,335 +53,24 @@ export default {
     "contributions.export": "تصدير CSV",
 
     // Volunteer
-    "volunteer.opportunities": "فرص التطوع",
-    "volunteer.searchOpportunities": "البحث عن فرص...",
-    "volunteer.selectSkill": "اختر مهارة",
-    "volunteer.selectType": "اختر نوعًا",
-    "volunteer.selectLanguage": "اختر لغة",
-    "volunteer.allSkills": "جميع المهارات",
-    "volunteer.allTypes": "جميع الأنواع",
-    "volunteer.allLanguages": "جميع اللغات",
-    "volunteer.applyNow": "تقدّم الآن",
-    "volunteer.noOpportunitiesFound": "لم يتم العثور على فرص تطابق معاييرك.",
     "volunteer.verify": "التحقق من الساعات",
-    "volunteer.verifying": "جارٍ التحقق...",
     "volunteer.reject": "رفض",
     "volunteer.accept": "قبول",
-    "volunteer.processing": "جارٍ المعالجة...",
     "volunteer.hours": "ساعات في",
     "volunteer.description": "الوصف",
-    "volunteer.appliedFor": "تقدّم لـ",
-    "volunteer.verificationComplete": "اكتمل التحقق",
-    "volunteer.hoursVerified":
-      "تم التحقق من ساعات التطوع وتسجيلها على سلسلة الكتل.",
-    "volunteer.verificationHash": "رمز التحقق",
-    "volunteer.applicationAccepted": "تم قبول الطلب",
-    "volunteer.applicationRecorded":
-      "تم قبول طلب التطوع وتسجيله على سلسلة الكتل.",
-    "volunteer.acceptanceHash": "رمز القبول",
-    "volunteer.pendingHours": "ساعات التطوع المعلقة",
-    "volunteer.noPendingHours": "لا توجد ساعات تطوع معلقة للتحقق منها.",
-    "volunteer.pendingApplications": "الطلبات المعلقة",
-    "volunteer.noPendingApplications": "لا توجد طلبات معلقة للمراجعة.",
-    "volunteer.createOpportunity": "إنشاء فرصة تطوع",
-    "volunteer.createNew": "إنشاء جديد",
-    "volunteer.noOpportunitiesYet":
-      'لم يتم إنشاء فرص بعد. انقر على "إنشاء جديد" للبدء.',
-    "volunteer.opportunityTitle": "عنوان الفرصة",
-    "volunteer.skills": "المهارات (مفصولة بفواصل)",
-    "volunteer.commitment": "الالتزام",
-    "volunteer.location": "الموقع",
-    "volunteer.type": "النوع",
-    "volunteer.workLanguage": "لغة العمل",
-    "volunteer.status": "الحالة",
-
-    // Volunteer commitment types
-    "volunteer.commitment.oneTime": "مرة واحدة",
-    "volunteer.commitment.shortTerm": "قصير المدى",
-    "volunteer.commitment.longTerm": "طويل المدى",
-
-    // Volunteer types
-    "volunteer.type.remote": "عن بُعد",
-    "volunteer.type.onsite": "في الموقع",
-    "volunteer.type.hybrid": "مختلط",
-    "volunteer.type.onSite": "في الموقع",
-
-    // Volunteer - Opportunities page
-    "volunteer.workTypeFilter": "تصفية نوع العمل",
-    "volunteer.searchLocation": "المدينة أو المنطقة...",
-    "volunteer.searchLocationAria": "البحث عن موقع",
-    "volunteer.signInToApply": "يرجى تسجيل الدخول للتقدم لفرص التطوع",
-    "volunteer.applicationSuccess": "تم تقديم الطلب بنجاح!",
-    "volunteer.removeFilter": "إزالة تصفية {{filter}}",
-
-    // Volunteer - OpportunityForm
-    "volunteer.validation.titleRequired": "العنوان مطلوب",
-    "volunteer.validation.descriptionRequired": "الوصف مطلوب",
-    "volunteer.validation.skillsRequired": "مهارة واحدة على الأقل مطلوبة",
-    "volunteer.validation.locationRequired": "الموقع مطلوب",
-    "volunteer.profileNotFound": "لم يتم العثور على ملف المستخدم",
-    "volunteer.correctErrors": "يرجى تصحيح أخطاء التحقق",
-    "volunteer.createFailed": "فشل إنشاء الفرصة",
-    "volunteer.descriptionPlaceholder": "صِف فرصة التطوع بالتفصيل...",
-    "volunteer.skillsPlaceholder": "مثال: تطوير الويب، إدارة المشاريع، الترجمة",
-    "volunteer.locationPlaceholder": "مثال: عن بُعد، نيويورك، برلين",
-    "volunteer.headerImage": "صورة الرأس",
-    "volunteer.headerImageHelp": "ارفع صورة لعرضها في أعلى قائمة الفرصة",
-    "volunteer.limitReached": "تم الوصول إلى حد الفرص",
-    "volunteer.limitReachedMessage":
-      "لقد وصلت إلى الحد الأقصى البالغ {{max}} فرصة تطوع نشطة. يرجى إغلاق أو إكمال فرصة حالية قبل إنشاء فرصة جديدة.",
-    "volunteer.opportunityCount": "لديك {{count}} من أصل {{max}} فرصة نشطة.",
-
-    // Volunteer - HoursVerificationTab
-    "volunteer.hoursVerification": "التحقق من الساعات",
-    "volunteer.hoursVerificationDescription":
-      "مراجعة والتحقق من طلبات ساعات التطوع المقدمة",
-    "volunteer.formalHours": "الساعات المسجلة",
-    "volunteer.selfReported": "مُبلَّغ ذاتيًا",
-    "volunteer.loggedHours": "ساعات التطوع المسجلة",
-    "volunteer.loggedHoursDescription":
-      "الساعات المسجلة من قبل المتطوعين عبر فرصك",
-    "volunteer.allCaughtUp": "تم الانتهاء من الكل!",
-    "volunteer.noPendingLoggedHours": "لا توجد ساعات مسجلة معلقة للتحقق منها.",
-    "volunteer.selfReportedHours": "الساعات المُبلَّغة ذاتيًا",
-
-    // Volunteer - OpportunitiesTab
-    "volunteer.noOpportunitiesTitle": "لا توجد فرص بعد",
-    "volunteer.activeCount": "{{count}} من أصل {{max}} فرصة نشطة",
-    "volunteer.moreSkills": "+{{count}} إضافية",
-
-    // Volunteer - ApplicationsTab
-    "volunteer.noApplications": "لا توجد طلبات معلقة",
-    "volunteer.unknownOpportunity": "فرصة غير معروفة",
-
-    // Volunteer - VerificationLookup
-    "volunteer.verifyContribution": "التحقق من مساهمة التطوع",
-    "volunteer.hashPlaceholder": "أدخل رمز التحقق",
-    "volunteer.searching": "جارٍ البحث...",
-    "volunteer.verifyHash": "التحقق من الرمز",
-    "volunteer.verificationNotFound": "لم يتم العثور على التحقق",
-    "volunteer.verificationNotFoundMessage":
-      "لم يتم العثور على الرمز الذي أدخلته في سجلاتنا. يرجى التحقق من الرمز والمحاولة مجددًا.",
-    "volunteer.unknownOrganization": "مؤسسة غير معروفة",
-
-    // Volunteer - VolunteerVerificationCard
-    "volunteer.contributionVerification": "التحقق من مساهمة التطوع",
-    "volunteer.volunteerLabel": "المتطوع",
-    "volunteer.opportunityLabel": "الفرصة",
-    "volunteer.organizationLabel": "المؤسسة",
-    "volunteer.acceptedOn": "تاريخ القبول",
-    "volunteer.verifiedOn": "تاريخ التحقق",
-    "volunteer.verificationHashes": "رموز التحقق",
-    "volunteer.blockchainReference": "مرجع سلسلة الكتل",
-
-    // Volunteer - VerifyContribution page
-    "volunteer.verifyingContribution": "جارٍ التحقق من المساهمة\u2026",
-    "volunteer.noHashProvided": "لم يتم تقديم رمز تحقق.",
-    "volunteer.verificationSuccessful": "تم التحقق بنجاح",
-    "volunteer.contributionVerifiedBlockchain":
-      "تم التحقق من هذه المساهمة التطوعية وتسجيلها على سلسلة الكتل.",
-    "volunteer.verificationFailed": "فشل التحقق",
-    "volunteer.hashNotFound":
-      "لم يتم العثور على رمز التحقق {{hash}} أو أنه غير صالح.",
-
-    // Volunteer - SelfReportedHoursDashboard
-    "volunteer.volunteerHoursTitle": "ساعات التطوع",
-    "volunteer.aboutSelfReported": "حول الساعات المُبلَّغة ذاتيًا",
-    "volunteer.selfReportedInfo":
-      "فقط الساعات المُصادق عليها من قبل مؤسسات موثقة تُحتسب في تصنيفات الأثر العالمي. يمكن تتبع الساعات للمؤسسات غير الموجودة على منصتنا لكنها ستُصنَّف كـ \u201cغير مُصادق عليها\u201d حتى يتم التصديق.",
-    "volunteer.logHoursButton": "تسجيل الساعات",
-    "volunteer.logVolunteerHours": "تسجيل ساعات التطوع",
-    "volunteer.editRecord": "تعديل السجل",
-    "volunteer.recordDetails": "تفاصيل السجل",
-    "volunteer.backToList": "العودة إلى القائمة",
-    "volunteer.deleteRecord": "حذف السجل؟",
-    "volunteer.deleteConfirmation":
-      "هل أنت متأكد أنك تريد حذف سجل ساعات التطوع هذا؟ لا يمكن التراجع عن هذا الإجراء.",
-
-    // Volunteer - SelfReportedHoursForm
-    "volunteer.activityType": "نوع النشاط",
-    "volunteer.organization": "المؤسسة",
-    "volunteer.searchRegistry": "البحث في السجل",
-    "volunteer.notListed": "غير مدرجة",
-    "volunteer.organizationName": "اسم المؤسسة",
-    "volunteer.enterOrgName": "أدخل اسم المؤسسة",
-    "volunteer.contactEmail": "البريد الإلكتروني للتواصل",
-    "volunteer.contactEmailOptional": "(اختياري)",
-    "volunteer.onboardHelp": "قد نتواصل للمساعدة في ضم هذه المؤسسة",
-    "volunteer.submittedForValidation": "سيتم تقديم هذا السجل للتصديق",
-    "volunteer.submittedForValidationTo":
-      "سيتم تقديم هذا السجل للتصديق إلى {{org}}",
-    "volunteer.validationExpired": "انتهت فترة التصديق لهذا التاريخ",
-    "volunteer.savedAsUnvalidated": "سيتم حفظ هذا السجل بدون تصديق",
-    "volunteer.describeActivities": "صِف الأنشطة التي قمت بها...",
-    "volunteer.moreCharsNeeded": "مطلوب {{count}} حرف إضافي",
-    "volunteer.updating": "جارٍ التحديث...",
-    "volunteer.logging": "جارٍ التسجيل...",
-    "volunteer.updateHours": "تحديث الساعات",
-
-    // Volunteer - SelfReportedHoursList
-    "volunteer.statusFilter": "الحالة",
-    "volunteer.activityTypeFilter": "نوع النشاط",
-    "volunteer.filterFrom": "من",
-    "volunteer.filterTo": "إلى",
-    "volunteer.clearFilters": "مسح التصفية",
-    "volunteer.allStatuses": "الكل",
-    "volunteer.allActivityTypes": "جميع الأنواع",
-    "volunteer.noMatchingRecords": "لا توجد سجلات مطابقة",
-    "volunteer.noHoursLogged": "لم يتم تسجيل ساعات تطوع بعد",
-    "volunteer.adjustFilters": "جرّب تعديل معايير التصفية للعثور على سجلات.",
-    "volunteer.startLogging": "ابدأ بتسجيل ساعات تطوعك الأولى.",
-
-    // Volunteer - SelfReportedHoursStats
-    "volunteer.validatedHours": "الساعات المُصادق عليها",
-    "volunteer.pendingValidation": "بانتظار التصديق",
-    "volunteer.unvalidatedHours": "الساعات غير المُصادق عليها",
-    "volunteer.rejectedLabel": "مرفوض",
-    "volunteer.hoursUnit": "س",
-    "volunteer.recordSingular": "سجل",
-    "volunteer.recordPlural": "سجلات",
-
-    // Volunteer - VolunteerApplicationForm
-    "volunteer.applicationTitle": "طلب فرصة تطوع",
-    "volunteer.applicationSubtitle":
-      "ساعد في إحداث أثر مستدام من خلال مساهمات موثقة",
-    "volunteer.personalInfo": "المعلومات الشخصية",
-    "volunteer.firstName": "الاسم الأول",
-    "volunteer.lastName": "اسم العائلة",
-    "volunteer.emailAddress": "البريد الإلكتروني",
-    "volunteer.phoneNumber": "رقم الهاتف",
-    "volunteer.locationCity": "الموقع/المدينة",
-    "volunteer.locationCityPlaceholder":
-      "مثال: الرياض، المملكة العربية السعودية",
-    "volunteer.timeZone": "المنطقة الزمنية",
-    "volunteer.selectTimeZone": "اختر المنطقة الزمنية",
-    "volunteer.ageRange": "الفئة العمرية",
-    "volunteer.selectAgeRange": "اختر الفئة العمرية",
-    "volunteer.skillsAndInterests": "المهارات والاهتمامات",
-    "volunteer.skillsLabel": "المهارات ومجالات الاهتمام",
-    "volunteer.skillPlaceholderFull":
-      "ابدأ بكتابة مهاراتك (مثال: برمجة بايثون، الخطابة العامة، كتابة المنح)",
-    "volunteer.skillPlaceholderShort": "اكتب مهارة واضغط Enter...",
-    "volunteer.commitmentLevel": "مستوى الالتزام",
-    "volunteer.commitmentOneTimeDesc": "مشروع واحد أو مهام قصيرة المدة",
-    "volunteer.commitmentShortTermDesc": "من بضعة أسابيع إلى بضعة أشهر",
-    "volunteer.commitmentLongTermDesc": "التزام مستمر لعدة أشهر أو أكثر",
-    "volunteer.experienceLabel": "حدّثنا عن خبرتك ذات الصلة",
-    "volunteer.experiencePlaceholder":
-      "صِف خلفيتك ومهاراتك وما يحفزك للتطوع مع Give Protocol...",
-    "volunteer.consentTitle": "الموافقة والاتفاقية",
-    "volunteer.consentHeader": "موافقة طلب التطوع",
-    "volunteer.submitting": "جارٍ الإرسال...",
-    "volunteer.submitApplication": "تقديم طلب التطوع",
-    "volunteer.disclaimerText":
-      "بتقديم هذا الطلب، فإنك تُقرّ بأنك قرأت وفهمت سياسة الخصوصية وإرشادات التطوع الخاصة بـ Give Protocol. سيتم معالجة بياناتك وفقًا لأنظمة حماية البيانات المعمول بها.",
-    "volunteer.validation.firstNameInvalid": "يرجى إدخال اسم أول صالح",
-    "volunteer.validation.lastNameInvalid": "يرجى إدخال اسم عائلة صالح",
-    "volunteer.validation.emailInvalid": "يرجى إدخال بريد إلكتروني صالح",
-    "volunteer.validation.phoneInvalid": "يرجى إدخال رقم هاتف صالح",
-    "volunteer.validation.experienceRequired": "يرجى وصف خبرتك ذات الصلة",
-    "volunteer.validation.addSkill": "يرجى إضافة مهارة واحدة على الأقل",
-    "volunteer.validation.ageRangeRequired": "يرجى اختيار فئتك العمرية",
-    "volunteer.validation.consentRequired":
-      "يجب الموافقة على جميع عناصر الموافقة المطلوبة",
-    "volunteer.signInToSubmit": "يرجى تسجيل الدخول لتقديم الطلب",
-    "volunteer.submitFailed": "فشل تقديم الطلب. يرجى المحاولة مجددًا.",
-
-    // Volunteer - ApplicationForm
-    "volunteer.applyForTitle": "التقدم لـ: {{title}}",
-    "volunteer.fullName": "الاسم الكامل *",
-    "volunteer.phoneRequired": "رقم الهاتف *",
-    "volunteer.emailRequired": "البريد الإلكتروني *",
-    "volunteer.dateOfBirth": "تاريخ الميلاد",
-    "volunteer.availabilityTitle": "التوفر",
-    "volunteer.preferredDays": "الأيام المفضلة",
-    "volunteer.preferredTimes": "الأوقات المفضلة",
-    "volunteer.commitmentLevelLabel": "مستوى الالتزام",
-    "volunteer.skillsAndExperience": "المهارات والخبرة",
-    "volunteer.relevantExperience": "الخبرة ذات الصلة *",
-    "volunteer.certifications": "الشهادات (مفصولة بفواصل)",
-    "volunteer.interestsAndPreferences": "الاهتمامات والتفضيلات",
-    "volunteer.areasOfInterest": "مجالات الاهتمام (مفصولة بفواصل)",
-    "volunteer.referencesTitle": "المراجع",
-    "volunteer.referenceName": "اسم المرجع {{index}}",
-    "volunteer.referenceContact": "جهة اتصال المرجع {{index}}",
-    "volunteer.workSamplesTitle": "نماذج الأعمال",
-    "volunteer.workSamplesLabel": "روابط نماذج الأعمال (مفصولة بفواصل)",
-    "volunteer.submitApplicationShort": "تقديم الطلب",
-    "volunteer.validation.nameInvalid": "يرجى إدخال اسم صالح (٢-١٠٠ حرف)",
-    "volunteer.validation.provideExperience": "يرجى تقديم معلومات عن خبرتك",
-    "volunteer.validation.selectDay": "يرجى اختيار يوم واحد على الأقل",
-    "volunteer.validation.selectTime": "يرجى اختيار وقت واحد على الأقل",
-
-    // Volunteer - ConsentForm
-    "volunteer.consentUnderstand": "أفهم أن:",
-    "volunteer.specificConsents": "الموافقات المحددة",
-    "volunteer.specificConsentsDesc":
-      "يرجى مراجعة كل من البنود التالية والإشارة إلى موافقتك عليها:",
-    "volunteer.essentialProcessingTitle": "المعالجة الأساسية (مطلوبة):",
-    "volunteer.internationalTransfersTitle": "النقل الدولي (إن وُجد):",
-    "volunteer.acknowledgmentTitle": "الإقرار",
-    "volunteer.ageConfirmationTitle": "تأكيد العمر:",
-    "volunteer.privacyNoticeTitle": "إشعار الخصوصية:",
-    "volunteer.doNotAccept": "عدم الموافقة",
-    "volunteer.acceptAndContinue": "الموافقة والمتابعة",
-    "volunteer.validation.essentialRequired":
-      "موافقة المعالجة الأساسية مطلوبة للمتابعة",
-    "volunteer.validation.agePrivacyRequired":
-      "يجب تأكيد عمرك والإقرار بأنك قرأت إشعار الخصوصية",
-
-    // Languages
-    "language.english": "الإنجليزية",
-    "language.spanish": "الإسبانية",
-    "language.german": "الألمانية",
-    "language.french": "الفرنسية",
-    "language.japanese": "اليابانية",
-    "language.chinese_simplified": "الصينية (المبسطة)",
-    "language.chinese_traditional": "الصينية (التقليدية)",
-    "language.thai": "التايلاندية",
-    "language.vietnamese": "الفيتنامية",
-    "language.korean": "الكورية",
-    "language.arabic": "العربية",
-    "language.hindi": "الهندية",
-    "language.multiple": "لغات متعددة",
-
-    // Contribution types
-    "contribution.type.donation": "تبرع",
-    "contribution.type.volunteerapplication": "طلب تطوع",
-    "contribution.type.volunteerhours": "ساعات تطوع",
-    "contribution.type.volunteeracceptance": "قبول تطوع",
-    "contribution.type.volunteerverification": "التحقق من التطوع",
-
-    // Donor/Volunteer
-    "donor.volunteer": "متبرع/متطوع",
-    "donor.anonymous": "مجهول",
-    "volunteer.unknown": "متطوع غير معروف",
+    "volunteer.appliedFor": "تقدم لـ",
 
     // Statuses
     "status.completed": "مكتمل",
     "status.pending": "قيد الانتظار",
     "status.failed": "فشل",
 
-    // Blockchain
-    "blockchain.block": "الكتلة",
-
-    // Filter
-    "filter.allYears": "جميع السنوات",
-    "filter.allTypes": "جميع الأنواع",
-    "filter.donations": "التبرعات",
-    "filter.volunteerApplications": "طلبات التطوع",
-    "filter.volunteerHours": "ساعات التطوع",
-    "filter.fiatDonations": "التبرعات النقدية",
-
     // Export
     "export.title": "تصدير بيانات المساهمة",
     "export.filename": "اسم الملف",
     "export.dateRange": "نطاق التاريخ",
-    "export.includePersonal": "تضمين عناوين المحافظ",
+    "export.includePersonal": "تضمين عناوين المحفظة والمعلومات الشخصية",
     "export.willInclude": "سيتضمن التصدير:",
-    "export.walletAddresses": "عناوين المحافظ (المرسل والمستلم)",
-    "export.volunteerDetails": "تفاصيل المساهمة التطوعية (عند الاقتضاء)",
-    "export.verificationHashes": "رموز التحقق (عند الاقتضاء)",
     "export.cancel": "إلغاء",
     "export.download": "تصدير CSV",
 

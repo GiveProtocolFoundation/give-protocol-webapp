@@ -2,20 +2,14 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline": "투명하고 국경 없는 나눔의 인프라.",
-    "common.cancel": "취소",
-    "common.edit": "편집",
-    "common.delete": "삭제",
-    "common.creating": "생성 중...",
-    "common.unknown": "알 수 없음",
-    "common.notAvailable": "해당 없음",
+    "app.tagline": "스마트 기부를 통한 변화 촉진",
 
     // Navigation
     "nav.browse": "자선단체 찾기",
     "nav.opportunities": "봉사 기회",
     "nav.contributions": "기여 추적기",
     "nav.governance": "거버넌스",
-    "nav.dashboard": "Give 대시보드",
+    "nav.dashboard": "대시보드",
     "nav.about": "소개",
     "nav.docs": "문서",
     "nav.legal": "법적 정보",
@@ -25,6 +19,7 @@ export default {
     "settings.title": "설정",
     "settings.language": "언어",
     "settings.currency": "통화",
+    "settings.displayPreferences": "디스플레이 설정",
 
     // Auth
     "auth.login": "로그인",
@@ -33,28 +28,20 @@ export default {
     "auth.forgotPassword": "비밀번호를 잊으셨나요?",
 
     // Dashboard
-    "dashboard.title": "Give 대시보드",
-    "dashboard.subtitle": "기부 및 봉사 기여를 추적하세요",
+    "dashboard.title": "대시보드",
+    "dashboard.subtitle": "기부 및 봉사 기여 추적",
     "dashboard.totalDonations": "총 기부액",
     "dashboard.volunteerHours": "봉사 시간",
     "dashboard.skillsEndorsed": "인증된 기술",
     "dashboard.contributions": "기여",
-    "dashboard.yourTotalDonated": "나의 총 기부액",
-    "dashboard.yourVolunteerHours": "나의 봉사 시간",
-    "dashboard.yourSkillsEndorsed": "나의 인증된 기술",
-    "dashboard.impactGrowth": "영향력 성장",
-    "dashboard.charitiesSupported": "지원한 자선단체",
 
     // Charity
     "charity.dashboard": "자선단체 대시보드",
-    "charity.subtitle": "기부 및 봉사 프로그램을 관리하세요",
+    "charity.subtitle": "기부 및 봉사 프로그램 관리",
     "charity.activeVolunteers": "활동 중인 봉사자",
     "charity.transactions": "거래",
     "charity.volunteers": "봉사 시간",
     "charity.applications": "신청서",
-    "charity.totalReceived": "총 수령액",
-    "charity.equityPoolValue": "지분 풀 가치",
-    "charity.availableBalance": "가용 잔액",
 
     // Contributions
     "contributions.date": "날짜",
@@ -66,339 +53,24 @@ export default {
     "contributions.export": "CSV 내보내기",
 
     // Volunteer
-    "volunteer.opportunities": "봉사 기회",
-    "volunteer.searchOpportunities": "기회 검색...",
-    "volunteer.selectSkill": "기술 선택",
-    "volunteer.selectType": "유형 선택",
-    "volunteer.selectLanguage": "언어 선택",
-    "volunteer.allSkills": "모든 기술",
-    "volunteer.allTypes": "모든 유형",
-    "volunteer.allLanguages": "모든 언어",
-    "volunteer.applyNow": "지금 지원하기",
-    "volunteer.noOpportunitiesFound":
-      "검색 조건에 맞는 기회를 찾을 수 없습니다.",
     "volunteer.verify": "시간 검증",
-    "volunteer.verifying": "검증 중...",
     "volunteer.reject": "거부",
     "volunteer.accept": "수락",
-    "volunteer.processing": "처리 중...",
-    "volunteer.hours": "시간 -",
+    "volunteer.hours": "시간",
     "volunteer.description": "설명",
-    "volunteer.appliedFor": "지원 대상",
-    "volunteer.verificationComplete": "검증 완료",
-    "volunteer.hoursVerified":
-      "봉사 시간이 검증되어 블록체인에 기록되었습니다.",
-    "volunteer.verificationHash": "검증 해시",
-    "volunteer.applicationAccepted": "신청 수락됨",
-    "volunteer.applicationRecorded":
-      "봉사 신청이 수락되어 블록체인에 기록되었습니다.",
-    "volunteer.acceptanceHash": "수락 해시",
-    "volunteer.pendingHours": "대기 중인 봉사 시간",
-    "volunteer.noPendingHours": "검증할 대기 중인 봉사 시간이 없습니다.",
-    "volunteer.pendingApplications": "대기 중인 신청서",
-    "volunteer.noPendingApplications": "검토할 대기 중인 신청서가 없습니다.",
-    "volunteer.createOpportunity": "봉사 기회 만들기",
-    "volunteer.createNew": "새로 만들기",
-    "volunteer.noOpportunitiesYet":
-      '아직 생성된 기회가 없습니다. "새로 만들기"를 클릭하여 시작하세요.',
-    "volunteer.opportunityTitle": "기회 제목",
-    "volunteer.skills": "기술 (쉼표로 구분)",
-    "volunteer.commitment": "참여 기간",
-    "volunteer.location": "위치",
-    "volunteer.type": "유형",
-    "volunteer.workLanguage": "사용 언어",
-    "volunteer.status": "상태",
-
-    // Volunteer commitment types
-    "volunteer.commitment.oneTime": "일회성",
-    "volunteer.commitment.shortTerm": "단기",
-    "volunteer.commitment.longTerm": "장기",
-
-    // Volunteer types
-    "volunteer.type.remote": "원격",
-    "volunteer.type.onsite": "현장",
-    "volunteer.type.hybrid": "혼합",
-    "volunteer.type.onSite": "현장",
-
-    // Volunteer - Opportunities page
-    "volunteer.workTypeFilter": "근무 유형 필터",
-    "volunteer.searchLocation": "도시 또는 지역...",
-    "volunteer.searchLocationAria": "위치 검색",
-    "volunteer.signInToApply": "봉사 기회에 지원하려면 로그인해 주세요",
-    "volunteer.applicationSuccess": "신청이 성공적으로 제출되었습니다!",
-    "volunteer.removeFilter": "{{filter}} 필터 제거",
-
-    // Volunteer - OpportunityForm
-    "volunteer.validation.titleRequired": "제목은 필수입니다",
-    "volunteer.validation.descriptionRequired": "설명은 필수입니다",
-    "volunteer.validation.skillsRequired": "최소 하나의 기술이 필요합니다",
-    "volunteer.validation.locationRequired": "위치는 필수입니다",
-    "volunteer.profileNotFound": "사용자 프로필을 찾을 수 없습니다",
-    "volunteer.correctErrors": "유효성 검사 오류를 수정해 주세요",
-    "volunteer.createFailed": "기회 생성에 실패했습니다",
-    "volunteer.descriptionPlaceholder":
-      "봉사 기회에 대해 자세히 설명해 주세요...",
-    "volunteer.skillsPlaceholder": "예: 웹 개발, 프로젝트 관리, 번역",
-    "volunteer.locationPlaceholder": "예: 원격, 서울, 부산",
-    "volunteer.headerImage": "헤더 이미지",
-    "volunteer.headerImageHelp":
-      "봉사 기회 목록 상단에 표시할 이미지를 업로드하세요",
-    "volunteer.limitReached": "기회 생성 한도 도달",
-    "volunteer.limitReachedMessage":
-      "활성 봉사 기회의 최대 수 {{max}}개에 도달했습니다. 새 기회를 만들기 전에 기존 기회를 종료하거나 완료해 주세요.",
-    "volunteer.opportunityCount":
-      "활성 기회 {{count}}개 / 최대 {{max}}개를 사용 중입니다.",
-
-    // Volunteer - HoursVerificationTab
-    "volunteer.hoursVerification": "시간 검증",
-    "volunteer.hoursVerificationDescription":
-      "봉사 시간 제출을 검토하고 검증하세요",
-    "volunteer.formalHours": "기록된 시간",
-    "volunteer.selfReported": "자체 보고",
-    "volunteer.loggedHours": "기록된 봉사 시간",
-    "volunteer.loggedHoursDescription": "봉사자가 기회를 통해 기록한 시간",
-    "volunteer.allCaughtUp": "모두 처리 완료!",
-    "volunteer.noPendingLoggedHours": "검증할 대기 중인 기록 시간이 없습니다.",
-    "volunteer.selfReportedHours": "자체 보고 시간",
-
-    // Volunteer - OpportunitiesTab
-    "volunteer.noOpportunitiesTitle": "아직 기회가 없습니다",
-    "volunteer.activeCount": "활성 기회 {{count}}개 / 최대 {{max}}개",
-    "volunteer.moreSkills": "+{{count}}개 더",
-
-    // Volunteer - ApplicationsTab
-    "volunteer.noApplications": "대기 중인 신청서가 없습니다",
-    "volunteer.unknownOpportunity": "알 수 없는 기회",
-
-    // Volunteer - VerificationLookup
-    "volunteer.verifyContribution": "봉사 기여 검증",
-    "volunteer.hashPlaceholder": "검증 해시를 입력하세요",
-    "volunteer.searching": "검색 중...",
-    "volunteer.verifyHash": "해시 검증",
-    "volunteer.verificationNotFound": "검증 결과를 찾을 수 없습니다",
-    "volunteer.verificationNotFoundMessage":
-      "입력하신 해시를 기록에서 찾을 수 없습니다. 해시를 확인하고 다시 시도해 주세요.",
-    "volunteer.unknownOrganization": "알 수 없는 단체",
-
-    // Volunteer - VolunteerVerificationCard
-    "volunteer.contributionVerification": "봉사 기여 검증",
-    "volunteer.volunteerLabel": "봉사자",
-    "volunteer.opportunityLabel": "기회",
-    "volunteer.organizationLabel": "단체",
-    "volunteer.acceptedOn": "수락일",
-    "volunteer.verifiedOn": "검증일",
-    "volunteer.verificationHashes": "검증 해시",
-    "volunteer.blockchainReference": "블록체인 참조",
-
-    // Volunteer - VerifyContribution page
-    "volunteer.verifyingContribution": "기여 검증 중\u2026",
-    "volunteer.noHashProvided": "검증 해시가 제공되지 않았습니다.",
-    "volunteer.verificationSuccessful": "검증 성공",
-    "volunteer.contributionVerifiedBlockchain":
-      "이 봉사 기여는 검증되어 블록체인에 기록되었습니다.",
-    "volunteer.verificationFailed": "검증 실패",
-    "volunteer.hashNotFound":
-      "검증 해시 {{hash}}를 찾을 수 없거나 유효하지 않습니다.",
-
-    // Volunteer - SelfReportedHoursDashboard
-    "volunteer.volunteerHoursTitle": "봉사 시간",
-    "volunteer.aboutSelfReported": "자체 보고 시간 안내",
-    "volunteer.selfReportedInfo":
-      "인증된 단체에서 검증한 시간만 글로벌 영향력 순위에 반영됩니다. 플랫폼에 등록되지 않은 단체의 시간은 추적할 수 있지만, 검증을 받을 때까지 \u201c미검증\u201d으로 표시됩니다.",
-    "volunteer.logHoursButton": "시간 기록",
-    "volunteer.logVolunteerHours": "봉사 시간 기록",
-    "volunteer.editRecord": "기록 편집",
-    "volunteer.recordDetails": "기록 세부 정보",
-    "volunteer.backToList": "목록으로 돌아가기",
-    "volunteer.deleteRecord": "기록을 삭제하시겠습니까?",
-    "volunteer.deleteConfirmation":
-      "이 봉사 시간 기록을 삭제하시겠습니까? 이 작업은 되돌릴 수 없습니다.",
-
-    // Volunteer - SelfReportedHoursForm
-    "volunteer.activityType": "활동 유형",
-    "volunteer.organization": "단체",
-    "volunteer.searchRegistry": "등록부 검색",
-    "volunteer.notListed": "목록에 없음",
-    "volunteer.organizationName": "단체명",
-    "volunteer.enterOrgName": "단체명을 입력하세요",
-    "volunteer.contactEmail": "연락처 이메일",
-    "volunteer.contactEmailOptional": "(선택 사항)",
-    "volunteer.onboardHelp":
-      "이 단체의 온보딩을 돕기 위해 연락드릴 수 있습니다",
-    "volunteer.submittedForValidation": "이 기록은 검증을 위해 제출됩니다",
-    "volunteer.submittedForValidationTo":
-      "이 기록은 {{org}}에 검증을 위해 제출됩니다",
-    "volunteer.validationExpired": "이 날짜에 대한 검증 기간이 만료되었습니다",
-    "volunteer.savedAsUnvalidated": "이 기록은 미검증 상태로 저장됩니다",
-    "volunteer.describeActivities": "수행한 활동을 설명해 주세요...",
-    "volunteer.moreCharsNeeded": "{{count}}자 더 입력해 주세요",
-    "volunteer.updating": "업데이트 중...",
-    "volunteer.logging": "기록 중...",
-    "volunteer.updateHours": "시간 업데이트",
-
-    // Volunteer - SelfReportedHoursList
-    "volunteer.statusFilter": "상태",
-    "volunteer.activityTypeFilter": "활동 유형",
-    "volunteer.filterFrom": "시작일",
-    "volunteer.filterTo": "종료일",
-    "volunteer.clearFilters": "필터 초기화",
-    "volunteer.allStatuses": "전체",
-    "volunteer.allActivityTypes": "모든 유형",
-    "volunteer.noMatchingRecords": "일치하는 기록이 없습니다",
-    "volunteer.noHoursLogged": "아직 기록된 봉사 시간이 없습니다",
-    "volunteer.adjustFilters": "필터를 조정하여 기록을 찾아보세요.",
-    "volunteer.startLogging": "첫 번째 봉사 시간을 기록해 보세요.",
-
-    // Volunteer - SelfReportedHoursStats
-    "volunteer.validatedHours": "검증된 시간",
-    "volunteer.pendingValidation": "검증 대기 중",
-    "volunteer.unvalidatedHours": "미검증 시간",
-    "volunteer.rejectedLabel": "거부됨",
-    "volunteer.hoursUnit": "시간",
-    "volunteer.recordSingular": "건",
-    "volunteer.recordPlural": "건",
-
-    // Volunteer - VolunteerApplicationForm
-    "volunteer.applicationTitle": "봉사 기회 신청서",
-    "volunteer.applicationSubtitle":
-      "검증된 기여를 통해 지속 가능한 영향력을 만들어 보세요",
-    "volunteer.personalInfo": "개인 정보",
-    "volunteer.firstName": "이름",
-    "volunteer.lastName": "성",
-    "volunteer.emailAddress": "이메일 주소",
-    "volunteer.phoneNumber": "전화번호",
-    "volunteer.locationCity": "위치/도시",
-    "volunteer.locationCityPlaceholder": "예: 서울특별시",
-    "volunteer.timeZone": "시간대",
-    "volunteer.selectTimeZone": "시간대 선택",
-    "volunteer.ageRange": "연령대",
-    "volunteer.selectAgeRange": "연령대 선택",
-    "volunteer.skillsAndInterests": "기술 및 관심 분야",
-    "volunteer.skillsLabel": "기술 및 관심 분야",
-    "volunteer.skillPlaceholderFull":
-      "기술을 입력하세요 (예: Python 프로그래밍, 발표, 보조금 작성)",
-    "volunteer.skillPlaceholderShort": "기술을 입력하고 Enter를 누르세요...",
-    "volunteer.commitmentLevel": "참여 수준",
-    "volunteer.commitmentOneTimeDesc": "단일 프로젝트 또는 단기 작업",
-    "volunteer.commitmentShortTermDesc": "몇 주에서 몇 개월",
-    "volunteer.commitmentLongTermDesc": "수개월 이상의 지속적인 참여",
-    "volunteer.experienceLabel": "관련 경험에 대해 알려주세요",
-    "volunteer.experiencePlaceholder":
-      "Give Protocol에서 봉사하고자 하는 동기와 배경, 기술에 대해 설명해 주세요...",
-    "volunteer.consentTitle": "동의 및 약관",
-    "volunteer.consentHeader": "봉사 신청 동의서",
-    "volunteer.submitting": "제출 중...",
-    "volunteer.submitApplication": "봉사 신청서 제출",
-    "volunteer.disclaimerText":
-      "이 신청서를 제출함으로써, Give Protocol의 개인정보 처리방침과 봉사 가이드라인을 읽고 이해했음을 인정합니다. 귀하의 데이터는 관련 데이터 보호 규정에 따라 처리됩니다.",
-    "volunteer.validation.firstNameInvalid": "유효한 이름을 입력해 주세요",
-    "volunteer.validation.lastNameInvalid": "유효한 성을 입력해 주세요",
-    "volunteer.validation.emailInvalid": "유효한 이메일 주소를 입력해 주세요",
-    "volunteer.validation.phoneInvalid": "유효한 전화번호를 입력해 주세요",
-    "volunteer.validation.experienceRequired": "관련 경험을 설명해 주세요",
-    "volunteer.validation.addSkill": "최소 하나의 기술을 추가해 주세요",
-    "volunteer.validation.ageRangeRequired": "연령대를 선택해 주세요",
-    "volunteer.validation.consentRequired":
-      "모든 필수 동의 항목에 동의해야 합니다",
-    "volunteer.signInToSubmit": "신청서를 제출하려면 로그인해 주세요",
-    "volunteer.submitFailed": "신청서 제출에 실패했습니다. 다시 시도해 주세요.",
-
-    // Volunteer - ApplicationForm
-    "volunteer.applyForTitle": "지원: {{title}}",
-    "volunteer.fullName": "성명 *",
-    "volunteer.phoneRequired": "전화번호 *",
-    "volunteer.emailRequired": "이메일 주소 *",
-    "volunteer.dateOfBirth": "생년월일",
-    "volunteer.availabilityTitle": "가능 시간",
-    "volunteer.preferredDays": "선호 요일",
-    "volunteer.preferredTimes": "선호 시간대",
-    "volunteer.commitmentLevelLabel": "참여 수준",
-    "volunteer.skillsAndExperience": "기술 및 경험",
-    "volunteer.relevantExperience": "관련 경험 *",
-    "volunteer.certifications": "자격증 (쉼표로 구분)",
-    "volunteer.interestsAndPreferences": "관심 분야 및 선호도",
-    "volunteer.areasOfInterest": "관심 분야 (쉼표로 구분)",
-    "volunteer.referencesTitle": "추천인",
-    "volunteer.referenceName": "추천인 {{index}} 이름",
-    "volunteer.referenceContact": "추천인 {{index}} 연락처",
-    "volunteer.workSamplesTitle": "작업 샘플",
-    "volunteer.workSamplesLabel": "작업 샘플 링크 (쉼표로 구분)",
-    "volunteer.submitApplicationShort": "신청서 제출",
-    "volunteer.validation.nameInvalid": "유효한 이름을 입력해 주세요 (2~100자)",
-    "volunteer.validation.provideExperience":
-      "경험에 대한 정보를 제공해 주세요",
-    "volunteer.validation.selectDay": "최소 하루를 선택해 주세요",
-    "volunteer.validation.selectTime": "최소 한 시간대를 선택해 주세요",
-
-    // Volunteer - ConsentForm
-    "volunteer.consentUnderstand": "다음 사항을 이해합니다:",
-    "volunteer.specificConsents": "개별 동의",
-    "volunteer.specificConsentsDesc":
-      "다음 각 항목을 검토하고 동의 여부를 표시해 주세요:",
-    "volunteer.essentialProcessingTitle": "필수 처리 (필수):",
-    "volunteer.internationalTransfersTitle": "국제 전송 (해당되는 경우):",
-    "volunteer.acknowledgmentTitle": "확인",
-    "volunteer.ageConfirmationTitle": "연령 확인:",
-    "volunteer.privacyNoticeTitle": "개인정보 처리방침:",
-    "volunteer.doNotAccept": "동의하지 않음",
-    "volunteer.acceptAndContinue": "동의하고 계속하기",
-    "volunteer.validation.essentialRequired":
-      "진행하려면 필수 처리 동의가 필요합니다",
-    "volunteer.validation.agePrivacyRequired":
-      "연령을 확인하고 개인정보 처리방침을 읽었음을 확인해야 합니다",
-
-    // Languages
-    "language.english": "영어",
-    "language.spanish": "스페인어",
-    "language.german": "독일어",
-    "language.french": "프랑스어",
-    "language.japanese": "일본어",
-    "language.chinese_simplified": "중국어 (간체)",
-    "language.chinese_traditional": "중국어 (번체)",
-    "language.thai": "태국어",
-    "language.vietnamese": "베트남어",
-    "language.korean": "한국어",
-    "language.arabic": "아랍어",
-    "language.hindi": "힌디어",
-    "language.multiple": "다국어",
-
-    // Contribution types
-    "contribution.type.donation": "기부",
-    "contribution.type.volunteerapplication": "봉사 신청",
-    "contribution.type.volunteerhours": "봉사 시간",
-    "contribution.type.volunteeracceptance": "봉사 수락",
-    "contribution.type.volunteerverification": "봉사 검증",
-
-    // Donor/Volunteer
-    "donor.volunteer": "기부자/봉사자",
-    "donor.anonymous": "익명",
-    "volunteer.unknown": "알 수 없는 봉사자",
+    "volunteer.appliedFor": "신청 대상",
 
     // Statuses
     "status.completed": "완료됨",
     "status.pending": "대기 중",
     "status.failed": "실패",
 
-    // Blockchain
-    "blockchain.block": "블록",
-
-    // Filter
-    "filter.allYears": "전체 연도",
-    "filter.allTypes": "모든 유형",
-    "filter.donations": "기부",
-    "filter.volunteerApplications": "봉사 신청",
-    "filter.volunteerHours": "봉사 시간",
-    "filter.fiatDonations": "법정화폐 기부",
-
     // Export
     "export.title": "기여 데이터 내보내기",
     "export.filename": "파일 이름",
     "export.dateRange": "날짜 범위",
-    "export.includePersonal": "지갑 주소 포함",
+    "export.includePersonal": "지갑 주소 및 개인 정보 포함",
     "export.willInclude": "내보내기에 포함될 항목:",
-    "export.walletAddresses": "지갑 주소 (발신자 및 수신자)",
-    "export.volunteerDetails": "봉사 기여 세부 정보 (해당되는 경우)",
-    "export.verificationHashes": "검증 해시 (해당되는 경우)",
     "export.cancel": "취소",
     "export.download": "CSV 내보내기",
 

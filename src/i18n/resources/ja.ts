@@ -2,21 +2,15 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline": "透明でボーダーレスな寛容さのためのインフラストラクチャー。",
-    "common.cancel": "キャンセル",
-    "common.edit": "編集",
-    "common.delete": "削除",
-    "common.creating": "作成中...",
-    "common.unknown": "不明",
-    "common.notAvailable": "N/A",
+    "app.tagline": "スマートな寄付で変化を促進",
 
     // Navigation
-    "nav.browse": "チャリティを検索",
+    "nav.browse": "団体を閲覧",
     "nav.opportunities": "ボランティア機会",
     "nav.contributions": "貢献トラッカー",
     "nav.governance": "ガバナンス",
-    "nav.dashboard": "Give ダッシュボード",
-    "nav.about": "概要",
+    "nav.dashboard": "ダッシュボード",
+    "nav.about": "私たちについて",
     "nav.docs": "ドキュメント",
     "nav.legal": "法的情報",
     "nav.launchApp": "アプリを起動",
@@ -25,6 +19,7 @@ export default {
     "settings.title": "設定",
     "settings.language": "言語",
     "settings.currency": "通貨",
+    "settings.displayPreferences": "表示設定",
 
     // Auth
     "auth.login": "サインイン",
@@ -33,28 +28,20 @@ export default {
     "auth.forgotPassword": "パスワードをお忘れですか？",
 
     // Dashboard
-    "dashboard.title": "Give ダッシュボード",
-    "dashboard.subtitle": "寄付とボランティア貢献を追跡します",
+    "dashboard.title": "ダッシュボード",
+    "dashboard.subtitle": "寄付とボランティア貢献を追跡",
     "dashboard.totalDonations": "総寄付額",
     "dashboard.volunteerHours": "ボランティア時間",
     "dashboard.skillsEndorsed": "承認されたスキル",
     "dashboard.contributions": "貢献",
-    "dashboard.yourTotalDonated": "あなたの総寄付額",
-    "dashboard.yourVolunteerHours": "あなたのボランティア時間",
-    "dashboard.yourSkillsEndorsed": "あなたの承認済みスキル",
-    "dashboard.impactGrowth": "インパクトの成長",
-    "dashboard.charitiesSupported": "支援した団体数",
 
     // Charity
-    "charity.dashboard": "チャリティダッシュボード",
-    "charity.subtitle": "寄付とボランティアプログラムを管理します",
+    "charity.dashboard": "団体ダッシュボード",
+    "charity.subtitle": "寄付とボランティアプログラムを管理",
     "charity.activeVolunteers": "アクティブなボランティア",
     "charity.transactions": "取引",
     "charity.volunteers": "ボランティア時間",
     "charity.applications": "申請",
-    "charity.totalReceived": "受領総額",
-    "charity.equityPoolValue": "エクイティプールの価値",
-    "charity.availableBalance": "利用可能残高",
 
     // Contributions
     "contributions.date": "日付",
@@ -63,350 +50,27 @@ export default {
     "contributions.details": "詳細",
     "contributions.status": "ステータス",
     "contributions.verification": "検証",
-    "contributions.export": "CSV エクスポート",
+    "contributions.export": "CSVエクスポート",
 
     // Volunteer
-    "volunteer.opportunities": "ボランティア機会",
-    "volunteer.searchOpportunities": "機会を検索...",
-    "volunteer.selectSkill": "スキルを選択",
-    "volunteer.selectType": "タイプを選択",
-    "volunteer.selectLanguage": "言語を選択",
-    "volunteer.allSkills": "すべてのスキル",
-    "volunteer.allTypes": "すべてのタイプ",
-    "volunteer.allLanguages": "すべての言語",
-    "volunteer.applyNow": "今すぐ応募",
-    "volunteer.noOpportunitiesFound":
-      "条件に一致する機会が見つかりませんでした。",
     "volunteer.verify": "時間を検証",
-    "volunteer.verifying": "検証中...",
-    "volunteer.reject": "却下",
+    "volunteer.reject": "拒否",
     "volunteer.accept": "承認",
-    "volunteer.processing": "処理中...",
-    "volunteer.hours": "時間（活動日：",
+    "volunteer.hours": "時間",
     "volunteer.description": "説明",
-    "volunteer.appliedFor": "応募先",
-    "volunteer.verificationComplete": "検証完了",
-    "volunteer.hoursVerified":
-      "ボランティア時間が検証され、ブロックチェーンに記録されました。",
-    "volunteer.verificationHash": "検証ハッシュ",
-    "volunteer.applicationAccepted": "申請承認済み",
-    "volunteer.applicationRecorded":
-      "ボランティア申請が承認され、ブロックチェーンに記録されました。",
-    "volunteer.acceptanceHash": "承認ハッシュ",
-    "volunteer.pendingHours": "保留中のボランティア時間",
-    "volunteer.noPendingHours": "検証待ちのボランティア時間はありません。",
-    "volunteer.pendingApplications": "保留中の申請",
-    "volunteer.noPendingApplications": "レビュー待ちの申請はありません。",
-    "volunteer.createOpportunity": "ボランティア機会を作成",
-    "volunteer.createNew": "新規作成",
-    "volunteer.noOpportunitiesYet":
-      "まだ機会が作成されていません。「新規作成」をクリックして始めましょう。",
-    "volunteer.opportunityTitle": "機会のタイトル",
-    "volunteer.skills": "スキル（カンマ区切り）",
-    "volunteer.commitment": "コミットメント",
-    "volunteer.location": "場所",
-    "volunteer.type": "タイプ",
-    "volunteer.workLanguage": "作業言語",
-    "volunteer.status": "ステータス",
-
-    // Volunteer commitment types
-    "volunteer.commitment.oneTime": "単発",
-    "volunteer.commitment.shortTerm": "短期",
-    "volunteer.commitment.longTerm": "長期",
-
-    // Volunteer types
-    "volunteer.type.remote": "リモート",
-    "volunteer.type.onsite": "現地",
-    "volunteer.type.hybrid": "ハイブリッド",
-    "volunteer.type.onSite": "現地",
-
-    // Volunteer - Opportunities page
-    "volunteer.workTypeFilter": "勤務形態フィルター",
-    "volunteer.searchLocation": "市区町村または地域...",
-    "volunteer.searchLocationAria": "場所を検索",
-    "volunteer.signInToApply":
-      "ボランティア機会に応募するにはサインインしてください",
-    "volunteer.applicationSuccess": "申請が正常に送信されました！",
-    "volunteer.removeFilter": "{{filter}}フィルターを削除",
-
-    // Volunteer - OpportunityForm
-    "volunteer.validation.titleRequired": "タイトルは必須です",
-    "volunteer.validation.descriptionRequired": "説明は必須です",
-    "volunteer.validation.skillsRequired": "少なくとも1つのスキルが必要です",
-    "volunteer.validation.locationRequired": "場所は必須です",
-    "volunteer.profileNotFound": "ユーザープロフィールが見つかりません",
-    "volunteer.correctErrors": "バリデーションエラーを修正してください",
-    "volunteer.createFailed": "機会の作成に失敗しました",
-    "volunteer.descriptionPlaceholder":
-      "ボランティア機会の詳細を記述してください...",
-    "volunteer.skillsPlaceholder": "例：Web開発、プロジェクト管理、翻訳",
-    "volunteer.locationPlaceholder": "例：リモート、東京、大阪",
-    "volunteer.headerImage": "ヘッダー画像",
-    "volunteer.headerImageHelp":
-      "機会リスティングの上部に表示する画像をアップロードしてください",
-    "volunteer.limitReached": "機会の上限に達しました",
-    "volunteer.limitReachedMessage":
-      "アクティブなボランティア機会の上限{{max}}件に達しました。新しい機会を作成する前に、既存の機会を終了または完了してください。",
-    "volunteer.opportunityCount":
-      "{{count}} / {{max}} 件のアクティブな機会があります。",
-
-    // Volunteer - HoursVerificationTab
-    "volunteer.hoursVerification": "時間の検証",
-    "volunteer.hoursVerificationDescription":
-      "ボランティア時間の提出をレビューおよび検証します",
-    "volunteer.formalHours": "記録済み時間",
-    "volunteer.selfReported": "自己申告",
-    "volunteer.loggedHours": "記録済みボランティア時間",
-    "volunteer.loggedHoursDescription":
-      "ボランティアが機会を通じて記録した時間",
-    "volunteer.allCaughtUp": "すべて対応済みです！",
-    "volunteer.noPendingLoggedHours": "検証待ちの記録済み時間はありません。",
-    "volunteer.selfReportedHours": "自己申告時間",
-
-    // Volunteer - OpportunitiesTab
-    "volunteer.noOpportunitiesTitle": "まだ機会がありません",
-    "volunteer.activeCount": "{{count}} / {{max}} 件のアクティブな機会",
-    "volunteer.moreSkills": "+{{count}} 件",
-
-    // Volunteer - ApplicationsTab
-    "volunteer.noApplications": "保留中の申請はありません",
-    "volunteer.unknownOpportunity": "不明な機会",
-
-    // Volunteer - VerificationLookup
-    "volunteer.verifyContribution": "ボランティア貢献を検証",
-    "volunteer.hashPlaceholder": "検証ハッシュを入力",
-    "volunteer.searching": "検索中...",
-    "volunteer.verifyHash": "ハッシュを検証",
-    "volunteer.verificationNotFound": "検証が見つかりません",
-    "volunteer.verificationNotFoundMessage":
-      "入力されたハッシュは記録に見つかりませんでした。ハッシュを確認して再度お試しください。",
-    "volunteer.unknownOrganization": "不明な団体",
-
-    // Volunteer - VolunteerVerificationCard
-    "volunteer.contributionVerification": "ボランティア貢献の検証",
-    "volunteer.volunteerLabel": "ボランティア",
-    "volunteer.opportunityLabel": "機会",
-    "volunteer.organizationLabel": "団体",
-    "volunteer.acceptedOn": "承認日",
-    "volunteer.verifiedOn": "検証日",
-    "volunteer.verificationHashes": "検証ハッシュ",
-    "volunteer.blockchainReference": "ブロックチェーン参照",
-
-    // Volunteer - VerifyContribution page
-    "volunteer.verifyingContribution": "貢献を検証中\u2026",
-    "volunteer.noHashProvided": "検証ハッシュが提供されていません。",
-    "volunteer.verificationSuccessful": "検証成功",
-    "volunteer.contributionVerifiedBlockchain":
-      "このボランティア貢献は検証され、ブロックチェーンに記録されています。",
-    "volunteer.verificationFailed": "検証失敗",
-    "volunteer.hashNotFound":
-      "検証ハッシュ {{hash}} が見つからないか、無効です。",
-
-    // Volunteer - SelfReportedHoursDashboard
-    "volunteer.volunteerHoursTitle": "ボランティア時間",
-    "volunteer.aboutSelfReported": "自己申告時間について",
-    "volunteer.selfReportedInfo":
-      "認証済み団体によって検証された時間のみがグローバルインパクトランキングの対象となります。プラットフォーム外の団体での活動時間は記録できますが、検証を受けるまで「未検証」と表示されます。",
-    "volunteer.logHoursButton": "時間を記録",
-    "volunteer.logVolunteerHours": "ボランティア時間を記録",
-    "volunteer.editRecord": "記録を編集",
-    "volunteer.recordDetails": "記録の詳細",
-    "volunteer.backToList": "一覧に戻る",
-    "volunteer.deleteRecord": "記録を削除しますか？",
-    "volunteer.deleteConfirmation":
-      "このボランティア時間の記録を削除してもよろしいですか？この操作は元に戻せません。",
-
-    // Volunteer - SelfReportedHoursForm
-    "volunteer.activityType": "活動タイプ",
-    "volunteer.organization": "団体",
-    "volunteer.searchRegistry": "レジストリを検索",
-    "volunteer.notListed": "一覧にない",
-    "volunteer.organizationName": "団体名",
-    "volunteer.enterOrgName": "団体名を入力",
-    "volunteer.contactEmail": "連絡先メールアドレス",
-    "volunteer.contactEmailOptional": "（任意）",
-    "volunteer.onboardHelp":
-      "この団体のオンボーディングのためにご連絡する場合があります",
-    "volunteer.submittedForValidation": "この記録は検証のために提出されます",
-    "volunteer.submittedForValidationTo":
-      "この記録は {{org}} への検証のために提出されます",
-    "volunteer.validationExpired": "この日付の検証期間は終了しています",
-    "volunteer.savedAsUnvalidated": "この記録は未検証として保存されます",
-    "volunteer.describeActivities": "実施した活動内容を記述してください...",
-    "volunteer.moreCharsNeeded": "あと{{count}}文字必要です",
-    "volunteer.updating": "更新中...",
-    "volunteer.logging": "記録中...",
-    "volunteer.updateHours": "時間を更新",
-
-    // Volunteer - SelfReportedHoursList
-    "volunteer.statusFilter": "ステータス",
-    "volunteer.activityTypeFilter": "活動タイプ",
-    "volunteer.filterFrom": "開始日",
-    "volunteer.filterTo": "終了日",
-    "volunteer.clearFilters": "フィルターをクリア",
-    "volunteer.allStatuses": "すべて",
-    "volunteer.allActivityTypes": "すべてのタイプ",
-    "volunteer.noMatchingRecords": "一致する記録がありません",
-    "volunteer.noHoursLogged": "まだボランティア時間が記録されていません",
-    "volunteer.adjustFilters":
-      "フィルターを調整して記録を検索してみてください。",
-    "volunteer.startLogging": "最初のボランティア時間を記録しましょう。",
-
-    // Volunteer - SelfReportedHoursStats
-    "volunteer.validatedHours": "検証済み時間",
-    "volunteer.pendingValidation": "検証待ち",
-    "volunteer.unvalidatedHours": "未検証時間",
-    "volunteer.rejectedLabel": "却下済み",
-    "volunteer.hoursUnit": "時間",
-    "volunteer.recordSingular": "件",
-    "volunteer.recordPlural": "件",
-
-    // Volunteer - VolunteerApplicationForm
-    "volunteer.applicationTitle": "ボランティア機会への応募",
-    "volunteer.applicationSubtitle":
-      "検証済みの貢献を通じて持続可能なインパクトを創出しましょう",
-    "volunteer.personalInfo": "個人情報",
-    "volunteer.firstName": "名",
-    "volunteer.lastName": "姓",
-    "volunteer.emailAddress": "メールアドレス",
-    "volunteer.phoneNumber": "電話番号",
-    "volunteer.locationCity": "所在地/市区町村",
-    "volunteer.locationCityPlaceholder": "例：東京都渋谷区",
-    "volunteer.timeZone": "タイムゾーン",
-    "volunteer.selectTimeZone": "タイムゾーンを選択",
-    "volunteer.ageRange": "年齢層",
-    "volunteer.selectAgeRange": "年齢層を選択",
-    "volunteer.skillsAndInterests": "スキルと関心分野",
-    "volunteer.skillsLabel": "スキルと関心のある分野",
-    "volunteer.skillPlaceholderFull":
-      "スキルを入力してください（例：Pythonプログラミング、プレゼンテーション、助成金申請書作成）",
-    "volunteer.skillPlaceholderShort":
-      "スキルを入力してEnterキーを押してください...",
-    "volunteer.commitmentLevel": "コミットメントレベル",
-    "volunteer.commitmentOneTimeDesc": "単発のプロジェクトまたは短期間のタスク",
-    "volunteer.commitmentShortTermDesc": "数週間から数ヶ月程度",
-    "volunteer.commitmentLongTermDesc": "数ヶ月以上の継続的なコミットメント",
-    "volunteer.experienceLabel": "関連する経験についてお聞かせください",
-    "volunteer.experiencePlaceholder":
-      "あなたの経歴、スキル、Give Protocolでボランティアをしたい動機を記述してください...",
-    "volunteer.consentTitle": "同意と承諾",
-    "volunteer.consentHeader": "ボランティア申請の同意",
-    "volunteer.submitting": "送信中...",
-    "volunteer.submitApplication": "ボランティア申請を送信",
-    "volunteer.disclaimerText":
-      "この申請を送信することにより、Give Protocolのプライバシーポリシーとボランティアガイドラインを読み、理解したことを認めます。お客様のデータは、適用されるデータ保護規制に従って処理されます。",
-    "volunteer.validation.firstNameInvalid": "有効な名前を入力してください",
-    "volunteer.validation.lastNameInvalid": "有効な姓を入力してください",
-    "volunteer.validation.emailInvalid":
-      "有効なメールアドレスを入力してください",
-    "volunteer.validation.phoneInvalid": "有効な電話番号を入力してください",
-    "volunteer.validation.experienceRequired": "関連する経験を記述してください",
-    "volunteer.validation.addSkill": "少なくとも1つのスキルを追加してください",
-    "volunteer.validation.ageRangeRequired": "年齢層を選択してください",
-    "volunteer.validation.consentRequired":
-      "すべての必須同意項目に同意する必要があります",
-    "volunteer.signInToSubmit": "申請を送信するにはサインインしてください",
-    "volunteer.submitFailed":
-      "申請の送信に失敗しました。もう一度お試しください。",
-
-    // Volunteer - ApplicationForm
-    "volunteer.applyForTitle": "応募先：{{title}}",
-    "volunteer.fullName": "氏名 *",
-    "volunteer.phoneRequired": "電話番号 *",
-    "volunteer.emailRequired": "メールアドレス *",
-    "volunteer.dateOfBirth": "生年月日",
-    "volunteer.availabilityTitle": "参加可能日時",
-    "volunteer.preferredDays": "希望曜日",
-    "volunteer.preferredTimes": "希望時間帯",
-    "volunteer.commitmentLevelLabel": "コミットメントレベル",
-    "volunteer.skillsAndExperience": "スキルと経験",
-    "volunteer.relevantExperience": "関連する経験 *",
-    "volunteer.certifications": "資格（カンマ区切り）",
-    "volunteer.interestsAndPreferences": "関心と希望",
-    "volunteer.areasOfInterest": "関心のある分野（カンマ区切り）",
-    "volunteer.referencesTitle": "推薦者",
-    "volunteer.referenceName": "推薦者{{index}}の氏名",
-    "volunteer.referenceContact": "推薦者{{index}}の連絡先",
-    "volunteer.workSamplesTitle": "作品サンプル",
-    "volunteer.workSamplesLabel": "作品サンプルへのリンク（カンマ区切り）",
-    "volunteer.submitApplicationShort": "申請を送信",
-    "volunteer.validation.nameInvalid":
-      "有効な名前を入力してください（2〜100文字）",
-    "volunteer.validation.provideExperience":
-      "経験に関する情報を入力してください",
-    "volunteer.validation.selectDay": "少なくとも1つの曜日を選択してください",
-    "volunteer.validation.selectTime":
-      "少なくとも1つの時間帯を選択してください",
-
-    // Volunteer - ConsentForm
-    "volunteer.consentUnderstand": "以下の事項を理解しています：",
-    "volunteer.specificConsents": "個別の同意事項",
-    "volunteer.specificConsentsDesc":
-      "以下の各項目を確認し、同意を表明してください：",
-    "volunteer.essentialProcessingTitle": "必須処理（必須）：",
-    "volunteer.internationalTransfersTitle": "国際転送（該当する場合）：",
-    "volunteer.acknowledgmentTitle": "確認事項",
-    "volunteer.ageConfirmationTitle": "年齢確認：",
-    "volunteer.privacyNoticeTitle": "プライバシー通知：",
-    "volunteer.doNotAccept": "同意しない",
-    "volunteer.acceptAndContinue": "同意して続行",
-    "volunteer.validation.essentialRequired":
-      "続行するには必須処理への同意が必要です",
-    "volunteer.validation.agePrivacyRequired":
-      "年齢の確認とプライバシー通知の閲覧を確認する必要があります",
-
-    // Languages
-    "language.english": "英語",
-    "language.spanish": "スペイン語",
-    "language.german": "ドイツ語",
-    "language.french": "フランス語",
-    "language.japanese": "日本語",
-    "language.chinese_simplified": "中国語（簡体字）",
-    "language.chinese_traditional": "中国語（繁体字）",
-    "language.thai": "タイ語",
-    "language.vietnamese": "ベトナム語",
-    "language.korean": "韓国語",
-    "language.arabic": "アラビア語",
-    "language.hindi": "ヒンディー語",
-    "language.multiple": "複数の言語",
-
-    // Contribution types
-    "contribution.type.donation": "寄付",
-    "contribution.type.volunteerapplication": "ボランティア申請",
-    "contribution.type.volunteerhours": "ボランティア時間",
-    "contribution.type.volunteeracceptance": "ボランティア承認",
-    "contribution.type.volunteerverification": "ボランティア検証",
-
-    // Donor/Volunteer
-    "donor.volunteer": "寄付者/ボランティア",
-    "donor.anonymous": "匿名",
-    "volunteer.unknown": "不明なボランティア",
+    "volunteer.appliedFor": "申請対象",
 
     // Statuses
     "status.completed": "完了",
     "status.pending": "保留中",
     "status.failed": "失敗",
 
-    // Blockchain
-    "blockchain.block": "ブロック",
-
-    // Filter
-    "filter.allYears": "すべての年",
-    "filter.allTypes": "すべてのタイプ",
-    "filter.donations": "寄付",
-    "filter.volunteerApplications": "ボランティア申請",
-    "filter.volunteerHours": "ボランティア時間",
-    "filter.fiatDonations": "法定通貨による寄付",
-
     // Export
     "export.title": "貢献データのエクスポート",
     "export.filename": "ファイル名",
     "export.dateRange": "日付範囲",
-    "export.includePersonal": "ウォレットアドレスを含める",
-    "export.willInclude": "エクスポートに含まれるもの：",
-    "export.walletAddresses": "ウォレットアドレス（送信者と受信者）",
-    "export.volunteerDetails": "ボランティア貢献の詳細（該当する場合）",
-    "export.verificationHashes": "検証ハッシュ（該当する場合）",
+    "export.includePersonal": "ウォレットアドレスと個人情報を含める",
+    "export.willInclude": "エクスポートに含まれるもの:",
     "export.cancel": "キャンセル",
     "export.download": "CSV エクスポート",
 
