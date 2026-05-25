@@ -11,7 +11,11 @@ export type ChainType = "evm" | "solana" | "polkadot";
 /**
  * Wallet category for UI grouping
  */
-export type WalletCategory = "browser" | "multichain" | "hardware" | "institutional";
+export type WalletCategory =
+  | "browser"
+  | "multichain"
+  | "hardware"
+  | "institutional";
 
 /**
  * Unified account representation across all chain types
@@ -121,7 +125,10 @@ export interface UnifiedWalletProvider {
    * @param _chainType - Chain type for signing
    * @returns Signature
    */
-  signMessage(_message: string | Uint8Array, _chainType: ChainType): Promise<string>;
+  signMessage(
+    _message: string | Uint8Array,
+    _chainType: ChainType,
+  ): Promise<string>;
 }
 
 /**
@@ -149,7 +156,10 @@ export interface WalletConnectionState {
  */
 export interface MultiChainActions {
   /** Connect to a wallet */
-  connect: (_wallet: UnifiedWalletProvider, _chainType?: ChainType) => Promise<void>;
+  connect: (
+    _wallet: UnifiedWalletProvider,
+    _chainType?: ChainType,
+  ) => Promise<void>;
   /** Disconnect from current wallet */
   disconnect: () => Promise<void>;
   /** Switch active account */
@@ -157,7 +167,10 @@ export interface MultiChainActions {
   /** Switch chain type */
   switchChainType: (_chainType: ChainType) => void;
   /** Switch to specific chain */
-  switchChain: (_chainId: number | string, _chainType: ChainType) => Promise<void>;
+  switchChain: (
+    _chainId: number | string,
+    _chainType: ChainType,
+  ) => Promise<void>;
   /** Clear error state */
   clearError: () => void;
 }

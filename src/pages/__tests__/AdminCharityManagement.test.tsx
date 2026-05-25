@@ -183,7 +183,9 @@ describe("AdminCharityManagement", () => {
       await waitFor(() => {
         expect(screen.getByLabelText("Reason")).toBeInTheDocument();
       });
-      expect(screen.getByRole("heading", { name: "Approve Charity" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Approve Charity" }),
+      ).toBeInTheDocument();
     });
 
     it("calls approveCharity on confirm", async () => {

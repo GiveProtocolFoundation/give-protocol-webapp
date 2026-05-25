@@ -43,10 +43,7 @@ describe("Documentation", () => {
     it("click here link points to docs URL", () => {
       renderDocumentation();
       const link = screen.getByText("click here");
-      expect(link).toHaveAttribute(
-        "href",
-        "https://docs.giveprotocol.io",
-      );
+      expect(link).toHaveAttribute("href", "https://docs.giveprotocol.io");
     });
   });
 

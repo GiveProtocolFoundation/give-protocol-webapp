@@ -194,17 +194,13 @@ describe("Register", () => {
     it("shows Find Your Organization heading for search step", () => {
       renderRegister();
       fireEvent.click(screen.getByText("Charity"));
-      expect(
-        screen.getByText("Find Your Organization"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Find Your Organization")).toBeInTheDocument();
     });
 
     it("shows charity wallet setup notice", () => {
       renderRegister();
       fireEvent.click(screen.getByText("Charity"));
-      expect(
-        screen.getByText("Organization wallet setup"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Organization wallet setup")).toBeInTheDocument();
     });
 
     it("shows CharityVettingForm when Skip search is clicked", () => {

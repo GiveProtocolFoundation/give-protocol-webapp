@@ -126,9 +126,7 @@ describe("ComingSoon", () => {
       fireEvent.click(screen.getByText("Join Waitlist"));
 
       await waitFor(() => {
-        expect(
-          screen.getByText(/Thanks for joining/),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Thanks for joining/)).toBeInTheDocument();
       });
     });
 

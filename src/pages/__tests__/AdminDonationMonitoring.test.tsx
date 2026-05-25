@@ -178,9 +178,7 @@ describe("AdminDonationMonitoring", () => {
         screen.queryByText("Donation Summary Report"),
       ).not.toBeInTheDocument();
       fireEvent.click(screen.getByText("Generate Report"));
-      expect(
-        screen.getByText("Donation Summary Report"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Donation Summary Report")).toBeInTheDocument();
       expect(screen.getByText("Hide Report")).toBeInTheDocument();
       fireEvent.click(screen.getByText("Hide Report"));
       expect(
@@ -305,7 +303,9 @@ describe("AdminDonationMonitoring", () => {
 
       fireEvent.click(screen.getByRole("button", { name: "Flag" }));
       await waitFor(() => {
-        expect(screen.getByText("Flag Donation for Review")).toBeInTheDocument();
+        expect(
+          screen.getByText("Flag Donation for Review"),
+        ).toBeInTheDocument();
       });
 
       const reasonTextarea = screen.getByPlaceholderText(

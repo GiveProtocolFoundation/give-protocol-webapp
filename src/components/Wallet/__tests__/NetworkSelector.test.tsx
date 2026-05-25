@@ -79,9 +79,7 @@ describe("NetworkSelector", () => {
 
     it("shows network options grouped by chain type", () => {
       renderSelector();
-      fireEvent.click(
-        screen.getByRole("button", { name: /Current network/i }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: /Current network/i }));
 
       expect(screen.getByText("EVM Networks")).toBeInTheDocument();
       // "Solana" and "Polkadot" appear as both section headers and network names
@@ -91,9 +89,7 @@ describe("NetworkSelector", () => {
 
     it("shows all network names in dropdown", () => {
       renderSelector();
-      fireEvent.click(
-        screen.getByRole("button", { name: /Current network/i }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: /Current network/i }));
 
       const menuItems = screen.getAllByRole("menuitemradio");
       expect(menuItems).toHaveLength(4);
@@ -101,9 +97,7 @@ describe("NetworkSelector", () => {
 
     it("marks current network as checked", () => {
       renderSelector();
-      fireEvent.click(
-        screen.getByRole("button", { name: /Current network/i }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: /Current network/i }));
 
       const baseOption = screen.getByRole("menuitemradio", {
         name: /Base/i,
@@ -122,9 +116,7 @@ describe("NetworkSelector", () => {
       const onNetworkChange = jest.fn<(_network: NetworkType) => void>();
       renderSelector({ onNetworkChange });
 
-      fireEvent.click(
-        screen.getByRole("button", { name: /Current network/i }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: /Current network/i }));
       const optimismOption = screen.getByRole("menuitemradio", {
         name: /Optimism/i,
       });
@@ -156,9 +148,7 @@ describe("NetworkSelector", () => {
     it("closes dropdown on Escape key", () => {
       renderSelector();
 
-      fireEvent.click(
-        screen.getByRole("button", { name: /Current network/i }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: /Current network/i }));
       expect(screen.getByRole("menu")).toBeInTheDocument();
 
       fireEvent.keyDown(document, { key: "Escape" });

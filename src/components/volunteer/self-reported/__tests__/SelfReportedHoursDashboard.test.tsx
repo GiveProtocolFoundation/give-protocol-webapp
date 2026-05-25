@@ -7,10 +7,7 @@ import type {
   SelfReportedHoursDisplay,
   VolunteerHoursStats,
 } from "@/types/selfReportedHours";
-import {
-  ActivityType,
-  ValidationStatus,
-} from "@/types/selfReportedHours";
+import { ActivityType, ValidationStatus } from "@/types/selfReportedHours";
 
 // useSelfReportedHours is mocked via moduleNameMapper (ESM-compatible).
 // Sub-components (Stats, List, Form) render their real implementations
@@ -210,18 +207,14 @@ describe("SelfReportedHoursDashboard", () => {
       renderDashboard();
       const infoButton = screen.getByTitle("About Self-Reported Hours");
       fireEvent.click(infoButton);
-      expect(
-        screen.getByText("About Self-Reported Hours"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("About Self-Reported Hours")).toBeInTheDocument();
     });
 
     it("hides the info banner when the info button is toggled again", () => {
       renderDashboard();
       const infoButton = screen.getByTitle("About Self-Reported Hours");
       fireEvent.click(infoButton);
-      expect(
-        screen.getByText("About Self-Reported Hours"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("About Self-Reported Hours")).toBeInTheDocument();
 
       fireEvent.click(infoButton);
       expect(
@@ -273,9 +266,7 @@ describe("SelfReportedHoursDashboard", () => {
 
   describe("Empty state", () => {
     it("shows the empty state message when there are no hours", () => {
-      mockUseSelfReportedHours.mockReturnValue(
-        createHookMock({ hours: [] }),
-      );
+      mockUseSelfReportedHours.mockReturnValue(createHookMock({ hours: [] }));
       renderDashboard();
       // Real SelfReportedHoursList renders this text for empty state
       expect(
@@ -320,7 +311,8 @@ describe("SelfReportedHoursDashboard", () => {
   describe("Edit view", () => {
     it("switches to edit view when edit is triggered from list", async () => {
       const mockRecord = createMockRecord({ id: "rec-edit" });
-      const mockGetHoursById = jest.fn<(_id: string) => Promise<SelfReportedHoursDisplay | null>>();
+      const mockGetHoursById =
+        jest.fn<(_id: string) => Promise<SelfReportedHoursDisplay | null>>();
       mockGetHoursById.mockResolvedValue(mockRecord);
       mockUseSelfReportedHours.mockReturnValue(
         createHookMock({
@@ -341,7 +333,8 @@ describe("SelfReportedHoursDashboard", () => {
   describe("View details", () => {
     it("switches to view mode when view is triggered from list", async () => {
       const mockRecord = createMockRecord({ id: "rec-view" });
-      const mockGetHoursById = jest.fn<(_id: string) => Promise<SelfReportedHoursDisplay | null>>();
+      const mockGetHoursById =
+        jest.fn<(_id: string) => Promise<SelfReportedHoursDisplay | null>>();
       mockGetHoursById.mockResolvedValue(mockRecord);
       mockUseSelfReportedHours.mockReturnValue(
         createHookMock({
@@ -361,7 +354,8 @@ describe("SelfReportedHoursDashboard", () => {
 
     it("returns to list view when Back to List is clicked", async () => {
       const mockRecord = createMockRecord({ id: "rec-back" });
-      const mockGetHoursById = jest.fn<(_id: string) => Promise<SelfReportedHoursDisplay | null>>();
+      const mockGetHoursById =
+        jest.fn<(_id: string) => Promise<SelfReportedHoursDisplay | null>>();
       mockGetHoursById.mockResolvedValue(mockRecord);
       mockUseSelfReportedHours.mockReturnValue(
         createHookMock({

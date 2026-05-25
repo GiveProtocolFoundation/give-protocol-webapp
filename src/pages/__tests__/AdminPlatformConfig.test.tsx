@@ -22,7 +22,9 @@ const mockGetAdminDashboardStats = jest.mocked(getAdminDashboardStats);
 const mockListAdminUsers = jest.mocked(listAdminUsers);
 
 const mockFetchConfig = jest.fn<() => Promise<unknown>>().mockResolvedValue([]);
-const mockSaveConfig = jest.fn<() => Promise<boolean>>().mockResolvedValue(true);
+const mockSaveConfig = jest
+  .fn<() => Promise<boolean>>()
+  .mockResolvedValue(true);
 const mockFetchAuditLog = jest.fn<() => Promise<unknown>>().mockResolvedValue({
   entries: [],
   totalCount: 0,
@@ -205,9 +207,7 @@ describe("AdminPlatformConfig", () => {
       const editButtons = screen.getAllByText("Edit");
       fireEvent.click(editButtons[0]);
       expect(screen.getByTestId("modal")).toBeInTheDocument();
-      expect(
-        screen.getByText("Edit: min_donation_usd"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Edit: min_donation_usd")).toBeInTheDocument();
     });
 
     it("saves numeric config value when Save is clicked", async () => {
@@ -304,8 +304,12 @@ describe("AdminPlatformConfig", () => {
       fireEvent.click(screen.getByText("Audit Log"));
 
       expect(screen.getByText("admin-user-123")).toBeInTheDocument();
-      expect(screen.getAllByText("config change").length).toBeGreaterThanOrEqual(1);
-      expect(screen.getAllByText("platform config").length).toBeGreaterThanOrEqual(1);
+      expect(
+        screen.getAllByText("config change").length,
+      ).toBeGreaterThanOrEqual(1);
+      expect(
+        screen.getAllByText("platform config").length,
+      ).toBeGreaterThanOrEqual(1);
       expect(screen.getByText("min_donation_usd")).toBeInTheDocument();
       expect(screen.getByText('{"value":5}')).toBeInTheDocument();
       expect(screen.getByText('{"value":10}')).toBeInTheDocument();
@@ -476,9 +480,7 @@ describe("AdminPlatformConfig", () => {
       fireEvent.click(screen.getByText("Admin Users"));
 
       await waitFor(() => {
-        expect(
-          screen.getByText("No admin users found."),
-        ).toBeInTheDocument();
+        expect(screen.getByText("No admin users found.")).toBeInTheDocument();
       });
     });
   });

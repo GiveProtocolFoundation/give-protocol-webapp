@@ -34,16 +34,16 @@ maintained, handles edge cases in COSE key parsing and attestation formats.
 
 ### Relying Party Configuration
 
-| Field | Value |
-|-------|-------|
-| RP ID | `giveprotocol.io` |
-| RP Name | `Give Protocol` |
-| Origin | `https://giveprotocol.io` |
-| Attestation | `none` (no hardware attestation needed) |
-| User Verification | `preferred` (biometric when available) |
-| Authenticator Selection | `platform` preferred, `cross-platform` allowed |
-| Resident Key | `preferred` (discoverable credentials when supported) |
-| Challenge TTL | 5 minutes |
+| Field                   | Value                                                 |
+| ----------------------- | ----------------------------------------------------- |
+| RP ID                   | `giveprotocol.io`                                     |
+| RP Name                 | `Give Protocol`                                       |
+| Origin                  | `https://giveprotocol.io`                             |
+| Attestation             | `none` (no hardware attestation needed)               |
+| User Verification       | `preferred` (biometric when available)                |
+| Authenticator Selection | `platform` preferred, `cross-platform` allowed        |
+| Resident Key            | `preferred` (discoverable credentials when supported) |
+| Challenge TTL           | 5 minutes                                             |
 
 **Dev override:** When `VITE_SUPABASE_URL` contains `localhost` or `127.0.0.1`,
 RP ID = `localhost`, Origin = `http://localhost:5173`.
@@ -126,6 +126,7 @@ or optional cron. No separate cron function needed initially.
 **Output:** `PublicKeyCredentialCreationOptionsJSON`
 
 Flow:
+
 1. Extract user from Authorization header
 2. Fetch existing passkeys for `excludeCredentials`
 3. Generate registration options via SimpleWebAuthn
@@ -138,6 +139,7 @@ Flow:
 **Output:** `{ success: true, credentialId: string }`
 
 Flow:
+
 1. Extract user from Authorization header
 2. Look up challenge from `passkey_challenges` (user_id + type='registration')
 3. Verify registration response via SimpleWebAuthn
@@ -152,6 +154,7 @@ Flow:
 **Output:** `PublicKeyCredentialRequestOptionsJSON`
 
 Flow:
+
 1. Generate authentication options (no allowCredentials — discoverable)
 2. Store challenge in `passkey_challenges` (type='authentication', user_id=NULL)
 3. Return options
@@ -162,6 +165,7 @@ Flow:
 **Output:** `{ success: true, session: { access_token, refresh_token, ... } }`
 
 Flow:
+
 1. Look up credential by `credential_id` from response in `user_passkeys`
 2. Look up challenge from `passkey_challenges`
 3. Verify authentication response via SimpleWebAuthn
@@ -178,7 +182,7 @@ Flow:
 
 ```typescript
 interface UsePasskeyAuth {
-  isSupported: boolean;           // PublicKeyCredential available
+  isSupported: boolean; // PublicKeyCredential available
   isConditionalSupported: boolean; // Autofill-assisted passkey
   registerPasskey(deviceName?: string): Promise<void>;
   loginWithPasskey(): Promise<{ session: Session; isNewUser: false }>;
@@ -188,6 +192,7 @@ interface UsePasskeyAuth {
 ```
 
 Implementation:
+
 - `isSupported` = `typeof PublicKeyCredential !== 'undefined'`
 - `isConditionalSupported` = `PublicKeyCredential.isConditionalMediationAvailable?.()`
 - Registration: calls register-options → `startRegistration()` → register-verify
@@ -196,6 +201,7 @@ Implementation:
 ### 5b. `useUnifiedAuth` Integration
 
 Add to existing hook:
+
 - `signInWithPasskey(): Promise<void>` — delegates to `usePasskeyAuth.loginWithPasskey()`
 - `registerPasskey(deviceName?: string): Promise<void>` — for logged-in users
 - `authMethod` type extended: `"email" | "wallet" | "passkey" | null`
@@ -203,14 +209,17 @@ Add to existing hook:
 ### 5c. UI Changes
 
 **Auth.tsx (Login page):**
+
 - Add "Sign in with passkey" button below email form (when `isSupported`)
 - Uses device-native UI (fingerprint/face prompt)
 
 **AuthSignup.tsx (Signup page):**
+
 - Passkey signup flow: email input → "Create account with passkey" button
 - Calls: create account with random password → register passkey → session
 
 **Settings page (future):**
+
 - List registered passkeys (device_name, created_at, last_used_at)
 - "Add passkey" button
 - "Remove passkey" per-credential
@@ -243,26 +252,28 @@ authenticate via passkey going forward.
 
 ## 8. Subtask Breakdown
 
-| # | Title | Assignee | Depends On | Priority |
-|---|-------|----------|------------|----------|
-| 1 | Database migration: user_passkeys + passkey_challenges | Engineer | — | High |
-| 2 | Edge functions: passkey-register-options + passkey-register-verify | Engineer | #1 | High |
-| 3 | Edge functions: passkey-login-options + passkey-login-verify | Engineer | #1 | High |
-| 4 | Frontend: usePasskeyAuth hook + useUnifiedAuth integration | Engineer | #2, #3 | High |
-| 5 | Frontend: Auth/AuthSignup page passkey buttons | Engineer | #4 | High |
-| 6 | Tests: hook tests + edge function verification | Engineer | #4, #5 | Medium |
+| #   | Title                                                              | Assignee | Depends On | Priority |
+| --- | ------------------------------------------------------------------ | -------- | ---------- | -------- |
+| 1   | Database migration: user_passkeys + passkey_challenges             | Engineer | —          | High     |
+| 2   | Edge functions: passkey-register-options + passkey-register-verify | Engineer | #1         | High     |
+| 3   | Edge functions: passkey-login-options + passkey-login-verify       | Engineer | #1         | High     |
+| 4   | Frontend: usePasskeyAuth hook + useUnifiedAuth integration         | Engineer | #2, #3     | High     |
+| 5   | Frontend: Auth/AuthSignup page passkey buttons                     | Engineer | #4         | High     |
+| 6   | Tests: hook tests + edge function verification                     | Engineer | #4, #5     | Medium   |
 
 Subtasks 2 and 3 can run in parallel. Subtask 4 depends on both.
 
 ## 9. Environment Variables (New)
 
 Edge function secrets (Supabase Dashboard):
+
 - `PASSKEY_RP_ID` — `giveprotocol.io` (or `localhost` for dev)
 - `PASSKEY_RP_NAME` — `Give Protocol`
 - `PASSKEY_ORIGIN` — `https://giveprotocol.io` (or `http://localhost:5173`)
 
 Frontend:
-- No new VITE_ vars needed (RP config derived from window.location)
+
+- No new VITE\_ vars needed (RP config derived from window.location)
 
 ## 10. npm Dependencies (New)
 

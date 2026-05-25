@@ -410,7 +410,15 @@ const SignupRightPanel: React.FC = () => {
         Logger.error("Email sign-up failed", { error: msg });
       }
     },
-    [displayName, email, navigate, password, confirmPassword, signUpWithEmail, t],
+    [
+      displayName,
+      email,
+      navigate,
+      password,
+      confirmPassword,
+      signUpWithEmail,
+      t,
+    ],
   );
 
   const handlePasskeySignUp = useCallback(async () => {

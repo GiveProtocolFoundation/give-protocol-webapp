@@ -231,9 +231,7 @@ describe("AdminContentModeration", () => {
       fireEvent.change(screen.getByLabelText("Reason"), {
         target: { value: "Inappropriate content" },
       });
-      fireEvent.click(
-        screen.getByRole("button", { name: "Hide Content" }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: "Hide Content" }));
       await waitFor(() => {
         expect(mockModerateContent).toHaveBeenCalledWith({
           contentType: "opportunity",
@@ -263,9 +261,7 @@ describe("AdminContentModeration", () => {
       fireEvent.change(screen.getByLabelText("Reason"), {
         target: { value: "Bad content" },
       });
-      fireEvent.click(
-        screen.getByRole("button", { name: "Hide Content" }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: "Hide Content" }));
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
           "error",

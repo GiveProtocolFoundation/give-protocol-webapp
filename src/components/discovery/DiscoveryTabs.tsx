@@ -27,7 +27,10 @@ export function readTabParam(searchParams: URLSearchParams): DiscoveryTab {
  * @returns Current tab and setter callback
  */
 // eslint-disable-next-line react-refresh/only-export-components
-export function useDiscoveryTab(): [DiscoveryTab, (_tab: DiscoveryTab) => void] {
+export function useDiscoveryTab(): [
+  DiscoveryTab,
+  (_tab: DiscoveryTab) => void,
+] {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = readTabParam(searchParams);
 

@@ -13,7 +13,10 @@ const mockFund: PortfolioFund = {
   name: "Education Fund",
   description: "Supporting education",
   active: true,
-  charities: ["0x1111111111111111111111111111111111111111", "0x2222222222222222222222222222222222222222"],
+  charities: [
+    "0x1111111111111111111111111111111111111111",
+    "0x2222222222222222222222222222222222222222",
+  ],
   ratios: [50, 50],
   totalRaised: "10.0",
   totalDistributed: "5.0",

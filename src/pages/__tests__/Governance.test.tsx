@@ -78,9 +78,7 @@ describe("Governance", () => {
       expect(
         screen.getByText("66% supermajority approval"),
       ).toBeInTheDocument();
-      expect(
-        screen.getByText("50% minimum participation"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("50% minimum participation")).toBeInTheDocument();
       expect(screen.getByText("48-hour voting period")).toBeInTheDocument();
     });
 
@@ -104,9 +102,7 @@ describe("Governance", () => {
       expect(
         screen.getByText("4/7 signatures for critical actions"),
       ).toBeInTheDocument();
-      expect(
-        screen.getByText("24-hour maximum timelock"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("24-hour maximum timelock")).toBeInTheDocument();
     });
   });
 
@@ -163,9 +159,7 @@ describe("Governance", () => {
     it("renders the notice text", () => {
       renderGovernance();
       expect(
-        screen.getByText(
-          /All governance participants are required to review/,
-        ),
+        screen.getByText(/All governance participants are required to review/),
       ).toBeInTheDocument();
     });
   });

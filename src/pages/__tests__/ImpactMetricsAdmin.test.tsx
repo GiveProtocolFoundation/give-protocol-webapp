@@ -80,9 +80,7 @@ describe("ImpactMetricsAdmin", () => {
   describe("Page title and layout", () => {
     it("renders the page title", () => {
       renderComponent();
-      expect(
-        screen.getByText("Impact Metrics Management"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Impact Metrics Management")).toBeInTheDocument();
     });
 
     it("renders the Add Metric button", () => {

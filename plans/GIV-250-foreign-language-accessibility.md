@@ -13,16 +13,16 @@ The Give Protocol webapp has i18n infrastructure in place (i18next, 12 languages
 
 ## Current State
 
-| Aspect | Status |
-|--------|--------|
-| i18n framework | i18next + react-i18next (fully configured) |
-| Languages supported | 12 (en, es, de, fr, ja, zh-CN, zh-TW, th, vi, ko, ar, hi) |
-| Translation keys | ~184 across all 12 language files |
-| Components using i18n | ~30 out of ~200+ |
-| Language selector | SettingsMenu in navbar (working) |
-| Language detection | Browser language via i18next-browser-languagedetector |
-| RTL support | Not implemented (needed for Arabic) |
-| Geolocation detection | Not implemented |
+| Aspect                | Status                                                    |
+| --------------------- | --------------------------------------------------------- |
+| i18n framework        | i18next + react-i18next (fully configured)                |
+| Languages supported   | 12 (en, es, de, fr, ja, zh-CN, zh-TW, th, vi, ko, ar, hi) |
+| Translation keys      | ~184 across all 12 language files                         |
+| Components using i18n | ~30 out of ~200+                                          |
+| Language selector     | SettingsMenu in navbar (working)                          |
+| Language detection    | Browser language via i18next-browser-languagedetector     |
+| RTL support           | Not implemented (needed for Arabic)                       |
+| Geolocation detection | Not implemented                                           |
 
 ## Goals
 
@@ -41,13 +41,16 @@ The Give Protocol webapp has i18n infrastructure in place (i18next, 12 languages
 ## Language Selection Strategy
 
 ### Automatic Detection (Already Implemented)
+
 The existing `i18next-browser-languagedetector` detects language from:
+
 1. `localStorage` (user's explicit choice — highest priority)
 2. Browser `navigator.language` setting
 
 **Recommendation:** This is sufficient. Browser language detection covers the vast majority of use cases. IP-based geolocation adds complexity, latency, and privacy concerns (GDPR) for marginal benefit. Users whose browser language differs from their location can use the manual selector.
 
 ### Manual Selection (Already Implemented)
+
 The SettingsMenu in the navbar provides a 12-language grid selector. This is accessible and functional.
 
 **Enhancement:** Add language selector to the DashboardSettings page for discoverability (currently only in navbar dropdown).
@@ -55,10 +58,12 @@ The SettingsMenu in the navbar provides a 12-language grid selector. This is acc
 ## Implementation Plan
 
 ### Phase 1: String Extraction & Key Organization (Engineering)
+
 **Scope:** Audit all ~200+ components, extract hardcoded English strings into translation keys.
 
 **Approach:**
-- Organize keys by feature domain (auth.*, charity.*, donor.*, volunteer.*, admin.*, browse.*, home.*, common.*)
+
+- Organize keys by feature domain (auth._, charity._, donor._, volunteer._, admin._, browse._, home._, common._)
 - Add keys to `en.ts` first as the source of truth
 - Wrap all JSX text in `t()` calls using the existing `useTranslation` hook
 - Handle interpolation for dynamic values: `t('key', { count, name })`
@@ -67,6 +72,7 @@ The SettingsMenu in the navbar provides a 12-language grid selector. This is acc
 **Estimated new keys:** ~400-600 (bringing total from ~184 to ~600-800)
 
 **Priority order for extraction:**
+
 1. **P0 — Landing & Auth pages** (Home, Auth, Login, Register, ForgotCredentials) — first impression for new users
 2. **P1 — Browse & Charity pages** (BrowseCharities, CharityProfile, DonateWidget) — donor-facing
 3. **P2 — Dashboard pages** (GiveDashboard, DonorDashboard, CharityPortal tabs) — logged-in users
@@ -75,9 +81,11 @@ The SettingsMenu in the navbar provides a 12-language grid selector. This is acc
 6. **P5 — Modals, Toasts, Error messages** — scattered throughout
 
 ### Phase 2: AI Translation Generation (Engineering)
+
 **Scope:** Generate translations for all new keys across 11 non-English languages.
 
 **Approach:**
+
 - Use Claude API (same approach as docs translation GIV-131–134, proven successful)
 - Translate `en.ts` keys → all 11 language files
 - Batch by domain for context accuracy
@@ -85,14 +93,17 @@ The SettingsMenu in the navbar provides a 12-language grid selector. This is acc
 - Output formatted TypeScript files matching existing structure
 
 **Quality tiers:**
+
 - **Tier 1 (human review recommended):** es, zh-CN — largest user bases, docs already translated
 - **Tier 2 (AI-generated, spot-check):** fr, de, ja, ko — significant user populations
 - **Tier 3 (AI-generated, best effort):** zh-TW, th, vi, ar, hi — smaller user bases initially
 
 ### Phase 3: RTL Support (Engineering)
+
 **Scope:** Arabic language requires right-to-left text direction and mirrored layouts.
 
 **Approach:**
+
 - Add `dir="rtl"` to `<html>` element when Arabic is selected (in SettingsContext)
 - Use CSS logical properties (`margin-inline-start` instead of `margin-left`) where layout is direction-dependent
 - Audit Tailwind classes for RTL compatibility — most flexbox/grid layouts work automatically
@@ -101,6 +112,7 @@ The SettingsMenu in the navbar provides a 12-language grid selector. This is acc
 **Scope limit:** Only Arabic needs RTL among the 12 supported languages. Hindi uses LTR.
 
 ### Phase 4: QA & Polish (QA)
+
 **Scope:** Verify translations render correctly across all pages and languages.
 
 - Visual regression testing for each language (text overflow, truncation, layout breaks)
@@ -112,31 +124,35 @@ The SettingsMenu in the navbar provides a 12-language grid selector. This is acc
 
 ## Subtask Breakdown
 
-| # | Task | Agent | Dependencies | Est. Keys |
-|---|------|-------|--------------|-----------|
-| 1 | P0: Landing & Auth string extraction | Engineer | None | ~80 |
-| 2 | P1: Browse & Charity string extraction | Engineer | None | ~120 |
-| 3 | P2: Dashboard string extraction | Engineer-2 | None | ~100 |
-| 4 | P3: Volunteer string extraction (fill gaps) | Engineer-2 | None | ~40 |
-| 5 | P4: Admin & Settings string extraction | Engineer | None | ~60 |
-| 6 | P5: Modals, Toasts, Errors string extraction | Engineer-2 | None | ~80 |
-| 7 | AI translation generation (all 11 languages) | Engineer | 1-6 complete | — |
-| 8 | RTL support for Arabic | Engineer | 7 complete | — |
-| 9 | DashboardSettings language selector | Engineer-2 | None | ~10 |
-| 10 | QA: Full i18n verification | QA | 7-9 complete | — |
+| #   | Task                                         | Agent      | Dependencies | Est. Keys |
+| --- | -------------------------------------------- | ---------- | ------------ | --------- |
+| 1   | P0: Landing & Auth string extraction         | Engineer   | None         | ~80       |
+| 2   | P1: Browse & Charity string extraction       | Engineer   | None         | ~120      |
+| 3   | P2: Dashboard string extraction              | Engineer-2 | None         | ~100      |
+| 4   | P3: Volunteer string extraction (fill gaps)  | Engineer-2 | None         | ~40       |
+| 5   | P4: Admin & Settings string extraction       | Engineer   | None         | ~60       |
+| 6   | P5: Modals, Toasts, Errors string extraction | Engineer-2 | None         | ~80       |
+| 7   | AI translation generation (all 11 languages) | Engineer   | 1-6 complete | —         |
+| 8   | RTL support for Arabic                       | Engineer   | 7 complete   | —         |
+| 9   | DashboardSettings language selector          | Engineer-2 | None         | ~10       |
+| 10  | QA: Full i18n verification                   | QA         | 7-9 complete | —         |
 
 **Parallelization:** Tasks 1-6 can run in parallel (2 engineers). Task 9 is independent. Tasks 7-8 are sequential after extraction. Task 10 is the final gate.
 
 ## Technical Decisions
 
 ### Translation file format
+
 **Keep current approach:** TypeScript files (`en.ts`, `es.ts`, etc.) with flat key-value objects. These are type-safe, tree-shakeable, and match the existing pattern. No migration to JSON needed.
 
 ### Key naming convention
+
 **Use dot-notation by domain:** `{domain}.{page}.{element}` — e.g., `auth.login.emailLabel`, `browse.search.placeholder`, `charity.profile.donateButton`. This matches the existing pattern and scales well.
 
 ### Component integration pattern
+
 **Use existing `useTranslation` hook** from `src/hooks/useTranslation.ts`. No new abstractions needed. For components that don't currently import it, add:
+
 ```tsx
 const { t } = useTranslation();
 // Then replace: <h1>Browse Charities</h1>
@@ -144,7 +160,9 @@ const { t } = useTranslation();
 ```
 
 ### Geolocation
+
 **Not recommended for v1.** Browser language detection (already implemented) covers the primary use case. Adding geolocation would require:
+
 - Third-party API dependency (ip-api, MaxMind, etc.)
 - GDPR consent for location data
 - Edge cases where IP location ≠ user language preference
@@ -162,13 +180,13 @@ If the board wants geolocation, it can be added later as a detection source in t
 
 ## Risks
 
-| Risk | Mitigation |
-|------|------------|
-| AI translations may be inaccurate | Tier 1 languages (es, zh-CN) get human review; community corrections over time |
-| Large PR scope (~200 files touched) | Split into 6 parallel extraction PRs by domain |
-| Text overflow in some languages (e.g., German is ~30% longer than English) | QA visual regression testing; use flexible layouts |
-| RTL layout breaks | Scoped to Arabic only; CSS logical properties minimize impact |
-| New features added without i18n | Add lint rule or PR checklist reminder |
+| Risk                                                                       | Mitigation                                                                     |
+| -------------------------------------------------------------------------- | ------------------------------------------------------------------------------ |
+| AI translations may be inaccurate                                          | Tier 1 languages (es, zh-CN) get human review; community corrections over time |
+| Large PR scope (~200 files touched)                                        | Split into 6 parallel extraction PRs by domain                                 |
+| Text overflow in some languages (e.g., German is ~30% longer than English) | QA visual regression testing; use flexible layouts                             |
+| RTL layout breaks                                                          | Scoped to Arabic only; CSS logical properties minimize impact                  |
+| New features added without i18n                                            | Add lint rule or PR checklist reminder                                         |
 
 ## Open Questions for Board
 
