@@ -820,25 +820,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "عطاء شفاف",
     "home.hero.titleAccent": "أثر مستدام",
-    "home.hero.description": "عمل خيري شفاف بشكل جذري للعصر الرقمي. مصمم لتحقيق الأثر، مدعوم بتقنية قابلة للتحقق. كل مساهمة قابلة للتتبع من المتبرع إلى الوجهة.",
+    "home.hero.description":
+      "عمل خيري شفاف بشكل جذري للعصر الرقمي. مصمم لتحقيق الأثر، مدعوم بتقنية قابلة للتحقق. كل مساهمة قابلة للتتبع من المتبرع إلى الوجهة.",
     "home.hero.visionTitle": "رؤيتنا",
-    "home.hero.visionText": "يقوم Give Protocol ببناء مستقبل العطاء عالي النزاهة. نستفيد من البنية التحتية التقنية المتقدمة لسد الفجوة بين رأس المال العالمي والأثر المحلي. من خلال دمج دعم الأصول الرقمية السلس مع أساليب العطاء التقليدية، نبني منظومات تمويل مرنة تحوّل التبرعات لمرة واحدة إلى محركات دائمة لدعم أهم القضايا في العالم.",
+    "home.hero.visionText":
+      "يقوم Give Protocol ببناء مستقبل العطاء عالي النزاهة. نستفيد من البنية التحتية التقنية المتقدمة لسد الفجوة بين رأس المال العالمي والأثر المحلي. من خلال دمج دعم الأصول الرقمية السلس مع أساليب العطاء التقليدية، نبني منظومات تمويل مرنة تحوّل التبرعات لمرة واحدة إلى محركات دائمة لدعم أهم القضايا في العالم.",
     "home.comingSoon": "قريبًا",
     "home.readDocs": "اقرأ الوثائق",
     "home.features.sectionTitle": "بوابتك إلى العمل الخيري الشفاف",
-    "home.features.sectionSubtitle": "بنية تحتية متعددة السلاسل للعطاء السلس — عملات رقمية أو تقليدية — مع شفافية كاملة",
+    "home.features.sectionSubtitle":
+      "بنية تحتية متعددة السلاسل للعطاء السلس — عملات رقمية أو تقليدية — مع شفافية كاملة",
     "home.features.highEfficiency.title": "عطاء عالي الكفاءة",
-    "home.features.highEfficiency.description": "ساهم مباشرة في المنظمات المعتمدة دون أي غموض. يوفر سجلنا الآلي تحققًا فوريًا، مما يضمن توجيه دعمك تمامًا حيث تدعو الحاجة.",
+    "home.features.highEfficiency.description":
+      "ساهم مباشرة في المنظمات المعتمدة دون أي غموض. يوفر سجلنا الآلي تحققًا فوريًا، مما يضمن توجيه دعمك تمامًا حيث تدعو الحاجة.",
     "home.features.equityFunds.title": "صناديق الأسهم الخيرية",
-    "home.features.equityFunds.description": "تجاوز التبرعات لمرة واحدة من خلال المساهمة في صناديق أسهم مُدارة بذكاء. نستخدم استراتيجيات رقمية متطورة منخفضة المخاطر لتحويل رأس مالك إلى تدفق تمويل دائم، يدعم المهام الخيرية للأجيال القادمة.",
+    "home.features.equityFunds.description":
+      "تجاوز التبرعات لمرة واحدة من خلال المساهمة في صناديق أسهم مُدارة بذكاء. نستخدم استراتيجيات رقمية متطورة منخفضة المخاطر لتحويل رأس مالك إلى تدفق تمويل دائم، يدعم المهام الخيرية للأجيال القادمة.",
     "home.features.impactFunds.title": "صناديق الأثر",
-    "home.features.impactFunds.description": "اجمع الموارد لقضايا محددة. البيئة، التعليم، مكافحة الفقر — تبرعك يتضاعف من خلال العمل الجماعي.",
+    "home.features.impactFunds.description":
+      "اجمع الموارد لقضايا محددة. البيئة، التعليم، مكافحة الفقر — تبرعك يتضاعف من خلال العمل الجماعي.",
     "home.features.verifiedOrgs.title": "منظمات معتمدة",
-    "home.features.verifiedOrgs.description": "تصفح أي منظمة مسجلة، أو ابحث عن شارة التحقق. المنظمات التي تشارك في عملية التدقيق لدينا تحصل على توثيق على السلسلة يثق به المتبرعون.",
+    "home.features.verifiedOrgs.description":
+      "تصفح أي منظمة مسجلة، أو ابحث عن شارة التحقق. المنظمات التي تشارك في عملية التدقيق لدينا تحصل على توثيق على السلسلة يثق به المتبرعون.",
     "home.features.blockchainVerified.title": "موثّق على البلوكتشين",
-    "home.features.blockchainVerified.description": "رموز مرتبطة بالهوية تُكرّم مساهمات المتطوعين. المهارات والساعات والأثر — كلها مسجلة بشكل دائم على السلسلة.",
+    "home.features.blockchainVerified.description":
+      "رموز مرتبطة بالهوية تُكرّم مساهمات المتطوعين. المهارات والساعات والأثر — كلها مسجلة بشكل دائم على السلسلة.",
     "home.features.bridgingModes.title": "جسر بين أساليب العطاء",
-    "home.features.bridgingModes.description": "سواء كنت تتبرع بالدولار الأمريكي أو بالأصول الرقمية، تضمن بنيتنا متعددة الشبكات أن مساهمتك تسير بسرعة العالم الحديث.",
+    "home.features.bridgingModes.description":
+      "سواء كنت تتبرع بالدولار الأمريكي أو بالأصول الرقمية، تضمن بنيتنا متعددة الشبكات أن مساهمتك تسير بسرعة العالم الحديث.",
     "home.roles.title": "مصمم لكل من يغيّر العالم",
     "home.roles.donors.title": "للمتبرعين",
     "home.roles.donors.item1": "تبرع بالعملات الرقمية أو التقليدية — اختيارك",
@@ -854,16 +863,20 @@ export default {
     "home.roles.volunteers.item3": "شارات إنجاز وتقدير",
     "home.impact.title": "صناديق الأثر المخطط لها",
     "home.impact.environmental.title": "صندوق الأثر البيئي",
-    "home.impact.environmental.description": "دعم إعادة التشجير وتنظيف المحيطات ومبادرات الطاقة المتجددة. تبرعات مجمّعة موجهة إلى منظمات بيئية معتمدة تحقق أثرًا قابلًا للقياس.",
+    "home.impact.environmental.description":
+      "دعم إعادة التشجير وتنظيف المحيطات ومبادرات الطاقة المتجددة. تبرعات مجمّعة موجهة إلى منظمات بيئية معتمدة تحقق أثرًا قابلًا للقياس.",
     "home.impact.education.title": "صندوق الفرص التعليمية",
-    "home.impact.education.description": "تقديم المنح الدراسية وأدوات التعلم الرقمي وتدريب المعلمين. تمويل جماعي مضاعف لدعم المبادرات التعليمية في المجتمعات المحرومة.",
+    "home.impact.education.description":
+      "تقديم المنح الدراسية وأدوات التعلم الرقمي وتدريب المعلمين. تمويل جماعي مضاعف لدعم المبادرات التعليمية في المجتمعات المحرومة.",
     "home.cta.title": "مستعد لتغيير مفهوم العطاء؟",
-    "home.cta.subtitle": "كن من أوائل المستفيدين من العمل الخيري الشفاف المدعوم بتقنية البلوكتشين. انضم إلى مجتمعنا الذي يبني مستقبلًا أفضل للعطاء الخيري.",
+    "home.cta.subtitle":
+      "كن من أوائل المستفيدين من العمل الخيري الشفاف المدعوم بتقنية البلوكتشين. انضم إلى مجتمعنا الذي يبني مستقبلًا أفضل للعطاء الخيري.",
     "home.nav.features": "المزايا",
     "home.nav.impact": "الأثر",
     "home.nav.charities": "الجمعيات الخيرية",
     "home.nav.volunteer": "التطوع",
-    "home.footer.brand.tagline": "تحويل العمل الخيري من خلال شفافية البلوكتشين والتمويل المستدام.",
+    "home.footer.brand.tagline":
+      "تحويل العمل الخيري من خلال شفافية البلوكتشين والتمويل المستدام.",
     "home.footer.product.title": "المنتج",
     "home.footer.product.impactFunds": "صناديق الأثر",
     "home.footer.product.charities": "للجمعيات الخيرية",
@@ -874,7 +887,8 @@ export default {
     "home.footer.resources.community": "المجتمع (قريبًا)",
     "home.footer.connect.title": "تواصل",
     "home.footer.connect.contact": "اتصل بنا (قريبًا)",
-    "home.footer.copyright": "Give Protocol. متعدد السلاسل بالتصميم. يعمل بجهود متطوعي Give Protocol.",
+    "home.footer.copyright":
+      "Give Protocol. متعدد السلاسل بالتصميم. يعمل بجهود متطوعي Give Protocol.",
     "auth.signin.welcomeBack": "مرحبًا بعودتك",
     "auth.signin.subtitle": "سجّل الدخول إلى حسابك في Give Protocol",
     "auth.signin.emailPlaceholder": "البريد الإلكتروني",
@@ -890,7 +904,8 @@ export default {
     "auth.signin.terms": "الشروط",
     "auth.signin.privacy": "الخصوصية",
     "auth.panel.headline": "عطاء ذكي، أثر شفاف.",
-    "auth.panel.subheadline": "حساب واحد. تبرع بالبطاقة أو العملات الرقمية. تتبع كل دولار على السلسلة.",
+    "auth.panel.subheadline":
+      "حساب واحد. تبرع بالبطاقة أو العملات الرقمية. تتبع كل دولار على السلسلة.",
     "auth.panel.statusLabel": "حالة البروتوكول · مرحلة التأسيس",
     "auth.panel.statusDesc": "بناء أسس العطاء الشفاف",
     "auth.panel.runsOn": "يعمل على",
@@ -901,13 +916,15 @@ export default {
     "auth.wallet.openingSession": "جارٍ فتح الجلسة…",
     "auth.validation.emailRequired": "يرجى إدخال بريدك الإلكتروني أولًا",
     "auth.validation.invalidEmail": "يرجى إدخال بريد إلكتروني صالح",
-    "auth.validation.passwordTooShort": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    "auth.validation.passwordTooShort":
+      "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     "auth.validation.passwordMismatch": "كلمتا المرور غير متطابقتين",
     "auth.login.welcomeHeading": "مرحبًا بك في Give Protocol",
     "auth.login.signInOrConnect": "تسجيل الدخول أو الاتصال",
     "auth.login.skipToContent": "تخطي إلى محتوى تسجيل الدخول",
     "auth.login.donorTitle": "تسجيل دخول المتبرع",
-    "auth.login.donorSubtitle": "سجّل الدخول للوصول إلى لوحة التبرعات الخاصة بك",
+    "auth.login.donorSubtitle":
+      "سجّل الدخول للوصول إلى لوحة التبرعات الخاصة بك",
     "auth.login.charityTitle": "بوابة المنظمات غير الربحية",
     "auth.login.charitySubtitle": "إدارة ملف منظمتك والتبرعات",
     "auth.login.back": "← رجوع",
@@ -923,7 +940,8 @@ export default {
     "auth.login.needHelp": "تحتاج مساعدة؟",
     "auth.login.forgotUsernameBtn": "نسيت اسم المستخدم؟",
     "auth.login.forgotPasswordBtn": "نسيت كلمة المرور؟",
-    "auth.donorLogin.mismatch": "لم يُعثر على حساب متبرع. هذا البريد الإلكتروني مسجل كحساب جمعية خيرية. يرجى استخدام بوابة تسجيل دخول الجمعيات الخيرية.",
+    "auth.donorLogin.mismatch":
+      "لم يُعثر على حساب متبرع. هذا البريد الإلكتروني مسجل كحساب جمعية خيرية. يرجى استخدام بوابة تسجيل دخول الجمعيات الخيرية.",
     "auth.donorLogin.signingIn": "جارٍ تسجيل الدخول…",
     "auth.donorLogin.redirecting": "إعادة التوجيه خلال {{count}}...",
     "auth.donorReg.pleaseWait": "يرجى الانتظار…",
@@ -933,17 +951,22 @@ export default {
     "auth.donorReg.orSetPassword": "أو قم بتعيين كلمة مرور",
     "auth.donorReg.creating": "جارٍ إنشاء الحساب...",
     "auth.donorReg.createAccount": "إنشاء حساب متبرع",
-    "auth.charityLogin.mismatch": "هذا البريد الإلكتروني مسجل كحساب متبرع. يرجى تسجيل الدخول من بوابة المتبرعين.",
+    "auth.charityLogin.mismatch":
+      "هذا البريد الإلكتروني مسجل كحساب متبرع. يرجى تسجيل الدخول من بوابة المتبرعين.",
     "auth.charityLogin.signingIn": "جارٍ تسجيل الدخول...",
     "auth.charityLogin.or": "أو",
     "auth.charityLogin.connecting": "جارٍ الاتصال...",
     "auth.charityLogin.connectWallet": "ربط المحفظة",
     "auth.forgot.resetPassword": "إعادة تعيين كلمة المرور",
     "auth.forgot.forgotUsername": "نسيت اسم المستخدم",
-    "auth.forgot.passwordDesc": "أدخل بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور.",
-    "auth.forgot.usernameDesc": "أدخل بريدك الإلكتروني وسنرسل لك اسم المستخدم الخاص بك.",
-    "auth.forgot.passwordSuccess": "تم إرسال تعليمات إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
-    "auth.forgot.usernameSuccess": "تم إرسال تذكير باسم المستخدم إلى بريدك الإلكتروني",
+    "auth.forgot.passwordDesc":
+      "أدخل بريدك الإلكتروني وسنرسل لك رابطًا لإعادة تعيين كلمة المرور.",
+    "auth.forgot.usernameDesc":
+      "أدخل بريدك الإلكتروني وسنرسل لك اسم المستخدم الخاص بك.",
+    "auth.forgot.passwordSuccess":
+      "تم إرسال تعليمات إعادة تعيين كلمة المرور إلى بريدك الإلكتروني",
+    "auth.forgot.usernameSuccess":
+      "تم إرسال تذكير باسم المستخدم إلى بريدك الإلكتروني",
     "auth.forgot.checkEmail": "تحقق من بريدك الإلكتروني",
     "auth.forgot.backToSignIn": "العودة إلى تسجيل الدخول",
     "auth.forgot.emailPlaceholder": "أدخل بريدك الإلكتروني",
@@ -955,7 +978,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "البحث باسم المنظمة...",
     "auth.orgSearch.countryLabel": "الدولة",
     "auth.orgSearch.allCountries": "جميع الدول",
-    "auth.orgSearch.searchPrompt": "ابحث في قاعدة بياناتنا للعثور على منظمتك والمطالبة بها.",
+    "auth.orgSearch.searchPrompt":
+      "ابحث في قاعدة بياناتنا للعثور على منظمتك والمطالبة بها.",
     "auth.orgSearch.noResults": "لم يُعثر على منظمات.",
     "auth.orgSearch.loadMore": "تحميل المزيد من النتائج",
     "auth.orgSearch.cantFind": "لا تجد منظمتك؟",
@@ -975,7 +999,8 @@ export default {
     "charity.claim.submit": "المطالبة بالمنظمة",
     "charity.claim.validation.name": "يجب أن يكون الاسم بين 2 و100 حرف",
     "charity.claim.validation.email": "يرجى إدخال بريد إلكتروني صالح",
-    "charity.claim.validation.password": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    "charity.claim.validation.password":
+      "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     "charity.claim.validation.confirmPassword": "كلمتا المرور غير متطابقتين",
     "charity.claim.validation.fix": "يرجى تصحيح أخطاء التحقق",
     "charity.claim.error.creation": "فشل إنشاء الحساب",
@@ -999,10 +1024,13 @@ export default {
     "charity.vetting.confirmPassword": "تأكيد كلمة المرور",
     "charity.vetting.submitting": "جارٍ تقديم الطلب...",
     "charity.vetting.submit": "تقديم طلب الجمعية الخيرية",
-    "charity.vetting.validation.orgName": "يجب أن يكون اسم المنظمة بين 2 و100 حرف",
-    "charity.vetting.validation.contactName": "يجب أن يكون اسم جهة الاتصال بين 2 و100 حرف",
+    "charity.vetting.validation.orgName":
+      "يجب أن يكون اسم المنظمة بين 2 و100 حرف",
+    "charity.vetting.validation.contactName":
+      "يجب أن يكون اسم جهة الاتصال بين 2 و100 حرف",
     "charity.vetting.validation.email": "يرجى إدخال بريد إلكتروني صالح",
-    "charity.vetting.validation.password": "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
+    "charity.vetting.validation.password":
+      "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     "charity.vetting.validation.confirmPassword": "كلمتا المرور غير متطابقتين",
     "charity.vetting.validation.description": "الوصف مطلوب",
     "charity.vetting.validation.category": "الفئة مطلوبة",

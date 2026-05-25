@@ -798,25 +798,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "透明捐贈",
     "home.hero.titleAccent": "永續影響力",
-    "home.hero.description": "為數位時代打造的全透明公益慈善。以影響力為核心，以可驗證技術為後盾。每一筆捐款皆可追溯，從捐贈者直達受助對象。",
+    "home.hero.description":
+      "為數位時代打造的全透明公益慈善。以影響力為核心，以可驗證技術為後盾。每一筆捐款皆可追溯，從捐贈者直達受助對象。",
     "home.hero.visionTitle": "我們的願景",
-    "home.hero.visionText": "Give Protocol 正在建構高誠信捐贈的未來。我們運用先進的技術基礎設施，連接全球資本與在地影響力。透過將無縫的數位資產支援與傳統捐贈方式整合，我們正在創建富有韌性的資金生態系統，將一次性的捐贈轉化為永續的支持引擎，為世界上最重要的公益事業提供長期資助。",
+    "home.hero.visionText":
+      "Give Protocol 正在建構高誠信捐贈的未來。我們運用先進的技術基礎設施，連接全球資本與在地影響力。透過將無縫的數位資產支援與傳統捐贈方式整合，我們正在創建富有韌性的資金生態系統，將一次性的捐贈轉化為永續的支持引擎，為世界上最重要的公益事業提供長期資助。",
     "home.comingSoon": "即將推出",
     "home.readDocs": "閱讀文件",
     "home.features.sectionTitle": "您通往透明公益的入口",
-    "home.features.sectionSubtitle": "多鏈基礎設施實現無縫捐贈——加密貨幣或法定貨幣皆可——全程透明",
+    "home.features.sectionSubtitle":
+      "多鏈基礎設施實現無縫捐贈——加密貨幣或法定貨幣皆可——全程透明",
     "home.features.highEfficiency.title": "高效率捐贈",
-    "home.features.highEfficiency.description": "直接捐贈給經過驗證的組織，完全透明無疑慮。我們的自動化帳本提供即時驗證，確保您的支持精準送達最需要的地方。",
+    "home.features.highEfficiency.description":
+      "直接捐贈給經過驗證的組織，完全透明無疑慮。我們的自動化帳本提供即時驗證，確保您的支持精準送達最需要的地方。",
     "home.features.equityFunds.title": "慈善權益基金",
-    "home.features.equityFunds.description": "超越一次性捐贈，投入智慧管理的權益基金。我們運用精密的低風險數位策略，將您的本金轉化為永續的資金流，為慈善使命提供代代相傳的支持。",
+    "home.features.equityFunds.description":
+      "超越一次性捐贈，投入智慧管理的權益基金。我們運用精密的低風險數位策略，將您的本金轉化為永續的資金流，為慈善使命提供代代相傳的支持。",
     "home.features.impactFunds.title": "影響力基金",
-    "home.features.impactFunds.description": "為特定公益目標匯集資源。環境保護、教育、扶貧——透過集體行動放大您的捐款效益。",
+    "home.features.impactFunds.description":
+      "為特定公益目標匯集資源。環境保護、教育、扶貧——透過集體行動放大您的捐款效益。",
     "home.features.verifiedOrgs.title": "已驗證組織",
-    "home.features.verifiedOrgs.description": "瀏覽任何已登記的組織，或查看驗證徽章。選擇加入我們審查流程的組織將獲得鏈上驗證，值得捐贈者信賴。",
+    "home.features.verifiedOrgs.description":
+      "瀏覽任何已登記的組織，或查看驗證徽章。選擇加入我們審查流程的組織將獲得鏈上驗證，值得捐贈者信賴。",
     "home.features.blockchainVerified.title": "區塊鏈驗證",
-    "home.features.blockchainVerified.description": "靈魂綁定代幣記錄志工貢獻。技能、時數和影響力——全部永久記錄在鏈上。",
+    "home.features.blockchainVerified.description":
+      "靈魂綁定代幣記錄志工貢獻。技能、時數和影響力——全部永久記錄在鏈上。",
     "home.features.bridgingModes.title": "連結多元捐贈方式",
-    "home.features.bridgingModes.description": "無論您是以 USD 或數位資產捐贈，我們的多網路架構確保您的捐款以現代世界的速度流轉。",
+    "home.features.bridgingModes.description":
+      "無論您是以 USD 或數位資產捐贈，我們的多網路架構確保您的捐款以現代世界的速度流轉。",
     "home.roles.title": "為每位改變世界的人而打造",
     "home.roles.donors.title": "捐贈者專區",
     "home.roles.donors.item1": "加密貨幣或法定貨幣——由您選擇",
@@ -832,11 +841,14 @@ export default {
     "home.roles.volunteers.item3": "成就徽章與表彰",
     "home.impact.title": "規劃中的影響力基金",
     "home.impact.environmental.title": "環境影響力基金",
-    "home.impact.environmental.description": "支持造林、海洋清潔和再生能源計畫。匯集捐款，定向資助經過驗證、具有可衡量成效的環保組織。",
+    "home.impact.environmental.description":
+      "支持造林、海洋清潔和再生能源計畫。匯集捐款，定向資助經過驗證、具有可衡量成效的環保組織。",
     "home.impact.education.title": "教育機會基金",
-    "home.impact.education.description": "提供獎學金、數位學習工具和師資培訓。集結資金，放大支持力度，幫助資源不足社區的教育計畫。",
+    "home.impact.education.description":
+      "提供獎學金、數位學習工具和師資培訓。集結資金，放大支持力度，幫助資源不足社區的教育計畫。",
     "home.cta.title": "準備好改變捐贈方式了嗎？",
-    "home.cta.subtitle": "成為率先體驗透明、區塊鏈驅動公益的一員。加入我們的社群，共同為慈善捐贈打造更美好的未來。",
+    "home.cta.subtitle":
+      "成為率先體驗透明、區塊鏈驅動公益的一員。加入我們的社群，共同為慈善捐贈打造更美好的未來。",
     "home.nav.features": "功能特色",
     "home.nav.impact": "影響力",
     "home.nav.charities": "慈善機構",
@@ -852,7 +864,8 @@ export default {
     "home.footer.resources.community": "社群（即將推出）",
     "home.footer.connect.title": "聯繫我們",
     "home.footer.connect.contact": "聯絡方式（即將推出）",
-    "home.footer.copyright": "Give Protocol。多鏈設計。由 Give Protocol 志工驅動。",
+    "home.footer.copyright":
+      "Give Protocol。多鏈設計。由 Give Protocol 志工驅動。",
     "auth.signin.welcomeBack": "歡迎回來",
     "auth.signin.subtitle": "登入您的 Give Protocol 帳戶",
     "auth.signin.emailPlaceholder": "電子郵件",
@@ -868,7 +881,8 @@ export default {
     "auth.signin.terms": "服務條款",
     "auth.signin.privacy": "隱私權",
     "auth.panel.headline": "智慧捐贈，透明成效。",
-    "auth.panel.subheadline": "一個帳戶。信用卡或加密貨幣捐贈。每一分錢鏈上可追蹤。",
+    "auth.panel.subheadline":
+      "一個帳戶。信用卡或加密貨幣捐贈。每一分錢鏈上可追蹤。",
     "auth.panel.statusLabel": "協議狀態 · 創始階段",
     "auth.panel.statusDesc": "建構透明捐贈的基礎",
     "auth.panel.runsOn": "運行於",
@@ -901,7 +915,8 @@ export default {
     "auth.login.needHelp": "需要協助？",
     "auth.login.forgotUsernameBtn": "忘記使用者名稱？",
     "auth.login.forgotPasswordBtn": "忘記密碼？",
-    "auth.donorLogin.mismatch": "找不到捐贈者帳戶。此電子郵件已註冊為慈善機構帳戶，請使用慈善機構登入。",
+    "auth.donorLogin.mismatch":
+      "找不到捐贈者帳戶。此電子郵件已註冊為慈善機構帳戶，請使用慈善機構登入。",
     "auth.donorLogin.signingIn": "登入中…",
     "auth.donorLogin.redirecting": "將在 {{count}} 秒後重新導向...",
     "auth.donorReg.pleaseWait": "請稍候…",
@@ -911,15 +926,18 @@ export default {
     "auth.donorReg.orSetPassword": "或設定密碼",
     "auth.donorReg.creating": "正在建立帳戶...",
     "auth.donorReg.createAccount": "建立捐贈者帳戶",
-    "auth.charityLogin.mismatch": "此電子郵件已註冊為捐贈者帳戶，請至捐贈者入口登入。",
+    "auth.charityLogin.mismatch":
+      "此電子郵件已註冊為捐贈者帳戶，請至捐贈者入口登入。",
     "auth.charityLogin.signingIn": "登入中...",
     "auth.charityLogin.or": "或",
     "auth.charityLogin.connecting": "連接中...",
     "auth.charityLogin.connectWallet": "連接錢包",
     "auth.forgot.resetPassword": "重設密碼",
     "auth.forgot.forgotUsername": "忘記使用者名稱",
-    "auth.forgot.passwordDesc": "請輸入您的電子郵件地址，我們將寄送密碼重設連結給您。",
-    "auth.forgot.usernameDesc": "請輸入您的電子郵件地址，我們將寄送您的使用者名稱給您。",
+    "auth.forgot.passwordDesc":
+      "請輸入您的電子郵件地址，我們將寄送密碼重設連結給您。",
+    "auth.forgot.usernameDesc":
+      "請輸入您的電子郵件地址，我們將寄送您的使用者名稱給您。",
     "auth.forgot.passwordSuccess": "密碼重設指示已寄送至您的電子郵件",
     "auth.forgot.usernameSuccess": "使用者名稱提醒已寄送至您的電子郵件",
     "auth.forgot.checkEmail": "請查看您的電子郵件",
@@ -977,8 +995,10 @@ export default {
     "charity.vetting.confirmPassword": "確認密碼",
     "charity.vetting.submitting": "正在提交申請...",
     "charity.vetting.submit": "提交慈善機構申請",
-    "charity.vetting.validation.orgName": "組織名稱長度需介於 2 至 100 個字元之間",
-    "charity.vetting.validation.contactName": "聯絡人姓名長度需介於 2 至 100 個字元之間",
+    "charity.vetting.validation.orgName":
+      "組織名稱長度需介於 2 至 100 個字元之間",
+    "charity.vetting.validation.contactName":
+      "聯絡人姓名長度需介於 2 至 100 個字元之間",
     "charity.vetting.validation.email": "請輸入有效的電子郵件地址",
     "charity.vetting.validation.password": "密碼長度至少需要 8 個字元",
     "charity.vetting.validation.confirmPassword": "兩次輸入的密碼不一致",

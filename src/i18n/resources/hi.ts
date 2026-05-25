@@ -860,25 +860,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "पारदर्शी दान",
     "home.hero.titleAccent": "सतत प्रभाव",
-    "home.hero.description": "डिजिटल युग के लिए पूर्णतः पारदर्शी परोपकार। प्रभाव के लिए निर्मित, सत्यापन योग्य तकनीक द्वारा समर्थित। प्रत्येक योगदान दाता से गंतव्य तक ट्रेस करने योग्य।",
+    "home.hero.description":
+      "डिजिटल युग के लिए पूर्णतः पारदर्शी परोपकार। प्रभाव के लिए निर्मित, सत्यापन योग्य तकनीक द्वारा समर्थित। प्रत्येक योगदान दाता से गंतव्य तक ट्रेस करने योग्य।",
     "home.hero.visionTitle": "हमारा विज़न",
-    "home.hero.visionText": "Give Protocol उच्च-विश्वसनीयता वाले दान के भविष्य का निर्माण कर रहा है। हम वैश्विक पूंजी और स्थानीय प्रभाव के बीच की खाई को पाटने के लिए उन्नत तकनीकी अवसंरचना का उपयोग करते हैं। पारंपरिक दान विधियों के साथ सहज डिजिटल-एसेट समर्थन को एकीकृत करके, हम ऐसे सशक्त वित्तपोषण पारिस्थितिकी तंत्र बना रहे हैं जो एक बार के दान को विश्व के सबसे महत्वपूर्ण उद्देश्यों के लिए निरंतर सहायता के इंजन में बदल देते हैं।",
+    "home.hero.visionText":
+      "Give Protocol उच्च-विश्वसनीयता वाले दान के भविष्य का निर्माण कर रहा है। हम वैश्विक पूंजी और स्थानीय प्रभाव के बीच की खाई को पाटने के लिए उन्नत तकनीकी अवसंरचना का उपयोग करते हैं। पारंपरिक दान विधियों के साथ सहज डिजिटल-एसेट समर्थन को एकीकृत करके, हम ऐसे सशक्त वित्तपोषण पारिस्थितिकी तंत्र बना रहे हैं जो एक बार के दान को विश्व के सबसे महत्वपूर्ण उद्देश्यों के लिए निरंतर सहायता के इंजन में बदल देते हैं।",
     "home.comingSoon": "शीघ्र उपलब्ध",
     "home.readDocs": "दस्तावेज़ पढ़ें",
     "home.features.sectionTitle": "पारदर्शी परोपकार का आपका प्रवेश द्वार",
-    "home.features.sectionSubtitle": "सहज दान के लिए मल्टीचेन अवसंरचना — क्रिप्टो या फ़िएट — पूर्ण पारदर्शिता के साथ",
+    "home.features.sectionSubtitle":
+      "सहज दान के लिए मल्टीचेन अवसंरचना — क्रिप्टो या फ़िएट — पूर्ण पारदर्शिता के साथ",
     "home.features.highEfficiency.title": "उच्च-दक्षता दान",
-    "home.features.highEfficiency.description": "सत्यापित संगठनों को बिना किसी अस्पष्टता के सीधे योगदान करें। हमारा स्वचालित लेजर वास्तविक समय सत्यापन प्रदान करता है, यह सुनिश्चित करते हुए कि आपका सहयोग ठीक वहीं पहुँचे जहाँ इसकी सबसे अधिक आवश्यकता है।",
+    "home.features.highEfficiency.description":
+      "सत्यापित संगठनों को बिना किसी अस्पष्टता के सीधे योगदान करें। हमारा स्वचालित लेजर वास्तविक समय सत्यापन प्रदान करता है, यह सुनिश्चित करते हुए कि आपका सहयोग ठीक वहीं पहुँचे जहाँ इसकी सबसे अधिक आवश्यकता है।",
     "home.features.equityFunds.title": "चैरिटेबल इक्विटी फ़ंड",
-    "home.features.equityFunds.description": "स्मार्ट-प्रबंधित इक्विटी फ़ंड में योगदान करके एकबारगी दान से आगे बढ़ें। हम आपकी मूल राशि को निरंतर वित्तपोषण की धारा में बदलने के लिए परिष्कृत, कम-जोखिम वाली डिजिटल रणनीतियों का उपयोग करते हैं, जो आने वाली पीढ़ियों तक परोपकारी मिशनों को बनाए रखती हैं।",
+    "home.features.equityFunds.description":
+      "स्मार्ट-प्रबंधित इक्विटी फ़ंड में योगदान करके एकबारगी दान से आगे बढ़ें। हम आपकी मूल राशि को निरंतर वित्तपोषण की धारा में बदलने के लिए परिष्कृत, कम-जोखिम वाली डिजिटल रणनीतियों का उपयोग करते हैं, जो आने वाली पीढ़ियों तक परोपकारी मिशनों को बनाए रखती हैं।",
     "home.features.impactFunds.title": "इम्पैक्ट फ़ंड",
-    "home.features.impactFunds.description": "विशिष्ट उद्देश्यों के लिए संसाधन एकत्र करें। पर्यावरण, शिक्षा, गरीबी उन्मूलन - सामूहिक कार्रवाई से आपका दान बढ़ता है।",
+    "home.features.impactFunds.description":
+      "विशिष्ट उद्देश्यों के लिए संसाधन एकत्र करें। पर्यावरण, शिक्षा, गरीबी उन्मूलन - सामूहिक कार्रवाई से आपका दान बढ़ता है।",
     "home.features.verifiedOrgs.title": "सत्यापित संगठन",
-    "home.features.verifiedOrgs.description": "किसी भी पंजीकृत संगठन को खोजें, या सत्यापित बैज की तलाश करें। जो संगठन हमारी जाँच प्रक्रिया में शामिल होते हैं, वे ऑन-चेन सत्यापन प्राप्त करते हैं जिस पर दाता विश्वास कर सकते हैं।",
+    "home.features.verifiedOrgs.description":
+      "किसी भी पंजीकृत संगठन को खोजें, या सत्यापित बैज की तलाश करें। जो संगठन हमारी जाँच प्रक्रिया में शामिल होते हैं, वे ऑन-चेन सत्यापन प्राप्त करते हैं जिस पर दाता विश्वास कर सकते हैं।",
     "home.features.blockchainVerified.title": "ब्लॉकचेन सत्यापित",
-    "home.features.blockchainVerified.description": "सोल-बाउंड टोकन स्वयंसेवक योगदानों को मान्यता देते हैं। कौशल, घंटे और प्रभाव - सब कुछ स्थायी रूप से ऑन-चेन दर्ज।",
+    "home.features.blockchainVerified.description":
+      "सोल-बाउंड टोकन स्वयंसेवक योगदानों को मान्यता देते हैं। कौशल, घंटे और प्रभाव - सब कुछ स्थायी रूप से ऑन-चेन दर्ज।",
     "home.features.bridgingModes.title": "दान के तरीकों को जोड़ना",
-    "home.features.bridgingModes.description": "चाहे आप USD में दे रहे हों या डिजिटल एसेट में, हमारा मल्टी-नेटवर्क आर्किटेक्चर सुनिश्चित करता है कि आपका योगदान आधुनिक दुनिया की गति से आगे बढ़े।",
+    "home.features.bridgingModes.description":
+      "चाहे आप USD में दे रहे हों या डिजिटल एसेट में, हमारा मल्टी-नेटवर्क आर्किटेक्चर सुनिश्चित करता है कि आपका योगदान आधुनिक दुनिया की गति से आगे बढ़े।",
     "home.roles.title": "दुनिया बदलने वाले हर व्यक्ति के लिए निर्मित",
     "home.roles.donors.title": "दाताओं के लिए",
     "home.roles.donors.item1": "क्रिप्टो या फ़िएट में दान करें — आपकी पसंद",
@@ -894,16 +903,20 @@ export default {
     "home.roles.volunteers.item3": "उपलब्धि बैज और मान्यता",
     "home.impact.title": "नियोजित इम्पैक्ट फ़ंड",
     "home.impact.environmental.title": "पर्यावरण प्रभाव फ़ंड",
-    "home.impact.environmental.description": "पुनर्वनीकरण, समुद्र सफाई और नवीकरणीय ऊर्जा पहल का समर्थन। सत्यापित पर्यावरण संगठनों को निर्देशित सामूहिक दान जो मापने योग्य प्रभाव डाल रहे हैं।",
+    "home.impact.environmental.description":
+      "पुनर्वनीकरण, समुद्र सफाई और नवीकरणीय ऊर्जा पहल का समर्थन। सत्यापित पर्यावरण संगठनों को निर्देशित सामूहिक दान जो मापने योग्य प्रभाव डाल रहे हैं।",
     "home.impact.education.title": "शिक्षा अवसर फ़ंड",
-    "home.impact.education.description": "छात्रवृत्ति, डिजिटल शिक्षण उपकरण और शिक्षक प्रशिक्षण प्रदान करना। वंचित समुदायों में शैक्षिक पहल का समर्थन करने के लिए सामूहिक वित्तपोषण।",
+    "home.impact.education.description":
+      "छात्रवृत्ति, डिजिटल शिक्षण उपकरण और शिक्षक प्रशिक्षण प्रदान करना। वंचित समुदायों में शैक्षिक पहल का समर्थन करने के लिए सामूहिक वित्तपोषण।",
     "home.cta.title": "दान को बदलने के लिए तैयार हैं?",
-    "home.cta.subtitle": "पारदर्शी, ब्लॉकचेन-संचालित परोपकार का अनुभव करने वाले पहले लोगों में शामिल हों। परोपकारी दान के बेहतर भविष्य का निर्माण कर रहे हमारे समुदाय से जुड़ें।",
+    "home.cta.subtitle":
+      "पारदर्शी, ब्लॉकचेन-संचालित परोपकार का अनुभव करने वाले पहले लोगों में शामिल हों। परोपकारी दान के बेहतर भविष्य का निर्माण कर रहे हमारे समुदाय से जुड़ें।",
     "home.nav.features": "विशेषताएँ",
     "home.nav.impact": "प्रभाव",
     "home.nav.charities": "संस्थाएँ",
     "home.nav.volunteer": "स्वयंसेवा",
-    "home.footer.brand.tagline": "ब्लॉकचेन पारदर्शिता और सतत वित्तपोषण के माध्यम से परोपकार का रूपांतरण।",
+    "home.footer.brand.tagline":
+      "ब्लॉकचेन पारदर्शिता और सतत वित्तपोषण के माध्यम से परोपकार का रूपांतरण।",
     "home.footer.product.title": "उत्पाद",
     "home.footer.product.impactFunds": "इम्पैक्ट फ़ंड",
     "home.footer.product.charities": "संस्थाओं के लिए",
@@ -914,7 +927,8 @@ export default {
     "home.footer.resources.community": "समुदाय (शीघ्र उपलब्ध)",
     "home.footer.connect.title": "संपर्क करें",
     "home.footer.connect.contact": "संपर्क (शीघ्र उपलब्ध)",
-    "home.footer.copyright": "Give Protocol. डिज़ाइन से मल्टीचेन। Give Protocol स्वयंसेवकों द्वारा संचालित।",
+    "home.footer.copyright":
+      "Give Protocol. डिज़ाइन से मल्टीचेन। Give Protocol स्वयंसेवकों द्वारा संचालित।",
     "auth.signin.welcomeBack": "पुनः स्वागत है",
     "auth.signin.subtitle": "अपने Give Protocol खाते में साइन इन करें",
     "auth.signin.emailPlaceholder": "ईमेल",
@@ -930,7 +944,8 @@ export default {
     "auth.signin.terms": "शर्तें",
     "auth.signin.privacy": "गोपनीयता",
     "auth.panel.headline": "स्मार्ट दान, पारदर्शी प्रभाव।",
-    "auth.panel.subheadline": "एक खाता। कार्ड या क्रिप्टो से दान करें। हर रुपये को ऑन-चेन ट्रैक करें।",
+    "auth.panel.subheadline":
+      "एक खाता। कार्ड या क्रिप्टो से दान करें। हर रुपये को ऑन-चेन ट्रैक करें।",
     "auth.panel.statusLabel": "प्रोटोकॉल स्थिति · जेनेसिस चरण",
     "auth.panel.statusDesc": "पारदर्शी दान की नींव का निर्माण",
     "auth.panel.runsOn": "इस पर चलता है",
@@ -941,29 +956,34 @@ export default {
     "auth.wallet.openingSession": "सत्र खोला जा रहा है…",
     "auth.validation.emailRequired": "कृपया पहले अपना ईमेल पता दर्ज करें",
     "auth.validation.invalidEmail": "कृपया एक मान्य ईमेल पता दर्ज करें",
-    "auth.validation.passwordTooShort": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+    "auth.validation.passwordTooShort":
+      "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "auth.validation.passwordMismatch": "पासवर्ड मेल नहीं खाते",
     "auth.login.welcomeHeading": "Give Protocol में आपका स्वागत है",
     "auth.login.signInOrConnect": "साइन इन करें या कनेक्ट करें",
     "auth.login.skipToContent": "लॉगिन सामग्री पर जाएँ",
     "auth.login.donorTitle": "दाता साइन इन",
-    "auth.login.donorSubtitle": "अपने दान डैशबोर्ड तक पहुँचने के लिए साइन इन करें",
+    "auth.login.donorSubtitle":
+      "अपने दान डैशबोर्ड तक पहुँचने के लिए साइन इन करें",
     "auth.login.charityTitle": "गैर-लाभकारी पोर्टल",
-    "auth.login.charitySubtitle": "अपने संगठन की प्रोफ़ाइल और दान प्रबंधित करें",
+    "auth.login.charitySubtitle":
+      "अपने संगठन की प्रोफ़ाइल और दान प्रबंधित करें",
     "auth.login.back": "← वापस",
     "auth.login.continueDonor": "दाता के रूप में जारी रखें",
     "auth.login.connecting": "कनेक्ट हो रहा है…",
     "auth.login.connectWalletSignIn": "वॉलेट कनेक्ट करें और साइन इन करें",
     "auth.login.newToPlatform": "Give Protocol पर नए हैं?",
     "auth.login.newDonorSignUp": "नया दाता पंजीकरण",
-    "auth.login.manageNonprofit": "मैं एक गैर-लाभकारी प्रोफ़ाइल प्रबंधित करता/करती हूँ",
+    "auth.login.manageNonprofit":
+      "मैं एक गैर-लाभकारी प्रोफ़ाइल प्रबंधित करता/करती हूँ",
     "auth.login.nonprofitTrayTitle": "Give Protocol पर नए हैं?",
     "auth.login.createNonprofitAccount": "गैर-लाभकारी खाता बनाएँ",
     "auth.login.registerOrg": "अपने संगठन को Give Protocol पर पंजीकृत करें",
     "auth.login.needHelp": "सहायता चाहिए?",
     "auth.login.forgotUsernameBtn": "उपयोगकर्ता नाम भूल गए?",
     "auth.login.forgotPasswordBtn": "पासवर्ड भूल गए?",
-    "auth.donorLogin.mismatch": "दाता खाता नहीं मिला। यह ईमेल एक संस्था खाते के रूप में पंजीकृत है। कृपया संस्था लॉगिन का उपयोग करें।",
+    "auth.donorLogin.mismatch":
+      "दाता खाता नहीं मिला। यह ईमेल एक संस्था खाते के रूप में पंजीकृत है। कृपया संस्था लॉगिन का उपयोग करें।",
     "auth.donorLogin.signingIn": "साइन इन हो रहा है…",
     "auth.donorLogin.redirecting": "{{count}} में रीडायरेक्ट हो रहा है...",
     "auth.donorReg.pleaseWait": "कृपया प्रतीक्षा करें…",
@@ -973,17 +993,21 @@ export default {
     "auth.donorReg.orSetPassword": "या पासवर्ड सेट करें",
     "auth.donorReg.creating": "खाता बनाया जा रहा है...",
     "auth.donorReg.createAccount": "दाता खाता बनाएँ",
-    "auth.charityLogin.mismatch": "यह ईमेल एक दाता खाते के रूप में पंजीकृत है। कृपया दाता पोर्टल पर साइन इन करें।",
+    "auth.charityLogin.mismatch":
+      "यह ईमेल एक दाता खाते के रूप में पंजीकृत है। कृपया दाता पोर्टल पर साइन इन करें।",
     "auth.charityLogin.signingIn": "साइन इन हो रहा है...",
     "auth.charityLogin.or": "या",
     "auth.charityLogin.connecting": "कनेक्ट हो रहा है...",
     "auth.charityLogin.connectWallet": "वॉलेट कनेक्ट करें",
     "auth.forgot.resetPassword": "पासवर्ड रीसेट करें",
     "auth.forgot.forgotUsername": "उपयोगकर्ता नाम भूल गए",
-    "auth.forgot.passwordDesc": "अपना ईमेल पता दर्ज करें और हम आपको पासवर्ड रीसेट लिंक भेजेंगे।",
-    "auth.forgot.usernameDesc": "अपना ईमेल पता दर्ज करें और हम आपको आपका उपयोगकर्ता नाम भेजेंगे।",
+    "auth.forgot.passwordDesc":
+      "अपना ईमेल पता दर्ज करें और हम आपको पासवर्ड रीसेट लिंक भेजेंगे।",
+    "auth.forgot.usernameDesc":
+      "अपना ईमेल पता दर्ज करें और हम आपको आपका उपयोगकर्ता नाम भेजेंगे।",
     "auth.forgot.passwordSuccess": "पासवर्ड रीसेट निर्देश आपके ईमेल पर भेजे गए",
-    "auth.forgot.usernameSuccess": "उपयोगकर्ता नाम अनुस्मारक आपके ईमेल पर भेजा गया",
+    "auth.forgot.usernameSuccess":
+      "उपयोगकर्ता नाम अनुस्मारक आपके ईमेल पर भेजा गया",
     "auth.forgot.checkEmail": "अपना ईमेल जाँचें",
     "auth.forgot.backToSignIn": "साइन इन पर वापस जाएँ",
     "auth.forgot.emailPlaceholder": "अपना ईमेल पता दर्ज करें",
@@ -995,7 +1019,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "संगठन के नाम से खोजें...",
     "auth.orgSearch.countryLabel": "देश",
     "auth.orgSearch.allCountries": "सभी देश",
-    "auth.orgSearch.searchPrompt": "अपने संगठन को खोजने और उस पर दावा करने के लिए हमारे डेटाबेस में खोजें।",
+    "auth.orgSearch.searchPrompt":
+      "अपने संगठन को खोजने और उस पर दावा करने के लिए हमारे डेटाबेस में खोजें।",
     "auth.orgSearch.noResults": "कोई संगठन नहीं मिला।",
     "auth.orgSearch.loadMore": "और परिणाम लोड करें",
     "auth.orgSearch.cantFind": "अपना संगठन नहीं मिल रहा?",
@@ -1015,7 +1040,8 @@ export default {
     "charity.claim.submit": "संगठन पर दावा करें",
     "charity.claim.validation.name": "नाम 2 से 100 अक्षरों के बीच होना चाहिए",
     "charity.claim.validation.email": "कृपया एक मान्य ईमेल पता दर्ज करें",
-    "charity.claim.validation.password": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+    "charity.claim.validation.password":
+      "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "charity.claim.validation.confirmPassword": "पासवर्ड मेल नहीं खाते",
     "charity.claim.validation.fix": "कृपया सत्यापन त्रुटियों को ठीक करें",
     "charity.claim.error.creation": "खाता निर्माण विफल",
@@ -1039,10 +1065,13 @@ export default {
     "charity.vetting.confirmPassword": "पासवर्ड की पुष्टि करें",
     "charity.vetting.submitting": "आवेदन सबमिट हो रहा है...",
     "charity.vetting.submit": "संस्था आवेदन सबमिट करें",
-    "charity.vetting.validation.orgName": "संगठन का नाम 2 से 100 अक्षरों के बीच होना चाहिए",
-    "charity.vetting.validation.contactName": "संपर्क नाम 2 से 100 अक्षरों के बीच होना चाहिए",
+    "charity.vetting.validation.orgName":
+      "संगठन का नाम 2 से 100 अक्षरों के बीच होना चाहिए",
+    "charity.vetting.validation.contactName":
+      "संपर्क नाम 2 से 100 अक्षरों के बीच होना चाहिए",
     "charity.vetting.validation.email": "कृपया एक मान्य ईमेल पता दर्ज करें",
-    "charity.vetting.validation.password": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+    "charity.vetting.validation.password":
+      "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "charity.vetting.validation.confirmPassword": "पासवर्ड मेल नहीं खाते",
     "charity.vetting.validation.description": "विवरण आवश्यक है",
     "charity.vetting.validation.category": "श्रेणी आवश्यक है",

@@ -54,7 +54,7 @@ describe("Cross-language key parity", () => {
     (lang) => {
       const langKeys = new Set(Object.keys(typedResources[lang].translation));
       const unexpectedMissing = enKeys.filter(
-        (key) => !langKeys.has(key) && !KNOWN_UNTRANSLATED_KEYS.has(key)
+        (key) => !langKeys.has(key) && !KNOWN_UNTRANSLATED_KEYS.has(key),
       );
 
       if (unexpectedMissing.length > 0) {
@@ -62,11 +62,11 @@ describe("Cross-language key parity", () => {
         console.error(
           `${lang} is missing ${unexpectedMissing.length} key(s) not in the known-untranslated allowlist.\n` +
             `Add translations to ${lang}.ts, or add to KNOWN_UNTRANSLATED_KEYS if tracked by GIV-260:\n` +
-            unexpectedMissing.map((k) => `  "${k}"`).join("\n")
+            unexpectedMissing.map((k) => `  "${k}"`).join("\n"),
         );
       }
       expect(unexpectedMissing).toHaveLength(0);
-    }
+    },
   );
 
   it.each(LANGUAGE_CODES)(
@@ -80,24 +80,24 @@ describe("Cross-language key parity", () => {
         // eslint-disable-next-line no-console -- diagnostic output for CI
         console.error(
           `${lang} has ${orphaned.length} orphaned key(s) not in en.ts — remove or add to en.ts:\n` +
-            orphaned.map((k) => `  "${k}"`).join("\n")
+            orphaned.map((k) => `  "${k}"`).join("\n"),
         );
       }
       expect(orphaned).toHaveLength(0);
-    }
+    },
   );
 
   it("known-untranslated allowlist has no stale entries", () => {
     const enKeySet = new Set(enKeys);
     const stale = [...KNOWN_UNTRANSLATED_KEYS].filter(
-      (key) => !enKeySet.has(key)
+      (key) => !enKeySet.has(key),
     );
 
     if (stale.length > 0) {
       // eslint-disable-next-line no-console -- diagnostic output for CI
       console.error(
         `${stale.length} key(s) in KNOWN_UNTRANSLATED_KEYS no longer exist in en.ts — remove them:\n` +
-          stale.map((k) => `  "${k}"`).join("\n")
+          stale.map((k) => `  "${k}"`).join("\n"),
       );
     }
     expect(stale).toHaveLength(0);
@@ -105,17 +105,17 @@ describe("Cross-language key parity", () => {
 
   it("known-untranslated allowlist shrinks as translations are added", () => {
     const firstLangKeys = new Set(
-      Object.keys(typedResources[LANGUAGE_CODES[0]].translation)
+      Object.keys(typedResources[LANGUAGE_CODES[0]].translation),
     );
     const nowTranslated = [...KNOWN_UNTRANSLATED_KEYS].filter((key) =>
-      firstLangKeys.has(key)
+      firstLangKeys.has(key),
     );
 
     if (nowTranslated.length > 0) {
       // eslint-disable-next-line no-console -- diagnostic output for CI
       console.error(
         `${nowTranslated.length} key(s) in KNOWN_UNTRANSLATED_KEYS are now translated — remove them from the allowlist:\n` +
-          nowTranslated.map((k) => `  "${k}"`).join("\n")
+          nowTranslated.map((k) => `  "${k}"`).join("\n"),
       );
     }
     expect(nowTranslated).toHaveLength(0);

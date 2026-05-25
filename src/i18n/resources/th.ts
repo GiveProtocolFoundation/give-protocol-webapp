@@ -843,25 +843,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "การให้ที่โปร่งใส",
     "home.hero.titleAccent": "ผลกระทบที่ยั่งยืน",
-    "home.hero.description": "การกุศลที่โปร่งใสอย่างแท้จริงสำหรับยุคดิจิทัล สร้างขึ้นเพื่อสร้างผลกระทบ รองรับด้วยเทคโนโลยีที่ตรวจสอบได้ ทุกการบริจาคสามารถติดตามได้ตั้งแต่ผู้บริจาคถึงปลายทาง",
+    "home.hero.description":
+      "การกุศลที่โปร่งใสอย่างแท้จริงสำหรับยุคดิจิทัล สร้างขึ้นเพื่อสร้างผลกระทบ รองรับด้วยเทคโนโลยีที่ตรวจสอบได้ ทุกการบริจาคสามารถติดตามได้ตั้งแต่ผู้บริจาคถึงปลายทาง",
     "home.hero.visionTitle": "วิสัยทัศน์ของเรา",
-    "home.hero.visionText": "Give Protocol กำลังออกแบบอนาคตของการให้ที่มีความน่าเชื่อถือสูง เราใช้ประโยชน์จากโครงสร้างพื้นฐานเทคโนโลยีขั้นสูงเพื่อเชื่อมช่องว่างระหว่างทุนระดับโลกและผลกระทบระดับท้องถิ่น ด้วยการผสานการสนับสนุนสินทรัพย์ดิจิทัลเข้ากับวิธีการบริจาคแบบดั้งเดิมอย่างไร้รอยต่อ เรากำลังสร้างระบบนิเวศเงินทุนที่แข็งแกร่งซึ่งเปลี่ยนการบริจาคครั้งเดียวให้เป็นเครื่องยนต์สนับสนุนอย่างยั่งยืนสำหรับภารกิจที่สำคัญที่สุดของโลก",
+    "home.hero.visionText":
+      "Give Protocol กำลังออกแบบอนาคตของการให้ที่มีความน่าเชื่อถือสูง เราใช้ประโยชน์จากโครงสร้างพื้นฐานเทคโนโลยีขั้นสูงเพื่อเชื่อมช่องว่างระหว่างทุนระดับโลกและผลกระทบระดับท้องถิ่น ด้วยการผสานการสนับสนุนสินทรัพย์ดิจิทัลเข้ากับวิธีการบริจาคแบบดั้งเดิมอย่างไร้รอยต่อ เรากำลังสร้างระบบนิเวศเงินทุนที่แข็งแกร่งซึ่งเปลี่ยนการบริจาคครั้งเดียวให้เป็นเครื่องยนต์สนับสนุนอย่างยั่งยืนสำหรับภารกิจที่สำคัญที่สุดของโลก",
     "home.comingSoon": "เร็วๆ นี้",
     "home.readDocs": "อ่านเอกสาร",
     "home.features.sectionTitle": "ประตูสู่การกุศลที่โปร่งใส",
-    "home.features.sectionSubtitle": "โครงสร้างพื้นฐานหลายเชนสำหรับการบริจาคอย่างไร้รอยต่อ — คริปโตหรือเงินสด — ด้วยความโปร่งใสอย่างเต็มที่",
+    "home.features.sectionSubtitle":
+      "โครงสร้างพื้นฐานหลายเชนสำหรับการบริจาคอย่างไร้รอยต่อ — คริปโตหรือเงินสด — ด้วยความโปร่งใสอย่างเต็มที่",
     "home.features.highEfficiency.title": "การให้ที่มีประสิทธิภาพสูง",
-    "home.features.highEfficiency.description": "บริจาคโดยตรงให้กับองค์กรที่ผ่านการตรวจสอบอย่างชัดเจน ระบบบัญชีอัตโนมัติของเราให้การยืนยันแบบเรียลไทม์ เพื่อให้มั่นใจว่าการสนับสนุนของคุณถูกนำไปใช้ตรงจุดที่ต้องการมากที่สุด",
+    "home.features.highEfficiency.description":
+      "บริจาคโดยตรงให้กับองค์กรที่ผ่านการตรวจสอบอย่างชัดเจน ระบบบัญชีอัตโนมัติของเราให้การยืนยันแบบเรียลไทม์ เพื่อให้มั่นใจว่าการสนับสนุนของคุณถูกนำไปใช้ตรงจุดที่ต้องการมากที่สุด",
     "home.features.equityFunds.title": "กองทุนสมทบเพื่อการกุศล",
-    "home.features.equityFunds.description": "ก้าวข้ามการบริจาคแบบครั้งเดียวด้วยการมีส่วนร่วมในกองทุนสมทบที่บริหารอย่างชาญฉลาด เราใช้กลยุทธ์ดิจิทัลที่ซับซ้อนและมีความเสี่ยงต่ำเพื่อเปลี่ยนเงินต้นของคุณให้เป็นกระแสเงินทุนอย่างยั่งยืน สนับสนุนภารกิจการกุศลต่อเนื่องข้ามรุ่น",
+    "home.features.equityFunds.description":
+      "ก้าวข้ามการบริจาคแบบครั้งเดียวด้วยการมีส่วนร่วมในกองทุนสมทบที่บริหารอย่างชาญฉลาด เราใช้กลยุทธ์ดิจิทัลที่ซับซ้อนและมีความเสี่ยงต่ำเพื่อเปลี่ยนเงินต้นของคุณให้เป็นกระแสเงินทุนอย่างยั่งยืน สนับสนุนภารกิจการกุศลต่อเนื่องข้ามรุ่น",
     "home.features.impactFunds.title": "กองทุนเพื่อผลกระทบ",
-    "home.features.impactFunds.description": "รวมทรัพยากรเพื่อสาเหตุเฉพาะ สิ่งแวดล้อม การศึกษา การบรรเทาความยากจน — การบริจาคของคุณถูกขยายผลผ่านการร่วมมือกัน",
+    "home.features.impactFunds.description":
+      "รวมทรัพยากรเพื่อสาเหตุเฉพาะ สิ่งแวดล้อม การศึกษา การบรรเทาความยากจน — การบริจาคของคุณถูกขยายผลผ่านการร่วมมือกัน",
     "home.features.verifiedOrgs.title": "องค์กรที่ผ่านการตรวจสอบ",
-    "home.features.verifiedOrgs.description": "เรียกดูองค์กรที่ลงทะเบียนหรือมองหาตราผ่านการตรวจสอบ องค์กรที่เข้าร่วมกระบวนการตรวจสอบของเราจะได้รับการรับรองบนบล็อกเชนที่ผู้บริจาคไว้วางใจได้",
+    "home.features.verifiedOrgs.description":
+      "เรียกดูองค์กรที่ลงทะเบียนหรือมองหาตราผ่านการตรวจสอบ องค์กรที่เข้าร่วมกระบวนการตรวจสอบของเราจะได้รับการรับรองบนบล็อกเชนที่ผู้บริจาคไว้วางใจได้",
     "home.features.blockchainVerified.title": "ยืนยันบนบล็อกเชน",
-    "home.features.blockchainVerified.description": "โทเคนที่ผูกกับตัวตนใช้ยกย่องการมีส่วนร่วมของอาสาสมัคร ทักษะ ชั่วโมง และผลกระทบ — ทั้งหมดถูกบันทึกอย่างถาวรบนบล็อกเชน",
+    "home.features.blockchainVerified.description":
+      "โทเคนที่ผูกกับตัวตนใช้ยกย่องการมีส่วนร่วมของอาสาสมัคร ทักษะ ชั่วโมง และผลกระทบ — ทั้งหมดถูกบันทึกอย่างถาวรบนบล็อกเชน",
     "home.features.bridgingModes.title": "เชื่อมต่อทุกรูปแบบการให้",
-    "home.features.bridgingModes.description": "ไม่ว่าคุณจะบริจาคเป็น USD หรือสินทรัพย์ดิจิทัล สถาปัตยกรรมหลายเครือข่ายของเราทำให้การบริจาคของคุณดำเนินไปอย่างรวดเร็วทันยุคสมัย",
+    "home.features.bridgingModes.description":
+      "ไม่ว่าคุณจะบริจาคเป็น USD หรือสินทรัพย์ดิจิทัล สถาปัตยกรรมหลายเครือข่ายของเราทำให้การบริจาคของคุณดำเนินไปอย่างรวดเร็วทันยุคสมัย",
     "home.roles.title": "สร้างขึ้นสำหรับทุกคนที่กำลังเปลี่ยนแปลงโลก",
     "home.roles.donors.title": "สำหรับผู้บริจาค",
     "home.roles.donors.item1": "บริจาคด้วยคริปโตหรือเงินสด — ตามที่คุณเลือก",
@@ -877,16 +886,20 @@ export default {
     "home.roles.volunteers.item3": "เหรียญรางวัลและการยกย่อง",
     "home.impact.title": "กองทุนเพื่อผลกระทบที่วางแผนไว้",
     "home.impact.environmental.title": "กองทุนผลกระทบด้านสิ่งแวดล้อม",
-    "home.impact.environmental.description": "สนับสนุนการปลูกป่า การทำความสะอาดมหาสมุทร และโครงการพลังงานหมุนเวียน การบริจาคร่วมกันถูกส่งต่อไปยังองค์กรด้านสิ่งแวดล้อมที่ผ่านการตรวจสอบซึ่งสร้างผลกระทบที่วัดผลได้",
+    "home.impact.environmental.description":
+      "สนับสนุนการปลูกป่า การทำความสะอาดมหาสมุทร และโครงการพลังงานหมุนเวียน การบริจาคร่วมกันถูกส่งต่อไปยังองค์กรด้านสิ่งแวดล้อมที่ผ่านการตรวจสอบซึ่งสร้างผลกระทบที่วัดผลได้",
     "home.impact.education.title": "กองทุนโอกาสทางการศึกษา",
-    "home.impact.education.description": "มอบทุนการศึกษา เครื่องมือการเรียนรู้ดิจิทัล และการฝึกอบรมครู เงินทุนร่วมถูกขยายผลเพื่อสนับสนุนโครงการการศึกษาในชุมชนที่ขาดแคลน",
+    "home.impact.education.description":
+      "มอบทุนการศึกษา เครื่องมือการเรียนรู้ดิจิทัล และการฝึกอบรมครู เงินทุนร่วมถูกขยายผลเพื่อสนับสนุนโครงการการศึกษาในชุมชนที่ขาดแคลน",
     "home.cta.title": "พร้อมที่จะเปลี่ยนแปลงการให้หรือยัง?",
-    "home.cta.subtitle": "เป็นกลุ่มแรกที่ได้สัมผัสการกุศลที่โปร่งใสและขับเคลื่อนด้วยบล็อกเชน เข้าร่วมชุมชนของเราในการสร้างอนาคตที่ดีกว่าสำหรับการให้เพื่อการกุศล",
+    "home.cta.subtitle":
+      "เป็นกลุ่มแรกที่ได้สัมผัสการกุศลที่โปร่งใสและขับเคลื่อนด้วยบล็อกเชน เข้าร่วมชุมชนของเราในการสร้างอนาคตที่ดีกว่าสำหรับการให้เพื่อการกุศล",
     "home.nav.features": "คุณสมบัติ",
     "home.nav.impact": "ผลกระทบ",
     "home.nav.charities": "องค์กรการกุศล",
     "home.nav.volunteer": "อาสาสมัคร",
-    "home.footer.brand.tagline": "เปลี่ยนแปลงการกุศลด้วยความโปร่งใสของบล็อกเชนและเงินทุนที่ยั่งยืน",
+    "home.footer.brand.tagline":
+      "เปลี่ยนแปลงการกุศลด้วยความโปร่งใสของบล็อกเชนและเงินทุนที่ยั่งยืน",
     "home.footer.product.title": "ผลิตภัณฑ์",
     "home.footer.product.impactFunds": "กองทุนเพื่อผลกระทบ",
     "home.footer.product.charities": "สำหรับองค์กรการกุศล",
@@ -897,7 +910,8 @@ export default {
     "home.footer.resources.community": "ชุมชน (เร็วๆ นี้)",
     "home.footer.connect.title": "เชื่อมต่อ",
     "home.footer.connect.contact": "ติดต่อ (เร็วๆ นี้)",
-    "home.footer.copyright": "Give Protocol หลายเชนโดยการออกแบบ ขับเคลื่อนโดยอาสาสมัคร Give Protocol",
+    "home.footer.copyright":
+      "Give Protocol หลายเชนโดยการออกแบบ ขับเคลื่อนโดยอาสาสมัคร Give Protocol",
     "auth.signin.welcomeBack": "ยินดีต้อนรับกลับ",
     "auth.signin.subtitle": "เข้าสู่ระบบบัญชี Give Protocol ของคุณ",
     "auth.signin.emailPlaceholder": "อีเมล",
@@ -913,7 +927,8 @@ export default {
     "auth.signin.terms": "ข้อกำหนด",
     "auth.signin.privacy": "ความเป็นส่วนตัว",
     "auth.panel.headline": "การให้อย่างชาญฉลาด ผลกระทบที่โปร่งใส",
-    "auth.panel.subheadline": "บัญชีเดียว บริจาคด้วยบัตรหรือคริปโต ติดตามทุกบาทบนบล็อกเชน",
+    "auth.panel.subheadline":
+      "บัญชีเดียว บริจาคด้วยบัตรหรือคริปโต ติดตามทุกบาทบนบล็อกเชน",
     "auth.panel.statusLabel": "สถานะโปรโตคอล · ระยะเริ่มต้น",
     "auth.panel.statusDesc": "กำลังสร้างรากฐานของการให้ที่โปร่งใส",
     "auth.panel.runsOn": "ทำงานบน",
@@ -924,13 +939,15 @@ export default {
     "auth.wallet.openingSession": "กำลังเปิดเซสชัน…",
     "auth.validation.emailRequired": "กรุณากรอกที่อยู่อีเมลของคุณก่อน",
     "auth.validation.invalidEmail": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
-    "auth.validation.passwordTooShort": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+    "auth.validation.passwordTooShort":
+      "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "auth.validation.passwordMismatch": "รหัสผ่านไม่ตรงกัน",
     "auth.login.welcomeHeading": "ยินดีต้อนรับสู่ Give Protocol",
     "auth.login.signInOrConnect": "เข้าสู่ระบบหรือเชื่อมต่อ",
     "auth.login.skipToContent": "ข้ามไปยังเนื้อหาการเข้าสู่ระบบ",
     "auth.login.donorTitle": "เข้าสู่ระบบผู้บริจาค",
-    "auth.login.donorSubtitle": "เข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดการบริจาคของคุณ",
+    "auth.login.donorSubtitle":
+      "เข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดการบริจาคของคุณ",
     "auth.login.charityTitle": "พอร์ทัลองค์กรไม่แสวงหากำไร",
     "auth.login.charitySubtitle": "จัดการโปรไฟล์องค์กรและการบริจาค",
     "auth.login.back": "← กลับ",
@@ -946,7 +963,8 @@ export default {
     "auth.login.needHelp": "ต้องการความช่วยเหลือ?",
     "auth.login.forgotUsernameBtn": "ลืมชื่อผู้ใช้?",
     "auth.login.forgotPasswordBtn": "ลืมรหัสผ่าน?",
-    "auth.donorLogin.mismatch": "ไม่พบบัญชีผู้บริจาค อีเมลนี้ลงทะเบียนเป็นบัญชีองค์กรการกุศล กรุณาใช้การเข้าสู่ระบบสำหรับองค์กรการกุศล",
+    "auth.donorLogin.mismatch":
+      "ไม่พบบัญชีผู้บริจาค อีเมลนี้ลงทะเบียนเป็นบัญชีองค์กรการกุศล กรุณาใช้การเข้าสู่ระบบสำหรับองค์กรการกุศล",
     "auth.donorLogin.signingIn": "กำลังเข้าสู่ระบบ…",
     "auth.donorLogin.redirecting": "กำลังเปลี่ยนเส้นทางใน {{count}}...",
     "auth.donorReg.pleaseWait": "กรุณารอสักครู่…",
@@ -956,17 +974,22 @@ export default {
     "auth.donorReg.orSetPassword": "หรือตั้งรหัสผ่าน",
     "auth.donorReg.creating": "กำลังสร้างบัญชี...",
     "auth.donorReg.createAccount": "สร้างบัญชีผู้บริจาค",
-    "auth.charityLogin.mismatch": "อีเมลนี้ลงทะเบียนเป็นบัญชีผู้บริจาค กรุณาเข้าสู่ระบบที่พอร์ทัลผู้บริจาค",
+    "auth.charityLogin.mismatch":
+      "อีเมลนี้ลงทะเบียนเป็นบัญชีผู้บริจาค กรุณาเข้าสู่ระบบที่พอร์ทัลผู้บริจาค",
     "auth.charityLogin.signingIn": "กำลังเข้าสู่ระบบ...",
     "auth.charityLogin.or": "หรือ",
     "auth.charityLogin.connecting": "กำลังเชื่อมต่อ...",
     "auth.charityLogin.connectWallet": "เชื่อมต่อกระเป๋าเงิน",
     "auth.forgot.resetPassword": "รีเซ็ตรหัสผ่าน",
     "auth.forgot.forgotUsername": "ลืมชื่อผู้ใช้",
-    "auth.forgot.passwordDesc": "กรอกที่อยู่อีเมลของคุณ แล้วเราจะส่งลิงก์สำหรับรีเซ็ตรหัสผ่านให้คุณ",
-    "auth.forgot.usernameDesc": "กรอกที่อยู่อีเมลของคุณ แล้วเราจะส่งชื่อผู้ใช้ให้คุณ",
-    "auth.forgot.passwordSuccess": "คำแนะนำในการรีเซ็ตรหัสผ่านถูกส่งไปยังอีเมลของคุณแล้ว",
-    "auth.forgot.usernameSuccess": "การแจ้งเตือนชื่อผู้ใช้ถูกส่งไปยังอีเมลของคุณแล้ว",
+    "auth.forgot.passwordDesc":
+      "กรอกที่อยู่อีเมลของคุณ แล้วเราจะส่งลิงก์สำหรับรีเซ็ตรหัสผ่านให้คุณ",
+    "auth.forgot.usernameDesc":
+      "กรอกที่อยู่อีเมลของคุณ แล้วเราจะส่งชื่อผู้ใช้ให้คุณ",
+    "auth.forgot.passwordSuccess":
+      "คำแนะนำในการรีเซ็ตรหัสผ่านถูกส่งไปยังอีเมลของคุณแล้ว",
+    "auth.forgot.usernameSuccess":
+      "การแจ้งเตือนชื่อผู้ใช้ถูกส่งไปยังอีเมลของคุณแล้ว",
     "auth.forgot.checkEmail": "ตรวจสอบอีเมลของคุณ",
     "auth.forgot.backToSignIn": "กลับไปยังการเข้าสู่ระบบ",
     "auth.forgot.emailPlaceholder": "กรอกที่อยู่อีเมลของคุณ",
@@ -978,7 +1001,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "ค้นหาตามชื่อองค์กร...",
     "auth.orgSearch.countryLabel": "ประเทศ",
     "auth.orgSearch.allCountries": "ทุกประเทศ",
-    "auth.orgSearch.searchPrompt": "ค้นหาในฐานข้อมูลของเราเพื่อค้นหาและอ้างสิทธิ์องค์กรของคุณ",
+    "auth.orgSearch.searchPrompt":
+      "ค้นหาในฐานข้อมูลของเราเพื่อค้นหาและอ้างสิทธิ์องค์กรของคุณ",
     "auth.orgSearch.noResults": "ไม่พบองค์กร",
     "auth.orgSearch.loadMore": "โหลดผลลัพธ์เพิ่มเติม",
     "auth.orgSearch.cantFind": "ไม่พบองค์กรของคุณ?",
@@ -996,9 +1020,11 @@ export default {
     "charity.claim.backToSearch": "กลับไปค้นหา",
     "charity.claim.creating": "กำลังสร้างบัญชี...",
     "charity.claim.submit": "อ้างสิทธิ์องค์กร",
-    "charity.claim.validation.name": "ชื่อต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
+    "charity.claim.validation.name":
+      "ชื่อต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
     "charity.claim.validation.email": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
-    "charity.claim.validation.password": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+    "charity.claim.validation.password":
+      "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "charity.claim.validation.confirmPassword": "รหัสผ่านไม่ตรงกัน",
     "charity.claim.validation.fix": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
     "charity.claim.error.creation": "การสร้างบัญชีล้มเหลว",
@@ -1022,10 +1048,13 @@ export default {
     "charity.vetting.confirmPassword": "ยืนยันรหัสผ่าน",
     "charity.vetting.submitting": "กำลังส่งใบสมัคร...",
     "charity.vetting.submit": "ส่งใบสมัครองค์กรการกุศล",
-    "charity.vetting.validation.orgName": "ชื่อองค์กรต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
-    "charity.vetting.validation.contactName": "ชื่อผู้ติดต่อต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
+    "charity.vetting.validation.orgName":
+      "ชื่อองค์กรต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
+    "charity.vetting.validation.contactName":
+      "ชื่อผู้ติดต่อต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
     "charity.vetting.validation.email": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
-    "charity.vetting.validation.password": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+    "charity.vetting.validation.password":
+      "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "charity.vetting.validation.confirmPassword": "รหัสผ่านไม่ตรงกัน",
     "charity.vetting.validation.description": "จำเป็นต้องกรอกรายละเอียด",
     "charity.vetting.validation.category": "จำเป็นต้องเลือกหมวดหมู่",

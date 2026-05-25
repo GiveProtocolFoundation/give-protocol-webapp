@@ -877,25 +877,35 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "Donaciones Transparentes",
     "home.hero.titleAccent": "Impacto Sostenible",
-    "home.hero.description": "Filantropía radicalmente transparente para la era digital. Diseñada para generar impacto, respaldada por tecnología verificable. Cada contribución es rastreable desde el donante hasta el destino.",
+    "home.hero.description":
+      "Filantropía radicalmente transparente para la era digital. Diseñada para generar impacto, respaldada por tecnología verificable. Cada contribución es rastreable desde el donante hasta el destino.",
     "home.hero.visionTitle": "Nuestra Visión",
-    "home.hero.visionText": "Give Protocol está diseñando el futuro de la generosidad con alta integridad. Aprovechamos infraestructura tecnológica avanzada para cerrar la brecha entre el capital global y el impacto local. Al integrar soporte fluido de activos digitales con métodos tradicionales de donación, estamos creando ecosistemas de financiamiento resilientes que transforman donaciones únicas en motores perpetuos de apoyo para las causas más vitales del mundo.",
+    "home.hero.visionText":
+      "Give Protocol está diseñando el futuro de la generosidad con alta integridad. Aprovechamos infraestructura tecnológica avanzada para cerrar la brecha entre el capital global y el impacto local. Al integrar soporte fluido de activos digitales con métodos tradicionales de donación, estamos creando ecosistemas de financiamiento resilientes que transforman donaciones únicas en motores perpetuos de apoyo para las causas más vitales del mundo.",
     "home.comingSoon": "Próximamente",
     "home.readDocs": "Leer Documentación",
-    "home.features.sectionTitle": "Su Puerta de Entrada a la Filantropía Transparente",
-    "home.features.sectionSubtitle": "Infraestructura multicadena para donaciones fluidas — cripto o fiat — con total transparencia",
+    "home.features.sectionTitle":
+      "Su Puerta de Entrada a la Filantropía Transparente",
+    "home.features.sectionSubtitle":
+      "Infraestructura multicadena para donaciones fluidas — cripto o fiat — con total transparencia",
     "home.features.highEfficiency.title": "Donaciones de Alta Eficiencia",
-    "home.features.highEfficiency.description": "Contribuya directamente a organizaciones verificadas sin ambigüedad. Nuestro libro de contabilidad automatizado proporciona verificación en tiempo real, asegurando que su apoyo se destine exactamente donde más se necesita.",
+    "home.features.highEfficiency.description":
+      "Contribuya directamente a organizaciones verificadas sin ambigüedad. Nuestro libro de contabilidad automatizado proporciona verificación en tiempo real, asegurando que su apoyo se destine exactamente donde más se necesita.",
     "home.features.equityFunds.title": "Fondos de Equidad Benéfica",
-    "home.features.equityFunds.description": "Vaya más allá de las donaciones puntuales contribuyendo a fondos de equidad gestionados de forma inteligente. Utilizamos estrategias digitales sofisticadas y de bajo riesgo para convertir su capital en un flujo perpetuo de financiamiento, sosteniendo misiones benéficas por generaciones.",
+    "home.features.equityFunds.description":
+      "Vaya más allá de las donaciones puntuales contribuyendo a fondos de equidad gestionados de forma inteligente. Utilizamos estrategias digitales sofisticadas y de bajo riesgo para convertir su capital en un flujo perpetuo de financiamiento, sosteniendo misiones benéficas por generaciones.",
     "home.features.impactFunds.title": "Fondos de Impacto",
-    "home.features.impactFunds.description": "Agrupe recursos para causas específicas. Medio ambiente, educación, alivio de la pobreza: su donación amplificada a través de la acción colectiva.",
+    "home.features.impactFunds.description":
+      "Agrupe recursos para causas específicas. Medio ambiente, educación, alivio de la pobreza: su donación amplificada a través de la acción colectiva.",
     "home.features.verifiedOrgs.title": "Organizaciones Verificadas",
-    "home.features.verifiedOrgs.description": "Explore cualquier organización registrada o busque la insignia de verificación. Las organizaciones que optan por nuestro proceso de revisión obtienen verificación on-chain en la que los donantes pueden confiar.",
+    "home.features.verifiedOrgs.description":
+      "Explore cualquier organización registrada o busque la insignia de verificación. Las organizaciones que optan por nuestro proceso de revisión obtienen verificación on-chain en la que los donantes pueden confiar.",
     "home.features.blockchainVerified.title": "Verificado en Blockchain",
-    "home.features.blockchainVerified.description": "Los tokens vinculados al alma reconocen las contribuciones voluntarias. Habilidades, horas e impacto: todo registrado permanentemente on-chain.",
+    "home.features.blockchainVerified.description":
+      "Los tokens vinculados al alma reconocen las contribuciones voluntarias. Habilidades, horas e impacto: todo registrado permanentemente on-chain.",
     "home.features.bridgingModes.title": "Conectando Formas de Donar",
-    "home.features.bridgingModes.description": "Ya sea que done en USD o en activos digitales, nuestra arquitectura multirredes asegura que su contribución se mueva a la velocidad del mundo moderno.",
+    "home.features.bridgingModes.description":
+      "Ya sea que done en USD o en activos digitales, nuestra arquitectura multirredes asegura que su contribución se mueva a la velocidad del mundo moderno.",
     "home.roles.title": "Diseñado para Todos los que Cambian el Mundo",
     "home.roles.donors.title": "Para Donantes",
     "home.roles.donors.item1": "Done en cripto o fiat — usted elige",
@@ -907,20 +917,25 @@ export default {
     "home.roles.nonprofits.item3": "Informes de transparencia mejorados",
     "home.roles.volunteers.title": "Para Voluntarios",
     "home.roles.volunteers.item1": "Registros de contribución verificables",
-    "home.roles.volunteers.item2": "Credenciales de habilidades portátiles (SBTs)",
+    "home.roles.volunteers.item2":
+      "Credenciales de habilidades portátiles (SBTs)",
     "home.roles.volunteers.item3": "Insignias de logros y reconocimiento",
     "home.impact.title": "Fondos de Impacto Planificados",
     "home.impact.environmental.title": "Fondo de Impacto Ambiental",
-    "home.impact.environmental.description": "Apoyando la reforestación, limpieza de océanos e iniciativas de energía renovable. Donaciones agrupadas dirigidas a organizaciones ambientales verificadas que generan impacto medible.",
+    "home.impact.environmental.description":
+      "Apoyando la reforestación, limpieza de océanos e iniciativas de energía renovable. Donaciones agrupadas dirigidas a organizaciones ambientales verificadas que generan impacto medible.",
     "home.impact.education.title": "Fondo de Oportunidades Educativas",
-    "home.impact.education.description": "Proporcionando becas, herramientas de aprendizaje digital y capacitación docente. Financiamiento colectivo amplificado para apoyar iniciativas educativas en comunidades desatendidas.",
+    "home.impact.education.description":
+      "Proporcionando becas, herramientas de aprendizaje digital y capacitación docente. Financiamiento colectivo amplificado para apoyar iniciativas educativas en comunidades desatendidas.",
     "home.cta.title": "¿Listo para Transformar la Forma de Donar?",
-    "home.cta.subtitle": "Sea de los primeros en experimentar la filantropía transparente impulsada por blockchain. Únase a nuestra comunidad que construye un mejor futuro para las donaciones benéficas.",
+    "home.cta.subtitle":
+      "Sea de los primeros en experimentar la filantropía transparente impulsada por blockchain. Únase a nuestra comunidad que construye un mejor futuro para las donaciones benéficas.",
     "home.nav.features": "Características",
     "home.nav.impact": "Impacto",
     "home.nav.charities": "Organizaciones",
     "home.nav.volunteer": "Voluntariado",
-    "home.footer.brand.tagline": "Transformando la filantropía a través de la transparencia blockchain y el financiamiento sostenible.",
+    "home.footer.brand.tagline":
+      "Transformando la filantropía a través de la transparencia blockchain y el financiamiento sostenible.",
     "home.footer.product.title": "Producto",
     "home.footer.product.impactFunds": "Fondos de Impacto",
     "home.footer.product.charities": "Para Organizaciones",
@@ -931,7 +946,8 @@ export default {
     "home.footer.resources.community": "Comunidad (Próximamente)",
     "home.footer.connect.title": "Conectar",
     "home.footer.connect.contact": "Contacto (Próximamente)",
-    "home.footer.copyright": "Give Protocol. Multicadena por diseño. Impulsado por los voluntarios de Give Protocol.",
+    "home.footer.copyright":
+      "Give Protocol. Multicadena por diseño. Impulsado por los voluntarios de Give Protocol.",
     "auth.signin.welcomeBack": "Bienvenido de nuevo",
     "auth.signin.subtitle": "Inicie sesión en su cuenta de Give Protocol",
     "auth.signin.emailPlaceholder": "Correo electrónico",
@@ -947,40 +963,49 @@ export default {
     "auth.signin.terms": "Términos",
     "auth.signin.privacy": "Privacidad",
     "auth.panel.headline": "Donaciones inteligentes, impacto transparente.",
-    "auth.panel.subheadline": "Una cuenta. Done con tarjeta o cripto. Rastree cada dólar on-chain.",
+    "auth.panel.subheadline":
+      "Una cuenta. Done con tarjeta o cripto. Rastree cada dólar on-chain.",
     "auth.panel.statusLabel": "Estado del Protocolo · Fase Génesis",
-    "auth.panel.statusDesc": "Construyendo los cimientos de la donación transparente",
+    "auth.panel.statusDesc":
+      "Construyendo los cimientos de la donación transparente",
     "auth.panel.runsOn": "Funciona con",
     "auth.wallet.connect": "Conectar Billetera",
     "auth.wallet.connecting": "Conectando billetera…",
     "auth.wallet.signing": "Firmando mensaje…",
     "auth.wallet.verifying": "Verificando…",
     "auth.wallet.openingSession": "Abriendo sesión…",
-    "auth.validation.emailRequired": "Ingrese su dirección de correo electrónico primero",
-    "auth.validation.invalidEmail": "Ingrese una dirección de correo electrónico válida",
-    "auth.validation.passwordTooShort": "La contraseña debe tener al menos 8 caracteres",
+    "auth.validation.emailRequired":
+      "Ingrese su dirección de correo electrónico primero",
+    "auth.validation.invalidEmail":
+      "Ingrese una dirección de correo electrónico válida",
+    "auth.validation.passwordTooShort":
+      "La contraseña debe tener al menos 8 caracteres",
     "auth.validation.passwordMismatch": "Las contraseñas no coinciden",
     "auth.login.welcomeHeading": "Bienvenido a Give Protocol",
     "auth.login.signInOrConnect": "Iniciar Sesión o Conectar",
     "auth.login.skipToContent": "Ir al contenido de inicio de sesión",
     "auth.login.donorTitle": "Inicio de Sesión de Donante",
-    "auth.login.donorSubtitle": "Inicie sesión para acceder a su panel de donaciones",
+    "auth.login.donorSubtitle":
+      "Inicie sesión para acceder a su panel de donaciones",
     "auth.login.charityTitle": "Portal de Organizaciones",
-    "auth.login.charitySubtitle": "Administre el perfil y las donaciones de su organización",
+    "auth.login.charitySubtitle":
+      "Administre el perfil y las donaciones de su organización",
     "auth.login.back": "← Volver",
     "auth.login.continueDonor": "Continuar como Donante",
     "auth.login.connecting": "Conectando…",
     "auth.login.connectWalletSignIn": "Conectar Billetera e Iniciar Sesión",
     "auth.login.newToPlatform": "¿Es nuevo en Give Protocol?",
     "auth.login.newDonorSignUp": "Registro de Nuevo Donante",
-    "auth.login.manageNonprofit": "Administro una organización sin fines de lucro",
+    "auth.login.manageNonprofit":
+      "Administro una organización sin fines de lucro",
     "auth.login.nonprofitTrayTitle": "¿Es nuevo en Give Protocol?",
     "auth.login.createNonprofitAccount": "Crear Cuenta de Organización",
     "auth.login.registerOrg": "Registre su organización en Give Protocol",
     "auth.login.needHelp": "¿Necesita ayuda?",
     "auth.login.forgotUsernameBtn": "¿Olvidó su usuario?",
     "auth.login.forgotPasswordBtn": "¿Olvidó su contraseña?",
-    "auth.donorLogin.mismatch": "Cuenta de Donante No Encontrada. Este correo está registrado como cuenta de organización. Utilice el inicio de sesión para organizaciones.",
+    "auth.donorLogin.mismatch":
+      "Cuenta de Donante No Encontrada. Este correo está registrado como cuenta de organización. Utilice el inicio de sesión para organizaciones.",
     "auth.donorLogin.signingIn": "Iniciando sesión…",
     "auth.donorLogin.redirecting": "Redirigiendo en {{count}}...",
     "auth.donorReg.pleaseWait": "Espere por favor…",
@@ -990,20 +1015,26 @@ export default {
     "auth.donorReg.orSetPassword": "O establezca una contraseña",
     "auth.donorReg.creating": "Creando Cuenta...",
     "auth.donorReg.createAccount": "Crear Cuenta de Donante",
-    "auth.charityLogin.mismatch": "Este correo está registrado como cuenta de donante. Inicie sesión en el portal de donantes.",
+    "auth.charityLogin.mismatch":
+      "Este correo está registrado como cuenta de donante. Inicie sesión en el portal de donantes.",
     "auth.charityLogin.signingIn": "Iniciando sesión...",
     "auth.charityLogin.or": "o",
     "auth.charityLogin.connecting": "Conectando...",
     "auth.charityLogin.connectWallet": "Conectar Billetera",
     "auth.forgot.resetPassword": "Restablecer Contraseña",
     "auth.forgot.forgotUsername": "Recuperar Usuario",
-    "auth.forgot.passwordDesc": "Ingrese su dirección de correo electrónico y le enviaremos un enlace para restablecer su contraseña.",
-    "auth.forgot.usernameDesc": "Ingrese su dirección de correo electrónico y le enviaremos su nombre de usuario.",
-    "auth.forgot.passwordSuccess": "Se han enviado las instrucciones para restablecer su contraseña a su correo electrónico",
-    "auth.forgot.usernameSuccess": "Se ha enviado un recordatorio de su nombre de usuario a su correo electrónico",
+    "auth.forgot.passwordDesc":
+      "Ingrese su dirección de correo electrónico y le enviaremos un enlace para restablecer su contraseña.",
+    "auth.forgot.usernameDesc":
+      "Ingrese su dirección de correo electrónico y le enviaremos su nombre de usuario.",
+    "auth.forgot.passwordSuccess":
+      "Se han enviado las instrucciones para restablecer su contraseña a su correo electrónico",
+    "auth.forgot.usernameSuccess":
+      "Se ha enviado un recordatorio de su nombre de usuario a su correo electrónico",
     "auth.forgot.checkEmail": "Revise su correo electrónico",
     "auth.forgot.backToSignIn": "Volver a Iniciar Sesión",
-    "auth.forgot.emailPlaceholder": "Ingrese su dirección de correo electrónico",
+    "auth.forgot.emailPlaceholder":
+      "Ingrese su dirección de correo electrónico",
     "auth.forgot.genericError": "Ocurrió un error. Intente nuevamente.",
     "auth.forgot.sending": "Enviando...",
     "auth.forgot.sendResetLink": "Enviar Enlace de Restablecimiento",
@@ -1012,7 +1043,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "Buscar por nombre de organización...",
     "auth.orgSearch.countryLabel": "País",
     "auth.orgSearch.allCountries": "Todos los Países",
-    "auth.orgSearch.searchPrompt": "Busque en nuestra base de datos para encontrar y reclamar su organización.",
+    "auth.orgSearch.searchPrompt":
+      "Busque en nuestra base de datos para encontrar y reclamar su organización.",
     "auth.orgSearch.noResults": "No se encontraron organizaciones.",
     "auth.orgSearch.loadMore": "Cargar más resultados",
     "auth.orgSearch.cantFind": "¿No encuentra su organización?",
@@ -1030,9 +1062,12 @@ export default {
     "charity.claim.backToSearch": "Volver a la búsqueda",
     "charity.claim.creating": "Creando Cuenta...",
     "charity.claim.submit": "Reclamar Organización",
-    "charity.claim.validation.name": "El nombre debe tener entre 2 y 100 caracteres",
-    "charity.claim.validation.email": "Ingrese una dirección de correo electrónico válida",
-    "charity.claim.validation.password": "La contraseña debe tener al menos 8 caracteres",
+    "charity.claim.validation.name":
+      "El nombre debe tener entre 2 y 100 caracteres",
+    "charity.claim.validation.email":
+      "Ingrese una dirección de correo electrónico válida",
+    "charity.claim.validation.password":
+      "La contraseña debe tener al menos 8 caracteres",
     "charity.claim.validation.confirmPassword": "Las contraseñas no coinciden",
     "charity.claim.validation.fix": "Corrija los errores de validación",
     "charity.claim.error.creation": "Error al crear la cuenta",
@@ -1056,11 +1091,16 @@ export default {
     "charity.vetting.confirmPassword": "Confirmar Contraseña",
     "charity.vetting.submitting": "Enviando Solicitud...",
     "charity.vetting.submit": "Enviar Solicitud de Organización",
-    "charity.vetting.validation.orgName": "El nombre de la organización debe tener entre 2 y 100 caracteres",
-    "charity.vetting.validation.contactName": "El nombre de contacto debe tener entre 2 y 100 caracteres",
-    "charity.vetting.validation.email": "Ingrese una dirección de correo electrónico válida",
-    "charity.vetting.validation.password": "La contraseña debe tener al menos 8 caracteres",
-    "charity.vetting.validation.confirmPassword": "Las contraseñas no coinciden",
+    "charity.vetting.validation.orgName":
+      "El nombre de la organización debe tener entre 2 y 100 caracteres",
+    "charity.vetting.validation.contactName":
+      "El nombre de contacto debe tener entre 2 y 100 caracteres",
+    "charity.vetting.validation.email":
+      "Ingrese una dirección de correo electrónico válida",
+    "charity.vetting.validation.password":
+      "La contraseña debe tener al menos 8 caracteres",
+    "charity.vetting.validation.confirmPassword":
+      "Las contraseñas no coinciden",
     "charity.vetting.validation.description": "La descripción es obligatoria",
     "charity.vetting.validation.category": "La categoría es obligatoria",
     "charity.vetting.validation.taxId": "El ID fiscal es obligatorio",
@@ -1072,7 +1112,8 @@ export default {
     "common.email": "Correo electrónico",
     "common.password": "Contraseña",
     "common.confirmPassword": "Confirmar Contraseña",
-    "footer.brand.tagline": "Eliminando barreras para la donación benéfica sostenible.",
+    "footer.brand.tagline":
+      "Eliminando barreras para la donación benéfica sostenible.",
     "footer.resources.title": "Recursos",
     "footer.resources.faq": "Preguntas Frecuentes",
     "footer.resources.about": "Acerca de Nosotros",
@@ -1098,7 +1139,8 @@ export default {
     "auth.signup.orSetPassword": "O establezca una contraseña",
     "auth.signup.alreadyHaveAccount": "¿Ya tiene una cuenta?",
     "auth.signup.signInLink": "Iniciar sesión",
-    "auth.signup.manageNonprofit": "¿Administra una organización sin fines de lucro?",
+    "auth.signup.manageNonprofit":
+      "¿Administra una organización sin fines de lucro?",
     "auth.signup.trustText": "Sus datos están protegidos por",
     "auth.signup.and": "y",
     "auth.signup.privacyPolicy": "Política de Privacidad",

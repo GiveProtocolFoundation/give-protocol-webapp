@@ -850,28 +850,38 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "Quyên Góp Minh Bạch",
     "home.hero.titleAccent": "Tác Động Bền Vững",
-    "home.hero.description": "Hoạt động từ thiện minh bạch triệt để cho thời đại số. Được xây dựng vì tác động, được hỗ trợ bởi công nghệ có thể kiểm chứng. Mọi đóng góp đều có thể truy vết từ nhà tài trợ đến đích đến.",
+    "home.hero.description":
+      "Hoạt động từ thiện minh bạch triệt để cho thời đại số. Được xây dựng vì tác động, được hỗ trợ bởi công nghệ có thể kiểm chứng. Mọi đóng góp đều có thể truy vết từ nhà tài trợ đến đích đến.",
     "home.hero.visionTitle": "Tầm nhìn của chúng tôi",
-    "home.hero.visionText": "Give Protocol đang kiến tạo tương lai của hoạt động quyên góp có tính chính trực cao. Chúng tôi tận dụng hạ tầng công nghệ tiên tiến để thu hẹp khoảng cách giữa nguồn vốn toàn cầu và tác động địa phương. Bằng cách tích hợp hỗ trợ tài sản số liền mạch với các phương thức quyên góp truyền thống, chúng tôi đang tạo ra hệ sinh thái tài trợ bền vững biến những khoản quyên góp một lần thành động lực hỗ trợ vĩnh cửu cho những mục đích quan trọng nhất trên thế giới.",
+    "home.hero.visionText":
+      "Give Protocol đang kiến tạo tương lai của hoạt động quyên góp có tính chính trực cao. Chúng tôi tận dụng hạ tầng công nghệ tiên tiến để thu hẹp khoảng cách giữa nguồn vốn toàn cầu và tác động địa phương. Bằng cách tích hợp hỗ trợ tài sản số liền mạch với các phương thức quyên góp truyền thống, chúng tôi đang tạo ra hệ sinh thái tài trợ bền vững biến những khoản quyên góp một lần thành động lực hỗ trợ vĩnh cửu cho những mục đích quan trọng nhất trên thế giới.",
     "home.comingSoon": "Sắp ra mắt",
     "home.readDocs": "Đọc tài liệu",
     "home.features.sectionTitle": "Cổng vào hoạt động từ thiện minh bạch",
-    "home.features.sectionSubtitle": "Hạ tầng đa chuỗi cho quyên góp liền mạch — tiền mã hóa hoặc tiền pháp định — với sự minh bạch hoàn toàn",
+    "home.features.sectionSubtitle":
+      "Hạ tầng đa chuỗi cho quyên góp liền mạch — tiền mã hóa hoặc tiền pháp định — với sự minh bạch hoàn toàn",
     "home.features.highEfficiency.title": "Quyên góp hiệu quả cao",
-    "home.features.highEfficiency.description": "Đóng góp trực tiếp cho các tổ chức đã xác minh mà không có sự mơ hồ. Sổ cái tự động của chúng tôi cung cấp xác minh theo thời gian thực, đảm bảo sự hỗ trợ của bạn được triển khai chính xác nơi cần thiết nhất.",
+    "home.features.highEfficiency.description":
+      "Đóng góp trực tiếp cho các tổ chức đã xác minh mà không có sự mơ hồ. Sổ cái tự động của chúng tôi cung cấp xác minh theo thời gian thực, đảm bảo sự hỗ trợ của bạn được triển khai chính xác nơi cần thiết nhất.",
     "home.features.equityFunds.title": "Quỹ cổ phần từ thiện",
-    "home.features.equityFunds.description": "Vượt xa quyên góp một lần bằng cách đóng góp vào các quỹ cổ phần được quản lý thông minh. Chúng tôi sử dụng các chiến lược số hóa tinh vi, rủi ro thấp để biến vốn gốc của bạn thành dòng tài trợ vĩnh cửu, duy trì sứ mệnh từ thiện cho nhiều thế hệ.",
+    "home.features.equityFunds.description":
+      "Vượt xa quyên góp một lần bằng cách đóng góp vào các quỹ cổ phần được quản lý thông minh. Chúng tôi sử dụng các chiến lược số hóa tinh vi, rủi ro thấp để biến vốn gốc của bạn thành dòng tài trợ vĩnh cửu, duy trì sứ mệnh từ thiện cho nhiều thế hệ.",
     "home.features.impactFunds.title": "Quỹ tác động",
-    "home.features.impactFunds.description": "Gộp nguồn lực cho các mục đích cụ thể. Môi trường, giáo dục, xóa đói giảm nghèo — khoản quyên góp của bạn được khuếch đại thông qua hành động tập thể.",
+    "home.features.impactFunds.description":
+      "Gộp nguồn lực cho các mục đích cụ thể. Môi trường, giáo dục, xóa đói giảm nghèo — khoản quyên góp của bạn được khuếch đại thông qua hành động tập thể.",
     "home.features.verifiedOrgs.title": "Tổ chức đã xác minh",
-    "home.features.verifiedOrgs.description": "Duyệt qua bất kỳ tổ chức đã đăng ký nào, hoặc tìm huy hiệu đã xác minh. Các tổ chức tham gia quy trình thẩm định của chúng tôi sẽ nhận được xác minh on-chain mà nhà tài trợ có thể tin tưởng.",
+    "home.features.verifiedOrgs.description":
+      "Duyệt qua bất kỳ tổ chức đã đăng ký nào, hoặc tìm huy hiệu đã xác minh. Các tổ chức tham gia quy trình thẩm định của chúng tôi sẽ nhận được xác minh on-chain mà nhà tài trợ có thể tin tưởng.",
     "home.features.blockchainVerified.title": "Xác minh trên Blockchain",
-    "home.features.blockchainVerified.description": "Token gắn liền linh hồn ghi nhận đóng góp tình nguyện. Kỹ năng, giờ làm việc và tác động — tất cả được ghi nhận vĩnh viễn trên chuỗi.",
+    "home.features.blockchainVerified.description":
+      "Token gắn liền linh hồn ghi nhận đóng góp tình nguyện. Kỹ năng, giờ làm việc và tác động — tất cả được ghi nhận vĩnh viễn trên chuỗi.",
     "home.features.bridgingModes.title": "Kết nối các hình thức quyên góp",
-    "home.features.bridgingModes.description": "Dù bạn quyên góp bằng USD hay tài sản số, kiến trúc đa mạng của chúng tôi đảm bảo đóng góp của bạn di chuyển với tốc độ của thế giới hiện đại.",
+    "home.features.bridgingModes.description":
+      "Dù bạn quyên góp bằng USD hay tài sản số, kiến trúc đa mạng của chúng tôi đảm bảo đóng góp của bạn di chuyển với tốc độ của thế giới hiện đại.",
     "home.roles.title": "Được xây dựng cho mọi người đang thay đổi thế giới",
     "home.roles.donors.title": "Dành cho nhà tài trợ",
-    "home.roles.donors.item1": "Quyên góp bằng tiền mã hóa hoặc tiền pháp định — tùy bạn chọn",
+    "home.roles.donors.item1":
+      "Quyên góp bằng tiền mã hóa hoặc tiền pháp định — tùy bạn chọn",
     "home.roles.donors.item2": "Tham gia quản trị",
     "home.roles.donors.item3": "Xây dựng uy tín on-chain",
     "home.roles.nonprofits.title": "Dành cho tổ chức phi lợi nhuận",
@@ -884,16 +894,20 @@ export default {
     "home.roles.volunteers.item3": "Huy hiệu thành tích & ghi nhận",
     "home.impact.title": "Quỹ tác động theo kế hoạch",
     "home.impact.environmental.title": "Quỹ tác động môi trường",
-    "home.impact.environmental.description": "Hỗ trợ trồng rừng, dọn dẹp đại dương và các sáng kiến năng lượng tái tạo. Quyên góp gộp được chuyển đến các tổ chức môi trường đã xác minh tạo ra tác động đo lường được.",
+    "home.impact.environmental.description":
+      "Hỗ trợ trồng rừng, dọn dẹp đại dương và các sáng kiến năng lượng tái tạo. Quyên góp gộp được chuyển đến các tổ chức môi trường đã xác minh tạo ra tác động đo lường được.",
     "home.impact.education.title": "Quỹ cơ hội giáo dục",
-    "home.impact.education.description": "Cung cấp học bổng, công cụ học tập số và đào tạo giáo viên. Tài trợ tập thể được khuếch đại để hỗ trợ các sáng kiến giáo dục tại các cộng đồng thiếu thốn.",
+    "home.impact.education.description":
+      "Cung cấp học bổng, công cụ học tập số và đào tạo giáo viên. Tài trợ tập thể được khuếch đại để hỗ trợ các sáng kiến giáo dục tại các cộng đồng thiếu thốn.",
     "home.cta.title": "Sẵn sàng thay đổi cách quyên góp?",
-    "home.cta.subtitle": "Hãy là một trong những người đầu tiên trải nghiệm hoạt động từ thiện minh bạch, được hỗ trợ bởi blockchain. Tham gia cộng đồng của chúng tôi để xây dựng một tương lai tốt đẹp hơn cho hoạt động từ thiện.",
+    "home.cta.subtitle":
+      "Hãy là một trong những người đầu tiên trải nghiệm hoạt động từ thiện minh bạch, được hỗ trợ bởi blockchain. Tham gia cộng đồng của chúng tôi để xây dựng một tương lai tốt đẹp hơn cho hoạt động từ thiện.",
     "home.nav.features": "Tính năng",
     "home.nav.impact": "Tác động",
     "home.nav.charities": "Tổ chức từ thiện",
     "home.nav.volunteer": "Tình nguyện",
-    "home.footer.brand.tagline": "Chuyển đổi hoạt động từ thiện thông qua minh bạch blockchain và tài trợ bền vững.",
+    "home.footer.brand.tagline":
+      "Chuyển đổi hoạt động từ thiện thông qua minh bạch blockchain và tài trợ bền vững.",
     "home.footer.product.title": "Sản phẩm",
     "home.footer.product.impactFunds": "Quỹ tác động",
     "home.footer.product.charities": "Dành cho tổ chức từ thiện",
@@ -904,7 +918,8 @@ export default {
     "home.footer.resources.community": "Cộng đồng (Sắp ra mắt)",
     "home.footer.connect.title": "Kết nối",
     "home.footer.connect.contact": "Liên hệ (Sắp ra mắt)",
-    "home.footer.copyright": "Give Protocol. Đa chuỗi theo thiết kế. Được vận hành bởi các tình nguyện viên Give Protocol.",
+    "home.footer.copyright":
+      "Give Protocol. Đa chuỗi theo thiết kế. Được vận hành bởi các tình nguyện viên Give Protocol.",
     "auth.signin.welcomeBack": "Chào mừng trở lại",
     "auth.signin.subtitle": "Đăng nhập vào tài khoản Give Protocol của bạn",
     "auth.signin.emailPlaceholder": "Email",
@@ -920,7 +935,8 @@ export default {
     "auth.signin.terms": "Điều khoản",
     "auth.signin.privacy": "Quyền riêng tư",
     "auth.panel.headline": "Quyên góp thông minh, tác động minh bạch.",
-    "auth.panel.subheadline": "Một tài khoản. Quyên góp bằng thẻ hoặc tiền mã hóa. Theo dõi từng đồng on-chain.",
+    "auth.panel.subheadline":
+      "Một tài khoản. Quyên góp bằng thẻ hoặc tiền mã hóa. Theo dõi từng đồng on-chain.",
     "auth.panel.statusLabel": "Trạng thái giao thức · Giai đoạn khởi nguồn",
     "auth.panel.statusDesc": "Xây dựng nền tảng cho quyên góp minh bạch",
     "auth.panel.runsOn": "Chạy trên",
@@ -937,9 +953,11 @@ export default {
     "auth.login.signInOrConnect": "Đăng nhập hoặc kết nối",
     "auth.login.skipToContent": "Chuyển đến nội dung đăng nhập",
     "auth.login.donorTitle": "Đăng nhập nhà tài trợ",
-    "auth.login.donorSubtitle": "Đăng nhập để truy cập bảng điều khiển quyên góp của bạn",
+    "auth.login.donorSubtitle":
+      "Đăng nhập để truy cập bảng điều khiển quyên góp của bạn",
     "auth.login.charityTitle": "Cổng tổ chức phi lợi nhuận",
-    "auth.login.charitySubtitle": "Quản lý hồ sơ tổ chức và các khoản quyên góp",
+    "auth.login.charitySubtitle":
+      "Quản lý hồ sơ tổ chức và các khoản quyên góp",
     "auth.login.back": "← Quay lại",
     "auth.login.continueDonor": "Tiếp tục với tư cách nhà tài trợ",
     "auth.login.connecting": "Đang kết nối…",
@@ -953,7 +971,8 @@ export default {
     "auth.login.needHelp": "Cần trợ giúp?",
     "auth.login.forgotUsernameBtn": "Quên tên đăng nhập?",
     "auth.login.forgotPasswordBtn": "Quên mật khẩu?",
-    "auth.donorLogin.mismatch": "Không tìm thấy tài khoản nhà tài trợ. Email này được đăng ký dưới tài khoản tổ chức từ thiện. Vui lòng sử dụng cổng đăng nhập dành cho tổ chức từ thiện.",
+    "auth.donorLogin.mismatch":
+      "Không tìm thấy tài khoản nhà tài trợ. Email này được đăng ký dưới tài khoản tổ chức từ thiện. Vui lòng sử dụng cổng đăng nhập dành cho tổ chức từ thiện.",
     "auth.donorLogin.signingIn": "Đang đăng nhập…",
     "auth.donorLogin.redirecting": "Đang chuyển hướng sau {{count}}...",
     "auth.donorReg.pleaseWait": "Vui lòng chờ…",
@@ -963,17 +982,22 @@ export default {
     "auth.donorReg.orSetPassword": "Hoặc đặt mật khẩu",
     "auth.donorReg.creating": "Đang tạo tài khoản...",
     "auth.donorReg.createAccount": "Tạo tài khoản nhà tài trợ",
-    "auth.charityLogin.mismatch": "Email này được đăng ký dưới tài khoản nhà tài trợ. Vui lòng đăng nhập tại cổng nhà tài trợ.",
+    "auth.charityLogin.mismatch":
+      "Email này được đăng ký dưới tài khoản nhà tài trợ. Vui lòng đăng nhập tại cổng nhà tài trợ.",
     "auth.charityLogin.signingIn": "Đang đăng nhập...",
     "auth.charityLogin.or": "hoặc",
     "auth.charityLogin.connecting": "Đang kết nối...",
     "auth.charityLogin.connectWallet": "Kết nối ví",
     "auth.forgot.resetPassword": "Đặt lại mật khẩu",
     "auth.forgot.forgotUsername": "Quên tên đăng nhập",
-    "auth.forgot.passwordDesc": "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi liên kết đặt lại mật khẩu.",
-    "auth.forgot.usernameDesc": "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi tên đăng nhập cho bạn.",
-    "auth.forgot.passwordSuccess": "Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn",
-    "auth.forgot.usernameSuccess": "Lời nhắc tên đăng nhập đã được gửi đến email của bạn",
+    "auth.forgot.passwordDesc":
+      "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi liên kết đặt lại mật khẩu.",
+    "auth.forgot.usernameDesc":
+      "Nhập địa chỉ email của bạn và chúng tôi sẽ gửi tên đăng nhập cho bạn.",
+    "auth.forgot.passwordSuccess":
+      "Hướng dẫn đặt lại mật khẩu đã được gửi đến email của bạn",
+    "auth.forgot.usernameSuccess":
+      "Lời nhắc tên đăng nhập đã được gửi đến email của bạn",
     "auth.forgot.checkEmail": "Kiểm tra email của bạn",
     "auth.forgot.backToSignIn": "Quay lại đăng nhập",
     "auth.forgot.emailPlaceholder": "Nhập địa chỉ email của bạn",
@@ -985,7 +1009,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "Tìm kiếm theo tên tổ chức...",
     "auth.orgSearch.countryLabel": "Quốc gia",
     "auth.orgSearch.allCountries": "Tất cả quốc gia",
-    "auth.orgSearch.searchPrompt": "Tìm kiếm trong cơ sở dữ liệu của chúng tôi để tìm và nhận tổ chức của bạn.",
+    "auth.orgSearch.searchPrompt":
+      "Tìm kiếm trong cơ sở dữ liệu của chúng tôi để tìm và nhận tổ chức của bạn.",
     "auth.orgSearch.noResults": "Không tìm thấy tổ chức nào.",
     "auth.orgSearch.loadMore": "Tải thêm kết quả",
     "auth.orgSearch.cantFind": "Không tìm thấy tổ chức của bạn?",
@@ -1029,8 +1054,10 @@ export default {
     "charity.vetting.confirmPassword": "Xác nhận mật khẩu",
     "charity.vetting.submitting": "Đang gửi đơn đăng ký...",
     "charity.vetting.submit": "Gửi đơn đăng ký tổ chức từ thiện",
-    "charity.vetting.validation.orgName": "Tên tổ chức phải có từ 2 đến 100 ký tự",
-    "charity.vetting.validation.contactName": "Tên liên hệ phải có từ 2 đến 100 ký tự",
+    "charity.vetting.validation.orgName":
+      "Tên tổ chức phải có từ 2 đến 100 ký tự",
+    "charity.vetting.validation.contactName":
+      "Tên liên hệ phải có từ 2 đến 100 ký tự",
     "charity.vetting.validation.email": "Vui lòng nhập địa chỉ email hợp lệ",
     "charity.vetting.validation.password": "Mật khẩu phải có ít nhất 8 ký tự",
     "charity.vetting.validation.confirmPassword": "Mật khẩu không khớp",
@@ -1045,7 +1072,8 @@ export default {
     "common.email": "Email",
     "common.password": "Mật khẩu",
     "common.confirmPassword": "Xác nhận mật khẩu",
-    "footer.brand.tagline": "Xóa bỏ rào cản cho hoạt động quyên góp từ thiện bền vững.",
+    "footer.brand.tagline":
+      "Xóa bỏ rào cản cho hoạt động quyên góp từ thiện bền vững.",
     "footer.resources.title": "Tài nguyên",
     "footer.resources.faq": "Câu hỏi thường gặp",
     "footer.resources.about": "Về chúng tôi",

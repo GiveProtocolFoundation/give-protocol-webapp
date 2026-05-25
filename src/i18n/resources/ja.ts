@@ -852,25 +852,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "透明な寄付",
     "home.hero.titleAccent": "持続可能なインパクト",
-    "home.hero.description": "デジタル時代のための徹底的に透明なフィランソロピー。インパクトのために構築され、検証可能な技術に支えられています。すべての寄付が寄付者から届け先まで追跡可能です。",
+    "home.hero.description":
+      "デジタル時代のための徹底的に透明なフィランソロピー。インパクトのために構築され、検証可能な技術に支えられています。すべての寄付が寄付者から届け先まで追跡可能です。",
     "home.hero.visionTitle": "私たちのビジョン",
-    "home.hero.visionText": "Give Protocolは、高い信頼性を備えた寄付の未来を構築しています。先進的な技術基盤を活用し、世界の資本とローカルなインパクトの間のギャップを埋めます。シームレスなデジタル資産サポートと従来の寄付方法を統合することで、一度きりの寄付を、世界で最も重要な活動を支える永続的な支援エンジンへと変える、持続可能な資金調達エコシステムを構築しています。",
+    "home.hero.visionText":
+      "Give Protocolは、高い信頼性を備えた寄付の未来を構築しています。先進的な技術基盤を活用し、世界の資本とローカルなインパクトの間のギャップを埋めます。シームレスなデジタル資産サポートと従来の寄付方法を統合することで、一度きりの寄付を、世界で最も重要な活動を支える永続的な支援エンジンへと変える、持続可能な資金調達エコシステムを構築しています。",
     "home.comingSoon": "近日公開",
     "home.readDocs": "ドキュメントを読む",
     "home.features.sectionTitle": "透明なフィランソロピーへのゲートウェイ",
-    "home.features.sectionSubtitle": "暗号資産でも法定通貨でも、完全な透明性を備えたシームレスな寄付のためのマルチチェーンインフラストラクチャ",
+    "home.features.sectionSubtitle":
+      "暗号資産でも法定通貨でも、完全な透明性を備えたシームレスな寄付のためのマルチチェーンインフラストラクチャ",
     "home.features.highEfficiency.title": "高効率な寄付",
-    "home.features.highEfficiency.description": "認証済みの団体に曖昧さなく直接寄付できます。自動化された台帳がリアルタイムの検証を提供し、あなたの支援が最も必要とされる場所に確実に届けられます。",
+    "home.features.highEfficiency.description":
+      "認証済みの団体に曖昧さなく直接寄付できます。自動化された台帳がリアルタイムの検証を提供し、あなたの支援が最も必要とされる場所に確実に届けられます。",
     "home.features.equityFunds.title": "チャリタブル・エクイティ・ファンド",
-    "home.features.equityFunds.description": "一度きりの寄付を超え、スマート運用のエクイティファンドに寄付しましょう。低リスクのデジタル戦略を活用し、元本を永続的な資金の流れに変え、慈善活動を世代を超えて支えます。",
+    "home.features.equityFunds.description":
+      "一度きりの寄付を超え、スマート運用のエクイティファンドに寄付しましょう。低リスクのデジタル戦略を活用し、元本を永続的な資金の流れに変え、慈善活動を世代を超えて支えます。",
     "home.features.impactFunds.title": "インパクトファンド",
-    "home.features.impactFunds.description": "特定の活動に資金をプールできます。環境、教育、貧困救済など、集団的な行動を通じてあなたの寄付が増幅されます。",
+    "home.features.impactFunds.description":
+      "特定の活動に資金をプールできます。環境、教育、貧困救済など、集団的な行動を通じてあなたの寄付が増幅されます。",
     "home.features.verifiedOrgs.title": "認証済み団体",
-    "home.features.verifiedOrgs.description": "登録済みのすべての団体を閲覧したり、認証バッジを探したりできます。審査プロセスに参加した団体は、寄付者が信頼できるオンチェーン認証を取得しています。",
+    "home.features.verifiedOrgs.description":
+      "登録済みのすべての団体を閲覧したり、認証バッジを探したりできます。審査プロセスに参加した団体は、寄付者が信頼できるオンチェーン認証を取得しています。",
     "home.features.blockchainVerified.title": "ブロックチェーン認証",
-    "home.features.blockchainVerified.description": "ソウルバウンドトークンがボランティアの貢献を認証します。スキル、活動時間、インパクトのすべてがオンチェーンに永続的に記録されます。",
+    "home.features.blockchainVerified.description":
+      "ソウルバウンドトークンがボランティアの貢献を認証します。スキル、活動時間、インパクトのすべてがオンチェーンに永続的に記録されます。",
     "home.features.bridgingModes.title": "寄付方法の架け橋",
-    "home.features.bridgingModes.description": "USDでもデジタル資産でも、マルチネットワークアーキテクチャにより、現代のスピードであなたの寄付が届けられます。",
+    "home.features.bridgingModes.description":
+      "USDでもデジタル資産でも、マルチネットワークアーキテクチャにより、現代のスピードであなたの寄付が届けられます。",
     "home.roles.title": "世界を変えるすべての人のために",
     "home.roles.donors.title": "寄付者の方へ",
     "home.roles.donors.item1": "暗号資産でも法定通貨でも — お好みの方法で",
@@ -886,16 +895,20 @@ export default {
     "home.roles.volunteers.item3": "実績バッジと表彰",
     "home.impact.title": "インパクトファンド計画",
     "home.impact.environmental.title": "環境インパクトファンド",
-    "home.impact.environmental.description": "森林再生、海洋清掃、再生可能エネルギーの取り組みを支援します。プールされた寄付金が、測定可能なインパクトを生み出す認証済み環境団体に届けられます。",
+    "home.impact.environmental.description":
+      "森林再生、海洋清掃、再生可能エネルギーの取り組みを支援します。プールされた寄付金が、測定可能なインパクトを生み出す認証済み環境団体に届けられます。",
     "home.impact.education.title": "教育機会ファンド",
-    "home.impact.education.description": "奨学金、デジタル学習ツール、教員研修を提供します。集約された資金が、教育機会の乏しい地域の教育活動を支援するために活用されます。",
+    "home.impact.education.description":
+      "奨学金、デジタル学習ツール、教員研修を提供します。集約された資金が、教育機会の乏しい地域の教育活動を支援するために活用されます。",
     "home.cta.title": "寄付を変革する準備はできましたか？",
-    "home.cta.subtitle": "透明でブロックチェーンを活用したフィランソロピーをいち早く体験しましょう。慈善活動のより良い未来を築くコミュニティにご参加ください。",
+    "home.cta.subtitle":
+      "透明でブロックチェーンを活用したフィランソロピーをいち早く体験しましょう。慈善活動のより良い未来を築くコミュニティにご参加ください。",
     "home.nav.features": "特長",
     "home.nav.impact": "インパクト",
     "home.nav.charities": "チャリティ",
     "home.nav.volunteer": "ボランティア",
-    "home.footer.brand.tagline": "ブロックチェーンの透明性と持続可能な資金調達を通じてフィランソロピーを変革します。",
+    "home.footer.brand.tagline":
+      "ブロックチェーンの透明性と持続可能な資金調達を通じてフィランソロピーを変革します。",
     "home.footer.product.title": "プロダクト",
     "home.footer.product.impactFunds": "インパクトファンド",
     "home.footer.product.charities": "チャリティ向け",
@@ -906,7 +919,8 @@ export default {
     "home.footer.resources.community": "コミュニティ（近日公開）",
     "home.footer.connect.title": "つながる",
     "home.footer.connect.contact": "お問い合わせ（近日公開）",
-    "home.footer.copyright": "Give Protocol. マルチチェーン設計。Give Protocolボランティアによって運営されています。",
+    "home.footer.copyright":
+      "Give Protocol. マルチチェーン設計。Give Protocolボランティアによって運営されています。",
     "auth.signin.welcomeBack": "おかえりなさい",
     "auth.signin.subtitle": "Give Protocolアカウントにサインイン",
     "auth.signin.emailPlaceholder": "メールアドレス",
@@ -922,7 +936,8 @@ export default {
     "auth.signin.terms": "利用規約",
     "auth.signin.privacy": "プライバシー",
     "auth.panel.headline": "スマートな寄付、透明なインパクト。",
-    "auth.panel.subheadline": "ひとつのアカウントで。カードでも暗号資産でも寄付。すべてをオンチェーンで追跡。",
+    "auth.panel.subheadline":
+      "ひとつのアカウントで。カードでも暗号資産でも寄付。すべてをオンチェーンで追跡。",
     "auth.panel.statusLabel": "プロトコル状況 · ジェネシスフェーズ",
     "auth.panel.statusDesc": "透明な寄付の基盤を構築中",
     "auth.panel.runsOn": "基盤技術",
@@ -933,13 +948,15 @@ export default {
     "auth.wallet.openingSession": "セッションを開始中…",
     "auth.validation.emailRequired": "まずメールアドレスを入力してください",
     "auth.validation.invalidEmail": "有効なメールアドレスを入力してください",
-    "auth.validation.passwordTooShort": "パスワードは8文字以上で入力してください",
+    "auth.validation.passwordTooShort":
+      "パスワードは8文字以上で入力してください",
     "auth.validation.passwordMismatch": "パスワードが一致しません",
     "auth.login.welcomeHeading": "Give Protocolへようこそ",
     "auth.login.signInOrConnect": "サインインまたは接続",
     "auth.login.skipToContent": "ログインコンテンツへスキップ",
     "auth.login.donorTitle": "寄付者サインイン",
-    "auth.login.donorSubtitle": "寄付ダッシュボードにアクセスするにはサインインしてください",
+    "auth.login.donorSubtitle":
+      "寄付ダッシュボードにアクセスするにはサインインしてください",
     "auth.login.charityTitle": "非営利団体ポータル",
     "auth.login.charitySubtitle": "団体プロフィールと寄付金を管理",
     "auth.login.back": "← 戻る",
@@ -955,7 +972,8 @@ export default {
     "auth.login.needHelp": "お困りですか？",
     "auth.login.forgotUsernameBtn": "ユーザー名をお忘れですか？",
     "auth.login.forgotPasswordBtn": "パスワードをお忘れですか？",
-    "auth.donorLogin.mismatch": "寄付者アカウントが見つかりません。このメールアドレスはチャリティアカウントとして登録されています。チャリティログインをご利用ください。",
+    "auth.donorLogin.mismatch":
+      "寄付者アカウントが見つかりません。このメールアドレスはチャリティアカウントとして登録されています。チャリティログインをご利用ください。",
     "auth.donorLogin.signingIn": "サインイン中…",
     "auth.donorLogin.redirecting": "{{count}}秒後にリダイレクトします...",
     "auth.donorReg.pleaseWait": "お待ちください…",
@@ -965,21 +983,27 @@ export default {
     "auth.donorReg.orSetPassword": "またはパスワードを設定",
     "auth.donorReg.creating": "アカウントを作成中...",
     "auth.donorReg.createAccount": "寄付者アカウントを作成",
-    "auth.charityLogin.mismatch": "このメールアドレスは寄付者アカウントとして登録されています。寄付者ポータルからサインインしてください。",
+    "auth.charityLogin.mismatch":
+      "このメールアドレスは寄付者アカウントとして登録されています。寄付者ポータルからサインインしてください。",
     "auth.charityLogin.signingIn": "サインイン中...",
     "auth.charityLogin.or": "または",
     "auth.charityLogin.connecting": "接続中...",
     "auth.charityLogin.connectWallet": "ウォレットを接続",
     "auth.forgot.resetPassword": "パスワードのリセット",
     "auth.forgot.forgotUsername": "ユーザー名をお忘れの方",
-    "auth.forgot.passwordDesc": "メールアドレスを入力してください。パスワードリセット用のリンクをお送りします。",
-    "auth.forgot.usernameDesc": "メールアドレスを入力してください。ユーザー名をお送りします。",
-    "auth.forgot.passwordSuccess": "パスワードリセットの手順をメールで送信しました",
-    "auth.forgot.usernameSuccess": "ユーザー名のリマインダーをメールで送信しました",
+    "auth.forgot.passwordDesc":
+      "メールアドレスを入力してください。パスワードリセット用のリンクをお送りします。",
+    "auth.forgot.usernameDesc":
+      "メールアドレスを入力してください。ユーザー名をお送りします。",
+    "auth.forgot.passwordSuccess":
+      "パスワードリセットの手順をメールで送信しました",
+    "auth.forgot.usernameSuccess":
+      "ユーザー名のリマインダーをメールで送信しました",
     "auth.forgot.checkEmail": "メールをご確認ください",
     "auth.forgot.backToSignIn": "サインインに戻る",
     "auth.forgot.emailPlaceholder": "メールアドレスを入力",
-    "auth.forgot.genericError": "エラーが発生しました。もう一度お試しください。",
+    "auth.forgot.genericError":
+      "エラーが発生しました。もう一度お試しください。",
     "auth.forgot.sending": "送信中...",
     "auth.forgot.sendResetLink": "リセットリンクを送信",
     "auth.forgot.sendUsername": "ユーザー名を送信",
@@ -987,7 +1011,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "団体名で検索...",
     "auth.orgSearch.countryLabel": "国",
     "auth.orgSearch.allCountries": "すべての国",
-    "auth.orgSearch.searchPrompt": "データベースを検索して、あなたの団体を見つけて申請してください。",
+    "auth.orgSearch.searchPrompt":
+      "データベースを検索して、あなたの団体を見つけて申請してください。",
     "auth.orgSearch.noResults": "団体が見つかりませんでした。",
     "auth.orgSearch.loadMore": "さらに表示",
     "auth.orgSearch.cantFind": "お探しの団体が見つかりませんか？",
@@ -1005,9 +1030,11 @@ export default {
     "charity.claim.backToSearch": "検索に戻る",
     "charity.claim.creating": "アカウントを作成中...",
     "charity.claim.submit": "団体を申請",
-    "charity.claim.validation.name": "名前は2文字以上100文字以内で入力してください",
+    "charity.claim.validation.name":
+      "名前は2文字以上100文字以内で入力してください",
     "charity.claim.validation.email": "有効なメールアドレスを入力してください",
-    "charity.claim.validation.password": "パスワードは8文字以上で入力してください",
+    "charity.claim.validation.password":
+      "パスワードは8文字以上で入力してください",
     "charity.claim.validation.confirmPassword": "パスワードが一致しません",
     "charity.claim.validation.fix": "入力エラーを修正してください",
     "charity.claim.error.creation": "アカウントの作成に失敗しました",
@@ -1031,10 +1058,14 @@ export default {
     "charity.vetting.confirmPassword": "パスワード確認",
     "charity.vetting.submitting": "申請を送信中...",
     "charity.vetting.submit": "チャリティ申請を提出",
-    "charity.vetting.validation.orgName": "団体名は2文字以上100文字以内で入力してください",
-    "charity.vetting.validation.contactName": "担当者名は2文字以上100文字以内で入力してください",
-    "charity.vetting.validation.email": "有効なメールアドレスを入力してください",
-    "charity.vetting.validation.password": "パスワードは8文字以上で入力してください",
+    "charity.vetting.validation.orgName":
+      "団体名は2文字以上100文字以内で入力してください",
+    "charity.vetting.validation.contactName":
+      "担当者名は2文字以上100文字以内で入力してください",
+    "charity.vetting.validation.email":
+      "有効なメールアドレスを入力してください",
+    "charity.vetting.validation.password":
+      "パスワードは8文字以上で入力してください",
     "charity.vetting.validation.confirmPassword": "パスワードが一致しません",
     "charity.vetting.validation.description": "説明は必須です",
     "charity.vetting.validation.category": "カテゴリは必須です",

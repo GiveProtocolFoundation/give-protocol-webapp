@@ -31,7 +31,7 @@ function collectTsxFiles(dir: string): string[] {
  * Skips template literals with interpolation and variable arguments.
  */
 function extractTranslationKeys(
-  content: string
+  content: string,
 ): Array<{ key: string; line: number }> {
   const results: Array<{ key: string; line: number }> = [];
   const lines = content.split("\n");
@@ -81,7 +81,7 @@ describe("Translation key validation", () => {
         .join("\n");
       // eslint-disable-next-line no-console -- diagnostic output for CI
       console.error(
-        `Missing ${missing.length} translation key(s) in en.ts:\n${report}`
+        `Missing ${missing.length} translation key(s) in en.ts:\n${report}`,
       );
     }
     expect(missing).toHaveLength(0);

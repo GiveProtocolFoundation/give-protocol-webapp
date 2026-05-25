@@ -831,25 +831,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "투명한 나눔",
     "home.hero.titleAccent": "지속 가능한 임팩트",
-    "home.hero.description": "디지털 시대를 위한 혁신적으로 투명한 자선 활동. 임팩트를 위해 설계되고, 검증 가능한 기술로 뒷받침됩니다. 모든 기부금이 기부자에서 수혜자까지 추적 가능합니다.",
+    "home.hero.description":
+      "디지털 시대를 위한 혁신적으로 투명한 자선 활동. 임팩트를 위해 설계되고, 검증 가능한 기술로 뒷받침됩니다. 모든 기부금이 기부자에서 수혜자까지 추적 가능합니다.",
     "home.hero.visionTitle": "우리의 비전",
-    "home.hero.visionText": "Give Protocol은 고신뢰 나눔의 미래를 설계하고 있습니다. 우리는 첨단 기술 인프라를 활용하여 글로벌 자본과 지역 임팩트 사이의 격차를 해소합니다. 원활한 디지털 자산 지원과 전통적인 기부 방식을 통합함으로써, 일회성 기부를 세계에서 가장 중요한 대의를 위한 영구적인 지원 엔진으로 전환하는 회복력 있는 자금 생태계를 구축하고 있습니다.",
+    "home.hero.visionText":
+      "Give Protocol은 고신뢰 나눔의 미래를 설계하고 있습니다. 우리는 첨단 기술 인프라를 활용하여 글로벌 자본과 지역 임팩트 사이의 격차를 해소합니다. 원활한 디지털 자산 지원과 전통적인 기부 방식을 통합함으로써, 일회성 기부를 세계에서 가장 중요한 대의를 위한 영구적인 지원 엔진으로 전환하는 회복력 있는 자금 생태계를 구축하고 있습니다.",
     "home.comingSoon": "출시 예정",
     "home.readDocs": "문서 읽기",
     "home.features.sectionTitle": "투명한 자선 활동의 관문",
-    "home.features.sectionSubtitle": "암호화폐 또는 법정화폐로 원활하게 기부할 수 있는 멀티체인 인프라 — 완전한 투명성 보장",
+    "home.features.sectionSubtitle":
+      "암호화폐 또는 법정화폐로 원활하게 기부할 수 있는 멀티체인 인프라 — 완전한 투명성 보장",
     "home.features.highEfficiency.title": "고효율 기부",
-    "home.features.highEfficiency.description": "검증된 단체에 모호함 없이 직접 기부하세요. 자동화된 원장이 실시간 검증을 제공하여 귀하의 지원이 가장 필요한 곳에 정확히 전달되도록 보장합니다.",
+    "home.features.highEfficiency.description":
+      "검증된 단체에 모호함 없이 직접 기부하세요. 자동화된 원장이 실시간 검증을 제공하여 귀하의 지원이 가장 필요한 곳에 정확히 전달되도록 보장합니다.",
     "home.features.equityFunds.title": "자선 지분 펀드",
-    "home.features.equityFunds.description": "일회성 기부를 넘어 스마트 관리 지분 펀드에 기여하세요. 정교하고 저위험 디지털 전략을 활용하여 귀하의 원금을 지속적인 자금 흐름으로 전환하며, 자선 사업을 대대로 지원합니다.",
+    "home.features.equityFunds.description":
+      "일회성 기부를 넘어 스마트 관리 지분 펀드에 기여하세요. 정교하고 저위험 디지털 전략을 활용하여 귀하의 원금을 지속적인 자금 흐름으로 전환하며, 자선 사업을 대대로 지원합니다.",
     "home.features.impactFunds.title": "임팩트 펀드",
-    "home.features.impactFunds.description": "특정 대의를 위해 자원을 모으세요. 환경, 교육, 빈곤 구제 — 집단적 행동을 통해 귀하의 기부가 증폭됩니다.",
+    "home.features.impactFunds.description":
+      "특정 대의를 위해 자원을 모으세요. 환경, 교육, 빈곤 구제 — 집단적 행동을 통해 귀하의 기부가 증폭됩니다.",
     "home.features.verifiedOrgs.title": "인증된 단체",
-    "home.features.verifiedOrgs.description": "등록된 모든 단체를 검색하거나 인증 배지를 확인하세요. 당사의 심사 절차에 참여하는 단체는 기부자가 신뢰할 수 있는 온체인 인증을 획득합니다.",
+    "home.features.verifiedOrgs.description":
+      "등록된 모든 단체를 검색하거나 인증 배지를 확인하세요. 당사의 심사 절차에 참여하는 단체는 기부자가 신뢰할 수 있는 온체인 인증을 획득합니다.",
     "home.features.blockchainVerified.title": "블록체인 인증",
-    "home.features.blockchainVerified.description": "소울바운드 토큰이 봉사 기여를 인정합니다. 기술, 시간, 임팩트 — 모두 온체인에 영구적으로 기록됩니다.",
+    "home.features.blockchainVerified.description":
+      "소울바운드 토큰이 봉사 기여를 인정합니다. 기술, 시간, 임팩트 — 모두 온체인에 영구적으로 기록됩니다.",
     "home.features.bridgingModes.title": "기부 방식의 연결",
-    "home.features.bridgingModes.description": "USD든 디지털 자산이든, 멀티 네트워크 아키텍처가 귀하의 기부를 현대 세계의 속도로 전달합니다.",
+    "home.features.bridgingModes.description":
+      "USD든 디지털 자산이든, 멀티 네트워크 아키텍처가 귀하의 기부를 현대 세계의 속도로 전달합니다.",
     "home.roles.title": "세상을 변화시키는 모든 분을 위해",
     "home.roles.donors.title": "기부자를 위해",
     "home.roles.donors.item1": "암호화폐 또는 법정화폐로 기부 — 자유롭게 선택",
@@ -865,16 +874,20 @@ export default {
     "home.roles.volunteers.item3": "성취 배지 및 인정",
     "home.impact.title": "계획된 임팩트 펀드",
     "home.impact.environmental.title": "환경 임팩트 펀드",
-    "home.impact.environmental.description": "산림 복원, 해양 정화, 재생 에너지 이니셔티브를 지원합니다. 모금된 기부금은 측정 가능한 임팩트를 만드는 인증된 환경 단체에 전달됩니다.",
+    "home.impact.environmental.description":
+      "산림 복원, 해양 정화, 재생 에너지 이니셔티브를 지원합니다. 모금된 기부금은 측정 가능한 임팩트를 만드는 인증된 환경 단체에 전달됩니다.",
     "home.impact.education.title": "교육 기회 펀드",
-    "home.impact.education.description": "장학금, 디지털 학습 도구, 교사 연수를 제공합니다. 소외된 지역사회의 교육 이니셔티브를 지원하기 위해 집단 기금이 증폭됩니다.",
+    "home.impact.education.description":
+      "장학금, 디지털 학습 도구, 교사 연수를 제공합니다. 소외된 지역사회의 교육 이니셔티브를 지원하기 위해 집단 기금이 증폭됩니다.",
     "home.cta.title": "기부를 혁신할 준비가 되셨나요?",
-    "home.cta.subtitle": "투명하고 블록체인 기반의 자선 활동을 먼저 경험하세요. 더 나은 자선 기부의 미래를 함께 만들어 나갈 커뮤니티에 참여하세요.",
+    "home.cta.subtitle":
+      "투명하고 블록체인 기반의 자선 활동을 먼저 경험하세요. 더 나은 자선 기부의 미래를 함께 만들어 나갈 커뮤니티에 참여하세요.",
     "home.nav.features": "기능",
     "home.nav.impact": "임팩트",
     "home.nav.charities": "자선단체",
     "home.nav.volunteer": "봉사",
-    "home.footer.brand.tagline": "블록체인 투명성과 지속 가능한 자금 조달로 자선 활동을 혁신합니다.",
+    "home.footer.brand.tagline":
+      "블록체인 투명성과 지속 가능한 자금 조달로 자선 활동을 혁신합니다.",
     "home.footer.product.title": "서비스",
     "home.footer.product.impactFunds": "임팩트 펀드",
     "home.footer.product.charities": "자선단체를 위해",
@@ -885,7 +898,8 @@ export default {
     "home.footer.resources.community": "커뮤니티 (출시 예정)",
     "home.footer.connect.title": "연결",
     "home.footer.connect.contact": "문의 (출시 예정)",
-    "home.footer.copyright": "Give Protocol. 멀티체인 설계. Give Protocol 봉사자들이 운영합니다.",
+    "home.footer.copyright":
+      "Give Protocol. 멀티체인 설계. Give Protocol 봉사자들이 운영합니다.",
     "auth.signin.welcomeBack": "다시 오신 것을 환영합니다",
     "auth.signin.subtitle": "Give Protocol 계정에 로그인하세요",
     "auth.signin.emailPlaceholder": "이메일",
@@ -901,7 +915,8 @@ export default {
     "auth.signin.terms": "이용약관",
     "auth.signin.privacy": "개인정보 보호",
     "auth.panel.headline": "스마트한 기부, 투명한 임팩트.",
-    "auth.panel.subheadline": "하나의 계정. 카드 또는 암호화폐로 기부. 모든 금액을 온체인에서 추적.",
+    "auth.panel.subheadline":
+      "하나의 계정. 카드 또는 암호화폐로 기부. 모든 금액을 온체인에서 추적.",
     "auth.panel.statusLabel": "프로토콜 상태 · 제네시스 단계",
     "auth.panel.statusDesc": "투명한 기부의 기반을 구축하고 있습니다",
     "auth.panel.runsOn": "기반 기술",
@@ -934,7 +949,8 @@ export default {
     "auth.login.needHelp": "도움이 필요하신가요?",
     "auth.login.forgotUsernameBtn": "사용자 이름을 잊으셨나요?",
     "auth.login.forgotPasswordBtn": "비밀번호를 잊으셨나요?",
-    "auth.donorLogin.mismatch": "기부자 계정을 찾을 수 없습니다. 이 이메일은 자선단체 계정으로 등록되어 있습니다. 자선단체 로그인을 이용해 주세요.",
+    "auth.donorLogin.mismatch":
+      "기부자 계정을 찾을 수 없습니다. 이 이메일은 자선단체 계정으로 등록되어 있습니다. 자선단체 로그인을 이용해 주세요.",
     "auth.donorLogin.signingIn": "로그인 중…",
     "auth.donorLogin.redirecting": "{{count}}초 후 이동합니다...",
     "auth.donorReg.pleaseWait": "잠시만 기다려 주세요…",
@@ -944,16 +960,20 @@ export default {
     "auth.donorReg.orSetPassword": "또는 비밀번호 설정",
     "auth.donorReg.creating": "계정 생성 중...",
     "auth.donorReg.createAccount": "기부자 계정 만들기",
-    "auth.charityLogin.mismatch": "이 이메일은 기부자 계정으로 등록되어 있습니다. 기부자 포털에서 로그인해 주세요.",
+    "auth.charityLogin.mismatch":
+      "이 이메일은 기부자 계정으로 등록되어 있습니다. 기부자 포털에서 로그인해 주세요.",
     "auth.charityLogin.signingIn": "로그인 중...",
     "auth.charityLogin.or": "또는",
     "auth.charityLogin.connecting": "연결 중...",
     "auth.charityLogin.connectWallet": "지갑 연결",
     "auth.forgot.resetPassword": "비밀번호 재설정",
     "auth.forgot.forgotUsername": "사용자 이름 찾기",
-    "auth.forgot.passwordDesc": "이메일 주소를 입력하시면 비밀번호 재설정 링크를 보내드리겠습니다.",
-    "auth.forgot.usernameDesc": "이메일 주소를 입력하시면 사용자 이름을 보내드리겠습니다.",
-    "auth.forgot.passwordSuccess": "비밀번호 재설정 안내가 이메일로 발송되었습니다",
+    "auth.forgot.passwordDesc":
+      "이메일 주소를 입력하시면 비밀번호 재설정 링크를 보내드리겠습니다.",
+    "auth.forgot.usernameDesc":
+      "이메일 주소를 입력하시면 사용자 이름을 보내드리겠습니다.",
+    "auth.forgot.passwordSuccess":
+      "비밀번호 재설정 안내가 이메일로 발송되었습니다",
     "auth.forgot.usernameSuccess": "사용자 이름 알림이 이메일로 발송되었습니다",
     "auth.forgot.checkEmail": "이메일을 확인해 주세요",
     "auth.forgot.backToSignIn": "로그인으로 돌아가기",
@@ -966,7 +986,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "단체명으로 검색...",
     "auth.orgSearch.countryLabel": "국가",
     "auth.orgSearch.allCountries": "모든 국가",
-    "auth.orgSearch.searchPrompt": "데이터베이스에서 귀하의 단체를 찾아 인수하세요.",
+    "auth.orgSearch.searchPrompt":
+      "데이터베이스에서 귀하의 단체를 찾아 인수하세요.",
     "auth.orgSearch.noResults": "단체를 찾을 수 없습니다.",
     "auth.orgSearch.loadMore": "더 보기",
     "auth.orgSearch.cantFind": "단체를 찾을 수 없나요?",
@@ -1010,11 +1031,14 @@ export default {
     "charity.vetting.confirmPassword": "비밀번호 확인",
     "charity.vetting.submitting": "신청서 제출 중...",
     "charity.vetting.submit": "자선단체 신청서 제출",
-    "charity.vetting.validation.orgName": "단체명은 2자에서 100자 사이여야 합니다",
-    "charity.vetting.validation.contactName": "담당자 이름은 2자에서 100자 사이여야 합니다",
+    "charity.vetting.validation.orgName":
+      "단체명은 2자에서 100자 사이여야 합니다",
+    "charity.vetting.validation.contactName":
+      "담당자 이름은 2자에서 100자 사이여야 합니다",
     "charity.vetting.validation.email": "유효한 이메일 주소를 입력해 주세요",
     "charity.vetting.validation.password": "비밀번호는 8자 이상이어야 합니다",
-    "charity.vetting.validation.confirmPassword": "비밀번호가 일치하지 않습니다",
+    "charity.vetting.validation.confirmPassword":
+      "비밀번호가 일치하지 않습니다",
     "charity.vetting.validation.description": "설명은 필수입니다",
     "charity.vetting.validation.category": "카테고리는 필수입니다",
     "charity.vetting.validation.taxId": "납세자 번호는 필수입니다",

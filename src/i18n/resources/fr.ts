@@ -889,50 +889,68 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "Générosité Transparente",
     "home.hero.titleAccent": "Impact Durable",
-    "home.hero.description": "Une philanthropie radicalement transparente pour l'ère numérique. Conçue pour l'impact, soutenue par une technologie vérifiable. Chaque contribution traçable du donateur au bénéficiaire.",
+    "home.hero.description":
+      "Une philanthropie radicalement transparente pour l'ère numérique. Conçue pour l'impact, soutenue par une technologie vérifiable. Chaque contribution traçable du donateur au bénéficiaire.",
     "home.hero.visionTitle": "Notre Vision",
-    "home.hero.visionText": "Give Protocol conçoit l'avenir de la générosité à haute intégrité. Nous exploitons une infrastructure technologique avancée pour combler le fossé entre les capitaux mondiaux et l'impact local. En intégrant la prise en charge fluide des actifs numériques aux méthodes de don traditionnelles, nous créons des écosystèmes de financement résilients qui transforment les dons ponctuels en moteurs perpétuels de soutien pour les causes les plus vitales au monde.",
+    "home.hero.visionText":
+      "Give Protocol conçoit l'avenir de la générosité à haute intégrité. Nous exploitons une infrastructure technologique avancée pour combler le fossé entre les capitaux mondiaux et l'impact local. En intégrant la prise en charge fluide des actifs numériques aux méthodes de don traditionnelles, nous créons des écosystèmes de financement résilients qui transforment les dons ponctuels en moteurs perpétuels de soutien pour les causes les plus vitales au monde.",
     "home.comingSoon": "Bientôt disponible",
     "home.readDocs": "Lire la Documentation",
-    "home.features.sectionTitle": "Votre Portail vers une Philanthropie Transparente",
-    "home.features.sectionSubtitle": "Infrastructure multichaîne pour des dons fluides — crypto ou monnaie fiduciaire — en toute transparence",
+    "home.features.sectionTitle":
+      "Votre Portail vers une Philanthropie Transparente",
+    "home.features.sectionSubtitle":
+      "Infrastructure multichaîne pour des dons fluides — crypto ou monnaie fiduciaire — en toute transparence",
     "home.features.highEfficiency.title": "Dons à Haute Efficacité",
-    "home.features.highEfficiency.description": "Contribuez directement à des organisations vérifiées sans aucune ambiguïté. Notre registre automatisé fournit une vérification en temps réel, garantissant que votre soutien est déployé exactement là où il est le plus nécessaire.",
+    "home.features.highEfficiency.description":
+      "Contribuez directement à des organisations vérifiées sans aucune ambiguïté. Notre registre automatisé fournit une vérification en temps réel, garantissant que votre soutien est déployé exactement là où il est le plus nécessaire.",
     "home.features.equityFunds.title": "Fonds d'Équité Caritatifs",
-    "home.features.equityFunds.description": "Allez au-delà du don ponctuel en contribuant à des fonds d'équité gérés intelligemment. Nous utilisons des stratégies numériques sophistiquées et à faible risque pour transformer votre capital en un flux perpétuel de financement, soutenant les missions caritatives pour les générations à venir.",
+    "home.features.equityFunds.description":
+      "Allez au-delà du don ponctuel en contribuant à des fonds d'équité gérés intelligemment. Nous utilisons des stratégies numériques sophistiquées et à faible risque pour transformer votre capital en un flux perpétuel de financement, soutenant les missions caritatives pour les générations à venir.",
     "home.features.impactFunds.title": "Fonds d'Impact",
-    "home.features.impactFunds.description": "Mutualisez les ressources pour des causes spécifiques. Environnement, éducation, lutte contre la pauvreté — votre don amplifié par l'action collective.",
+    "home.features.impactFunds.description":
+      "Mutualisez les ressources pour des causes spécifiques. Environnement, éducation, lutte contre la pauvreté — votre don amplifié par l'action collective.",
     "home.features.verifiedOrgs.title": "Organisations Vérifiées",
-    "home.features.verifiedOrgs.description": "Parcourez toutes les organisations enregistrées, ou recherchez le badge de vérification. Les organisations qui participent à notre processus de vérification obtiennent une certification on-chain à laquelle les donateurs peuvent faire confiance.",
+    "home.features.verifiedOrgs.description":
+      "Parcourez toutes les organisations enregistrées, ou recherchez le badge de vérification. Les organisations qui participent à notre processus de vérification obtiennent une certification on-chain à laquelle les donateurs peuvent faire confiance.",
     "home.features.blockchainVerified.title": "Vérification Blockchain",
-    "home.features.blockchainVerified.description": "Les jetons non transférables (SBT) reconnaissent les contributions bénévoles. Compétences, heures et impact — tout enregistré de manière permanente on-chain.",
+    "home.features.blockchainVerified.description":
+      "Les jetons non transférables (SBT) reconnaissent les contributions bénévoles. Compétences, heures et impact — tout enregistré de manière permanente on-chain.",
     "home.features.bridgingModes.title": "Relier les Modes de Don",
-    "home.features.bridgingModes.description": "Que vous donniez en USD ou en actifs numériques, notre architecture multi-réseaux garantit que votre contribution circule à la vitesse du monde moderne.",
+    "home.features.bridgingModes.description":
+      "Que vous donniez en USD ou en actifs numériques, notre architecture multi-réseaux garantit que votre contribution circule à la vitesse du monde moderne.",
     "home.roles.title": "Conçu pour Tous Ceux qui Changent le Monde",
     "home.roles.donors.title": "Pour les Donateurs",
-    "home.roles.donors.item1": "Donnez en crypto ou en monnaie fiduciaire — à vous de choisir",
+    "home.roles.donors.item1":
+      "Donnez en crypto ou en monnaie fiduciaire — à vous de choisir",
     "home.roles.donors.item2": "Participation à la gouvernance",
     "home.roles.donors.item3": "Construction de réputation on-chain",
     "home.roles.nonprofits.title": "Pour les Organisations à But Non Lucratif",
-    "home.roles.nonprofits.item1": "Accédez à de nouvelles catégories de donateurs",
+    "home.roles.nonprofits.item1":
+      "Accédez à de nouvelles catégories de donateurs",
     "home.roles.nonprofits.item2": "Financement durable via les CEF",
     "home.roles.nonprofits.item3": "Rapports de transparence améliorés",
     "home.roles.volunteers.title": "Pour les Bénévoles",
     "home.roles.volunteers.item1": "Registres de contributions vérifiables",
-    "home.roles.volunteers.item2": "Certifications de compétences portables (SBT)",
+    "home.roles.volunteers.item2":
+      "Certifications de compétences portables (SBT)",
     "home.roles.volunteers.item3": "Badges de réussite et reconnaissance",
     "home.impact.title": "Fonds d'Impact Prévus",
     "home.impact.environmental.title": "Fonds d'Impact Environnemental",
-    "home.impact.environmental.description": "Soutien au reboisement, au nettoyage des océans et aux initiatives d'énergie renouvelable. Des dons mutualisés dirigés vers des organisations environnementales vérifiées ayant un impact mesurable.",
-    "home.impact.education.title": "Fonds pour l'Égalité des Chances Éducatives",
-    "home.impact.education.description": "Bourses d'études, outils d'apprentissage numérique et formation des enseignants. Un financement collectif amplifié pour soutenir les initiatives éducatives dans les communautés mal desservies.",
+    "home.impact.environmental.description":
+      "Soutien au reboisement, au nettoyage des océans et aux initiatives d'énergie renouvelable. Des dons mutualisés dirigés vers des organisations environnementales vérifiées ayant un impact mesurable.",
+    "home.impact.education.title":
+      "Fonds pour l'Égalité des Chances Éducatives",
+    "home.impact.education.description":
+      "Bourses d'études, outils d'apprentissage numérique et formation des enseignants. Un financement collectif amplifié pour soutenir les initiatives éducatives dans les communautés mal desservies.",
     "home.cta.title": "Prêt à Transformer la Générosité ?",
-    "home.cta.subtitle": "Soyez parmi les premiers à découvrir une philanthropie transparente, propulsée par la blockchain. Rejoignez notre communauté qui bâtit un avenir meilleur pour les dons caritatifs.",
+    "home.cta.subtitle":
+      "Soyez parmi les premiers à découvrir une philanthropie transparente, propulsée par la blockchain. Rejoignez notre communauté qui bâtit un avenir meilleur pour les dons caritatifs.",
     "home.nav.features": "Fonctionnalités",
     "home.nav.impact": "Impact",
     "home.nav.charities": "Organisations",
     "home.nav.volunteer": "Bénévolat",
-    "home.footer.brand.tagline": "Transformer la philanthropie grâce à la transparence blockchain et au financement durable.",
+    "home.footer.brand.tagline":
+      "Transformer la philanthropie grâce à la transparence blockchain et au financement durable.",
     "home.footer.product.title": "Produit",
     "home.footer.product.impactFunds": "Fonds d'Impact",
     "home.footer.product.charities": "Pour les Organisations",
@@ -943,7 +961,8 @@ export default {
     "home.footer.resources.community": "Communauté (Bientôt disponible)",
     "home.footer.connect.title": "Contact",
     "home.footer.connect.contact": "Contact (Bientôt disponible)",
-    "home.footer.copyright": "Give Protocol. Multichaîne par conception. Propulsé par les bénévoles de Give Protocol.",
+    "home.footer.copyright":
+      "Give Protocol. Multichaîne par conception. Propulsé par les bénévoles de Give Protocol.",
     "auth.signin.welcomeBack": "Bienvenue",
     "auth.signin.subtitle": "Connectez-vous à votre compte Give Protocol",
     "auth.signin.emailPlaceholder": "E-mail",
@@ -959,40 +978,50 @@ export default {
     "auth.signin.terms": "Conditions",
     "auth.signin.privacy": "Confidentialité",
     "auth.panel.headline": "Dons intelligents, impact transparent.",
-    "auth.panel.subheadline": "Un seul compte. Donnez par carte ou crypto. Suivez chaque centime on-chain.",
+    "auth.panel.subheadline":
+      "Un seul compte. Donnez par carte ou crypto. Suivez chaque centime on-chain.",
     "auth.panel.statusLabel": "Statut du Protocole · Phase de Genèse",
-    "auth.panel.statusDesc": "Construire les fondations d'une générosité transparente",
+    "auth.panel.statusDesc":
+      "Construire les fondations d'une générosité transparente",
     "auth.panel.runsOn": "Fonctionne sur",
     "auth.wallet.connect": "Connecter le Portefeuille",
     "auth.wallet.connecting": "Connexion au portefeuille…",
     "auth.wallet.signing": "Signature du message…",
     "auth.wallet.verifying": "Vérification…",
     "auth.wallet.openingSession": "Ouverture de la session…",
-    "auth.validation.emailRequired": "Veuillez d'abord saisir votre adresse e-mail",
+    "auth.validation.emailRequired":
+      "Veuillez d'abord saisir votre adresse e-mail",
     "auth.validation.invalidEmail": "Veuillez saisir une adresse e-mail valide",
-    "auth.validation.passwordTooShort": "Le mot de passe doit contenir au moins 8 caractères",
-    "auth.validation.passwordMismatch": "Les mots de passe ne correspondent pas",
+    "auth.validation.passwordTooShort":
+      "Le mot de passe doit contenir au moins 8 caractères",
+    "auth.validation.passwordMismatch":
+      "Les mots de passe ne correspondent pas",
     "auth.login.welcomeHeading": "Bienvenue sur Give Protocol",
     "auth.login.signInOrConnect": "Connexion ou Liaison",
     "auth.login.skipToContent": "Accéder directement au contenu de connexion",
     "auth.login.donorTitle": "Connexion Donateur",
-    "auth.login.donorSubtitle": "Connectez-vous pour accéder à votre tableau de bord de dons",
+    "auth.login.donorSubtitle":
+      "Connectez-vous pour accéder à votre tableau de bord de dons",
     "auth.login.charityTitle": "Portail Organisation",
-    "auth.login.charitySubtitle": "Gérez le profil de votre organisation et vos dons",
+    "auth.login.charitySubtitle":
+      "Gérez le profil de votre organisation et vos dons",
     "auth.login.back": "← Retour",
     "auth.login.continueDonor": "Continuer en tant que Donateur",
     "auth.login.connecting": "Connexion…",
-    "auth.login.connectWalletSignIn": "Connecter le Portefeuille et Se Connecter",
+    "auth.login.connectWalletSignIn":
+      "Connecter le Portefeuille et Se Connecter",
     "auth.login.newToPlatform": "Nouveau sur Give Protocol ?",
     "auth.login.newDonorSignUp": "Inscription Nouveau Donateur",
     "auth.login.manageNonprofit": "Je gère un profil d'Organisation",
     "auth.login.nonprofitTrayTitle": "Nouveau sur Give Protocol ?",
     "auth.login.createNonprofitAccount": "Créer un Compte Organisation",
-    "auth.login.registerOrg": "Enregistrez votre organisation sur Give Protocol",
+    "auth.login.registerOrg":
+      "Enregistrez votre organisation sur Give Protocol",
     "auth.login.needHelp": "Besoin d'aide ?",
     "auth.login.forgotUsernameBtn": "Nom d'utilisateur oublié ?",
     "auth.login.forgotPasswordBtn": "Mot de passe oublié ?",
-    "auth.donorLogin.mismatch": "Compte Donateur Introuvable. Cet e-mail est enregistré en tant que compte d'organisation. Veuillez utiliser la connexion Organisation.",
+    "auth.donorLogin.mismatch":
+      "Compte Donateur Introuvable. Cet e-mail est enregistré en tant que compte d'organisation. Veuillez utiliser la connexion Organisation.",
     "auth.donorLogin.signingIn": "Connexion en cours…",
     "auth.donorLogin.redirecting": "Redirection dans {{count}}...",
     "auth.donorReg.pleaseWait": "Veuillez patienter…",
@@ -1002,17 +1031,22 @@ export default {
     "auth.donorReg.orSetPassword": "Ou définir un mot de passe",
     "auth.donorReg.creating": "Création du Compte...",
     "auth.donorReg.createAccount": "Créer un Compte Donateur",
-    "auth.charityLogin.mismatch": "Cet e-mail est enregistré en tant que compte donateur. Veuillez vous connecter via le portail donateur.",
+    "auth.charityLogin.mismatch":
+      "Cet e-mail est enregistré en tant que compte donateur. Veuillez vous connecter via le portail donateur.",
     "auth.charityLogin.signingIn": "Connexion en cours...",
     "auth.charityLogin.or": "ou",
     "auth.charityLogin.connecting": "Connexion...",
     "auth.charityLogin.connectWallet": "Connecter le Portefeuille",
     "auth.forgot.resetPassword": "Réinitialiser le Mot de Passe",
     "auth.forgot.forgotUsername": "Nom d'Utilisateur Oublié",
-    "auth.forgot.passwordDesc": "Saisissez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
-    "auth.forgot.usernameDesc": "Saisissez votre adresse e-mail et nous vous enverrons votre nom d'utilisateur.",
-    "auth.forgot.passwordSuccess": "Les instructions de réinitialisation du mot de passe ont été envoyées à votre adresse e-mail",
-    "auth.forgot.usernameSuccess": "Un rappel de votre nom d'utilisateur a été envoyé à votre adresse e-mail",
+    "auth.forgot.passwordDesc":
+      "Saisissez votre adresse e-mail et nous vous enverrons un lien pour réinitialiser votre mot de passe.",
+    "auth.forgot.usernameDesc":
+      "Saisissez votre adresse e-mail et nous vous enverrons votre nom d'utilisateur.",
+    "auth.forgot.passwordSuccess":
+      "Les instructions de réinitialisation du mot de passe ont été envoyées à votre adresse e-mail",
+    "auth.forgot.usernameSuccess":
+      "Un rappel de votre nom d'utilisateur a été envoyé à votre adresse e-mail",
     "auth.forgot.checkEmail": "Consultez votre e-mail",
     "auth.forgot.backToSignIn": "Retour à la Connexion",
     "auth.forgot.emailPlaceholder": "Saisissez votre adresse e-mail",
@@ -1024,12 +1058,14 @@ export default {
     "auth.orgSearch.searchPlaceholder": "Rechercher par nom d'organisation...",
     "auth.orgSearch.countryLabel": "Pays",
     "auth.orgSearch.allCountries": "Tous les Pays",
-    "auth.orgSearch.searchPrompt": "Recherchez dans notre base de données pour trouver et revendiquer votre organisation.",
+    "auth.orgSearch.searchPrompt":
+      "Recherchez dans notre base de données pour trouver et revendiquer votre organisation.",
     "auth.orgSearch.noResults": "Aucune organisation trouvée.",
     "auth.orgSearch.loadMore": "Charger plus de résultats",
     "auth.orgSearch.cantFind": "Vous ne trouvez pas votre organisation ?",
     "auth.orgSearch.registerManually": "Inscription manuelle",
-    "charity.claim.orgDetails": "Détails de l'Organisation (depuis le registre)",
+    "charity.claim.orgDetails":
+      "Détails de l'Organisation (depuis le registre)",
     "charity.claim.orgNameLabel": "Nom",
     "charity.claim.einLabel": "EIN",
     "charity.claim.locationLabel": "Localisation",
@@ -1042,11 +1078,16 @@ export default {
     "charity.claim.backToSearch": "Retour à la recherche",
     "charity.claim.creating": "Création du Compte...",
     "charity.claim.submit": "Revendiquer l'Organisation",
-    "charity.claim.validation.name": "Le nom doit contenir entre 2 et 100 caractères",
-    "charity.claim.validation.email": "Veuillez saisir une adresse e-mail valide",
-    "charity.claim.validation.password": "Le mot de passe doit contenir au moins 8 caractères",
-    "charity.claim.validation.confirmPassword": "Les mots de passe ne correspondent pas",
-    "charity.claim.validation.fix": "Veuillez corriger les erreurs de validation",
+    "charity.claim.validation.name":
+      "Le nom doit contenir entre 2 et 100 caractères",
+    "charity.claim.validation.email":
+      "Veuillez saisir une adresse e-mail valide",
+    "charity.claim.validation.password":
+      "Le mot de passe doit contenir au moins 8 caractères",
+    "charity.claim.validation.confirmPassword":
+      "Les mots de passe ne correspondent pas",
+    "charity.claim.validation.fix":
+      "Veuillez corriger les erreurs de validation",
     "charity.claim.error.creation": "La création du compte a échoué",
     "charity.claim.error.generic": "Impossible de créer le compte",
     "charity.vetting.orgDetails": "Détails de l'Organisation",
@@ -1068,23 +1109,30 @@ export default {
     "charity.vetting.confirmPassword": "Confirmer le Mot de Passe",
     "charity.vetting.submitting": "Envoi de la Candidature...",
     "charity.vetting.submit": "Soumettre la Candidature Caritative",
-    "charity.vetting.validation.orgName": "Le nom de l'organisation doit contenir entre 2 et 100 caractères",
-    "charity.vetting.validation.contactName": "Le nom du contact doit contenir entre 2 et 100 caractères",
-    "charity.vetting.validation.email": "Veuillez saisir une adresse e-mail valide",
-    "charity.vetting.validation.password": "Le mot de passe doit contenir au moins 8 caractères",
-    "charity.vetting.validation.confirmPassword": "Les mots de passe ne correspondent pas",
+    "charity.vetting.validation.orgName":
+      "Le nom de l'organisation doit contenir entre 2 et 100 caractères",
+    "charity.vetting.validation.contactName":
+      "Le nom du contact doit contenir entre 2 et 100 caractères",
+    "charity.vetting.validation.email":
+      "Veuillez saisir une adresse e-mail valide",
+    "charity.vetting.validation.password":
+      "Le mot de passe doit contenir au moins 8 caractères",
+    "charity.vetting.validation.confirmPassword":
+      "Les mots de passe ne correspondent pas",
     "charity.vetting.validation.description": "La description est requise",
     "charity.vetting.validation.category": "La catégorie est requise",
     "charity.vetting.validation.taxId": "Le numéro fiscal est requis",
     "charity.vetting.validation.streetAddress": "L'adresse postale est requise",
     "charity.vetting.validation.city": "La ville est requise",
     "charity.vetting.validation.country": "Le pays est requis",
-    "charity.vetting.validation.fix": "Veuillez corriger les erreurs de validation",
+    "charity.vetting.validation.fix":
+      "Veuillez corriger les erreurs de validation",
     "charity.vetting.error.generic": "Impossible de soumettre la candidature",
     "common.email": "E-mail",
     "common.password": "Mot de passe",
     "common.confirmPassword": "Confirmer le Mot de Passe",
-    "footer.brand.tagline": "Supprimer les obstacles à la générosité caritative durable.",
+    "footer.brand.tagline":
+      "Supprimer les obstacles à la générosité caritative durable.",
     "footer.resources.title": "Ressources",
     "footer.resources.faq": "FAQ",
     "footer.resources.about": "À Propos",
@@ -1097,7 +1145,8 @@ export default {
     "nav.signOut": "Déconnexion",
     "nav.privacy": "Confidentialité",
     "auth.signup.heading": "Créez votre compte",
-    "auth.signup.subtitle": "Rejoignez le mouvement pour une générosité transparente",
+    "auth.signup.subtitle":
+      "Rejoignez le mouvement pour une générosité transparente",
     "auth.signup.displayName": "Nom d'affichage",
     "auth.signup.emailPlaceholder": "E-mail",
     "auth.signup.passwordPlaceholder": "Mot de passe",
@@ -1197,8 +1246,10 @@ export default {
     "organization.publicFeed": "Fil Public",
     "organization.communityMedia": "Communauté et Médias",
     "organization.profile": "Profil de l'Organisation",
-    "organization.loadError": "Impossible de charger le profil de l'organisation",
-    "organization.saveError": "Impossible d'enregistrer le profil de l'organisation",
+    "organization.loadError":
+      "Impossible de charger le profil de l'organisation",
+    "organization.saveError":
+      "Impossible d'enregistrer le profil de l'organisation",
     "common.remove": "Supprimer",
     "common.saveChanges": "Enregistrer les Modifications",
     "dashboard.thisMonth": "Ce mois-ci",
@@ -1212,7 +1263,8 @@ export default {
     "contributions.browseCharities": "Parcourir les organisations",
     "charity.profile.verified501c3": "501(c)(3) Vérifié",
     "charity.profile.statusClaimed": "Revendiqué",
-    "charity.profile.statusUnclaimed": "Non revendiqué — données IRS uniquement",
+    "charity.profile.statusUnclaimed":
+      "Non revendiqué — données IRS uniquement",
     "charity.profile.rowEin": "EIN",
     "charity.profile.rowName": "Nom",
     "charity.profile.rowLocation": "Localisation",

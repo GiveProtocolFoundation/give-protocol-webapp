@@ -798,25 +798,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "透明捐赠",
     "home.hero.titleAccent": "可持续影响力",
-    "home.hero.description": "面向数字时代的透明公益。以影响力为导向，以可验证技术为支撑。每一笔捐赠从捐赠者到受益方全程可追溯。",
+    "home.hero.description":
+      "面向数字时代的透明公益。以影响力为导向，以可验证技术为支撑。每一笔捐赠从捐赠者到受益方全程可追溯。",
     "home.hero.visionTitle": "我们的愿景",
-    "home.hero.visionText": "Give Protocol 致力于构建高诚信捐赠的未来。我们借助先进的技术基础设施，弥合全球资本与本地影响力之间的鸿沟。通过将无缝的数字资产支持与传统捐赠方式相融合，我们正在打造韧性十足的资助生态系统，将一次性捐赠转化为持续支持全球最关键事业的永续引擎。",
+    "home.hero.visionText":
+      "Give Protocol 致力于构建高诚信捐赠的未来。我们借助先进的技术基础设施，弥合全球资本与本地影响力之间的鸿沟。通过将无缝的数字资产支持与传统捐赠方式相融合，我们正在打造韧性十足的资助生态系统，将一次性捐赠转化为持续支持全球最关键事业的永续引擎。",
     "home.comingSoon": "即将推出",
     "home.readDocs": "阅读文档",
     "home.features.sectionTitle": "通往透明公益的入口",
-    "home.features.sectionSubtitle": "多链基础设施，实现无缝捐赠——无论加密货币还是法币——全程透明",
+    "home.features.sectionSubtitle":
+      "多链基础设施，实现无缝捐赠——无论加密货币还是法币——全程透明",
     "home.features.highEfficiency.title": "高效捐赠",
-    "home.features.highEfficiency.description": "直接向经过验证的机构捐赠，消除一切不确定性。我们的自动化账本提供实时验证，确保您的支持精准送达最需要的地方。",
+    "home.features.highEfficiency.description":
+      "直接向经过验证的机构捐赠，消除一切不确定性。我们的自动化账本提供实时验证，确保您的支持精准送达最需要的地方。",
     "home.features.equityFunds.title": "公益权益基金",
-    "home.features.equityFunds.description": "超越一次性捐赠，通过智能管理的权益基金进行捐赠。我们运用成熟的低风险数字策略，将您的本金转化为源源不断的资助流，世代延续慈善使命。",
+    "home.features.equityFunds.description":
+      "超越一次性捐赠，通过智能管理的权益基金进行捐赠。我们运用成熟的低风险数字策略，将您的本金转化为源源不断的资助流，世代延续慈善使命。",
     "home.features.impactFunds.title": "影响力基金",
-    "home.features.impactFunds.description": "汇聚资源，聚焦特定事业。环保、教育、扶贫——通过集体行动放大您的捐赠影响力。",
+    "home.features.impactFunds.description":
+      "汇聚资源，聚焦特定事业。环保、教育、扶贫——通过集体行动放大您的捐赠影响力。",
     "home.features.verifiedOrgs.title": "认证机构",
-    "home.features.verifiedOrgs.description": "浏览任何已注册的机构，或查找认证标识。选择加入审核流程的机构将获得链上认证，值得捐赠者信赖。",
+    "home.features.verifiedOrgs.description":
+      "浏览任何已注册的机构，或查找认证标识。选择加入审核流程的机构将获得链上认证，值得捐赠者信赖。",
     "home.features.blockchainVerified.title": "区块链认证",
-    "home.features.blockchainVerified.description": "灵魂绑定代币认可志愿者的贡献。技能、工时和影响力——全部永久记录在链上。",
+    "home.features.blockchainVerified.description":
+      "灵魂绑定代币认可志愿者的贡献。技能、工时和影响力——全部永久记录在链上。",
     "home.features.bridgingModes.title": "桥接捐赠方式",
-    "home.features.bridgingModes.description": "无论您使用美元还是数字资产捐赠，我们的多网络架构确保您的捐赠与现代世界同速运转。",
+    "home.features.bridgingModes.description":
+      "无论您使用美元还是数字资产捐赠，我们的多网络架构确保您的捐赠与现代世界同速运转。",
     "home.roles.title": "为每一位改变世界的人而建",
     "home.roles.donors.title": "捐赠者",
     "home.roles.donors.item1": "加密货币或法币捐赠——由您选择",
@@ -832,11 +841,14 @@ export default {
     "home.roles.volunteers.item3": "成就徽章与荣誉认可",
     "home.impact.title": "规划中的影响力基金",
     "home.impact.environmental.title": "环境影响力基金",
-    "home.impact.environmental.description": "支持植树造林、海洋清洁和可再生能源计划。汇集捐赠定向支持经过验证的环保组织，产出可衡量的影响力。",
+    "home.impact.environmental.description":
+      "支持植树造林、海洋清洁和可再生能源计划。汇集捐赠定向支持经过验证的环保组织，产出可衡量的影响力。",
     "home.impact.education.title": "教育机会基金",
-    "home.impact.education.description": "提供奖学金、数字学习工具和教师培训。汇聚集体力量，支持服务不足社区的教育事业。",
+    "home.impact.education.description":
+      "提供奖学金、数字学习工具和教师培训。汇聚集体力量，支持服务不足社区的教育事业。",
     "home.cta.title": "准备好变革捐赠方式了吗？",
-    "home.cta.subtitle": "率先体验透明的区块链公益。加入我们的社区，共同为慈善捐赠构建更美好的未来。",
+    "home.cta.subtitle":
+      "率先体验透明的区块链公益。加入我们的社区，共同为慈善捐赠构建更美好的未来。",
     "home.nav.features": "功能",
     "home.nav.impact": "影响力",
     "home.nav.charities": "慈善机构",
@@ -852,7 +864,8 @@ export default {
     "home.footer.resources.community": "社区（即将推出）",
     "home.footer.connect.title": "联系我们",
     "home.footer.connect.contact": "联系方式（即将推出）",
-    "home.footer.copyright": "Give Protocol。多链设计。由 Give Protocol 志愿者驱动。",
+    "home.footer.copyright":
+      "Give Protocol。多链设计。由 Give Protocol 志愿者驱动。",
     "auth.signin.welcomeBack": "欢迎回来",
     "auth.signin.subtitle": "登录您的 Give Protocol 账户",
     "auth.signin.emailPlaceholder": "电子邮箱",
@@ -868,7 +881,8 @@ export default {
     "auth.signin.terms": "条款",
     "auth.signin.privacy": "隐私",
     "auth.panel.headline": "智慧捐赠，透明影响。",
-    "auth.panel.subheadline": "一个账户。银行卡或加密货币捐赠。每一分钱链上可追踪。",
+    "auth.panel.subheadline":
+      "一个账户。银行卡或加密货币捐赠。每一分钱链上可追踪。",
     "auth.panel.statusLabel": "协议状态 · 创世阶段",
     "auth.panel.statusDesc": "正在构建透明捐赠的基础",
     "auth.panel.runsOn": "运行于",
@@ -901,7 +915,8 @@ export default {
     "auth.login.needHelp": "需要帮助？",
     "auth.login.forgotUsernameBtn": "忘记用户名？",
     "auth.login.forgotPasswordBtn": "忘记密码？",
-    "auth.donorLogin.mismatch": "未找到捐赠者账户。此邮箱已注册为慈善机构账户，请使用慈善机构登录入口。",
+    "auth.donorLogin.mismatch":
+      "未找到捐赠者账户。此邮箱已注册为慈善机构账户，请使用慈善机构登录入口。",
     "auth.donorLogin.signingIn": "正在登录…",
     "auth.donorLogin.redirecting": "{{count}} 秒后跳转...",
     "auth.donorReg.pleaseWait": "请稍候…",
@@ -911,15 +926,18 @@ export default {
     "auth.donorReg.orSetPassword": "或设置密码",
     "auth.donorReg.creating": "正在创建账户...",
     "auth.donorReg.createAccount": "创建捐赠者账户",
-    "auth.charityLogin.mismatch": "此邮箱已注册为捐赠者账户，请在捐赠者门户登录。",
+    "auth.charityLogin.mismatch":
+      "此邮箱已注册为捐赠者账户，请在捐赠者门户登录。",
     "auth.charityLogin.signingIn": "正在登录...",
     "auth.charityLogin.or": "或",
     "auth.charityLogin.connecting": "正在连接...",
     "auth.charityLogin.connectWallet": "连接钱包",
     "auth.forgot.resetPassword": "重置密码",
     "auth.forgot.forgotUsername": "找回用户名",
-    "auth.forgot.passwordDesc": "请输入您的电子邮箱地址，我们将发送密码重置链接。",
-    "auth.forgot.usernameDesc": "请输入您的电子邮箱地址，我们将发送您的用户名。",
+    "auth.forgot.passwordDesc":
+      "请输入您的电子邮箱地址，我们将发送密码重置链接。",
+    "auth.forgot.usernameDesc":
+      "请输入您的电子邮箱地址，我们将发送您的用户名。",
     "auth.forgot.passwordSuccess": "密码重置说明已发送至您的邮箱",
     "auth.forgot.usernameSuccess": "用户名提醒已发送至您的邮箱",
     "auth.forgot.checkEmail": "请查看您的邮箱",
@@ -978,7 +996,8 @@ export default {
     "charity.vetting.submitting": "正在提交申请...",
     "charity.vetting.submit": "提交慈善机构申请",
     "charity.vetting.validation.orgName": "组织名称须在 2 到 100 个字符之间",
-    "charity.vetting.validation.contactName": "联系人姓名须在 2 到 100 个字符之间",
+    "charity.vetting.validation.contactName":
+      "联系人姓名须在 2 到 100 个字符之间",
     "charity.vetting.validation.email": "请输入有效的电子邮箱地址",
     "charity.vetting.validation.password": "密码长度至少为 8 个字符",
     "charity.vetting.validation.confirmPassword": "两次输入的密码不一致",

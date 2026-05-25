@@ -891,25 +891,34 @@ export default {
     // GIV-266: Delta translations (354 keys)
     "home.hero.title": "Transparentes Spenden",
     "home.hero.titleAccent": "Nachhaltige Wirkung",
-    "home.hero.description": "Radikal transparente Philanthropie für das digitale Zeitalter. Entwickelt für Wirkung, gestützt auf verifizierbare Technologie. Jeder Beitrag nachverfolgbar vom Spender bis zum Empfänger.",
+    "home.hero.description":
+      "Radikal transparente Philanthropie für das digitale Zeitalter. Entwickelt für Wirkung, gestützt auf verifizierbare Technologie. Jeder Beitrag nachverfolgbar vom Spender bis zum Empfänger.",
     "home.hero.visionTitle": "Unsere Vision",
-    "home.hero.visionText": "Give Protocol gestaltet die Zukunft integrer Philanthropie. Wir nutzen fortschrittliche technologische Infrastruktur, um die Kluft zwischen globalem Kapital und lokaler Wirkung zu überbrücken. Durch die Integration nahtloser Unterstützung digitaler Vermögenswerte mit traditionellen Spendenmethoden schaffen wir widerstandsfähige Finanzierungsökosysteme, die einmalige Spenden in dauerhafte Motoren der Unterstützung für die wichtigsten Anliegen der Welt verwandeln.",
+    "home.hero.visionText":
+      "Give Protocol gestaltet die Zukunft integrer Philanthropie. Wir nutzen fortschrittliche technologische Infrastruktur, um die Kluft zwischen globalem Kapital und lokaler Wirkung zu überbrücken. Durch die Integration nahtloser Unterstützung digitaler Vermögenswerte mit traditionellen Spendenmethoden schaffen wir widerstandsfähige Finanzierungsökosysteme, die einmalige Spenden in dauerhafte Motoren der Unterstützung für die wichtigsten Anliegen der Welt verwandeln.",
     "home.comingSoon": "Demnächst verfügbar",
     "home.readDocs": "Dokumentation lesen",
     "home.features.sectionTitle": "Ihr Zugang zu transparenter Philanthropie",
-    "home.features.sectionSubtitle": "Multichain-Infrastruktur für nahtloses Spenden — Krypto oder Fiat — mit vollständiger Transparenz",
+    "home.features.sectionSubtitle":
+      "Multichain-Infrastruktur für nahtloses Spenden — Krypto oder Fiat — mit vollständiger Transparenz",
     "home.features.highEfficiency.title": "Hocheffizientes Spenden",
-    "home.features.highEfficiency.description": "Spenden Sie direkt an verifizierte Organisationen ohne jede Unklarheit. Unser automatisiertes Hauptbuch bietet Echtzeitverifizierung und stellt sicher, dass Ihre Unterstützung genau dort eingesetzt wird, wo sie am meisten gebraucht wird.",
+    "home.features.highEfficiency.description":
+      "Spenden Sie direkt an verifizierte Organisationen ohne jede Unklarheit. Unser automatisiertes Hauptbuch bietet Echtzeitverifizierung und stellt sicher, dass Ihre Unterstützung genau dort eingesetzt wird, wo sie am meisten gebraucht wird.",
     "home.features.equityFunds.title": "Gemeinnützige Eigenkapitalfonds",
-    "home.features.equityFunds.description": "Gehen Sie über Einzelspenden hinaus, indem Sie in intelligent verwaltete Eigenkapitalfonds investieren. Wir setzen ausgefeilte, risikoarme digitale Strategien ein, um Ihr Kapital in einen dauerhaften Finanzierungsstrom zu verwandeln, der gemeinnützige Missionen über Generationen hinweg unterstützt.",
+    "home.features.equityFunds.description":
+      "Gehen Sie über Einzelspenden hinaus, indem Sie in intelligent verwaltete Eigenkapitalfonds investieren. Wir setzen ausgefeilte, risikoarme digitale Strategien ein, um Ihr Kapital in einen dauerhaften Finanzierungsstrom zu verwandeln, der gemeinnützige Missionen über Generationen hinweg unterstützt.",
     "home.features.impactFunds.title": "Wirkungsfonds",
-    "home.features.impactFunds.description": "Bündeln Sie Ressourcen für bestimmte Anliegen. Umwelt, Bildung, Armutsbekämpfung — Ihre Spende wird durch kollektives Handeln verstärkt.",
+    "home.features.impactFunds.description":
+      "Bündeln Sie Ressourcen für bestimmte Anliegen. Umwelt, Bildung, Armutsbekämpfung — Ihre Spende wird durch kollektives Handeln verstärkt.",
     "home.features.verifiedOrgs.title": "Verifizierte Organisationen",
-    "home.features.verifiedOrgs.description": "Durchsuchen Sie jede registrierte Organisation oder achten Sie auf das Verifizierungsabzeichen. Organisationen, die sich unserem Prüfverfahren unterziehen, erhalten eine On-Chain-Verifizierung, der Spender vertrauen können.",
+    "home.features.verifiedOrgs.description":
+      "Durchsuchen Sie jede registrierte Organisation oder achten Sie auf das Verifizierungsabzeichen. Organisationen, die sich unserem Prüfverfahren unterziehen, erhalten eine On-Chain-Verifizierung, der Spender vertrauen können.",
     "home.features.blockchainVerified.title": "Blockchain-verifiziert",
-    "home.features.blockchainVerified.description": "Seelengebundene Token würdigen Freiwilligenbeiträge. Fähigkeiten, Stunden und Wirkung — alles dauerhaft on-chain erfasst.",
+    "home.features.blockchainVerified.description":
+      "Seelengebundene Token würdigen Freiwilligenbeiträge. Fähigkeiten, Stunden und Wirkung — alles dauerhaft on-chain erfasst.",
     "home.features.bridgingModes.title": "Spendenarten verbinden",
-    "home.features.bridgingModes.description": "Ob Sie in USD oder digitalen Vermögenswerten spenden — unsere Multi-Netzwerk-Architektur stellt sicher, dass Ihr Beitrag mit der Geschwindigkeit der modernen Welt übertragen wird.",
+    "home.features.bridgingModes.description":
+      "Ob Sie in USD oder digitalen Vermögenswerten spenden — unsere Multi-Netzwerk-Architektur stellt sicher, dass Ihr Beitrag mit der Geschwindigkeit der modernen Welt übertragen wird.",
     "home.roles.title": "Entwickelt für alle, die die Welt verändern",
     "home.roles.donors.title": "Für Spender",
     "home.roles.donors.item1": "Spenden Sie in Krypto oder Fiat — Ihre Wahl",
@@ -925,16 +934,20 @@ export default {
     "home.roles.volunteers.item3": "Auszeichnungen und Anerkennung",
     "home.impact.title": "Geplante Wirkungsfonds",
     "home.impact.environmental.title": "Umwelt-Wirkungsfonds",
-    "home.impact.environmental.description": "Unterstützung von Aufforstung, Ozeanreinigung und erneuerbaren Energieinitiativen. Gebündelte Spenden, die an verifizierte Umweltorganisationen mit messbarer Wirkung weitergeleitet werden.",
+    "home.impact.environmental.description":
+      "Unterstützung von Aufforstung, Ozeanreinigung und erneuerbaren Energieinitiativen. Gebündelte Spenden, die an verifizierte Umweltorganisationen mit messbarer Wirkung weitergeleitet werden.",
     "home.impact.education.title": "Bildungschancen-Fonds",
-    "home.impact.education.description": "Bereitstellung von Stipendien, digitalen Lernwerkzeugen und Lehrerfortbildung. Kollektive Finanzierung zur Unterstützung von Bildungsinitiativen in unterversorgten Gemeinden.",
+    "home.impact.education.description":
+      "Bereitstellung von Stipendien, digitalen Lernwerkzeugen und Lehrerfortbildung. Kollektive Finanzierung zur Unterstützung von Bildungsinitiativen in unterversorgten Gemeinden.",
     "home.cta.title": "Bereit, das Spenden zu transformieren?",
-    "home.cta.subtitle": "Gehören Sie zu den Ersten, die transparente, blockchain-gestützte Philanthropie erleben. Werden Sie Teil unserer Gemeinschaft, die eine bessere Zukunft für gemeinnütziges Spenden gestaltet.",
+    "home.cta.subtitle":
+      "Gehören Sie zu den Ersten, die transparente, blockchain-gestützte Philanthropie erleben. Werden Sie Teil unserer Gemeinschaft, die eine bessere Zukunft für gemeinnütziges Spenden gestaltet.",
     "home.nav.features": "Funktionen",
     "home.nav.impact": "Wirkung",
     "home.nav.charities": "Organisationen",
     "home.nav.volunteer": "Freiwillige",
-    "home.footer.brand.tagline": "Philanthropie transformieren durch Blockchain-Transparenz und nachhaltige Finanzierung.",
+    "home.footer.brand.tagline":
+      "Philanthropie transformieren durch Blockchain-Transparenz und nachhaltige Finanzierung.",
     "home.footer.product.title": "Produkt",
     "home.footer.product.impactFunds": "Wirkungsfonds",
     "home.footer.product.charities": "Für Organisationen",
@@ -945,7 +958,8 @@ export default {
     "home.footer.resources.community": "Community (Demnächst)",
     "home.footer.connect.title": "Kontakt",
     "home.footer.connect.contact": "Kontakt (Demnächst)",
-    "home.footer.copyright": "Give Protocol. Multichain by Design. Betrieben von Give Protocol-Freiwilligen.",
+    "home.footer.copyright":
+      "Give Protocol. Multichain by Design. Betrieben von Give Protocol-Freiwilligen.",
     "auth.signin.welcomeBack": "Willkommen zurück",
     "auth.signin.subtitle": "Melden Sie sich bei Ihrem Give Protocol-Konto an",
     "auth.signin.emailPlaceholder": "E-Mail",
@@ -961,7 +975,8 @@ export default {
     "auth.signin.terms": "AGB",
     "auth.signin.privacy": "Datenschutz",
     "auth.panel.headline": "Intelligentes Spenden, transparente Wirkung.",
-    "auth.panel.subheadline": "Ein Konto. Spenden per Karte oder Krypto. Jeden Betrag on-chain nachverfolgen.",
+    "auth.panel.subheadline":
+      "Ein Konto. Spenden per Karte oder Krypto. Jeden Betrag on-chain nachverfolgen.",
     "auth.panel.statusLabel": "Protokollstatus · Genesis-Phase",
     "auth.panel.statusDesc": "Die Grundlage für transparentes Spenden schaffen",
     "auth.panel.runsOn": "Läuft auf",
@@ -970,17 +985,22 @@ export default {
     "auth.wallet.signing": "Nachricht wird signiert…",
     "auth.wallet.verifying": "Wird verifiziert…",
     "auth.wallet.openingSession": "Sitzung wird geöffnet…",
-    "auth.validation.emailRequired": "Bitte geben Sie zuerst Ihre E-Mail-Adresse ein",
-    "auth.validation.invalidEmail": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
-    "auth.validation.passwordTooShort": "Das Passwort muss mindestens 8 Zeichen lang sein",
+    "auth.validation.emailRequired":
+      "Bitte geben Sie zuerst Ihre E-Mail-Adresse ein",
+    "auth.validation.invalidEmail":
+      "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "auth.validation.passwordTooShort":
+      "Das Passwort muss mindestens 8 Zeichen lang sein",
     "auth.validation.passwordMismatch": "Die Passwörter stimmen nicht überein",
     "auth.login.welcomeHeading": "Willkommen bei Give Protocol",
     "auth.login.signInOrConnect": "Anmelden oder Verbinden",
     "auth.login.skipToContent": "Zum Anmeldebereich springen",
     "auth.login.donorTitle": "Spender-Anmeldung",
-    "auth.login.donorSubtitle": "Melden Sie sich an, um auf Ihr Spenden-Dashboard zuzugreifen",
+    "auth.login.donorSubtitle":
+      "Melden Sie sich an, um auf Ihr Spenden-Dashboard zuzugreifen",
     "auth.login.charityTitle": "Nonprofit-Portal",
-    "auth.login.charitySubtitle": "Verwalten Sie Ihr Organisationsprofil und Ihre Spenden",
+    "auth.login.charitySubtitle":
+      "Verwalten Sie Ihr Organisationsprofil und Ihre Spenden",
     "auth.login.back": "← Zurück",
     "auth.login.continueDonor": "Weiter als Spender",
     "auth.login.connecting": "Wird verbunden…",
@@ -990,11 +1010,13 @@ export default {
     "auth.login.manageNonprofit": "Ich verwalte ein Nonprofit-Profil",
     "auth.login.nonprofitTrayTitle": "Neu bei Give Protocol?",
     "auth.login.createNonprofitAccount": "Nonprofit-Konto erstellen",
-    "auth.login.registerOrg": "Registrieren Sie Ihre Organisation bei Give Protocol",
+    "auth.login.registerOrg":
+      "Registrieren Sie Ihre Organisation bei Give Protocol",
     "auth.login.needHelp": "Brauchen Sie Hilfe?",
     "auth.login.forgotUsernameBtn": "Benutzername vergessen?",
     "auth.login.forgotPasswordBtn": "Passwort vergessen?",
-    "auth.donorLogin.mismatch": "Spenderkonto nicht gefunden. Diese E-Mail ist als Organisationskonto registriert. Bitte verwenden Sie die Organisations-Anmeldung.",
+    "auth.donorLogin.mismatch":
+      "Spenderkonto nicht gefunden. Diese E-Mail ist als Organisationskonto registriert. Bitte verwenden Sie die Organisations-Anmeldung.",
     "auth.donorLogin.signingIn": "Anmeldung läuft…",
     "auth.donorLogin.redirecting": "Weiterleitung in {{count}}...",
     "auth.donorReg.pleaseWait": "Bitte warten…",
@@ -1004,21 +1026,27 @@ export default {
     "auth.donorReg.orSetPassword": "Oder Passwort festlegen",
     "auth.donorReg.creating": "Konto wird erstellt...",
     "auth.donorReg.createAccount": "Spenderkonto erstellen",
-    "auth.charityLogin.mismatch": "Diese E-Mail ist als Spenderkonto registriert. Bitte melden Sie sich über das Spenderportal an.",
+    "auth.charityLogin.mismatch":
+      "Diese E-Mail ist als Spenderkonto registriert. Bitte melden Sie sich über das Spenderportal an.",
     "auth.charityLogin.signingIn": "Anmeldung läuft...",
     "auth.charityLogin.or": "oder",
     "auth.charityLogin.connecting": "Wird verbunden...",
     "auth.charityLogin.connectWallet": "Wallet verbinden",
     "auth.forgot.resetPassword": "Passwort zurücksetzen",
     "auth.forgot.forgotUsername": "Benutzername vergessen",
-    "auth.forgot.passwordDesc": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.",
-    "auth.forgot.usernameDesc": "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen Ihren Benutzernamen.",
-    "auth.forgot.passwordSuccess": "Anweisungen zum Zurücksetzen des Passworts wurden an Ihre E-Mail gesendet",
-    "auth.forgot.usernameSuccess": "Erinnerung an Ihren Benutzernamen wurde an Ihre E-Mail gesendet",
+    "auth.forgot.passwordDesc":
+      "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen einen Link zum Zurücksetzen Ihres Passworts.",
+    "auth.forgot.usernameDesc":
+      "Geben Sie Ihre E-Mail-Adresse ein und wir senden Ihnen Ihren Benutzernamen.",
+    "auth.forgot.passwordSuccess":
+      "Anweisungen zum Zurücksetzen des Passworts wurden an Ihre E-Mail gesendet",
+    "auth.forgot.usernameSuccess":
+      "Erinnerung an Ihren Benutzernamen wurde an Ihre E-Mail gesendet",
     "auth.forgot.checkEmail": "Prüfen Sie Ihre E-Mails",
     "auth.forgot.backToSignIn": "Zurück zur Anmeldung",
     "auth.forgot.emailPlaceholder": "E-Mail-Adresse eingeben",
-    "auth.forgot.genericError": "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
+    "auth.forgot.genericError":
+      "Ein Fehler ist aufgetreten. Bitte versuchen Sie es erneut.",
     "auth.forgot.sending": "Wird gesendet...",
     "auth.forgot.sendResetLink": "Link zum Zurücksetzen senden",
     "auth.forgot.sendUsername": "Benutzername senden",
@@ -1026,7 +1054,8 @@ export default {
     "auth.orgSearch.searchPlaceholder": "Nach Organisationsname suchen...",
     "auth.orgSearch.countryLabel": "Land",
     "auth.orgSearch.allCountries": "Alle Länder",
-    "auth.orgSearch.searchPrompt": "Durchsuchen Sie unsere Datenbank, um Ihre Organisation zu finden und zu beanspruchen.",
+    "auth.orgSearch.searchPrompt":
+      "Durchsuchen Sie unsere Datenbank, um Ihre Organisation zu finden und zu beanspruchen.",
     "auth.orgSearch.noResults": "Keine Organisationen gefunden.",
     "auth.orgSearch.loadMore": "Weitere Ergebnisse laden",
     "auth.orgSearch.cantFind": "Ihre Organisation nicht gefunden?",
@@ -1044,11 +1073,16 @@ export default {
     "charity.claim.backToSearch": "Zurück zur Suche",
     "charity.claim.creating": "Konto wird erstellt...",
     "charity.claim.submit": "Organisation beanspruchen",
-    "charity.claim.validation.name": "Der Name muss zwischen 2 und 100 Zeichen lang sein",
-    "charity.claim.validation.email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
-    "charity.claim.validation.password": "Das Passwort muss mindestens 8 Zeichen lang sein",
-    "charity.claim.validation.confirmPassword": "Die Passwörter stimmen nicht überein",
-    "charity.claim.validation.fix": "Bitte korrigieren Sie die Validierungsfehler",
+    "charity.claim.validation.name":
+      "Der Name muss zwischen 2 und 100 Zeichen lang sein",
+    "charity.claim.validation.email":
+      "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "charity.claim.validation.password":
+      "Das Passwort muss mindestens 8 Zeichen lang sein",
+    "charity.claim.validation.confirmPassword":
+      "Die Passwörter stimmen nicht überein",
+    "charity.claim.validation.fix":
+      "Bitte korrigieren Sie die Validierungsfehler",
     "charity.claim.error.creation": "Kontoerstellung fehlgeschlagen",
     "charity.claim.error.generic": "Konto konnte nicht erstellt werden",
     "charity.vetting.orgDetails": "Organisationsdetails",
@@ -1069,24 +1103,33 @@ export default {
     "charity.vetting.password": "Passwort",
     "charity.vetting.confirmPassword": "Passwort bestätigen",
     "charity.vetting.submitting": "Antrag wird eingereicht...",
-    "charity.vetting.submit": "Antrag als gemeinnützige Organisation einreichen",
-    "charity.vetting.validation.orgName": "Der Organisationsname muss zwischen 2 und 100 Zeichen lang sein",
-    "charity.vetting.validation.contactName": "Der Kontaktname muss zwischen 2 und 100 Zeichen lang sein",
-    "charity.vetting.validation.email": "Bitte geben Sie eine gültige E-Mail-Adresse ein",
-    "charity.vetting.validation.password": "Das Passwort muss mindestens 8 Zeichen lang sein",
-    "charity.vetting.validation.confirmPassword": "Die Passwörter stimmen nicht überein",
+    "charity.vetting.submit":
+      "Antrag als gemeinnützige Organisation einreichen",
+    "charity.vetting.validation.orgName":
+      "Der Organisationsname muss zwischen 2 und 100 Zeichen lang sein",
+    "charity.vetting.validation.contactName":
+      "Der Kontaktname muss zwischen 2 und 100 Zeichen lang sein",
+    "charity.vetting.validation.email":
+      "Bitte geben Sie eine gültige E-Mail-Adresse ein",
+    "charity.vetting.validation.password":
+      "Das Passwort muss mindestens 8 Zeichen lang sein",
+    "charity.vetting.validation.confirmPassword":
+      "Die Passwörter stimmen nicht überein",
     "charity.vetting.validation.description": "Beschreibung ist erforderlich",
     "charity.vetting.validation.category": "Kategorie ist erforderlich",
     "charity.vetting.validation.taxId": "Steuer-ID ist erforderlich",
-    "charity.vetting.validation.streetAddress": "Straße und Hausnummer sind erforderlich",
+    "charity.vetting.validation.streetAddress":
+      "Straße und Hausnummer sind erforderlich",
     "charity.vetting.validation.city": "Stadt ist erforderlich",
     "charity.vetting.validation.country": "Land ist erforderlich",
-    "charity.vetting.validation.fix": "Bitte korrigieren Sie die Validierungsfehler",
+    "charity.vetting.validation.fix":
+      "Bitte korrigieren Sie die Validierungsfehler",
     "charity.vetting.error.generic": "Antrag konnte nicht eingereicht werden",
     "common.email": "E-Mail",
     "common.password": "Passwort",
     "common.confirmPassword": "Passwort bestätigen",
-    "footer.brand.tagline": "Wir beseitigen Hürden für nachhaltiges gemeinnütziges Spenden.",
+    "footer.brand.tagline":
+      "Wir beseitigen Hürden für nachhaltiges gemeinnütziges Spenden.",
     "footer.resources.title": "Ressourcen",
     "footer.resources.faq": "FAQ",
     "footer.resources.about": "Über uns",
@@ -1099,7 +1142,8 @@ export default {
     "nav.signOut": "Abmelden",
     "nav.privacy": "Datenschutz",
     "auth.signup.heading": "Erstellen Sie Ihr Konto",
-    "auth.signup.subtitle": "Werden Sie Teil der Bewegung für transparentes Spenden",
+    "auth.signup.subtitle":
+      "Werden Sie Teil der Bewegung für transparentes Spenden",
     "auth.signup.displayName": "Anzeigename",
     "auth.signup.emailPlaceholder": "E-Mail",
     "auth.signup.passwordPlaceholder": "Passwort",
@@ -1112,7 +1156,8 @@ export default {
     "auth.signup.orSetPassword": "Oder Passwort festlegen",
     "auth.signup.alreadyHaveAccount": "Haben Sie bereits ein Konto?",
     "auth.signup.signInLink": "Anmelden",
-    "auth.signup.manageNonprofit": "Verwalten Sie eine gemeinnützige Organisation?",
+    "auth.signup.manageNonprofit":
+      "Verwalten Sie eine gemeinnützige Organisation?",
     "auth.signup.trustText": "Ihre Daten werden geschützt durch",
     "auth.signup.and": "und",
     "auth.signup.privacyPolicy": "Datenschutzrichtlinie",
@@ -1167,7 +1212,8 @@ export default {
     "cause.targetAmount": "Zielbetrag",
     "cause.headerImage": "Headerbild",
     "cause.impact": "Wirkung",
-    "cause.impactHelp": "Beschreiben Sie die erwartete Wirkung dieses Anliegens.",
+    "cause.impactHelp":
+      "Beschreiben Sie die erwartete Wirkung dieses Anliegens.",
     "cause.location": "Standort",
     "cause.timeline": "Zeitplan",
     "cause.partners": "Partner",
@@ -1200,7 +1246,8 @@ export default {
     "organization.communityMedia": "Community & Medien",
     "organization.profile": "Organisationsprofil",
     "organization.loadError": "Organisationsprofil konnte nicht geladen werden",
-    "organization.saveError": "Organisationsprofil konnte nicht gespeichert werden",
+    "organization.saveError":
+      "Organisationsprofil konnte nicht gespeichert werden",
     "common.remove": "Entfernen",
     "common.saveChanges": "Änderungen speichern",
     "dashboard.thisMonth": "Dieser Monat",
