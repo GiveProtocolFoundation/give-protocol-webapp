@@ -30,7 +30,7 @@ export interface SocialPlatform {
   id: string;
   label: string;
   icon: React.ComponentType<{ className?: string }>;
-  getShareUrl: (url: string, message: string) => string;
+  getShareUrl: (_url: string, _message: string) => string;
 }
 
 /**

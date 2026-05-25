@@ -1,4 +1,3 @@
-import React from "react";
 import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";

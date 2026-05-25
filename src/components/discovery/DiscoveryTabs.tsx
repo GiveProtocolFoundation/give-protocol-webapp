@@ -25,7 +25,7 @@ export function readTabParam(searchParams: URLSearchParams): DiscoveryTab {
  * Hook that manages the active discovery tab via URL search params.
  * @returns Current tab and setter callback
  */
-export function useDiscoveryTab(): [DiscoveryTab, (tab: DiscoveryTab) => void] {
+export function useDiscoveryTab(): [DiscoveryTab, (_tab: DiscoveryTab) => void] {
   const [searchParams, setSearchParams] = useSearchParams();
   const activeTab = readTabParam(searchParams);
 
@@ -52,7 +52,7 @@ export function useDiscoveryTab(): [DiscoveryTab, (tab: DiscoveryTab) => void] {
 
 interface DiscoveryTabsProps {
   activeTab: DiscoveryTab;
-  onTabChange: (tab: DiscoveryTab) => void;
+  onTabChange: (_tab: DiscoveryTab) => void;
 }
 
 /**

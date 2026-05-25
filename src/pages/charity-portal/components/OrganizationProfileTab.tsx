@@ -158,7 +158,7 @@ export const OrganizationProfileTab: React.FC<OrganizationProfileTabProps> = ({
     };
 
     fetchCharityProfile();
-  }, [user?.id, user?.user_metadata]);
+  }, [user?.id, user?.email, user?.user_metadata]);
 
   const handleLogoUploaded = useCallback(
     (url: string | null) => {

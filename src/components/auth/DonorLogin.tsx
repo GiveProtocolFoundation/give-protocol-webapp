@@ -78,7 +78,7 @@ export const DonorLogin: React.FC = () => {
         }
       }
     },
-    [email, password, login, disconnect, navigate, t],
+    [email, password, login, disconnect, t],
   );
 
   return (

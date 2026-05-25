@@ -71,7 +71,7 @@ function CharityActions({
   disabled,
 }: {
   charity: AdminCharityListItem;
-  onAction: (charity: AdminCharityListItem, action: string) => void;
+  onAction: (_charity: AdminCharityListItem, _action: string) => void;
   disabled: boolean;
 }): React.ReactElement {
   const { t } = useTranslation();
@@ -157,8 +157,8 @@ function FilterBar({
   onSearchChange,
 }: {
   filters: AdminCharityListFilters;
-  onStatusChange: (e: React.ChangeEvent<HTMLSelectElement>) => void;
-  onSearchChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  onStatusChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onSearchChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
 }): React.ReactElement {
   const { t } = useTranslation();
   return (
@@ -257,7 +257,7 @@ function ActionModal({
   charity: AdminCharityListItem | null;
   action: string;
   reason: string;
-  onReasonChange: (e: React.ChangeEvent<HTMLTextAreaElement>) => void;
+  onReasonChange: (_e: React.ChangeEvent<HTMLTextAreaElement>) => void;
   onConfirm: () => void;
   onClose: () => void;
   confirming: boolean;
@@ -358,7 +358,7 @@ function CharityTable({
   updating,
 }: {
   charities: AdminCharityListItem[];
-  onAction: (charity: AdminCharityListItem, action: string) => void;
+  onAction: (_charity: AdminCharityListItem, _action: string) => void;
   updating: boolean;
 }): React.ReactElement {
   const { t } = useTranslation();
@@ -416,7 +416,7 @@ function CharityRow({
   updating,
 }: {
   charity: AdminCharityListItem;
-  onAction: (charity: AdminCharityListItem, action: string) => void;
+  onAction: (_charity: AdminCharityListItem, _action: string) => void;
   updating: boolean;
 }): React.ReactElement {
   const formattedDate = new Date(charity.createdAt).toLocaleDateString(

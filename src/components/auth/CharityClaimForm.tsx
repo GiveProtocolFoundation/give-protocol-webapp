@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PasswordStrengthBar } from "@/components/auth/PasswordStrengthBar";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useToast } from "@/hooks/useToast";
 import { supabase } from "@/lib/supabase";
 import {
   validateEmail,
@@ -259,7 +260,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, showToast, t],
+    [formData, organization, validateField, navigate, t],
   );
 
   return (

@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback } from "react";
-import { Link, Navigate } from "react-router-dom";
+import { Link, Navigate, useNavigate } from "react-router-dom";
 import {
   ShieldCheck,
   Building2,
@@ -273,9 +273,9 @@ const CollapsiblePasswordSection: React.FC<{
   confirmPassword: string;
   loading: boolean;
   onToggle: () => void;
-  onPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onConfirmPasswordChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onSubmit: (e: React.FormEvent) => void;
+  onPasswordChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onConfirmPasswordChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onSubmit: (_e: React.FormEvent) => void;
 }> = ({
   isOpen,
   password,
@@ -339,6 +339,7 @@ const CollapsiblePasswordSection: React.FC<{
 
 /** Right panel content with passwordless-first sign-up and auth method buttons. */
 const SignupRightPanel: React.FC = () => {
+  const navigate = useNavigate();
   const { t } = useTranslation();
   const [displayName, setDisplayName] = useState("");
   const [email, setEmail] = useState("");
@@ -409,7 +410,7 @@ const SignupRightPanel: React.FC = () => {
         Logger.error("Email sign-up failed", { error: msg });
       }
     },
-    [displayName, email, password, confirmPassword, signUpWithEmail, t],
+    [displayName, email, navigate, password, confirmPassword, signUpWithEmail, t],
   );
 
   const handlePasskeySignUp = useCallback(async () => {

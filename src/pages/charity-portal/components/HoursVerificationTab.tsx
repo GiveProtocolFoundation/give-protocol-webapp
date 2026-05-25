@@ -17,8 +17,8 @@ interface VolunteerHours {
 interface HoursVerificationTabProps {
   pendingHours: VolunteerHours[];
   profileId: string;
-  onVerify: (hoursId: string) => void;
-  onReject: (hoursId: string) => void;
+  onVerify: (_hoursId: string) => void;
+  onReject: (_hoursId: string) => void;
   onExport: () => void;
 }
 
@@ -29,8 +29,8 @@ interface VolunteerHourCardProps {
   hoursLabel: string;
   verifyLabel: string;
   rejectLabel: string;
-  onVerify: (hoursId: string) => void;
-  onReject: (hoursId: string) => void;
+  onVerify: (_hoursId: string) => void;
+  onReject: (_hoursId: string) => void;
 }
 
 /**

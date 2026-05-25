@@ -85,7 +85,7 @@ function CharitySelector({
 }: {
   charities: CharityOption[];
   selectedIds: string[];
-  onToggle: (charityId: string) => void;
+  onToggle: (_charityId: string) => void;
 }) {
   const { t } = useTranslation();
   const handleClick = useCallback(
@@ -133,8 +133,8 @@ function FundListItem({
   onArchive,
 }: {
   fund: PortfolioFundRow;
-  onEdit: (e: React.MouseEvent<HTMLButtonElement>) => void;
-  onArchive: (e: React.MouseEvent<HTMLButtonElement>) => void;
+  onEdit: (_e: React.MouseEvent<HTMLButtonElement>) => void;
+  onArchive: (_e: React.MouseEvent<HTMLButtonElement>) => void;
 }) {
   const { t } = useTranslation();
   const charityCount = fund.charity_ids?.length ?? 0;
@@ -208,8 +208,8 @@ function FundForm({
   onCancel: () => void;
   loading: boolean;
   isEdit: boolean;
-  onFieldChange: (field: keyof FundFormData, value: string) => void;
-  onCharityToggle: (charityId: string) => void;
+  onFieldChange: (_field: keyof FundFormData, _value: string) => void;
+  onCharityToggle: (_charityId: string) => void;
 }) {
   const { t } = useTranslation();
   const handleNameChange = useCallback(

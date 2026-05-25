@@ -492,7 +492,7 @@ const VolunteerOpportunities: React.FC = () => {
       setSelectedOpportunity(opportunity);
       setShowApplicationForm(true);
     },
-    [user, navigate, showToast],
+    [user, navigate, showToast, t],
   );
 
   const createApplyHandler = useCallback(
@@ -514,7 +514,7 @@ const VolunteerOpportunities: React.FC = () => {
     );
     setShowApplicationForm(false);
     setSelectedOpportunity(null);
-  }, [showToast]);
+  }, [showToast, t]);
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

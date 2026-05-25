@@ -22,8 +22,8 @@ interface CharityCause {
 
 interface CausesTabProps {
   causes: CharityCause[];
-  onEdit: (causeId: string) => void;
-  onDelete: (causeId: string) => void;
+  onEdit: (_causeId: string) => void;
+  onDelete: (_causeId: string) => void;
 }
 
 /** Header with title and create button for the causes section. */

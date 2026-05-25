@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ImpactProfileForm } from "../ImpactProfileForm";
