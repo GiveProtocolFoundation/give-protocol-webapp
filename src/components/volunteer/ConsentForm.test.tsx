@@ -1,4 +1,3 @@
-import React from "react";
 import { describe, it, expect, jest, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, cleanup } from "@testing-library/react";
 import { ConsentForm } from "./ConsentForm";

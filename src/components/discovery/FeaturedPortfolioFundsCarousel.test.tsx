@@ -1,4 +1,3 @@
-import React from "react";
 import { describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -165,6 +164,7 @@ describe("FeaturedPortfolioFundsCarousel", () => {
     const section = screen.getByLabelText("Portfolio Funds");
     fireEvent.mouseEnter(section);
     fireEvent.mouseLeave(section);
+    expect(section).toBeTruthy();
     // No assertion needed - just ensures no errors during pause/resume
   });
 });

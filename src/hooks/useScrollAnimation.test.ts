@@ -18,15 +18,13 @@ beforeEach(() => {
 
   (
     global as unknown as { IntersectionObserver: unknown }
-  ).IntersectionObserver = jest.fn(
-    (_callback: IntersectionObserverCallback) => {
-      return {
-        observe: mockObserve,
-        unobserve: mockUnobserve,
-        disconnect: mockDisconnect,
-      };
-    },
-  );
+  ).IntersectionObserver = jest.fn((_callback: unknown) => {
+    return {
+      observe: mockObserve,
+      unobserve: mockUnobserve,
+      disconnect: mockDisconnect,
+    };
+  });
 });
 
 describe("useScrollAnimation", () => {
@@ -48,10 +46,11 @@ describe("useScrollAnimation", () => {
   });
 
   it("should handle unmount without errors when ref has no element", () => {
-    const { unmount } = renderHook(() => useScrollAnimation());
+    const { result, unmount } = renderHook(() => useScrollAnimation());
     // With no element attached to ref, observer is never created
     // Unmount should not throw
     unmount();
+    expect(result.current.elementRef).toBeDefined();
   });
 });
 

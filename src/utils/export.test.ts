@@ -74,15 +74,17 @@ describe("export utils", () => {
 
   describe("exportDonationsToCSV", () => {
     it("should export without errors", () => {
-      exportDonationsToCSV(mockTransactions);
+      expect(() => exportDonationsToCSV(mockTransactions)).not.toThrow();
     });
 
     it("should accept custom filename", () => {
-      exportDonationsToCSV(mockTransactions, "my-donations.csv");
+      expect(() =>
+        exportDonationsToCSV(mockTransactions, "my-donations.csv"),
+      ).not.toThrow();
     });
 
     it("should handle empty transactions array", () => {
-      exportDonationsToCSV([]);
+      expect(() => exportDonationsToCSV([])).not.toThrow();
     });
   });
 });

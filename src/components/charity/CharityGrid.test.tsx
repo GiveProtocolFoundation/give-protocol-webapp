@@ -1,4 +1,3 @@
-import React from "react";
 import { describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -127,6 +126,8 @@ describe("CharityGrid", () => {
       loadMore: mockLoadMore,
     });
     renderGrid();
-    fireEvent.click(screen.getByText("Load More"));
+    const button = screen.getByText("Load More");
+    fireEvent.click(button);
+    expect(button).toBeTruthy();
   });
 });

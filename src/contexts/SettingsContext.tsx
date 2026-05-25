@@ -168,14 +168,14 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
   const [currency, setCurrencyState] = useState<Currency>(getInitialCurrency);
   const [theme, setThemeState] = useState<Theme>(getInitialTheme);
 
-  // Apply theme class to document on mount
+  // Apply theme class to document when theme changes
   useEffect(() => {
     if (theme === "dark") {
       document.documentElement.classList.add("dark");
     } else {
       document.documentElement.classList.remove("dark");
     }
-  }, []);
+  }, [theme]);
 
   // Update localStorage when settings change (client-only)
   useEffect(() => {
