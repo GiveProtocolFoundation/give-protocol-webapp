@@ -3,6 +3,7 @@ export default {
     // Common
     "app.name": "Give Protocol",
     "app.tagline": "Transparente, grenzenlose Infrastruktur für Großzügigkeit.",
+    "common.skipToMainContent": "Zum Hauptinhalt springen",
     "common.cancel": "Abbrechen",
     "common.edit": "Bearbeiten",
     "common.delete": "Löschen",

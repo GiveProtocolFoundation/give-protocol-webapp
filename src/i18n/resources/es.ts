@@ -4,6 +4,7 @@ export default {
     "app.name": "Give Protocol",
     "app.tagline":
       "Infraestructura transparente y sin fronteras para la generosidad.",
+    "common.skipToMainContent": "Saltar al contenido principal",
     "common.cancel": "Cancelar",
     "common.edit": "Editar",
     "common.delete": "Eliminar",

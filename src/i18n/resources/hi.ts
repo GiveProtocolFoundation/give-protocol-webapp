@@ -3,6 +3,7 @@ export default {
     // Common
     "app.name": "Give Protocol",
     "app.tagline": "उदारता के लिए पारदर्शी, सीमाहीन अवसंरचना।",
+    "common.skipToMainContent": "मुख्य सामग्री पर जाएं",
     "common.cancel": "रद्द करें",
     "common.edit": "संपादित करें",
     "common.delete": "हटाएं",
