@@ -244,6 +244,7 @@ function ContributionsTableHeader({
     <thead>
       <tr>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByDate}
         >
@@ -253,6 +254,7 @@ function ContributionsTableHeader({
           </span>
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByType}
         >
@@ -262,6 +264,7 @@ function ContributionsTableHeader({
           </span>
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByOrganization}
         >
@@ -270,10 +273,14 @@ function ContributionsTableHeader({
             {getSortIcon("organization")}
           </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
           {t("contributions.details")}
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByStatus}
         >
@@ -282,7 +289,10 @@ function ContributionsTableHeader({
             {getSortIcon("status")}
           </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
           {t("contributions.verification")}
         </th>
       </tr>
@@ -735,6 +745,7 @@ export const GiveDashboard: React.FC = () => {
           <ContributionsEmptyState t={t} />
         ) : (
           <table className="min-w-full divide-y divide-gray-200">
+            <caption className="sr-only">Contribution history</caption>
             <ContributionsTableHeader
               onSortByDate={handleSortByDate}
               onSortByType={handleSortByType}

@@ -364,24 +364,43 @@ function CharityTable({
   const { t } = useTranslation();
   return (
     <table className="w-full text-left overflow-x-auto">
+      <caption className="sr-only">Charity management list</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colName", "Name")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colCategory", "Category")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colStatus", "Status")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colJoined", "Joined")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colWallet", "Wallet")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colActions", "Actions")}
           </th>
         </tr>

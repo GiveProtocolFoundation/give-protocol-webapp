@@ -311,21 +311,37 @@ function SummaryTable({
 }): React.ReactElement {
   return (
     <table className="w-full text-left text-sm">
+      <caption className="sr-only">Donation summary by group</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Group
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Method
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Total (USD)
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Count
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
         </tr>
@@ -364,30 +380,55 @@ function DonationListTable({
 }): React.ReactElement {
   return (
     <table className="w-full text-left">
+      <caption className="sr-only">Donation monitoring list</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Method
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Amount (USD)
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Donor
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Tx / ID
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Date
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Flag
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Actions
           </th>
         </tr>

@@ -259,18 +259,31 @@ function SuspiciousTable({
   }
   return (
     <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
+      <caption className="sr-only">Suspicious volunteer patterns</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+          >
             {t("admin.validation.colVolunteer", "Volunteer")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+          >
             {t("admin.validation.colOrganisation", "Organisation")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right"
+          >
             {t("admin.validation.colHrsPerWeek", "Hrs/Week")}
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right"
+          >
             {t("admin.validation.colTotalRequests", "Total Requests")}
           </th>
         </tr>
@@ -614,27 +627,48 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           )}
           {!loading && result.requests.length > 0 && (
             <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
+              <caption className="sr-only">
+                Volunteer validation requests
+              </caption>
               <thead>
                 <tr className="bg-gray-50">
-                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th
+                    scope="col"
+                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+                  >
                     {t("admin.validation.colVolunteer", "Volunteer")}
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th
+                    scope="col"
+                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+                  >
                     {t("admin.validation.colOrganisation", "Organisation")}
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+                  <th
+                    scope="col"
+                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right"
+                  >
                     {t("admin.validation.colHours", "Hours")}
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th
+                    scope="col"
+                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+                  >
                     {t("admin.validation.colActivityDate", "Activity Date")}
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th
+                    scope="col"
+                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+                  >
                     {t("admin.validation.colStatus", "Status")}
                   </th>
-                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                  <th
+                    scope="col"
+                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+                  >
                     {t("admin.validation.colCreated", "Created")}
                   </th>
-                  <th className="px-4 py-3" />
+                  <th scope="col" className="px-4 py-3" />
                 </tr>
               </thead>
               <tbody className="divide-y divide-gray-100">
