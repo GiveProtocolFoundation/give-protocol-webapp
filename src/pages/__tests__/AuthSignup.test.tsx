@@ -77,9 +77,7 @@ describe("AuthSignup", () => {
 
     it("renders the display name input", () => {
       renderAuthSignup();
-      expect(
-        screen.getByPlaceholderText("Display name"),
-      ).toBeInTheDocument();
+      expect(screen.getByPlaceholderText("Display name")).toBeInTheDocument();
     });
 
     it("does not render password inputs by default", () => {
@@ -133,9 +131,7 @@ describe("AuthSignup", () => {
 
     it("renders the nonprofit profile link", () => {
       renderAuthSignup();
-      expect(
-        screen.getByText("Manage a nonprofit?"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Manage a nonprofit?")).toBeInTheDocument();
     });
   });
 
