@@ -59,7 +59,7 @@ function MetricsTableHeader(): React.ReactElement {
     <thead>
       <tr className="border-b bg-gray-50">
         {METRIC_COLUMNS.map((col) => (
-          <th key={col} className="px-4 py-3 font-medium text-gray-600">{col}</th>
+          <th scope="col" key={col} className="px-4 py-3 font-medium text-gray-600">{col}</th>
         ))}
       </tr>
     </thead>
@@ -76,6 +76,7 @@ function MetricsTable({ metrics, fundLabel, onEdit, onDelete }: {
   return (
     <Card className="overflow-x-auto">
       <table className="w-full text-sm text-left">
+        <caption className="sr-only">Impact metrics management</caption>
         <MetricsTableHeader />
         <tbody>
           {metrics.length === 0 ? (

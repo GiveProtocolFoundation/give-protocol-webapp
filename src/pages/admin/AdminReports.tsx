@@ -409,21 +409,22 @@ function DonationsTab({
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Donation summary report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Group
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Method
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Total (USD)
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Count
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Charity
               </th>
             </tr>
@@ -516,24 +517,25 @@ function CharityGrowthTab({
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Charity growth report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Period
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 New
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Approved
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Rejected
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Active
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Suspended
               </th>
             </tr>
@@ -623,24 +625,25 @@ function DonorActivityTab({
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Donor activity report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Period
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 New Donors
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Active
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Dormant
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Avg Donation
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Repeat Rate
               </th>
             </tr>
@@ -732,24 +735,25 @@ function VolunteerHoursTab({
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Volunteer hours report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Period
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Submitted
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Validated
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Rejected
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Rejection Rate
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Avg. Days
               </th>
             </tr>
@@ -860,21 +864,22 @@ function AuditTrailTab({
 
       {!loading && entries.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Audit trail entries</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Date
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Action
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Entity
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Entity ID
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
                 Admin
               </th>
             </tr>

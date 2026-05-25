@@ -342,27 +342,28 @@ function DonorTable({
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left">
+        <caption className="sr-only">Donor management list</caption>
         <thead>
           <tr className="bg-gray-50">
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
               Donor
             </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
               Auth
             </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
               Status
             </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
               Total Donated
             </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
               Donations
             </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
               Joined
             </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
               Actions
             </th>
           </tr>

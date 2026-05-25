@@ -149,6 +149,7 @@ function TransactionTableHeader({
     <thead className="bg-gray-50">
       <tr>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortDate}
         >
@@ -158,6 +159,7 @@ function TransactionTableHeader({
           </span>
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortType}
         >
@@ -167,6 +169,7 @@ function TransactionTableHeader({
           </span>
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortOrganization}
         >
@@ -175,10 +178,11 @@ function TransactionTableHeader({
             {getSortIcon("organization")}
           </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
           {t("contributions.details")}
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortStatus}
         >
@@ -187,7 +191,7 @@ function TransactionTableHeader({
             {getSortIcon("status")}
           </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
           {t("contributions.verification")}
         </th>
       </tr>
@@ -461,6 +465,7 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
       </div>
       <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
+          <caption className="sr-only">Transaction history</caption>
           <TransactionTableHeader
             getSortIcon={getSortIcon}
             onSortDate={handleSortByDate}
