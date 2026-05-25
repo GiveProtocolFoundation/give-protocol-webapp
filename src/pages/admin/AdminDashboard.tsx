@@ -308,6 +308,10 @@ const AdminDashboard: React.FC = () => {
     navigate("/admin/charity-requests");
   }, [navigate]);
 
+  const handleNavigatePlatformNews = useCallback(() => {
+    navigate("/admin/platform-news");
+  }, [navigate]);
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -503,6 +507,14 @@ const AdminDashboard: React.FC = () => {
               "Review donor requests for unclaimed charities",
             )}
             onClick={handleNavigateCharityRequests}
+          />
+          <QuickActionButton
+            title={t("admin.actions.platformNews", "Platform News")}
+            description={t(
+              "admin.actions.platformNewsDesc",
+              "Manage news items on the browse page",
+            )}
+            onClick={handleNavigatePlatformNews}
           />
         </div>
       </Card>

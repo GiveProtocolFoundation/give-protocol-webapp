@@ -726,6 +726,45 @@ export default {
     "admin.actions.charityRequests": "Charity Requests",
     "admin.actions.charityRequestsDesc":
       "Review donor requests for unclaimed charities",
+    "admin.actions.platformNews": "Platform News",
+    "admin.actions.platformNewsDesc":
+      "Manage news items on the browse page",
+
+    // Admin - Platform News management page (GIV-279)
+    "admin.news.title": "Platform News",
+    "admin.news.subtitle": "Manage news items shown on the public browse page",
+    "admin.news.newItem": "New Item",
+    "admin.news.editNews": "Edit News Item",
+    "admin.news.createNews": "Create News Item",
+    "admin.news.titleLabel": "Title",
+    "admin.news.titlePlaceholder": "e.g. Quarterly impact report",
+    "admin.news.contentLabel": "Content / Excerpt",
+    "admin.news.contentPlaceholder":
+      "Brief description of the news item...",
+    "admin.news.urlLabel": "Link URL",
+    "admin.news.urlPlaceholder": "/news/my-article",
+    "admin.news.imageLabel": "Image URL (optional)",
+    "admin.news.imagePlaceholder": "https://...",
+    "admin.news.categoryLabel": "Category",
+    "admin.news.dateLabel": "Publish Date",
+    "admin.news.activeLabel": "Published (visible to public)",
+    "admin.news.saving": "Saving...",
+    "admin.news.createNewsBtn": "Create News",
+    "admin.news.updateNews": "Update News",
+    "admin.news.noItemsYet": "No news items yet",
+    "admin.news.noItemsMessage":
+      "Create your first news item to share updates with your community",
+    "admin.news.publishedOn": "Published {{date}}",
+    "admin.news.inactive": "Inactive",
+    "admin.news.deactivate": "Deactivate {{title}}",
+    "admin.news.activate": "Activate {{title}}",
+    "admin.news.editItem": "Edit {{title}}",
+    "admin.news.deleteItem": "Delete {{title}}",
+    "admin.news.deactivated": "News item hidden",
+    "admin.news.activated": "News item published",
+    "admin.news.deleted": "News item deleted",
+    "admin.news.updated": "News item updated",
+    "admin.news.created": "News item created",
 
     // Admin - Portfolio Funds management page (GIV-256)
     "admin.portfolio.title": "Portfolio Funds",
