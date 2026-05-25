@@ -1289,10 +1289,14 @@ export default {
     "charity.profile.toAddOne": "to add one.",
     "charity.profile.contact": "Contact",
     "charity.profile.donate.support": "Support",
-    "charity.profile.donate.walletUnset": "This charity hasn't set up an official receiving wallet yet.",
-    "charity.profile.donate.walletPending": "This charity is finishing wallet setup — donations are temporarily unavailable.",
-    "charity.profile.donate.walletLegacy": "This charity is using a legacy wallet address.",
-    "charity.profile.donate.feeNote": "0% platform fee on direct donations. Network gas fees apply.",
+    "charity.profile.donate.walletUnset":
+      "This charity hasn't set up an official receiving wallet yet.",
+    "charity.profile.donate.walletPending":
+      "This charity is finishing wallet setup — donations are temporarily unavailable.",
+    "charity.profile.donate.walletLegacy":
+      "This charity is using a legacy wallet address.",
+    "charity.profile.donate.feeNote":
+      "0% platform fee on direct donations. Network gas fees apply.",
 
     // Portfolio Funds page (GIV-264)
     "portfolio.title": "Portfolio Funds",

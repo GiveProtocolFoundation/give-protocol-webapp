@@ -1286,10 +1286,14 @@ export default {
     "charity.profile.toAddOne": "um eine hinzuzufügen.",
     "charity.profile.contact": "Kontakt",
     "charity.profile.donate.support": "Unterstützen",
-    "charity.profile.donate.walletUnset": "Diese Organisation hat noch keine offizielle Empfangswallet eingerichtet.",
-    "charity.profile.donate.walletPending": "Diese Organisation richtet gerade ihre Wallet ein — Spenden sind vorübergehend nicht verfügbar.",
-    "charity.profile.donate.walletLegacy": "Diese Organisation verwendet eine ältere Wallet-Adresse.",
-    "charity.profile.donate.feeNote": "0% Plattformgebühr auf direkte Spenden. Netzwerkgebühren fallen an.",
+    "charity.profile.donate.walletUnset":
+      "Diese Organisation hat noch keine offizielle Empfangswallet eingerichtet.",
+    "charity.profile.donate.walletPending":
+      "Diese Organisation richtet gerade ihre Wallet ein — Spenden sind vorübergehend nicht verfügbar.",
+    "charity.profile.donate.walletLegacy":
+      "Diese Organisation verwendet eine ältere Wallet-Adresse.",
+    "charity.profile.donate.feeNote":
+      "0% Plattformgebühr auf direkte Spenden. Netzwerkgebühren fallen an.",
     "portfolio.title": "Portfolio-Fonds",
     "settings.theme": "Design",
     "settings.light": "Hell",

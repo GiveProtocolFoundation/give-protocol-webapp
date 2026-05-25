@@ -1226,10 +1226,14 @@ export default {
     "charity.profile.toAddOne": "để thêm mô tả.",
     "charity.profile.contact": "Liên hệ",
     "charity.profile.donate.support": "Ủng hộ",
-    "charity.profile.donate.walletUnset": "Tổ chức này chưa thiết lập ví nhận chính thức.",
-    "charity.profile.donate.walletPending": "Tổ chức này đang hoàn tất thiết lập ví — quyên góp tạm thời không khả dụng.",
-    "charity.profile.donate.walletLegacy": "Tổ chức này đang sử dụng địa chỉ ví cũ.",
-    "charity.profile.donate.feeNote": "Phí nền tảng 0% cho quyên góp trực tiếp. Phí mạng áp dụng.",
+    "charity.profile.donate.walletUnset":
+      "Tổ chức này chưa thiết lập ví nhận chính thức.",
+    "charity.profile.donate.walletPending":
+      "Tổ chức này đang hoàn tất thiết lập ví — quyên góp tạm thời không khả dụng.",
+    "charity.profile.donate.walletLegacy":
+      "Tổ chức này đang sử dụng địa chỉ ví cũ.",
+    "charity.profile.donate.feeNote":
+      "Phí nền tảng 0% cho quyên góp trực tiếp. Phí mạng áp dụng.",
     "portfolio.title": "Quỹ danh mục",
     "settings.theme": "Giao diện",
     "settings.light": "Sáng",

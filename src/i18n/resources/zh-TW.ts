@@ -1167,7 +1167,8 @@ export default {
     "charity.profile.contact": "聯絡",
     "charity.profile.donate.support": "支持",
     "charity.profile.donate.walletUnset": "此組織尚未設定官方收款錢包。",
-    "charity.profile.donate.walletPending": "此組織正在完成錢包設定 — 捐款暫時無法使用。",
+    "charity.profile.donate.walletPending":
+      "此組織正在完成錢包設定 — 捐款暫時無法使用。",
     "charity.profile.donate.walletLegacy": "此組織正在使用舊版錢包地址。",
     "charity.profile.donate.feeNote": "直接捐款平台費用為0%。適用網路費用。",
     "portfolio.title": "投資組合基金",
