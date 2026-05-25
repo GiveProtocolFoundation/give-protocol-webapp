@@ -214,19 +214,27 @@ describe("DashboardSettings", () => {
 
     it("renders all language option buttons", () => {
       renderPage();
-      expect(screen.getByRole("button", { name: "English" })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Español" })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: "Français" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "English" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Español" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Français" }),
+      ).toBeInTheDocument();
     });
 
     it("marks the current language as pressed (aria-pressed=true)", () => {
       renderPage();
-      expect(
-        screen.getByRole("button", { name: "English" }),
-      ).toHaveAttribute("aria-pressed", "true");
-      expect(
-        screen.getByRole("button", { name: "Español" }),
-      ).toHaveAttribute("aria-pressed", "false");
+      expect(screen.getByRole("button", { name: "English" })).toHaveAttribute(
+        "aria-pressed",
+        "true",
+      );
+      expect(screen.getByRole("button", { name: "Español" })).toHaveAttribute(
+        "aria-pressed",
+        "false",
+      );
     });
 
     it("calls setLanguage with the selected language code when clicked", () => {
@@ -247,7 +255,9 @@ describe("DashboardSettings", () => {
         currencyOptions: [],
       });
       renderPage();
-      expect(screen.queryByRole("button", { name: "English" })).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: "English" }),
+      ).not.toBeInTheDocument();
     });
   });
 });

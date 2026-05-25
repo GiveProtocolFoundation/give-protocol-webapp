@@ -92,7 +92,10 @@ const DashboardSettings: React.FC = () => {
       {/* Display Preferences — Language selector */}
       <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 mb-6">
         <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white mb-1">
-          <Globe className="h-4 w-4 text-gray-400 dark:text-gray-500" aria-hidden="true" />
+          <Globe
+            className="h-4 w-4 text-gray-400 dark:text-gray-500"
+            aria-hidden="true"
+          />
           {t("settings.displayPreferences")}
         </h3>
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">

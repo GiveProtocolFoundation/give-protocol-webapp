@@ -45,7 +45,8 @@ const AuthCallback: React.FC = () => {
       setTimedOut(true);
     }, SESSION_TIMEOUT_MS);
 
-    return () => { // skipcq: JS-0045 — useEffect cleanup is a valid return value
+    return () => {
+      // skipcq: JS-0045 — useEffect cleanup is a valid return value
       clearTimeout(timer);
     };
   }, [user, userType, loading, navigate]);

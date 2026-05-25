@@ -302,8 +302,7 @@ export default {
     "charity.profile.copied": "Copied!",
     "charity.profile.einDisplay": "EIN",
     "charity.profile.registeredYear": "Registered {{year}}",
-    "charity.profile.notFound":
-      "We couldn't find a charity with this EIN.",
+    "charity.profile.notFound": "We couldn't find a charity with this EIN.",
 
     // Charity profile — donate widget
     "charity.profile.donate.walletPending":
@@ -388,23 +387,32 @@ export default {
     "home.nav.volunteer": "Volunteer",
     "home.hero.title": "Transparent Giving",
     "home.hero.titleAccent": "Sustainable Impact",
-    "home.hero.description": "Radically transparent philanthropy for the digital age. Built for impact, backed by verifiable technology. Every contribution traceable from donor to destination.",
+    "home.hero.description":
+      "Radically transparent philanthropy for the digital age. Built for impact, backed by verifiable technology. Every contribution traceable from donor to destination.",
     "home.hero.visionTitle": "Our Vision",
-    "home.hero.visionText": "Give Protocol is architecting the future of high-integrity giving. We leverage advanced technological infrastructure to bridge the gap between global capital and local impact. By integrating seamless digital-asset support with traditional giving methods, we are creating resilient funding ecosystems that transform one-time gifts into perpetual engines of support for the world\u2019s most vital causes.",
+    "home.hero.visionText":
+      "Give Protocol is architecting the future of high-integrity giving. We leverage advanced technological infrastructure to bridge the gap between global capital and local impact. By integrating seamless digital-asset support with traditional giving methods, we are creating resilient funding ecosystems that transform one-time gifts into perpetual engines of support for the world\u2019s most vital causes.",
     "home.features.sectionTitle": "Your Gateway to Transparent Philanthropy",
-    "home.features.sectionSubtitle": "Multichain infrastructure for seamless giving \u2014 crypto or fiat \u2014 with complete transparency",
+    "home.features.sectionSubtitle":
+      "Multichain infrastructure for seamless giving \u2014 crypto or fiat \u2014 with complete transparency",
     "home.features.highEfficiency.title": "High-Efficiency Giving",
-    "home.features.highEfficiency.description": "Contribute directly to verified organizations with zero ambiguity. Our automated ledger provides real-time verification, ensuring your support is deployed exactly where it is needed most.",
+    "home.features.highEfficiency.description":
+      "Contribute directly to verified organizations with zero ambiguity. Our automated ledger provides real-time verification, ensuring your support is deployed exactly where it is needed most.",
     "home.features.equityFunds.title": "Charitable Equity Funds",
-    "home.features.equityFunds.description": "Move beyond one-off donations by contributing to smart-managed equity funds. We utilize sophisticated, low-risk digital strategies to turn your principal into a perpetual stream of funding, sustaining charitable missions for generations to come.",
+    "home.features.equityFunds.description":
+      "Move beyond one-off donations by contributing to smart-managed equity funds. We utilize sophisticated, low-risk digital strategies to turn your principal into a perpetual stream of funding, sustaining charitable missions for generations to come.",
     "home.features.impactFunds.title": "Impact Funds",
-    "home.features.impactFunds.description": "Pool resources for specific causes. Environmental, education, poverty relief - your donation amplified through collective action.",
+    "home.features.impactFunds.description":
+      "Pool resources for specific causes. Environmental, education, poverty relief - your donation amplified through collective action.",
     "home.features.verifiedOrgs.title": "Verified Organizations",
-    "home.features.verifiedOrgs.description": "Browse any registered organization, or look for the verified badge. Organizations that opt in to our vetting process earn on-chain verification donors can trust.",
+    "home.features.verifiedOrgs.description":
+      "Browse any registered organization, or look for the verified badge. Organizations that opt in to our vetting process earn on-chain verification donors can trust.",
     "home.features.blockchainVerified.title": "Blockchain Verified",
-    "home.features.blockchainVerified.description": "Soul-bound tokens recognize volunteer contributions. Skills, hours, and impact - all permanently recorded on-chain.",
+    "home.features.blockchainVerified.description":
+      "Soul-bound tokens recognize volunteer contributions. Skills, hours, and impact - all permanently recorded on-chain.",
     "home.features.bridgingModes.title": "Bridging Modes of Giving",
-    "home.features.bridgingModes.description": "Whether you are giving in USD or digital assets, our multi-network architecture ensures your contribution moves at the speed of the modern world.",
+    "home.features.bridgingModes.description":
+      "Whether you are giving in USD or digital assets, our multi-network architecture ensures your contribution moves at the speed of the modern world.",
     "home.roles.title": "Built for Everyone Changing the World",
     "home.roles.donors.title": "For Donors",
     "home.roles.donors.item1": "Give in crypto or fiat \u2014 your choice",
@@ -420,12 +428,16 @@ export default {
     "home.roles.volunteers.item3": "Achievement badges & recognition",
     "home.impact.title": "Planned Impact Funds",
     "home.impact.environmental.title": "Environmental Impact Fund",
-    "home.impact.environmental.description": "Supporting reforestation, ocean cleanup, and renewable energy initiatives. Pooled donations directed to verified environmental organizations making measurable impact.",
+    "home.impact.environmental.description":
+      "Supporting reforestation, ocean cleanup, and renewable energy initiatives. Pooled donations directed to verified environmental organizations making measurable impact.",
     "home.impact.education.title": "Education Opportunity Fund",
-    "home.impact.education.description": "Providing scholarships, digital learning tools, and teacher training. Collective funding amplified to support educational initiatives in underserved communities.",
+    "home.impact.education.description":
+      "Providing scholarships, digital learning tools, and teacher training. Collective funding amplified to support educational initiatives in underserved communities.",
     "home.cta.title": "Ready to Transform Giving?",
-    "home.cta.subtitle": "Be among the first to experience transparent, blockchain-powered philanthropy. Join our community building a better future for charitable giving.",
-    "home.footer.brand.tagline": "Transforming philanthropy through blockchain transparency and sustainable funding.",
+    "home.cta.subtitle":
+      "Be among the first to experience transparent, blockchain-powered philanthropy. Join our community building a better future for charitable giving.",
+    "home.footer.brand.tagline":
+      "Transforming philanthropy through blockchain transparency and sustainable funding.",
     "home.footer.product.title": "Product",
     "home.footer.product.impactFunds": "Impact Funds",
     "home.footer.product.charities": "For Charities",
@@ -436,10 +448,12 @@ export default {
     "home.footer.resources.community": "Community (Coming Soon)",
     "home.footer.connect.title": "Connect",
     "home.footer.connect.contact": "Contact (Coming Soon)",
-    "home.footer.copyright": "Give Protocol. Multichain by design. Powered by Give Protocol volunteers.",
+    "home.footer.copyright":
+      "Give Protocol. Multichain by design. Powered by Give Protocol volunteers.",
 
     // App Footer (Footer.tsx)
-    "footer.brand.tagline": "Removing barriers to sustainable charitable giving.",
+    "footer.brand.tagline":
+      "Removing barriers to sustainable charitable giving.",
     "footer.resources.title": "Resources",
     "footer.resources.faq": "FAQ",
     "footer.resources.about": "About Us",
@@ -464,7 +478,8 @@ export default {
     "auth.panel.statusDesc": "Building the foundation of transparent giving",
     "auth.panel.runsOn": "Runs on",
     "auth.panel.headline": "Smart giving, transparent impact.",
-    "auth.panel.subheadline": "One account. Donate by card or crypto. Track every dollar on-chain.",
+    "auth.panel.subheadline":
+      "One account. Donate by card or crypto. Track every dollar on-chain.",
     "auth.signup.panel.headline": "Join the future of transparent giving.",
 
     // Auth sign-in (Auth.tsx)
@@ -506,13 +521,15 @@ export default {
     "auth.signup.alreadyHaveAccount": "Already have an account?",
     "auth.signup.signInLink": "Sign in \u2192",
     "auth.signup.manageNonprofit": "I manage a Nonprofit Profile",
-    "auth.signup.trustText": "256-bit SSL encrypted. By creating an account you agree to our",
+    "auth.signup.trustText":
+      "256-bit SSL encrypted. By creating an account you agree to our",
     "auth.signup.and": "and",
     "auth.signup.privacyPolicy": "Privacy Policy",
 
     // Auth validation errors
     "auth.validation.invalidEmail": "Please enter a valid email address",
-    "auth.validation.passwordTooShort": "Password must be at least 8 characters long",
+    "auth.validation.passwordTooShort":
+      "Password must be at least 8 characters long",
     "auth.validation.passwordMismatch": "Passwords do not match",
     "auth.validation.emailRequired": "Please enter your email address first",
 
@@ -521,7 +538,8 @@ export default {
     "auth.login.donorTitle": "Donor Sign In",
     "auth.login.donorSubtitle": "Sign in to access your giving dashboard",
     "auth.login.charityTitle": "Nonprofit Portal",
-    "auth.login.charitySubtitle": "Manage your organization profile and donations",
+    "auth.login.charitySubtitle":
+      "Manage your organization profile and donations",
     "auth.login.nonprofitTrayTitle": "New to Give Protocol?",
     "auth.login.createNonprofitAccount": "Create a Nonprofit Account",
     "auth.login.registerOrg": "Register your organization on Give Protocol",
@@ -541,14 +559,16 @@ export default {
     // Donor login (DonorLogin.tsx)
     "auth.donorLogin.signingIn": "Signing in\u2026",
     "auth.donorLogin.redirecting": "Redirecting in {{count}}\u2026",
-    "auth.donorLogin.mismatch": "Donor User Account Not Found. This email is registered as a charity account. Please use the Charity Login.",
+    "auth.donorLogin.mismatch":
+      "Donor User Account Not Found. This email is registered as a charity account. Please use the Charity Login.",
 
     // Charity login (CharityLogin.tsx)
     "auth.charityLogin.signingIn": "Signing in...",
     "auth.charityLogin.or": "or",
     "auth.charityLogin.connectWallet": "Connect Wallet",
     "auth.charityLogin.connecting": "Connecting...",
-    "auth.charityLogin.mismatch": "Charity User Not Found. This email is registered as a donor account. Please use the Donor Login.",
+    "auth.charityLogin.mismatch":
+      "Charity User Not Found. This email is registered as a donor account. Please use the Donor Login.",
 
     // Donor registration (DonorRegistration.tsx)
     "auth.donorReg.pleaseWait": "Please wait\u2026",
@@ -562,9 +582,12 @@ export default {
     // Forgot credentials (ForgotCredentials.tsx)
     "auth.forgot.resetPassword": "Reset Password",
     "auth.forgot.forgotUsername": "Forgot Username",
-    "auth.forgot.passwordDesc": "Enter your email address and we\u2019ll send you a link to reset your password.",
-    "auth.forgot.usernameDesc": "Enter your email address and we\u2019ll send you your username.",
-    "auth.forgot.passwordSuccess": "Password reset instructions sent to your email",
+    "auth.forgot.passwordDesc":
+      "Enter your email address and we\u2019ll send you a link to reset your password.",
+    "auth.forgot.usernameDesc":
+      "Enter your email address and we\u2019ll send you your username.",
+    "auth.forgot.passwordSuccess":
+      "Password reset instructions sent to your email",
     "auth.forgot.usernameSuccess": "Username reminder sent to your email",
     "auth.forgot.backToSignIn": "Back to Sign In",
     "auth.forgot.checkEmail": "Check your email",
@@ -576,28 +599,37 @@ export default {
 
     // Registration success (RegistrationSuccess.tsx)
     "auth.success.accountCreated": "Account created successfully",
-    "auth.success.checkEmail": "Please check your email to verify your account.",
-    "auth.success.verificationSent": "Verification email sent! Please check your inbox.",
+    "auth.success.checkEmail":
+      "Please check your email to verify your account.",
+    "auth.success.verificationSent":
+      "Verification email sent! Please check your inbox.",
     "auth.success.resendButton": "Resend verification email",
     "auth.success.resendSending": "Sending...",
     "auth.success.returnToLogin": "Return to login",
     "auth.success.noEmail": "No email address found. Please return to login.",
     "auth.success.charityVetting.heading": "Application Submitted",
-    "auth.success.charityVetting.message": "Your application has been submitted and is under review. Once verified, you will receive an email with access to your Charity Portal.",
-    "auth.success.charityVetting.nextSteps": "Our team will review your application and reach out via email with next steps.",
+    "auth.success.charityVetting.message":
+      "Your application has been submitted and is under review. Once verified, you will receive an email with access to your Charity Portal.",
+    "auth.success.charityVetting.nextSteps":
+      "Our team will review your application and reach out via email with next steps.",
     "auth.success.charityClaim.heading": "Claim Submitted",
-    "auth.success.charityClaim.message": "Your claim has been submitted. Once verified, you will receive access to manage your organization.",
-    "auth.success.charityClaim.nextSteps": "Our team will verify your claim and grant you access once confirmed.",
+    "auth.success.charityClaim.message":
+      "Your claim has been submitted. Once verified, you will receive access to manage your organization.",
+    "auth.success.charityClaim.nextSteps":
+      "Our team will verify your claim and grant you access once confirmed.",
     "auth.success.donor.heading": "Welcome to Give Protocol",
-    "auth.success.donor.message": "After verifying your email, you can start exploring charities and making donations.",
-    "auth.success.donor.nextSteps": "Check your inbox and click the verification link to get started.",
+    "auth.success.donor.message":
+      "After verifying your email, you can start exploring charities and making donations.",
+    "auth.success.donor.nextSteps":
+      "Check your inbox and click the verification link to get started.",
 
     // Charity organization search (CharityOrganizationSearch.tsx)
     "auth.orgSearch.orgNameLabel": "Organization Name",
     "auth.orgSearch.searchPlaceholder": "Search by organization name...",
     "auth.orgSearch.countryLabel": "Country",
     "auth.orgSearch.allCountries": "All Countries",
-    "auth.orgSearch.searchPrompt": "Search our database to find and claim your organization.",
+    "auth.orgSearch.searchPrompt":
+      "Search our database to find and claim your organization.",
     "auth.orgSearch.noResults": "No organizations found.",
     "auth.orgSearch.loadMore": "Load more results",
     "auth.orgSearch.cantFind": "Can\u2019t find your organization?",
