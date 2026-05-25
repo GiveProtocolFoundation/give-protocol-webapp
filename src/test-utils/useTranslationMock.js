@@ -16,8 +16,8 @@ const translations = en.translation;
  * @returns {string} Resolved translation string
  */
 const tFn = (key, fallbackOrOptions, options) => {
-  let resolvedFallback;
-  let resolvedOptions;
+  let resolvedFallback = undefined;
+  let resolvedOptions = undefined;
 
   if (
     fallbackOrOptions !== null &&
