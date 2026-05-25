@@ -1,7 +1,15 @@
-import React from 'react';
-import { CheckCircle, Clock, Calendar, User, Building, ExternalLink } from 'lucide-react';
-import { Card } from '@/components/ui/Card';
-import { formatDate } from '@/utils/date';
+import React from "react";
+import {
+  CheckCircle,
+  Clock,
+  Calendar,
+  User,
+  Building,
+  ExternalLink,
+} from "lucide-react";
+import { Card } from "@/components/ui/Card";
+import { formatDate } from "@/utils/date";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface VolunteerVerificationCardProps {
   verification: {
@@ -22,17 +30,19 @@ interface VolunteerVerificationCardProps {
 }
 
 /** Card displaying volunteer verification details with blockchain transaction links. */
-export const VolunteerVerificationCard: React.FC<VolunteerVerificationCardProps> = ({ 
-  verification 
-}) => {
+export const VolunteerVerificationCard: React.FC<
+  VolunteerVerificationCardProps
+> = ({ verification }) => {
+  const { t } = useTranslation();
+
   /** Returns the block explorer URL for a given transaction ID and network. */
-  const getExplorerUrl = (txId: string, network = 'moonbase') => {
+  const getExplorerUrl = (txId: string, network = "moonbase") => {
     const explorers = {
-      moonbase: 'https://moonbase.moonscan.io/tx/',
-      moonbeam: 'https://moonscan.io/tx/',
-      polkadot: 'https://polkadot.subscan.io/extrinsic/'
+      moonbase: "https://moonbase.moonscan.io/tx/",
+      moonbeam: "https://moonscan.io/tx/",
+      polkadot: "https://polkadot.subscan.io/extrinsic/",
     };
-    
+
     return `${explorers[network as keyof typeof explorers] || explorers.moonbase}${txId}`;
   };
 
@@ -43,7 +53,10 @@ export const VolunteerVerificationCard: React.FC<VolunteerVerificationCardProps>
           <CheckCircle className="h-6 w-6 text-green-600" />
         </div>
         <h3 className="ml-3 text-lg font-semibold text-gray-900">
-          Volunteer Contribution Verification
+          {t(
+            "volunteer.contributionVerification",
+            "Volunteer Contribution Verification",
+          )}
         </h3>
       </div>
 
@@ -51,8 +64,11 @@ export const VolunteerVerificationCard: React.FC<VolunteerVerificationCardProps>
         {verification.applicantName && (
           <dl className="flex items-start">
             <User className="h-5 w-5 text-gray-400 mt-0.5 mr-2" />
-            <dt className="text-sm font-medium text-gray-500">Volunteer
-              <dd className="text-base text-gray-900 mt-1">{verification.applicantName}</dd>
+            <dt className="text-sm font-medium text-gray-500">
+              {t("volunteer.volunteerLabel", "Volunteer")}
+              <dd className="text-base text-gray-900 mt-1">
+                {verification.applicantName}
+              </dd>
             </dt>
           </dl>
         )}
@@ -60,8 +76,11 @@ export const VolunteerVerificationCard: React.FC<VolunteerVerificationCardProps>
         {verification.opportunityTitle && (
           <dl className="flex items-start">
             <Clock className="h-5 w-5 text-gray-400 mt-0.5 mr-2" />
-            <dt className="text-sm font-medium text-gray-500">Opportunity
-              <dd className="text-base text-gray-900 mt-1">{verification.opportunityTitle}</dd>
+            <dt className="text-sm font-medium text-gray-500">
+              {t("volunteer.opportunityLabel", "Opportunity")}
+              <dd className="text-base text-gray-900 mt-1">
+                {verification.opportunityTitle}
+              </dd>
             </dt>
           </dl>
         )}
@@ -69,8 +88,11 @@ export const VolunteerVerificationCard: React.FC<VolunteerVerificationCardProps>
         {verification.charityName && (
           <dl className="flex items-start">
             <Building className="h-5 w-5 text-gray-400 mt-0.5 mr-2" />
-            <dt className="text-sm font-medium text-gray-500">Organization
-              <dd className="text-base text-gray-900 mt-1">{verification.charityName}</dd>
+            <dt className="text-sm font-medium text-gray-500">
+              {t("volunteer.organizationLabel", "Organization")}
+              <dd className="text-base text-gray-900 mt-1">
+                {verification.charityName}
+              </dd>
             </dt>
           </dl>
         )}
@@ -79,8 +101,11 @@ export const VolunteerVerificationCard: React.FC<VolunteerVerificationCardProps>
           {verification.acceptedAt && (
             <dl className="flex items-start">
               <Calendar className="h-5 w-5 text-gray-400 mt-0.5 mr-2" />
-              <dt className="text-sm font-medium text-gray-500">Accepted On
-                <dd className="text-base text-gray-900 mt-1">{formatDate(verification.acceptedAt, true)}</dd>
+              <dt className="text-sm font-medium text-gray-500">
+                {t("volunteer.acceptedOn", "Accepted On")}
+                <dd className="text-base text-gray-900 mt-1">
+                  {formatDate(verification.acceptedAt, true)}
+                </dd>
               </dt>
             </dl>
           )}
@@ -88,50 +113,70 @@ export const VolunteerVerificationCard: React.FC<VolunteerVerificationCardProps>
           {verification.verifiedAt && (
             <dl className="flex items-start">
               <Calendar className="h-5 w-5 text-gray-400 mt-0.5 mr-2" />
-              <dt className="text-sm font-medium text-gray-500">Verified On
-                <dd className="text-base text-gray-900 mt-1">{formatDate(verification.verifiedAt, true)}</dd>
+              <dt className="text-sm font-medium text-gray-500">
+                {t("volunteer.verifiedOn", "Verified On")}
+                <dd className="text-base text-gray-900 mt-1">
+                  {formatDate(verification.verifiedAt, true)}
+                </dd>
               </dt>
             </dl>
           )}
         </div>
 
         <div className="border-t border-gray-200 pt-4 mt-4">
-          <h4 className="text-sm font-medium text-gray-500 mb-2">Verification Hashes</h4>
-          
+          <h4 className="text-sm font-medium text-gray-500 mb-2">
+            {t("volunteer.verificationHashes", "Verification Hashes")}
+          </h4>
+
           {verification.acceptanceHash && (
             <div className="mb-2">
-              <p className="text-xs text-gray-500">Acceptance Hash</p>
-              <p className="text-sm font-mono text-gray-900 break-all">{verification.acceptanceHash}</p>
+              <p className="text-xs text-gray-500">
+                {t("volunteer.acceptanceHash", "Acceptance Hash")}
+              </p>
+              <p className="text-sm font-mono text-gray-900 break-all">
+                {verification.acceptanceHash}
+              </p>
             </div>
           )}
-          
+
           {verification.verificationHash && (
             <div className="mb-2">
-              <p className="text-xs text-gray-500">Verification Hash</p>
-              <p className="text-sm font-mono text-gray-900 break-all">{verification.verificationHash}</p>
+              <p className="text-xs text-gray-500">
+                {t("volunteer.verificationHash", "Verification Hash")}
+              </p>
+              <p className="text-sm font-mono text-gray-900 break-all">
+                {verification.verificationHash}
+              </p>
             </div>
           )}
-          
+
           {verification.blockchainReference && (
             <div className="mt-4">
-              <p className="text-xs text-gray-500">Blockchain Reference</p>
+              <p className="text-xs text-gray-500">
+                {t("volunteer.blockchainReference", "Blockchain Reference")}
+              </p>
               <div className="flex items-center mt-1">
-                <a 
+                <a
                   href={getExplorerUrl(
                     verification.blockchainReference.transactionId,
-                    verification.blockchainReference.network
+                    verification.blockchainReference.network,
                   )}
                   target="_blank"
                   rel="noopener noreferrer"
                   className="text-sm text-emerald-600 hover:text-emerald-800 flex items-center"
                 >
                   <span className="font-mono mr-1">
-                    {verification.blockchainReference.transactionId.substring(0, 10)}...
+                    {verification.blockchainReference.transactionId.substring(
+                      0,
+                      10,
+                    )}
+                    ...
                   </span>
                   <ExternalLink className="h-3 w-3" />
                 </a>
                 <span className="text-xs text-gray-500 ml-2">
-                  Block #{verification.blockchainReference.blockNumber}
+                  {t("blockchain.block", "Block")} #
+                  {verification.blockchainReference.blockNumber}
                 </span>
               </div>
             </div>

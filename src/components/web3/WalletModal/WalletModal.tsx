@@ -4,6 +4,7 @@
  */
 
 import React, { useState, useCallback, useMemo, useEffect } from "react";
+import { useTranslation } from "react-i18next";
 import { AlertCircle, ArrowLeft } from "lucide-react";
 import type { ChainType, UnifiedWalletProvider } from "@/types/wallet";
 import type { ChainId, ChainConfig } from "@/contexts/ChainContext";
@@ -34,62 +35,65 @@ const NetworkDialogContent: React.FC<{
   onNetworkSelect: (_e: React.MouseEvent<HTMLButtonElement>) => void;
   onContinue: () => void;
   onClose: () => void;
-}> = ({ chains, selectedNetworkId, onNetworkSelect, onContinue, onClose }) => (
-  <dialog
-    open
-    className="relative w-full max-w-md mx-4 bg-white/80 backdrop-blur-[10px] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-white/30"
-    aria-modal="true"
-    aria-labelledby="wallet-modal-title"
-  >
-    {/* Header */}
-    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200/50">
-      <h3
-        id="wallet-modal-title"
-        className="text-lg font-semibold text-gray-900"
-      >
-        Select Network
-      </h3>
-      <button
-        type="button"
-        onClick={onClose}
-        className="p-1 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors text-xl leading-none"
-        aria-label="Close modal"
-      >
-        &times;
-      </button>
-    </div>
-
-    {/* Network Stack */}
-    <div className="px-4 py-4">
-      <NetworkGrid
-        chains={chains}
-        selectedChainId={selectedNetworkId}
-        onChainSelect={onNetworkSelect}
-        comingSoonCount={0}
-      />
-    </div>
-
-    {/* Footer */}
-    <div className="px-6 py-4 border-t border-gray-200/50">
-      <button
-        type="button"
-        onClick={onContinue}
-        disabled={selectedNetworkId === null}
-        className="w-full px-8 py-3 bg-gradient-to-r from-teal-500 to-green-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
-      >
-        Next Step: Connect Wallet
-      </button>
-      <div className="mt-3 text-center">
-        <a
-          href="/network-selection"
-          className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+}> = ({ chains, selectedNetworkId, onNetworkSelect, onContinue, onClose }) => {
+  const { t } = useTranslation();
+  return (
+    <dialog
+      open
+      className="relative w-full max-w-md mx-4 bg-white/80 backdrop-blur-[10px] rounded-2xl shadow-[0_10px_30px_rgba(0,0,0,0.1)] border border-white/30"
+      aria-modal="true"
+      aria-labelledby="wallet-modal-title"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200/50">
+        <h3
+          id="wallet-modal-title"
+          className="text-lg font-semibold text-gray-900"
         >
-          Learn more about network selection
-        </a>
+          {t("modal.network.title")}
+        </h3>
+        <button
+          type="button"
+          onClick={onClose}
+          className="p-1 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 transition-colors text-xl leading-none"
+          aria-label={t("modal.close")}
+        >
+          &times;
+        </button>
       </div>
-    </div>
-  </dialog>
-);
+
+      {/* Network Stack */}
+      <div className="px-4 py-4">
+        <NetworkGrid
+          chains={chains}
+          selectedChainId={selectedNetworkId}
+          onChainSelect={onNetworkSelect}
+          comingSoonCount={0}
+        />
+      </div>
+
+      {/* Footer */}
+      <div className="px-6 py-4 border-t border-gray-200/50">
+        <button
+          type="button"
+          onClick={onContinue}
+          disabled={selectedNetworkId === null}
+          className="w-full px-8 py-3 bg-gradient-to-r from-teal-500 to-green-500 text-white rounded-xl font-semibold hover:from-teal-600 hover:to-green-600 disabled:opacity-50 disabled:cursor-not-allowed transition-all"
+        >
+          {t("modal.network.nextStep")}
+        </button>
+        <div className="mt-3 text-center">
+          <a
+            href="/network-selection"
+            className="text-xs text-gray-400 hover:text-gray-600 transition-colors"
+          >
+            {t("modal.network.learnMore")}
+          </a>
+        </div>
+      </div>
+    </dialog>
+  );
+};
 
 /** Dialog content for wallet modal with chain tabs, wallet list, and footer. */
 const WalletDialogContent: React.FC<{
@@ -112,56 +116,58 @@ const WalletDialogContent: React.FC<{
   filteredWallets,
   connectingWallet,
   onSelectWallet,
-}) => (
-  <dialog
-    open
-    className="relative w-full max-w-md mx-4 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700"
-    aria-modal="true"
-    aria-labelledby="wallet-modal-title"
-  >
-    {/* Header */}
-    <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
-      <div className="flex items-center gap-2">
+}) => {
+  const { t } = useTranslation();
+  return (
+    <dialog
+      open
+      className="relative w-full max-w-md mx-4 bg-white dark:bg-gray-900 rounded-xl shadow-xl border border-gray-200 dark:border-gray-700"
+      aria-modal="true"
+      aria-labelledby="wallet-modal-title"
+    >
+      {/* Header */}
+      <div className="flex items-center justify-between px-6 py-4 border-b border-gray-200 dark:border-gray-700">
+        <div className="flex items-center gap-2">
+          <button
+            type="button"
+            onClick={onBack}
+            className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
+            aria-label={t("modal.connect.backAria")}
+          >
+            <ArrowLeft className="w-5 h-5" />
+          </button>
+          <h3
+            id="wallet-modal-title"
+            className="text-lg font-semibold text-gray-900 dark:text-white"
+          >
+            {t("modal.connect.title")}
+          </h3>
+        </div>
         <button
           type="button"
-          onClick={onBack}
-          className="p-1 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors"
-          aria-label="Back to network selection"
+          onClick={onClose}
+          disabled={isConnecting}
+          className="p-1 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors disabled:opacity-50 text-xl leading-none"
+          aria-label={t("modal.close")}
         >
-          <ArrowLeft className="w-5 h-5" />
+          &times;
         </button>
-        <h3
-          id="wallet-modal-title"
-          className="text-lg font-semibold text-gray-900 dark:text-white"
-        >
-          Connect Wallet
-        </h3>
       </div>
-      <button
-        type="button"
-        onClick={onClose}
-        disabled={isConnecting}
-        className="p-1 w-7 h-7 flex items-center justify-center text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 transition-colors disabled:opacity-50 text-xl leading-none"
-        aria-label="Close modal"
-      >
-        &times;
-      </button>
-    </div>
 
-    {/* Chain Type Tabs */}
-    <div
-      className="flex px-6 pt-4 gap-2"
-      role="tablist"
-      aria-label="Chain type"
-    >
-      {CHAIN_TABS.map(({ type, label, activeClass }) => (
-        <button
-          key={type}
-          role="tab"
-          aria-selected={selectedChainType === type}
-          data-chain-type={type}
-          onClick={onChainTabClick}
-          className={`
+      {/* Chain Type Tabs */}
+      <div
+        className="flex px-6 pt-4 gap-2"
+        role="tablist"
+        aria-label={t("modal.connect.chainTypeAria")}
+      >
+        {CHAIN_TABS.map(({ type, label, activeClass }) => (
+          <button
+            key={type}
+            role="tab"
+            aria-selected={selectedChainType === type}
+            data-chain-type={type}
+            onClick={onChainTabClick}
+            className={`
             px-4 py-2 text-sm font-medium rounded-lg transition-colors
             ${
               selectedChainType === type
@@ -169,65 +175,68 @@ const WalletDialogContent: React.FC<{
                 : "bg-gray-100 dark:bg-gray-800 text-gray-600 dark:text-gray-400 hover:bg-gray-200 dark:hover:bg-gray-700"
             }
           `}
-        >
-          {label}
-        </button>
-      ))}
-    </div>
-
-    {/* Error Message */}
-    {error !== null && (
-      <div className="mx-6 mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-2">
-        <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
-        <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+          >
+            {label}
+          </button>
+        ))}
       </div>
-    )}
 
-    {/* Unified Wallet List */}
-    <div className="px-3 py-4 max-h-96 overflow-y-auto space-y-1" role="menu">
-      {filteredWallets.length === 0 ? (
-        <p className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
-          No wallets available for {selectedChainType.toUpperCase()} chains.
-          <span className="block text-sm text-gray-400 dark:text-gray-500 mt-1">
-            Try selecting a different chain type.
-          </span>
-        </p>
-      ) : (
-        filteredWallets.map((wallet) => (
-          <WalletOption
-            key={wallet.name}
-            wallet={wallet}
-            selectedChainType={selectedChainType}
-            isConnecting={isConnecting}
-            connectingWallet={connectingWallet}
-            onSelect={onSelectWallet}
-          />
-        ))
+      {/* Error Message */}
+      {error !== null && (
+        <div className="mx-6 mt-4 p-3 bg-red-50 dark:bg-red-900/20 border border-red-200 dark:border-red-800 rounded-lg flex items-start gap-2">
+          <AlertCircle className="w-5 h-5 text-red-500 flex-shrink-0 mt-0.5" />
+          <p className="text-sm text-red-700 dark:text-red-400">{error}</p>
+        </div>
       )}
-    </div>
 
-    {/* Footer */}
-    <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl text-center space-y-2">
-      <a
-        href="https://ethereum.org/en/wallets/find-wallet/"
-        target="_blank"
-        rel="noopener noreferrer"
-        className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
-      >
-        View other supported wallets
-      </a>
-      <p className="text-xs text-gray-400 dark:text-gray-500">
-        By connecting, you agree to the{" "}
+      {/* Unified Wallet List */}
+      <div className="px-3 py-4 max-h-96 overflow-y-auto space-y-1" role="menu">
+        {filteredWallets.length === 0 ? (
+          <p className="px-4 py-8 text-center text-gray-500 dark:text-gray-400">
+            {t("modal.connect.noWallets", {
+              chainType: selectedChainType.toUpperCase(),
+            })}
+            <span className="block text-sm text-gray-400 dark:text-gray-500 mt-1">
+              {t("modal.connect.tryDifferentChain")}
+            </span>
+          </p>
+        ) : (
+          filteredWallets.map((wallet) => (
+            <WalletOption
+              key={wallet.name}
+              wallet={wallet}
+              selectedChainType={selectedChainType}
+              isConnecting={isConnecting}
+              connectingWallet={connectingWallet}
+              onSelect={onSelectWallet}
+            />
+          ))
+        )}
+      </div>
+
+      {/* Footer */}
+      <div className="px-6 py-4 border-t border-gray-200 dark:border-gray-700 bg-gray-50 dark:bg-gray-800/50 rounded-b-xl text-center space-y-2">
         <a
-          href="/terms"
-          className="text-emerald-600 dark:text-emerald-400 hover:underline"
+          href="https://ethereum.org/en/wallets/find-wallet/"
+          target="_blank"
+          rel="noopener noreferrer"
+          className="text-xs text-emerald-600 dark:text-emerald-400 hover:underline"
         >
-          Terms of Service
+          {t("modal.connect.viewOtherWallets")}
         </a>
-      </p>
-    </div>
-  </dialog>
-);
+        <p className="text-xs text-gray-400 dark:text-gray-500">
+          {t("modal.connect.termsAgreement")}{" "}
+          <a
+            href="/terms"
+            className="text-emerald-600 dark:text-emerald-400 hover:underline"
+          >
+            {t("modal.connect.termsLink")}
+          </a>
+        </p>
+      </div>
+    </dialog>
+  );
+};
 
 interface WalletModalProps {
   isOpen: boolean;
@@ -257,6 +266,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
   onConnect,
   initialChainType = "evm",
 }) => {
+  const { t } = useTranslation();
   const [step, setStep] = useState<ModalStep>("network");
   const [selectedNetworkId, setSelectedNetworkId] = useState<ChainId | null>(
     null,
@@ -349,7 +359,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
         onClose();
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Connection failed";
+          err instanceof Error ? err.message : t("modal.connect.failedConnect");
         setError(message);
         Logger.error("Wallet connection failed in modal", {
           wallet: wallet.name,
@@ -360,7 +370,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
         setConnectingWallet(null);
       }
     },
-    [onConnect, selectedChainType, onClose],
+    [onConnect, selectedChainType, onClose, t],
   );
 
   const handleBackdropClick = useCallback(() => {
@@ -396,7 +406,7 @@ export const WalletModal: React.FC<WalletModalProps> = ({
           type="button"
           className="absolute inset-0 w-full h-full cursor-default"
           onClick={handleBackdropClick}
-          aria-label="Close modal"
+          aria-label={t("modal.close")}
           tabIndex={-1}
         />
 

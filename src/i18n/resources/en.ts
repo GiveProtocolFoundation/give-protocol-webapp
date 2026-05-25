@@ -119,6 +119,243 @@ export default {
     "volunteer.type.remote": "Remote",
     "volunteer.type.onsite": "Onsite",
     "volunteer.type.hybrid": "Hybrid",
+    "volunteer.type.onSite": "On-site",
+
+    // Volunteer - Opportunities page
+    "volunteer.workTypeFilter": "Work type filter",
+    "volunteer.searchLocation": "City or region...",
+    "volunteer.searchLocationAria": "Search location",
+    "volunteer.signInToApply":
+      "Please sign in to apply for volunteer opportunities",
+    "volunteer.applicationSuccess": "Application submitted successfully!",
+    "volunteer.removeFilter": "Remove {{filter}} filter",
+
+    // Volunteer - OpportunityForm
+    "volunteer.validation.titleRequired": "Title is required",
+    "volunteer.validation.descriptionRequired": "Description is required",
+    "volunteer.validation.skillsRequired": "At least one skill is required",
+    "volunteer.validation.locationRequired": "Location is required",
+    "volunteer.profileNotFound": "User profile not found",
+    "volunteer.correctErrors": "Please correct the validation errors",
+    "volunteer.createFailed": "Failed to create opportunity",
+    "volunteer.descriptionPlaceholder":
+      "Describe the volunteer opportunity in detail...",
+    "volunteer.skillsPlaceholder":
+      "e.g., Web Development, Project Management, Translation",
+    "volunteer.locationPlaceholder": "e.g., Remote, New York, Berlin",
+    "volunteer.headerImage": "Header Image",
+    "volunteer.headerImageHelp":
+      "Upload an image to display at the top of your opportunity listing",
+    "volunteer.limitReached": "Opportunity Limit Reached",
+    "volunteer.limitReachedMessage":
+      "You have reached the maximum of {{max}} active volunteer opportunities. Please close or complete an existing opportunity before creating a new one.",
+    "volunteer.opportunityCount":
+      "You have {{count}} of {{max}} active opportunities.",
+
+    // Volunteer - HoursVerificationTab
+    "volunteer.hoursVerification": "Hours Verification",
+    "volunteer.hoursVerificationDescription":
+      "Review and verify volunteer hour submissions",
+    "volunteer.formalHours": "Logged Hours",
+    "volunteer.selfReported": "Self-Reported",
+    "volunteer.loggedHours": "Logged Volunteer Hours",
+    "volunteer.loggedHoursDescription":
+      "Hours logged by volunteers through your opportunities",
+    "volunteer.allCaughtUp": "All caught up!",
+    "volunteer.noPendingLoggedHours": "No pending logged hours to verify.",
+    "volunteer.selfReportedHours": "Self-Reported Hours",
+
+    // Volunteer - OpportunitiesTab
+    "volunteer.noOpportunitiesTitle": "No opportunities yet",
+    "volunteer.activeCount": "{{count}} of {{max}} active opportunities",
+    "volunteer.moreSkills": "+{{count}} more",
+
+    // Volunteer - ApplicationsTab
+    "volunteer.noApplications": "No pending applications",
+    "volunteer.unknownOpportunity": "Unknown Opportunity",
+
+    // Volunteer - VerificationLookup
+    "volunteer.verifyContribution": "Verify Volunteer Contribution",
+    "volunteer.hashPlaceholder": "Enter verification hash",
+    "volunteer.searching": "Searching...",
+    "volunteer.verifyHash": "Verify Hash",
+    "volunteer.verificationNotFound": "Verification Not Found",
+    "volunteer.verificationNotFoundMessage":
+      "The hash you provided could not be found in our records. Please check the hash and try again.",
+    "volunteer.unknownOrganization": "Unknown Organization",
+
+    // Volunteer - VolunteerVerificationCard
+    "volunteer.contributionVerification": "Volunteer Contribution Verification",
+    "volunteer.volunteerLabel": "Volunteer",
+    "volunteer.opportunityLabel": "Opportunity",
+    "volunteer.organizationLabel": "Organization",
+    "volunteer.acceptedOn": "Accepted On",
+    "volunteer.verifiedOn": "Verified On",
+    "volunteer.verificationHashes": "Verification Hashes",
+    "volunteer.blockchainReference": "Blockchain Reference",
+
+    // Volunteer - VerifyContribution page
+    "volunteer.verifyingContribution": "Verifying contribution\u2026",
+    "volunteer.noHashProvided": "No verification hash provided.",
+    "volunteer.verificationSuccessful": "Verification Successful",
+    "volunteer.contributionVerifiedBlockchain":
+      "This volunteer contribution has been verified and recorded on the blockchain.",
+    "volunteer.verificationFailed": "Verification Failed",
+    "volunteer.hashNotFound":
+      "The verification hash {{hash}} could not be found or is invalid.",
+
+    // Volunteer - SelfReportedHoursDashboard
+    "volunteer.volunteerHoursTitle": "Volunteer Hours",
+    "volunteer.aboutSelfReported": "About Self-Reported Hours",
+    "volunteer.selfReportedInfo":
+      "Only hours validated by verified organizations count toward the Global Impact Rankings. Hours for organizations not on our platform can be tracked but will be marked as \u201cUnvalidated\u201d until validation is received.",
+    "volunteer.logHoursButton": "Log Hours",
+    "volunteer.logVolunteerHours": "Log Volunteer Hours",
+    "volunteer.editRecord": "Edit Record",
+    "volunteer.recordDetails": "Record Details",
+    "volunteer.backToList": "Back to List",
+    "volunteer.deleteRecord": "Delete Record?",
+    "volunteer.deleteConfirmation":
+      "Are you sure you want to delete this volunteer hours record? This action cannot be undone.",
+
+    // Volunteer - SelfReportedHoursForm
+    "volunteer.activityType": "Activity Type",
+    "volunteer.organization": "Organization",
+    "volunteer.searchRegistry": "Search Registry",
+    "volunteer.notListed": "Not Listed",
+    "volunteer.organizationName": "Organization Name",
+    "volunteer.enterOrgName": "Enter organization name",
+    "volunteer.contactEmail": "Contact Email",
+    "volunteer.contactEmailOptional": "(optional)",
+    "volunteer.onboardHelp":
+      "We may reach out to help onboard this organization",
+    "volunteer.submittedForValidation":
+      "This record will be submitted for validation",
+    "volunteer.submittedForValidationTo":
+      "This record will be submitted for validation to {{org}}",
+    "volunteer.validationExpired":
+      "Validation period has expired for this date",
+    "volunteer.savedAsUnvalidated": "This record will be saved as unvalidated",
+    "volunteer.describeActivities": "Describe the activities you performed...",
+    "volunteer.moreCharsNeeded": "{{count}} more characters needed",
+    "volunteer.updating": "Updating...",
+    "volunteer.logging": "Logging...",
+    "volunteer.updateHours": "Update Hours",
+
+    // Volunteer - SelfReportedHoursList
+    "volunteer.statusFilter": "Status",
+    "volunteer.activityTypeFilter": "Activity Type",
+    "volunteer.filterFrom": "From",
+    "volunteer.filterTo": "To",
+    "volunteer.clearFilters": "Clear filters",
+    "volunteer.allStatuses": "All",
+    "volunteer.allActivityTypes": "All Types",
+    "volunteer.noMatchingRecords": "No matching records",
+    "volunteer.noHoursLogged": "No volunteer hours logged yet",
+    "volunteer.adjustFilters": "Try adjusting your filters to find records.",
+    "volunteer.startLogging": "Start by logging your first volunteer hours.",
+
+    // Volunteer - SelfReportedHoursStats
+    "volunteer.validatedHours": "Validated Hours",
+    "volunteer.pendingValidation": "Pending Validation",
+    "volunteer.unvalidatedHours": "Unvalidated Hours",
+    "volunteer.rejectedLabel": "Rejected",
+    "volunteer.hoursUnit": "hrs",
+    "volunteer.recordSingular": "record",
+    "volunteer.recordPlural": "records",
+
+    // Volunteer - VolunteerApplicationForm
+    "volunteer.applicationTitle": "Volunteer Opportunity Application",
+    "volunteer.applicationSubtitle":
+      "Help create sustainable impact through verified contributions",
+    "volunteer.personalInfo": "Personal Information",
+    "volunteer.firstName": "First Name",
+    "volunteer.lastName": "Last Name",
+    "volunteer.emailAddress": "Email Address",
+    "volunteer.phoneNumber": "Phone Number",
+    "volunteer.locationCity": "Location/City",
+    "volunteer.locationCityPlaceholder": "e.g., San Francisco, CA",
+    "volunteer.timeZone": "Time Zone",
+    "volunteer.selectTimeZone": "Select Time Zone",
+    "volunteer.ageRange": "Age Range",
+    "volunteer.selectAgeRange": "Select Age Range",
+    "volunteer.skillsAndInterests": "Skills & Interests",
+    "volunteer.skillsLabel": "Skills and Areas of Interest",
+    "volunteer.skillPlaceholderFull":
+      "Start typing your skills (e.g., Python programming, Public speaking, Grant writing)",
+    "volunteer.skillPlaceholderShort": "Type a skill and press Enter...",
+    "volunteer.commitmentLevel": "Commitment Level",
+    "volunteer.commitmentOneTimeDesc": "Single project or short-duration tasks",
+    "volunteer.commitmentShortTermDesc": "Few weeks to a few months",
+    "volunteer.commitmentLongTermDesc":
+      "Ongoing commitment of several months or more",
+    "volunteer.experienceLabel": "Tell us about your relevant experience",
+    "volunteer.experiencePlaceholder":
+      "Describe your background, skills, and what motivates you to volunteer with Give Protocol...",
+    "volunteer.consentTitle": "Consent & Agreement",
+    "volunteer.consentHeader": "Volunteer Application Consent",
+    "volunteer.submitting": "Submitting...",
+    "volunteer.submitApplication": "Submit Volunteer Application",
+    "volunteer.disclaimerText":
+      "By submitting this application, you acknowledge that you have read and understood Give Protocol\u2019s privacy policy and volunteer guidelines. Your data will be processed in accordance with applicable data protection regulations.",
+    "volunteer.validation.firstNameInvalid": "Please enter a valid first name",
+    "volunteer.validation.lastNameInvalid": "Please enter a valid last name",
+    "volunteer.validation.emailInvalid": "Please enter a valid email address",
+    "volunteer.validation.phoneInvalid": "Please enter a valid phone number",
+    "volunteer.validation.experienceRequired":
+      "Please describe your relevant experience",
+    "volunteer.validation.addSkill": "Please add at least one skill",
+    "volunteer.validation.ageRangeRequired": "Please select your age range",
+    "volunteer.validation.consentRequired":
+      "You must agree to all required consent items",
+    "volunteer.signInToSubmit": "Please log in to submit an application",
+    "volunteer.submitFailed": "Failed to submit application. Please try again.",
+
+    // Volunteer - ApplicationForm
+    "volunteer.applyForTitle": "Apply for: {{title}}",
+    "volunteer.fullName": "Full Name *",
+    "volunteer.phoneRequired": "Phone Number *",
+    "volunteer.emailRequired": "Email Address *",
+    "volunteer.dateOfBirth": "Date of Birth",
+    "volunteer.availabilityTitle": "Availability",
+    "volunteer.preferredDays": "Preferred Days",
+    "volunteer.preferredTimes": "Preferred Times",
+    "volunteer.commitmentLevelLabel": "Commitment Level",
+    "volunteer.skillsAndExperience": "Skills & Experience",
+    "volunteer.relevantExperience": "Relevant Experience *",
+    "volunteer.certifications": "Certifications (comma-separated)",
+    "volunteer.interestsAndPreferences": "Interests & Preferences",
+    "volunteer.areasOfInterest": "Areas of Interest (comma-separated)",
+    "volunteer.referencesTitle": "References",
+    "volunteer.referenceName": "Reference {{index}} Name",
+    "volunteer.referenceContact": "Reference {{index}} Contact",
+    "volunteer.workSamplesTitle": "Work Samples",
+    "volunteer.workSamplesLabel": "Links to Work Samples (comma-separated)",
+    "volunteer.submitApplicationShort": "Submit Application",
+    "volunteer.validation.nameInvalid":
+      "Please enter a valid name (2-100 characters)",
+    "volunteer.validation.provideExperience":
+      "Please provide information about your experience",
+    "volunteer.validation.selectDay": "Please select at least one day",
+    "volunteer.validation.selectTime": "Please select at least one time",
+
+    // Volunteer - ConsentForm
+    "volunteer.consentUnderstand": "I understand that:",
+    "volunteer.specificConsents": "SPECIFIC CONSENTS",
+    "volunteer.specificConsentsDesc":
+      "Please review and indicate your consent to each of the following:",
+    "volunteer.essentialProcessingTitle": "Essential Processing (Required):",
+    "volunteer.internationalTransfersTitle":
+      "International Transfers (if applicable):",
+    "volunteer.acknowledgmentTitle": "ACKNOWLEDGMENT",
+    "volunteer.ageConfirmationTitle": "Age Confirmation:",
+    "volunteer.privacyNoticeTitle": "Privacy Notice:",
+    "volunteer.doNotAccept": "Do Not Accept",
+    "volunteer.acceptAndContinue": "Accept and Continue",
+    "volunteer.validation.essentialRequired":
+      "Essential Processing consent is required to proceed",
+    "volunteer.validation.agePrivacyRequired":
+      "You must confirm your age and that you have read the Privacy Notice",
 
     // Languages
     "language.english": "English",

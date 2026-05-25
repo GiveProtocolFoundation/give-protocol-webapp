@@ -5,6 +5,7 @@ import React, {
   useState,
   useEffect,
 } from "react";
+import { useTranslation } from "react-i18next";
 import { createPortal } from "react-dom";
 import {
   X,
@@ -60,6 +61,7 @@ function ModalShell({
   children: React.ReactNode;
   dark?: boolean;
 }): React.ReactElement {
+  const { t } = useTranslation();
   const content = (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center p-4 z-50 animate-fadeIn overflow-y-auto">
       <Card
@@ -71,7 +73,7 @@ function ModalShell({
         <button
           onClick={onClose}
           className="absolute top-4 right-4 text-gray-500 hover:text-gray-700 dark:text-gray-400 dark:hover:text-gray-200 transition-colors z-10 bg-white/80 dark:bg-slate-800/80 backdrop-blur-sm rounded-full p-1 hover:bg-white dark:hover:bg-slate-700"
-          aria-label="Close"
+          aria-label={t("modal.closeAriaLabel")}
         >
           <X className="h-6 w-6" />
         </button>
@@ -108,31 +110,39 @@ function SuccessContent({
   charityName: string;
   onClose: () => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="p-8 text-center">
       <div className="w-16 h-16 mx-auto mb-4 bg-emerald-100 dark:bg-emerald-900/30 rounded-full flex items-center justify-center">
         <CheckCircle2 className="w-8 h-8 text-emerald-600 dark:text-emerald-400" />
       </div>
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-        Thank You!
+        {t("modal.donation.successTitle")}
       </h2>
       <p className="text-gray-600 dark:text-gray-400 mb-4">
-        Your {result.isRecurring ? "monthly " : ""}donation of{" "}
-        {formatSuccessAmount(result)} to {charityName} has been processed.
+        {result.isRecurring
+          ? t("modal.donation.donationProcessedRecurring", {
+              amount: formatSuccessAmount(result),
+              charityName,
+            })
+          : t("modal.donation.donationProcessedOneTime", {
+              amount: formatSuccessAmount(result),
+              charityName,
+            })}
       </p>
       {result.isRecurring && (
         <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-4">
-          You&apos;ll be charged monthly until you cancel.
+          {t("modal.donation.recurringNote")}
         </p>
       )}
       {result.paymentMethod === "card" && (
         <p className="text-sm text-gray-500 dark:text-gray-500">
-          A receipt has been sent to your email.
+          {t("modal.donation.receiptNote")}
         </p>
       )}
       <PostDonationShare charityName={charityName} />
       <Button onClick={onClose} className="mt-6" fullWidth>
-        Done
+        {t("modal.donation.done")}
       </Button>
     </div>
   );
@@ -148,18 +158,19 @@ function AmountDisplay({
   isMonthly: boolean;
   formattedAmount: string;
 }): React.ReactElement | null {
+  const { t } = useTranslation();
   if (amount <= 0) return null;
   return (
     <div className="text-center p-4 bg-gray-50 dark:bg-slate-800 rounded-xl">
       <p className="text-sm text-gray-500 dark:text-gray-400">
-        Donation Amount
+        {t("modal.donation.amountLabel")}
       </p>
       <p className="text-3xl font-bold text-gray-900 dark:text-white">
         {formattedAmount}
       </p>
       {isMonthly && (
         <p className="text-sm text-emerald-600 dark:text-emerald-400 mt-1">
-          per month
+          {t("modal.donation.perMonth")}
         </p>
       )}
     </div>
@@ -176,24 +187,25 @@ function ErrorContent({
   onReset: () => void;
   onClose: () => void;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
     <div className="p-8 text-center">
       <div className="w-16 h-16 mx-auto mb-4 bg-red-100 dark:bg-red-900/30 rounded-full flex items-center justify-center">
         <AlertCircle className="w-8 h-8 text-red-600 dark:text-red-400" />
       </div>
       <h2 className="text-2xl font-semibold text-gray-900 dark:text-white mb-2">
-        Something Went Wrong
+        {t("modal.donation.errorTitle")}
       </h2>
       <p className="text-gray-600 dark:text-gray-400 mb-4">
-        {error || "An unexpected error occurred. Please try again."}
+        {error || t("modal.donation.errorDefault")}
       </p>
       <div className="flex gap-3">
         <Button onClick={onReset} variant="secondary" fullWidth>
           <ArrowLeft className="w-4 h-4 mr-2" />
-          Try Again
+          {t("modal.donation.tryAgain")}
         </Button>
         <Button onClick={onClose} fullWidth>
-          Close
+          {t("modal.donation.close")}
         </Button>
       </div>
     </div>
@@ -291,6 +303,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   onClose,
   onSuccess,
 }) => {
+  const { t } = useTranslation();
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);
@@ -419,15 +432,15 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   // Modal title based on state and frequency
   const modalTitle = useMemo(() => {
     if (state.step === "success") {
-      return "Thank You!";
+      return t("modal.donation.successTitle");
     }
     if (state.step === "error") {
-      return "Something Went Wrong";
+      return t("modal.donation.errorTitle");
     }
     return state.frequency === "monthly"
-      ? `Support ${charityName} Monthly`
-      : `Donate to ${charityName}`;
-  }, [state.step, state.frequency, charityName]);
+      ? t("modal.donation.supportMonthly", { charityName })
+      : t("modal.donation.donateToCharity", { charityName });
+  }, [state.step, state.frequency, charityName, t]);
 
   // Frequency badge component
   const FrequencyBadge = useMemo(() => {
@@ -435,17 +448,17 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       return (
         <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-emerald-100 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-400 rounded-full text-xs font-semibold">
           <Calendar className="w-3 h-3" />
-          Monthly
+          {t("modal.donation.monthly")}
         </div>
       );
     }
     return (
       <div className="inline-flex items-center gap-1.5 px-3 py-1 bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 rounded-full text-xs font-semibold">
         <Zap className="w-3 h-3" />
-        One-Time
+        {t("modal.donation.oneTime")}
       </div>
     );
-  }, [state.frequency]);
+  }, [state.frequency, t]);
 
   // Render success state
   if (state.step === "success" && state.result) {
@@ -527,7 +540,9 @@ export const DonationModal: React.FC<DonationModalProps> = ({
           {state.paymentMethod !== "crypto" && !isMounted && (
             <div className="flex flex-col items-center justify-center py-12 text-gray-500 dark:text-gray-400">
               <div className="h-6 w-6 animate-spin rounded-full border-2 border-current border-t-transparent mb-3" />
-              <p className="text-sm">Loading payment form...</p>
+              <p className="text-sm">
+                {t("modal.donation.loadingPaymentForm")}
+              </p>
             </div>
           )}
           {state.paymentMethod !== "crypto" && isMounted && (

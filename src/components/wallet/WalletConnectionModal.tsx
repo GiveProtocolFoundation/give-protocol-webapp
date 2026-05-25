@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useTranslation } from "react-i18next";
 import { Wallet, ShieldCheck, ArrowRight, X, AlertCircle } from "lucide-react";
 import { Modal } from "../ui/Modal";
 import { Button } from "../ui/Button";
@@ -27,6 +28,7 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
   onClose,
   onConnected,
 }) => {
+  const { t } = useTranslation();
   const { connect, isConnecting } = useWeb3();
   const { getInstalledWallets } = useWallet();
   const [connectionError, setConnectionError] = useState<string | null>(null);
@@ -50,7 +52,7 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
         onClose();
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Failed to connect wallet";
+          err instanceof Error ? err.message : t("modal.wallet.failedConnect");
 
         // Don't show error for user rejection
         if (message.toLowerCase().includes("user rejected")) {
@@ -67,7 +69,7 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
         setSelectedWallet(null);
       }
     },
-    [connect, onClose, onConnected]
+    [connect, onClose, onConnected, t],
   );
 
   const handleWalletButtonClick = useCallback(
@@ -78,7 +80,7 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
         handleWalletConnect(wallet);
       }
     },
-    [installedWallets, handleWalletConnect]
+    [installedWallets, handleWalletConnect],
   );
 
   const handleSkip = useCallback(() => {
@@ -100,10 +102,10 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
           <Wallet className="h-8 w-8 text-green-600 dark:text-green-400" />
         </span>
         <h2 className="text-2xl font-bold text-gray-900 dark:text-gray-100 mb-2">
-          Connect Your Wallet
+          {t("modal.wallet.title")}
         </h2>
         <p className="text-gray-600 dark:text-gray-400">
-          Connect a wallet to unlock all features of Give Protocol
+          {t("modal.wallet.description")}
         </p>
       </div>
 
@@ -112,19 +114,19 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
         <li className="flex items-start gap-3">
           <ShieldCheck className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
           <span className="text-sm text-gray-700 dark:text-gray-300">
-            Track your donations transparently on the blockchain
+            {t("modal.wallet.benefit1")}
           </span>
         </li>
         <li className="flex items-start gap-3">
           <ShieldCheck className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
           <span className="text-sm text-gray-700 dark:text-gray-300">
-            Receive GIVE tokens as rewards for your contributions
+            {t("modal.wallet.benefit2")}
           </span>
         </li>
         <li className="flex items-start gap-3">
           <ShieldCheck className="h-5 w-5 text-green-600 dark:text-green-400 flex-shrink-0 mt-0.5" />
           <span className="text-sm text-gray-700 dark:text-gray-300">
-            Participate in governance decisions for the protocol
+            {t("modal.wallet.benefit3")}
           </span>
         </li>
       </ul>
@@ -172,8 +174,8 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
               </span>
               <span className="block text-xs text-gray-500 dark:text-gray-400">
                 {selectedWallet === wallet.name && isConnecting
-                  ? "Connecting..."
-                  : "Click to connect"}
+                  ? t("modal.wallet.connecting")
+                  : t("modal.wallet.clickToConnect")}
               </span>
             </span>
             <ArrowRight
@@ -187,14 +189,14 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
         ))
       ) : (
         <p className="text-center py-6 mb-6 text-gray-600 dark:text-gray-400">
-          No wallet extension detected.{" "}
+          {t("modal.wallet.noExtension")}{" "}
           <a
             href="https://metamask.io/download/"
             target="_blank"
             rel="noopener noreferrer"
             className="text-green-600 hover:text-green-700 dark:text-green-400 dark:hover:text-green-300 font-medium"
           >
-            Install MetaMask to get started
+            {t("modal.wallet.installMetaMask")}
           </a>
         </p>
       )}
@@ -209,13 +211,13 @@ export const WalletConnectionModal: React.FC<WalletConnectionModalProps> = ({
           className="text-gray-500 dark:text-gray-400 hover:text-gray-700 dark:hover:text-gray-300"
         >
           <X className="h-4 w-4 mr-1" />
-          Skip for now
+          {t("modal.wallet.skip")}
         </Button>
       </div>
 
       {/* Footer note */}
       <p className="text-xs text-center text-gray-400 dark:text-gray-500 mt-4">
-        You can connect your wallet anytime from the navigation bar
+        {t("modal.wallet.footerNote")}
       </p>
     </Modal>
   );

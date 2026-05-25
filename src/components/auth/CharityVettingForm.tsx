@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import { useNavigate } from "react-router-dom";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PasswordStrengthBar } from "@/components/auth/PasswordStrengthBar";
@@ -55,33 +55,36 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
 );
 
 /** Country dropdown selector with validation error display. */
-const CountrySelect: React.FC<CountrySelectProps> = ({
+function CountrySelect({
   value,
   onChange,
   countries,
   error,
-}) => (
-  <label className="block">
-    <span className="text-sm font-medium text-gray-700 mb-1 block">
-      Country
-    </span>
-    <select
-      name="country"
-      value={value}
-      onChange={onChange}
-      className="block w-full border border-slate-200 dark:border-gray-600 shadow-none bg-white dark:bg-gray-700 rounded-lg px-4 py-2.5 focus:border-emerald-600 focus:ring-0 focus:outline-none text-gray-900 dark:text-gray-100"
-      required
-    >
-      <option value="">Select Country</option>
-      {countries.map((country) => (
-        <option key={country.code} value={country.code}>
-          {country.name}
-        </option>
-      ))}
-    </select>
-    {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
-  </label>
-);
+}: CountrySelectProps) {
+  const { t } = useTranslation();
+  return (
+    <label className="block">
+      <span className="text-sm font-medium text-gray-700 mb-1 block">
+        {t("charity.vetting.countryLabel")}
+      </span>
+      <select
+        name="country"
+        value={value}
+        onChange={onChange}
+        className="block w-full border border-slate-200 dark:border-gray-600 shadow-none bg-white dark:bg-gray-700 rounded-lg px-4 py-2.5 focus:border-emerald-600 focus:ring-0 focus:outline-none text-gray-900 dark:text-gray-100"
+        required
+      >
+        <option value="">{t("charity.vetting.selectCountry")}</option>
+        {countries.map((country) => (
+          <option key={country.code} value={country.code}>
+            {country.name}
+          </option>
+        ))}
+      </select>
+      {error && <p className="mt-1 text-sm text-red-600">{error}</p>}
+    </label>
+  );
+}
 
 /**
  * CharityVettingForm component
@@ -92,7 +95,7 @@ const CountrySelect: React.FC<CountrySelectProps> = ({
  */
 export const CharityVettingForm: React.FC = () => {
   const { register, loading } = useAuth();
-  const navigate = useNavigate();
+  const { t } = useTranslation();
   const { countries } = useCountries();
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState<
@@ -115,11 +118,6 @@ export const CharityVettingForm: React.FC = () => {
     confirmPassword: "",
   });
 
-  /**
-   * Handles change event for input and select fields in the form.
-   *
-   * @param {React.ChangeEvent<HTMLInputElement | HTMLSelectElement>} event The change event triggered by input or select elements.
-   */
   const handleChange = useCallback(
     (
       e: React.ChangeEvent<
@@ -147,26 +145,43 @@ export const CharityVettingForm: React.FC = () => {
         case "organizationName":
           return validateName(value)
             ? ""
-            : "Organization name must be between 2 and 100 characters";
+            : t(
+                "charity.vetting.validation.orgName",
+                "Organization name must be between 2 and 100 characters",
+              );
         case "contactName":
           return validateName(value)
             ? ""
-            : "Contact name must be between 2 and 100 characters";
+            : t(
+                "charity.vetting.validation.contactName",
+                "Contact name must be between 2 and 100 characters",
+              );
         case "contactEmail":
           return validateEmail(value)
             ? ""
-            : "Please enter a valid email address";
+            : t(
+                "charity.vetting.validation.email",
+                "Please enter a valid email address",
+              );
         case "password":
           return validatePassword(value)
             ? ""
-            : "Password must be at least 8 characters long";
+            : t(
+                "charity.vetting.validation.password",
+                "Password must be at least 8 characters long",
+              );
         case "confirmPassword":
-          return value === formData.password ? "" : "Passwords do not match";
+          return value === formData.password
+            ? ""
+            : t(
+                "charity.vetting.validation.confirmPassword",
+                "Passwords do not match",
+              );
         default:
           return "";
       }
     },
-    [formData.password],
+    [formData.password, t],
   );
 
   const handleSubmit = useCallback(
@@ -188,41 +203,41 @@ export const CharityVettingForm: React.FC = () => {
       ];
 
       fieldsToValidate.forEach(({ name, value }) => {
-        const error = validateField(name, value);
-        if (error) {
-          errors[name] = error;
+        const fieldError = validateField(name, value);
+        if (fieldError) {
+          errors[name] = fieldError;
         }
       });
 
       // Additional required fields
       if (!formData.description.trim()) {
-        errors["description"] = "Description is required";
+        errors["description"] = t("charity.vetting.validation.description");
       }
 
       if (!formData.category) {
-        errors["category"] = "Category is required";
+        errors["category"] = t("charity.vetting.validation.category");
       }
 
       if (!formData.taxId.trim()) {
-        errors["taxId"] = "Tax ID is required";
+        errors["taxId"] = t("charity.vetting.validation.taxId");
       }
 
       if (!formData.streetAddress.trim()) {
-        errors["streetAddress"] = "Street address is required";
+        errors["streetAddress"] = t("charity.vetting.validation.streetAddress");
       }
 
       if (!formData.city.trim()) {
-        errors["city"] = "City is required";
+        errors["city"] = t("charity.vetting.validation.city");
       }
 
       if (!formData.country) {
-        errors["country"] = "Country is required";
+        errors["country"] = t("charity.vetting.validation.country");
       }
 
       // If there are validation errors, don't submit
       if (Object.keys(errors).length > 0) {
         setValidationErrors(errors);
-        setError("Please correct the validation errors");
+        setError(t("charity.vetting.validation.fix"));
         return;
       }
 
@@ -249,11 +264,13 @@ export const CharityVettingForm: React.FC = () => {
         );
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Failed to submit application";
+          err instanceof Error
+            ? err.message
+            : t("charity.vetting.error.generic");
         setError(message);
       }
     },
-    [formData, navigate, register, validateField],
+    [formData, register, validateField, t],
   );
 
   return (
@@ -266,10 +283,10 @@ export const CharityVettingForm: React.FC = () => {
       )}
 
       <h3 className="text-lg font-semibold text-gray-900">
-        Organization Details
+        {t("charity.vetting.orgDetails")}
       </h3>
       <Input
-        label="Organization Name"
+        label={t("charity.vetting.orgName")}
         name="organizationName"
         variant="fintech"
         value={formData.organizationName}
@@ -279,7 +296,7 @@ export const CharityVettingForm: React.FC = () => {
       />
 
       <label className="block text-sm font-medium text-gray-700 mb-1">
-        Description{" "}
+        {t("charity.vetting.description")}{" "}
         <textarea
           name="description"
           value={formData.description}
@@ -302,7 +319,7 @@ export const CharityVettingForm: React.FC = () => {
       />
 
       <Input
-        label="Tax or Registration ID"
+        label={t("charity.vetting.taxId")}
         name="taxId"
         variant="fintech"
         value={formData.taxId}
@@ -311,9 +328,11 @@ export const CharityVettingForm: React.FC = () => {
         error={validationErrors["taxId"]}
       />
 
-      <h3 className="text-lg font-semibold text-gray-900">Address</h3>
+      <h3 className="text-lg font-semibold text-gray-900">
+        {t("charity.vetting.address")}
+      </h3>
       <Input
-        label="Street Address"
+        label={t("charity.vetting.streetAddress")}
         name="streetAddress"
         variant="fintech"
         value={formData.streetAddress}
@@ -324,7 +343,7 @@ export const CharityVettingForm: React.FC = () => {
 
       <div className="grid grid-cols-2 gap-4">
         <Input
-          label="City"
+          label={t("charity.vetting.city")}
           name="city"
           variant="fintech"
           value={formData.city}
@@ -333,12 +352,11 @@ export const CharityVettingForm: React.FC = () => {
           error={validationErrors["city"]}
         />
         <Input
-          label="State/Province"
+          label={t("charity.vetting.state")}
           name="state"
           variant="fintech"
           value={formData.state}
           onChange={handleChange}
-          required
           error={validationErrors["state"]}
         />
       </div>
@@ -351,21 +369,20 @@ export const CharityVettingForm: React.FC = () => {
           error={validationErrors["country"]}
         />
         <Input
-          label="Postal Code"
+          label={t("charity.vetting.postalCode")}
           name="postalCode"
           variant="fintech"
           value={formData.postalCode}
           onChange={handleChange}
-          required
           error={validationErrors["postalCode"]}
         />
       </div>
 
       <h3 className="text-lg font-semibold text-gray-900">
-        Contact Information
+        {t("charity.vetting.contactInfo")}
       </h3>
       <Input
-        label="Contact Name"
+        label={t("charity.vetting.contactName")}
         name="contactName"
         variant="fintech"
         value={formData.contactName}
@@ -374,7 +391,7 @@ export const CharityVettingForm: React.FC = () => {
         error={validationErrors["contactName"]}
       />
       <Input
-        label="Contact Email"
+        label={t("charity.vetting.contactEmail")}
         type="email"
         name="contactEmail"
         variant="fintech"
@@ -383,10 +400,12 @@ export const CharityVettingForm: React.FC = () => {
         required
         error={validationErrors["contactEmail"]}
       />
-      <h3 className="text-lg font-semibold text-gray-900">Account Security</h3>
+      <h3 className="text-lg font-semibold text-gray-900">
+        {t("charity.vetting.accountSecurity")}
+      </h3>
       <div className="space-y-1">
         <Input
-          label="Password"
+          label={t("charity.vetting.password")}
           type="password"
           name="password"
           variant="fintech"
@@ -398,7 +417,7 @@ export const CharityVettingForm: React.FC = () => {
         <PasswordStrengthBar password={formData.password} />
       </div>
       <Input
-        label="Confirm Password"
+        label={t("charity.vetting.confirmPassword")}
         type="password"
         name="confirmPassword"
         variant="fintech"
@@ -413,7 +432,9 @@ export const CharityVettingForm: React.FC = () => {
         className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
         disabled={loading}
       >
-        {loading ? "Submitting Application..." : "Submit Charity Application"}
+        {loading
+          ? t("charity.vetting.submitting")
+          : t("charity.vetting.submit")}
       </Button>
     </form>
   );
