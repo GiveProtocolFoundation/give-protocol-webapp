@@ -593,13 +593,27 @@ function AuditLogTable({
   const tableHead = (
     <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
       <tr>
-        <th scope="col" className="px-4 py-3 whitespace-nowrap">Date</th>
-        <th scope="col" className="px-4 py-3">Admin</th>
-        <th scope="col" className="px-4 py-3 whitespace-nowrap">Action</th>
-        <th scope="col" className="px-4 py-3 whitespace-nowrap">Entity Type</th>
-        <th scope="col" className="px-4 py-3">Entity ID</th>
-        <th scope="col" className="px-4 py-3">Old Values</th>
-        <th scope="col" className="px-4 py-3">New Values</th>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Date
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Admin
+        </th>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Action
+        </th>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Entity Type
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Entity ID
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Old Values
+        </th>
+        <th scope="col" className="px-4 py-3">
+          New Values
+        </th>
       </tr>
     </thead>
   );
@@ -858,10 +872,18 @@ function AdminUsersTable({
   const tableHead = (
     <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
       <tr>
-        <th scope="col" className="px-4 py-3">Display Name</th>
-        <th scope="col" className="px-4 py-3">Email</th>
-        <th scope="col" className="px-4 py-3">User ID</th>
-        <th scope="col" className="px-4 py-3 whitespace-nowrap">Joined</th>
+        <th scope="col" className="px-4 py-3">
+          Display Name
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Email
+        </th>
+        <th scope="col" className="px-4 py-3">
+          User ID
+        </th>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Joined
+        </th>
       </tr>
     </thead>
   );

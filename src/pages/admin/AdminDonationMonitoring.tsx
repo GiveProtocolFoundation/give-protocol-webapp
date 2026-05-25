@@ -314,19 +314,34 @@ function SummaryTable({
       <caption className="sr-only">Donation summary by group</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Group
           </th>
-          <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Method
           </th>
-          <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Total (USD)
           </th>
-          <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Count
           </th>
-          <th scope="col" className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
         </tr>
@@ -368,28 +383,52 @@ function DonationListTable({
       <caption className="sr-only">Donation monitoring list</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Method
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Amount (USD)
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Donor
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Tx / ID
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Date
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Flag
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Actions
           </th>
         </tr>

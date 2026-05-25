@@ -304,22 +304,40 @@ function OpportunitiesTable({
       <caption className="sr-only">Volunteer opportunities moderation</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Name
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Status
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Visibility
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Last Modified
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Actions
           </th>
         </tr>
@@ -401,22 +419,40 @@ function CausesTable({
       <caption className="sr-only">Causes moderation</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Name
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Status
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Visibility
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Last Modified
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Actions
           </th>
         </tr>

@@ -151,22 +151,37 @@ const AdminCharityRequests: React.FC = () => {
             <caption className="sr-only">Charity requests by EIN</caption>
             <thead className="bg-gray-50">
               <tr>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                >
                   {t("admin.charityRequests.ein", "EIN")}
                 </th>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                >
                   {t("admin.charityRequests.requests", "Requests")}
                 </th>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                >
                   {t(
                     "admin.charityRequests.latestRequester",
                     "Latest Requester",
                   )}
                 </th>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                >
                   {t("admin.charityRequests.latestRequest", "Latest Request")}
                 </th>
-                <th scope="col" className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500">
+                <th
+                  scope="col"
+                  className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
+                >
                   {t("admin.charityRequests.firstRequest", "First Request")}
                 </th>
               </tr>

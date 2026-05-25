@@ -367,22 +367,40 @@ function CharityTable({
       <caption className="sr-only">Charity management list</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colName", "Name")}
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colCategory", "Category")}
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colStatus", "Status")}
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colJoined", "Joined")}
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colWallet", "Wallet")}
           </th>
-          <th scope="col" className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             {t("admin.charity.colActions", "Actions")}
           </th>
         </tr>
