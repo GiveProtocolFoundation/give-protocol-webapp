@@ -363,42 +363,40 @@ function CharityTable({
 }): React.ReactElement {
   const { t } = useTranslation();
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-left">
-        <thead>
-          <tr className="bg-gray-50">
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              {t("admin.charity.colName", "Name")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              {t("admin.charity.colCategory", "Category")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              {t("admin.charity.colStatus", "Status")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              {t("admin.charity.colJoined", "Joined")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              {t("admin.charity.colWallet", "Wallet")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-              {t("admin.charity.colActions", "Actions")}
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {charities.map((charity) => (
-            <CharityRow
-              key={charity.id}
-              charity={charity}
-              onAction={onAction}
-              updating={updating}
-            />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <table className="w-full text-left overflow-x-auto">
+      <thead>
+        <tr className="bg-gray-50">
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            {t("admin.charity.colName", "Name")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            {t("admin.charity.colCategory", "Category")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            {t("admin.charity.colStatus", "Status")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            {t("admin.charity.colJoined", "Joined")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            {t("admin.charity.colWallet", "Wallet")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+            {t("admin.charity.colActions", "Actions")}
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {charities.map((charity) => (
+          <CharityRow
+            key={charity.id}
+            charity={charity}
+            onAction={onAction}
+            updating={updating}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 }
 
