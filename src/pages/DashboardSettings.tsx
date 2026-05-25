@@ -105,7 +105,7 @@ const DashboardSettings: React.FC = () => {
             className="h-4 w-4 text-gray-400 dark:text-gray-500"
             aria-hidden="true"
           />
-          {t("settings.displayPreferences")}
+          {t("settings.displayPreferences", "Display Preferences")}
         </h3>
         <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
           {t("settings.language")}
