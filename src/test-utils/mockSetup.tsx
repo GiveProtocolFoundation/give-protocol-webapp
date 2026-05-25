@@ -225,8 +225,8 @@ export const setupCommonMocks = () => {
   }));
 
   jest.mock("@/components/ui/Card", () => ({
-    Card: ({ children, className, ...props }: MockUIComponentProps) => (
-      <div className={className} {...props}>
+    Card: ({ children, className, hover: _hover, ...props }: MockUIComponentProps & { hover?: boolean }) => (
+      <div className={className} data-testid="card" {...props}>
         {children}
       </div>
     ),
