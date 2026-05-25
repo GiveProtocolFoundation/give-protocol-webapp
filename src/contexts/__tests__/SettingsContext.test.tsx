@@ -19,6 +19,7 @@ describe("SettingsContext", () => {
     document.cookie = "theme=; expires=Thu, 01 Jan 1970 00:00:00 GMT; path=/";
     document.documentElement.classList.remove("dark");
     document.documentElement.lang = "";
+    document.documentElement.dir = "";
   });
 
   it("throws when useSettings is used outside SettingsProvider", () => {
@@ -101,6 +102,25 @@ describe("SettingsContext", () => {
       result.current.setTheme("light" as Theme);
     });
     expect(document.documentElement.classList.contains("dark")).toBe(false);
+  });
+
+  it("sets dir=rtl on document when Arabic is selected", () => {
+    const { result } = renderHook(() => useSettings(), { wrapper });
+    act(() => {
+      result.current.setLanguage("ar" as Language);
+    });
+    expect(document.documentElement.dir).toBe("rtl");
+  });
+
+  it("sets dir=ltr on document when a non-Arabic language is selected", () => {
+    const { result } = renderHook(() => useSettings(), { wrapper });
+    act(() => {
+      result.current.setLanguage("ar" as Language);
+    });
+    act(() => {
+      result.current.setLanguage("en" as Language);
+    });
+    expect(document.documentElement.dir).toBe("ltr");
   });
 
   it("renders children inside the provider", () => {

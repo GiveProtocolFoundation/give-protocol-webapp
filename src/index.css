@@ -442,3 +442,45 @@
 .dark .border-gray-300 {
   border-color: rgba(255, 255, 255, 0.1) !important;
 }
+
+/* RTL layout support — Arabic is the only RTL language in the 12-language set */
+
+/* Mirror horizontal scroll-reveal animations for RTL */
+[dir="rtl"] .scroll-reveal-left {
+  transform: translateX(30px);
+}
+
+[dir="rtl"] .scroll-reveal-right {
+  transform: translateX(-30px);
+}
+
+/* RTL keyframe mirrors for fadeInLeft / fadeInRight */
+@keyframes fadeInLeftRTL {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRightRTL {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+[dir="rtl"] .animate-fade-in-left {
+  animation-name: fadeInLeftRTL;
+}
+
+[dir="rtl"] .animate-fade-in-right {
+  animation-name: fadeInRightRTL;
+}
