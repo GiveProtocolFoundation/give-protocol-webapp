@@ -18,13 +18,15 @@ beforeEach(() => {
 
   (
     global as unknown as { IntersectionObserver: unknown }
-  ).IntersectionObserver = jest.fn((_callback: IntersectionObserverCallback) => {
-    return {
-      observe: mockObserve,
-      unobserve: mockUnobserve,
-      disconnect: mockDisconnect,
-    };
-  });
+  ).IntersectionObserver = jest.fn(
+    (_callback: IntersectionObserverCallback) => {
+      return {
+        observe: mockObserve,
+        unobserve: mockUnobserve,
+        disconnect: mockDisconnect,
+      };
+    },
+  );
 });
 
 describe("useScrollAnimation", () => {
