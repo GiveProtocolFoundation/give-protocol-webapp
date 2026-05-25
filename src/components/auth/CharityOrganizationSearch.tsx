@@ -137,7 +137,7 @@ export const CharityOrganizationSearch: React.FC<
         <button
           type="button"
           onClick={onSkip}
-          className="font-medium text-emerald-600 hover:text-emerald-500"
+          className="font-medium text-emerald-600 hover:text-emerald-700"
         >
           {t("auth.orgSearch.registerManually")}
         </button>
