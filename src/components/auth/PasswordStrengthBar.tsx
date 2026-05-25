@@ -49,7 +49,7 @@ export const PasswordStrengthBar: React.FC<PasswordStrengthBarProps> = ({
           />
         ))}
       </div>
-      <p className="text-xs text-gray-500 dark:text-gray-400">{label}</p>
+      <p className="text-xs text-gray-600 dark:text-gray-500">{label}</p>
     </div>
   );
 };
