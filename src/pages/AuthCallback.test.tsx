@@ -258,6 +258,7 @@ describe("AuthCallback", () => {
 
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: /send new link/i }));
+      await Promise.resolve(); // flush microtask queue so handleResend state updates apply
     });
 
     expect(mockInvoke).toHaveBeenCalledWith("resend-verification", {
@@ -275,6 +276,7 @@ describe("AuthCallback", () => {
 
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: /send new link/i }));
+      await Promise.resolve(); // flush microtask queue so handleResend state updates apply
     });
 
     expect(screen.getByText(/link sent/i)).toBeInTheDocument();
@@ -294,6 +296,7 @@ describe("AuthCallback", () => {
 
     await act(async () => {
       fireEvent.click(screen.getByRole("button", { name: /send new link/i }));
+      await Promise.resolve(); // flush microtask queue so handleResend state updates apply
     });
 
     expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();

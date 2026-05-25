@@ -70,9 +70,8 @@ const AuthCallback: React.FC = () => {
       <div className="min-h-screen bg-gray-50 flex items-center justify-center px-4">
         <div className="max-w-md w-full bg-white rounded-2xl shadow-lg p-8 text-center">
           {/* Icon */}
-          <div className="flex justify-center mb-6">
-            <div className="bg-amber-100 rounded-full p-4">
-              <svg
+          <div className="bg-amber-100 rounded-full p-4 inline-flex mx-auto mb-6">
+            <svg
                 className="h-10 w-10 text-amber-600"
                 fill="none"
                 viewBox="0 0 24 24"
@@ -85,7 +84,6 @@ const AuthCallback: React.FC = () => {
                   d="M12 9v4m0 4h.01M10.29 3.86 1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"
                 />
               </svg>
-            </div>
           </div>
 
           {/* Headline */}
