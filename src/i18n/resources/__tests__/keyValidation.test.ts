@@ -1,5 +1,5 @@
-import * as fs from "fs";
-import * as path from "path";
+import { readdirSync, readFileSync } from "fs";
+import { join, resolve, relative } from "path";
 import en from "../en";
 
 /**
@@ -8,8 +8,8 @@ import en from "../en";
  */
 function collectTsxFiles(dir: string): string[] {
   const results: string[] = [];
-  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
-    const fullPath = path.join(dir, entry.name);
+  for (const entry of readdirSync(dir, { withFileTypes: true })) {
+    const fullPath = join(dir, entry.name);
     if (entry.isDirectory()) {
       if (entry.name === "node_modules" || entry.name === "__tests__") {
         continue;
@@ -52,7 +52,7 @@ function extractTranslationKeys(
 }
 
 describe("Translation key validation", () => {
-  const srcDir = path.resolve(__dirname, "../../../");
+  const srcDir = resolve(__dirname, "../../../");
   const registeredKeys = new Set(Object.keys(en.translation));
   const tsxFiles = collectTsxFiles(srcDir);
 
@@ -64,9 +64,9 @@ describe("Translation key validation", () => {
     const missing: Array<{ key: string; file: string; line: number }> = [];
 
     for (const filePath of tsxFiles) {
-      const content = fs.readFileSync(filePath, "utf-8");
+      const content = readFileSync(filePath, "utf-8");
       const keys = extractTranslationKeys(content);
-      const relPath = path.relative(srcDir, filePath);
+      const relPath = relative(srcDir, filePath);
 
       for (const { key, line } of keys) {
         if (!registeredKeys.has(key)) {

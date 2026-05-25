@@ -60,9 +60,7 @@ describe("Cross-language key parity", () => {
       if (unexpectedMissing.length > 0) {
         // eslint-disable-next-line no-console -- diagnostic output for CI
         console.error(
-          `${lang} is missing ${unexpectedMissing.length} key(s) not in the known-untranslated allowlist.\n` +
-            `Add translations to ${lang}.ts, or add to KNOWN_UNTRANSLATED_KEYS if tracked by GIV-260:\n` +
-            unexpectedMissing.map((k) => `  "${k}"`).join("\n"),
+          `${lang} is missing ${unexpectedMissing.length} key(s) not in the known-untranslated allowlist.\nAdd translations to ${lang}.ts, or add to KNOWN_UNTRANSLATED_KEYS if tracked by GIV-260:\n${unexpectedMissing.map((k) => `  "${k}"`).join("\n")}`,
         );
       }
       expect(unexpectedMissing).toHaveLength(0);
@@ -79,8 +77,7 @@ describe("Cross-language key parity", () => {
       if (orphaned.length > 0) {
         // eslint-disable-next-line no-console -- diagnostic output for CI
         console.error(
-          `${lang} has ${orphaned.length} orphaned key(s) not in en.ts — remove or add to en.ts:\n` +
-            orphaned.map((k) => `  "${k}"`).join("\n"),
+          `${lang} has ${orphaned.length} orphaned key(s) not in en.ts — remove or add to en.ts:\n${orphaned.map((k) => `  "${k}"`).join("\n")}`,
         );
       }
       expect(orphaned).toHaveLength(0);
@@ -96,8 +93,7 @@ describe("Cross-language key parity", () => {
     if (stale.length > 0) {
       // eslint-disable-next-line no-console -- diagnostic output for CI
       console.error(
-        `${stale.length} key(s) in KNOWN_UNTRANSLATED_KEYS no longer exist in en.ts — remove them:\n` +
-          stale.map((k) => `  "${k}"`).join("\n"),
+        `${stale.length} key(s) in KNOWN_UNTRANSLATED_KEYS no longer exist in en.ts — remove them:\n${stale.map((k) => `  "${k}"`).join("\n")}`,
       );
     }
     expect(stale).toHaveLength(0);
@@ -114,8 +110,7 @@ describe("Cross-language key parity", () => {
     if (nowTranslated.length > 0) {
       // eslint-disable-next-line no-console -- diagnostic output for CI
       console.error(
-        `${nowTranslated.length} key(s) in KNOWN_UNTRANSLATED_KEYS are now translated — remove them from the allowlist:\n` +
-          nowTranslated.map((k) => `  "${k}"`).join("\n"),
+        `${nowTranslated.length} key(s) in KNOWN_UNTRANSLATED_KEYS are now translated — remove them from the allowlist:\n${nowTranslated.map((k) => `  "${k}"`).join("\n")}`,
       );
     }
     expect(nowTranslated).toHaveLength(0);
