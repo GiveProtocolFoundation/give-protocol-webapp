@@ -25,7 +25,7 @@ describe("ExchangeRateService", () => {
     it("should fetch rates from API for non-USD currency", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.92, GBP: 0.79 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.92, GBP: 0.79 } }),
       } as Response);
 
       const rate = await service.getExchangeRate("EUR");
@@ -36,7 +36,7 @@ describe("ExchangeRateService", () => {
     it("should use cached rate on subsequent calls", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.92, GBP: 0.79 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.92, GBP: 0.79 } }),
       } as Response);
 
       await service.getExchangeRate("EUR");
@@ -48,7 +48,7 @@ describe("ExchangeRateService", () => {
     it("should handle case-insensitive currency codes", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.92 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.92 } }),
       } as Response);
 
       const rate = await service.getExchangeRate("eur");
@@ -69,7 +69,7 @@ describe("ExchangeRateService", () => {
     it("should throw when API returns invalid response", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ invalid: "response" }),
+        json: () => Promise.resolve({ invalid: "response" }),
       } as Response);
 
       await expect(service.getExchangeRate("EUR")).rejects.toThrow(
@@ -80,7 +80,7 @@ describe("ExchangeRateService", () => {
     it("should throw when requested currency not in response", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { GBP: 0.79 } }),
+        json: () => Promise.resolve({ rates: { GBP: 0.79 } }),
       } as Response);
 
       await expect(service.getExchangeRate("EUR")).rejects.toThrow(
@@ -93,7 +93,7 @@ describe("ExchangeRateService", () => {
     it("should convert USD amount to target currency", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.92 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.92 } }),
       } as Response);
 
       const result = await service.convertFromUSD(100, "EUR");
@@ -110,7 +110,7 @@ describe("ExchangeRateService", () => {
     it("should convert target currency to USD", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.5 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.5 } }),
       } as Response);
 
       const result = await service.convertToUSD(50, "EUR");
@@ -131,7 +131,7 @@ describe("ExchangeRateService", () => {
     it("should return cached rates after fetch", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.92, GBP: 0.79 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.92, GBP: 0.79 } }),
       } as Response);
       await service.getExchangeRate("EUR");
 
@@ -145,7 +145,7 @@ describe("ExchangeRateService", () => {
     it("should reset cache", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.92 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.92 } }),
       } as Response);
       await service.getExchangeRate("EUR");
 
@@ -163,7 +163,7 @@ describe("ExchangeRateService", () => {
     it("should return timestamp after fetch", async () => {
       mockFetch.mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ rates: { EUR: 0.92 } }),
+        json: () => Promise.resolve({ rates: { EUR: 0.92 } }),
       } as Response);
 
       const before = Date.now();
