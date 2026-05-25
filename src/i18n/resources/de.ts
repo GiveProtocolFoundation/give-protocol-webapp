@@ -1206,7 +1206,8 @@ export default {
     "browse.filter.searchPlaceholder": "Wohltätigkeitsorganisationen suchen...",
     "browse.filter.locationPlaceholder": "Stadt, Bundesland oder Land...",
     "browse.whyGiveProtocol.heading": "Warum Give Protocol?",
-    "browse.whyGiveProtocol.verified.title": "Verifizierte gemeinnützige Organisationen",
+    "browse.whyGiveProtocol.verified.title":
+      "Verifizierte gemeinnützige Organisationen",
     "browse.whyGiveProtocol.verified.description":
       "Jede Organisation wird vor der Aufnahme auf der Plattform mit öffentlichen Registern abgeglichen.",
     "browse.whyGiveProtocol.onchain.title": "On-Chain-Transparenz",

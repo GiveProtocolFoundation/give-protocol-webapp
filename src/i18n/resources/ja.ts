@@ -1159,7 +1159,8 @@ export default {
     "browse.whyGiveProtocol.onchain.title": "オンチェーンの透明性",
     "browse.whyGiveProtocol.onchain.description":
       "寄付はブロックチェーンに記録され、ウォレットから支援先までの影響を追跡できます。",
-    "browse.whyGiveProtocol.volunteer.title": "お金だけでなく、時間も寄付しよう",
+    "browse.whyGiveProtocol.volunteer.title":
+      "お金だけでなく、時間も寄付しよう",
     "browse.whyGiveProtocol.volunteer.description":
       "ボランティア時間は団体によって検証され、プロトコルでの評判に反映されます。",
     "browse.news.heading": "プラットフォームニュース",

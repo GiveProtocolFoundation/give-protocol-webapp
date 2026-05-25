@@ -1146,9 +1146,11 @@ export default {
     "browse.charity.loading": "Đang tải…",
     "browse.charity.loadMore": "Tải thêm",
     "browse.filter.searchPlaceholder": "Tìm kiếm tổ chức từ thiện...",
-    "browse.filter.locationPlaceholder": "Thành phố, tiểu bang hoặc quốc gia...",
+    "browse.filter.locationPlaceholder":
+      "Thành phố, tiểu bang hoặc quốc gia...",
     "browse.whyGiveProtocol.heading": "Tại sao chọn Give Protocol?",
-    "browse.whyGiveProtocol.verified.title": "Tổ chức phi lợi nhuận đã xác minh",
+    "browse.whyGiveProtocol.verified.title":
+      "Tổ chức phi lợi nhuận đã xác minh",
     "browse.whyGiveProtocol.verified.description":
       "Mỗi tổ chức được đối chiếu với hồ sơ công khai trước khi xuất hiện trên nền tảng.",
     "browse.whyGiveProtocol.onchain.title": "Minh bạch trên chuỗi",

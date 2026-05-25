@@ -1214,7 +1214,8 @@ export default {
     "browse.whyGiveProtocol.onchain.title": "Transparence on-chain",
     "browse.whyGiveProtocol.onchain.description":
       "Les dons sont enregistrés sur la blockchain pour que vous puissiez suivre votre impact du portefeuille à la cause.",
-    "browse.whyGiveProtocol.volunteer.title": "Donnez du temps, pas seulement de l'argent",
+    "browse.whyGiveProtocol.volunteer.title":
+      "Donnez du temps, pas seulement de l'argent",
     "browse.whyGiveProtocol.volunteer.description":
       "Les heures de bénévolat sont vérifiées par les associations et comptent dans votre réputation sur le protocole.",
     "browse.news.heading": "Actualités de la Plateforme",
