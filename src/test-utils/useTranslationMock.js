@@ -16,21 +16,15 @@ const translations = en.translation;
  * @returns {string} Resolved translation string
  */
 const tFn = (key, fallbackOrOptions, options) => {
-  let resolvedFallback = undefined;
-  let resolvedOptions = undefined;
-
-  if (
+  const isOptionsArg =
     fallbackOrOptions !== null &&
     fallbackOrOptions !== undefined &&
     typeof fallbackOrOptions === "object" &&
-    !Array.isArray(fallbackOrOptions)
-  ) {
-    // Second arg is an options object (i18next calling convention)
-    resolvedOptions = fallbackOrOptions;
-  } else {
-    resolvedFallback = fallbackOrOptions;
-    resolvedOptions = options;
-  }
+    !Array.isArray(fallbackOrOptions);
+
+  // Second arg is either an options object (i18next) or a string fallback (CLAUDE.md convention)
+  const resolvedFallback = isOptionsArg ? null : fallbackOrOptions;
+  const resolvedOptions = isOptionsArg ? fallbackOrOptions : options;
 
   let text = resolvedFallback ?? translations[key] ?? key;
   if (resolvedOptions && typeof text === "string") {
