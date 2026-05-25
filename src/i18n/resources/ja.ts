@@ -1150,6 +1150,20 @@ export default {
     "browse.charity.onPlatform": "プラットフォーム上",
     "browse.charity.loading": "読み込み中…",
     "browse.charity.loadMore": "さらに表示",
+    "browse.filter.searchPlaceholder": "チャリティを検索...",
+    "browse.filter.locationPlaceholder": "市区町村、都道府県、または国...",
+    "browse.whyGiveProtocol.heading": "Give Protocolを選ぶ理由",
+    "browse.whyGiveProtocol.verified.title": "認証済み非営利団体",
+    "browse.whyGiveProtocol.verified.description":
+      "すべての団体は、プラットフォームに掲載される前に公的登記簿と照合されます。",
+    "browse.whyGiveProtocol.onchain.title": "オンチェーンの透明性",
+    "browse.whyGiveProtocol.onchain.description":
+      "寄付はブロックチェーンに記録され、ウォレットから支援先までの影響を追跡できます。",
+    "browse.whyGiveProtocol.volunteer.title":
+      "お金だけでなく、時間も寄付しよう",
+    "browse.whyGiveProtocol.volunteer.description":
+      "ボランティア時間は団体によって検証され、プロトコルでの評判に反映されます。",
+    "browse.news.heading": "プラットフォームニュース",
     "cause.causes": "活動",
     "cause.createNew": "新規作成",
     "cause.noCausesTitle": "まだ活動がありません",

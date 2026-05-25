@@ -1145,6 +1145,21 @@ export default {
     "browse.charity.onPlatform": "Trên nền tảng",
     "browse.charity.loading": "Đang tải…",
     "browse.charity.loadMore": "Tải thêm",
+    "browse.filter.searchPlaceholder": "Tìm kiếm tổ chức từ thiện...",
+    "browse.filter.locationPlaceholder":
+      "Thành phố, tiểu bang hoặc quốc gia...",
+    "browse.whyGiveProtocol.heading": "Tại sao chọn Give Protocol?",
+    "browse.whyGiveProtocol.verified.title":
+      "Tổ chức phi lợi nhuận đã xác minh",
+    "browse.whyGiveProtocol.verified.description":
+      "Mỗi tổ chức được đối chiếu với hồ sơ công khai trước khi xuất hiện trên nền tảng.",
+    "browse.whyGiveProtocol.onchain.title": "Minh bạch trên chuỗi",
+    "browse.whyGiveProtocol.onchain.description":
+      "Các khoản quyên góp được ghi lại trên blockchain để bạn có thể theo dõi tác động từ ví đến mục đích.",
+    "browse.whyGiveProtocol.volunteer.title": "Tặng thời gian, không chỉ tiền",
+    "browse.whyGiveProtocol.volunteer.description":
+      "Giờ tình nguyện được xác minh bởi tổ chức từ thiện và tính vào uy tín giao thức của bạn.",
+    "browse.news.heading": "Tin Tức Nền Tảng",
     "cause.causes": "Mục đích",
     "cause.createNew": "Tạo mới",
     "cause.noCausesTitle": "Chưa có mục đích nào",

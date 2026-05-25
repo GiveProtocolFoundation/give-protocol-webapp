@@ -1084,6 +1084,19 @@ export default {
     "browse.charity.onPlatform": "已入驻平台",
     "browse.charity.loading": "加载中…",
     "browse.charity.loadMore": "加载更多",
+    "browse.filter.searchPlaceholder": "搜索慈善机构...",
+    "browse.filter.locationPlaceholder": "城市、省份或国家...",
+    "browse.whyGiveProtocol.heading": "为什么选择 Give Protocol？",
+    "browse.whyGiveProtocol.verified.title": "经过验证的非营利组织",
+    "browse.whyGiveProtocol.verified.description":
+      "每个组织在出现在平台上之前都会与公共注册信息进行核实。",
+    "browse.whyGiveProtocol.onchain.title": "链上透明度",
+    "browse.whyGiveProtocol.onchain.description":
+      "捐款记录在区块链上，让您可以从钱包到公益事业全程追踪您的影响。",
+    "browse.whyGiveProtocol.volunteer.title": "捐出时间，不只是金钱",
+    "browse.whyGiveProtocol.volunteer.description":
+      "志愿服务时间由慈善机构验证，并计入您的协议声誉。",
+    "browse.news.heading": "平台动态",
     "cause.causes": "公益事业",
     "cause.createNew": "新建",
     "cause.noCausesTitle": "暂无公益事业",

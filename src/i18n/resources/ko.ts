@@ -1122,6 +1122,19 @@ export default {
     "browse.charity.onPlatform": "플랫폼 등록",
     "browse.charity.loading": "로딩 중…",
     "browse.charity.loadMore": "더 보기",
+    "browse.filter.searchPlaceholder": "자선단체 검색...",
+    "browse.filter.locationPlaceholder": "도시, 주 또는 국가...",
+    "browse.whyGiveProtocol.heading": "왜 Give Protocol인가요?",
+    "browse.whyGiveProtocol.verified.title": "인증된 비영리 단체",
+    "browse.whyGiveProtocol.verified.description":
+      "모든 단체는 플랫폼에 표시되기 전에 공공 등록부와 대조하여 검증됩니다.",
+    "browse.whyGiveProtocol.onchain.title": "온체인 투명성",
+    "browse.whyGiveProtocol.onchain.description":
+      "기부금은 블록체인에 기록되어 지갑에서 목적까지 영향을 추적할 수 있습니다.",
+    "browse.whyGiveProtocol.volunteer.title": "돈뿐만 아니라 시간도 기부하세요",
+    "browse.whyGiveProtocol.volunteer.description":
+      "봉사 시간은 자선단체가 검증하며 프로토콜 평판에 반영됩니다.",
+    "browse.news.heading": "플랫폼 소식",
     "cause.causes": "대의",
     "cause.createNew": "새로 만들기",
     "cause.noCausesTitle": "아직 대의가 없습니다",

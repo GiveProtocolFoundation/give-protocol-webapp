@@ -1205,6 +1205,20 @@ export default {
     "browse.charity.onPlatform": "Sur la Plateforme",
     "browse.charity.loading": "Chargement…",
     "browse.charity.loadMore": "Charger Plus",
+    "browse.filter.searchPlaceholder": "Rechercher des associations...",
+    "browse.filter.locationPlaceholder": "Ville, région ou pays...",
+    "browse.whyGiveProtocol.heading": "Pourquoi Give Protocol ?",
+    "browse.whyGiveProtocol.verified.title": "Associations vérifiées",
+    "browse.whyGiveProtocol.verified.description":
+      "Chaque organisation est vérifiée dans les registres publics avant d'apparaître sur la plateforme.",
+    "browse.whyGiveProtocol.onchain.title": "Transparence on-chain",
+    "browse.whyGiveProtocol.onchain.description":
+      "Les dons sont enregistrés sur la blockchain pour que vous puissiez suivre votre impact du portefeuille à la cause.",
+    "browse.whyGiveProtocol.volunteer.title":
+      "Donnez du temps, pas seulement de l'argent",
+    "browse.whyGiveProtocol.volunteer.description":
+      "Les heures de bénévolat sont vérifiées par les associations et comptent dans votre réputation sur le protocole.",
+    "browse.news.heading": "Actualités de la Plateforme",
     "cause.causes": "Causes",
     "cause.createNew": "Créer",
     "cause.noCausesTitle": "Aucune cause pour le moment",

@@ -1186,6 +1186,19 @@ export default {
     "browse.charity.onPlatform": "En la Plataforma",
     "browse.charity.loading": "Cargando…",
     "browse.charity.loadMore": "Cargar Más",
+    "browse.filter.searchPlaceholder": "Buscar organizaciones benéficas...",
+    "browse.filter.locationPlaceholder": "Ciudad, estado o país...",
+    "browse.whyGiveProtocol.heading": "¿Por qué Give Protocol?",
+    "browse.whyGiveProtocol.verified.title": "Organizaciones verificadas",
+    "browse.whyGiveProtocol.verified.description":
+      "Cada organización se verifica contra registros públicos antes de aparecer en la plataforma.",
+    "browse.whyGiveProtocol.onchain.title": "Transparencia en cadena",
+    "browse.whyGiveProtocol.onchain.description":
+      "Las donaciones se registran en la blockchain para que puedas rastrear tu impacto desde la billetera hasta la causa.",
+    "browse.whyGiveProtocol.volunteer.title": "Dona tiempo, no solo dinero",
+    "browse.whyGiveProtocol.volunteer.description":
+      "Las horas de voluntariado son verificadas por las organizaciones y cuentan para tu reputación en el protocolo.",
+    "browse.news.heading": "Noticias de la Plataforma",
     "cause.causes": "Causas",
     "cause.createNew": "Crear Nueva",
     "cause.noCausesTitle": "Aún no hay causas",
