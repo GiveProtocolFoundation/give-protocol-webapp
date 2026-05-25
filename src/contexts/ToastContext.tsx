@@ -6,8 +6,8 @@ interface ToastContextType {
   showToast: (_type: ToastType, _title: string, _message?: string) => void;
 }
 
-// eslint-disable-next-line react-refresh/only-export-components
 /** React context for displaying toast notifications. */
+// eslint-disable-next-line react-refresh/only-export-components
 export const ToastContext = createContext<ToastContextType | null>(null);
 
 /**

@@ -150,5 +150,6 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
   );
 };
 
+// eslint-disable-next-line react-refresh/only-export-components
 export { CHAIN_IDS, CHAIN_CONFIGS } from "../config/contracts";
 export type { ChainId, ChainConfig } from "../config/contracts";

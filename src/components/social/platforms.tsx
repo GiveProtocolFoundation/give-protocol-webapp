@@ -36,6 +36,7 @@ export interface SocialPlatform {
 /**
  * Catalog of supported social sharing platforms with their labels, icons, and share-URL builders.
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export const SOCIAL_PLATFORMS: SocialPlatform[] = [
   {
     id: "facebook",

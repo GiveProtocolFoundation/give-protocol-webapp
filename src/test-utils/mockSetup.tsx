@@ -1,7 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { jest } from '@jest/globals';
 // Shared mock configurations for tests
-import React from 'react'; // eslint-disable-line no-unused-vars
 import { MockButtonProps, MockInputProps, MockCardProps, MockUIComponentProps } from './types';
 
 /**
