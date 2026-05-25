@@ -57,19 +57,21 @@ describe("ConsentForm", () => {
     expect(mockDecline).toHaveBeenCalled();
   });
 
-  it("should show validation error when accepting without required checkboxes", () => {
+  it("should disable accept button when required checkboxes unchecked", () => {
     renderForm();
-    fireEvent.click(screen.getByText("Accept and Continue"));
-    expect(
-      screen.getByText(/Essential Processing consent is required/),
-    ).toBeTruthy();
+    const button = screen.getByText("Accept and Continue");
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(mockAccept).not.toHaveBeenCalled();
   });
 
-  it("should show age/privacy error when essential is checked but not age/privacy", () => {
+  it("should keep accept disabled when only essential is checked", () => {
     renderForm();
     fireEvent.click(getCheckbox("essential-processing"));
-    fireEvent.click(screen.getByText("Accept and Continue"));
-    expect(screen.getByText(/confirm your age.*Privacy Notice/)).toBeTruthy();
+    const button = screen.getByText("Accept and Continue");
+    expect(button).toBeDisabled();
+    fireEvent.click(button);
+    expect(mockAccept).not.toHaveBeenCalled();
   });
 
   it("should call onAccept when all required checkboxes checked", () => {
@@ -81,26 +83,21 @@ describe("ConsentForm", () => {
     expect(mockAccept).toHaveBeenCalled();
   });
 
-  it("should clear essential processing error when checkbox checked", () => {
+  it("should enable accept button after checking essential processing", () => {
     renderForm();
-    fireEvent.click(screen.getByText("Accept and Continue"));
-    expect(
-      screen.getByText(/Essential Processing consent is required/),
-    ).toBeTruthy();
+    expect(screen.getByText("Accept and Continue")).toBeDisabled();
     fireEvent.click(getCheckbox("essential-processing"));
-    expect(
-      screen.queryByText(/Essential Processing consent is required/),
-    ).toBeNull();
+    // Still disabled — age and privacy unchecked
+    expect(screen.getByText("Accept and Continue")).toBeDisabled();
   });
 
-  it("should clear age/privacy error when both checked", () => {
+  it("should enable accept button when all required checkboxes checked", () => {
     renderForm();
+    expect(screen.getByText("Accept and Continue")).toBeDisabled();
     fireEvent.click(getCheckbox("essential-processing"));
-    fireEvent.click(screen.getByText("Accept and Continue"));
-    expect(screen.getByText(/confirm your age/)).toBeTruthy();
     fireEvent.click(getCheckbox("age-confirmation"));
     fireEvent.click(getCheckbox("privacy-notice"));
-    expect(screen.queryByText(/confirm your age/)).toBeNull();
+    expect(screen.getByText("Accept and Continue")).not.toBeDisabled();
   });
 
   it("should allow toggling international transfers checkbox", () => {
