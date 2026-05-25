@@ -42,6 +42,11 @@ export default {
     "^@/contexts/MultiChainContext\\.real$":
       "<rootDir>/src/contexts/MultiChainContext.tsx",
     "^@/contexts/Web3Context\\.real$": "<rootDir>/src/contexts/Web3Context.tsx",
+    "^@/contexts/CurrencyContext\\.real$":
+      "<rootDir>/src/contexts/CurrencyContext.tsx",
+    "^@/utils/monitoring\\.real$": "<rootDir>/src/utils/monitoring.ts",
+    "^@/utils/leaderboardExport\\.real$":
+      "<rootDir>/src/utils/leaderboardExport.ts",
     // Config and library mocks
     "^@/config/env$": "<rootDir>/src/test-utils/envMock.js",
     "^@/config/docs$": "<rootDir>/src/test-utils/docsMock.js",

@@ -2,7 +2,8 @@ import React from "react";
 import { Newspaper, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/Card";
-import { NEWS_UPDATES, type NewsUpdate } from "@/data/newsUpdates";
+import type { NewsUpdate } from "@/data/newsUpdates";
+import { usePlatformNews } from "@/hooks/usePlatformNews";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface NewsUpdatesCardProps {
@@ -24,15 +25,18 @@ function formatDate(iso: string): string {
 }
 
 /**
- * Latest platform news shown on the charity hub. Data source is static today but the API
- * (`items` override) lets us swap to a CMS or Supabase feed without changing callers.
+ * Latest platform news shown on the charity hub. Fetches from the Supabase platform_news
+ * table, falling back to static data if the fetch fails or returns empty.
+ * Callers may still pass an `items` override to bypass the hook entirely.
  */
 export const NewsUpdatesCard: React.FC<NewsUpdatesCardProps> = ({
-  items = NEWS_UPDATES,
+  items,
   limit = 4,
 }) => {
   const { t } = useTranslation();
-  const visible = items.slice(0, limit);
+  const { news: fetched } = usePlatformNews();
+  const source = items ?? fetched;
+  const visible = source.slice(0, limit);
 
   return (
     <Card className="p-6">

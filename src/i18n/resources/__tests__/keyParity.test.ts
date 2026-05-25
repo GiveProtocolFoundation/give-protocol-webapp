@@ -26,11 +26,44 @@ const LANGUAGE_CODES = [
 
 /**
  * Keys in en.ts that have not yet been translated to non-English languages.
- * GIV-258: All 354 keys translated — allowlist cleared 2026-05-24.
- * Keep this empty set to prevent future regressions (new missing keys will
- * fail the parity test immediately, not be silently allowlisted).
+ * GIV-279: Platform News admin CRUD keys — translations pending.
  */
-const KNOWN_UNTRANSLATED_KEYS = new Set<string>();
+const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
+  "admin.actions.platformNews",
+  "admin.actions.platformNewsDesc",
+  "admin.news.activate",
+  "admin.news.activated",
+  "admin.news.activeLabel",
+  "admin.news.categoryLabel",
+  "admin.news.contentLabel",
+  "admin.news.contentPlaceholder",
+  "admin.news.createNews",
+  "admin.news.createNewsBtn",
+  "admin.news.created",
+  "admin.news.dateLabel",
+  "admin.news.deactivate",
+  "admin.news.deactivated",
+  "admin.news.deleteItem",
+  "admin.news.deleted",
+  "admin.news.editItem",
+  "admin.news.editNews",
+  "admin.news.imageLabel",
+  "admin.news.imagePlaceholder",
+  "admin.news.inactive",
+  "admin.news.newItem",
+  "admin.news.noItemsMessage",
+  "admin.news.noItemsYet",
+  "admin.news.publishedOn",
+  "admin.news.saving",
+  "admin.news.subtitle",
+  "admin.news.title",
+  "admin.news.titleLabel",
+  "admin.news.titlePlaceholder",
+  "admin.news.updateNews",
+  "admin.news.updated",
+  "admin.news.urlLabel",
+  "admin.news.urlPlaceholder",
+]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;
 

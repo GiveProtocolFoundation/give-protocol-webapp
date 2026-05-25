@@ -101,6 +101,7 @@ const AdminReports = lazy(() => import("@/pages/admin/AdminReports"));
 const AdminPortfolioFunds = lazy(
   () => import("@/pages/admin/AdminPortfolioFunds"),
 );
+const AdminPlatformNews = lazy(() => import("@/pages/admin/AdminPlatformNews"));
 const AdminCharityRequests = lazy(
   () => import("@/pages/admin/AdminCharityRequests"),
 );
@@ -306,6 +307,18 @@ export function AppRoutes() {
               <RouteTransition>
                 <Suspense fallback={<LoadingFallback />}>
                   <AdminPortfolioFunds />
+                </Suspense>
+              </RouteTransition>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/platform-news"
+          element={
+            <ProtectedRoute requiredRoles={["admin"]}>
+              <RouteTransition>
+                <Suspense fallback={<LoadingFallback />}>
+                  <AdminPlatformNews />
                 </Suspense>
               </RouteTransition>
             </ProtectedRoute>
