@@ -5,7 +5,10 @@ import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
 /** Bullet-point item with emerald dot indicator. */
-const BulletItem: React.FC<{ children: React.ReactNode; className?: string }> = ({ children, className = "mb-2" }) => (
+const BulletItem: React.FC<{
+  children: React.ReactNode;
+  className?: string;
+}> = ({ children, className = "mb-2" }) => (
   <p className={`flex items-center ${className} text-gray-600`}>
     <span className="w-2 h-2 bg-emerald-600 rounded-full mr-2 flex-shrink-0" />{" "}
     {children}
@@ -26,7 +29,9 @@ const GovernanceCard: React.FC<{
     </h3>
     <p className="text-gray-600 mb-4">{description}</p>
     {items.map((item, i) => (
-      <BulletItem key={item} className={i < items.length - 1 ? "mb-2" : ""}>{item}</BulletItem>
+      <BulletItem key={item} className={i < items.length - 1 ? "mb-2" : ""}>
+        {item}
+      </BulletItem>
     ))}
   </div>
 );
@@ -42,8 +47,8 @@ const ProposalProcessSection: React.FC = () => (
       <div>
         <h4 className="font-semibold text-gray-900 mb-2">1. Creation</h4>
         <p className="text-gray-600">
-          Any account with minimum voting power can submit detailed
-          proposals with implementation plans.
+          Any account with minimum voting power can submit detailed proposals
+          with implementation plans.
         </p>
       </div>
       <div>
@@ -55,13 +60,15 @@ const ProposalProcessSection: React.FC = () => (
       <div>
         <h4 className="font-semibold text-gray-900 mb-2">3. Voting</h4>
         <p className="text-gray-600">
-          48-hour voting period with weighted voting based on participation metrics.
+          48-hour voting period with weighted voting based on participation
+          metrics.
         </p>
       </div>
       <div>
         <h4 className="font-semibold text-gray-900 mb-2">4. Execution</h4>
         <p className="text-gray-600">
-          Successful proposals are implemented after meeting all required thresholds.
+          Successful proposals are implemented after meeting all required
+          thresholds.
         </p>
       </div>
     </div>
@@ -80,12 +87,18 @@ const TimeframesSection: React.FC = () => (
         <h4 className="font-semibold text-gray-900 mb-2">Standard Changes</h4>
         <div className="text-gray-600 mb-2">• 7 days discussion period</div>
         <div className="text-gray-600 mb-2">• 48 hours voting period</div>
-        <div className="text-gray-600">• 24 hours timelock before execution</div>
+        <div className="text-gray-600">
+          • 24 hours timelock before execution
+        </div>
       </div>
       <div>
         <h4 className="font-semibold text-gray-900 mb-2">Emergency Actions</h4>
-        <div className="text-gray-600 mb-2">• No discussion period required</div>
-        <div className="text-gray-600 mb-2">• 4/7 council signatures needed</div>
+        <div className="text-gray-600 mb-2">
+          • No discussion period required
+        </div>
+        <div className="text-gray-600 mb-2">
+          • 4/7 council signatures needed
+        </div>
         <div className="text-gray-600">• 24 hours maximum timelock</div>
       </div>
     </div>
@@ -101,10 +114,10 @@ const GovernanceNotice: React.FC = () => (
         Important Notice
       </h3>
       <p className="text-emerald-700">
-        All governance participants are required to review and understand
-        the complete governance documentation before participating in
-        proposals or voting. This ensures informed decision-making and
-        maintains the integrity of our governance process.
+        All governance participants are required to review and understand the
+        complete governance documentation before participating in proposals or
+        voting. This ensures informed decision-making and maintains the
+        integrity of our governance process.
       </p>
     </div>
   </div>
@@ -124,51 +137,51 @@ export const Governance: React.FC = () => {
       </p>
 
       <ScrollReveal direction="up" delay={100}>
-      <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-12">
-        <GovernanceCard
-          icon={Vote}
-          title="Voting Power"
-          description="Voting power is earned through active participation:"
-          items={[
-            "Donations contribute to base voting power",
-            "Volunteer hours add additional weight",
-            "Verified organizations receive multipliers",
-          ]}
-        />
-        <GovernanceCard
-          icon={Shield}
-          title="Proposal Thresholds"
-          description="Core protocol changes require:"
-          items={[
-            "66% supermajority approval",
-            "50% minimum participation",
-            "48-hour voting period",
-          ]}
-        />
-        <GovernanceCard
-          icon={Users}
-          title="Council Oversight"
-          description="A multi-signature council provides:"
-          items={[
-            "Emergency response capabilities",
-            "4/7 signatures for critical actions",
-            "24-hour maximum timelock",
-          ]}
-        />
-      </div>
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3 mb-12">
+          <GovernanceCard
+            icon={Vote}
+            title="Voting Power"
+            description="Voting power is earned through active participation:"
+            items={[
+              "Donations contribute to base voting power",
+              "Volunteer hours add additional weight",
+              "Verified organizations receive multipliers",
+            ]}
+          />
+          <GovernanceCard
+            icon={Shield}
+            title="Proposal Thresholds"
+            description="Core protocol changes require:"
+            items={[
+              "66% supermajority approval",
+              "50% minimum participation",
+              "48-hour voting period",
+            ]}
+          />
+          <GovernanceCard
+            icon={Users}
+            title="Council Oversight"
+            description="A multi-signature council provides:"
+            items={[
+              "Emergency response capabilities",
+              "4/7 signatures for critical actions",
+              "24-hour maximum timelock",
+            ]}
+          />
+        </div>
       </ScrollReveal>
 
       <div className="space-y-8">
         <ScrollReveal direction="up" delay={200}>
-        <ProposalProcessSection />
+          <ProposalProcessSection />
         </ScrollReveal>
 
         <ScrollReveal direction="up" delay={300}>
-        <TimeframesSection />
+          <TimeframesSection />
         </ScrollReveal>
 
         <ScrollReveal direction="scale" delay={400}>
-        <GovernanceNotice />
+          <GovernanceNotice />
         </ScrollReveal>
       </div>
     </div>
