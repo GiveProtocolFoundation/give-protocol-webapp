@@ -1,17 +1,28 @@
-import React from "react";
-import { Settings } from "lucide-react";
+import React, { useCallback } from "react";
+import { Settings, Globe } from "lucide-react";
 import { LinkedAccountsSection } from "@/components/settings/LinkedAccountsSection";
 import { PhoneSettings } from "@/components/settings/PhoneSettings";
 import { SetPasswordSettings } from "@/components/settings/SetPasswordSettings";
 import { WalletAliasSettings } from "@/components/settings/WalletAliasSettings";
 import { PrivacySettings } from "@/components/settings/PrivacySettings";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
+import { useSettings } from "@/contexts/SettingsContext";
+import type { Language } from "@/contexts/SettingsContext";
 import { useTranslation } from "@/hooks/useTranslation";
 
 /** Dashboard settings page with linked accounts, phone, password, and account preferences. */
 const DashboardSettings: React.FC = () => {
   const { user, email, authMethod } = useUnifiedAuth();
+  const { language, languageOptions, setLanguage } = useSettings();
   const { t } = useTranslation();
+
+  const handleLanguageChange = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const lang = e.currentTarget.dataset.lang as Language;
+      setLanguage(lang);
+    },
+    [setLanguage],
+  );
 
   return (
     <div className="max-w-2xl mx-auto px-4 py-8">
@@ -85,6 +96,37 @@ const DashboardSettings: React.FC = () => {
       {/* Wallet alias settings */}
       <div className="mb-6">
         <WalletAliasSettings />
+      </div>
+
+      {/* Display Preferences — Language selector */}
+      <div className="rounded-xl border border-gray-200 dark:border-gray-700 bg-white dark:bg-gray-800 p-5 mb-6">
+        <h3 className="flex items-center gap-2 text-sm font-semibold text-gray-900 dark:text-white mb-1">
+          <Globe
+            className="h-4 w-4 text-gray-400 dark:text-gray-500"
+            aria-hidden="true"
+          />
+          {t("settings.displayPreferences")}
+        </h3>
+        <p className="text-xs text-gray-500 dark:text-gray-400 mb-3">
+          {t("settings.language")}
+        </p>
+        <div className="grid grid-cols-2 gap-2 sm:grid-cols-3">
+          {languageOptions.map((opt) => (
+            <button
+              key={opt.value}
+              data-lang={opt.value}
+              onClick={handleLanguageChange}
+              aria-pressed={language === opt.value}
+              className={`text-sm px-3 py-2 rounded-lg border text-left transition-colors ${
+                language === opt.value
+                  ? "border-blue-500 bg-blue-50 dark:bg-blue-900/20 text-blue-700 dark:text-blue-300 font-medium"
+                  : "border-gray-200 dark:border-gray-600 text-gray-700 dark:text-gray-300 hover:border-gray-300 dark:hover:border-gray-500"
+              }`}
+            >
+              {opt.label}
+            </button>
+          ))}
+        </div>
       </div>
 
       {/* Privacy — GDPR data export and account erasure */}
