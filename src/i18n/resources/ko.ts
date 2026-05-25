@@ -1203,10 +1203,14 @@ export default {
     "charity.profile.toAddOne": "에서 추가하세요.",
     "charity.profile.contact": "연락처",
     "charity.profile.donate.support": "후원하기",
-    "charity.profile.donate.walletUnset": "이 단체는 아직 공식 수신 지갑을 설정하지 않았습니다.",
-    "charity.profile.donate.walletPending": "이 단체는 지갑 설정을 완료하는 중입니다 — 기부가 일시적으로 불가합니다.",
-    "charity.profile.donate.walletLegacy": "이 단체는 레거시 지갑 주소를 사용하고 있습니다.",
-    "charity.profile.donate.feeNote": "직접 기부에 대한 플랫폼 수수료 0%. 네트워크 수수료 적용.",
+    "charity.profile.donate.walletUnset":
+      "이 단체는 아직 공식 수신 지갑을 설정하지 않았습니다.",
+    "charity.profile.donate.walletPending":
+      "이 단체는 지갑 설정을 완료하는 중입니다 — 기부가 일시적으로 불가합니다.",
+    "charity.profile.donate.walletLegacy":
+      "이 단체는 레거시 지갑 주소를 사용하고 있습니다.",
+    "charity.profile.donate.feeNote":
+      "직접 기부에 대한 플랫폼 수수료 0%. 네트워크 수수료 적용.",
     "portfolio.title": "포트폴리오 펀드",
     "settings.displayPreferences": "디스플레이 설정",
     "settings.theme": "테마",

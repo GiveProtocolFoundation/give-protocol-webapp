@@ -1196,10 +1196,14 @@ export default {
     "charity.profile.toAddOne": "لإضافة وصف.",
     "charity.profile.contact": "الاتصال",
     "charity.profile.donate.support": "دعم",
-    "charity.profile.donate.walletUnset": "لم تقم هذه المنظمة بعد بإعداد محفظة استلام رسمية.",
-    "charity.profile.donate.walletPending": "هذه المنظمة تُكمل إعداد محفظتها — التبرعات غير متاحة مؤقتاً.",
-    "charity.profile.donate.walletLegacy": "تستخدم هذه المنظمة عنوان محفظة قديم.",
-    "charity.profile.donate.feeNote": "رسوم منصة 0% على التبرعات المباشرة. تُطبَّق رسوم الشبكة.",
+    "charity.profile.donate.walletUnset":
+      "لم تقم هذه المنظمة بعد بإعداد محفظة استلام رسمية.",
+    "charity.profile.donate.walletPending":
+      "هذه المنظمة تُكمل إعداد محفظتها — التبرعات غير متاحة مؤقتاً.",
+    "charity.profile.donate.walletLegacy":
+      "تستخدم هذه المنظمة عنوان محفظة قديم.",
+    "charity.profile.donate.feeNote":
+      "رسوم منصة 0% على التبرعات المباشرة. تُطبَّق رسوم الشبكة.",
     "portfolio.title": "صناديق المحافظ",
     "settings.displayPreferences": "تفضيلات العرض",
     "settings.theme": "المظهر",

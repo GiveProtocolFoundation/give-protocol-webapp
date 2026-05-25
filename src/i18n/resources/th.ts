@@ -1220,10 +1220,14 @@ export default {
     "charity.profile.toAddOne": "เพื่อเพิ่มรายละเอียด",
     "charity.profile.contact": "ติดต่อ",
     "charity.profile.donate.support": "สนับสนุน",
-    "charity.profile.donate.walletUnset": "องค์กรนี้ยังไม่ได้ตั้งค่ากระเป๋าเงินรับอย่างเป็นทางการ",
-    "charity.profile.donate.walletPending": "องค์กรนี้กำลังตั้งค่ากระเป๋าเงิน — การบริจาคไม่สามารถใช้ได้ชั่วคราว",
-    "charity.profile.donate.walletLegacy": "องค์กรนี้ใช้ที่อยู่กระเป๋าเงินรุ่นเก่า",
-    "charity.profile.donate.feeNote": "ค่าธรรมเนียมแพลตฟอร์ม 0% สำหรับการบริจาคโดยตรง มีค่าธรรมเนียมเครือข่าย",
+    "charity.profile.donate.walletUnset":
+      "องค์กรนี้ยังไม่ได้ตั้งค่ากระเป๋าเงินรับอย่างเป็นทางการ",
+    "charity.profile.donate.walletPending":
+      "องค์กรนี้กำลังตั้งค่ากระเป๋าเงิน — การบริจาคไม่สามารถใช้ได้ชั่วคราว",
+    "charity.profile.donate.walletLegacy":
+      "องค์กรนี้ใช้ที่อยู่กระเป๋าเงินรุ่นเก่า",
+    "charity.profile.donate.feeNote":
+      "ค่าธรรมเนียมแพลตฟอร์ม 0% สำหรับการบริจาคโดยตรง มีค่าธรรมเนียมเครือข่าย",
     "portfolio.title": "กองทุนพอร์ตโฟลิโอ",
     "settings.displayPreferences": "การตั้งค่าการแสดงผล",
     "settings.theme": "ธีม",
