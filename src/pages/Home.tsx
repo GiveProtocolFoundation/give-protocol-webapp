@@ -457,6 +457,14 @@ const Home: React.FC = () => {
         />
       </div>
 
+      {/* Skip-to-content link for keyboard users (WCAG 2.4.1) */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg focus:text-emerald-700 focus:ring-2 focus:ring-emerald-500"
+      >
+        {t("common.skipToMainContent", "Skip to main content")}
+      </a>
+
       {/* Navigation */}
       <nav className="relative z-10 container mx-auto px-6 py-6 flex justify-between items-center">
         {/* Existing Logo with Emerald Theme Colors */}
@@ -500,6 +508,9 @@ const Home: React.FC = () => {
           {t("home.comingSoon")}
         </button>
       </nav>
+
+      {/* Anchor target for skip-to-main-content link */}
+      <span id="main-content" tabIndex={-1} className="sr-only" />
 
       <HeroSection mousePosition={mousePosition} />
 

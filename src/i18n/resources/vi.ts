@@ -3,6 +3,7 @@ export default {
     // Common
     "app.name": "Give Protocol",
     "app.tagline": "Hạ tầng minh bạch, không biên giới cho lòng hào phóng.",
+    "common.skipToMainContent": "Bỏ qua đến nội dung chính",
     "common.cancel": "Hủy",
     "common.edit": "Chỉnh sửa",
     "common.delete": "Xóa",
