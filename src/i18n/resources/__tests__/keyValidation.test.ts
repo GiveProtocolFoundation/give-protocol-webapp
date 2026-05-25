@@ -1,6 +1,11 @@
 import { readdirSync, readFileSync } from "fs";
-import { join, resolve, relative } from "path";
+import { join, resolve, relative, dirname } from "path";
+import { fileURLToPath } from "url";
 import en from "../en";
+
+// ESM equivalent of CommonJS __dirname
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = dirname(__filename);
 
 /**
  * Recursively collect all .tsx files under a directory,

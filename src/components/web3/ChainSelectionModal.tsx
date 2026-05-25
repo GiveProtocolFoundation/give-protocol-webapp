@@ -1,5 +1,5 @@
 import React, { useCallback, useState } from "react";
-import { useTranslation } from "react-i18next";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Wallet, ArrowRight } from "lucide-react";
 import { NetworkGrid } from "./NetworkGrid";
 import { useChain, type ChainId } from "@/contexts/ChainContext";
