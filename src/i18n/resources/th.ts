@@ -1139,6 +1139,19 @@ export default {
     "browse.charity.onPlatform": "บนแพลตฟอร์ม",
     "browse.charity.loading": "กำลังโหลด…",
     "browse.charity.loadMore": "โหลดเพิ่มเติม",
+    "browse.filter.searchPlaceholder": "ค้นหาองค์กรการกุศล...",
+    "browse.filter.locationPlaceholder": "เมือง รัฐ หรือประเทศ...",
+    "browse.whyGiveProtocol.heading": "ทำไมต้อง Give Protocol?",
+    "browse.whyGiveProtocol.verified.title": "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบ",
+    "browse.whyGiveProtocol.verified.description":
+      "ทุกองค์กรจะถูกตรวจสอบกับทะเบียนสาธารณะก่อนที่จะปรากฏบนแพลตฟอร์ม",
+    "browse.whyGiveProtocol.onchain.title": "ความโปร่งใสบนบล็อกเชน",
+    "browse.whyGiveProtocol.onchain.description":
+      "การบริจาคถูกบันทึกบนบล็อกเชนเพื่อให้คุณสามารถติดตามผลกระทบจากกระเป๋าเงินไปจนถึงเป้าหมาย",
+    "browse.whyGiveProtocol.volunteer.title": "ให้เวลา ไม่ใช่แค่เงิน",
+    "browse.whyGiveProtocol.volunteer.description":
+      "ชั่วโมงอาสาสมัครจะได้รับการยืนยันจากองค์กรการกุศลและนับเข้าสู่ชื่อเสียงของคุณในโปรโตคอล",
+    "browse.news.heading": "ข่าวสารแพลตฟอร์ม",
     "cause.causes": "สาเหตุ",
     "cause.createNew": "สร้างใหม่",
     "cause.noCausesTitle": "ยังไม่มีสาเหตุ",

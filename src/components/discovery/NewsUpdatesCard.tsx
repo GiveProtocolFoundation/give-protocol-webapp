@@ -3,6 +3,7 @@ import { Newspaper, ArrowRight } from "lucide-react";
 import { Link } from "react-router-dom";
 import { Card } from "@/components/ui/Card";
 import { NEWS_UPDATES, type NewsUpdate } from "@/data/newsUpdates";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface NewsUpdatesCardProps {
   items?: NewsUpdate[];
@@ -30,6 +31,7 @@ export const NewsUpdatesCard: React.FC<NewsUpdatesCardProps> = ({
   items = NEWS_UPDATES,
   limit = 4,
 }) => {
+  const { t } = useTranslation();
   const visible = items.slice(0, limit);
 
   return (
@@ -37,7 +39,7 @@ export const NewsUpdatesCard: React.FC<NewsUpdatesCardProps> = ({
       <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
         <Newspaper aria-hidden="true" className="h-5 w-5" />
         <h2 className="text-sm font-semibold uppercase tracking-wider">
-          Platform News
+          {t("browse.news.heading", "Platform News")}
         </h2>
       </div>
 

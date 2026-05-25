@@ -1085,6 +1085,19 @@ export default {
     "browse.charity.onPlatform": "平台上",
     "browse.charity.loading": "載入中…",
     "browse.charity.loadMore": "載入更多",
+    "browse.filter.searchPlaceholder": "搜尋慈善機構...",
+    "browse.filter.locationPlaceholder": "城市、省份或國家...",
+    "browse.whyGiveProtocol.heading": "為什麼選擇 Give Protocol？",
+    "browse.whyGiveProtocol.verified.title": "經過驗證的非營利組織",
+    "browse.whyGiveProtocol.verified.description":
+      "每個組織在出現在平台上之前都會與公共註冊資訊進行核實。",
+    "browse.whyGiveProtocol.onchain.title": "鏈上透明度",
+    "browse.whyGiveProtocol.onchain.description":
+      "捐款記錄在區塊鏈上，讓您可以從錢包到公益事業全程追蹤您的影響。",
+    "browse.whyGiveProtocol.volunteer.title": "捐出時間，不只是金錢",
+    "browse.whyGiveProtocol.volunteer.description":
+      "志願服務時間由慈善機構驗證，並計入您的協議聲譽。",
+    "browse.news.heading": "平台動態",
     "cause.causes": "公益專案",
     "cause.createNew": "新增",
     "cause.noCausesTitle": "尚無公益專案",

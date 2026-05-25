@@ -1115,6 +1115,19 @@ export default {
     "browse.charity.onPlatform": "على المنصة",
     "browse.charity.loading": "جارٍ التحميل…",
     "browse.charity.loadMore": "تحميل المزيد",
+    "browse.filter.searchPlaceholder": "البحث عن جمعيات خيرية...",
+    "browse.filter.locationPlaceholder": "مدينة أو ولاية أو بلد...",
+    "browse.whyGiveProtocol.heading": "لماذا Give Protocol؟",
+    "browse.whyGiveProtocol.verified.title": "منظمات غير ربحية موثقة",
+    "browse.whyGiveProtocol.verified.description":
+      "يتم التحقق من كل منظمة مقابل السجلات العامة قبل ظهورها على المنصة.",
+    "browse.whyGiveProtocol.onchain.title": "شفافية على السلسلة",
+    "browse.whyGiveProtocol.onchain.description":
+      "يتم تسجيل التبرعات على البلوكتشين حتى تتمكن من تتبع تأثيرك من المحفظة إلى القضية.",
+    "browse.whyGiveProtocol.volunteer.title": "امنح وقتك، ليس المال فقط",
+    "browse.whyGiveProtocol.volunteer.description":
+      "يتم التحقق من ساعات التطوع من قبل الجمعيات الخيرية وتُحتسب في سمعتك على البروتوكول.",
+    "browse.news.heading": "أخبار المنصة",
     "cause.causes": "القضايا",
     "cause.createNew": "إنشاء جديد",
     "cause.noCausesTitle": "لا توجد قضايا بعد",

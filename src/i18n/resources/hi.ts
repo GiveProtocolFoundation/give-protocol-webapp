@@ -1156,6 +1156,19 @@ export default {
     "browse.charity.onPlatform": "प्लेटफ़ॉर्म पर",
     "browse.charity.loading": "लोड हो रहा है…",
     "browse.charity.loadMore": "और लोड करें",
+    "browse.filter.searchPlaceholder": "चैरिटी खोजें...",
+    "browse.filter.locationPlaceholder": "शहर, राज्य या देश...",
+    "browse.whyGiveProtocol.heading": "Give Protocol क्यों?",
+    "browse.whyGiveProtocol.verified.title": "सत्यापित गैर-लाभकारी संगठन",
+    "browse.whyGiveProtocol.verified.description":
+      "प्रत्येक संगठन को प्लेटफ़ॉर्म पर दिखाई देने से पहले सार्वजनिक रजिस्ट्रियों से सत्यापित किया जाता है।",
+    "browse.whyGiveProtocol.onchain.title": "ऑन-चेन पारदर्शिता",
+    "browse.whyGiveProtocol.onchain.description":
+      "दान को ब्लॉकचेन पर दर्ज किया जाता है ताकि आप अपने वॉलेट से लेकर कारण तक अपने प्रभाव को ट्रैक कर सकें।",
+    "browse.whyGiveProtocol.volunteer.title": "सिर्फ पैसा नहीं, समय भी दान करें",
+    "browse.whyGiveProtocol.volunteer.description":
+      "स्वयंसेवी घंटों को चैरिटी द्वारा सत्यापित किया जाता है और आपकी प्रोटोकॉल प्रतिष्ठा में गिना जाता है।",
+    "browse.news.heading": "प्लेटफ़ॉर्म समाचार",
     "cause.causes": "उद्देश्य",
     "cause.createNew": "नया बनाएँ",
     "cause.noCausesTitle": "अभी कोई उद्देश्य नहीं",
