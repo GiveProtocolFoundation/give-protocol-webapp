@@ -2,7 +2,14 @@ export default {
   translation: {
     // Common
     "app.name": "Give Protocol",
-    "app.tagline": "Impulsa el Cambio a Través de Donaciones Inteligentes",
+    "app.tagline":
+      "Infraestructura transparente y sin fronteras para la generosidad.",
+    "common.cancel": "Cancelar",
+    "common.edit": "Editar",
+    "common.delete": "Eliminar",
+    "common.creating": "Creando...",
+    "common.unknown": "Desconocido",
+    "common.notAvailable": "N/D",
 
     // Navigation
     "nav.browse": "Explorar Organizaciones",
@@ -19,7 +26,6 @@ export default {
     "settings.title": "Configuración",
     "settings.language": "Idioma",
     "settings.currency": "Moneda",
-    "settings.displayPreferences": "Preferencias de pantalla",
 
     // Auth
     "auth.login": "Iniciar Sesión",
@@ -35,14 +41,22 @@ export default {
     "dashboard.volunteerHours": "Horas de Voluntariado",
     "dashboard.skillsEndorsed": "Habilidades Respaldadas",
     "dashboard.contributions": "Contribuciones",
+    "dashboard.yourTotalDonated": "Total Donado",
+    "dashboard.yourVolunteerHours": "Sus Horas de Voluntariado",
+    "dashboard.yourSkillsEndorsed": "Sus Habilidades Respaldadas",
+    "dashboard.impactGrowth": "Crecimiento del Impacto",
+    "dashboard.charitiesSupported": "Organizaciones Apoyadas",
 
     // Charity
-    "charity.dashboard": "Panel de Organización",
+    "charity.dashboard": "Panel de la Organización",
     "charity.subtitle": "Administre sus donaciones y programas de voluntariado",
     "charity.activeVolunteers": "Voluntarios Activos",
     "charity.transactions": "Transacciones",
     "charity.volunteers": "Horas de Voluntariado",
     "charity.applications": "Solicitudes",
+    "charity.totalReceived": "Total Recibido",
+    "charity.equityPoolValue": "Valor del Fondo de Equidad",
+    "charity.availableBalance": "Saldo Disponible",
 
     // Contributions
     "contributions.date": "Fecha",
@@ -54,25 +68,361 @@ export default {
     "contributions.export": "Exportar CSV",
 
     // Volunteer
+    "volunteer.opportunities": "Oportunidades de Voluntariado",
+    "volunteer.searchOpportunities": "Buscar oportunidades...",
+    "volunteer.selectSkill": "Seleccionar habilidad",
+    "volunteer.selectType": "Seleccionar tipo",
+    "volunteer.selectLanguage": "Seleccionar idioma",
+    "volunteer.allSkills": "Todas las Habilidades",
+    "volunteer.allTypes": "Todos los Tipos",
+    "volunteer.allLanguages": "Todos los Idiomas",
+    "volunteer.applyNow": "Postularse Ahora",
+    "volunteer.noOpportunitiesFound":
+      "No se encontraron oportunidades que coincidan con sus criterios.",
     "volunteer.verify": "Verificar Horas",
+    "volunteer.verifying": "Verificando...",
     "volunteer.reject": "Rechazar",
     "volunteer.accept": "Aceptar",
-    "volunteer.hours": "horas el",
+    "volunteer.processing": "Procesando...",
+    "volunteer.hours": "horas en",
     "volunteer.description": "Descripción",
-    "volunteer.appliedFor": "Solicitó para",
+    "volunteer.appliedFor": "Postuló para",
+    "volunteer.verificationComplete": "Verificación Completada",
+    "volunteer.hoursVerified":
+      "Las horas de voluntariado han sido verificadas y registradas en la blockchain.",
+    "volunteer.verificationHash": "Hash de Verificación",
+    "volunteer.applicationAccepted": "Solicitud Aceptada",
+    "volunteer.applicationRecorded":
+      "La solicitud de voluntariado ha sido aceptada y registrada en la blockchain.",
+    "volunteer.acceptanceHash": "Hash de Aceptación",
+    "volunteer.pendingHours": "Horas de Voluntariado Pendientes",
+    "volunteer.noPendingHours":
+      "No hay horas de voluntariado pendientes por verificar.",
+    "volunteer.pendingApplications": "Solicitudes Pendientes",
+    "volunteer.noPendingApplications":
+      "No hay solicitudes pendientes por revisar.",
+    "volunteer.createOpportunity": "Crear Oportunidad de Voluntariado",
+    "volunteer.createNew": "Crear Nueva",
+    "volunteer.noOpportunitiesYet":
+      'Aún no se han creado oportunidades. Haga clic en "Crear Nueva" para comenzar.',
+    "volunteer.opportunityTitle": "Título de la Oportunidad",
+    "volunteer.skills": "Habilidades (separadas por comas)",
+    "volunteer.commitment": "Compromiso",
+    "volunteer.location": "Ubicación",
+    "volunteer.type": "Tipo",
+    "volunteer.workLanguage": "Idioma de Trabajo",
+    "volunteer.status": "Estado",
+
+    // Volunteer commitment types
+    "volunteer.commitment.oneTime": "Única vez",
+    "volunteer.commitment.shortTerm": "Corto plazo",
+    "volunteer.commitment.longTerm": "Largo plazo",
+
+    // Volunteer types
+    "volunteer.type.remote": "Remoto",
+    "volunteer.type.onsite": "Presencial",
+    "volunteer.type.hybrid": "Híbrido",
+    "volunteer.type.onSite": "Presencial",
+
+    // Volunteer - Opportunities page
+    "volunteer.workTypeFilter": "Filtro de tipo de trabajo",
+    "volunteer.searchLocation": "Ciudad o región...",
+    "volunteer.searchLocationAria": "Buscar ubicación",
+    "volunteer.signInToApply":
+      "Inicie sesión para postularse a oportunidades de voluntariado",
+    "volunteer.applicationSuccess": "¡Solicitud enviada exitosamente!",
+    "volunteer.removeFilter": "Eliminar filtro {{filter}}",
+
+    // Volunteer - OpportunityForm
+    "volunteer.validation.titleRequired": "El título es obligatorio",
+    "volunteer.validation.descriptionRequired": "La descripción es obligatoria",
+    "volunteer.validation.skillsRequired": "Se requiere al menos una habilidad",
+    "volunteer.validation.locationRequired": "La ubicación es obligatoria",
+    "volunteer.profileNotFound": "Perfil de usuario no encontrado",
+    "volunteer.correctErrors": "Por favor corrija los errores de validación",
+    "volunteer.createFailed": "Error al crear la oportunidad",
+    "volunteer.descriptionPlaceholder":
+      "Describa la oportunidad de voluntariado en detalle...",
+    "volunteer.skillsPlaceholder":
+      "ej., Desarrollo Web, Gestión de Proyectos, Traducción",
+    "volunteer.locationPlaceholder": "ej., Remoto, Nueva York, Berlín",
+    "volunteer.headerImage": "Imagen de Encabezado",
+    "volunteer.headerImageHelp":
+      "Suba una imagen para mostrar en la parte superior de su anuncio",
+    "volunteer.limitReached": "Límite de Oportunidades Alcanzado",
+    "volunteer.limitReachedMessage":
+      "Ha alcanzado el máximo de {{max}} oportunidades de voluntariado activas. Cierre o complete una oportunidad existente antes de crear una nueva.",
+    "volunteer.opportunityCount":
+      "Tiene {{count}} de {{max}} oportunidades activas.",
+
+    // Volunteer - HoursVerificationTab
+    "volunteer.hoursVerification": "Verificación de Horas",
+    "volunteer.hoursVerificationDescription":
+      "Revise y verifique las horas de voluntariado enviadas",
+    "volunteer.formalHours": "Horas Registradas",
+    "volunteer.selfReported": "Auto-reportadas",
+    "volunteer.loggedHours": "Horas de Voluntariado Registradas",
+    "volunteer.loggedHoursDescription":
+      "Horas registradas por voluntarios a través de sus oportunidades",
+    "volunteer.allCaughtUp": "¡Todo al día!",
+    "volunteer.noPendingLoggedHours":
+      "No hay horas registradas pendientes por verificar.",
+    "volunteer.selfReportedHours": "Horas Auto-reportadas",
+
+    // Volunteer - OpportunitiesTab
+    "volunteer.noOpportunitiesTitle": "Aún no hay oportunidades",
+    "volunteer.activeCount": "{{count}} de {{max}} oportunidades activas",
+    "volunteer.moreSkills": "+{{count}} más",
+
+    // Volunteer - ApplicationsTab
+    "volunteer.noApplications": "No hay solicitudes pendientes",
+    "volunteer.unknownOpportunity": "Oportunidad Desconocida",
+
+    // Volunteer - VerificationLookup
+    "volunteer.verifyContribution": "Verificar Contribución de Voluntariado",
+    "volunteer.hashPlaceholder": "Ingrese el hash de verificación",
+    "volunteer.searching": "Buscando...",
+    "volunteer.verifyHash": "Verificar Hash",
+    "volunteer.verificationNotFound": "Verificación No Encontrada",
+    "volunteer.verificationNotFoundMessage":
+      "El hash proporcionado no se encontró en nuestros registros. Verifique el hash e intente nuevamente.",
+    "volunteer.unknownOrganization": "Organización Desconocida",
+
+    // Volunteer - VolunteerVerificationCard
+    "volunteer.contributionVerification":
+      "Verificación de Contribución Voluntaria",
+    "volunteer.volunteerLabel": "Voluntario",
+    "volunteer.opportunityLabel": "Oportunidad",
+    "volunteer.organizationLabel": "Organización",
+    "volunteer.acceptedOn": "Aceptado el",
+    "volunteer.verifiedOn": "Verificado el",
+    "volunteer.verificationHashes": "Hashes de Verificación",
+    "volunteer.blockchainReference": "Referencia en Blockchain",
+
+    // Volunteer - VerifyContribution page
+    "volunteer.verifyingContribution": "Verificando contribución\u2026",
+    "volunteer.noHashProvided": "No se proporcionó un hash de verificación.",
+    "volunteer.verificationSuccessful": "Verificación Exitosa",
+    "volunteer.contributionVerifiedBlockchain":
+      "Esta contribución voluntaria ha sido verificada y registrada en la blockchain.",
+    "volunteer.verificationFailed": "Verificación Fallida",
+    "volunteer.hashNotFound":
+      "El hash de verificación {{hash}} no se encontró o no es válido.",
+
+    // Volunteer - SelfReportedHoursDashboard
+    "volunteer.volunteerHoursTitle": "Horas de Voluntariado",
+    "volunteer.aboutSelfReported": "Acerca de las Horas Auto-reportadas",
+    "volunteer.selfReportedInfo":
+      "Solo las horas validadas por organizaciones verificadas cuentan para los Rankings de Impacto Global. Las horas para organizaciones fuera de nuestra plataforma pueden registrarse pero serán marcadas como \u201cNo Validadas\u201d hasta que se reciba la validación.",
+    "volunteer.logHoursButton": "Registrar Horas",
+    "volunteer.logVolunteerHours": "Registrar Horas de Voluntariado",
+    "volunteer.editRecord": "Editar Registro",
+    "volunteer.recordDetails": "Detalles del Registro",
+    "volunteer.backToList": "Volver a la Lista",
+    "volunteer.deleteRecord": "¿Eliminar Registro?",
+    "volunteer.deleteConfirmation":
+      "¿Está seguro de que desea eliminar este registro de horas de voluntariado? Esta acción no se puede deshacer.",
+
+    // Volunteer - SelfReportedHoursForm
+    "volunteer.activityType": "Tipo de Actividad",
+    "volunteer.organization": "Organización",
+    "volunteer.searchRegistry": "Buscar en el Registro",
+    "volunteer.notListed": "No Listada",
+    "volunteer.organizationName": "Nombre de la Organización",
+    "volunteer.enterOrgName": "Ingrese el nombre de la organización",
+    "volunteer.contactEmail": "Correo de Contacto",
+    "volunteer.contactEmailOptional": "(opcional)",
+    "volunteer.onboardHelp":
+      "Podemos comunicarnos para ayudar a incorporar esta organización",
+    "volunteer.submittedForValidation":
+      "Este registro será enviado para validación",
+    "volunteer.submittedForValidationTo":
+      "Este registro será enviado para validación a {{org}}",
+    "volunteer.validationExpired":
+      "El período de validación ha expirado para esta fecha",
+    "volunteer.savedAsUnvalidated":
+      "Este registro se guardará como no validado",
+    "volunteer.describeActivities": "Describa las actividades que realizó...",
+    "volunteer.moreCharsNeeded": "{{count}} caracteres más necesarios",
+    "volunteer.updating": "Actualizando...",
+    "volunteer.logging": "Registrando...",
+    "volunteer.updateHours": "Actualizar Horas",
+
+    // Volunteer - SelfReportedHoursList
+    "volunteer.statusFilter": "Estado",
+    "volunteer.activityTypeFilter": "Tipo de Actividad",
+    "volunteer.filterFrom": "Desde",
+    "volunteer.filterTo": "Hasta",
+    "volunteer.clearFilters": "Limpiar filtros",
+    "volunteer.allStatuses": "Todos",
+    "volunteer.allActivityTypes": "Todos los Tipos",
+    "volunteer.noMatchingRecords": "No se encontraron registros",
+    "volunteer.noHoursLogged": "Aún no se han registrado horas de voluntariado",
+    "volunteer.adjustFilters":
+      "Intente ajustar sus filtros para encontrar registros.",
+    "volunteer.startLogging":
+      "Comience registrando sus primeras horas de voluntariado.",
+
+    // Volunteer - SelfReportedHoursStats
+    "volunteer.validatedHours": "Horas Validadas",
+    "volunteer.pendingValidation": "Validación Pendiente",
+    "volunteer.unvalidatedHours": "Horas No Validadas",
+    "volunteer.rejectedLabel": "Rechazadas",
+    "volunteer.hoursUnit": "hrs",
+    "volunteer.recordSingular": "registro",
+    "volunteer.recordPlural": "registros",
+
+    // Volunteer - VolunteerApplicationForm
+    "volunteer.applicationTitle": "Solicitud de Oportunidad de Voluntariado",
+    "volunteer.applicationSubtitle":
+      "Ayude a crear un impacto sostenible a través de contribuciones verificadas",
+    "volunteer.personalInfo": "Información Personal",
+    "volunteer.firstName": "Nombre",
+    "volunteer.lastName": "Apellido",
+    "volunteer.emailAddress": "Correo Electrónico",
+    "volunteer.phoneNumber": "Número de Teléfono",
+    "volunteer.locationCity": "Ubicación/Ciudad",
+    "volunteer.locationCityPlaceholder": "ej., Ciudad de México, MX",
+    "volunteer.timeZone": "Zona Horaria",
+    "volunteer.selectTimeZone": "Seleccionar Zona Horaria",
+    "volunteer.ageRange": "Rango de Edad",
+    "volunteer.selectAgeRange": "Seleccionar Rango de Edad",
+    "volunteer.skillsAndInterests": "Habilidades e Intereses",
+    "volunteer.skillsLabel": "Habilidades y Áreas de Interés",
+    "volunteer.skillPlaceholderFull":
+      "Comience a escribir sus habilidades (ej., Programación en Python, Oratoria, Redacción de subvenciones)",
+    "volunteer.skillPlaceholderShort":
+      "Escriba una habilidad y presione Enter...",
+    "volunteer.commitmentLevel": "Nivel de Compromiso",
+    "volunteer.commitmentOneTimeDesc":
+      "Proyecto único o tareas de corta duración",
+    "volunteer.commitmentShortTermDesc": "Unas semanas a algunos meses",
+    "volunteer.commitmentLongTermDesc":
+      "Compromiso continuo de varios meses o más",
+    "volunteer.experienceLabel": "Cuéntenos sobre su experiencia relevante",
+    "volunteer.experiencePlaceholder":
+      "Describa su experiencia, habilidades y qué le motiva a ser voluntario con Give Protocol...",
+    "volunteer.consentTitle": "Consentimiento y Acuerdo",
+    "volunteer.consentHeader": "Consentimiento de Solicitud de Voluntariado",
+    "volunteer.submitting": "Enviando...",
+    "volunteer.submitApplication": "Enviar Solicitud de Voluntariado",
+    "volunteer.disclaimerText":
+      "Al enviar esta solicitud, usted reconoce que ha leído y comprendido la política de privacidad y las directrices para voluntarios de Give Protocol. Sus datos serán procesados de acuerdo con las regulaciones de protección de datos aplicables.",
+    "volunteer.validation.firstNameInvalid": "Ingrese un nombre válido",
+    "volunteer.validation.lastNameInvalid": "Ingrese un apellido válido",
+    "volunteer.validation.emailInvalid": "Ingrese un correo electrónico válido",
+    "volunteer.validation.phoneInvalid": "Ingrese un número de teléfono válido",
+    "volunteer.validation.experienceRequired":
+      "Describa su experiencia relevante",
+    "volunteer.validation.addSkill": "Agregue al menos una habilidad",
+    "volunteer.validation.ageRangeRequired": "Seleccione su rango de edad",
+    "volunteer.validation.consentRequired":
+      "Debe aceptar todos los elementos de consentimiento requeridos",
+    "volunteer.signInToSubmit": "Inicie sesión para enviar una solicitud",
+    "volunteer.submitFailed":
+      "Error al enviar la solicitud. Intente nuevamente.",
+
+    // Volunteer - ApplicationForm
+    "volunteer.applyForTitle": "Postularse para: {{title}}",
+    "volunteer.fullName": "Nombre Completo *",
+    "volunteer.phoneRequired": "Número de Teléfono *",
+    "volunteer.emailRequired": "Correo Electrónico *",
+    "volunteer.dateOfBirth": "Fecha de Nacimiento",
+    "volunteer.availabilityTitle": "Disponibilidad",
+    "volunteer.preferredDays": "Días Preferidos",
+    "volunteer.preferredTimes": "Horarios Preferidos",
+    "volunteer.commitmentLevelLabel": "Nivel de Compromiso",
+    "volunteer.skillsAndExperience": "Habilidades y Experiencia",
+    "volunteer.relevantExperience": "Experiencia Relevante *",
+    "volunteer.certifications": "Certificaciones (separadas por comas)",
+    "volunteer.interestsAndPreferences": "Intereses y Preferencias",
+    "volunteer.areasOfInterest": "Áreas de Interés (separadas por comas)",
+    "volunteer.referencesTitle": "Referencias",
+    "volunteer.referenceName": "Nombre de Referencia {{index}}",
+    "volunteer.referenceContact": "Contacto de Referencia {{index}}",
+    "volunteer.workSamplesTitle": "Muestras de Trabajo",
+    "volunteer.workSamplesLabel":
+      "Enlaces a Muestras de Trabajo (separados por comas)",
+    "volunteer.submitApplicationShort": "Enviar Solicitud",
+    "volunteer.validation.nameInvalid":
+      "Ingrese un nombre válido (2-100 caracteres)",
+    "volunteer.validation.provideExperience":
+      "Proporcione información sobre su experiencia",
+    "volunteer.validation.selectDay": "Seleccione al menos un día",
+    "volunteer.validation.selectTime": "Seleccione al menos un horario",
+
+    // Volunteer - ConsentForm
+    "volunteer.consentUnderstand": "Entiendo que:",
+    "volunteer.specificConsents": "CONSENTIMIENTOS ESPECÍFICOS",
+    "volunteer.specificConsentsDesc":
+      "Revise e indique su consentimiento para cada uno de los siguientes:",
+    "volunteer.essentialProcessingTitle": "Procesamiento Esencial (Requerido):",
+    "volunteer.internationalTransfersTitle":
+      "Transferencias Internacionales (si aplica):",
+    "volunteer.acknowledgmentTitle": "RECONOCIMIENTO",
+    "volunteer.ageConfirmationTitle": "Confirmación de Edad:",
+    "volunteer.privacyNoticeTitle": "Aviso de Privacidad:",
+    "volunteer.doNotAccept": "No Aceptar",
+    "volunteer.acceptAndContinue": "Aceptar y Continuar",
+    "volunteer.validation.essentialRequired":
+      "El consentimiento de Procesamiento Esencial es necesario para continuar",
+    "volunteer.validation.agePrivacyRequired":
+      "Debe confirmar su edad y que ha leído el Aviso de Privacidad",
+
+    // Languages
+    "language.english": "Inglés",
+    "language.spanish": "Español",
+    "language.german": "Alemán",
+    "language.french": "Francés",
+    "language.japanese": "Japonés",
+    "language.chinese_simplified": "Chino (Simplificado)",
+    "language.chinese_traditional": "Chino (Tradicional)",
+    "language.thai": "Tailandés",
+    "language.vietnamese": "Vietnamita",
+    "language.korean": "Coreano",
+    "language.arabic": "Árabe",
+    "language.hindi": "Hindi",
+    "language.multiple": "Varios Idiomas",
+
+    // Contribution types
+    "contribution.type.donation": "Donación",
+    "contribution.type.volunteerapplication": "Solicitud de Voluntariado",
+    "contribution.type.volunteerhours": "Horas de Voluntariado",
+    "contribution.type.volunteeracceptance": "Aceptación de Voluntariado",
+    "contribution.type.volunteerverification": "Verificación de Voluntariado",
+
+    // Donor/Volunteer
+    "donor.volunteer": "Donante/Voluntario",
+    "donor.anonymous": "Anónimo",
+    "volunteer.unknown": "Voluntario Desconocido",
 
     // Statuses
     "status.completed": "Completado",
     "status.pending": "Pendiente",
     "status.failed": "Fallido",
 
+    // Blockchain
+    "blockchain.block": "Bloque",
+
+    // Filter
+    "filter.allYears": "Todos los Años",
+    "filter.allTypes": "Todos los Tipos",
+    "filter.donations": "Donaciones",
+    "filter.volunteerApplications": "Solicitudes de Voluntariado",
+    "filter.volunteerHours": "Horas de Voluntariado",
+    "filter.fiatDonations": "Donaciones Fiat",
+
     // Export
     "export.title": "Exportar Datos de Contribuciones",
-    "export.filename": "Nombre de archivo",
-    "export.dateRange": "Rango de fechas",
-    "export.includePersonal":
-      "Incluir direcciones de billetera e información personal",
+    "export.filename": "Nombre de Archivo",
+    "export.dateRange": "Rango de Fechas",
+    "export.includePersonal": "Incluir direcciones de billetera",
     "export.willInclude": "La exportación incluirá:",
+    "export.walletAddresses":
+      "Direcciones de billetera (remitente y destinatario)",
+    "export.volunteerDetails":
+      "Detalles de contribución voluntaria (cuando aplique)",
+    "export.verificationHashes": "Hashes de verificación (cuando aplique)",
     "export.cancel": "Cancelar",
     "export.download": "Exportar CSV",
 
@@ -917,15 +1267,12 @@ export default {
     "charity.profile.toAddOne": "para agregar una.",
     "charity.profile.contact": "Contacto",
     "charity.profile.donate.support": "Apoyar",
-    "charity.profile.donate.walletUnset":
-      "Esta organización aún no ha configurado una billetera oficial.",
-    "charity.profile.donate.walletPending":
-      "Esta organización está configurando su billetera — las donaciones no están disponibles temporalmente.",
-    "charity.profile.donate.walletLegacy":
-      "Esta organización utiliza una dirección de billetera heredada.",
-    "charity.profile.donate.feeNote":
-      "0% de tarifa de plataforma en donaciones directas. Se aplican tarifas de red.",
+    "charity.profile.donate.walletUnset": "Esta organización aún no ha configurado una billetera oficial.",
+    "charity.profile.donate.walletPending": "Esta organización está configurando su billetera — las donaciones no están disponibles temporalmente.",
+    "charity.profile.donate.walletLegacy": "Esta organización utiliza una dirección de billetera heredada.",
+    "charity.profile.donate.feeNote": "0% de tarifa de plataforma en donaciones directas. Se aplican tarifas de red.",
     "portfolio.title": "Fondos de Portafolio",
+    "settings.displayPreferences": "Preferencias de visualización",
     "settings.theme": "Tema",
     "settings.light": "Claro",
     "settings.dark": "Oscuro",
