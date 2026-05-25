@@ -29,6 +29,34 @@ npm run test:e2e     # Run Cypress end-to-end tests
 - **Contexts**: React Context for Auth, Web3, Settings, Toast
 - **Smart Contracts**: See `give-protocol-contracts` repository
 
+## Internationalization (i18n)
+
+The app uses **i18next** with **react-i18next** supporting 12 languages: en, es, de, fr, ja, zh-CN, zh-TW, th, vi, ko, ar, hi.
+
+### i18n Workflow
+
+When adding or modifying user-facing text:
+
+1. **Add English keys to `src/i18n/resources/en.ts`** — this is the authoritative source
+2. **Use `t(key, fallback)` in components** — always include the English fallback text
+   ```typescript
+   import { useTranslation } from "@/hooks/useTranslation";
+   const { t } = useTranslation();
+   // CORRECT — key registered in en.ts with fallback
+   <h1>{t("settings.title", "Settings")}</h1>
+   // WRONG — key without fallback (shows raw key if missing from en.ts)
+   <h1>{t("settings.title")}</h1>
+   ```
+3. **Never add `t()` calls without registering keys in `en.ts`** — CI tests will fail
+4. **Regenerate translations** for all 11 non-English languages after adding new English keys
+
+### Key Rules
+
+- Keys use dot notation with scope prefixes: `auth.signin.title`, `admin.dashboard.alerts`, `common.cancel`
+- `en.ts` is the master — all other language files must have the same keys
+- Language detection: localStorage → browser navigator → English fallback
+- Custom hook `useTranslation` from `@/hooks/useTranslation` syncs with SettingsContext
+
 ## Environment Setup
 
 `.env` file required:

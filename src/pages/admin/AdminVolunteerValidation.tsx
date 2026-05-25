@@ -258,47 +258,42 @@ function SuspiciousTable({
     );
   }
   return (
-    <div className="overflow-x-auto">
-      <table className="min-w-full divide-y divide-gray-200 text-left">
-        <thead>
-          <tr className="bg-gray-50">
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-              {t("admin.validation.colVolunteer", "Volunteer")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-              {t("admin.validation.colOrganisation", "Organisation")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-              {t("admin.validation.colHrsPerWeek", "Hrs/Week")}
-            </th>
-            <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-              {t("admin.validation.colTotalRequests", "Total Requests")}
-            </th>
+    <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
+      <thead>
+        <tr className="bg-gray-50">
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+            {t("admin.validation.colVolunteer", "Volunteer")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+            {t("admin.validation.colOrganisation", "Organisation")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+            {t("admin.validation.colHrsPerWeek", "Hrs/Week")}
+          </th>
+          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+            {t("admin.validation.colTotalRequests", "Total Requests")}
+          </th>
+        </tr>
+      </thead>
+      <tbody className="divide-y divide-gray-100">
+        {patterns.map((p) => (
+          <tr key={`${p.volunteerId}-${p.orgId}`} className="hover:bg-gray-50">
+            <td className="px-4 py-3 text-sm text-gray-900">
+              {p.volunteerDisplayName ?? p.volunteerEmail ?? p.volunteerId}
+            </td>
+            <td className="px-4 py-3 text-sm text-gray-600">
+              {p.orgName ?? p.orgId}
+            </td>
+            <td className="px-4 py-3 text-sm font-semibold text-red-700 text-right">
+              {p.weeklyHours}
+            </td>
+            <td className="px-4 py-3 text-sm text-gray-700 text-right">
+              {p.totalRequests}
+            </td>
           </tr>
-        </thead>
-        <tbody className="divide-y divide-gray-100">
-          {patterns.map((p) => (
-            <tr
-              key={`${p.volunteerId}-${p.orgId}`}
-              className="hover:bg-gray-50"
-            >
-              <td className="px-4 py-3 text-sm text-gray-900">
-                {p.volunteerDisplayName ?? p.volunteerEmail ?? p.volunteerId}
-              </td>
-              <td className="px-4 py-3 text-sm text-gray-600">
-                {p.orgName ?? p.orgId}
-              </td>
-              <td className="px-4 py-3 text-sm font-semibold text-red-700 text-right">
-                {p.weeklyHours}
-              </td>
-              <td className="px-4 py-3 text-sm text-gray-700 text-right">
-                {p.totalRequests}
-              </td>
-            </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+        ))}
+      </tbody>
+    </table>
   );
 }
 
@@ -618,42 +613,40 @@ export default function AdminVolunteerValidation(): React.ReactElement {
             </p>
           )}
           {!loading && result.requests.length > 0 && (
-            <div className="overflow-x-auto">
-              <table className="min-w-full divide-y divide-gray-200 text-left">
-                <thead>
-                  <tr className="bg-gray-50">
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      {t("admin.validation.colVolunteer", "Volunteer")}
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      {t("admin.validation.colOrganisation", "Organisation")}
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
-                      {t("admin.validation.colHours", "Hours")}
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      {t("admin.validation.colActivityDate", "Activity Date")}
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      {t("admin.validation.colStatus", "Status")}
-                    </th>
-                    <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
-                      {t("admin.validation.colCreated", "Created")}
-                    </th>
-                    <th className="px-4 py-3" />
-                  </tr>
-                </thead>
-                <tbody className="divide-y divide-gray-100">
-                  {result.requests.map((req) => (
-                    <RequestRow
-                      key={req.id}
-                      request={req}
-                      onOverride={handleOpenOverride}
-                    />
-                  ))}
-                </tbody>
-              </table>
-            </div>
+            <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
+              <thead>
+                <tr className="bg-gray-50">
+                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                    {t("admin.validation.colVolunteer", "Volunteer")}
+                  </th>
+                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                    {t("admin.validation.colOrganisation", "Organisation")}
+                  </th>
+                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right">
+                    {t("admin.validation.colHours", "Hours")}
+                  </th>
+                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                    {t("admin.validation.colActivityDate", "Activity Date")}
+                  </th>
+                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                    {t("admin.validation.colStatus", "Status")}
+                  </th>
+                  <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase">
+                    {t("admin.validation.colCreated", "Created")}
+                  </th>
+                  <th className="px-4 py-3" />
+                </tr>
+              </thead>
+              <tbody className="divide-y divide-gray-100">
+                {result.requests.map((req) => (
+                  <RequestRow
+                    key={req.id}
+                    request={req}
+                    onOverride={handleOpenOverride}
+                  />
+                ))}
+              </tbody>
+            </table>
           )}
           <Pagination
             page={result.page}
