@@ -3,6 +3,7 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { DiscoveryShellSkeleton } from "@/components/discovery/DiscoveryShellSkeleton";
 import { PublicDiscoveryView } from "@/components/discovery/PublicDiscoveryView";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 const BLOB_DELAY: React.CSSProperties = { animationDelay: "1s" };
 
@@ -11,6 +12,7 @@ const BLOB_DELAY: React.CSSProperties = { animationDelay: "1s" };
  * admins are redirected to /admin.
  */
 const AppDashboard: React.FC = () => {
+  usePageTitle("Browse");
   const { userType, loading } = useAuth();
 
   if (userType === "admin") {

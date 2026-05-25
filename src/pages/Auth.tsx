@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback } from "react";
 import { Link, Navigate, useLocation } from "react-router-dom";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { ShieldCheck, Wallet, Mail, Lock, Fingerprint } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
@@ -269,6 +270,7 @@ const SignInFormFields: React.FC<{
   email: string;
   password: string;
   loading: boolean;
+  hasError: boolean;
   onEmailChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onPasswordChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onSubmit: (_e: React.FormEvent) => void;
@@ -276,6 +278,7 @@ const SignInFormFields: React.FC<{
   email,
   password,
   loading,
+  hasError,
   onEmailChange,
   onPasswordChange,
   onSubmit,
@@ -291,6 +294,8 @@ const SignInFormFields: React.FC<{
         placeholder={t("auth.signin.emailPlaceholder")}
         required
         autoComplete="email"
+        aria-describedby={hasError ? "signin-form-error" : undefined}
+        aria-invalid={hasError}
       />
       <FormInput
         icon={<Lock className="h-4 w-4" />}
@@ -300,6 +305,8 @@ const SignInFormFields: React.FC<{
         placeholder={t("auth.signin.passwordPlaceholder")}
         required
         autoComplete="current-password"
+        aria-describedby={hasError ? "signin-form-error" : undefined}
+        aria-invalid={hasError}
       />
       <Button
         type="submit"
@@ -539,6 +546,7 @@ const AuthRightPanel: React.FC = () => {
         {/* Error alert */}
         {formError && (
           <div
+            id="signin-form-error"
             className="flex items-center gap-2 p-3 mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm"
             role="alert"
           >
@@ -551,6 +559,7 @@ const AuthRightPanel: React.FC = () => {
           email={email}
           password={password}
           loading={loading}
+          hasError={formError !== null}
           onEmailChange={handleEmailChange}
           onPasswordChange={handlePasswordChange}
           onSubmit={handleEmailSignIn}
@@ -679,11 +688,14 @@ const AuthRightPanel: React.FC = () => {
 };
 
 /** Unified sign-in page with email and wallet authentication. */
-const Auth: React.FC = () => (
-  <div className="min-h-[calc(100vh-60px)] grid grid-cols-1 lg:grid-cols-[5fr_6fr]">
-    <AuthLeftPanel />
-    <AuthRightPanel />
-  </div>
-);
+const Auth: React.FC = () => {
+  usePageTitle("Sign In");
+  return (
+    <div className="min-h-[calc(100vh-60px)] grid grid-cols-1 lg:grid-cols-[5fr_6fr]">
+      <AuthLeftPanel />
+      <AuthRightPanel />
+    </div>
+  );
+};
 
 export default Auth;

@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { ChevronDown } from "lucide-react";
 import { StaticPageLayout } from "@/components/layout/StaticPageLayout";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 interface FAQEntry {
   id: string;
@@ -449,6 +450,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
 
 /** Frequently Asked Questions page covering Give Protocol basics, crypto donations, and trust. */
 const FAQ: React.FC = () => {
+  usePageTitle("FAQ");
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
 
   const handleToggle = useCallback((id: string) => {

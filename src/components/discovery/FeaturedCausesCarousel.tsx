@@ -330,8 +330,15 @@ export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
-        {activePage.map((cause) => (
-          <FeaturedCauseCard key={cause.id} cause={cause} />
+        {activePage.map((cause, index) => (
+          <div
+            key={cause.id}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`Slide ${index + 1} of ${activePage.length}`}
+          >
+            <FeaturedCauseCard cause={cause} />
+          </div>
         ))}
       </div>
 

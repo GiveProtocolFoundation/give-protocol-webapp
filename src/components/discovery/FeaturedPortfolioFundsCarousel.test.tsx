@@ -154,6 +154,21 @@ describe("FeaturedPortfolioFundsCarousel", () => {
     expect(hrefs).toContain("/portfolio/1");
   });
 
+  it("renders slide ARIA attributes on each card wrapper", () => {
+    mockHook.mockReturnValue({
+      funds: MOCK_FUNDS.slice(0, 3),
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    const slides = screen.getAllByRole("group");
+    expect(slides).toHaveLength(3);
+    expect(slides[0]).toHaveAttribute("aria-roledescription", "slide");
+    expect(slides[0]).toHaveAttribute("aria-label", "Slide 1 of 3");
+    expect(slides[1]).toHaveAttribute("aria-label", "Slide 2 of 3");
+    expect(slides[2]).toHaveAttribute("aria-label", "Slide 3 of 3");
+  });
+
   it("should pause on mouse enter and resume on leave", () => {
     mockHook.mockReturnValue({
       funds: MOCK_FUNDS,

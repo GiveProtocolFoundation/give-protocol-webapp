@@ -256,8 +256,15 @@ export const FeaturedPortfolioFundsCarousel: React.FC<
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
-        {activePage.map((fund) => (
-          <FeaturedFundCard key={fund.id} fund={fund} />
+        {activePage.map((fund, index) => (
+          <div
+            key={fund.id}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`Slide ${index + 1} of ${activePage.length}`}
+          >
+            <FeaturedFundCard fund={fund} />
+          </div>
         ))}
       </div>
 

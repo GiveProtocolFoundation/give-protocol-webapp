@@ -7,6 +7,7 @@ import {
 } from "../hooks/web3/usePortfolioFunds";
 import { useToast } from "../contexts/ToastContext";
 import { useTranslation } from "../hooks/useTranslation";
+import { usePageTitle } from "../hooks/usePageTitle";
 import { Heart, Users, AlertCircle } from "lucide-react";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
@@ -367,6 +368,7 @@ const FundCard: React.FC<{ fund: PortfolioFund; onDonate: () => void }> = ({
 
 /** Page listing all portfolio funds with donation functionality */
 const PortfolioFunds: React.FC = () => {
+  usePageTitle("Portfolio Funds");
   const [funds, setFunds] = useState<PortfolioFund[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedFund, setSelectedFund] = useState<PortfolioFund | null>(null);
