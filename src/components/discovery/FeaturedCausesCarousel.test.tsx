@@ -314,6 +314,22 @@ describe("FeaturedCausesCarousel", () => {
     expect(dots).toHaveLength(2);
   });
 
+  it("renders slide ARIA attributes on each card wrapper", () => {
+    const causes = [makeCause("1"), makeCause("2"), makeCause("3")];
+    mockUseFeaturedCauses.mockReturnValue({
+      causes: causes as never,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    const slides = screen.getAllByRole("group");
+    expect(slides).toHaveLength(3);
+    expect(slides[0]).toHaveAttribute("aria-roledescription", "slide");
+    expect(slides[0]).toHaveAttribute("aria-label", "Slide 1 of 3");
+    expect(slides[1]).toHaveAttribute("aria-label", "Slide 2 of 3");
+    expect(slides[2]).toHaveAttribute("aria-label", "Slide 3 of 3");
+  });
+
   it("navigates when a dot is clicked", () => {
     const causes = [
       makeCause("1"),

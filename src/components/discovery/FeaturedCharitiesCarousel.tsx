@@ -233,8 +233,15 @@ export const FeaturedCharitiesCarousel: React.FC<
       </div>
 
       <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
-        {activePage.map((charity) => (
-          <FeaturedCharityCard key={charity.profileId} charity={charity} />
+        {activePage.map((charity, index) => (
+          <div
+            key={charity.profileId}
+            role="group"
+            aria-roledescription="slide"
+            aria-label={`Slide ${index + 1} of ${activePage.length}`}
+          >
+            <FeaturedCharityCard charity={charity} />
+          </div>
         ))}
       </div>
 
