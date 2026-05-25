@@ -52,9 +52,20 @@ function extractTranslationKeys(
 }
 
 describe("Translation key validation", () => {
-  const srcDir = resolve(__dirname, "../../../");
-  const registeredKeys = new Set(Object.keys(en.translation));
-  const tsxFiles = collectTsxFiles(srcDir);
+  const srcDir = resolve(__dirname, "../../..");
+  let registeredKeys: Set<string>;
+  let tsxFiles: string[];
+
+  beforeAll(() => {
+    try {
+      registeredKeys = new Set(Object.keys(en.translation));
+      tsxFiles = collectTsxFiles(srcDir);
+    } catch (error) {
+      // eslint-disable-next-line no-console -- diagnostic output for CI
+      console.error("Failed to initialize translation validation:", error);
+      throw error;
+    }
+  });
 
   it("finds .tsx source files to validate", () => {
     expect(tsxFiles.length).toBeGreaterThan(0);
