@@ -1,12 +1,12 @@
-import React from 'react';
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/contexts/AuthContext';
-import { useProfile } from '@/hooks/useProfile';
-import { useDonorData } from '@/hooks/useDonorData';
-import { DonorStats } from '@/components/donor/DonorStats';
-import { DonationHistory } from '@/components/donor/DonationHistory';
-import { Transaction } from '@/types/contribution';
-import { LoadingSpinner } from '@/components/ui/LoadingSpinner';
+import React from "react";
+import { Navigate } from "react-router-dom";
+import { useAuth } from "@/contexts/AuthContext";
+import { useProfile } from "@/hooks/useProfile";
+import { useDonorData } from "@/hooks/useDonorData";
+import { DonorStats } from "@/components/donor/DonorStats";
+import { DonationHistory } from "@/components/donor/DonationHistory";
+import { Transaction } from "@/types/contribution";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 
 export const DonorPortal: React.FC = () => {
   const { user, userType } = useAuth();
@@ -16,23 +16,23 @@ export const DonorPortal: React.FC = () => {
   // Convert donation data to Transaction format for the DonationHistory component
   const formatDonationsAsTransactions = (): Transaction[] => {
     if (!data?.donations) return [];
-    
-    return data.donations.map(donation => ({
+
+    return data.donations.map((donation) => ({
       id: donation.id,
       hash: donation.id, // Using ID as hash for sample data
-      from: '0x1234567890123456789012345678901234567890', // Sample sender address
-      to: '0x0987654321098765432109876543210987654321', // Sample recipient address
+      from: "0x1234567890123456789012345678901234567890", // Sample sender address
+      to: "0x0987654321098765432109876543210987654321", // Sample recipient address
       amount: donation.amount,
-      cryptoType: 'GLMR', // Default to GLMR
+      cryptoType: "GLMR", // Default to GLMR
       fiatValue: donation.amount, // Using the same value for sample data
       fee: donation.amount * 0.001, // Sample fee calculation
       timestamp: donation.date,
-      status: 'completed',
-      purpose: 'Donation',
+      status: "completed",
+      purpose: "Donation",
       metadata: {
         organization: donation.charity,
-        impactGrowth: donation.impactGrowth
-      }
+        impactGrowth: donation.impactGrowth,
+      },
     }));
   };
 
@@ -53,15 +53,13 @@ export const DonorPortal: React.FC = () => {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-red-50 p-4 rounded-md text-red-700">
-          {error}
-        </div>
+        <div className="bg-red-50 p-4 rounded-md text-red-700">{error}</div>
       </div>
     );
   }
 
   // Redirect charity users to charity portal
-  if (userType === 'charity') {
+  if (userType === "charity") {
     return <Navigate to="/charity-portal" />;
   }
 

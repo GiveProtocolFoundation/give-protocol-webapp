@@ -70,7 +70,11 @@ const features = [
 ];
 
 /** Hero section with animated title, vision statement, and CTA buttons. */
-function HeroSection({ mousePosition }: { mousePosition: { x: number; y: number } }) {
+function HeroSection({
+  mousePosition,
+}: {
+  mousePosition: { x: number; y: number };
+}) {
   return (
     <section className="relative z-10 container mx-auto px-6 py-20 text-center">
       <div
@@ -88,8 +92,8 @@ function HeroSection({ mousePosition }: { mousePosition: { x: number; y: number 
         </h1>
         <p className="text-xl text-gray-300 mb-8 max-w-3xl mx-auto">
           Radically transparent philanthropy for the digital age. Built for
-          impact, backed by verifiable technology. Every contribution
-          traceable from donor to destination.
+          impact, backed by verifiable technology. Every contribution traceable
+          from donor to destination.
         </p>
       </div>
 
@@ -99,8 +103,8 @@ function HeroSection({ mousePosition }: { mousePosition: { x: number; y: number 
           Our Vision
         </h2>
         <p className="text-gray-300 text-lg leading-relaxed">
-          Give Protocol is architecting the future of high-integrity giving.
-          We leverage advanced technological infrastructure to bridge the gap
+          Give Protocol is architecting the future of high-integrity giving. We
+          leverage advanced technological infrastructure to bridge the gap
           between global capital and local impact. By integrating seamless
           digital-asset support with traditional giving methods, we are creating
           resilient funding ecosystems that transform one-time gifts into
@@ -131,7 +135,17 @@ function HeroSection({ mousePosition }: { mousePosition: { x: number; y: number 
 }
 
 /** Individual feature card with icon, title, description, and optional badge. */
-function FeatureCard({ feature }: { feature: { icon: React.ReactNode; title: string; description: string; color: string; badge: string | null } }) {
+function FeatureCard({
+  feature,
+}: {
+  feature: {
+    icon: React.ReactNode;
+    title: string;
+    description: string;
+    color: string;
+    badge: string | null;
+  };
+}) {
   return (
     <div className="group bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl p-8 hover:bg-white/10 hover:border-emerald-500/30 transition-all hover:scale-105 cursor-pointer relative">
       {feature.badge && (
@@ -151,7 +165,15 @@ function FeatureCard({ feature }: { feature: { icon: React.ReactNode; title: str
 }
 
 /** Column listing benefits for a specific user role. */
-function UserRoleColumn({ title, color, items }: { title: string; color: string; items: { label: string; comingSoon?: boolean }[] }) {
+function UserRoleColumn({
+  title,
+  color,
+  items,
+}: {
+  title: string;
+  color: string;
+  items: { label: string; comingSoon?: boolean }[];
+}) {
   return (
     <div>
       <div className={`${color} font-semibold mb-3`}>{title}</div>
@@ -175,7 +197,11 @@ function UserRoleColumn({ title, color, items }: { title: string; color: string;
 }
 
 /** Section showcasing benefits for donors, organizations, and volunteers. */
-function UserRoleSection({ mousePosition }: { mousePosition: { x: number; y: number } }) {
+function UserRoleSection({
+  mousePosition,
+}: {
+  mousePosition: { x: number; y: number };
+}) {
   return (
     <div
       className="bg-gradient-to-r from-emerald-900/50 to-teal-900/50 backdrop-blur-lg border border-white/10 rounded-3xl p-12"
@@ -245,13 +271,32 @@ function HomeFooterLink({ link }: { link: FooterLink }) {
     return <span className="opacity-60">{link.label}</span>;
   }
   if (link.isExternal) {
-    return <a href={link.href} className="hover:text-emerald-400" target="_blank" rel="noopener noreferrer">{link.label}</a>;
+    return (
+      <a
+        href={link.href}
+        className="hover:text-emerald-400"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        {link.label}
+      </a>
+    );
   }
-  return <a href={link.href} className="hover:text-emerald-400">{link.label}</a>;
+  return (
+    <a href={link.href} className="hover:text-emerald-400">
+      {link.label}
+    </a>
+  );
 }
 
 /** Footer column with title and list of links. */
-function HomeFooterLinks({ title, links }: { title: string; links: FooterLink[] }) {
+function HomeFooterLinks({
+  title,
+  links,
+}: {
+  title: string;
+  links: FooterLink[];
+}) {
   return (
     <div>
       <h4 className="font-semibold mb-4">{title}</h4>
@@ -267,7 +312,13 @@ function HomeFooterLinks({ title, links }: { title: string; links: FooterLink[] 
 }
 
 /** Card showcasing an individual planned impact fund. */
-function ImpactFundCard({ icon, gradient, hoverBorder, title, description }: {
+function ImpactFundCard({
+  icon,
+  gradient,
+  hoverBorder,
+  title,
+  description,
+}: {
   icon: React.ReactNode;
   gradient: string;
   hoverBorder: string;
@@ -275,7 +326,9 @@ function ImpactFundCard({ icon, gradient, hoverBorder, title, description }: {
   description: string;
 }) {
   return (
-    <div className={`bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden ${hoverBorder} transition-all`}>
+    <div
+      className={`bg-white/5 backdrop-blur-lg border border-white/10 rounded-2xl overflow-hidden ${hoverBorder} transition-all`}
+    >
       <div className={`h-48 ${gradient} flex items-center justify-center`}>
         {icon}
       </div>
@@ -287,15 +340,12 @@ function ImpactFundCard({ icon, gradient, hoverBorder, title, description }: {
   );
 }
 
-
 /** Call-to-action section inviting users to join the platform. */
 function CTASection() {
   return (
     <section className="relative z-10 container mx-auto px-6 py-20">
       <div className="bg-gradient-to-r from-emerald-600 to-teal-600 rounded-3xl p-12 text-center">
-        <h2 className="text-5xl font-bold mb-6">
-          Ready to Transform Giving?
-        </h2>
+        <h2 className="text-5xl font-bold mb-6">Ready to Transform Giving?</h2>
         <p className="text-xl mb-8 max-w-2xl mx-auto">
           Be among the first to experience transparent, blockchain-powered
           philanthropy. Join our community building a better future for
@@ -337,9 +387,21 @@ function HomeFooter() {
     { label: "Community (Coming Soon)", isDisabled: true },
   ];
   const connectLinks: FooterLink[] = [
-    { label: "Bluesky", href: "https://giveprotocol.bsky.social", isExternal: true },
-    { label: "Discord", href: "https://discord.gg/giveprotocol", isExternal: true },
-    { label: "GitHub", href: "https://github.com/giveprotocol", isExternal: true },
+    {
+      label: "Bluesky",
+      href: "https://giveprotocol.bsky.social",
+      isExternal: true,
+    },
+    {
+      label: "Discord",
+      href: "https://discord.gg/giveprotocol",
+      isExternal: true,
+    },
+    {
+      label: "GitHub",
+      href: "https://github.com/giveprotocol",
+      isExternal: true,
+    },
     { label: "Contact (Coming Soon)", isDisabled: true },
   ];
 
@@ -353,8 +415,8 @@ function HomeFooter() {
       </div>
       <div className="pt-8 border-t border-white/10 text-center text-gray-400 text-sm">
         <p>
-          © {new Date().getFullYear()} Give Protocol. Multichain
-          by design. Powered by Give Protocol volunteers.
+          © {new Date().getFullYear()} Give Protocol. Multichain by design.
+          Powered by Give Protocol volunteers.
         </p>
       </div>
     </footer>
