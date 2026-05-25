@@ -1,6 +1,6 @@
 import React from "react";
 import { describe, it, expect } from "@jest/globals";
-import { render, screen } from "@testing-library/react";
+import { render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import ClimateActionNow from "./ClimateActionNow";
 

@@ -1,5 +1,5 @@
-import { jest, describe, it, expect, beforeEach } from "@jest/globals";
-import { renderHook, waitFor, act } from "@testing-library/react";
+import { describe, it, expect, beforeEach } from "@jest/globals";
+import { renderHook, act } from "@testing-library/react";
 import { useAdminImpactMetrics } from "./useAdminImpactMetrics";
 import { setMockResult, resetMockState } from "@/lib/supabase";
 
@@ -65,7 +65,7 @@ describe("useAdminImpactMetrics", () => {
 
     const { result } = renderHook(() => useAdminImpactMetrics());
 
-    let success: boolean = false;
+    let success = false;
     await act(async () => {
       success = await result.current.createMetric({
         fund_id: "fund-1",
@@ -89,7 +89,7 @@ describe("useAdminImpactMetrics", () => {
 
     const { result } = renderHook(() => useAdminImpactMetrics());
 
-    let success: boolean = true;
+    let success = true;
     await act(async () => {
       success = await result.current.createMetric({
         fund_id: "fund-1",
@@ -110,7 +110,7 @@ describe("useAdminImpactMetrics", () => {
 
     const { result } = renderHook(() => useAdminImpactMetrics());
 
-    let success: boolean = false;
+    let success = false;
     await act(async () => {
       success = await result.current.deleteMetric("m1");
     });
@@ -126,7 +126,7 @@ describe("useAdminImpactMetrics", () => {
 
     const { result } = renderHook(() => useAdminImpactMetrics());
 
-    let success: boolean = true;
+    let success = true;
     await act(async () => {
       success = await result.current.deleteMetric("m1");
     });

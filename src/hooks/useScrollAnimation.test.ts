@@ -11,8 +11,6 @@ const mockObserve = jest.fn();
 const mockUnobserve = jest.fn();
 const mockDisconnect = jest.fn();
 
-let intersectionCallback: IntersectionObserverCallback;
-
 beforeEach(() => {
   mockObserve.mockClear();
   mockUnobserve.mockClear();
@@ -20,8 +18,7 @@ beforeEach(() => {
 
   (
     global as unknown as { IntersectionObserver: unknown }
-  ).IntersectionObserver = jest.fn((callback: IntersectionObserverCallback) => {
-    intersectionCallback = callback;
+  ).IntersectionObserver = jest.fn((_callback: IntersectionObserverCallback) => {
     return {
       observe: mockObserve,
       unobserve: mockUnobserve,

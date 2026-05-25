@@ -2,7 +2,7 @@ import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { renderHook, act } from "@testing-library/react";
 import { useAdminPanel } from "./useAdminPanel";
 import { useToast } from "@/contexts/ToastContext";
-import { setMockResult, resetMockState } from "@/lib/supabase";
+import { resetMockState } from "@/lib/supabase";
 
 const mockUseToast = useToast as ReturnType<typeof jest.fn>;
 const mockShowToast = jest.fn();
