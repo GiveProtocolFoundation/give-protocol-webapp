@@ -71,6 +71,9 @@ const languageOptions: { value: Language; label: string }[] = [
   { value: "hi", label: "हिन्दी" },
 ];
 
+/** Languages that use right-to-left text direction. */
+const RTL_LANGUAGES: Language[] = ["ar"];
+
 const currencyOptions: { value: Currency; label: string; symbol: string }[] = [
   { value: "USD", label: "US Dollar", symbol: "$" },
   { value: "CAD", label: "Canadian Dollar", symbol: "C$" },
@@ -154,6 +157,9 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
     if (typeof window !== "undefined") {
       localStorage.setItem("language", language);
       document.documentElement.lang = language;
+      document.documentElement.dir = RTL_LANGUAGES.includes(language)
+        ? "rtl"
+        : "ltr";
       // In a real app, this would trigger i18next language change
     }
   }, [language]);
