@@ -53,30 +53,30 @@ function mapAlertRow(row: AdminAlertRow): AdminAlert {
 /**
  * Fetches real-time KPI aggregate stats from the get_admin_dashboard_stats() RPC.
  * Requires the current user to have admin JWT claims.
- * @returns AdminDashboardStats or null on error
+ * @returns AdminDashboardStats
+ * @throws Error with the Supabase error details when the RPC fails
  */
-export async function getAdminDashboardStats(): Promise<AdminDashboardStats | null> {
-  try {
-    const { data, error } = await supabase.rpc("get_admin_dashboard_stats");
+export async function getAdminDashboardStats(): Promise<AdminDashboardStats> {
+  const { data, error } = await supabase.rpc("get_admin_dashboard_stats");
 
-    if (error) {
-      Logger.error("Error fetching admin dashboard stats", {
-        code: error.code,
-        message: error.message,
-        details: error.details,
-        hint: error.hint,
-      });
-      return null;
-    }
-
-    // RPC returns a JSONB object — cast it directly (keys already camelCase)
-    return data as AdminDashboardStats;
-  } catch (error) {
-    Logger.error("Admin dashboard stats query failed", {
-      error: error instanceof Error ? error.message : String(error),
+  if (error) {
+    Logger.error("Error fetching admin dashboard stats", {
+      code: error.code,
+      message: error.message,
+      details: error.details,
+      hint: error.hint,
     });
-    return null;
+    throw new Error(
+      `Admin stats RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  if (!data) {
+    throw new Error("Admin stats RPC returned empty data");
+  }
+
+  // RPC returns a JSONB object — cast it directly (keys already camelCase)
+  return data as AdminDashboardStats;
 }
 
 /**

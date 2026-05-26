@@ -46,25 +46,23 @@ describe("adminDashboardService", () => {
       expect(result?.trends.donations7d).toBe(10);
     });
 
-    it("should return null when RPC returns an error", async () => {
+    it("should throw when RPC returns an error", async () => {
       (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
         data: null,
-        error: { message: "Admin access required" },
+        error: { message: "Admin access required", code: "42501" },
       });
 
-      const result = await getAdminDashboardStats();
-
-      expect(result).toBeNull();
+      await expect(getAdminDashboardStats()).rejects.toThrow(
+        "Admin stats RPC failed: Admin access required (code: 42501)",
+      );
     });
 
-    it("should return null when RPC throws", async () => {
+    it("should throw when RPC throws", async () => {
       (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockRejectedValue(
         new Error("Network error"),
       );
 
-      const result = await getAdminDashboardStats();
-
-      expect(result).toBeNull();
+      await expect(getAdminDashboardStats()).rejects.toThrow("Network error");
     });
   });
 
