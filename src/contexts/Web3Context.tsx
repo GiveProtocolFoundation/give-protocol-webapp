@@ -462,7 +462,10 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         // Clear disconnect flag and record that user has connected at least once
         try {
           localStorage.removeItem("giveprotocol_wallet_disconnected");
-          localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
+          localStorage.setItem(
+            "giveprotocol_wallet_previously_connected",
+            "true",
+          );
         } catch {
           // Ignore storage errors
         }
