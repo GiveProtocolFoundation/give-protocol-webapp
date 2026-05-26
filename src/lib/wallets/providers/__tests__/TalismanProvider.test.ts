@@ -4,14 +4,15 @@ import { TalismanProvider } from "../TalismanProvider";
 // Minimal mock for window.talismanEth
 function makeTalismanEth() {
   return {
-    request: async ({ method }: { method: string; params?: unknown[] }) => {
-      if (method === "eth_requestAccounts") return ["0xabc"];
-      if (method === "eth_accounts") return ["0xabc"];
-      if (method === "eth_chainId") return "0x1";
-      return undefined;
+    request({ method }: { method: string; params?: unknown[] }) {
+      if (method === "eth_requestAccounts") return Promise.resolve(["0xabc"]);
+      if (method === "eth_accounts") return Promise.resolve(["0xabc"]);
+      if (method === "eth_chainId") return Promise.resolve("0x1");
+      return Promise.resolve(undefined);
     },
-    on: () => {},
-    removeListener: () => {},
+    // No-op stubs required by the EIP-1193 provider interface
+    on(_event: string, _handler: unknown) { /* stub */ },
+    removeListener(_event: string, _handler: unknown) { /* stub */ },
     isMetaMask: false,
     isTalisman: true,
   };
@@ -31,9 +32,11 @@ describe("TalismanProvider", () => {
     // Simulate Talisman installed but not onboarded
     const talismanEth = {
       ...makeTalismanEth(),
-      request: async () => {
-        throw new Error(
-          "Talisman extension has not been configured yet. Please set it up first.",
+      request() {
+        return Promise.reject(
+          new Error(
+            "Talisman extension has not been configured yet. Please set it up first.",
+          ),
         );
       },
     };
@@ -52,8 +55,8 @@ describe("TalismanProvider", () => {
   it("propagates other errors unchanged", async () => {
     const talismanEth = {
       ...makeTalismanEth(),
-      request: async () => {
-        throw new Error("User rejected the request");
+      request() {
+        return Promise.reject(new Error("User rejected the request"));
       },
     };
     Object.defineProperty(window, "talismanEth", {
