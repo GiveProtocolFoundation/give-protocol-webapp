@@ -1,5 +1,5 @@
 import React from "react";
-import { describe, it, expect, beforeEach, jest } from "@jest/globals";
+import { describe, it, expect, beforeEach } from "@jest/globals";
 import { render, act, renderHook } from "@testing-library/react";
 import {
   SettingsProvider,
@@ -22,17 +22,11 @@ describe("SettingsContext", () => {
     document.documentElement.dir = "";
   });
 
-  it("throws when useSettings is used outside SettingsProvider", () => {
-    const consoleError = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => undefined);
-    try {
-      expect(() => renderHook(() => useSettings())).toThrow(
-        /useSettings must be used within a SettingsProvider/,
-      );
-    } finally {
-      consoleError.mockRestore();
-    }
+  it("returns fallback defaults when useSettings is used outside SettingsProvider", () => {
+    const { result } = renderHook(() => useSettings());
+    expect(result.current.language).toBe("en");
+    expect(result.current.currency).toBe("USD");
+    expect(result.current.theme).toBe("light");
   });
 
   it("exposes the available language and currency options", () => {
