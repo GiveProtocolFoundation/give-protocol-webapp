@@ -8,7 +8,7 @@ function makeTalismanEth() {
       if (method === "eth_requestAccounts") return Promise.resolve(["0xabc"]);
       if (method === "eth_accounts") return Promise.resolve(["0xabc"]);
       if (method === "eth_chainId") return Promise.resolve("0x1");
-      return Promise.resolve(undefined);
+      return Promise.resolve();
     },
     // No-op stubs required by the EIP-1193 provider interface
     on(_event: string, _handler: unknown) {
