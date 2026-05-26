@@ -219,6 +219,10 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
               setSigner(newSigner);
               setAddress(accounts[0]);
               setChainId(Number(network.chainId));
+              // Store the safe provider so event listeners use it instead of
+              // falling back to the raw window.ethereum (which can be Phantom or
+              // another injected provider that triggers unwanted UI in some browsers).
+              setCurrentWalletProvider(safeProvider);
             });
             Logger.info("Restored existing connection", {
               address: accounts[0],
@@ -329,34 +333,29 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
   // Set up event listeners
   useEffect(() => {
-    // Only attach window.ethereum fallback for returning users.
-    // In Comet/MetaMask, even registering an event listener triggers the popup.
-    let resolvedProvider: unknown = currentWalletProvider;
-    if (!resolvedProvider) {
+    // Only fall back to window.ethereum when the user has previously connected.
+    // In some browsers (e.g. Comet) even subscribing to accountsChanged on
+    // window.ethereum triggers a wallet connection popup. First-time visitors
+    // have no prior connection state, so we skip event listeners entirely for
+    // them — they'll get listeners registered once they explicitly connect and
+    // currentWalletProvider is set.
+    const hasPreviouslyConnected = (() => {
       try {
-        if (
-          typeof window !== "undefined" &&
+        return (
           localStorage.getItem("giveprotocol_wallet_previously_connected") ===
-            "true"
-        ) {
-          resolvedProvider = window.ethereum ?? null;
-        }
+          "true"
+        );
       } catch {
-        // ignore storage errors
+        return false;
       }
-    }
-    if (
-      !resolvedProvider ||
-      typeof (resolvedProvider as { on?: unknown }).on !== "function"
-    )
-      return;
-    const walletProvider = resolvedProvider as {
-      on: (_event: string, _handler: (..._args: never[]) => void) => void;
-      removeListener?: (
-        _event: string,
-        _handler: (..._args: never[]) => void,
-      ) => void;
-    };
+    })();
+
+    const walletProvider =
+      currentWalletProvider ||
+      (hasPreviouslyConnected && typeof window !== "undefined"
+        ? window.ethereum
+        : null);
+    if (!walletProvider || typeof walletProvider.on !== "function") return;
 
     /** Clear all connection state when wallet fires disconnect event */
     const handleDisconnect = () => {
