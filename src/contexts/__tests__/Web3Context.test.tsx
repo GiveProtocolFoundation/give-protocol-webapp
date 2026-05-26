@@ -585,7 +585,21 @@ describe("Web3Context", () => {
       await waitFor(() => expect(ethereum.request).not.toHaveBeenCalled());
     });
 
+    it("skips auto-restore when the user has never connected before", async () => {
+      // No giveprotocol_wallet_previously_connected flag set
+      const ethereum = makeEthereum();
+      setEthereum(ethereum);
+
+      renderHook(() => useWeb3(), { wrapper });
+      await waitFor(() =>
+        expect(ethereum.request).not.toHaveBeenCalledWith(
+          expect.objectContaining({ method: "eth_accounts" }),
+        ),
+      );
+    });
+
     it("restores state when eth_accounts returns a connected address", async () => {
+      localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
       const ethereum = makeEthereum();
       ethereum.request.mockImplementation(({ method }) => {
         if (method === "eth_accounts") return ["0xrestored"];
@@ -611,6 +625,7 @@ describe("Web3Context", () => {
     });
 
     it("prefers a MetaMask entry inside providers[] when multiple are present", async () => {
+      localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
       const phantom = makeEthereum({ isPhantom: true, isMetaMask: false });
       const metamask = makeEthereum({ isMetaMask: true, isPhantom: false });
       metamask.request.mockImplementation(({ method }) => {
@@ -629,6 +644,7 @@ describe("Web3Context", () => {
     });
 
     it("surfaces the not-authorized error during restore", async () => {
+      localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
       const ethereum = makeEthereum();
       ethereum.request.mockRejectedValue(
         new Error("The provider has not been authorized"),

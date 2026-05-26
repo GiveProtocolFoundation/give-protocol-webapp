@@ -147,6 +147,22 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         // Ignore storage errors
       }
 
+      // Only auto-restore if the user has previously connected a wallet.
+      // Calling eth_accounts on some wallets (e.g. MetaMask in Comet browser)
+      // triggers a connection popup even though the method is documented as
+      // passive. Guard with an explicit "has connected before" flag so first-
+      // time visitors never see an unsolicited wallet prompt.
+      try {
+        if (
+          localStorage.getItem("giveprotocol_wallet_previously_connected") !==
+          "true"
+        ) {
+          return;
+        }
+      } catch {
+        // Ignore storage errors
+      }
+
       // Skip auto-restore on auth pages — the user hasn't chosen a wallet yet,
       // and calling eth_accounts on window.ethereum can trigger Phantom's popup
       // when it has hijacked the global provider.
@@ -443,9 +459,13 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         isConnectingRef.current = true;
         setError(null);
 
-        // Clear disconnect flag since user is explicitly connecting
+        // Clear disconnect flag and record that user has connected at least once
         try {
           localStorage.removeItem("giveprotocol_wallet_disconnected");
+          localStorage.setItem(
+            "giveprotocol_wallet_previously_connected",
+            "true",
+          );
         } catch {
           // Ignore storage errors
         }
@@ -521,6 +541,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       // Mark explicit disconnect to prevent auto-reconnect on page reload
       try {
         localStorage.setItem("giveprotocol_wallet_disconnected", "true");
+        localStorage.removeItem("giveprotocol_wallet_previously_connected");
       } catch {
         // Ignore storage errors
       }
