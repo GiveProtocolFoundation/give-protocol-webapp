@@ -449,10 +449,7 @@ describe("Web3Context", () => {
     });
 
     it("registers and removes accountsChanged / chainChanged / disconnect handlers for returning users", async () => {
-      localStorage.setItem(
-        "giveprotocol_wallet_previously_connected",
-        "true",
-      );
+      localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
       const ethereum = makeEthereum();
       setEthereum(ethereum);
 
