@@ -11,8 +11,12 @@ function makeTalismanEth() {
       return Promise.resolve(undefined);
     },
     // No-op stubs required by the EIP-1193 provider interface
-    on(_event: string, _handler: unknown) { /* stub */ },
-    removeListener(_event: string, _handler: unknown) { /* stub */ },
+    on(_event: string, _handler: unknown) {
+      /* stub */
+    },
+    removeListener(_event: string, _handler: unknown) {
+      /* stub */
+    },
     isMetaMask: false,
     isTalisman: true,
   };
