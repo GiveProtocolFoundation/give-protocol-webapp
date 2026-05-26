@@ -463,9 +463,7 @@ describe("Web3Context", () => {
       renderHook(() => useWeb3(), { wrapper });
 
       // Give the effect time to run (it shouldn't register anything)
-      await waitFor(() =>
-        expect(ethereum.on).not.toHaveBeenCalled(),
-      );
+      await waitFor(() => expect(ethereum.on).not.toHaveBeenCalled());
     });
 
     it("registers and removes accountsChanged / chainChanged / disconnect handlers for returning users", async () => {

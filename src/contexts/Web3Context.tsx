@@ -336,9 +336,8 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       try {
         if (
           typeof window !== "undefined" &&
-          localStorage.getItem(
-            "giveprotocol_wallet_previously_connected",
-          ) === "true"
+          localStorage.getItem("giveprotocol_wallet_previously_connected") ===
+            "true"
         ) {
           resolvedProvider = window.ethereum ?? null;
         }
@@ -487,7 +486,10 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         // Clear disconnect flag and record that user has connected at least once
         try {
           localStorage.removeItem("giveprotocol_wallet_disconnected");
-          localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
+          localStorage.setItem(
+            "giveprotocol_wallet_previously_connected",
+            "true",
+          );
         } catch {
           // Ignore storage errors
         }
