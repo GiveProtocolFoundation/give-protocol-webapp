@@ -132,6 +132,15 @@ export class TalismanProvider extends BaseMultiChainProvider {
 
       return accounts;
     } catch (error) {
+      // Talisman is installed but not onboarded — provide a clear message
+      if (
+        error instanceof Error &&
+        error.message.includes("not been configured yet")
+      ) {
+        throw new Error(
+          "Talisman needs to be set up first. Please complete its onboarding and refresh the page.",
+        );
+      }
       Logger.error("Talisman connection failed", { error, chainType });
       throw error;
     }

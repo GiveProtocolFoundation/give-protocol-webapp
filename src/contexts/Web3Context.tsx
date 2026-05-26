@@ -329,10 +329,35 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
   // Set up event listeners
   useEffect(() => {
-    const walletProvider =
-      currentWalletProvider ||
-      (typeof window !== "undefined" ? window.ethereum : null);
-    if (!walletProvider || typeof walletProvider.on !== "function") return;
+    // Only attach window.ethereum fallback for returning users.
+    // In Comet/MetaMask, even registering an event listener triggers the popup.
+    let resolvedProvider: unknown = currentWalletProvider;
+    if (!resolvedProvider) {
+      try {
+        if (
+          typeof window !== "undefined" &&
+          localStorage.getItem(
+            "giveprotocol_wallet_previously_connected",
+          ) === "true"
+        ) {
+          resolvedProvider = window.ethereum ?? null;
+        }
+      } catch {
+        // ignore storage errors
+      }
+    }
+    if (
+      !resolvedProvider ||
+      typeof (resolvedProvider as { on?: unknown }).on !== "function"
+    )
+      return;
+    const walletProvider = resolvedProvider as {
+      on: (_event: string, _handler: (..._args: never[]) => void) => void;
+      removeListener?: (
+        _event: string,
+        _handler: (..._args: never[]) => void,
+      ) => void;
+    };
 
     /** Clear all connection state when wallet fires disconnect event */
     const handleDisconnect = () => {
@@ -514,6 +539,15 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         // Handle user rejected request
         if (hasErrorCode(err, 4001)) {
           const error = new Error("User rejected wallet connection");
+          setError(error);
+          throw error;
+        }
+
+        // Handle "already pending" request (-32002)
+        if (hasErrorCode(err, -32002)) {
+          const error = new Error(
+            "A wallet connection request is already pending. Please check your wallet extension and approve or reject it first.",
+          );
           setError(error);
           throw error;
         }

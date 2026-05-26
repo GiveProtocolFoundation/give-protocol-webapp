@@ -250,6 +250,30 @@ describe("Web3Context", () => {
       );
     });
 
+    it("translates -32002 (already pending) into a friendly message", async () => {
+      const ethereum = makeEthereum();
+      const pending = Object.assign(
+        new Error("wallet_requestPermissions already pending"),
+        { code: -32002 },
+      );
+      ethereum.request.mockRejectedValue(pending);
+      setEthereum(ethereum);
+
+      const { result } = renderHook(() => useWeb3(), { wrapper });
+      let caught: Error | null = null;
+      await act(async () => {
+        try {
+          await result.current.connect(ethereum);
+        } catch (err) {
+          caught = err as Error;
+        }
+      });
+      expect(caught?.message).toMatch(/already pending/);
+      expect(result.current.error?.message).toMatch(
+        /approve or reject it first/,
+      );
+    });
+
     it("falls back to a generic error message for unknown failures", async () => {
       const ethereum = makeEthereum();
       ethereum.request.mockRejectedValue("string error");
@@ -431,7 +455,21 @@ describe("Web3Context", () => {
   });
 
   describe("event listeners", () => {
-    it("registers and removes accountsChanged / chainChanged / disconnect handlers", async () => {
+    it("does NOT register listeners on window.ethereum for first-time visitors", async () => {
+      // No giveprotocol_wallet_previously_connected flag set
+      const ethereum = makeEthereum();
+      setEthereum(ethereum);
+
+      renderHook(() => useWeb3(), { wrapper });
+
+      // Give the effect time to run (it shouldn't register anything)
+      await waitFor(() =>
+        expect(ethereum.on).not.toHaveBeenCalled(),
+      );
+    });
+
+    it("registers and removes accountsChanged / chainChanged / disconnect handlers for returning users", async () => {
+      localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
       const ethereum = makeEthereum();
       setEthereum(ethereum);
 
