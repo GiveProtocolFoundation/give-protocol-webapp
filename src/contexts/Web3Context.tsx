@@ -219,6 +219,10 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
               setSigner(newSigner);
               setAddress(accounts[0]);
               setChainId(Number(network.chainId));
+              // Store the safe provider so event listeners use it instead of
+              // falling back to the raw window.ethereum (which can be Phantom or
+              // another injected provider that triggers unwanted UI in some browsers).
+              setCurrentWalletProvider(safeProvider);
             });
             Logger.info("Restored existing connection", {
               address: accounts[0],
@@ -329,9 +333,28 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
   // Set up event listeners
   useEffect(() => {
+    // Only fall back to window.ethereum when the user has previously connected.
+    // In some browsers (e.g. Comet) even subscribing to accountsChanged on
+    // window.ethereum triggers a wallet connection popup. First-time visitors
+    // have no prior connection state, so we skip event listeners entirely for
+    // them — they'll get listeners registered once they explicitly connect and
+    // currentWalletProvider is set.
+    const hasPreviouslyConnected = (() => {
+      try {
+        return (
+          localStorage.getItem("giveprotocol_wallet_previously_connected") ===
+          "true"
+        );
+      } catch {
+        return false;
+      }
+    })();
+
     const walletProvider =
       currentWalletProvider ||
-      (typeof window !== "undefined" ? window.ethereum : null);
+      (hasPreviouslyConnected && typeof window !== "undefined"
+        ? window.ethereum
+        : null);
     if (!walletProvider || typeof walletProvider.on !== "function") return;
 
     /** Clear all connection state when wallet fires disconnect event */
