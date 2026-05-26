@@ -54,7 +54,11 @@ const CategorySelect: React.FC<CategorySelectProps> = ({
         </option>
       ))}
     </select>
-    {error && <p id="category-error" className="mt-1 text-sm text-red-600" role="alert">{error}</p>}
+    {error && (
+      <p id="category-error" className="mt-1 text-sm text-red-600" role="alert">
+        {error}
+      </p>
+    )}
   </label>
 );
 
@@ -88,7 +92,15 @@ function CountrySelect({
           </option>
         ))}
       </select>
-      {error && <p id="country-error" className="mt-1 text-sm text-red-600" role="alert">{error}</p>}
+      {error && (
+        <p
+          id="country-error"
+          className="mt-1 text-sm text-red-600"
+          role="alert"
+        >
+          {error}
+        </p>
+      )}
     </label>
   );
 }
@@ -284,7 +296,10 @@ export const CharityVettingForm: React.FC = () => {
   return (
     <form onSubmit={handleSubmit} className="space-y-6">
       {error && (
-        <div className="p-3 bg-red-50 text-red-600 rounded-md flex items-start" role="alert">
+        <div
+          className="p-3 bg-red-50 text-red-600 rounded-md flex items-start"
+          role="alert"
+        >
           <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
           <span>{error}</span>
         </div>
@@ -313,11 +328,17 @@ export const CharityVettingForm: React.FC = () => {
           rows={4}
           className="block w-full border border-slate-200 dark:border-gray-600 shadow-none bg-white dark:bg-gray-700 rounded-lg px-4 py-2.5 focus:border-emerald-600 focus:ring-0 focus:outline-none text-gray-900 dark:text-gray-100 mt-1"
           required
-          aria-describedby={validationErrors["description"] ? "description-error" : undefined}
+          aria-describedby={
+            validationErrors["description"] ? "description-error" : undefined
+          }
           aria-invalid={Boolean(validationErrors["description"])}
         />
         {validationErrors["description"] && (
-          <p id="description-error" className="mt-1 text-sm text-red-600" role="alert">
+          <p
+            id="description-error"
+            className="mt-1 text-sm text-red-600"
+            role="alert"
+          >
             {validationErrors["description"]}
           </p>
         )}

@@ -274,7 +274,10 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && (
-          <div className="p-3 bg-red-50 text-red-600 rounded-md flex items-start" role="alert">
+          <div
+            className="p-3 bg-red-50 text-red-600 rounded-md flex items-start"
+            role="alert"
+          >
             <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
             <span>{error}</span>
           </div>
