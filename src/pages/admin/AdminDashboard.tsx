@@ -252,7 +252,9 @@ const AdminDashboard: React.FC = () => {
       ]);
 
       if (!statsData) {
-        throw new Error("Failed to load dashboard statistics from Supabase.");
+        throw new Error(
+          "Failed to load dashboard statistics. If you are the admin, ensure your Supabase user has user_metadata.type='admin' set, then sign out and back in.",
+        );
       }
 
       setStats(statsData);
