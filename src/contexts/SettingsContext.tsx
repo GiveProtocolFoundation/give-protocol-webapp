@@ -1,4 +1,5 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
+import { Logger } from "@/utils/logger";
 
 /** BCP 47 language code for the user's preferred display language. */
 export type Language =
@@ -87,27 +88,52 @@ const currencyOptions: { value: Currency; label: string; symbol: string }[] = [
   { value: "PKR", label: "Pakistani Rupee", symbol: "₨" },
 ];
 
+/** No-op setter used by the fallback value when the provider is missing. */
+const noop = () => {
+  // Intentional no-op — see fallbackSettings
+};
+
+/**
+ * Fallback settings returned when useSettings is called outside a SettingsProvider.
+ * Prevents the entire app from crashing; uses safe English/USD/light defaults.
+ */
+const fallbackSettings: SettingsContextType = {
+  language: "en",
+  setLanguage: noop,
+  currency: "USD",
+  setCurrency: noop,
+  theme: "light",
+  setTheme: noop,
+  languageOptions,
+  currencyOptions,
+};
+
 /**
  * Hook to access user settings context (language, currency, display preferences).
+ * Returns safe defaults if called outside SettingsProvider instead of crashing.
  * @returns SettingsContextType containing current settings and setter functions
- * @throws Error if used outside of SettingsProvider
  */
 // eslint-disable-next-line react-refresh/only-export-components
-export const useSettings = () => {
+export const useSettings = (): SettingsContextType => {
   const context = useContext(SettingsContext);
   if (!context) {
-    throw new Error("useSettings must be used within a SettingsProvider");
+    Logger.error("useSettings called outside SettingsProvider — using fallback defaults");
+    return fallbackSettings;
   }
   return context;
 };
 
 /** Retrieves a cookie value by name from document.cookie. */
 const getCookie = (name: string): string | null => {
-  if (typeof document === "undefined") return null;
-  const value = `; ${document.cookie}`;
-  const parts = value.split(`; ${name}=`);
-  if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
-  return null;
+  try {
+    if (typeof document === "undefined") return null;
+    const value = `; ${document.cookie}`;
+    const parts = value.split(`; ${name}=`);
+    if (parts.length === 2) return parts.pop()?.split(";").shift() || null;
+    return null;
+  } catch {
+    return null;
+  }
 };
 
 /** All supported language codes — used to validate localStorage values set by i18next LanguageDetector. */
@@ -129,31 +155,47 @@ const VALID_LANGUAGES: readonly Language[] = [
 /**
  * SSR-safe initial language — reads localStorage on client, defaults to "en" on server.
  * Normalizes BCP 47 tags (e.g. "en-US" → "en") that i18next LanguageDetector may store.
+ * Wrapped in try-catch to survive localStorage access failures (private browsing, quota, etc.).
  */
 const getInitialLanguage = (): Language => {
   if (typeof window === "undefined") return "en";
-  const stored = localStorage.getItem("language");
-  if (!stored) return "en";
-  if (VALID_LANGUAGES.includes(stored as Language)) return stored as Language;
-  const primary = stored.split("-")[0];
-  return (
-    (VALID_LANGUAGES.find((l) => l === primary) as Language | undefined) || "en"
-  );
+  try {
+    const stored = localStorage.getItem("language");
+    if (!stored) return "en";
+    if (VALID_LANGUAGES.includes(stored as Language)) return stored as Language;
+    const primary = stored.split("-")[0];
+    return (
+      (VALID_LANGUAGES.find((l) => l === primary) as Language | undefined) ||
+      "en"
+    );
+  } catch {
+    return "en";
+  }
 };
 
 /** SSR-safe initial currency — reads localStorage on client, defaults to "USD" on server. */
-const getInitialCurrency = (): Currency =>
-  typeof window !== "undefined"
-    ? (localStorage.getItem("currency") as Currency) || "USD"
-    : "USD";
+const getInitialCurrency = (): Currency => {
+  if (typeof window === "undefined") return "USD";
+  try {
+    return (localStorage.getItem("currency") as Currency) || "USD";
+  } catch {
+    return "USD";
+  }
+};
 
 /** SSR-safe initial theme — reads cookie/localStorage on client, defaults to "light" on server. */
-const getInitialTheme = (): Theme =>
-  typeof window !== "undefined"
-    ? (getCookie("theme") as Theme) ||
+const getInitialTheme = (): Theme => {
+  if (typeof window === "undefined") return "light";
+  try {
+    return (
+      (getCookie("theme") as Theme) ||
       (localStorage.getItem("theme") as Theme) ||
       "light"
-    : "light";
+    );
+  } catch {
+    return "light";
+  }
+};
 
 /**
  * React provider that exposes user preferences (language, currency, theme) through {@link useSettings}.
@@ -179,37 +221,43 @@ export const SettingsProvider: React.FC<{ children: React.ReactNode }> = ({
 
   // Update localStorage when settings change (client-only)
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window === "undefined") return;
+    try {
       localStorage.setItem("language", language);
-      document.documentElement.lang = language;
-      document.documentElement.dir = RTL_LANGUAGES.includes(language)
-        ? "rtl"
-        : "ltr";
-      // In a real app, this would trigger i18next language change
+    } catch {
+      // Storage quota or access issue — continue without persisting
     }
+    document.documentElement.lang = language;
+    document.documentElement.dir = RTL_LANGUAGES.includes(language)
+      ? "rtl"
+      : "ltr";
   }, [language]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window === "undefined") return;
+    try {
       localStorage.setItem("currency", currency);
+    } catch {
+      // Storage quota or access issue — continue without persisting
     }
   }, [currency]);
 
   useEffect(() => {
-    if (typeof window !== "undefined") {
+    if (typeof window === "undefined") return;
+    try {
       localStorage.setItem("theme", theme);
-
       // Set cookie for SSR (expires in 1 year)
       const expiryDate = new Date();
       expiryDate.setFullYear(expiryDate.getFullYear() + 1);
       document.cookie = `theme=${theme}; path=/; expires=${expiryDate.toUTCString()}; SameSite=Lax`;
-
-      // Apply theme to document
-      if (theme === "dark") {
-        document.documentElement.classList.add("dark");
-      } else {
-        document.documentElement.classList.remove("dark");
-      }
+    } catch {
+      // Storage quota or access issue — continue without persisting
+    }
+    // Apply theme to document
+    if (theme === "dark") {
+      document.documentElement.classList.add("dark");
+    } else {
+      document.documentElement.classList.remove("dark");
     }
   }, [theme]);
 
