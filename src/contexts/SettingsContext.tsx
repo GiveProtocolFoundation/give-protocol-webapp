@@ -117,7 +117,9 @@ const fallbackSettings: SettingsContextType = {
 export const useSettings = (): SettingsContextType => {
   const context = useContext(SettingsContext);
   if (!context) {
-    Logger.error("useSettings called outside SettingsProvider — using fallback defaults");
+    Logger.error(
+      "useSettings called outside SettingsProvider — using fallback defaults",
+    );
     return fallbackSettings;
   }
   return context;
