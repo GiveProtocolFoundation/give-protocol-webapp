@@ -431,7 +431,25 @@ describe("Web3Context", () => {
   });
 
   describe("event listeners", () => {
-    it("registers and removes accountsChanged / chainChanged / disconnect handlers", async () => {
+    it("does NOT subscribe to window.ethereum events for first-time visitors (no previously_connected flag)", async () => {
+      const ethereum = makeEthereum();
+      setEthereum(ethereum);
+      // No localStorage flag — simulates a brand-new visitor in Comet browser.
+
+      renderHook(() => useWeb3(), { wrapper });
+
+      // Give effects time to run
+      await act(async () => {
+        await new Promise((r) => setTimeout(r, 50));
+      });
+
+      // window.ethereum.on must NOT have been called; subscribing to events in
+      // Comet browser triggers the wallet popup even without requesting accounts.
+      expect(ethereum.on).not.toHaveBeenCalled();
+    });
+
+    it("registers and removes accountsChanged / chainChanged / disconnect handlers for returning users", async () => {
+      localStorage.setItem("giveprotocol_wallet_previously_connected", "true");
       const ethereum = makeEthereum();
       setEthereum(ethereum);
 
