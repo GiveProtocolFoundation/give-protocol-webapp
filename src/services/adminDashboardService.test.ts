@@ -8,7 +8,9 @@ import {
 
 describe("adminDashboardService", () => {
   beforeEach(() => {
-    (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockReset();
+    (
+      supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+    ).mockReset();
   });
 
   // -------------------------------------------------------------------------
@@ -16,7 +18,9 @@ describe("adminDashboardService", () => {
   // -------------------------------------------------------------------------
   describe("getAdminDashboardStats", () => {
     it("should call get_admin_dashboard_stats RPC with no args", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: {
           totalDonors: 100,
           totalCharities: 20,
@@ -46,25 +50,25 @@ describe("adminDashboardService", () => {
       expect(result?.trends.donations7d).toBe(10);
     });
 
-    it("should return null when RPC returns an error", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+    it("should throw when RPC returns an error", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: null,
-        error: { message: "Admin access required" },
+        error: { message: "Admin access required", code: "42501" },
       });
 
-      const result = await getAdminDashboardStats();
-
-      expect(result).toBeNull();
+      await expect(getAdminDashboardStats()).rejects.toThrow(
+        "Admin stats RPC failed: Admin access required (code: 42501)",
+      );
     });
 
-    it("should return null when RPC throws", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockRejectedValue(
-        new Error("Network error"),
-      );
+    it("should throw when RPC throws", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockRejectedValue(new Error("Network error"));
 
-      const result = await getAdminDashboardStats();
-
-      expect(result).toBeNull();
+      await expect(getAdminDashboardStats()).rejects.toThrow("Network error");
     });
   });
 
@@ -86,7 +90,9 @@ describe("adminDashboardService", () => {
     };
 
     it("should call get_admin_recent_activity with default page/limit", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: [mockRow],
         error: null,
       });
@@ -103,7 +109,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should calculate correct offset for page 2", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: [],
         error: null,
       });
@@ -117,7 +125,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should map snake_case rows to camelCase events", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: [mockRow],
         error: null,
       });
@@ -134,7 +144,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should return empty result when RPC returns error", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: null,
         error: { message: "permission denied" },
       });
@@ -146,9 +158,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should return empty result when RPC throws", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockRejectedValue(
-        new Error("connection refused"),
-      );
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockRejectedValue(new Error("connection refused"));
 
       const result = await getAdminRecentActivity();
 
@@ -162,7 +174,9 @@ describe("adminDashboardService", () => {
         total_count: 130,
       }));
 
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: rows,
         error: null,
       });
@@ -190,7 +204,9 @@ describe("adminDashboardService", () => {
     };
 
     it("should call get_admin_alerts RPC with no args", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: [mockAlertRow],
         error: null,
       });
@@ -201,7 +217,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should map snake_case alert rows to camelCase AdminAlert", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: [mockAlertRow],
         error: null,
       });
@@ -217,7 +235,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should return empty array when no alerts", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: [],
         error: null,
       });
@@ -228,7 +248,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should return empty array on RPC error", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: null,
         error: { message: "Admin access required" },
       });
@@ -239,9 +261,9 @@ describe("adminDashboardService", () => {
     });
 
     it("should return empty array when RPC throws", async () => {
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockRejectedValue(
-        new Error("timeout"),
-      );
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockRejectedValue(new Error("timeout"));
 
       const alerts = await getAdminAlerts();
 
@@ -263,7 +285,9 @@ describe("adminDashboardService", () => {
         },
       ];
 
-      (supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>).mockResolvedValue({
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
         data: rows,
         error: null,
       });
