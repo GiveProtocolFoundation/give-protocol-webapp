@@ -216,8 +216,9 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
   }
 
   return (
-    <div className="bg-surface-raised rounded-xl p-6 shadow-md">
+    <form onSubmit={handleSubmit} className="bg-surface-raised rounded-xl p-6 shadow-md">
       <button
+        type="button"
         onClick={onBack}
         className="inline-flex items-center gap-1.5 text-sm text-content-secondary hover:text-content-primary mb-4 transition-colors"
       >
@@ -246,7 +247,7 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
         </div>
       )}
 
-      <form onSubmit={handleSubmit} className="space-y-4">
+      <div className="space-y-4">
         {/* Chain selector */}
         <div>
           <label
@@ -390,7 +391,7 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
             t("wallet.institutional.submit", "Submit for review")
           )}
         </button>
-      </form>
-    </div>
+      </div>
+    </form>
   );
 };
