@@ -1,10 +1,6 @@
-# Wallet Connection
+# Personal Wallet Setup
 
-> **This page has moved.** The content from this guide is now available at [Personal Wallet Setup](./personal-wallet-setup.md).
->
-> Charity administrators looking to configure a secure treasury wallet should see [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md) instead.
-
-A cryptocurrency wallet is required to make crypto donations on Give Protocol. This guide explains how to connect a wallet and which wallets are supported.
+This guide is for setting up your **personal wallet** to make cryptocurrency donations on Give Protocol. If you are a charity administrator, see [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md) for guidance on configuring a secure multi-signer treasury wallet appropriate for your organization.
 
 ## Supported Wallets
 
@@ -97,5 +93,6 @@ Prefer to donate with a credit or debit card? Give Protocol supports fiat paymen
 
 ## Related Guides
 
+- [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md) — Secure multi-sig setup for charity administrators
 - [First Steps](./first-steps.md) — Make your first donation
 - [Dashboard](./dashboard.md) — View your donation history
