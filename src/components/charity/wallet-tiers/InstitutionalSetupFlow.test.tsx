@@ -45,9 +45,7 @@ describe("InstitutionalSetupFlow", () => {
     expect(screen.getByLabelText("Network")).toBeInTheDocument();
     expect(screen.getByLabelText("Wallet address")).toBeInTheDocument();
     expect(screen.getByLabelText("Custodian")).toBeInTheDocument();
-    expect(
-      screen.getByText("Attestation document"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Attestation document")).toBeInTheDocument();
   });
 
   it("calls onBack when Back button is clicked", () => {

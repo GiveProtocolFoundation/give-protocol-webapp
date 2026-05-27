@@ -693,8 +693,7 @@ export default {
       "Failed to sign verification message. Please try again.",
 
     // Wallet - Institutional flow (GIV-289)
-    "wallet.institutional.title":
-      "Register an institutional custody wallet",
+    "wallet.institutional.title": "Register an institutional custody wallet",
     "wallet.institutional.subtitle":
       "Provide your custodian-managed wallet details and upload an attestation document for verification.",
     "wallet.institutional.chain": "Network",
@@ -720,8 +719,7 @@ export default {
       "Please upload an attestation document.",
     "wallet.institutional.invalidFileType":
       "Please upload a PDF, JPEG, or PNG file.",
-    "wallet.institutional.fileTooLarge":
-      "File must be smaller than 10MB.",
+    "wallet.institutional.fileTooLarge": "File must be smaller than 10MB.",
 
     // Wallet - EOA / Single-signer flow (GIV-289)
     "wallet.eoa.riskTitle": "Single-signer wallet: important risks",

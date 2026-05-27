@@ -115,9 +115,7 @@ describe("SafeSetupFlow", () => {
     );
 
     fireEvent.click(screen.getByText("I already have a Safe"));
-    expect(
-      screen.getByText("Connect signer wallet"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Connect signer wallet")).toBeInTheDocument();
   });
 
   it("shows connected address when wallet is connected", () => {

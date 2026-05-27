@@ -71,12 +71,8 @@ describe("SingleSignerFlow", () => {
       />,
     );
 
-    expect(
-      screen.getByText("Use a multisig instead"),
-    ).toBeInTheDocument();
-    expect(
-      screen.getByText("I understand, proceed"),
-    ).toBeInTheDocument();
+    expect(screen.getByText("Use a multisig instead")).toBeInTheDocument();
+    expect(screen.getByText("I understand, proceed")).toBeInTheDocument();
   });
 
   it("calls onBack when Use a multisig instead is clicked", () => {
@@ -266,14 +262,10 @@ describe("SingleSignerFlow", () => {
 
     await waitFor(() => {
       expect(
-        screen.getByText(
-          /single-signer wallet carries higher risk/,
-        ),
+        screen.getByText(/single-signer wallet carries higher risk/),
       ).toBeInTheDocument();
       expect(
-        screen.getByText(
-          /authorized by my organization/,
-        ),
+        screen.getByText(/authorized by my organization/),
       ).toBeInTheDocument();
     });
   });

@@ -179,7 +179,10 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
             rel="noopener noreferrer"
             className="flex flex-col items-start text-left p-5 rounded-xl border-2 border-line-subtle dark:border-line-subtle/30 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors"
           >
-            <ExternalLink className="h-6 w-6 text-emerald-600 dark:text-emerald-400 mb-3" aria-hidden="true" />
+            <ExternalLink
+              className="h-6 w-6 text-emerald-600 dark:text-emerald-400 mb-3"
+              aria-hidden="true"
+            />
             <span className="text-sm font-semibold text-content-primary mb-1">
               {t("wallet.safe.createNew", "Create a new Safe")}
             </span>
@@ -195,7 +198,10 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
             onClick={handleHaveSafe}
             className="flex flex-col items-start text-left p-5 rounded-xl border-2 border-line-subtle dark:border-line-subtle/30 hover:border-emerald-300 dark:hover:border-emerald-700 transition-colors"
           >
-            <CheckCircle2 className="h-6 w-6 text-emerald-600 dark:text-emerald-400 mb-3" aria-hidden="true" />
+            <CheckCircle2
+              className="h-6 w-6 text-emerald-600 dark:text-emerald-400 mb-3"
+              aria-hidden="true"
+            />
             <span className="text-sm font-semibold text-content-primary mb-1">
               {t("wallet.safe.haveOne", "I already have a Safe")}
             </span>
@@ -282,7 +288,10 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
           </p>
           {isConnected && address ? (
             <div className="flex items-center gap-2 text-sm">
-              <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden="true" />
+              <CheckCircle2
+                className="h-4 w-4 text-emerald-600"
+                aria-hidden="true"
+              />
               <code className="font-mono text-content-primary">
                 {address.slice(0, 6)}&hellip;{address.slice(-4)}
               </code>
@@ -300,9 +309,7 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
         {/* Verify button */}
         <button
           onClick={handleVerify}
-          disabled={
-            loading || !isConnected || !safeAddress
-          }
+          disabled={loading || !isConnected || !safeAddress}
           className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
         >
           {loading ? (

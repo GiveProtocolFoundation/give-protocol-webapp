@@ -81,10 +81,7 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
 
     if (!signer || !address) {
       setLocalError(
-        t(
-          "wallet.eoa.connectFirst",
-          "Please connect your wallet first.",
-        ),
+        t("wallet.eoa.connectFirst", "Please connect your wallet first."),
       );
       return;
     }
@@ -171,7 +168,10 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
         <div className="bg-surface-overlay rounded-2xl shadow-2xl max-w-lg w-full p-8 border-2 border-amber-400/50">
           <div className="flex flex-col items-center text-center">
             <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mb-4">
-              <AlertTriangle className="h-8 w-8 text-amber-600 dark:text-amber-400" aria-hidden="true" />
+              <AlertTriangle
+                className="h-8 w-8 text-amber-600 dark:text-amber-400"
+                aria-hidden="true"
+              />
             </div>
 
             <h2 className="text-xl font-bold text-content-primary mb-2">
@@ -235,7 +235,10 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
         </button>
 
         <h2 className="text-lg font-semibold text-content-primary flex items-center gap-2 mb-1">
-          <AlertTriangle className="h-5 w-5 text-amber-600" aria-hidden="true" />
+          <AlertTriangle
+            className="h-5 w-5 text-amber-600"
+            aria-hidden="true"
+          />
           {t("wallet.eoa.signTitle", "Connect and sign")}
         </h2>
         <p className="text-sm text-content-secondary mb-6">
@@ -247,7 +250,10 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
 
         {displayError && (
           <div className="mb-4 p-3 bg-status-danger/10 text-status-danger text-sm rounded-lg flex items-start gap-2">
-            <AlertCircle className="h-4 w-4 mt-0.5 shrink-0" aria-hidden="true" />
+            <AlertCircle
+              className="h-4 w-4 mt-0.5 shrink-0"
+              aria-hidden="true"
+            />
             {displayError}
           </div>
         )}
@@ -282,7 +288,10 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
             </p>
             {isConnected && address ? (
               <div className="flex items-center gap-2 text-sm">
-                <CheckCircle2 className="h-4 w-4 text-emerald-600" aria-hidden="true" />
+                <CheckCircle2
+                  className="h-4 w-4 text-emerald-600"
+                  aria-hidden="true"
+                />
                 <code className="font-mono text-content-primary">
                   {address.slice(0, 6)}&hellip;{address.slice(-4)}
                 </code>

@@ -18,11 +18,7 @@ import {
 import type { CharityWallet } from "@/types/charityWallet";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
-const ALLOWED_TYPES = new Set([
-  "application/pdf",
-  "image/jpeg",
-  "image/png",
-]);
+const ALLOWED_TYPES = new Set(["application/pdf", "image/jpeg", "image/png"]);
 
 const CUSTODIANS = [
   "Fireblocks",
@@ -192,7 +188,10 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
   if (submitted) {
     return (
       <div className="bg-surface-raised rounded-xl p-6 shadow-md text-center">
-        <CheckCircle2 className="h-12 w-12 text-emerald-600 mx-auto mb-4" aria-hidden="true" />
+        <CheckCircle2
+          className="h-12 w-12 text-emerald-600 mx-auto mb-4"
+          aria-hidden="true"
+        />
         <h2 className="text-lg font-semibold text-content-primary mb-2">
           {t(
             "wallet.institutional.submittedTitle",
@@ -319,10 +318,7 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
         {/* File upload */}
         <div>
           <label className="block text-sm font-medium text-content-primary mb-1">
-            {t(
-              "wallet.institutional.attestation",
-              "Attestation document",
-            )}
+            {t("wallet.institutional.attestation", "Attestation document")}
           </label>
           <p className="text-xs text-content-muted mb-2">
             {t(
@@ -343,7 +339,10 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
           />
           {file ? (
             <div className="flex items-center gap-3 p-3 bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg">
-              <FileText className="h-5 w-5 text-blue-600 shrink-0" aria-hidden="true" />
+              <FileText
+                className="h-5 w-5 text-blue-600 shrink-0"
+                aria-hidden="true"
+              />
               <div className="flex-1 min-w-0">
                 <p className="text-sm font-medium text-content-primary truncate">
                   {file.name}
@@ -356,10 +355,7 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
                 type="button"
                 onClick={handleRemoveFile}
                 className="p-1 text-content-muted hover:text-status-danger transition-colors"
-                aria-label={t(
-                  "wallet.institutional.removeFile",
-                  "Remove file",
-                )}
+                aria-label={t("wallet.institutional.removeFile", "Remove file")}
               >
                 <X className="h-4 w-4" />
               </button>

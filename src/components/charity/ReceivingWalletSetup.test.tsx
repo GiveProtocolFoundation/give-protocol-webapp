@@ -120,19 +120,13 @@ describe("ReceivingWalletSetup", () => {
 
     expect(screen.getByText("Recommended")).toBeInTheDocument();
     expect(
-      screen.getByText(
-        /Multiple signers required for every transaction/,
-      ),
+      screen.getByText(/Multiple signers required for every transaction/),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        /Managed by a qualified custodian/,
-      ),
+      screen.getByText(/Managed by a qualified custodian/),
     ).toBeInTheDocument();
     expect(
-      screen.getByText(
-        /A standard wallet controlled by one private key/,
-      ),
+      screen.getByText(/A standard wallet controlled by one private key/),
     ).toBeInTheDocument();
   });
 
@@ -203,12 +197,8 @@ describe("ReceivingWalletSetup", () => {
     });
 
     render(<ReceivingWalletSetup charityProfileId={CHARITY_ID} />);
-    expect(
-      screen.queryByLabelText("Make primary"),
-    ).not.toBeInTheDocument();
-    expect(
-      screen.queryByLabelText("Remove wallet"),
-    ).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Make primary")).not.toBeInTheDocument();
+    expect(screen.queryByLabelText("Remove wallet")).not.toBeInTheDocument();
   });
 
   it("shows delete and primary buttons for non-primary wallets", () => {

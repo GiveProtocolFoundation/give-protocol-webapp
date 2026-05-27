@@ -31,8 +31,7 @@ const TIER_CONFIG: Record<
   },
   institutional: {
     label: "Institutional Custody",
-    color:
-      "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
+    color: "bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300",
     icon: <Building2 className="h-3.5 w-3.5" aria-hidden="true" />,
   },
   eoa: {
@@ -62,14 +61,8 @@ export const ReceivingWalletSetup: React.FC<ReceivingWalletSetupProps> = ({
 }) => {
   const { t } = useTranslation();
   const { showToast } = useToast();
-  const {
-    wallets,
-    loading,
-    error,
-    fetchWallets,
-    setPrimary,
-    deleteWallet,
-  } = useCharityWallets();
+  const { wallets, loading, error, fetchWallets, setPrimary, deleteWallet } =
+    useCharityWallets();
   const [view, setView] = useState<SetupView>("chooser");
 
   useEffect(() => {
@@ -116,10 +109,7 @@ export const ReceivingWalletSetup: React.FC<ReceivingWalletSetupProps> = ({
     async (walletId: string) => {
       const ok = await deleteWallet(walletId);
       if (ok) {
-        showToast(
-          "success",
-          t("wallet.setup.walletDeleted", "Wallet removed"),
-        );
+        showToast("success", t("wallet.setup.walletDeleted", "Wallet removed"));
         fetchWallets(charityProfileId);
       } else {
         showToast(
@@ -189,18 +179,12 @@ export const ReceivingWalletSetup: React.FC<ReceivingWalletSetupProps> = ({
     return (
       <section
         className="bg-surface-raised rounded-xl p-6 shadow-md"
-        aria-label={t(
-          "wallet.setup.title",
-          "Set up your receiving wallet",
-        )}
+        aria-label={t("wallet.setup.title", "Set up your receiving wallet")}
       >
         <div className="mb-6">
           <h2 className="text-lg font-semibold text-content-primary flex items-center gap-2">
             <Wallet className="h-5 w-5 text-accent-base" aria-hidden="true" />
-            {t(
-              "wallet.setup.title",
-              "Set up your receiving wallet",
-            )}
+            {t("wallet.setup.title", "Set up your receiving wallet")}
           </h2>
           <p className="mt-1 text-sm text-content-secondary">
             {t(
@@ -287,7 +271,10 @@ function WalletPathChooser({
         <span className="absolute top-2 right-2 text-[10px] font-bold uppercase tracking-wider text-emerald-700 dark:text-emerald-400 bg-emerald-100 dark:bg-emerald-900/40 px-2 py-0.5 rounded-full">
           {t("wallet.setup.recommended", "Recommended")}
         </span>
-        <Shield className="h-8 w-8 text-emerald-600 dark:text-emerald-400 mb-3" aria-hidden="true" />
+        <Shield
+          className="h-8 w-8 text-emerald-600 dark:text-emerald-400 mb-3"
+          aria-hidden="true"
+        />
         <span className="text-sm font-semibold text-content-primary mb-1">
           {t("wallet.setup.safeTitle", "Multisig Safe")}
         </span>
@@ -304,7 +291,10 @@ function WalletPathChooser({
         onClick={onChooseInstitutional}
         className="flex flex-col items-start text-left p-5 rounded-xl border-2 border-line-subtle dark:border-line-subtle/30 hover:border-blue-300 dark:hover:border-blue-700 transition-colors group"
       >
-        <Building2 className="h-8 w-8 text-blue-600 dark:text-blue-400 mb-3" aria-hidden="true" />
+        <Building2
+          className="h-8 w-8 text-blue-600 dark:text-blue-400 mb-3"
+          aria-hidden="true"
+        />
         <span className="text-sm font-semibold text-content-primary mb-1">
           {t("wallet.setup.institutionalTitle", "Institutional Custody")}
         </span>
@@ -321,7 +311,10 @@ function WalletPathChooser({
         onClick={onChooseEoa}
         className="flex flex-col items-start text-left p-5 rounded-xl border-2 border-line-subtle dark:border-line-subtle/30 hover:border-amber-300 dark:hover:border-amber-700 transition-colors group"
       >
-        <AlertTriangle className="h-8 w-8 text-amber-600 dark:text-amber-400 mb-3" aria-hidden="true" />
+        <AlertTriangle
+          className="h-8 w-8 text-amber-600 dark:text-amber-400 mb-3"
+          aria-hidden="true"
+        />
         <span className="text-sm font-semibold text-content-primary mb-1">
           {t("wallet.setup.eoaTitle", "Single Signer (EOA)")}
         </span>
@@ -411,7 +404,8 @@ function WalletCard({
           wallet.signer_count !== null &&
           wallet.signer_threshold !== null && (
             <p className="text-xs text-content-muted mt-1">
-              {t("wallet.setup.safeSigners", "Signers")}: {wallet.signer_threshold}/{wallet.signer_count}
+              {t("wallet.setup.safeSigners", "Signers")}:{" "}
+              {wallet.signer_threshold}/{wallet.signer_count}
             </p>
           )}
         {wallet.wallet_type === "institutional" && wallet.custodian_name && (
@@ -426,14 +420,8 @@ function WalletCard({
             <button
               onClick={handleSetPrimary}
               className="p-2 text-content-secondary hover:text-accent-base hover:bg-accent-subtle/30 rounded-lg transition-colors"
-              title={t(
-                "wallet.setup.makePrimary",
-                "Make primary",
-              )}
-              aria-label={t(
-                "wallet.setup.makePrimary",
-                "Make primary",
-              )}
+              title={t("wallet.setup.makePrimary", "Make primary")}
+              aria-label={t("wallet.setup.makePrimary", "Make primary")}
             >
               <Star className="h-4 w-4" />
             </button>
