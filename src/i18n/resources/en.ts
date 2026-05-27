@@ -639,6 +639,121 @@ export default {
       "Connect a wallet to receive on-chain donations.",
     "charity.portal.setupWallet": "Set Up Wallet",
 
+    // Wallet Setup (GIV-289)
+    "wallet.setup.title": "Set up your receiving wallet",
+    "wallet.setup.subtitle":
+      "Choose how your charity will receive crypto donations. We recommend a multisig wallet for maximum security.",
+    "wallet.setup.walletsTitle": "Receiving wallets",
+    "wallet.setup.addAnother": "Add another",
+    "wallet.setup.recommended": "Recommended",
+    "wallet.setup.safeTitle": "Multisig Safe",
+    "wallet.setup.safeDesc":
+      "Multiple signers required for every transaction. Highest security for organizational funds.",
+    "wallet.setup.institutionalTitle": "Institutional Custody",
+    "wallet.setup.institutionalDesc":
+      "Managed by a qualified custodian (Fireblocks, Anchorage, etc.). Requires attestation document.",
+    "wallet.setup.eoaTitle": "Single Signer (EOA)",
+    "wallet.setup.eoaDesc":
+      "A standard wallet controlled by one private key. Simplest but least secure for organizational use.",
+    "wallet.setup.primary": "Primary",
+    "wallet.setup.safeSigners": "Signers",
+    "wallet.setup.custodian": "Custodian",
+    "wallet.setup.viewExplorer": "View on block explorer",
+    "wallet.setup.makePrimary": "Make primary",
+    "wallet.setup.remove": "Remove wallet",
+    "wallet.setup.walletAdded": "Wallet registered successfully",
+    "wallet.setup.primaryUpdated": "Primary wallet updated",
+    "wallet.setup.primaryFailed": "Failed to update primary wallet",
+    "wallet.setup.walletDeleted": "Wallet removed",
+    "wallet.setup.deleteFailed": "Failed to remove wallet",
+    "common.back": "Back",
+
+    // Wallet - Safe flow (GIV-289)
+    "wallet.safe.title": "Set up a Safe multisig wallet",
+    "wallet.safe.subtitle":
+      "A Safe requires multiple signers to approve every transaction, providing the highest level of security for your charity's funds.",
+    "wallet.safe.createNew": "Create a new Safe",
+    "wallet.safe.createNewDesc":
+      "Opens app.safe.global where you can create a new multisig. Come back here once it's deployed.",
+    "wallet.safe.haveOne": "I already have a Safe",
+    "wallet.safe.haveOneDesc":
+      "Enter your Safe address and verify control by signing a message from a signer wallet.",
+    "wallet.safe.verifyTitle": "Verify Safe ownership",
+    "wallet.safe.chain": "Network",
+    "wallet.safe.address": "Safe address",
+    "wallet.safe.signerWallet": "Signer wallet",
+    "wallet.safe.connectSigner": "Connect signer wallet",
+    "wallet.safe.signVerify": "Sign to verify control",
+    "wallet.safe.verifying": "Verifying...",
+    "wallet.safe.invalidAddress":
+      "Please enter a valid Ethereum address (0x...)",
+    "wallet.safe.connectFirst": "Please connect your signer wallet first.",
+    "wallet.safe.rejected": "Signature request was rejected.",
+    "wallet.safe.signError":
+      "Failed to sign verification message. Please try again.",
+
+    // Wallet - Institutional flow (GIV-289)
+    "wallet.institutional.title": "Register an institutional custody wallet",
+    "wallet.institutional.subtitle":
+      "Provide your custodian-managed wallet details and upload an attestation document for verification.",
+    "wallet.institutional.chain": "Network",
+    "wallet.institutional.address": "Wallet address",
+    "wallet.institutional.custodian": "Custodian",
+    "wallet.institutional.selectCustodianOption": "Select custodian...",
+    "wallet.institutional.attestation": "Attestation document",
+    "wallet.institutional.attestationHelp":
+      "Upload a PDF, JPEG, or PNG (max 10MB) proving your custodial relationship.",
+    "wallet.institutional.uploadFile": "Upload attestation file",
+    "wallet.institutional.removeFile": "Remove file",
+    "wallet.institutional.chooseFile": "Choose file or drag & drop",
+    "wallet.institutional.submit": "Submit for review",
+    "wallet.institutional.submitting": "Submitting...",
+    "wallet.institutional.submittedTitle": "Wallet submitted for review",
+    "wallet.institutional.submittedDesc":
+      "Your institutional wallet registration is under review. You will receive an email within 3 business days.",
+    "wallet.institutional.backToWallets": "Back to wallets",
+    "wallet.institutional.invalidAddress":
+      "Please enter a valid Ethereum address (0x...)",
+    "wallet.institutional.selectCustodian": "Please select a custodian.",
+    "wallet.institutional.uploadRequired":
+      "Please upload an attestation document.",
+    "wallet.institutional.invalidFileType":
+      "Please upload a PDF, JPEG, or PNG file.",
+    "wallet.institutional.fileTooLarge": "File must be smaller than 10MB.",
+
+    // Wallet - EOA / Single-signer flow (GIV-289)
+    "wallet.eoa.riskTitle": "Single-signer wallet: important risks",
+    "wallet.eoa.riskParagraph1":
+      "A single-signer (EOA) wallet is controlled by one private key. If that key is lost, stolen, or compromised, all funds sent to this wallet are permanently unrecoverable.",
+    "wallet.eoa.riskParagraph2":
+      "For organizational funds, we strongly recommend using a multisig Safe wallet instead. Multisig wallets require multiple approvals for every transaction, protecting against single points of failure.",
+    "wallet.eoa.riskParagraph3":
+      "By proceeding, you acknowledge that Give Protocol is not responsible for any loss of funds due to private key compromise, loss, or mismanagement.",
+    "wallet.eoa.useMultisig": "Use a multisig instead",
+    "wallet.eoa.proceedAnyway": "I understand, proceed",
+    "wallet.eoa.signTitle": "Connect and sign",
+    "wallet.eoa.signSubtitle":
+      "Connect your wallet and sign a message to prove you control this address.",
+    "wallet.eoa.chain": "Network",
+    "wallet.eoa.walletConnection": "Wallet",
+    "wallet.eoa.connectWallet": "Connect wallet",
+    "wallet.eoa.signMessage": "Sign verification message",
+    "wallet.eoa.connectFirst": "Please connect your wallet first.",
+    "wallet.eoa.rejected": "Signature request was rejected.",
+    "wallet.eoa.signError": "Failed to sign message. Please try again.",
+    "wallet.eoa.confirmTitle": "Final confirmation",
+    "wallet.eoa.confirmSubtitle":
+      "Please confirm the following before registering this wallet.",
+    "wallet.eoa.walletToRegister": "Wallet to register",
+    "wallet.eoa.checkRisk":
+      "I understand that a single-signer wallet carries higher risk than a multisig, and that loss of the private key means permanent loss of funds.",
+    "wallet.eoa.checkAuthorized":
+      "I am authorized by my organization to designate this wallet as a receiving address for charitable donations.",
+    "wallet.eoa.register": "Register wallet",
+    "wallet.eoa.registering": "Registering...",
+    "wallet.eoa.missingSignature":
+      "Missing signature. Please go back and sign again.",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "Just now",
     "timestamp.oneMinuteAgo": "1 minute ago",
