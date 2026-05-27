@@ -81,6 +81,7 @@ export const ReceivingWalletSetup: React.FC<ReceivingWalletSetupProps> = ({
       );
       setView("chooser");
       fetchWallets(charityProfileId);
+      void wallet;
     },
     [showToast, t, fetchWallets, charityProfileId],
   );
