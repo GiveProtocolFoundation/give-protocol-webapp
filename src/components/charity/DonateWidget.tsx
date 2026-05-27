@@ -149,17 +149,16 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
               charityName,
             })}
           </h3>
-          {primaryWallet &&
-            primaryWallet.wallet_type !== "eoa" && (
-              <div className="mb-3">
-                <WalletTypeBadge
-                  walletType={primaryWallet.wallet_type}
-                  signerThreshold={primaryWallet.signer_threshold}
-                  signerCount={primaryWallet.signer_count}
-                  custodianName={primaryWallet.custodian_name}
-                />
-              </div>
-            )}
+          {primaryWallet && primaryWallet.wallet_type !== "eoa" && (
+            <div className="mb-3">
+              <WalletTypeBadge
+                walletType={primaryWallet.wallet_type}
+                signerThreshold={primaryWallet.signer_threshold}
+                signerCount={primaryWallet.signer_count}
+                custodianName={primaryWallet.custodian_name}
+              />
+            </div>
+          )}
           {body}
         </Card>
       ) : (

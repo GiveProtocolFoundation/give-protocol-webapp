@@ -10,11 +10,7 @@ describe("WalletTypeBadge", () => {
 
   it("should render Safe multisig badge with threshold and signer count", () => {
     render(
-      <WalletTypeBadge
-        walletType="safe"
-        signerThreshold={2}
-        signerCount={3}
-      />,
+      <WalletTypeBadge walletType="safe" signerThreshold={2} signerCount={3} />,
     );
     expect(
       screen.getByText("Multisig treasury · 2-of-3 signers"),
@@ -23,11 +19,7 @@ describe("WalletTypeBadge", () => {
 
   it("should apply emerald color classes for Safe badge", () => {
     const { container } = render(
-      <WalletTypeBadge
-        walletType="safe"
-        signerThreshold={2}
-        signerCount={3}
-      />,
+      <WalletTypeBadge walletType="safe" signerThreshold={2} signerCount={3} />,
     );
     const badge = container.querySelector("span");
     expect(badge?.className).toContain("bg-emerald-100");
@@ -36,20 +28,14 @@ describe("WalletTypeBadge", () => {
 
   it("should render institutional badge with custodian name", () => {
     render(
-      <WalletTypeBadge
-        walletType="institutional"
-        custodianName="Fireblocks"
-      />,
+      <WalletTypeBadge walletType="institutional" custodianName="Fireblocks" />,
     );
     expect(screen.getByText("Held at Fireblocks")).toBeDefined();
   });
 
   it("should apply blue color classes for institutional badge", () => {
     const { container } = render(
-      <WalletTypeBadge
-        walletType="institutional"
-        custodianName="Anchorage"
-      />,
+      <WalletTypeBadge walletType="institutional" custodianName="Anchorage" />,
     );
     const badge = container.querySelector("span");
     expect(badge?.className).toContain("bg-blue-100");
@@ -57,9 +43,7 @@ describe("WalletTypeBadge", () => {
   });
 
   it("should fall back to 'Custodian' when custodianName is null", () => {
-    render(
-      <WalletTypeBadge walletType="institutional" custodianName={null} />,
-    );
+    render(<WalletTypeBadge walletType="institutional" custodianName={null} />);
     expect(screen.getByText("Held at Custodian")).toBeDefined();
   });
 
@@ -78,22 +62,14 @@ describe("WalletTypeBadge", () => {
 
   it("should have role=status for accessibility", () => {
     render(
-      <WalletTypeBadge
-        walletType="safe"
-        signerThreshold={3}
-        signerCount={5}
-      />,
+      <WalletTypeBadge walletType="safe" signerThreshold={3} signerCount={5} />,
     );
     expect(screen.getByRole("status")).toBeDefined();
   });
 
   it("should show tooltip on mouse enter for Safe badge", () => {
     render(
-      <WalletTypeBadge
-        walletType="safe"
-        signerThreshold={2}
-        signerCount={3}
-      />,
+      <WalletTypeBadge walletType="safe" signerThreshold={2} signerCount={3} />,
     );
     const badge = screen.getByRole("status");
     fireEvent.mouseEnter(badge);
@@ -107,11 +83,7 @@ describe("WalletTypeBadge", () => {
 
   it("should hide tooltip on mouse leave", () => {
     render(
-      <WalletTypeBadge
-        walletType="safe"
-        signerThreshold={2}
-        signerCount={3}
-      />,
+      <WalletTypeBadge walletType="safe" signerThreshold={2} signerCount={3} />,
     );
     const badge = screen.getByRole("status");
     fireEvent.mouseEnter(badge);
@@ -122,10 +94,7 @@ describe("WalletTypeBadge", () => {
 
   it("should toggle tooltip on click (tap)", () => {
     render(
-      <WalletTypeBadge
-        walletType="institutional"
-        custodianName="BitGo"
-      />,
+      <WalletTypeBadge walletType="institutional" custodianName="BitGo" />,
     );
     const badge = screen.getByRole("status");
 
@@ -138,10 +107,7 @@ describe("WalletTypeBadge", () => {
 
   it("should show institutional tooltip with correct text", () => {
     render(
-      <WalletTypeBadge
-        walletType="institutional"
-        custodianName="Fireblocks"
-      />,
+      <WalletTypeBadge walletType="institutional" custodianName="Fireblocks" />,
     );
     const badge = screen.getByRole("status");
     fireEvent.mouseEnter(badge);
