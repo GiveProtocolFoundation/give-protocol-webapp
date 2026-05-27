@@ -216,7 +216,10 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
   }
 
   return (
-    <form onSubmit={handleSubmit} className="bg-surface-raised rounded-xl p-6 shadow-md">
+    <form
+      onSubmit={handleSubmit}
+      className="bg-surface-raised rounded-xl p-6 shadow-md"
+    >
       <button
         type="button"
         onClick={onBack}
