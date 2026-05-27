@@ -11,3 +11,14 @@ export const getEVMChainConfig = jest.fn((chainId) => ({
 }));
 
 export const DEFAULT_EVM_CHAIN_ID = 8453;
+
+// Polkadot chain stubs
+export const DEFAULT_POLKADOT_CHAIN = "polkadot";
+
+export const getPolkadotChainConfig = jest.fn((chainId) => ({
+  id: chainId,
+  name: "Polkadot",
+  rpcEndpoints: ["wss://rpc.polkadot.io"],
+}));
+
+export const isPolkadotChainSupported = jest.fn(() => true);
