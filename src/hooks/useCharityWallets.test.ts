@@ -273,7 +273,9 @@ describe("useCharityWallets", () => {
     };
 
     it("uploads file, inserts wallet, and returns it", async () => {
-      const mockUpload = jest.fn().mockResolvedValue({ data: { path: "test" }, error: null });
+      const mockUpload = jest
+        .fn()
+        .mockResolvedValue({ data: { path: "test" }, error: null });
       const mockGetPublicUrl = jest.fn().mockReturnValue({
         data: { publicUrl: "https://storage.example.com/attestation.pdf" },
       });
@@ -336,7 +338,9 @@ describe("useCharityWallets", () => {
 
     it("sets error when DB insert fails after upload", async () => {
       mockStorageFrom.mockReturnValue({
-        upload: jest.fn().mockResolvedValue({ data: { path: "test" }, error: null }),
+        upload: jest
+          .fn()
+          .mockResolvedValue({ data: { path: "test" }, error: null }),
         getPublicUrl: jest.fn().mockReturnValue({
           data: { publicUrl: "https://storage.example.com/attestation.pdf" },
         }),
@@ -388,12 +392,8 @@ describe("useCharityWallets", () => {
         expect(result.current.loading).toBe(false);
       });
 
-      const primary = result.current.wallets.find(
-        (w) => w.id === "wallet-002",
-      );
-      const former = result.current.wallets.find(
-        (w) => w.id === "wallet-001",
-      );
+      const primary = result.current.wallets.find((w) => w.id === "wallet-002");
+      const former = result.current.wallets.find((w) => w.id === "wallet-001");
       expect(primary?.is_primary).toBe(true);
       expect(former?.is_primary).toBe(false);
     });
