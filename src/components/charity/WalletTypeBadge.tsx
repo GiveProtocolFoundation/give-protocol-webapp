@@ -29,11 +29,11 @@ export const WalletTypeBadge: React.FC<WalletTypeBadgeProps> = ({
   const { t } = useTranslation();
   const [showTooltip, setShowTooltip] = useState(false);
 
-  const handleMouseEnter = useCallback(() => {
+  const handleShow = useCallback(() => {
     setShowTooltip(true);
   }, []);
 
-  const handleMouseLeave = useCallback(() => {
+  const handleHide = useCallback(() => {
     setShowTooltip(false);
   }, []);
 
@@ -55,27 +55,27 @@ export const WalletTypeBadge: React.FC<WalletTypeBadgeProps> = ({
     );
 
     return (
-      <div
-        className="relative inline-block"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+      <button
+        type="button"
+        className="relative inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 cursor-help border-none"
+        onMouseEnter={handleShow}
+        onMouseLeave={handleHide}
+        onFocus={handleShow}
+        onBlur={handleHide}
         onClick={handleTap}
-        role="status"
         aria-label={label}
       >
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-400 cursor-help">
-          <CheckCircle className="h-3.5 w-3.5" />
-          {label}
-        </span>
+        <CheckCircle className="h-3.5 w-3.5" aria-hidden="true" />
+        {label}
         {showTooltip && (
-          <div
-            className="absolute left-0 top-full mt-1 z-50 w-56 rounded-lg bg-gray-900 dark:bg-gray-800 text-white text-xs p-2.5 shadow-lg"
+          <span
+            className="absolute left-0 top-full mt-1 z-50 w-56 rounded-lg bg-gray-900 dark:bg-gray-800 text-white text-xs p-2.5 shadow-lg text-left font-normal"
             role="tooltip"
           >
             {tooltip}
-          </div>
+          </span>
         )}
-      </div>
+      </button>
     );
   }
 
@@ -91,27 +91,27 @@ export const WalletTypeBadge: React.FC<WalletTypeBadgeProps> = ({
     );
 
     return (
-      <div
-        className="relative inline-block"
-        onMouseEnter={handleMouseEnter}
-        onMouseLeave={handleMouseLeave}
+      <button
+        type="button"
+        className="relative inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 cursor-help border-none"
+        onMouseEnter={handleShow}
+        onMouseLeave={handleHide}
+        onFocus={handleShow}
+        onBlur={handleHide}
         onClick={handleTap}
-        role="status"
         aria-label={label}
       >
-        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-blue-100 text-blue-700 dark:bg-blue-900/30 dark:text-blue-400 cursor-help">
-          <ShieldCheck className="h-3.5 w-3.5" />
-          {label}
-        </span>
+        <ShieldCheck className="h-3.5 w-3.5" aria-hidden="true" />
+        {label}
         {showTooltip && (
-          <div
-            className="absolute left-0 top-full mt-1 z-50 w-56 rounded-lg bg-gray-900 dark:bg-gray-800 text-white text-xs p-2.5 shadow-lg"
+          <span
+            className="absolute left-0 top-full mt-1 z-50 w-56 rounded-lg bg-gray-900 dark:bg-gray-800 text-white text-xs p-2.5 shadow-lg text-left font-normal"
             role="tooltip"
           >
             {tooltip}
-          </div>
+          </span>
         )}
-      </div>
+      </button>
     );
   }
 

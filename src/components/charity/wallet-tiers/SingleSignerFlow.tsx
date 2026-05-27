@@ -167,12 +167,10 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
         <div className="bg-surface-overlay rounded-2xl shadow-2xl max-w-lg w-full p-8 border-2 border-amber-400/50">
           <div className="flex flex-col items-center text-center">
-            <div className="w-16 h-16 rounded-full bg-amber-100 dark:bg-amber-900/30 flex items-center justify-center mb-4">
-              <AlertTriangle
-                className="h-8 w-8 text-amber-600 dark:text-amber-400"
-                aria-hidden="true"
-              />
-            </div>
+            <AlertTriangle
+              className="h-8 w-8 p-4 box-content text-amber-600 dark:text-amber-400 rounded-full bg-amber-100 dark:bg-amber-900/30 mb-4"
+              aria-hidden="true"
+            />
 
             <h2 className="text-xl font-bold text-content-primary mb-2">
               {t(
@@ -225,7 +223,7 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
   // Step 2: Connect + sign
   if (step === "sign") {
     return (
-      <div className="bg-surface-raised rounded-xl p-6 shadow-md">
+      <section className="bg-surface-raised rounded-xl p-6 shadow-md">
         <button
           onClick={onBack}
           className="inline-flex items-center gap-1.5 text-sm text-content-secondary hover:text-content-primary mb-4 transition-colors"
@@ -258,65 +256,59 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
           </div>
         )}
 
-        <div className="space-y-4">
-          {/* Chain selector */}
-          <div>
-            <label
-              htmlFor="eoa-chain"
-              className="block text-sm font-medium text-content-primary mb-1"
-            >
-              {t("wallet.eoa.chain", "Network")}
-            </label>
-            <select
-              id="eoa-chain"
-              value={chainId}
-              onChange={handleChainChange}
-              className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-            >
-              {chains.map((chain) => (
-                <option key={chain.id} value={chain.id}>
-                  {chain.name}
-                </option>
-              ))}
-            </select>
-          </div>
+        {/* Chain selector */}
+        <label
+          htmlFor="eoa-chain"
+          className="block text-sm font-medium text-content-primary mb-1"
+        >
+          {t("wallet.eoa.chain", "Network")}
+        </label>
+        <select
+          id="eoa-chain"
+          value={chainId}
+          onChange={handleChainChange}
+          className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30 mb-4"
+        >
+          {chains.map((chain) => (
+            <option key={chain.id} value={chain.id}>
+              {chain.name}
+            </option>
+          ))}
+        </select>
 
-          {/* Connect wallet */}
-          <div>
-            <p className="text-sm font-medium text-content-primary mb-1">
-              {t("wallet.eoa.walletConnection", "Wallet")}
-            </p>
-            {isConnected && address ? (
-              <div className="flex items-center gap-2 text-sm">
-                <CheckCircle2
-                  className="h-4 w-4 text-emerald-600"
-                  aria-hidden="true"
-                />
-                <code className="font-mono text-content-primary">
-                  {address.slice(0, 6)}&hellip;{address.slice(-4)}
-                </code>
-              </div>
-            ) : (
-              <button
-                onClick={handleConnect}
-                className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent-base hover:bg-accent-hover rounded-lg transition-colors"
-              >
-                {t("wallet.eoa.connectWallet", "Connect wallet")}
-              </button>
-            )}
+        {/* Connect wallet */}
+        <p className="text-sm font-medium text-content-primary mb-1">
+          {t("wallet.eoa.walletConnection", "Wallet")}
+        </p>
+        {isConnected && address ? (
+          <div className="flex items-center gap-2 text-sm mb-4">
+            <CheckCircle2
+              className="h-4 w-4 text-emerald-600"
+              aria-hidden="true"
+            />
+            <code className="font-mono text-content-primary">
+              {address.slice(0, 6)}&hellip;{address.slice(-4)}
+            </code>
           </div>
-
-          {/* Sign button */}
+        ) : (
           <button
-            onClick={handleSign}
-            disabled={!isConnected}
-            className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+            onClick={handleConnect}
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent-base hover:bg-accent-hover rounded-lg transition-colors mb-4"
           >
-            <ArrowRight className="h-4 w-4" aria-hidden="true" />
-            {t("wallet.eoa.signMessage", "Sign verification message")}
+            {t("wallet.eoa.connectWallet", "Connect wallet")}
           </button>
-        </div>
-      </div>
+        )}
+
+        {/* Sign button */}
+        <button
+          onClick={handleSign}
+          disabled={!isConnected}
+          className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+        >
+          <ArrowRight className="h-4 w-4" aria-hidden="true" />
+          {t("wallet.eoa.signMessage", "Sign verification message")}
+        </button>
+      </section>
     );
   }
 
