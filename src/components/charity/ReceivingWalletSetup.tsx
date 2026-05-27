@@ -74,7 +74,7 @@ export const ReceivingWalletSetup: React.FC<ReceivingWalletSetupProps> = ({
   }, []);
 
   const handleWalletAdded = useCallback(
-    (wallet: CharityWallet) => {
+    (_wallet: CharityWallet) => {
       showToast(
         "success",
         t("wallet.setup.walletAdded", "Wallet registered successfully"),

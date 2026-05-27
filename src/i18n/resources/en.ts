@@ -666,7 +666,6 @@ export default {
     "wallet.setup.primaryFailed": "Failed to update primary wallet",
     "wallet.setup.walletDeleted": "Wallet removed",
     "wallet.setup.deleteFailed": "Failed to remove wallet",
-    "common.back": "Back",
 
     // Wallet - Safe flow (GIV-289)
     "wallet.safe.title": "Set up a Safe multisig wallet",
