@@ -101,8 +101,18 @@ Customize your dashboard experience:
 
 ---
 
+## Wallet Setup
+
+Give Protocol supports two wallet tiers depending on whether you are a **donor** or a **charity administrator**:
+
+- **Donors** — Connect a personal wallet (MetaMask, WalletConnect, Coinbase Wallet, Ledger, and others). See [Personal Wallet Setup](./personal-wallet-setup.md).
+- **Charity administrators** — Configure a secure treasury wallet appropriate for your organization. Options include a Safe multisig (recommended), institutional custody, or a single-signer wallet for very small orgs. See [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md).
+
+---
+
 ## Related Guides
 
 - [First Steps](./first-steps.md) — Making your first donation
-- [Wallet Connection](./wallet-connection.md) — Connecting and managing wallets
+- [Personal Wallet Setup](./personal-wallet-setup.md) — Connecting and managing a personal wallet
+- [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md) — Secure wallet setup for charity administrators
 - [Setting Up Your Profile](./setting-up-profile.md) — Personalizing your account
