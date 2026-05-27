@@ -82,9 +82,7 @@ describe("CharityOnboardingChecklist", () => {
       expect(
         screen.getByText("Upload logo or banner image"),
       ).toBeInTheDocument();
-      expect(
-        screen.getByText("Set up receiving wallet"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Set up receiving wallet")).toBeInTheDocument();
       expect(
         screen.getByText("Set up bank details for fiat off-ramp"),
       ).toBeInTheDocument();
