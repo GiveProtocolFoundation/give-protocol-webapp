@@ -35,10 +35,10 @@ const CHECKLIST_ITEMS: ChecklistItemDef[] = [
   },
   {
     id: "connect_wallet",
-    label: "Designate official receiving wallet",
+    label: "Set up receiving wallet",
     description:
-      "Sign an attestation from the wallet your charity will receive donations into, then confirm by email. Supports multi-sig (Gnosis Safe).",
-    actionLabel: "Designate wallet",
+      "Choose a multisig Safe, institutional custody, or single-signer wallet to receive donations. Prove control by signing a message.",
+    actionLabel: "Set up wallet",
     actionTab: "organization",
   },
   {

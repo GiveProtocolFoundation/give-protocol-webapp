@@ -7,6 +7,7 @@ import { Logger } from "@/utils/logger";
 import { OrganizationProfileForm } from "./OrganizationProfileForm";
 import { LogoBannerUploadCard } from "@/components/charity/LogoBannerUploadCard";
 import { DesignatedWalletCard } from "@/components/charity/DesignatedWalletCard";
+import { ReceivingWalletSetup } from "@/components/charity/ReceivingWalletSetup";
 import {
   fetchCharityProfileAssets,
   fetchCharityProfileAssetsByEin,
@@ -317,6 +318,12 @@ export const OrganizationProfileTab: React.FC<OrganizationProfileTabProps> = ({
             charityProfileId={charityProfile.id}
             charityName={charityProfile.name}
           />
+        </div>
+      )}
+
+      {charityProfile !== null && (
+        <div className="mb-6">
+          <ReceivingWalletSetup charityProfileId={charityProfile.id} />
         </div>
       )}
 
