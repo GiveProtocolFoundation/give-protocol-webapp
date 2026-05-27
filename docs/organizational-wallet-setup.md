@@ -81,12 +81,12 @@ If your organization already uses a regulated custodian (such as Anchorage Digit
 
 ### Supported Custodians
 
-| Custodian         | Supported Chains          | Notes                                                   |
-| ----------------- | ------------------------- | ------------------------------------------------------- |
-| Anchorage Digital | Base, Optimism            | Requires Business account                               |
-| BitGo             | Base, Optimism, Moonbeam  | Multi-user policies supported                           |
-| Coinbase Prime    | Base, Optimism            | Institutional account required                          |
-| Fireblocks        | Base, Optimism, Moonbeam  | Policy Engine recommended for governance                |
+| Custodian         | Supported Chains         | Notes                                    |
+| ----------------- | ------------------------ | ---------------------------------------- |
+| Anchorage Digital | Base, Optimism           | Requires Business account                |
+| BitGo             | Base, Optimism, Moonbeam | Multi-user policies supported            |
+| Coinbase Prime    | Base, Optimism           | Institutional account required           |
+| Fireblocks        | Base, Optimism, Moonbeam | Policy Engine recommended for governance |
 
 ### Attestation Requirements
 
