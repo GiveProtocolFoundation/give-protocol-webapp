@@ -544,6 +544,15 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
           throw error;
         }
 
+        // Handle "already pending" request (-32002)
+        if (hasErrorCode(err, -32002)) {
+          const error = new Error(
+            "A wallet connection request is already pending. Please check your wallet extension and approve or reject it first.",
+          );
+          setError(error);
+          throw error;
+        }
+
         // Handle other errors
         const message =
           err instanceof Error ? err.message : "Failed to connect wallet";
