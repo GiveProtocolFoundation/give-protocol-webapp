@@ -200,15 +200,8 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 BEGIN
-  -- Verify caller is admin (JWT or profiles fallback)
-  IF NOT (
-    auth.jwt() -> 'user_metadata' ->> 'type' = 'admin'
-    OR EXISTS (
-      SELECT 1 FROM profiles
-      WHERE user_id = auth.uid()::text
-        AND type = 'admin'
-    )
-  ) THEN
+  -- Verify caller is admin (reuse is_admin_user() from GIV-280)
+  IF NOT is_admin_user() THEN
     RAISE EXCEPTION 'admin_swap_primary_wallet requires admin privileges'
       USING ERRCODE = '42501';
   END IF;
@@ -352,12 +345,5 @@ FOR SELECT
 TO authenticated
 USING (
   bucket_id = 'charity-attestations'
-  AND (
-    auth.jwt() -> 'user_metadata' ->> 'type' = 'admin'
-    OR EXISTS (
-      SELECT 1 FROM profiles
-      WHERE user_id = auth.uid()::text
-        AND type = 'admin'
-    )
-  )
+  AND is_admin_user()
 );
