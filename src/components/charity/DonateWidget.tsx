@@ -1,9 +1,13 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { Heart, AlertTriangle } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { DonationModal } from "@/components/web3/donation/DonationModal";
+import { WalletTypeBadge } from "@/components/charity/WalletTypeBadge";
+import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { useTranslation } from "@/hooks/useTranslation";
+import { CHAIN_IDS } from "@/config/contracts";
+import type { CharityWallet } from "@/types/charityWallet";
 
 interface DonateWidgetProps {
   ein: string;
@@ -41,6 +45,16 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
 }) => {
   const { t } = useTranslation();
   const [showDonationModal, setShowDonationModal] = useState(false);
+  const [primaryWallet, setPrimaryWallet] = useState<CharityWallet | null>(
+    null,
+  );
+  const { fetchPrimaryWallet } = useCharityWallets();
+
+  useEffect(() => {
+    if (charityId) {
+      fetchPrimaryWallet(charityId, CHAIN_IDS.BASE).then(setPrimaryWallet);
+    }
+  }, [charityId, fetchPrimaryWallet]);
 
   const handleDonate = useCallback(() => {
     setShowDonationModal(true);
@@ -130,11 +144,22 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
     <>
       {mode === "sidebar" ? (
         <Card hover={false} className="p-5">
-          <h3 className="text-sm font-semibold text-gray-900 mb-3">
+          <h3 className="text-sm font-semibold text-gray-900 mb-2">
             {t("charity.profile.donate.support", "Support {{charityName}}", {
               charityName,
             })}
           </h3>
+          {primaryWallet &&
+            primaryWallet.wallet_type !== "eoa" && (
+              <div className="mb-3">
+                <WalletTypeBadge
+                  walletType={primaryWallet.wallet_type}
+                  signerThreshold={primaryWallet.signer_threshold}
+                  signerCount={primaryWallet.signer_count}
+                  custodianName={primaryWallet.custodian_name}
+                />
+              </div>
+            )}
           {body}
         </Card>
       ) : (
@@ -148,6 +173,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
           charityId={charityId}
           frequency="once"
           onClose={handleCloseDonationModal}
+          primaryWallet={primaryWallet}
         />
       )}
     </>
