@@ -209,7 +209,7 @@ describe("InstitutionalSetupFlow", () => {
       type: "application/pdf",
     });
 
-    await act(async () => {
+    await act(() => {
       fireEvent.change(screen.getByLabelText("Wallet address"), {
         target: { value: "0x1234567890123456789012345678901234567890" },
       });
@@ -219,7 +219,7 @@ describe("InstitutionalSetupFlow", () => {
       const fileInput = screen.getByLabelText("Upload attestation file");
       fireEvent.change(fileInput, { target: { files: [file] } });
     });
-    await act(async () => {
+    await act(() => {
       fireEvent.submit(
         screen
           .getByText("Submit for review")
@@ -257,7 +257,7 @@ describe("InstitutionalSetupFlow", () => {
       type: "application/pdf",
     });
 
-    await act(async () => {
+    await act(() => {
       fireEvent.change(screen.getByLabelText("Wallet address"), {
         target: { value: "0x1234567890123456789012345678901234567890" },
       });
@@ -267,7 +267,7 @@ describe("InstitutionalSetupFlow", () => {
       const fileInput = screen.getByLabelText("Upload attestation file");
       fireEvent.change(fileInput, { target: { files: [file] } });
     });
-    await act(async () => {
+    await act(() => {
       fireEvent.submit(
         screen
           .getByText("Submit for review")

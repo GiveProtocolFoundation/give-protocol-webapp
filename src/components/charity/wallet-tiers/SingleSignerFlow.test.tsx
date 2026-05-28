@@ -305,10 +305,10 @@ describe("SingleSignerFlow", () => {
       />,
     );
 
-    await act(async () => {
+    await act(() => {
       fireEvent.click(screen.getByText("I understand, proceed"));
     });
-    await act(async () => {
+    await act(() => {
       fireEvent.click(screen.getByText("Sign verification message"));
     });
 
@@ -318,12 +318,12 @@ describe("SingleSignerFlow", () => {
 
     const checkboxes = screen.getAllByRole("checkbox");
 
-    await act(async () => {
+    await act(() => {
       fireEvent.click(checkboxes[0]);
       fireEvent.click(checkboxes[1]);
     });
 
-    await act(async () => {
+    await act(() => {
       fireEvent.click(screen.getByText("Register wallet"));
     });
 

@@ -228,15 +228,15 @@ describe("SafeSetupFlow", () => {
       />,
     );
 
-    await act(async () => {
+    await act(() => {
       fireEvent.click(screen.getByText("I already have a Safe"));
     });
-    await act(async () => {
+    await act(() => {
       fireEvent.change(screen.getByLabelText("Safe address"), {
         target: { value: "0x1234567890123456789012345678901234567890" },
       });
     });
-    await act(async () => {
+    await act(() => {
       fireEvent.click(screen.getByText("Sign to verify control"));
     });
 
