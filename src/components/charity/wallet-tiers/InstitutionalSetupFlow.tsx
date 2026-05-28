@@ -251,132 +251,129 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
       )}
 
       {/* Chain selector */}
-        <div className="mt-4">
-          <label
-            htmlFor="inst-chain"
-            className="block text-sm font-medium text-content-primary mb-1"
-          >
-            {t("wallet.institutional.chain", "Network")}
-          </label>
-          <select
-            id="inst-chain"
-            value={chainId}
-            onChange={handleChainChange}
-            className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-          >
-            {chains.map((chain) => (
-              <option key={chain.id} value={chain.id}>
-                {chain.name}
-              </option>
-            ))}
-          </select>
-        </div>
+      <div className="mt-4">
+        <label
+          htmlFor="inst-chain"
+          className="block text-sm font-medium text-content-primary mb-1"
+        >
+          {t("wallet.institutional.chain", "Network")}
+        </label>
+        <select
+          id="inst-chain"
+          value={chainId}
+          onChange={handleChainChange}
+          className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+        >
+          {chains.map((chain) => (
+            <option key={chain.id} value={chain.id}>
+              {chain.name}
+            </option>
+          ))}
+        </select>
+      </div>
 
       {/* Wallet address */}
-        <div className="mt-4">
-          <label
-            htmlFor="inst-address"
-            className="block text-sm font-medium text-content-primary mb-1"
-          >
-            {t("wallet.institutional.address", "Wallet address")}
-          </label>
-          <input
-            id="inst-address"
-            type="text"
-            value={walletAddress}
-            onChange={handleAddressChange}
-            placeholder="0x..."
-            className="w-full px-3 py-2 text-sm font-mono bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary placeholder:text-content-muted focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-          />
-        </div>
+      <div className="mt-4">
+        <label
+          htmlFor="inst-address"
+          className="block text-sm font-medium text-content-primary mb-1"
+        >
+          {t("wallet.institutional.address", "Wallet address")}
+        </label>
+        <input
+          id="inst-address"
+          type="text"
+          value={walletAddress}
+          onChange={handleAddressChange}
+          placeholder="0x..."
+          className="w-full px-3 py-2 text-sm font-mono bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary placeholder:text-content-muted focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+        />
+      </div>
 
       {/* Custodian dropdown */}
-        <div className="mt-4">
-          <label
-            htmlFor="inst-custodian"
-            className="block text-sm font-medium text-content-primary mb-1"
-          >
-            {t("wallet.institutional.custodian", "Custodian")}
-          </label>
-          <select
-            id="inst-custodian"
-            value={custodian}
-            onChange={handleCustodianChange}
-            className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-          >
-            <option value="">
-              {t(
-                "wallet.institutional.selectCustodianOption",
-                "Select custodian...",
-              )}
+      <div className="mt-4">
+        <label
+          htmlFor="inst-custodian"
+          className="block text-sm font-medium text-content-primary mb-1"
+        >
+          {t("wallet.institutional.custodian", "Custodian")}
+        </label>
+        <select
+          id="inst-custodian"
+          value={custodian}
+          onChange={handleCustodianChange}
+          className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+        >
+          <option value="">
+            {t(
+              "wallet.institutional.selectCustodianOption",
+              "Select custodian...",
+            )}
+          </option>
+          {CUSTODIANS.map((c) => (
+            <option key={c} value={c}>
+              {c}
             </option>
-            {CUSTODIANS.map((c) => (
-              <option key={c} value={c}>
-                {c}
-              </option>
-            ))}
-          </select>
-        </div>
+          ))}
+        </select>
+      </div>
 
       {/* File upload */}
-        <div className="mt-4">
-          <label className="block text-sm font-medium text-content-primary mb-1">
-            {t("wallet.institutional.attestation", "Attestation document")}
-          </label>
-          <p className="text-xs text-content-muted mb-2">
-            {t(
-              "wallet.institutional.attestationHelp",
-              "Upload a PDF, JPEG, or PNG (max 10MB) proving your custodial relationship.",
-            )}
-          </p>
-          <input
-            ref={fileInputRef}
-            type="file"
-            accept=".pdf,.jpg,.jpeg,.png"
-            onChange={handleFileSelect}
-            className="sr-only"
-            aria-label={t(
-              "wallet.institutional.uploadFile",
-              "Upload attestation file",
-            )}
-          />
-          {file ? (
-            <div className="flex items-center gap-3 p-3 bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg">
-              <FileText
-                className="h-5 w-5 text-blue-600 shrink-0"
-                aria-hidden="true"
-              />
-              <div className="flex-1 min-w-0">
-                <p className="text-sm font-medium text-content-primary truncate">
-                  {file.name}
-                </p>
-                <p className="text-xs text-content-muted">
-                  {(file.size / 1024 / 1024).toFixed(1)} MB
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={handleRemoveFile}
-                className="p-1 text-content-muted hover:text-status-danger transition-colors"
-                aria-label={t("wallet.institutional.removeFile", "Remove file")}
-              >
-                <X className="h-4 w-4" />
-              </button>
+      <div className="mt-4">
+        <label className="block text-sm font-medium text-content-primary mb-1">
+          {t("wallet.institutional.attestation", "Attestation document")}
+        </label>
+        <p className="text-xs text-content-muted mb-2">
+          {t(
+            "wallet.institutional.attestationHelp",
+            "Upload a PDF, JPEG, or PNG (max 10MB) proving your custodial relationship.",
+          )}
+        </p>
+        <input
+          ref={fileInputRef}
+          type="file"
+          accept=".pdf,.jpg,.jpeg,.png"
+          onChange={handleFileSelect}
+          className="sr-only"
+          aria-label={t(
+            "wallet.institutional.uploadFile",
+            "Upload attestation file",
+          )}
+        />
+        {file ? (
+          <div className="flex items-center gap-3 p-3 bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg">
+            <FileText
+              className="h-5 w-5 text-blue-600 shrink-0"
+              aria-hidden="true"
+            />
+            <div className="flex-1 min-w-0">
+              <p className="text-sm font-medium text-content-primary truncate">
+                {file.name}
+              </p>
+              <p className="text-xs text-content-muted">
+                {(file.size / 1024 / 1024).toFixed(1)} MB
+              </p>
             </div>
-          ) : (
             <button
               type="button"
-              onClick={handleUploadClick}
-              className="w-full flex items-center justify-center gap-2 p-4 border-2 border-dashed border-line-subtle dark:border-line-subtle/30 rounded-lg text-sm text-content-secondary hover:border-blue-300 dark:hover:border-blue-700 hover:text-blue-600 transition-colors"
+              onClick={handleRemoveFile}
+              className="p-1 text-content-muted hover:text-status-danger transition-colors"
+              aria-label={t("wallet.institutional.removeFile", "Remove file")}
             >
-              <Upload className="h-5 w-5" aria-hidden="true" />
-              {t(
-                "wallet.institutional.chooseFile",
-                "Choose file or drag & drop",
-              )}
+              <X className="h-4 w-4" />
             </button>
-          )}
-        </div>
+          </div>
+        ) : (
+          <button
+            type="button"
+            onClick={handleUploadClick}
+            className="w-full flex items-center justify-center gap-2 p-4 border-2 border-dashed border-line-subtle dark:border-line-subtle/30 rounded-lg text-sm text-content-secondary hover:border-blue-300 dark:hover:border-blue-700 hover:text-blue-600 transition-colors"
+          >
+            <Upload className="h-5 w-5" aria-hidden="true" />
+            {t("wallet.institutional.chooseFile", "Choose file or drag & drop")}
+          </button>
+        )}
+      </div>
 
       {/* Submit */}
       <button

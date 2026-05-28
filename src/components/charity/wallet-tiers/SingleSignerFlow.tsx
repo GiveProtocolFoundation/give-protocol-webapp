@@ -166,53 +166,50 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
         <div className="bg-surface-overlay rounded-2xl shadow-2xl max-w-lg w-full p-8 border-2 border-amber-400/50 flex flex-col items-center text-center">
-            <AlertTriangle
-              className="h-8 w-8 p-4 box-content text-amber-600 dark:text-amber-400 rounded-full bg-amber-100 dark:bg-amber-900/30 mb-4"
-              aria-hidden="true"
-            />
+          <AlertTriangle
+            className="h-8 w-8 p-4 box-content text-amber-600 dark:text-amber-400 rounded-full bg-amber-100 dark:bg-amber-900/30 mb-4"
+            aria-hidden="true"
+          />
 
-            <h2 className="text-xl font-bold text-content-primary mb-2">
+          <h2 className="text-xl font-bold text-content-primary mb-2">
+            {t("wallet.eoa.riskTitle", "Single-signer wallet: important risks")}
+          </h2>
+
+          <div className="text-sm text-content-secondary text-left space-y-3 mb-6">
+            <p>
               {t(
-                "wallet.eoa.riskTitle",
-                "Single-signer wallet: important risks",
+                "wallet.eoa.riskParagraph1",
+                "A single-signer (EOA) wallet is controlled by one private key. If that key is lost, stolen, or compromised, all funds sent to this wallet are permanently unrecoverable.",
               )}
-            </h2>
+            </p>
+            <p>
+              {t(
+                "wallet.eoa.riskParagraph2",
+                "For organizational funds, we strongly recommend using a multisig Safe wallet instead. Multisig wallets require multiple approvals for every transaction, protecting against single points of failure.",
+              )}
+            </p>
+            <p className="font-medium text-amber-700 dark:text-amber-400">
+              {t(
+                "wallet.eoa.riskParagraph3",
+                "By proceeding, you acknowledge that Give Protocol is not responsible for any loss of funds due to private key compromise, loss, or mismanagement.",
+              )}
+            </p>
+          </div>
 
-            <div className="text-sm text-content-secondary text-left space-y-3 mb-6">
-              <p>
-                {t(
-                  "wallet.eoa.riskParagraph1",
-                  "A single-signer (EOA) wallet is controlled by one private key. If that key is lost, stolen, or compromised, all funds sent to this wallet are permanently unrecoverable.",
-                )}
-              </p>
-              <p>
-                {t(
-                  "wallet.eoa.riskParagraph2",
-                  "For organizational funds, we strongly recommend using a multisig Safe wallet instead. Multisig wallets require multiple approvals for every transaction, protecting against single points of failure.",
-                )}
-              </p>
-              <p className="font-medium text-amber-700 dark:text-amber-400">
-                {t(
-                  "wallet.eoa.riskParagraph3",
-                  "By proceeding, you acknowledge that Give Protocol is not responsible for any loss of funds due to private key compromise, loss, or mismanagement.",
-                )}
-              </p>
-            </div>
-
-            <div className="flex gap-3 w-full">
-              <button
-                onClick={handleDeclineRisk}
-                className="flex-1 px-4 py-2.5 text-sm font-medium text-content-primary bg-surface-sunken hover:bg-surface-base border border-line-subtle rounded-lg transition-colors"
-              >
-                {t("wallet.eoa.useMultisig", "Use a multisig instead")}
-              </button>
-              <button
-                onClick={handleAcceptRisk}
-                className="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition-colors"
-              >
-                {t("wallet.eoa.proceedAnyway", "I understand, proceed")}
-              </button>
-            </div>
+          <div className="flex gap-3 w-full">
+            <button
+              onClick={handleDeclineRisk}
+              className="flex-1 px-4 py-2.5 text-sm font-medium text-content-primary bg-surface-sunken hover:bg-surface-base border border-line-subtle rounded-lg transition-colors"
+            >
+              {t("wallet.eoa.useMultisig", "Use a multisig instead")}
+            </button>
+            <button
+              onClick={handleAcceptRisk}
+              className="flex-1 px-4 py-2.5 text-sm font-medium text-white bg-amber-600 hover:bg-amber-700 rounded-lg transition-colors"
+            >
+              {t("wallet.eoa.proceedAnyway", "I understand, proceed")}
+            </button>
+          </div>
         </div>
       </div>
     );
