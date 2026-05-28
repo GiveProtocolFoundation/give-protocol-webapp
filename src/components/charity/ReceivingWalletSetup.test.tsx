@@ -1,31 +1,16 @@
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-// Mock useCharityWallets
+import { useCharityWallets } from "@/hooks/useCharityWallets";
+import { ReceivingWalletSetup } from "./ReceivingWalletSetup";
+
+// useCharityWallets is mocked globally via moduleNameMapper → useCharityWalletsMock.js
+const mockedUseCharityWallets = jest.mocked(useCharityWallets);
+
+const CHARITY_ID = "charity-profile-001";
+
 const mockFetchWallets = jest.fn();
 const mockSetPrimary = jest.fn();
 const mockDeleteWallet = jest.fn();
-
-jest.mock("@/hooks/useCharityWallets", () => ({
-  useCharityWallets: jest.fn(() => ({
-    wallets: [],
-    loading: false,
-    error: null,
-    fetchWallets: mockFetchWallets,
-    fetchPrimaryWallet: jest.fn(),
-    addVerifiedWallet: jest.fn(),
-    addInstitutionalWallet: jest.fn(),
-    setPrimary: mockSetPrimary,
-    deleteWallet: mockDeleteWallet,
-  })),
-}));
-
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { useCharityWallets } = require("@/hooks/useCharityWallets");
-
-// Must import AFTER mocks are set up
-import { ReceivingWalletSetup } from "./ReceivingWalletSetup";
-
-const CHARITY_ID = "charity-profile-001";
 
 const mockEoaWallet = {
   id: "wallet-001",
@@ -64,7 +49,7 @@ describe("ReceivingWalletSetup", () => {
     mockSetPrimary.mockReset();
     mockDeleteWallet.mockReset();
     mockFetchWallets.mockResolvedValue([]);
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [],
       loading: false,
       error: null,
@@ -94,7 +79,7 @@ describe("ReceivingWalletSetup", () => {
   });
 
   it("renders wallet cards when wallets exist", () => {
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [mockEoaWallet, mockSafeWallet],
       loading: false,
       error: null,
@@ -131,7 +116,7 @@ describe("ReceivingWalletSetup", () => {
   });
 
   it("renders loading skeleton when loading with no wallets", () => {
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [],
       loading: true,
       error: null,
@@ -150,7 +135,7 @@ describe("ReceivingWalletSetup", () => {
   });
 
   it("shows error message when error exists", () => {
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [],
       loading: false,
       error: "Something went wrong",
@@ -167,7 +152,7 @@ describe("ReceivingWalletSetup", () => {
   });
 
   it("shows Add another button in wallet list view", () => {
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [mockEoaWallet],
       loading: false,
       error: null,
@@ -184,7 +169,7 @@ describe("ReceivingWalletSetup", () => {
   });
 
   it("does not show delete/primary buttons for primary wallet", () => {
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [mockEoaWallet],
       loading: false,
       error: null,
@@ -202,7 +187,7 @@ describe("ReceivingWalletSetup", () => {
   });
 
   it("shows delete and primary buttons for non-primary wallets", () => {
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [mockEoaWallet, mockSafeWallet],
       loading: false,
       error: null,
@@ -221,7 +206,7 @@ describe("ReceivingWalletSetup", () => {
 
   it("calls setPrimary when Make primary is clicked", async () => {
     mockSetPrimary.mockResolvedValue(true);
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [mockEoaWallet, mockSafeWallet],
       loading: false,
       error: null,
@@ -243,7 +228,7 @@ describe("ReceivingWalletSetup", () => {
 
   it("calls deleteWallet when Remove is clicked", async () => {
     mockDeleteWallet.mockResolvedValue(true);
-    useCharityWallets.mockReturnValue({
+    mockedUseCharityWallets.mockReturnValue({
       wallets: [mockEoaWallet, mockSafeWallet],
       loading: false,
       error: null,

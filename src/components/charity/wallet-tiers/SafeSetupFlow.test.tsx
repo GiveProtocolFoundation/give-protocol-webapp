@@ -1,25 +1,12 @@
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
 import { useWeb3 } from "@/contexts/Web3Context";
-
-// Mock useCharityWallets
-const mockAddVerifiedWallet = jest.fn();
-
-jest.mock("@/hooks/useCharityWallets", () => ({
-  useCharityWallets: jest.fn(() => ({
-    wallets: [],
-    loading: false,
-    error: null,
-    fetchWallets: jest.fn(),
-    fetchPrimaryWallet: jest.fn(),
-    addVerifiedWallet: mockAddVerifiedWallet,
-    addInstitutionalWallet: jest.fn(),
-    setPrimary: jest.fn(),
-    deleteWallet: jest.fn(),
-  })),
-}));
-
+import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { SafeSetupFlow } from "./SafeSetupFlow";
+
+// useCharityWallets is mocked globally via moduleNameMapper → useCharityWalletsMock.js
+const mockedUseCharityWallets = jest.mocked(useCharityWallets);
+const mockAddVerifiedWallet = jest.fn();
 
 const mockOnBack = jest.fn();
 const mockOnComplete = jest.fn();
@@ -30,6 +17,17 @@ describe("SafeSetupFlow", () => {
     mockAddVerifiedWallet.mockReset();
     mockOnBack.mockReset();
     mockOnComplete.mockReset();
+    mockedUseCharityWallets.mockReturnValue({
+      wallets: [],
+      loading: false,
+      error: null,
+      fetchWallets: jest.fn(),
+      fetchPrimaryWallet: jest.fn(),
+      addVerifiedWallet: mockAddVerifiedWallet,
+      addInstitutionalWallet: jest.fn(),
+      setPrimary: jest.fn(),
+      deleteWallet: jest.fn(),
+    });
     (useWeb3 as jest.Mock).mockReturnValue({
       provider: null,
       signer: null,
@@ -224,11 +222,17 @@ describe("SafeSetupFlow", () => {
       />,
     );
 
-    fireEvent.click(screen.getByText("I already have a Safe"));
-    fireEvent.change(screen.getByLabelText("Safe address"), {
-      target: { value: "0x1234567890123456789012345678901234567890" },
+    await act(async () => {
+      fireEvent.click(screen.getByText("I already have a Safe"));
     });
-    fireEvent.click(screen.getByText("Sign to verify control"));
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText("Safe address"), {
+        target: { value: "0x1234567890123456789012345678901234567890" },
+      });
+    });
+    await act(async () => {
+      fireEvent.click(screen.getByText("Sign to verify control"));
+    });
 
     await waitFor(() => {
       expect(mockAddVerifiedWallet).toHaveBeenCalledWith(

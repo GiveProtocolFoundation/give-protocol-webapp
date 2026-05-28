@@ -1,23 +1,11 @@
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-// Mock useCharityWallets
-const mockAddInstitutionalWallet = jest.fn();
-
-jest.mock("@/hooks/useCharityWallets", () => ({
-  useCharityWallets: jest.fn(() => ({
-    wallets: [],
-    loading: false,
-    error: null,
-    fetchWallets: jest.fn(),
-    fetchPrimaryWallet: jest.fn(),
-    addVerifiedWallet: jest.fn(),
-    addInstitutionalWallet: mockAddInstitutionalWallet,
-    setPrimary: jest.fn(),
-    deleteWallet: jest.fn(),
-  })),
-}));
-
+import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { InstitutionalSetupFlow } from "./InstitutionalSetupFlow";
+
+// useCharityWallets is mocked globally via moduleNameMapper → useCharityWalletsMock.js
+const mockedUseCharityWallets = jest.mocked(useCharityWallets);
+const mockAddInstitutionalWallet = jest.fn();
 
 const mockOnBack = jest.fn();
 const mockOnComplete = jest.fn();
@@ -28,6 +16,17 @@ describe("InstitutionalSetupFlow", () => {
     mockAddInstitutionalWallet.mockReset();
     mockOnBack.mockReset();
     mockOnComplete.mockReset();
+    mockedUseCharityWallets.mockReturnValue({
+      wallets: [],
+      loading: false,
+      error: null,
+      fetchWallets: jest.fn(),
+      fetchPrimaryWallet: jest.fn(),
+      addVerifiedWallet: jest.fn(),
+      addInstitutionalWallet: mockAddInstitutionalWallet,
+      setPrimary: jest.fn(),
+      deleteWallet: jest.fn(),
+    });
   });
 
   it("renders the form with all required fields", () => {
@@ -200,22 +199,25 @@ describe("InstitutionalSetupFlow", () => {
       />,
     );
 
-    fireEvent.change(screen.getByLabelText("Wallet address"), {
-      target: { value: "0x1234567890123456789012345678901234567890" },
-    });
-    fireEvent.change(screen.getByLabelText("Custodian"), {
-      target: { value: "Fireblocks" },
-    });
-
     const file = new File(["test"], "attestation.pdf", {
       type: "application/pdf",
     });
-    const fileInput = screen.getByLabelText("Upload attestation file");
-    fireEvent.change(fileInput, { target: { files: [file] } });
 
-    fireEvent.submit(
-      screen.getByText("Submit for review").closest("form") as HTMLFormElement,
-    );
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText("Wallet address"), {
+        target: { value: "0x1234567890123456789012345678901234567890" },
+      });
+      fireEvent.change(screen.getByLabelText("Custodian"), {
+        target: { value: "Fireblocks" },
+      });
+      const fileInput = screen.getByLabelText("Upload attestation file");
+      fireEvent.change(fileInput, { target: { files: [file] } });
+    });
+    await act(async () => {
+      fireEvent.submit(
+        screen.getByText("Submit for review").closest("form") as HTMLFormElement,
+      );
+    });
 
     await waitFor(() => {
       expect(mockAddInstitutionalWallet).toHaveBeenCalledWith(
@@ -243,22 +245,25 @@ describe("InstitutionalSetupFlow", () => {
       />,
     );
 
-    fireEvent.change(screen.getByLabelText("Wallet address"), {
-      target: { value: "0x1234567890123456789012345678901234567890" },
-    });
-    fireEvent.change(screen.getByLabelText("Custodian"), {
-      target: { value: "Fireblocks" },
-    });
-
     const file = new File(["test"], "attestation.pdf", {
       type: "application/pdf",
     });
-    const fileInput = screen.getByLabelText("Upload attestation file");
-    fireEvent.change(fileInput, { target: { files: [file] } });
 
-    fireEvent.submit(
-      screen.getByText("Submit for review").closest("form") as HTMLFormElement,
-    );
+    await act(async () => {
+      fireEvent.change(screen.getByLabelText("Wallet address"), {
+        target: { value: "0x1234567890123456789012345678901234567890" },
+      });
+      fireEvent.change(screen.getByLabelText("Custodian"), {
+        target: { value: "Fireblocks" },
+      });
+      const fileInput = screen.getByLabelText("Upload attestation file");
+      fireEvent.change(fileInput, { target: { files: [file] } });
+    });
+    await act(async () => {
+      fireEvent.submit(
+        screen.getByText("Submit for review").closest("form") as HTMLFormElement,
+      );
+    });
 
     await waitFor(() => {
       expect(

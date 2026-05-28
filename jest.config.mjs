@@ -89,6 +89,10 @@ export default {
       "<rootDir>/src/test-utils/safeAutoConnectMock.js",
     "(.*)/hooks/useSafeAutoConnect(\\.tsx?)?$":
       "<rootDir>/src/test-utils/safeAutoConnectMock.js",
+    "^@/hooks/useCharityWallets$":
+      "<rootDir>/src/test-utils/useCharityWalletsMock.js",
+    "(.*)/hooks/useCharityWallets(\\.tsx?)?$":
+      "<rootDir>/src/test-utils/useCharityWalletsMock.js",
     "^@/hooks/useWalletAuthSync$":
       "<rootDir>/src/test-utils/walletAuthSyncMock.js",
     "(.*)/hooks/useWalletAuthSync(\\.tsx?)?$":
