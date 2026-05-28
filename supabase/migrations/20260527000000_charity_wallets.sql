@@ -170,13 +170,13 @@ DO $$ BEGIN
       USING (
         charity_profile_id IN (
           SELECT id FROM charity_profiles
-          WHERE claimed_by = auth.uid()
+          WHERE claimed_by = auth.uid()::uuid
         )
       )
       WITH CHECK (
         charity_profile_id IN (
           SELECT id FROM charity_profiles
-          WHERE claimed_by = auth.uid()
+          WHERE claimed_by = auth.uid()::uuid
         )
       );
   END IF;
@@ -291,7 +291,7 @@ WITH CHECK (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
@@ -305,7 +305,7 @@ USING (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
@@ -319,7 +319,7 @@ USING (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
@@ -333,7 +333,7 @@ USING (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
