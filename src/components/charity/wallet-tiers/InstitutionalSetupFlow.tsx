@@ -250,9 +250,8 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
         </div>
       )}
 
-      <div className="space-y-4">
-        {/* Chain selector */}
-        <div>
+      {/* Chain selector */}
+        <div className="mt-4">
           <label
             htmlFor="inst-chain"
             className="block text-sm font-medium text-content-primary mb-1"
@@ -273,8 +272,8 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
           </select>
         </div>
 
-        {/* Wallet address */}
-        <div>
+      {/* Wallet address */}
+        <div className="mt-4">
           <label
             htmlFor="inst-address"
             className="block text-sm font-medium text-content-primary mb-1"
@@ -291,8 +290,8 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
           />
         </div>
 
-        {/* Custodian dropdown */}
-        <div>
+      {/* Custodian dropdown */}
+        <div className="mt-4">
           <label
             htmlFor="inst-custodian"
             className="block text-sm font-medium text-content-primary mb-1"
@@ -319,8 +318,8 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
           </select>
         </div>
 
-        {/* File upload */}
-        <div>
+      {/* File upload */}
+        <div className="mt-4">
           <label className="block text-sm font-medium text-content-primary mb-1">
             {t("wallet.institutional.attestation", "Attestation document")}
           </label>
@@ -379,22 +378,21 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
           )}
         </div>
 
-        {/* Submit */}
-        <button
-          type="submit"
-          disabled={loading || !walletAddress || !custodian || !file}
-          className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-              {t("wallet.institutional.submitting", "Submitting...")}
-            </>
-          ) : (
-            t("wallet.institutional.submit", "Submit for review")
-          )}
-        </button>
-      </div>
+      {/* Submit */}
+      <button
+        type="submit"
+        disabled={loading || !walletAddress || !custodian || !file}
+        className="mt-4 w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-blue-600 hover:bg-blue-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+      >
+        {loading ? (
+          <>
+            <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+            {t("wallet.institutional.submitting", "Submitting...")}
+          </>
+        ) : (
+          t("wallet.institutional.submit", "Submit for review")
+        )}
+      </button>
     </form>
   );
 };

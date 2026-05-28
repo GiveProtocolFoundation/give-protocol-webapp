@@ -165,8 +165,7 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
   if (step === "risk") {
     return (
       <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4">
-        <div className="bg-surface-overlay rounded-2xl shadow-2xl max-w-lg w-full p-8 border-2 border-amber-400/50">
-          <div className="flex flex-col items-center text-center">
+        <div className="bg-surface-overlay rounded-2xl shadow-2xl max-w-lg w-full p-8 border-2 border-amber-400/50 flex flex-col items-center text-center">
             <AlertTriangle
               className="h-8 w-8 p-4 box-content text-amber-600 dark:text-amber-400 rounded-full bg-amber-100 dark:bg-amber-900/30 mb-4"
               aria-hidden="true"
@@ -214,7 +213,6 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
                 {t("wallet.eoa.proceedAnyway", "I understand, proceed")}
               </button>
             </div>
-          </div>
         </div>
       </div>
     );
