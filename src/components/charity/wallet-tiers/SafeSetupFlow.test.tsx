@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { SafeSetupFlow } from "./SafeSetupFlow";

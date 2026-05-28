@@ -1,5 +1,11 @@
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { InstitutionalSetupFlow } from "./InstitutionalSetupFlow";
 
@@ -215,7 +221,9 @@ describe("InstitutionalSetupFlow", () => {
     });
     await act(async () => {
       fireEvent.submit(
-        screen.getByText("Submit for review").closest("form") as HTMLFormElement,
+        screen
+          .getByText("Submit for review")
+          .closest("form") as HTMLFormElement,
       );
     });
 
@@ -261,7 +269,9 @@ describe("InstitutionalSetupFlow", () => {
     });
     await act(async () => {
       fireEvent.submit(
-        screen.getByText("Submit for review").closest("form") as HTMLFormElement,
+        screen
+          .getByText("Submit for review")
+          .closest("form") as HTMLFormElement,
       );
     });
 
