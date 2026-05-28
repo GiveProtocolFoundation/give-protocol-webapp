@@ -365,21 +365,19 @@ function WalletCard({
   return (
     <li className="flex items-center gap-4 p-4 rounded-lg border border-line-subtle dark:border-line-subtle/20 bg-surface-base">
       <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1 flex-wrap">
-          <span
-            className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full ${tier.color}`}
-          >
-            {tier.icon}
-            {tier.label}
+        <span
+          className={`inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full mr-2 mb-1 ${tier.color}`}
+        >
+          {tier.icon}
+          {tier.label}
+        </span>
+        {wallet.is_primary && (
+          <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full mr-2 mb-1 bg-accent-subtle/60 text-accent-base dark:bg-accent-subtle/30">
+            <Star className="h-3 w-3" aria-hidden="true" />
+            {t("wallet.setup.primary", "Primary")}
           </span>
-          {wallet.is_primary && (
-            <span className="inline-flex items-center gap-1 text-xs font-medium px-2 py-0.5 rounded-full bg-accent-subtle/60 text-accent-base dark:bg-accent-subtle/30">
-              <Star className="h-3 w-3" aria-hidden="true" />
-              {t("wallet.setup.primary", "Primary")}
-            </span>
-          )}
-          <span className="text-xs text-content-muted">{chainName}</span>
-        </div>
+        )}
+        <span className="text-xs text-content-muted mb-1">{chainName}</span>
         <div className="flex items-center gap-2">
           <code className="text-sm font-mono text-content-primary">
             {truncatedAddress}

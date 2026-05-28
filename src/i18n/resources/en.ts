@@ -1463,6 +1463,15 @@ export default {
     "charity.profile.donate.feeNote":
       "0% platform fee on direct donations. Network gas fees apply.",
 
+    // Wallet-type badge (GIV-290)
+    "charity.walletBadge.safeLabel":
+      "Multisig treasury · {{threshold}}-of-{{count}} signers",
+    "charity.walletBadge.safeTooltip":
+      "Donations go to a multi-signature wallet requiring multiple approvals before funds can move.",
+    "charity.walletBadge.institutionalLabel": "Held at {{custodianName}}",
+    "charity.walletBadge.institutionalTooltip":
+      "Donations go to a wallet held by a qualified institutional custodian.",
+
     // Portfolio Funds page (GIV-264)
     "portfolio.title": "Portfolio Funds",
 

@@ -82,9 +82,7 @@ describe("CharityOnboardingChecklist", () => {
       expect(
         screen.getByText("Upload logo or banner image"),
       ).toBeInTheDocument();
-      expect(
-        screen.getByText("Designate official receiving wallet"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Set up receiving wallet")).toBeInTheDocument();
       expect(
         screen.getByText("Set up bank details for fiat off-ramp"),
       ).toBeInTheDocument();
@@ -149,7 +147,7 @@ describe("CharityOnboardingChecklist", () => {
     await waitFor(() => {
       expect(
         screen.getByRole("button", {
-          name: /uncheck designate official receiving wallet/i,
+          name: /uncheck set up receiving wallet/i,
         }),
       ).toBeInTheDocument();
     });

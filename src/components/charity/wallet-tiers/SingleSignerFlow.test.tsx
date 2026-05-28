@@ -1,25 +1,18 @@
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
-import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import { useWeb3 } from "@/contexts/Web3Context";
-
-// Mock useCharityWallets
-const mockAddVerifiedWallet = jest.fn();
-
-jest.mock("@/hooks/useCharityWallets", () => ({
-  useCharityWallets: jest.fn(() => ({
-    wallets: [],
-    loading: false,
-    error: null,
-    fetchWallets: jest.fn(),
-    fetchPrimaryWallet: jest.fn(),
-    addVerifiedWallet: mockAddVerifiedWallet,
-    addInstitutionalWallet: jest.fn(),
-    setPrimary: jest.fn(),
-    deleteWallet: jest.fn(),
-  })),
-}));
-
+import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { SingleSignerFlow } from "./SingleSignerFlow";
+
+// useCharityWallets is mocked globally via moduleNameMapper → useCharityWalletsMock.js
+const mockedUseCharityWallets = jest.mocked(useCharityWallets);
+const mockAddVerifiedWallet = jest.fn();
 
 const mockOnBack = jest.fn();
 const mockOnComplete = jest.fn();
@@ -30,6 +23,17 @@ describe("SingleSignerFlow", () => {
     mockAddVerifiedWallet.mockReset();
     mockOnBack.mockReset();
     mockOnComplete.mockReset();
+    mockedUseCharityWallets.mockReturnValue({
+      wallets: [],
+      loading: false,
+      error: null,
+      fetchWallets: jest.fn(),
+      fetchPrimaryWallet: jest.fn(),
+      addVerifiedWallet: mockAddVerifiedWallet,
+      addInstitutionalWallet: jest.fn(),
+      setPrimary: jest.fn(),
+      deleteWallet: jest.fn(),
+    });
     (useWeb3 as jest.Mock).mockReturnValue({
       provider: null,
       signer: null,
@@ -301,18 +305,27 @@ describe("SingleSignerFlow", () => {
       />,
     );
 
-    fireEvent.click(screen.getByText("I understand, proceed"));
-    fireEvent.click(screen.getByText("Sign verification message"));
+    await act(() => {
+      fireEvent.click(screen.getByText("I understand, proceed"));
+    });
+    await act(() => {
+      fireEvent.click(screen.getByText("Sign verification message"));
+    });
 
     await waitFor(() => {
       expect(screen.getByText("Final confirmation")).toBeInTheDocument();
     });
 
     const checkboxes = screen.getAllByRole("checkbox");
-    fireEvent.click(checkboxes[0]);
-    fireEvent.click(checkboxes[1]);
 
-    fireEvent.click(screen.getByText("Register wallet"));
+    await act(() => {
+      fireEvent.click(checkboxes[0]);
+      fireEvent.click(checkboxes[1]);
+    });
+
+    await act(() => {
+      fireEvent.click(screen.getByText("Register wallet"));
+    });
 
     await waitFor(() => {
       expect(mockAddVerifiedWallet).toHaveBeenCalledWith(
