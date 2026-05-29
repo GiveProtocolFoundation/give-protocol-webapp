@@ -6,7 +6,8 @@ import React, {
   useCallback,
   startTransition,
 } from "react";
-import { User, AuthError as _AuthError } from "@supabase/supabase-js";
+import { useTranslation } from "react-i18next";
+import { User, Session, AuthError as _AuthError } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "./ToastContext";
 import { Logger } from "@/utils/logger";
@@ -104,6 +105,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     userType: null,
   });
   const { showToast } = useToast();
+  const { t } = useTranslation();
   const [retryCount, setRetryCount] = useState(0);
 
   const refreshSession = useCallback(async () => {
@@ -165,16 +167,42 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     /** Displays a toast and starts/stops session refresh based on the auth event */
     const handleAuthEvent = (
       event: string,
+      session: Session | null,
       startRefresh: () => void,
       stopRefresh: () => void,
     ) => {
       switch (event) {
-        case "SIGNED_IN":
-          showToast("success", "Signed in successfully");
+        case "SIGNED_IN": {
+          const user = session?.user;
+          const authMethod = user?.user_metadata?.auth_method as string | undefined;
+          if (authMethod === "wallet") {
+            const emailPrefix = user?.email?.split("@")[0] ?? "";
+            const truncated = emailPrefix.length > 10
+              ? `${emailPrefix.slice(0, 6)}\u2026${emailPrefix.slice(-4)}`
+              : emailPrefix;
+            showToast({
+              type: "success",
+              title: t("auth.toast.walletConnected", "Wallet connected"),
+              message: t("auth.toast.signedInWith", "Signed in with {{address}}.", { address: truncated }),
+            });
+          } else {
+            const fullName = user?.user_metadata?.full_name as string | undefined;
+            const firstName = fullName?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
+            showToast({
+              type: "success",
+              title: t("auth.toast.welcomeBack", "Welcome back, {{firstName}}", { firstName }),
+              message: t("auth.toast.youreSignedIn", "You\u2019re signed in."),
+            });
+          }
           startRefresh();
           break;
+        }
         case "SIGNED_OUT":
-          showToast("success", "Signed out successfully");
+          showToast({
+            type: "info",
+            title: t("auth.toast.signedOut", "Signed out"),
+            duration: 3000,
+          });
           stopRefresh();
           break;
         case "USER_UPDATED":
@@ -240,7 +268,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           const userType = await resolveUserType(session?.user);
 
-          handleAuthEvent(event, startRefreshInterval, stopRefreshInterval);
+          handleAuthEvent(event, session, startRefreshInterval, stopRefreshInterval);
 
           startTransition(() => {
             setState((prev) => ({
@@ -284,7 +312,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     initializeAuth();
-  }, [refreshSession, showToast]);
+  }, [refreshSession, showToast, t]);
 
   const login = useCallback(
     async (
@@ -369,7 +397,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to sign in";
-        showToast("error", "Authentication Error", message);
+        showToast({
+          type: "error",
+          title: t("auth.toast.signInFailed", "Sign-in failed"),
+          message,
+        });
         setState((prev) => ({
           ...prev,
           error: err instanceof Error ? err : new Error(message),
@@ -379,7 +411,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setState((prev) => ({ ...prev, loading: false }));
       }
     },
-    [showToast],
+    [showToast, t],
   );
 
   const loginWithGoogle = useCallback(async () => {
@@ -407,7 +439,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to sign in with Google";
-      showToast("error", "Authentication Error", message);
+      showToast({
+        type: "error",
+        title: t("auth.toast.signInFailed", "Sign-in failed"),
+        message,
+      });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -416,7 +452,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setState((prev) => ({ ...prev, loading: false }));
     }
-  }, [showToast]);
+  }, [showToast, t]);
 
   const loginWithApple = useCallback(async () => {
     try {
@@ -440,7 +476,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to sign in with Apple";
-      showToast("error", "Authentication Error", message);
+      showToast({
+        type: "error",
+        title: t("auth.toast.signInFailed", "Sign-in failed"),
+        message,
+      });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -449,7 +489,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setState((prev) => ({ ...prev, loading: false }));
     }
-  }, [showToast]);
+  }, [showToast, t]);
 
   const logout = useCallback(async () => {
     try {
@@ -474,10 +514,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Redirect to login page so user must re-authenticate
       window.location.href = `${window.location.origin}/login`;
 
-      showToast("success", "Logged out successfully");
+      // SIGNED_OUT auth event fires the sign-out toast via handleAuthEvent
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to log out";
-      showToast("error", "Logout Error", message);
+      showToast({ type: "error", title: t("auth.toast.signOutFailed", "Sign-out failed"), message });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -485,7 +525,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }));
       throw err;
     }
-  }, [showToast]);
+  }, [showToast, t]);
 
   const resetPassword = useCallback(
     async (email: string) => {
