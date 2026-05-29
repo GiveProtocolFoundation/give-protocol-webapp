@@ -498,7 +498,10 @@ describe("CharityClaimForm", () => {
     beforeEach(() => {
       mockShowToast = jest.fn(() => "mock-toast-id");
       mockDismissToast = jest.fn();
-      mockUseToast.mockReturnValue({ showToast: mockShowToast, dismissToast: mockDismissToast });
+      mockUseToast.mockReturnValue({
+        showToast: mockShowToast,
+        dismissToast: mockDismissToast,
+      });
     });
 
     it("shows Verification email sent toast on successful claim submission", async () => {
@@ -529,9 +532,11 @@ describe("CharityClaimForm", () => {
           data: { user: { id: "user-1" } },
           error: null,
         });
-      (mockSupabase as Record<string, unknown>).from = jest.fn().mockReturnValue({
-        insert: jest.fn().mockResolvedValue({ error: null }),
-      });
+      (mockSupabase as Record<string, unknown>).from = jest
+        .fn()
+        .mockReturnValue({
+          insert: jest.fn().mockResolvedValue({ error: null }),
+        });
       mockSupabase.rpc
         .mockResolvedValueOnce({ data: null, error: null })
         .mockRejectedValueOnce(new Error("RPC failed"));

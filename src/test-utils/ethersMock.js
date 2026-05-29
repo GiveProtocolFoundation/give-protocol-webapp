@@ -76,9 +76,12 @@ export const formatEther = ethers.formatEther;
 export const formatUnits = ethers.formatUnits;
 export const keccak256 = ethers.keccak256;
 export const getAddress = (addr) => addr;
-export const isAddress = (addr) => typeof addr === "string" && addr.startsWith("0x");
+export const isAddress = (addr) =>
+  typeof addr === "string" && addr.startsWith("0x");
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
-export const MaxUint256 = BigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+export const MaxUint256 = BigInt(
+  "0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff",
+);
 export const ContractInterface = undefined;
 
 // Reset helpers for use in beforeEach

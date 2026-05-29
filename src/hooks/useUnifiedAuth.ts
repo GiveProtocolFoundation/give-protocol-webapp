@@ -381,7 +381,11 @@ export function useUnifiedAuth(): UnifiedAuthState {
             }
           : null,
       );
-      showToast({ type: "success", title: "Wallet linked", message: "Your wallet has been linked to this account." });
+      showToast({
+        type: "success",
+        title: "Wallet linked",
+        message: "Your wallet has been linked to this account.",
+      });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to link wallet";
@@ -423,7 +427,11 @@ export function useUnifiedAuth(): UnifiedAuthState {
             }
           : null,
       );
-      showToast({ type: "success", title: "Wallet unlinked", message: "Your wallet has been removed from this account." });
+      showToast({
+        type: "success",
+        title: "Wallet unlinked",
+        message: "Your wallet has been removed from this account.",
+      });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to unlink wallet";

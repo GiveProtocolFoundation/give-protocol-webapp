@@ -21,7 +21,10 @@ export type { ShowToastFn };
  * showToast('error', 'Connection Failed', 'Unable to connect to wallet');
  * ```
  */
-export function useToast(): { showToast: ShowToastFn; dismissToast: (id: string) => void } {
+export function useToast(): {
+  showToast: ShowToastFn;
+  dismissToast: (id: string) => void;
+} {
   const context = useContext(ToastContext);
   if (!context) {
     throw new Error("useToast must be used within a ToastProvider");

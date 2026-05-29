@@ -1,6 +1,12 @@
 import React, { useCallback } from "react";
 import { jest } from "@jest/globals";
-import { render, screen, waitFor, act, fireEvent } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  act,
+  fireEvent,
+} from "@testing-library/react";
 import { AuthProvider, useAuth } from "../AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "../ToastContext";
@@ -381,7 +387,11 @@ describe("AuthContext", () => {
 
       await waitFor(() =>
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: "Failed to sign in" }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Failed to sign in",
+          }),
         ),
       );
     });
@@ -396,7 +406,11 @@ describe("AuthContext", () => {
 
       await waitFor(() =>
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: "Network error" }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Network error",
+          }),
         ),
       );
     });
@@ -445,7 +459,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: "Failed to sign in with Google" }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Failed to sign in with Google",
+          }),
         );
       });
     });
@@ -491,7 +509,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: "Failed to sign in with Apple" }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Failed to sign in with Apple",
+          }),
         );
       });
     });
@@ -526,7 +548,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-out failed", message: "Failed to log out" }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-out failed",
+            message: "Failed to log out",
+          }),
         );
       });
     });
@@ -882,7 +908,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: "Network unavailable" }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Network unavailable",
+          }),
         );
       });
     });
@@ -986,7 +1016,11 @@ describe("AuthContext", () => {
       await waitFor(() => {
         expect(mockSupabase.auth.signOut).toHaveBeenCalled();
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: expect.stringMatching(/registered as a charity account/) }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: expect.stringMatching(/registered as a charity account/),
+          }),
         );
       });
     });
@@ -1025,7 +1059,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: expect.stringMatching(/registered as a donor account/) }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: expect.stringMatching(/registered as a donor account/),
+          }),
         );
       });
     });
@@ -1051,7 +1089,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          expect.objectContaining({ type: "error", title: "Sign-in failed", message: expect.stringMatching(/Account not found/) }),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: expect.stringMatching(/Account not found/),
+          }),
         );
       });
     });
@@ -1087,7 +1129,8 @@ describe("AuthContext", () => {
   describe("GIV-300 toast call sites", () => {
     /** Helper that captures the onAuthStateChange callback registered by AuthProvider. */
     function captureAuthCb() {
-      let captured: ((_event: string, _session: unknown) => unknown) | null = null;
+      let captured: ((_event: string, _session: unknown) => unknown) | null =
+        null;
       mockSupabase.auth.onAuthStateChange.mockImplementation((cb) => {
         captured = cb;
         return { data: { subscription: { unsubscribe: jest.fn() } } };
@@ -1098,7 +1141,9 @@ describe("AuthContext", () => {
     it("shows personalized Welcome back toast on email SIGNED_IN", async () => {
       const getCallback = captureAuthCb();
       renderWithAuthProvider();
-      await waitFor(() => expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled());
+      await waitFor(() =>
+        expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled(),
+      );
 
       const cb = getCallback();
       if (!cb) throw new Error("auth callback not captured");
@@ -1126,7 +1171,9 @@ describe("AuthContext", () => {
     it("shows Wallet connected toast on SIGNED_IN when wallet_address in metadata", async () => {
       const getCallback = captureAuthCb();
       renderWithAuthProvider();
-      await waitFor(() => expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled());
+      await waitFor(() =>
+        expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled(),
+      );
 
       const cb = getCallback();
       if (!cb) throw new Error("auth callback not captured");
@@ -1157,7 +1204,9 @@ describe("AuthContext", () => {
     it("shows info Signed out toast on SIGNED_OUT", async () => {
       const getCallback = captureAuthCb();
       renderWithAuthProvider();
-      await waitFor(() => expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled());
+      await waitFor(() =>
+        expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled(),
+      );
 
       const cb = getCallback();
       if (!cb) throw new Error("auth callback not captured");
