@@ -63,8 +63,7 @@ export default {
       "<rootDir>/src/test-utils/useTranslationMock.js",
     "(.*)/hooks/useTranslation(\\.tsx?)?$":
       "<rootDir>/src/test-utils/useTranslationMock.js",
-    "^@/hooks/web3/useDonation$":
-      "<rootDir>/src/test-utils/useDonationMock.js",
+    "^@/hooks/web3/useDonation$": "<rootDir>/src/test-utils/useDonationMock.js",
     "(.*)/hooks/web3/useDonation(\\.tsx?)?$":
       "<rootDir>/src/test-utils/useDonationMock.js",
     "^@/hooks/web3/useTokenBalance$":

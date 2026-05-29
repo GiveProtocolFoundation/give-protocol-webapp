@@ -432,7 +432,10 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       showToast({
         type: "success",
         title: t("donation.toast.received", "Donation received"),
-        message: t("donation.toast.receivedMessage", "Thank you \u2014 your tax receipt is on the way."),
+        message: t(
+          "donation.toast.receivedMessage",
+          "Thank you \u2014 your tax receipt is on the way.",
+        ),
       });
       onSuccess?.(result);
     },
@@ -447,14 +450,17 @@ export const DonationModal: React.FC<DonationModalProps> = ({
     ],
   );
 
-  const handleFiatError = useCallback((error: Error) => {
-    dispatch({ type: "SET_ERROR", payload: error.message });
-    showToast({
-      type: "error",
-      title: t("donation.toast.failed", "Donation failed"),
-      message: error.message,
-    });
-  }, [showToast, t]);
+  const handleFiatError = useCallback(
+    (error: Error) => {
+      dispatch({ type: "SET_ERROR", payload: error.message });
+      showToast({
+        type: "error",
+        title: t("donation.toast.failed", "Donation failed"),
+        message: error.message,
+      });
+    },
+    [showToast, t],
+  );
 
   const handleReset = useCallback(() => {
     dispatch({ type: "RESET" });

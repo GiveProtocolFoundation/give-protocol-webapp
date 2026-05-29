@@ -251,8 +251,14 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 
         showToast({
           type: "success",
-          title: t("charity.toast.verificationEmailSent", "Verification email sent"),
-          message: t("charity.toast.verificationEmailMessage", "Check your inbox \u2014 the link expires in 24 hours."),
+          title: t(
+            "charity.toast.verificationEmailSent",
+            "Verification email sent",
+          ),
+          message: t(
+            "charity.toast.verificationEmailMessage",
+            "Check your inbox \u2014 the link expires in 24 hours.",
+          ),
         });
         navigate(
           `/auth/registration-success?type=charity-claim&email=${encodeURIComponent(formData.contactEmail)}`,

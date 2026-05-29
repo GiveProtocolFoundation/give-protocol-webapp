@@ -91,11 +91,7 @@ export const RequestCharityWidget: React.FC<RequestCharityWidgetProps> = ({
         </p>
 
         {requested ? (
-          <Button
-            fullWidth
-            disabled
-            icon={<CheckCircle className="h-4 w-4" />}
-          >
+          <Button fullWidth disabled icon={<CheckCircle className="h-4 w-4" />}>
             Requested
           </Button>
         ) : (

@@ -37,7 +37,9 @@ interface DonationFormProps {
  */
 export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
   const [hasMounted, setHasMounted] = useState(false);
-  React.useEffect(() => { setHasMounted(true); }, []);
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const { isConnected, connect, chainId } = useWeb3();
   const { donate, loading, approving, error: donationError } = useDonation();
@@ -153,12 +155,22 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
           dismissToast(pendingToastIdRef.current);
           pendingToastIdRef.current = null;
         }
-        const errMsg = err instanceof Error ? err.message : "Failed to process donation";
+        const errMsg =
+          err instanceof Error ? err.message : "Failed to process donation";
         showToast({ type: "error", title: "Donation failed", message: errMsg });
         setError(errMsg);
       }
     },
-    [amount, balance, charityAddress, selectedToken, donate, onSuccess, showToast, dismissToast],
+    [
+      amount,
+      balance,
+      charityAddress,
+      selectedToken,
+      donate,
+      onSuccess,
+      showToast,
+      dismissToast,
+    ],
   );
 
   if (!hasMounted) {

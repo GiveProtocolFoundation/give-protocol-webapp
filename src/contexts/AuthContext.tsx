@@ -172,13 +172,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       switch (event) {
         case "SIGNED_IN": {
           const user = session?.user;
-          const walletAddress = user?.user_metadata?.wallet_address as string | undefined;
-          const authMethod = user?.user_metadata?.auth_method as string | undefined;
+          const walletAddress = user?.user_metadata?.wallet_address as
+            | string
+            | undefined;
+          const authMethod = user?.user_metadata?.auth_method as
+            | string
+            | undefined;
           if (authMethod === "wallet" || walletAddress) {
             const addr = walletAddress ?? "";
-            const truncated = addr.length > 10
-              ? `${addr.slice(0, 6)}\u2026${addr.slice(-4)}`
-              : addr;
+            const truncated =
+              addr.length > 10
+                ? `${addr.slice(0, 6)}\u2026${addr.slice(-4)}`
+                : addr;
             showToast({
               type: "success",
               title: "Wallet connected",

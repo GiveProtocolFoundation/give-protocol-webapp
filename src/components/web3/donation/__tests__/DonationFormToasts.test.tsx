@@ -12,7 +12,12 @@ import { useToast } from "@/contexts/ToastContext";
 // Web3Context, ToastContext, useDonation, useTokenBalance mocked via moduleNameMapper
 jest.mock("@/config/tokens", () => ({
   getERC20TokensForChain: jest.fn(() => [
-    { symbol: "USDC", address: "0xTokenAddress", decimals: 6, name: "USD Coin" },
+    {
+      symbol: "USDC",
+      address: "0xTokenAddress",
+      decimals: 6,
+      name: "USD Coin",
+    },
   ]),
 }));
 jest.mock("@/config/contracts", () => ({
@@ -45,7 +50,10 @@ const defaultWeb3 = {
 beforeEach(() => {
   mockShowToast = jest.fn(() => "mock-toast-id");
   mockDismissToast = jest.fn();
-  mockUseToast.mockReturnValue({ showToast: mockShowToast, dismissToast: mockDismissToast });
+  mockUseToast.mockReturnValue({
+    showToast: mockShowToast,
+    dismissToast: mockDismissToast,
+  });
   mockUseWeb3.mockReturnValue(defaultWeb3);
   mockDonate = jest.fn().mockResolvedValue(undefined);
   mockUseDonation.mockReturnValue({
@@ -61,7 +69,9 @@ beforeEach(() => {
 describe("DonationForm GIV-300 toast call sites", () => {
   it("shows persistent Transaction submitted toast on submit then dismisses and shows confirmed", async () => {
     // Simulate async donate that takes a moment
-    mockDonate.mockImplementation(() => new Promise((resolve) => setTimeout(resolve, 10)));
+    mockDonate.mockImplementation(
+      () => new Promise((resolve) => setTimeout(resolve, 10)),
+    );
 
     render(<DonationForm charityAddress="0xCharity" />);
 

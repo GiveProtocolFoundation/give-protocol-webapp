@@ -3,7 +3,10 @@
 // useToast is a jest.fn() so tests can call mockReturnValue to override per-test.
 import { jest } from "@jest/globals";
 
-export const useToast = jest.fn(() => ({ showToast: jest.fn(() => "mock-toast-id"), dismissToast: jest.fn() }));
+export const useToast = jest.fn(() => ({
+  showToast: jest.fn(() => "mock-toast-id"),
+  dismissToast: jest.fn(),
+}));
 
 /** Mock ToastProvider pass-through */
 export const ToastProvider = ({ children }) => children;
