@@ -26,3 +26,6 @@ export const ToastProvider = ({ children }) =>
 ToastProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+/** Stub for ToastContainer (noop in tests). */
+export const ToastContainer = () => null;

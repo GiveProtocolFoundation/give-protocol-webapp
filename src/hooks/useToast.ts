@@ -1,31 +1,25 @@
 import { useContext } from "react";
 import { ToastContext } from "../contexts/ToastContext";
+import type { ShowToastFn } from "../contexts/ToastContext";
+
+export type { ShowToastFn };
 
 /**
  * Toast notification hook for accessing toast context functionality
- * @function useToast
- * @description Provides access to the toast notification system. Must be used within a ToastProvider component.
- * Returns the complete toast context including showToast function for displaying notifications with different types and messages.
- * @returns {Object} Toast context object with notification utilities
- * @returns {Function} returns.showToast - Display toast notification: (type: 'success' | 'error' | 'warning' | 'info', title: string, message?: string) => void
- * @returns {Toast[]} returns.toasts - Array of currently active toast notifications
- * @returns {Function} returns.removeToast - Remove specific toast: (id: string) => void
+ * @returns Object containing showToast function for displaying notifications
  * @throws {Error} Throws error if used outside ToastProvider context
  * @example
  * ```tsx
  * const { showToast } = useToast();
  *
- * // Show success notification
- * showToast('success', 'Transaction Complete', 'Your donation was processed successfully');
+ * // New options-object signature
+ * showToast({ type: 'success', title: 'Saved', message: 'Profile updated', duration: 3000 });
  *
- * // Show error notification
+ * // Legacy positional signature (backward-compatible)
  * showToast('error', 'Connection Failed', 'Unable to connect to wallet');
- *
- * // Show simple notification
- * showToast('info', 'Profile Updated');
  * ```
  */
-export function useToast() {
+export function useToast(): { showToast: ShowToastFn } {
   const context = useContext(ToastContext);
   if (!context) {
     throw new Error("useToast must be used within a ToastProvider");

@@ -7,3 +7,6 @@ export const useToast = jest.fn(() => ({ showToast: jest.fn() }));
 
 /** Mock ToastProvider pass-through */
 export const ToastProvider = ({ children }) => children;
+
+/** Stub for ToastContainer (noop in tests). */
+export const ToastContainer = () => null;
