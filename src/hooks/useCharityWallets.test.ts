@@ -227,7 +227,10 @@ describe("useCharityWallets", () => {
     it("sets user-friendly error for CHARITY_NOT_FOUND", async () => {
       mockFunctionsInvoke.mockResolvedValueOnce({
         data: null,
-        error: { message: "Charity profile not found", code: "CHARITY_NOT_FOUND" },
+        error: {
+          message: "Charity profile not found",
+          code: "CHARITY_NOT_FOUND",
+        },
       });
 
       const { result } = renderHook(() => useCharityWallets());

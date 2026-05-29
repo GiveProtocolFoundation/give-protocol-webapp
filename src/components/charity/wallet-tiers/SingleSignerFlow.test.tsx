@@ -24,7 +24,9 @@ jest.mock("@/utils/monitoring", () => {
 const mockedUseCharityWallets = jest.mocked(useCharityWallets);
 const mockAddVerifiedWallet = jest.fn();
 // eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any
-const { __mockTrackMetric: mockTrackMetric } = jest.requireMock("@/utils/monitoring") as any;
+const { __mockTrackMetric: mockTrackMetric } = jest.requireMock(
+  "@/utils/monitoring",
+) as any;
 
 const mockOnBack = jest.fn();
 const mockOnComplete = jest.fn();

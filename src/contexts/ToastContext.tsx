@@ -1,4 +1,10 @@
-import React, { createContext, useContext, useState, useCallback, useRef } from "react";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
 import type { ToastType } from "../components/ui/Toast";
 import { ToastContainer } from "../components/ui/ToastContainer";
 import { SecureRandom } from "@/utils/security/index";
@@ -46,7 +52,9 @@ export const ToastContext = createContext<ToastContextType | null>(null);
  */
 export function ToastProvider({ children }: { children: React.ReactNode }) {
   const [toasts, setToasts] = useState<ToastItem[]>([]);
-  const timersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(new Map());
+  const timersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(
+    new Map(),
+  );
 
   const removeToast = useCallback((id: string) => {
     const timer = timersRef.current.get(id);
@@ -65,7 +73,11 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       let duration: number;
       let persistent: boolean;
 
-      if (typeof args[0] === "object" && args[0] !== null && "type" in args[0]) {
+      if (
+        typeof args[0] === "object" &&
+        args[0] !== null &&
+        "type" in args[0]
+      ) {
         const opts = args[0];
         type = opts.type;
         title = opts.title;
@@ -85,7 +97,14 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
       }
 
       const id = SecureRandom.generateSecureId();
-      const toast: ToastItem = { id, type, title, message, duration, persistent };
+      const toast: ToastItem = {
+        id,
+        type,
+        title,
+        message,
+        duration,
+        persistent,
+      };
 
       setToasts((prev) => {
         const next = [...prev, toast];

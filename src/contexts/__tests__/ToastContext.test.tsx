@@ -216,10 +216,26 @@ describe("ToastContext", () => {
     function ManyTrigger(): React.ReactElement {
       const { showToast } = useToast();
       const handleClick = React.useCallback(() => {
-        (showToast as ShowToastFn)({ type: "info", title: "T1", persistent: true });
-        (showToast as ShowToastFn)({ type: "info", title: "T2", persistent: true });
-        (showToast as ShowToastFn)({ type: "info", title: "T3", persistent: true });
-        (showToast as ShowToastFn)({ type: "info", title: "T4", persistent: true });
+        (showToast as ShowToastFn)({
+          type: "info",
+          title: "T1",
+          persistent: true,
+        });
+        (showToast as ShowToastFn)({
+          type: "info",
+          title: "T2",
+          persistent: true,
+        });
+        (showToast as ShowToastFn)({
+          type: "info",
+          title: "T3",
+          persistent: true,
+        });
+        (showToast as ShowToastFn)({
+          type: "info",
+          title: "T4",
+          persistent: true,
+        });
       }, [showToast]);
       return (
         <button type="button" onClick={handleClick}>
@@ -264,10 +280,7 @@ describe("ToastContext", () => {
     act(() => {
       screen.getByText("show").click();
     });
-    expect(screen.getByRole("alert")).toHaveAttribute(
-      "aria-live",
-      "assertive",
-    );
+    expect(screen.getByRole("alert")).toHaveAttribute("aria-live", "assertive");
   });
 
   it("non-error toasts have aria-live=polite", () => {

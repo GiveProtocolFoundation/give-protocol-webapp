@@ -88,9 +88,7 @@ describe("Toast", () => {
   });
 
   it("hides progress bar for persistent toasts", () => {
-    render(
-      <Toast {...defaultProps} type="error" title="Sticky" persistent />,
-    );
+    render(<Toast {...defaultProps} type="error" title="Sticky" persistent />);
     expect(screen.queryByTestId("toast-progress-bar")).not.toBeInTheDocument();
   });
 

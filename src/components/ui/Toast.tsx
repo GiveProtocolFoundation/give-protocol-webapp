@@ -179,7 +179,9 @@ export const Toast: React.FC<ToastProps> = ({
         "min-w-[320px] max-w-[420px]",
         "transition-all duration-200 ease-out",
         variant.border,
-        visible && !dismissing ? "opacity-100 translate-y-0" : "opacity-0 translate-y-2",
+        visible && !dismissing
+          ? "opacity-100 translate-y-0"
+          : "opacity-0 translate-y-2",
       )}
     >
       <div className="flex items-start gap-3">
