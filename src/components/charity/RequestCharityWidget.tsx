@@ -61,15 +61,19 @@ export const RequestCharityWidget: React.FC<RequestCharityWidgetProps> = ({
 
     if (success) {
       setRequested(true);
-      showToast(
-        "success",
-        "Request submitted",
-        `We'll reach out to ${charityName} about joining Give Protocol.`,
-      );
+      showToast({
+        type: "success",
+        title: "Verification email sent",
+        message: "Check your inbox — the link expires in 24 hours.",
+      });
     } else {
-      showToast("error", "Request failed", "Please try again later.");
+      showToast({
+        type: "error",
+        title: "Submission failed",
+        message: "Please try again later.",
+      });
     }
-  }, [ein, user?.id, charityName, showToast]);
+  }, [ein, user?.id, showToast]);
 
   return (
     <Card hover={false} className="p-5">
