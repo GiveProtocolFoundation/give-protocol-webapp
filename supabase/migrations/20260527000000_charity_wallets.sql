@@ -170,13 +170,13 @@ DO $$ BEGIN
       USING (
         charity_profile_id IN (
           SELECT id FROM charity_profiles
-          WHERE claimed_by = auth.uid()
+          WHERE claimed_by = auth.uid()::uuid
         )
       )
       WITH CHECK (
         charity_profile_id IN (
           SELECT id FROM charity_profiles
-          WHERE claimed_by = auth.uid()
+          WHERE claimed_by = auth.uid()::uuid
         )
       );
   END IF;
@@ -200,8 +200,16 @@ SECURITY DEFINER
 SET search_path = public
 AS $$
 BEGIN
-  -- Verify caller is admin (reuse is_admin_user() from GIV-280)
-  IF NOT is_admin_user() THEN
+  -- Verify caller is admin: JWT claim first, profiles table fallback.
+  -- Inlined to avoid any type-cast issues in is_admin_user() on older instances.
+  IF NOT (
+    auth.jwt() -> 'user_metadata' ->> 'type' = 'admin'
+    OR EXISTS (
+      SELECT 1 FROM profiles
+      WHERE user_id = auth.uid()
+        AND type = 'admin'
+    )
+  ) THEN
     RAISE EXCEPTION 'admin_swap_primary_wallet requires admin privileges'
       USING ERRCODE = '42501';
   END IF;
@@ -291,7 +299,7 @@ WITH CHECK (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
@@ -305,7 +313,7 @@ USING (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
@@ -319,7 +327,7 @@ USING (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
@@ -333,11 +341,13 @@ USING (
   bucket_id = 'charity-attestations'
   AND EXISTS (
     SELECT 1 FROM charity_profiles
-    WHERE charity_profiles.claimed_by = auth.uid()
+    WHERE charity_profiles.claimed_by = auth.uid()::uuid
   )
 );
 
 -- Admins can view all attestation documents (for review workflow)
+-- Admin check inlined (JWT first, profiles fallback) to avoid type-cast
+-- issues in is_admin_user() on instances where auth.uid() typing varies.
 DROP POLICY IF EXISTS "Admins can view all attestations" ON storage.objects;
 CREATE POLICY "Admins can view all attestations"
 ON storage.objects
@@ -345,5 +355,12 @@ FOR SELECT
 TO authenticated
 USING (
   bucket_id = 'charity-attestations'
-  AND is_admin_user()
+  AND (
+    auth.jwt() -> 'user_metadata' ->> 'type' = 'admin'
+    OR EXISTS (
+      SELECT 1 FROM public.profiles
+      WHERE user_id = auth.uid()
+        AND type = 'admin'
+    )
+  )
 );
