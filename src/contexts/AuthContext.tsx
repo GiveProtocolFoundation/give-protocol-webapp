@@ -174,23 +174,37 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       switch (event) {
         case "SIGNED_IN": {
           const user = session?.user;
-          const authMethod = user?.user_metadata?.auth_method as string | undefined;
+          const authMethod = user?.user_metadata?.auth_method as
+            | string
+            | undefined;
           if (authMethod === "wallet") {
             const emailPrefix = user?.email?.split("@")[0] ?? "";
-            const truncated = emailPrefix.length > 10
-              ? `${emailPrefix.slice(0, 6)}\u2026${emailPrefix.slice(-4)}`
-              : emailPrefix;
+            const truncated =
+              emailPrefix.length > 10
+                ? `${emailPrefix.slice(0, 6)}\u2026${emailPrefix.slice(-4)}`
+                : emailPrefix;
             showToast({
               type: "success",
               title: t("auth.toast.walletConnected", "Wallet connected"),
-              message: t("auth.toast.signedInWith", "Signed in with {{address}}.", { address: truncated }),
+              message: t(
+                "auth.toast.signedInWith",
+                "Signed in with {{address}}.",
+                { address: truncated },
+              ),
             });
           } else {
-            const fullName = user?.user_metadata?.full_name as string | undefined;
-            const firstName = fullName?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
+            const fullName = user?.user_metadata?.full_name as
+              | string
+              | undefined;
+            const firstName =
+              fullName?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
             showToast({
               type: "success",
-              title: t("auth.toast.welcomeBack", "Welcome back, {{firstName}}", { firstName }),
+              title: t(
+                "auth.toast.welcomeBack",
+                "Welcome back, {{firstName}}",
+                { firstName },
+              ),
               message: t("auth.toast.youreSignedIn", "You\u2019re signed in."),
             });
           }
@@ -268,7 +282,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           const userType = await resolveUserType(session?.user);
 
-          handleAuthEvent(event, session, startRefreshInterval, stopRefreshInterval);
+          handleAuthEvent(
+            event,
+            session,
+            startRefreshInterval,
+            stopRefreshInterval,
+          );
 
           startTransition(() => {
             setState((prev) => ({
@@ -517,7 +536,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // SIGNED_OUT auth event fires the sign-out toast via handleAuthEvent
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to log out";
-      showToast({ type: "error", title: t("auth.toast.signOutFailed", "Sign-out failed"), message });
+      showToast({
+        type: "error",
+        title: t("auth.toast.signOutFailed", "Sign-out failed"),
+        message,
+      });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
