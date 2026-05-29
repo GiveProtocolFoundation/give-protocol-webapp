@@ -213,7 +213,7 @@ serve(async (req: Request) => {
   const authHeader = req.headers.get("Authorization");
   if (!authHeader) {
     return errorResponse(
-      { code: "NOT_AUTHORIZED", message: "Authorization header required" },
+      { code: "NOT_OWNER", message: "Authorization header required" },
       401,
     );
   }
@@ -228,7 +228,7 @@ serve(async (req: Request) => {
   } = await userClient.auth.getUser();
   if (userError || !user) {
     return errorResponse(
-      { code: "NOT_AUTHORIZED", message: "Invalid authentication" },
+      { code: "NOT_OWNER", message: "Invalid authentication" },
       401,
     );
   }
@@ -279,14 +279,14 @@ serve(async (req: Request) => {
 
   if (profileError || !profile) {
     return errorResponse(
-      { code: "NOT_AUTHORIZED", message: "Charity profile not found" },
+      { code: "CHARITY_NOT_FOUND", message: "Charity profile not found" },
       404,
     );
   }
   if (profile.claimed_by !== user.id) {
     return errorResponse(
       {
-        code: "NOT_AUTHORIZED",
+        code: "NOT_OWNER",
         message: "You are not the owner of this charity profile",
       },
       403,
@@ -305,7 +305,7 @@ serve(async (req: Request) => {
   if (existing) {
     return errorResponse(
       {
-        code: "WALLET_EXISTS",
+        code: "DUPLICATE_WALLET",
         message:
           "This wallet is already registered for this charity on this chain",
       },
@@ -352,7 +352,7 @@ serve(async (req: Request) => {
     if (!safeInfo) {
       return errorResponse(
         {
-          code: "SAFE_MISMATCH",
+          code: "SAFE_CONFIG_MISMATCH",
           message:
             "Could not read Safe owners/threshold from chain. Verify the address is a Safe on this chain.",
         },
@@ -366,7 +366,7 @@ serve(async (req: Request) => {
     ) {
       return errorResponse(
         {
-          code: "SAFE_MISMATCH",
+          code: "SAFE_CONFIG_MISMATCH",
           message: `On-chain Safe has ${safeInfo.owners.length} owners with threshold ${safeInfo.threshold}, but submitted signer_count=${body.signer_count} and signer_threshold=${body.signer_threshold}`,
         },
         400,
@@ -411,7 +411,7 @@ serve(async (req: Request) => {
     if (insertError.code === "23505") {
       return errorResponse(
         {
-          code: "WALLET_EXISTS",
+          code: "DUPLICATE_WALLET",
           message:
             "This wallet is already registered for this charity on this chain",
         },

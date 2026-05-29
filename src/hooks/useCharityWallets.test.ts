@@ -224,6 +224,64 @@ describe("useCharityWallets", () => {
       );
     });
 
+    it("sets user-friendly error for CHARITY_NOT_FOUND", async () => {
+      mockFunctionsInvoke.mockResolvedValueOnce({
+        data: null,
+        error: { message: "Charity profile not found", code: "CHARITY_NOT_FOUND" },
+      });
+
+      const { result } = renderHook(() => useCharityWallets());
+
+      await act(async () => {
+        const wallet = await result.current.addVerifiedWallet(verifiedParams);
+        expect(wallet).toBeNull();
+      });
+
+      expect(result.current.error).toBe("Charity profile not found.");
+    });
+
+    it("sets user-friendly error for NOT_OWNER", async () => {
+      mockFunctionsInvoke.mockResolvedValueOnce({
+        data: null,
+        error: {
+          message: "You are not the owner of this charity profile",
+          code: "NOT_OWNER",
+        },
+      });
+
+      const { result } = renderHook(() => useCharityWallets());
+
+      await act(async () => {
+        const wallet = await result.current.addVerifiedWallet(verifiedParams);
+        expect(wallet).toBeNull();
+      });
+
+      expect(result.current.error).toBe(
+        "You do not have permission to manage this charity's wallets.",
+      );
+    });
+
+    it("sets user-friendly error for SAFE_CONFIG_MISMATCH", async () => {
+      mockFunctionsInvoke.mockResolvedValueOnce({
+        data: null,
+        error: {
+          message: "On-chain Safe config mismatch",
+          code: "SAFE_CONFIG_MISMATCH",
+        },
+      });
+
+      const { result } = renderHook(() => useCharityWallets());
+
+      await act(async () => {
+        const wallet = await result.current.addVerifiedWallet(verifiedParams);
+        expect(wallet).toBeNull();
+      });
+
+      expect(result.current.error).toBe(
+        "On-chain Safe configuration does not match submitted values.",
+      );
+    });
+
     it("handles invalid response (no wallet in data)", async () => {
       mockFunctionsInvoke.mockResolvedValueOnce({
         data: { success: false },
