@@ -8,6 +8,9 @@ import {
 } from "@testing-library/react";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useCharityWallets } from "@/hooks/useCharityWallets";
+// monitoring is globally mocked via moduleNameMapper → monitoringMock.js,
+// which exports __mockTrackMetric as the shared trackMetric spy.
+import { __mockTrackMetric as mockTrackMetric } from "@/utils/monitoring";
 import { SingleSignerFlow } from "./SingleSignerFlow";
 
 // useCharityWallets is mocked globally via moduleNameMapper → useCharityWalletsMock.js
@@ -23,6 +26,7 @@ describe("SingleSignerFlow", () => {
     mockAddVerifiedWallet.mockReset();
     mockOnBack.mockReset();
     mockOnComplete.mockReset();
+    mockTrackMetric.mockReset();
     mockedUseCharityWallets.mockReturnValue({
       wallets: [],
       loading: false,
@@ -90,6 +94,36 @@ describe("SingleSignerFlow", () => {
 
     fireEvent.click(screen.getByText("Use a multisig instead"));
     expect(mockOnBack).toHaveBeenCalled();
+  });
+
+  it("tracks eoa_risk_go_back when Use a multisig instead is clicked", () => {
+    render(
+      <SingleSignerFlow
+        charityProfileId={CHARITY_ID}
+        onBack={mockOnBack}
+        onComplete={mockOnComplete}
+      />,
+    );
+
+    fireEvent.click(screen.getByText("Use a multisig instead"));
+    expect(mockTrackMetric).toHaveBeenCalledWith("eoa_risk_go_back", {
+      charityProfileId: CHARITY_ID,
+    });
+  });
+
+  it("tracks eoa_risk_continue when I understand, proceed is clicked", () => {
+    render(
+      <SingleSignerFlow
+        charityProfileId={CHARITY_ID}
+        onBack={mockOnBack}
+        onComplete={mockOnComplete}
+      />,
+    );
+
+    fireEvent.click(screen.getByText("I understand, proceed"));
+    expect(mockTrackMetric).toHaveBeenCalledWith("eoa_risk_continue", {
+      charityProfileId: CHARITY_ID,
+    });
   });
 
   it("navigates to sign step when I understand is clicked", () => {

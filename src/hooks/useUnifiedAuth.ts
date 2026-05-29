@@ -1,6 +1,7 @@
 import { useState, useCallback, useMemo, useEffect } from "react";
 import { useAuth as useAuthContext } from "@/contexts/AuthContext";
 import { useWeb3 } from "@/contexts/Web3Context";
+import { useToast } from "@/contexts/ToastContext";
 import { supabase } from "@/lib/supabase";
 
 import { ENV } from "@/config/env";
@@ -87,6 +88,7 @@ export function useUnifiedAuth(): UnifiedAuthState {
   const auth = useAuthContext();
   const web3 = useWeb3();
   const passkey = usePasskeyAuth();
+  const { showToast } = useToast();
   const [identity, setIdentity] = useState<UserIdentity | null>(null);
   const [loading, setLoading] = useState(false);
   const [walletAuthStep, setWalletAuthStep] = useState<WalletAuthStep>(null);
@@ -292,7 +294,7 @@ export function useUnifiedAuth(): UnifiedAuthState {
         const data = await fnResponse.json();
 
         if (!fnResponse.ok || !data?.success) {
-          console.error("[wallet-auth] Failed response:", JSON.stringify(data));
+          Logger.error("[wallet-auth] Failed response", { data });
           throw new Error(data?.error ?? "Wallet authentication failed");
         }
 
@@ -379,15 +381,21 @@ export function useUnifiedAuth(): UnifiedAuthState {
             }
           : null,
       );
+      showToast({
+        type: "success",
+        title: "Wallet linked",
+        message: "Your wallet has been linked to this account.",
+      });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to link wallet";
+      showToast({ type: "error", title: "Link failed", message });
       setError(message);
       throw err;
     } finally {
       setLoading(false);
     }
-  }, [auth.user, web3]);
+  }, [auth.user, web3, showToast]);
 
   const unlinkWallet = useCallback(async () => {
     try {
@@ -419,15 +427,21 @@ export function useUnifiedAuth(): UnifiedAuthState {
             }
           : null,
       );
+      showToast({
+        type: "success",
+        title: "Wallet unlinked",
+        message: "Your wallet has been removed from this account.",
+      });
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to unlink wallet";
+      showToast({ type: "error", title: "Unlink failed", message });
       setError(message);
       throw err;
     } finally {
       setLoading(false);
     }
-  }, [auth.user]);
+  }, [auth.user, showToast]);
 
   const signInWithPasskey = useCallback(async () => {
     try {

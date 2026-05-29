@@ -1108,6 +1108,15 @@ export default {
     "auth.panel.statusDesc": "Building the foundation of transparent giving",
     "auth.panel.runsOn": "Runs on",
 
+    // Auth - Toast notifications (GIV-302)
+    "auth.toast.walletConnected": "Wallet connected",
+    "auth.toast.signedInWith": "Signed in with {{address}}.",
+    "auth.toast.welcomeBack": "Welcome back, {{firstName}}",
+    "auth.toast.youreSignedIn": "You\u2019re signed in.",
+    "auth.toast.signedOut": "Signed out",
+    "auth.toast.signInFailed": "Sign-in failed",
+    "auth.toast.signOutFailed": "Sign-out failed",
+
     // Auth - Wallet connection
     "auth.wallet.connect": "Connect Wallet",
     "auth.wallet.connecting": "Connecting wallet\u2026",
@@ -1480,5 +1489,23 @@ export default {
     "settings.theme": "Theme",
     "settings.light": "Light",
     "settings.dark": "Dark",
+
+    // Donation toast notifications (GIV-300)
+    "donation.toast.received": "Donation received",
+    "donation.toast.receivedMessage":
+      "Thank you \u2014 your tax receipt is on the way.",
+    "donation.toast.submitted": "Transaction submitted",
+    "donation.toast.submittedMessage":
+      "Waiting for on-chain confirmation\u2026",
+    "donation.toast.confirmed": "Donation confirmed",
+    "donation.toast.confirmedMessage":
+      "Your contribution is recorded on-chain.",
+    "donation.toast.failed": "Donation failed",
+
+    // Charity claim toast notifications (GIV-300)
+    "charity.toast.verificationEmailSent": "Verification email sent",
+    "charity.toast.verificationEmailMessage":
+      "Check your inbox \u2014 the link expires in 24 hours.",
+    "charity.toast.submissionFailed": "Submission failed",
   },
 };

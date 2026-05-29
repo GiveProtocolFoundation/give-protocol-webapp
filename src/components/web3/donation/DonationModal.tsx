@@ -46,6 +46,7 @@ import { getERC20TokensForChain, type TokenConfig } from "@/config/tokens";
 import { getContractAddress, CHAIN_IDS } from "@/config/contracts";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/contexts/ToastContext";
 import {
   type FiatCurrencyConfig,
   getFiatCurrencyByCode,
@@ -328,6 +329,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
   const { chainId, isConnected: _isConnected, address } = useWeb3();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [state, dispatch] = useReducer(
     donationReducer,
     frequency,
@@ -427,6 +429,14 @@ export const DonationModal: React.FC<DonationModalProps> = ({
         timestamp: new Date(),
       };
       dispatch({ type: "SET_SUCCESS", payload: result });
+      showToast({
+        type: "success",
+        title: t("donation.toast.received", "Donation received"),
+        message: t(
+          "donation.toast.receivedMessage",
+          "Thank you \u2014 your tax receipt is on the way.",
+        ),
+      });
       onSuccess?.(result);
     },
     [
@@ -435,12 +445,22 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       state.fiatCurrencyCode,
       state.frequency,
       onSuccess,
+      showToast,
+      t,
     ],
   );
 
-  const handleFiatError = useCallback((error: Error) => {
-    dispatch({ type: "SET_ERROR", payload: error.message });
-  }, []);
+  const handleFiatError = useCallback(
+    (error: Error) => {
+      dispatch({ type: "SET_ERROR", payload: error.message });
+      showToast({
+        type: "error",
+        title: t("donation.toast.failed", "Donation failed"),
+        message: error.message,
+      });
+    },
+    [showToast, t],
+  );
 
   const handleReset = useCallback(() => {
     dispatch({ type: "RESET" });

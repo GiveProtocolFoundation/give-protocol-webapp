@@ -5,7 +5,8 @@ import React, { createContext, useContext } from "react";
 import PropTypes from "prop-types";
 
 const mockValue = {
-  showToast: () => {
+  showToast: () => "mock-toast-id" /* no-op mock, returns id */,
+  dismissToast: () => {
     /* no-op mock for testing */
   },
 };
@@ -26,3 +27,6 @@ export const ToastProvider = ({ children }) =>
 ToastProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
+
+/** Stub for ToastContainer (noop in tests). */
+export const ToastContainer = () => null;

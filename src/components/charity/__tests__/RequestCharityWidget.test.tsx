@@ -103,9 +103,11 @@ describe("RequestCharityWidget", () => {
       fireEvent.click(screen.getByText("Request this Charity"));
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "success",
-          "Request submitted",
-          expect.stringContaining("Test Charity Foundation"),
+          expect.objectContaining({
+            type: "success",
+            title: "Verification email sent",
+            message: expect.stringContaining("inbox"),
+          }),
         );
       });
     });
@@ -124,9 +126,10 @@ describe("RequestCharityWidget", () => {
       fireEvent.click(screen.getByText("Request this Charity"));
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Request failed",
-          "Please try again later.",
+          expect.objectContaining({
+            type: "error",
+            title: "Submission failed",
+          }),
         );
       });
     });

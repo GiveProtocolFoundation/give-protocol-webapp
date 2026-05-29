@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PasswordStrengthBar } from "@/components/auth/PasswordStrengthBar";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useToast } from "@/contexts/ToastContext";
 import { supabase } from "@/lib/supabase";
 import {
   validateEmail,
@@ -68,6 +69,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 }) => {
   const navigate = useNavigate();
   const { t } = useTranslation();
+  const { showToast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
   const [validationErrors, setValidationErrors] = useState<
@@ -247,18 +249,34 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           }
         }
 
+        showToast({
+          type: "success",
+          title: t(
+            "charity.toast.verificationEmailSent",
+            "Verification email sent",
+          ),
+          message: t(
+            "charity.toast.verificationEmailMessage",
+            "Check your inbox \u2014 the link expires in 24 hours.",
+          ),
+        });
         navigate(
           `/auth/registration-success?type=charity-claim&email=${encodeURIComponent(formData.contactEmail)}`,
         );
       } catch (err) {
         const message =
           err instanceof Error ? err.message : t("charity.claim.error.generic");
+        showToast({
+          type: "error",
+          title: t("charity.toast.submissionFailed", "Submission failed"),
+          message,
+        });
         setError(message);
       } finally {
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, t],
+    [formData, organization, validateField, navigate, t, showToast],
   );
 
   return (
