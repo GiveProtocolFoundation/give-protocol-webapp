@@ -14,6 +14,7 @@ import {
   getAvailableEVMChains,
   DEFAULT_EVM_CHAIN_ID,
 } from "@/config/chains/evm";
+import { getMonitoringService } from "@/utils/monitoring";
 import type { CharityWallet } from "@/types/charityWallet";
 
 type Step = "risk" | "sign" | "confirm";
@@ -60,12 +61,18 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
 
   // Step 1: Accept risk
   const handleAcceptRisk = useCallback(() => {
+    getMonitoringService().trackMetric("eoa_risk_continue", {
+      charityProfileId,
+    });
     setStep("sign");
-  }, []);
+  }, [charityProfileId]);
 
   const handleDeclineRisk = useCallback(() => {
+    getMonitoringService().trackMetric("eoa_risk_go_back", {
+      charityProfileId,
+    });
     onBack();
-  }, [onBack]);
+  }, [onBack, charityProfileId]);
 
   // Step 2: Connect + sign
   const handleConnect = useCallback(async () => {

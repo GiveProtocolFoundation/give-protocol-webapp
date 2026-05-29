@@ -10,9 +10,21 @@ import { useWeb3 } from "@/contexts/Web3Context";
 import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { SingleSignerFlow } from "./SingleSignerFlow";
 
+jest.mock("@/utils/monitoring", () => {
+  const mockTrackMetric = jest.fn();
+  return {
+    getMonitoringService: jest.fn(() => ({
+      trackMetric: mockTrackMetric,
+    })),
+    __mockTrackMetric: mockTrackMetric,
+  };
+});
+
 // useCharityWallets is mocked globally via moduleNameMapper → useCharityWalletsMock.js
 const mockedUseCharityWallets = jest.mocked(useCharityWallets);
 const mockAddVerifiedWallet = jest.fn();
+// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any
+const { __mockTrackMetric: mockTrackMetric } = jest.requireMock("@/utils/monitoring") as any;
 
 const mockOnBack = jest.fn();
 const mockOnComplete = jest.fn();
@@ -23,6 +35,7 @@ describe("SingleSignerFlow", () => {
     mockAddVerifiedWallet.mockReset();
     mockOnBack.mockReset();
     mockOnComplete.mockReset();
+    mockTrackMetric.mockReset();
     mockedUseCharityWallets.mockReturnValue({
       wallets: [],
       loading: false,
@@ -90,6 +103,36 @@ describe("SingleSignerFlow", () => {
 
     fireEvent.click(screen.getByText("Use a multisig instead"));
     expect(mockOnBack).toHaveBeenCalled();
+  });
+
+  it("tracks eoa_risk_go_back when Use a multisig instead is clicked", () => {
+    render(
+      <SingleSignerFlow
+        charityProfileId={CHARITY_ID}
+        onBack={mockOnBack}
+        onComplete={mockOnComplete}
+      />,
+    );
+
+    fireEvent.click(screen.getByText("Use a multisig instead"));
+    expect(mockTrackMetric).toHaveBeenCalledWith("eoa_risk_go_back", {
+      charityProfileId: CHARITY_ID,
+    });
+  });
+
+  it("tracks eoa_risk_continue when I understand, proceed is clicked", () => {
+    render(
+      <SingleSignerFlow
+        charityProfileId={CHARITY_ID}
+        onBack={mockOnBack}
+        onComplete={mockOnComplete}
+      />,
+    );
+
+    fireEvent.click(screen.getByText("I understand, proceed"));
+    expect(mockTrackMetric).toHaveBeenCalledWith("eoa_risk_continue", {
+      charityProfileId: CHARITY_ID,
+    });
   });
 
   it("navigates to sign step when I understand is clicked", () => {
