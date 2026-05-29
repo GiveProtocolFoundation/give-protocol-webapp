@@ -155,8 +155,9 @@ export const Toast: React.FC<ToastProps> = ({
       const el = barRef.current;
       el.style.transition = "none";
       el.style.width = "100%";
-      // Force reflow before starting animation
-      void el.offsetWidth;
+      // Force reflow before starting animation — read offsetWidth to flush paint queue
+      // skipcq: JS-0098
+      const _reflow = el.offsetWidth; // eslint-disable-line @typescript-eslint/no-unused-vars
       el.style.transition = `width ${String(duration)}ms linear`;
       el.style.width = "0%";
     }

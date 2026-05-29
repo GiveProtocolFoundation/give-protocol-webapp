@@ -55,7 +55,7 @@ beforeEach(() => {
     dismissToast: mockDismissToast,
   });
   mockUseWeb3.mockReturnValue(defaultWeb3);
-  mockDonate = jest.fn().mockResolvedValue(undefined);
+  mockDonate = jest.fn().mockResolvedValue(null);
   mockUseDonation.mockReturnValue({
     donate: mockDonate,
     withdraw: jest.fn(),

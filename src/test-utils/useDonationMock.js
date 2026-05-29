@@ -4,7 +4,7 @@
 import { jest } from "@jest/globals";
 
 export const useDonation = jest.fn(() => ({
-  donate: jest.fn().mockResolvedValue(undefined),
+  donate: jest.fn().mockResolvedValue(null),
   withdraw: jest.fn(),
   loading: false,
   approving: false,

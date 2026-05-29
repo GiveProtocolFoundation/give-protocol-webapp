@@ -75,7 +75,9 @@ export const parseEther = ethers.parseEther;
 export const formatEther = ethers.formatEther;
 export const formatUnits = ethers.formatUnits;
 export const keccak256 = ethers.keccak256;
+/** @param {string} addr @returns {string} */
 export const getAddress = (addr) => addr;
+/** @param {unknown} addr @returns {boolean} */
 export const isAddress = (addr) =>
   typeof addr === "string" && addr.startsWith("0x");
 export const ZeroAddress = "0x0000000000000000000000000000000000000000";
