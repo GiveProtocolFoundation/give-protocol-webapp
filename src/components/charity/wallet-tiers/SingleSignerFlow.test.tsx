@@ -8,25 +8,14 @@ import {
 } from "@testing-library/react";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useCharityWallets } from "@/hooks/useCharityWallets";
+// monitoring is globally mocked via moduleNameMapper → monitoringMock.js,
+// which exports __mockTrackMetric as the shared trackMetric spy.
+import { __mockTrackMetric as mockTrackMetric } from "@/utils/monitoring";
 import { SingleSignerFlow } from "./SingleSignerFlow";
-
-jest.mock("@/utils/monitoring", () => {
-  const mockTrackMetric = jest.fn();
-  return {
-    getMonitoringService: jest.fn(() => ({
-      trackMetric: mockTrackMetric,
-    })),
-    __mockTrackMetric: mockTrackMetric,
-  };
-});
 
 // useCharityWallets is mocked globally via moduleNameMapper → useCharityWalletsMock.js
 const mockedUseCharityWallets = jest.mocked(useCharityWallets);
 const mockAddVerifiedWallet = jest.fn();
-// eslint-disable-next-line @typescript-eslint/no-require-imports, @typescript-eslint/no-explicit-any
-const { __mockTrackMetric: mockTrackMetric } = jest.requireMock(
-  "@/utils/monitoring",
-) as any;
 
 const mockOnBack = jest.fn();
 const mockOnComplete = jest.fn();

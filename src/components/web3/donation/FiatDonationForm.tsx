@@ -4,6 +4,7 @@ import { Button } from '@/components/ui/Button';
 import { cn } from '@/utils/cn';
 import { useFiatDonation } from '@/hooks/web3/useFiatDonation';
 import { usePayPalPayment } from '@/hooks/web3/usePayPalPayment';
+import { useToast } from '@/contexts/ToastContext';
 import { PremiumInput } from './PremiumInput';
 import { FeeOffsetCheckbox } from './FeeOffsetCheckbox';
 import { calculateFeeOffset } from './types/donation';
@@ -157,6 +158,7 @@ export function FiatDonationForm({
 }: FiatDonationFormProps): React.ReactElement {
   const isMonthly = frequency === 'monthly';
   const isPayPal = currency.processor === 'paypal';
+  const { showToast } = useToast();
 
   const [name, setName] = useState('');
   const [email, setEmail] = useState('');
@@ -332,6 +334,7 @@ export function FiatDonationForm({
         } else {
           await handleHelcimSubmit();
         }
+        showToast({ type: 'success', title: 'Donation received', message: 'Thank you — your tax receipt is on the way.' });
       } catch (err) {
         const error = err instanceof Error ? err : new Error('Payment failed');
         // Don't show "Payment cancelled" as a form error
@@ -343,7 +346,7 @@ export function FiatDonationForm({
         setIsSubmitting(false);
       }
     },
-    [validateForm, isPayPal, handlePayPalSubmit, handleHelcimSubmit, onError]
+    [validateForm, isPayPal, handlePayPalSubmit, handleHelcimSubmit, onError, showToast]
   );
 
   const loading = isPayPal ? paypalLoading : helcimLoading;

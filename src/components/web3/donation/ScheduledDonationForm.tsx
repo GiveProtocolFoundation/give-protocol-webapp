@@ -467,7 +467,7 @@ export function ScheduledDonationForm({
   onClose: _onClose,
 }: ScheduledDonationFormProps) {
   const { provider, address, isConnected, connect, chainId } = useWeb3();
-  const { showToast: _showToast } = useToast();
+  const { showToast, dismissToast } = useToast();
   const { convertToFiat: _convertToFiat, tokenPrices } = useCurrencyContext();
 
   // Get ERC20 tokens available for the current chain
@@ -610,7 +610,10 @@ export function ScheduledDonationForm({
           )
           .catch(handleTransactionError);
 
+        const submittedToastId = showToast({ type: "info", title: "Transaction submitted", message: "Waiting for on-chain confirmation…", persistent: true });
         const receipt = await tx.wait();
+        dismissToast(submittedToastId);
+        showToast({ type: "success", title: "Donation confirmed", message: "Your contribution is recorded on-chain." });
         setTransactionHash(receipt.hash);
 
         // Calculate transaction fee
@@ -648,6 +651,8 @@ export function ScheduledDonationForm({
       selectedToken,
       tokenPrices,
       numberOfMonths,
+      showToast,
+      dismissToast,
     ],
   );
 
