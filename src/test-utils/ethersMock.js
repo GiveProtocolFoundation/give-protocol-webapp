@@ -42,7 +42,7 @@ const simpleKeccak256 = (data) => {
 };
 
 /** Convert a UTF-8 string to a Uint8Array, mirroring ethers.toUtf8Bytes */
-const toUtf8Bytes = (text) => {
+export const toUtf8Bytes = (text) => {
   const buf = Buffer.from(text, "utf-8");
   return new Uint8Array(buf.buffer, buf.byteOffset, buf.byteLength);
 };
@@ -66,6 +66,20 @@ export const ethers = {
   keccak256: simpleKeccak256,
   toUtf8Bytes,
 };
+
+// Named re-exports for files that use `import { Contract, parseEther, ... } from "ethers"`
+export const Contract = ethers.Contract;
+export const BrowserProvider = ethers.BrowserProvider;
+export const JsonRpcProvider = ethers.JsonRpcProvider;
+export const parseEther = ethers.parseEther;
+export const formatEther = ethers.formatEther;
+export const formatUnits = ethers.formatUnits;
+export const keccak256 = ethers.keccak256;
+export const getAddress = (addr) => addr;
+export const isAddress = (addr) => typeof addr === "string" && addr.startsWith("0x");
+export const ZeroAddress = "0x0000000000000000000000000000000000000000";
+export const MaxUint256 = BigInt("0xffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffffff");
+export const ContractInterface = undefined;
 
 // Reset helpers for use in beforeEach
 export const resetEthersMock = () => {

@@ -6,20 +6,22 @@ export type { ShowToastFn };
 
 /**
  * Toast notification hook for accessing toast context functionality
- * @returns Object containing showToast function for displaying notifications
+ * @returns Object containing showToast (returns toast id) and dismissToast(id) for programmatic dismissal
  * @throws {Error} Throws error if used outside ToastProvider context
  * @example
  * ```tsx
- * const { showToast } = useToast();
+ * const { showToast, dismissToast } = useToast();
  *
- * // New options-object signature
- * showToast({ type: 'success', title: 'Saved', message: 'Profile updated', duration: 3000 });
+ * // New options-object signature — returns toast id
+ * const id = showToast({ type: 'info', title: 'Pending', persistent: true });
+ * // Later, dismiss programmatically:
+ * dismissToast(id);
  *
  * // Legacy positional signature (backward-compatible)
  * showToast('error', 'Connection Failed', 'Unable to connect to wallet');
  * ```
  */
-export function useToast(): { showToast: ShowToastFn } {
+export function useToast(): { showToast: ShowToastFn; dismissToast: (id: string) => void } {
   const context = useContext(ToastContext);
   if (!context) {
     throw new Error("useToast must be used within a ToastProvider");

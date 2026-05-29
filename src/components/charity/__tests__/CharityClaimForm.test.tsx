@@ -3,12 +3,14 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { CharityClaimForm } from "../../auth/CharityClaimForm";
 import { supabase } from "@/lib/supabase";
+import { useToast } from "@/contexts/ToastContext";
 import type { CharityOrganization } from "@/types/charityOrganization";
 
 // All mocks handled via moduleNameMapper:
-// supabase, validation, ui/Button, ui/Input, PasswordStrengthBar, logger
+// supabase, validation, ui/Button, ui/Input, PasswordStrengthBar, logger, ToastContext
 
 const mockSupabase = jest.mocked(supabase);
+const mockUseToast = jest.mocked(useToast);
 
 const mockOrganization: CharityOrganization = {
   id: "org-1",
@@ -485,6 +487,71 @@ describe("CharityClaimForm", () => {
         expect(
           screen.getByRole("button", { name: /creating account/i }),
         ).toBeDisabled();
+      });
+    });
+  });
+
+  describe("GIV-300 toast call sites", () => {
+    let mockShowToast: jest.Mock;
+    let mockDismissToast: jest.Mock;
+
+    beforeEach(() => {
+      mockShowToast = jest.fn(() => "mock-toast-id");
+      mockDismissToast = jest.fn();
+      mockUseToast.mockReturnValue({ showToast: mockShowToast, dismissToast: mockDismissToast });
+    });
+
+    it("shows Verification email sent toast on successful claim submission", async () => {
+      renderForm();
+      fillFormFields();
+
+      const form = screen
+        .getByRole("button", { name: /claim organization/i })
+        .closest("form");
+      if (!form) throw new Error("Could not find form element");
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "success",
+            title: "Verification email sent",
+            message: expect.stringContaining("inbox"),
+          }),
+        );
+      });
+    });
+
+    it("shows Submission failed toast on claim error", async () => {
+      (mockSupabase.auth as Record<string, unknown>).signUp = jest
+        .fn()
+        .mockResolvedValue({
+          data: { user: { id: "user-1" } },
+          error: null,
+        });
+      (mockSupabase as Record<string, unknown>).from = jest.fn().mockReturnValue({
+        insert: jest.fn().mockResolvedValue({ error: null }),
+      });
+      mockSupabase.rpc
+        .mockResolvedValueOnce({ data: null, error: null })
+        .mockRejectedValueOnce(new Error("RPC failed"));
+
+      renderForm();
+      fillFormFields();
+
+      const form = screen
+        .getByRole("button", { name: /claim organization/i })
+        .closest("form");
+      if (!form) throw new Error("Could not find form element");
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "error",
+            title: "Submission failed",
+          }),
+        );
       });
     });
   });

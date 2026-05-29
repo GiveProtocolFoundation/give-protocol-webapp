@@ -28,14 +28,15 @@ export interface ToastOptions {
   persistent?: boolean;
 }
 
-/** Overloaded showToast: options-object OR legacy positional args. */
+/** Overloaded showToast: options-object OR legacy positional args. Returns the toast id. */
 export type ShowToastFn = {
-  (options: ToastOptions): void;
-  (type: ToastType, title: string, message?: string): void;
+  (options: ToastOptions): string;
+  (type: ToastType, title: string, message?: string): string;
 };
 
 interface ToastContextType {
   showToast: ShowToastFn;
+  dismissToast: (id: string) => void;
 }
 
 const MAX_VISIBLE = 3;
@@ -118,11 +119,16 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
         }, duration);
         timersRef.current.set(id, timer);
       }
+
+      return id;
     },
     [],
   ) as ShowToastFn;
 
-  const contextValue = React.useMemo(() => ({ showToast }), [showToast]);
+  const contextValue = React.useMemo(
+    () => ({ showToast, dismissToast: removeToast }),
+    [showToast, removeToast],
+  );
 
   return (
     <ToastContext.Provider value={contextValue}>
@@ -138,7 +144,7 @@ export function ToastProvider({ children }: { children: React.ReactNode }) {
 
 /**
  * Hook to access toast notification functionality
- * @returns Object containing showToast function for displaying toast notifications
+ * @returns Object containing showToast (returns toast id) and dismissToast(id) for programmatic dismissal
  * @throws {Error} When used outside of ToastProvider
  */
 // eslint-disable-next-line react-refresh/only-export-components

@@ -6,7 +6,6 @@ import React, {
   useCallback,
   startTransition,
 } from "react";
-import { useTranslation } from "react-i18next";
 import { User, Session, AuthError as _AuthError } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "./ToastContext";
@@ -105,7 +104,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     userType: null,
   });
   const { showToast } = useToast();
-  const { t } = useTranslation();
   const [retryCount, setRetryCount] = useState(0);
 
   const refreshSession = useCallback(async () => {
@@ -174,23 +172,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       switch (event) {
         case "SIGNED_IN": {
           const user = session?.user;
-          const authMethod = user?.user_metadata?.auth_method as
-            | string
-            | undefined;
-          if (authMethod === "wallet") {
-            const emailPrefix = user?.email?.split("@")[0] ?? "";
-            const truncated =
-              emailPrefix.length > 10
-                ? `${emailPrefix.slice(0, 6)}\u2026${emailPrefix.slice(-4)}`
-                : emailPrefix;
+          const walletAddress = user?.user_metadata?.wallet_address as string | undefined;
+          const authMethod = user?.user_metadata?.auth_method as string | undefined;
+          if (authMethod === "wallet" || walletAddress) {
+            const addr = walletAddress ?? "";
+            const truncated = addr.length > 10
+              ? `${addr.slice(0, 6)}\u2026${addr.slice(-4)}`
+              : addr;
             showToast({
               type: "success",
-              title: t("auth.toast.walletConnected", "Wallet connected"),
-              message: t(
-                "auth.toast.signedInWith",
-                "Signed in with {{address}}.",
-                { address: truncated },
-              ),
+              title: "Wallet connected",
+              message: `Signed in with ${truncated}.`,
             });
           } else {
             const fullName = user?.user_metadata?.full_name as
@@ -200,12 +192,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               fullName?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
             showToast({
               type: "success",
-              title: t(
-                "auth.toast.welcomeBack",
-                "Welcome back, {{firstName}}",
-                { firstName },
-              ),
-              message: t("auth.toast.youreSignedIn", "You\u2019re signed in."),
+              title: `Welcome back, ${firstName}`,
+              message: "You\u2019re signed in.",
             });
           }
           startRefresh();
@@ -214,7 +202,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         case "SIGNED_OUT":
           showToast({
             type: "info",
-            title: t("auth.toast.signedOut", "Signed out"),
+            title: "Signed out",
             duration: 3000,
           });
           stopRefresh();
@@ -331,7 +319,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     };
 
     initializeAuth();
-  }, [refreshSession, showToast, t]);
+  }, [refreshSession, showToast]);
 
   const login = useCallback(
     async (
@@ -418,7 +406,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           err instanceof Error ? err.message : "Failed to sign in";
         showToast({
           type: "error",
-          title: t("auth.toast.signInFailed", "Sign-in failed"),
+          title: "Sign-in failed",
           message,
         });
         setState((prev) => ({
@@ -430,7 +418,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         setState((prev) => ({ ...prev, loading: false }));
       }
     },
-    [showToast, t],
+    [showToast],
   );
 
   const loginWithGoogle = useCallback(async () => {
@@ -460,7 +448,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         err instanceof Error ? err.message : "Failed to sign in with Google";
       showToast({
         type: "error",
-        title: t("auth.toast.signInFailed", "Sign-in failed"),
+        title: "Sign-in failed",
         message,
       });
       setState((prev) => ({
@@ -471,7 +459,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setState((prev) => ({ ...prev, loading: false }));
     }
-  }, [showToast, t]);
+  }, [showToast]);
 
   const loginWithApple = useCallback(async () => {
     try {
@@ -497,7 +485,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         err instanceof Error ? err.message : "Failed to sign in with Apple";
       showToast({
         type: "error",
-        title: t("auth.toast.signInFailed", "Sign-in failed"),
+        title: "Sign-in failed",
         message,
       });
       setState((prev) => ({
@@ -508,7 +496,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } finally {
       setState((prev) => ({ ...prev, loading: false }));
     }
-  }, [showToast, t]);
+  }, [showToast]);
 
   const logout = useCallback(async () => {
     try {
@@ -536,11 +524,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // SIGNED_OUT auth event fires the sign-out toast via handleAuthEvent
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to log out";
-      showToast({
-        type: "error",
-        title: t("auth.toast.signOutFailed", "Sign-out failed"),
-        message,
-      });
+      showToast({ type: "error", title: "Sign-out failed", message });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -548,7 +532,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       }));
       throw err;
     }
-  }, [showToast, t]);
+  }, [showToast]);
 
   const resetPassword = useCallback(
     async (email: string) => {
