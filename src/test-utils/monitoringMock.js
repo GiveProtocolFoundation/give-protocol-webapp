@@ -7,3 +7,10 @@ export const MonitoringService = {
     setUser: jest.fn(),
   })),
 };
+
+export const getMonitoringService = jest.fn(() => ({
+  trackError: jest.fn(),
+  trackEvent: jest.fn(),
+  trackMetric: jest.fn(),
+  setUser: jest.fn(),
+}));
