@@ -23,7 +23,7 @@ interface RequestCharityWidgetProps {
  */
 export const RequestCharityWidget: React.FC<RequestCharityWidgetProps> = ({
   ein,
-  charityName,
+  charityName: _charityName,
 }) => {
   const { user } = useAuth();
   const { showToast } = useToast();

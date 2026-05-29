@@ -1149,6 +1149,7 @@ describe("AuthContext", () => {
       if (!cb) throw new Error("auth callback not captured");
 
       await act(() => {
+        // skipcq: JS-0255 — Supabase onAuthStateChange signature is (event, session), not (err, result)
         cb("SIGNED_IN", {
           user: {
             ...MOCK_USER,
@@ -1179,6 +1180,7 @@ describe("AuthContext", () => {
       if (!cb) throw new Error("auth callback not captured");
 
       await act(() => {
+        // skipcq: JS-0255 — Supabase onAuthStateChange signature is (event, session), not (err, result)
         cb("SIGNED_IN", {
           user: {
             ...MOCK_USER,
@@ -1212,6 +1214,7 @@ describe("AuthContext", () => {
       if (!cb) throw new Error("auth callback not captured");
 
       await act(() => {
+        // skipcq: JS-0255 — Supabase onAuthStateChange signature is (event, session), not (err, result)
         cb("SIGNED_OUT", null);
       });
 
