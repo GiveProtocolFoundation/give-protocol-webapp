@@ -1,6 +1,6 @@
 # Give Protocol Web Application
 
-Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonprofit working to leverage technology to remove barriers to sustainable charitable action. This app serves donors, charities, volunteers, and administrators with multi-chain crypto donations, fiat payments, Charitable Equity Fund (CEF) management, and on-chain volunteer attestation.
+Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonprofit working to leverage technology to remove barriers to sustainable charitable action. This app serves donors, charities, volunteers, and administrators with multi-chain crypto donations, fiat payments, portfolio fund management, and on-chain volunteer attestation.
 
 ----
 
@@ -11,7 +11,7 @@ Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonpro
 
 ### For Donors
 - **Crypto & Fiat Giving**: Donate via multiple cryptocurrencies or traditional fiat payments
-- **Charitable Equity Funds (CEFs)**: Participate in pooled giving vehicles that distribute donations across multiple causes and organizations
+- **Portfolio Funds**: Participate in Charitable Equity Funds (CEFs) and Cause-Specific Impact Funds (CIFs)
 - **Dashboard**: Track all donations and recurring contributions at `/give-dashboard`
 - **Recurring Donations**: Set up automated monthly or quarterly giving at `/scheduled-donations`
 - **Multi-Chain**: Donate across Base, Optimism, Moonbeam, and more

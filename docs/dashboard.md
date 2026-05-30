@@ -13,7 +13,7 @@ At the top of the dashboard you'll see summary cards:
 - **Total Donated** — Cumulative amount given across all donations (in your preferred display currency)
 - **Active Recurring Donations** — Number of scheduled recurring donations currently running
 - **Charities Supported** — Count of distinct organizations you've donated to
-- **CEF Value** — Current estimated value of your Charitable Equity Fund (CEF) contributions
+- **Portfolio Fund Value** — Current estimated value of your portfolio fund contributions
 
 ### Donation History
 
@@ -41,9 +41,9 @@ The **Scheduled Donations** section (`/scheduled-donations`) shows all active re
 
 Use the **Pause**, **Edit**, or **Cancel** buttons to manage each schedule.
 
-### Charitable Equity Funds (CEFs)
+### Portfolio Funds
 
-The **My CEFs** section shows your current positions in any Charitable Equity Funds (CEFs) you've joined. For each fund you can see:
+The **My Portfolio Funds** section shows your current positions in any Charitable Equity Funds (CEFs) or Cause-Specific Impact Funds (CIFs) you've joined. For each fund you can see:
 
 - Current allocation across member charities
 - Total contributed

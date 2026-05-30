@@ -1,6 +1,6 @@
 # Getting Started with Give Protocol
 
-Give Protocol is a blockchain-powered charitable giving platform that lets you donate cryptocurrency or fiat currency to verified 501(c)(3) nonprofits, participate in Charitable Equity Funds (CEFs), and track your charitable impact—all from one place.
+Give Protocol is a blockchain-powered charitable giving platform that lets you donate cryptocurrency or fiat currency to verified 501(c)(3) nonprofits, manage portfolio funds, and track your charitable impact—all from one place.
 
 ## Who Is Give Protocol For?
 
