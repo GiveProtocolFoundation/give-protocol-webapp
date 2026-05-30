@@ -887,20 +887,26 @@ export const CharityPortal: React.FC = () => {
       if (pendingHoursList.length === 0) return [];
 
       // Fetch volunteer display names from profiles via user_id
-      const volunteerIds = [...new Set(pendingHoursList.map((h) => h.volunteer_id).filter(Boolean))];
+      const volunteerIds = [
+        ...new Set(pendingHoursList.map((h) => h.volunteer_id).filter(Boolean)),
+      ];
       const { data: profilesData } = await supabase
         .from("profiles")
         .select("user_id, name")
         .in("user_id", volunteerIds);
 
       const profileMap = new Map(
-        (Array.isArray(profilesData) ? profilesData : []).map((p) => [p.user_id, p.name]),
+        (Array.isArray(profilesData) ? profilesData : []).map((p) => [
+          p.user_id,
+          p.name,
+        ]),
       );
 
       return pendingHoursList.map((hour) => ({
         id: hour?.id || "",
         volunteer_id: hour?.volunteer_id || "",
-        volunteerName: profileMap.get(hour?.volunteer_id) ?? "Anonymous Volunteer",
+        volunteerName:
+          profileMap.get(hour?.volunteer_id) ?? "Anonymous Volunteer",
         hours: hour?.hours ? Number(hour.hours) : 0,
         date_performed: hour?.date_performed || new Date().toISOString(),
         description: hour?.description || "",
