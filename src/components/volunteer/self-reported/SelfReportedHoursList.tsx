@@ -31,7 +31,7 @@ const HoursFilterPanel: React.FC<{
 }) => {
   const { t } = useTranslation();
   return (
-    <div className="mb-6 p-4 bg-gray-50 rounded-lg flex flex-wrap gap-4 items-end">
+    <div className="mb-6 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg flex flex-wrap gap-4 items-end">
       <label htmlFor="status-filter" className="block">
         <span className="block text-xs font-medium text-gray-500 mb-1">
           {t("volunteer.statusFilter", "Status")}
@@ -40,7 +40,7 @@ const HoursFilterPanel: React.FC<{
           id="status-filter"
           value={filters.status || ""}
           onChange={onStatusChange}
-          className="block w-36 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-emerald-500 focus:border-emerald-500"
+          className="block w-36 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-emerald-500 focus:border-emerald-500"
         >
           <option value="">{t("volunteer.allStatuses", "All")}</option>
           <option value={ValidationStatus.VALIDATED}>
@@ -68,7 +68,7 @@ const HoursFilterPanel: React.FC<{
           id="activity-filter"
           value={filters.activityType || ""}
           onChange={onActivityTypeChange}
-          className="block w-44 border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-emerald-500 focus:border-emerald-500"
+          className="block w-44 border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-emerald-500 focus:border-emerald-500"
         >
           <option value="">
             {t("volunteer.allActivityTypes", "All Types")}
@@ -89,7 +89,7 @@ const HoursFilterPanel: React.FC<{
           type="date"
           value={filters.dateFrom || ""}
           onChange={onDateFromChange}
-          className="block border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-emerald-500 focus:border-emerald-500"
+          className="block border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-emerald-500 focus:border-emerald-500"
         />
       </label>
       <label htmlFor="date-to" className="block">
@@ -101,7 +101,7 @@ const HoursFilterPanel: React.FC<{
           type="date"
           value={filters.dateTo || ""}
           onChange={onDateToChange}
-          className="block border border-gray-300 rounded-md px-3 py-2 text-sm focus:ring-emerald-500 focus:border-emerald-500"
+          className="block border border-gray-300 dark:border-gray-600 rounded-md px-3 py-2 text-sm bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 focus:ring-emerald-500 focus:border-emerald-500"
         />
       </label>
       {hasActiveFilters && (

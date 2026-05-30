@@ -17,32 +17,32 @@ const STATUS_CONFIG: Record<ValidationStatus, {
 }> = {
   [ValidationStatus.VALIDATED]: {
     label: 'Validated',
-    bgColor: 'bg-emerald-100',
-    textColor: 'text-emerald-800',
+    bgColor: 'bg-emerald-100 dark:bg-emerald-900/40',
+    textColor: 'text-emerald-800 dark:text-emerald-300',
     Icon: CheckCircle,
   },
   [ValidationStatus.PENDING]: {
     label: 'Pending',
-    bgColor: 'bg-amber-100',
-    textColor: 'text-amber-800',
+    bgColor: 'bg-amber-100 dark:bg-amber-900/40',
+    textColor: 'text-amber-800 dark:text-amber-300',
     Icon: Clock,
   },
   [ValidationStatus.REJECTED]: {
     label: 'Rejected',
-    bgColor: 'bg-red-100',
-    textColor: 'text-red-800',
+    bgColor: 'bg-red-100 dark:bg-red-900/40',
+    textColor: 'text-red-800 dark:text-red-300',
     Icon: XCircle,
   },
   [ValidationStatus.UNVALIDATED]: {
     label: 'Unvalidated',
-    bgColor: 'bg-gray-100',
-    textColor: 'text-gray-600',
+    bgColor: 'bg-gray-100 dark:bg-gray-800',
+    textColor: 'text-gray-600 dark:text-gray-300',
     Icon: HelpCircle,
   },
   [ValidationStatus.EXPIRED]: {
     label: 'Expired',
-    bgColor: 'bg-gray-100',
-    textColor: 'text-gray-500',
+    bgColor: 'bg-gray-100 dark:bg-gray-800',
+    textColor: 'text-gray-500 dark:text-gray-400',
     Icon: AlertCircle,
   },
 };

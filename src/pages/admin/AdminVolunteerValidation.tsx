@@ -22,14 +22,14 @@ function StatusBadge({
   status: ValidationRequestStatus;
 }): React.ReactElement {
   const styles: Record<ValidationRequestStatus, string> = {
-    pending: "bg-yellow-100 text-yellow-800",
-    approved: "bg-green-100 text-green-800",
-    rejected: "bg-red-100 text-red-800",
-    expired: "bg-gray-100 text-gray-600",
+    pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300",
+    approved: "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300",
+    rejected: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
+    expired: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
   };
   return (
     <span
-      className={`inline-block px-2 py-0.5 text-xs font-semibold rounded-full ${styles[status] ?? "bg-gray-100 text-gray-600"}`}
+      className={`inline-block px-2 py-0.5 text-xs font-semibold rounded-full ${styles[status] ?? "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400"}`}
     >
       {status}
     </span>
@@ -119,7 +119,7 @@ function FilterBar({
   return (
     <div className="flex flex-wrap gap-4 mb-6">
       <select
-        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+        className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 focus:outline-none focus:ring-2 focus:ring-emerald-500"
         value={filters.status ?? ""}
         onChange={onStatusChange}
         aria-label="Filter by status"
@@ -146,7 +146,7 @@ function FilterBar({
           "admin.validation.searchPlaceholder",
           "Search volunteer, org…",
         )}
-        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[220px]"
+        className="border border-gray-300 dark:border-gray-600 rounded-lg px-3 py-2 text-sm bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 min-w-[220px]"
         defaultValue={filters.search ?? ""}
         onChange={onSearchChange}
         aria-label="Search validation requests"
@@ -211,7 +211,7 @@ function RequestRow({
   }, [onOverride, request]);
 
   return (
-    <tr className="hover:bg-gray-50">
+    <tr className="hover:bg-gray-50 dark:hover:bg-gray-800">
       <td className="px-4 py-3 text-sm text-gray-900 max-w-[180px] truncate">
         {request.volunteerDisplayName ??
           request.volunteerEmail ??
@@ -261,7 +261,7 @@ function SuspiciousTable({
     <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
       <caption className="sr-only">Suspicious volunteer patterns</caption>
       <thead>
-        <tr className="bg-gray-50">
+        <tr className="bg-gray-50 dark:bg-gray-800">
           <th
             scope="col"
             className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
@@ -290,7 +290,7 @@ function SuspiciousTable({
       </thead>
       <tbody className="divide-y divide-gray-100">
         {patterns.map((p) => (
-          <tr key={`${p.volunteerId}-${p.orgId}`} className="hover:bg-gray-50">
+          <tr key={`${p.volunteerId}-${p.orgId}`} className="hover:bg-gray-50 dark:hover:bg-gray-800">
             <td className="px-4 py-3 text-sm text-gray-900">
               {p.volunteerDisplayName ?? p.volunteerEmail ?? p.volunteerId}
             </td>
@@ -597,7 +597,7 @@ export default function AdminVolunteerValidation(): React.ReactElement {
         >
           {t("admin.validation.patternsTab", "Suspicious Patterns")}
           {suspiciousPatterns.length > 0 && (
-            <span className="ml-2 inline-block bg-red-100 text-red-800 text-xs font-semibold px-1.5 py-0.5 rounded-full">
+            <span className="ml-2 inline-block bg-red-100 dark:bg-red-900/40 text-red-800 dark:text-red-300 text-xs font-semibold px-1.5 py-0.5 rounded-full">
               {suspiciousPatterns.length}
             </span>
           )}
@@ -631,7 +631,7 @@ export default function AdminVolunteerValidation(): React.ReactElement {
                 Volunteer validation requests
               </caption>
               <thead>
-                <tr className="bg-gray-50">
+                <tr className="bg-gray-50 dark:bg-gray-800">
                   <th
                     scope="col"
                     className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
