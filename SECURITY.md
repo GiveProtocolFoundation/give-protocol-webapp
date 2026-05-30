@@ -18,23 +18,23 @@ We take security seriously and are committed to:
 
 ## 📋 Supported Versions
 
-| Version | Status | Security Updates |
-|---------|--------|------------------|
-| Latest (main) | ✅ Active | Immediate |
-| n-1 | ⚠️ Limited | Critical only |
-| n-2+ | ❌ Unsupported | None |
+| Version       | Status         | Security Updates |
+| ------------- | -------------- | ---------------- |
+| Latest (main) | ✅ Active      | Immediate        |
+| n-1           | ⚠️ Limited     | Critical only    |
+| n-2+          | ❌ Unsupported | None             |
 
 **Recommendation:** Always run the latest version for security patches.
 
 ### Smart Contract Versions
 
-| Chain | Contract | Version | Audited | Status |
-|-------|----------|---------|---------|--------|
-| Moonbeam | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Chain    | Contract                 | Version     | Audited                  | Status  |
+| -------- | ------------------------ | ----------- | ------------------------ | ------- |
+| Moonbeam | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
 | Moonbeam | CharitableEquityFund.sol | pre-release | No — planned pre-mainnet | Testnet |
-| Moonbeam | CauseImpactFund.sol | pre-release | No — planned pre-mainnet | Testnet |
-| Base | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
-| Optimism | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Moonbeam | CauseImpactFund.sol      | pre-release | No — planned pre-mainnet | Testnet |
+| Base     | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
+| Optimism | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
 
 ---
 
@@ -85,21 +85,23 @@ PGP Key: [if you have one, include your public key]
 
 ### Severity Levels & Response Times
 
-| Severity | Definition | Response Time | Example |
-|----------|-----------|----------------|---------|
-| **Critical** 🔴 | Immediate risk to user funds or complete platform compromise | 24 hours | Smart contract reentrancy, private key exposure |
-| **High** 🟠 | Significant risk to data or funds, or widespread service disruption | 3-5 days | Authentication bypass, data exposure, DOS attacks |
-| **Medium** 🟡 | Limited impact, requires specific conditions or user action | 7-14 days | XSS vulnerability, information disclosure |
-| **Low** 🟢 | Minimal impact, low likelihood of exploitation | 30 days | Typos in docs, non-critical logic issues |
+| Severity        | Definition                                                          | Response Time | Example                                           |
+| --------------- | ------------------------------------------------------------------- | ------------- | ------------------------------------------------- |
+| **Critical** 🔴 | Immediate risk to user funds or complete platform compromise        | 24 hours      | Smart contract reentrancy, private key exposure   |
+| **High** 🟠     | Significant risk to data or funds, or widespread service disruption | 3-5 days      | Authentication bypass, data exposure, DOS attacks |
+| **Medium** 🟡   | Limited impact, requires specific conditions or user action         | 7-14 days     | XSS vulnerability, information disclosure         |
+| **Low** 🟢      | Minimal impact, low likelihood of exploitation                      | 30 days       | Typos in docs, non-critical logic issues          |
 
 ### Disclosure & Patch Release
 
 **For Critical/High severity:**
+
 - We will **coordinate with you on a disclosure date**
 - We typically ask for **30-60 days before public disclosure** to allow users to upgrade
 - We will **credit your discovery** in our security advisory (unless you prefer anonymity)
 - You will receive a **security advisory link before public release**
 
 **For Medium/Low severity:**
+
 - We include fixes in the next regular release
 - Public disclosure happens with the release announcement
