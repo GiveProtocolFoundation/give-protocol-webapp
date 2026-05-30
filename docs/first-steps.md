@@ -38,12 +38,9 @@ On any charity's detail page, click **Donate**.
 
 After the transaction is confirmed on-chain, you'll receive a donation receipt by email.
 
-### 5. Explore Portfolio Funds
+### 5. Explore Cause-Specific Impact Funds (CIFs)
 
-Give Protocol offers **Portfolio Funds** — pooled investment vehicles that distribute your donation across multiple charities aligned with a cause. Browse available funds from your Donor Dashboard (`/give-dashboard`) or navigate directly to individual fund pages such as `/portfolio/environmental`, `/portfolio/education`, or `/portfolio/poverty`.
-
-- **Charitable Equity Funds (CEFs)** — Diversified giving across a curated set of organizations
-- **Cause-Specific Impact Funds (CIFs)** — Focused giving within a single cause area (e.g., climate, education)
+Give Protocol offers **Cause-Specific Impact Funds (CIFs)** — pooled giving vehicles that distribute your donation across multiple charities aligned with a single cause area. Browse available funds from your Donor Dashboard (`/give-dashboard`) or navigate directly to individual fund pages such as `/portfolio/environmental`, `/portfolio/education`, or `/portfolio/poverty`.
 
 ### 6. Set Up Recurring Donations
 
