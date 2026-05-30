@@ -1,10 +1,10 @@
 # Give Protocol Web Application
 
-Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonprofit working to leverage technology to remove barriers to sustainable charitable action. This app serves donors, charities, volunteers, and administrators with multi-chain crypto donations, fiat payments, portfolio fund management, and volunteer verification.
+Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonprofit working to leverage technology to remove barriers to sustainable charitable action. This app serves donors, charities, volunteers, and administrators with multi-chain crypto donations, fiat payments, portfolio fund management, and on-chain volunteer attestation.
 
 ----
 
-[![Build](https://github.com/GiveProtocol/give-protocol-webapp/actions/workflows/build.yml/badge.svg)](https://github.com/GiveProtocol/give-protocol-webapp/actions/workflows/build.yml) [![Code Quality & Analysis](https://github.com/GiveProtocol/give-protocol-webapp/actions/workflows/code-quality.yml/badge.svg)](https://github.com/GiveProtocol/give-protocol-webapp/actions/workflows/code-quality.yml) [![SonarCloud Analysis](https://github.com/GiveProtocol/give-protocol-webapp/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/GiveProtocol/give-protocol-webapp/actions/workflows/sonarcloud.yml) [![MIT License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
+[![Build](https://github.com/GiveProtocolFoundation/give-protocol-webapp/actions/workflows/build.yml/badge.svg)](https://github.com/GiveProtocolFoundation/give-protocol-webapp/actions/workflows/build.yml) [![Code Quality & Analysis](https://github.com/GiveProtocolFoundation/give-protocol-webapp/actions/workflows/code-quality.yml/badge.svg)](https://github.com/GiveProtocolFoundation/give-protocol-webapp/actions/workflows/code-quality.yml) [![SonarCloud Analysis](https://github.com/GiveProtocolFoundation/give-protocol-webapp/actions/workflows/sonarcloud.yml/badge.svg)](https://github.com/GiveProtocolFoundation/give-protocol-webapp/actions/workflows/sonarcloud.yml) [![MIT License](https://img.shields.io/badge/license-MIT-green)](./LICENSE)
 
 
 ## Features
@@ -25,10 +25,10 @@ Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonpro
 
 ### For Volunteers
 - **Opportunity Discovery**: Browse verified positions at `/opportunities`
-- **Hour Logging**: Self-report contributions with blockchain verification
-- **Contribution Tracking**: View verified service history at `/contributions`
-- **Portable Credentials**: Blockchain-verified skills and achievements
-- **Skill Endorsement**: Build a verifiable portfolio of expertise
+- **Hour Logging**: Self-report contributions; hours are recorded on-chain after charity attestation
+- **Contribution Tracking**: View attested service history at `/contributions`
+- **Portable Credentials**: Skills and achievements recorded on-chain as charity-attested credentials
+- **Skill Endorsement**: Build a portable portfolio of charity-attested expertise
 
 ### For Administrators
 - **Charity Approval**: Verify and onboard 501(c)(3) organizations
@@ -47,7 +47,7 @@ Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonpro
 ### Installation
 
 ```bash
-git clone https://github.com/GiveProtocol/give-protocol-webapp.git
+git clone https://github.com/GiveProtocolFoundation/give-protocol-webapp.git
 cd give-protocol-webapp
 npm install
 ```
@@ -288,10 +288,10 @@ This is the **webapp** repository in the Give Protocol multi-repo architecture:
 
 | Repository | Purpose |
 |------------|---------|
-| [give-protocol-webapp](https://github.com/GiveProtocol/give-protocol-webapp) | React web application (this repo) |
-| [give-protocol-backend](https://github.com/GiveProtocol/give-protocol-backend) | Database and admin |
-| [give-protocol-contracts](https://github.com/GiveProtocol/give-protocol-contracts) | Smart contracts |
-| [give-protocol-docs](https://github.com/GiveProtocol/give-protocol-docs) | Documentation site |
+| [give-protocol-webapp](https://github.com/GiveProtocolFoundation/give-protocol-webapp) | React web application (this repo) |
+| [give-protocol-backend](https://github.com/GiveProtocolFoundation/give-protocol-backend) | Database and admin |
+| [give-protocol-contracts](https://github.com/GiveProtocolFoundation/give-protocol-contracts) | Smart contracts |
+| [give-protocol-docs](https://github.com/GiveProtocolFoundation/give-protocol-docs) | Documentation site |
 
 **Boundary rules:** Database schema migrations go in the backend repo. Edge functions (Deno) go in this repo under `supabase/functions/`. Smart contracts go in the contracts repo. 
 

@@ -30,11 +30,11 @@ We take security seriously and are committed to:
 
 | Chain | Contract | Version | Audited | Status |
 |-------|----------|---------|---------|--------|
-| Moonbeam | DirectDonation.sol | 1.2.0 | ✅ Yes | Production |
-| Moonbeam | CharitableEquityFund.sol | 1.0.0 | ✅ Yes | Production |
-| Moonbeam | CauseImpactFund.sol | 1.0.0 | ⏳ Pending | Testnet |
-| Base | DirectDonation.sol | 1.2.0 | ⏳ Pending | Testnet |
-| Optimism | DirectDonation.sol | 1.2.0 | ⏳ Pending | Testnet |
+| Moonbeam | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Moonbeam | CharitableEquityFund.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Moonbeam | CauseImpactFund.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Base | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Optimism | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
 
 ---
 
