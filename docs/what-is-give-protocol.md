@@ -13,7 +13,7 @@ Give Protocol exists to make charitable giving more transparent, accessible, and
 Donors connect a cryptocurrency wallet or use a standard fiat payment method. They can:
 
 - Make one-time or recurring donations in stablecoins (USDC, DAI, USDT), ETH, or other ERC-20 tokens
-- Contribute to **Portfolio Funds** — pooled vehicles that spread giving across multiple causes
+- Contribute to **Charitable Equity Funds (CEFs)** — pooled vehicles that spread giving across multiple causes
 - Track every donation and tax receipt in a personal dashboard
 - Set up automatic monthly or quarterly contributions
 
@@ -43,7 +43,7 @@ Smart contracts handle:
 
 - **Donation processing** with an automatic 0.5% platform fee (the rest goes directly to the charity)
 - **Volunteer verification** with on-chain proof of service
-- **Portfolio fund distribution** across multiple charity addresses
+- **CEF distribution** across multiple charity addresses
 - **Multi-signature treasury** operations for fund security
 
 All contracts are open source and available in the [`give-protocol-contracts`](https://github.com/GiveProtocolFoundation/give-protocol-contracts) repository.
