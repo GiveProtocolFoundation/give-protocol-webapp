@@ -38,7 +38,9 @@ const HoursCardBody: React.FC<{
       </div>
       <div className="flex items-center gap-2 text-gray-700 mb-1">
         <Building2 className="h-4 w-4 text-gray-400 flex-shrink-0" />
-        <span className="truncate font-medium">{record.organizationDisplayName}</span>
+        <span className="truncate font-medium">
+          {record.organizationDisplayName}
+        </span>
         {record.isVerifiedOrganization && (
           <span className="text-xs bg-emerald-100 dark:bg-emerald-900/40 text-emerald-700 dark:text-emerald-300 px-1.5 py-0.5 rounded flex-shrink-0">
             Verified
@@ -58,19 +60,33 @@ const HoursCardBody: React.FC<{
           </span>
         )}
       </div>
-      <p className="mt-2 text-sm text-gray-600 line-clamp-2">{record.description}</p>
-      {record.validationStatus === ValidationStatus.REJECTED && record.rejectionNotes && (
-        <div className="mt-2 p-2 bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 rounded text-sm text-red-700 dark:text-red-300">
-          <span className="font-medium">Rejection reason:</span> {record.rejectionNotes}
-        </div>
-      )}
+      <p className="mt-2 text-sm text-gray-600 line-clamp-2">
+        {record.description}
+      </p>
+      {record.validationStatus === ValidationStatus.REJECTED &&
+        record.rejectionNotes && (
+          <div className="mt-2 p-2 bg-red-50 dark:bg-red-900/30 border border-red-100 dark:border-red-800 rounded text-sm text-red-700 dark:text-red-300">
+            <span className="font-medium">Rejection reason:</span>{" "}
+            {record.rejectionNotes}
+          </div>
+        )}
     </div>
     <div className="flex flex-col gap-2 flex-shrink-0">
-      <Button variant="ghost" size="sm" onClick={onView} icon={<Eye className="h-4 w-4" />}>
+      <Button
+        variant="ghost"
+        size="sm"
+        onClick={onView}
+        icon={<Eye className="h-4 w-4" />}
+      >
         View
       </Button>
       {record.canEdit && (
-        <Button variant="ghost" size="sm" onClick={onEdit} icon={<Edit2 className="h-4 w-4" />}>
+        <Button
+          variant="ghost"
+          size="sm"
+          onClick={onEdit}
+          icon={<Edit2 className="h-4 w-4" />}
+        >
           Edit
         </Button>
       )}

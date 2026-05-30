@@ -111,7 +111,9 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
                 data-type={type}
                 onClick={handleOptionClick}
                 className={`w-full px-4 py-3 text-left transition-colors flex items-start gap-3 first:rounded-t-xl last:rounded-b-xl ${
-                  value === type ? "bg-emerald-50 dark:bg-emerald-900/30" : "hover:bg-gray-50 dark:hover:bg-gray-700"
+                  value === type
+                    ? "bg-emerald-50 dark:bg-emerald-900/30"
+                    : "hover:bg-gray-50 dark:hover:bg-gray-700"
                 }`}
               >
                 <div className="flex-1 min-w-0">

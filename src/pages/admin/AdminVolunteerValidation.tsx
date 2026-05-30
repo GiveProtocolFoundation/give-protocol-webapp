@@ -22,8 +22,10 @@ function StatusBadge({
   status: ValidationRequestStatus;
 }): React.ReactElement {
   const styles: Record<ValidationRequestStatus, string> = {
-    pending: "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300",
-    approved: "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300",
+    pending:
+      "bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-300",
+    approved:
+      "bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-300",
     rejected: "bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-300",
     expired: "bg-gray-100 text-gray-600 dark:bg-gray-800 dark:text-gray-400",
   };
@@ -290,7 +292,10 @@ function SuspiciousTable({
       </thead>
       <tbody className="divide-y divide-gray-100">
         {patterns.map((p) => (
-          <tr key={`${p.volunteerId}-${p.orgId}`} className="hover:bg-gray-50 dark:hover:bg-gray-800">
+          <tr
+            key={`${p.volunteerId}-${p.orgId}`}
+            className="hover:bg-gray-50 dark:hover:bg-gray-800"
+          >
             <td className="px-4 py-3 text-sm text-gray-900">
               {p.volunteerDisplayName ?? p.volunteerEmail ?? p.volunteerId}
             </td>

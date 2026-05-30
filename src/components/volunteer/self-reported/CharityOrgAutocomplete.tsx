@@ -95,9 +95,12 @@ export const CharityOrgAutocomplete: React.FC<CharityOrgAutocompleteProps> = ({
     }
   }, [inputValue.length, selectedOrg]);
 
-  const handleKeyDown = useCallback((e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === "Escape") setIsOpen(false);
-  }, []);
+  const handleKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLInputElement>) => {
+      if (e.key === "Escape") setIsOpen(false);
+    },
+    [],
+  );
 
   /** Builds a "City, State" label from an organization record, or null if empty. */
   const locationLabel = (org: CharityOrganization): string | null => {
