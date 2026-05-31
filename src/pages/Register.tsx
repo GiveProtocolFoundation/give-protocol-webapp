@@ -508,27 +508,16 @@ const WalletDisconnectedNotice: React.FC = () => (
 
 /** Notice about charity wallet setup during charity registration. */
 const CharityWalletNotice: React.FC = () => (
-  <div
-    className="rounded-[10px] p-4 mb-6 dark:bg-transparent dark:border-slate-700 flex items-start gap-3.5"
-    style={{
-      background: "var(--slate-50)",
-      border: "1px solid #e2e8f0",
-      borderLeft: "3px solid var(--emerald-600)",
-    }}
-  >
+  <div className="rounded-[10px] p-4 mb-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 border-l-[3px] border-l-emerald-600 flex items-start gap-3.5">
     <div
-      className="shrink-0 flex items-center justify-center"
+      className="shrink-0 flex items-center justify-center bg-emerald-50 dark:bg-emerald-900/30"
       style={{
         width: 28,
         height: 28,
         borderRadius: 8,
-        background: "var(--emerald-50)",
       }}
     >
-      <ShieldCheck
-        className="h-4 w-4"
-        style={{ color: "var(--emerald-700)" }}
-      />
+      <ShieldCheck className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
     </div>
     <div>
       <p
