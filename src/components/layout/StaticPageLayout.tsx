@@ -30,9 +30,15 @@ export const StaticPageLayout: React.FC<StaticPageLayoutProps> = ({
         <h1 className="text-3xl font-bold text-gray-900 dark:text-white sm:text-4xl">
           {title}
         </h1>
-        {subtitle && <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">{subtitle}</p>}
+        {subtitle && (
+          <p className="mt-4 text-xl text-gray-600 dark:text-gray-400">
+            {subtitle}
+          </p>
+        )}
         {effectiveDate && (
-          <p className="mt-2 text-gray-500 dark:text-gray-400 italic">{effectiveDate}</p>
+          <p className="mt-2 text-gray-500 dark:text-gray-400 italic">
+            {effectiveDate}
+          </p>
         )}
       </div>
 

@@ -231,7 +231,9 @@ export const Legal: React.FC = () => {
         <p className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <strong>Email:</strong> legal@giveprotocol.io
         </p>
-        <p className="mt-8 text-gray-500 dark:text-gray-400 italic">Effective: March 15, 2025</p>
+        <p className="mt-8 text-gray-500 dark:text-gray-400 italic">
+          Effective: March 15, 2025
+        </p>
       </section>
     </StaticPageLayout>
   );
