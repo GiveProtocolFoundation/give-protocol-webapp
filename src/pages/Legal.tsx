@@ -224,14 +224,14 @@ export const Legal: React.FC = () => {
 
       {/* Continue with remaining sections... I'll add the rest in the next part to keep the file manageable */}
 
-      <section className="mt-12 pt-8 border-t border-gray-200">
+      <section className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
         <p>
           If you have any questions about these Terms, please contact us at:
         </p>
-        <p className="mt-4 p-4 bg-gray-50 rounded-lg">
+        <p className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <strong>Email:</strong> legal@giveprotocol.io
         </p>
-        <p className="mt-8 text-gray-500 italic">Effective: March 15, 2025</p>
+        <p className="mt-8 text-gray-500 dark:text-gray-400 italic">Effective: March 15, 2025</p>
       </section>
     </StaticPageLayout>
   );

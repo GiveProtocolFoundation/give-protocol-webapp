@@ -20,9 +20,9 @@ export const ImportantNotice: React.FC<ImportantNoticeProps> = ({
   const baseClasses = "p-4 my-6 rounded-lg border-l-4";
 
   const variantClasses = {
-    warning: "bg-yellow-50 border-yellow-400 text-yellow-800",
-    info: "bg-blue-50 border-blue-400 text-blue-800",
-    highlight: "bg-gray-50 border-gray-400 text-gray-800",
+    warning: "bg-yellow-50 dark:bg-yellow-900/30 border-yellow-400 dark:border-yellow-600 text-yellow-800 dark:text-yellow-200",
+    info: "bg-blue-50 dark:bg-blue-900/30 border-blue-400 dark:border-blue-600 text-blue-800 dark:text-blue-200",
+    highlight: "bg-gray-50 dark:bg-gray-800 border-gray-400 dark:border-gray-600 text-gray-800 dark:text-gray-200",
   };
 
   return (

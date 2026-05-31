@@ -296,13 +296,13 @@ export const Privacy: React.FC = () => {
         </p>
       </section>
 
-      <section className="mt-12 pt-8 border-t border-gray-200">
+      <section className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
         <h2>13. Contact Us</h2>
         <p>
           If you have any questions about this Privacy Policy, please contact us
           at:
         </p>
-        <p className="mt-4 p-4 bg-gray-50 rounded-lg">
+        <p className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
           <strong>Email:</strong> privacy@giveprotocol.io
         </p>
       </section>
