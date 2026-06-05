@@ -40,7 +40,7 @@ function getBannerConfig(
           ? `Reason: ${reviewNotes}`
           : "Your application was not approved at this time.",
         actionLabel: "Contact Support",
-        actionHref: "mailto:support@giveprotocol.org",
+        actionHref: "mailto:support@giveprotocol.io",
       };
     case "suspended":
       return {
@@ -53,7 +53,7 @@ function getBannerConfig(
           ? `Reason: ${reviewNotes}`
           : "Your charity account has been suspended.",
         actionLabel: "Appeal Suspension",
-        actionHref: "mailto:support@giveprotocol.org",
+        actionHref: "mailto:support@giveprotocol.io",
       };
     case "approved":
     case "verified":
