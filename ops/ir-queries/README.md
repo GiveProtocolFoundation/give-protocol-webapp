@@ -21,11 +21,11 @@ Determines whether EU/EEA/UK-GDPR donors are present in an affected time window 
 
 **Parameters:**
 
-| Parameter           | Type        | Description                                                    |
-|---------------------|-------------|----------------------------------------------------------------|
-| `p_window_start`    | `timestamptz` | Start of incident window (UTC, inclusive)                    |
-| `p_window_end`      | `timestamptz` | End of incident window (UTC, inclusive)                       |
-| `p_affected_route`  | `text`      | ILIKE pattern for affected route/surface; use `%` for all routes |
+| Parameter          | Type          | Description                                                      |
+| ------------------ | ------------- | ---------------------------------------------------------------- |
+| `p_window_start`   | `timestamptz` | Start of incident window (UTC, inclusive)                        |
+| `p_window_end`     | `timestamptz` | End of incident window (UTC, inclusive)                          |
+| `p_affected_route` | `text`        | ILIKE pattern for affected route/surface; use `%` for all routes |
 
 **Output:**
 
@@ -89,13 +89,13 @@ Do not rely on `VALID UNTIL` expiry alone — always rotate explicitly. See [GIV
 
 The `ir_readonly` role is explicitly denied access to the following (mirroring the REVOKE statements in [GIV-339 plan](/GIV/issues/GIV-339#document-plan) §Step 1):
 
-| Denied resource           | Reason                                              |
-|---------------------------|-----------------------------------------------------|
-| `auth.users`              | Contains raw auth credentials and email addresses   |
-| `deletion_audit_log`      | Internal audit data outside IR query scope          |
-| `wallet_aliases`          | Wallet identity data outside IR query scope         |
-| `donations`               | Not required by current query templates; minimise blast radius. If a future revision needs this table, file a new access-change ticket. |
-| All write privileges      | INSERT, UPDATE, DELETE, TRUNCATE, DDL — structurally blocked via default privilege revocations |
+| Denied resource      | Reason                                                                                                                                  |
+| -------------------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| `auth.users`         | Contains raw auth credentials and email addresses                                                                                       |
+| `deletion_audit_log` | Internal audit data outside IR query scope                                                                                              |
+| `wallet_aliases`     | Wallet identity data outside IR query scope                                                                                             |
+| `donations`          | Not required by current query templates; minimise blast radius. If a future revision needs this table, file a new access-change ticket. |
+| All write privileges | INSERT, UPDATE, DELETE, TRUNCATE, DDL — structurally blocked via default privilege revocations                                          |
 
 ## Schema Notes
 
