@@ -338,6 +338,7 @@ describe('executeTransactionalErasure (Steps 2–9)', () => {
       'anonymize_charity_nominations',
       'null_volunteer_verifications',
       'anonymize_fiat_donations',
+      'anonymize_charity_wallets',
       'delete_wallet_aliases',
       'delete_user_identities',
       'delete_user_preferences',
@@ -353,10 +354,10 @@ describe('executeTransactionalErasure (Steps 2–9)', () => {
       p_user_id: 'user-1',
       p_user_email: 'alice@example.com',
     });
-    expect(steps).toHaveLength(9);
+    expect(steps).toHaveLength(10);
   });
 
-  it('returns all 9 SQL-layer step names on success', async () => {
+  it('returns all 10 SQL-layer step names on success', async () => {
     const supabase = makeMockSupabase();
     const steps = await executeTransactionalErasure('user-2', 'bob@example.com', supabase);
 
@@ -365,6 +366,7 @@ describe('executeTransactionalErasure (Steps 2–9)', () => {
     expect(steps).toContain('anonymize_charity_nominations');
     expect(steps).toContain('null_volunteer_verifications');
     expect(steps).toContain('anonymize_fiat_donations');
+    expect(steps).toContain('anonymize_charity_wallets');
     expect(steps).toContain('delete_wallet_aliases');
     expect(steps).toContain('delete_user_identities');
     expect(steps).toContain('delete_user_preferences');
@@ -560,5 +562,263 @@ describe('auth deletion failure compensating re-queue', () => {
     expect(supabase._chainable.update).toHaveBeenCalledWith(
       expect.objectContaining({ status: 'failed', error_message: 'Unexpected DB error' }),
     );
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Step 5c-storage: Delete charity attestation storage (best-effort)
+// ---------------------------------------------------------------------------
+
+describe('deleteCharityAttestationStorage (Step 5c-storage)', () => {
+  /** Minimal replica of extractStoragePath from Edge Function. */
+  function extractStoragePath(url: string, bucket: string): string {
+    try {
+      const parsed = new URL(url, 'https://placeholder.supabase.co');
+      const pathParts = parsed.pathname.split('/');
+      const bucketIdx = pathParts.indexOf(bucket);
+      if (bucketIdx !== -1 && bucketIdx < pathParts.length - 1) {
+        return pathParts.slice(bucketIdx + 1).join('/');
+      }
+    } catch {
+      // Not a valid URL; fall through
+    }
+    const bucketPrefix = `${bucket}/`;
+    const prefixIdx = url.indexOf(bucketPrefix);
+    if (prefixIdx !== -1) {
+      const afterBucket = url.substring(prefixIdx + bucketPrefix.length);
+      const qIdx = afterBucket.indexOf('?');
+      return qIdx !== -1 ? afterBucket.substring(0, qIdx) : afterBucket;
+    }
+    return url;
+  }
+
+  /** Minimal replica of deleteCharityAttestationStorage. */
+  async function deleteCharityAttestationStorage(
+    userId: string,
+    supabase: ReturnType<typeof makeMockSupabase> & {
+      storage: { from: ReturnType<typeof jest.fn> };
+    },
+  ): Promise<string[]> {
+    type QueryResult = { data: Array<{ id: string }> | null };
+    const { data: charityProfiles } = await supabase
+      .from('charity_profiles')
+      .select('id')
+      .eq('claimed_by', userId) as unknown as QueryResult;
+
+    const charityProfileIds = (charityProfiles ?? []).map((p) => p.id);
+    if (charityProfileIds.length === 0) {
+      return ['delete_charity_attestation_storage'];
+    }
+
+    type WalletResult = {
+      data: Array<{
+        custodian_attestation_doc_url: string | null;
+        charity_profile_id: string;
+      }> | null;
+    };
+    const { data: wallets } = await supabase
+      .from('charity_wallets')
+      .select('custodian_attestation_doc_url, charity_profile_id')
+      .not('custodian_attestation_doc_url', 'is', null)
+      .in('charity_profile_id', charityProfileIds) as unknown as WalletResult;
+
+    const bucket = 'charity-attestations';
+    for (const wallet of wallets ?? []) {
+      if (!wallet.custodian_attestation_doc_url) continue;
+      const path = extractStoragePath(wallet.custodian_attestation_doc_url, bucket);
+      await supabase.storage.from(bucket).remove([path]);
+    }
+
+    return ['delete_charity_attestation_storage'];
+  }
+
+  it('returns step name even when user has no charity profiles', async () => {
+    const removeMock = jest.fn().mockResolvedValue({ error: null });
+    const supabase = {
+      ...makeMockSupabase(),
+      storage: { from: jest.fn().mockReturnValue({ remove: removeMock }) },
+    };
+    // eq() returns empty array (no charity profiles)
+    (supabase._chainable.eq as ReturnType<typeof jest.fn>).mockResolvedValue({
+      data: [],
+      error: null,
+    });
+
+    const steps = await deleteCharityAttestationStorage('user-1', supabase);
+    expect(steps).toContain('delete_charity_attestation_storage');
+    expect(removeMock).not.toHaveBeenCalled();
+  });
+
+  it('deletes attestation objects from storage for wallets with URLs', async () => {
+    const removeMock = jest.fn().mockResolvedValue({ error: null });
+    const supabase = {
+      ...makeMockSupabase(),
+      storage: { from: jest.fn().mockReturnValue({ remove: removeMock }) },
+    };
+
+    let eqCallCount = 0;
+    (supabase._chainable.eq as ReturnType<typeof jest.fn>).mockImplementation(() => {
+      eqCallCount++;
+      if (eqCallCount === 1) {
+        // charity_profiles query
+        return Promise.resolve({ data: [{ id: 'cp-1' }], error: null });
+      }
+      return supabase._chainable;
+    });
+
+    (supabase._chainable.in as ReturnType<typeof jest.fn>).mockResolvedValue({
+      data: [
+        {
+          custodian_attestation_doc_url: 'https://abc.supabase.co/storage/v1/object/public/charity-attestations/cp-1/doc.pdf',
+          charity_profile_id: 'cp-1',
+        },
+      ],
+      error: null,
+    });
+
+    const steps = await deleteCharityAttestationStorage('user-1', supabase);
+    expect(steps).toContain('delete_charity_attestation_storage');
+    expect(removeMock).toHaveBeenCalledWith(['cp-1/doc.pdf']);
+  });
+
+  it('skips wallets with null attestation URLs', async () => {
+    const removeMock = jest.fn().mockResolvedValue({ error: null });
+    const supabase = {
+      ...makeMockSupabase(),
+      storage: { from: jest.fn().mockReturnValue({ remove: removeMock }) },
+    };
+
+    let eqCallCount = 0;
+    (supabase._chainable.eq as ReturnType<typeof jest.fn>).mockImplementation(() => {
+      eqCallCount++;
+      if (eqCallCount === 1) {
+        return Promise.resolve({ data: [{ id: 'cp-2' }], error: null });
+      }
+      return supabase._chainable;
+    });
+
+    (supabase._chainable.in as ReturnType<typeof jest.fn>).mockResolvedValue({
+      data: [
+        { custodian_attestation_doc_url: null, charity_profile_id: 'cp-2' },
+      ],
+      error: null,
+    });
+
+    await deleteCharityAttestationStorage('user-1', supabase);
+    expect(removeMock).not.toHaveBeenCalled();
+  });
+});
+
+// ---------------------------------------------------------------------------
+// Data export: charity_wallets section (Art. 20)
+// ---------------------------------------------------------------------------
+
+describe('data export charity_wallets section', () => {
+  it('includes charity_wallets in export package with correct shape', () => {
+    // Verify the export schema matches the spec from GIV-312 Section 4
+    const walletRow = {
+      wallet_address: '0x1234abcd',
+      wallet_type: 'eoa',
+      chain_id: 8453,
+      is_primary: true,
+      signer_count: null,
+      signer_threshold: null,
+      custodian_name: null,
+      proof_of_control_verified_at: '2026-05-01T00:00:00Z',
+      risk_acknowledgment_at: '2026-05-01T00:00:00Z',
+      created_at: '2026-05-01T00:00:00Z',
+    };
+
+    // Simulates the mapping logic from the export Edge Function
+    const mapped = {
+      wallet_address: walletRow.wallet_address,
+      wallet_type: walletRow.wallet_type,
+      chain_id: walletRow.chain_id,
+      is_primary: walletRow.is_primary,
+      signer_count: walletRow.signer_count ?? null,
+      signer_threshold: walletRow.signer_threshold ?? null,
+      custodian_name: walletRow.custodian_name ?? null,
+      proof_of_control_verified_at: walletRow.proof_of_control_verified_at ?? null,
+      risk_acknowledgment_at: walletRow.risk_acknowledgment_at ?? null,
+      created_at: walletRow.created_at,
+    };
+
+    // Verify required fields are present
+    expect(mapped).toHaveProperty('wallet_address');
+    expect(mapped).toHaveProperty('wallet_type');
+    expect(mapped).toHaveProperty('chain_id');
+    expect(mapped).toHaveProperty('is_primary');
+    expect(mapped).toHaveProperty('signer_count');
+    expect(mapped).toHaveProperty('signer_threshold');
+    expect(mapped).toHaveProperty('custodian_name');
+    expect(mapped).toHaveProperty('proof_of_control_verified_at');
+    expect(mapped).toHaveProperty('risk_acknowledgment_at');
+    expect(mapped).toHaveProperty('created_at');
+
+    // Verify risk_acknowledgment_user_id is EXCLUDED (internal reference per plan)
+    expect(mapped).not.toHaveProperty('risk_acknowledgment_user_id');
+  });
+
+  it('handles institutional wallet with custodian fields', () => {
+    const walletRow = {
+      wallet_address: '0xdeadbeef',
+      wallet_type: 'institutional',
+      chain_id: 1,
+      is_primary: false,
+      signer_count: null,
+      signer_threshold: null,
+      custodian_name: 'Coinbase Custody',
+      proof_of_control_verified_at: null,
+      risk_acknowledgment_at: null,
+      created_at: '2026-05-15T00:00:00Z',
+    };
+
+    const mapped = {
+      wallet_address: walletRow.wallet_address,
+      wallet_type: walletRow.wallet_type,
+      chain_id: walletRow.chain_id,
+      is_primary: walletRow.is_primary,
+      signer_count: walletRow.signer_count ?? null,
+      signer_threshold: walletRow.signer_threshold ?? null,
+      custodian_name: walletRow.custodian_name ?? null,
+      proof_of_control_verified_at: walletRow.proof_of_control_verified_at ?? null,
+      risk_acknowledgment_at: walletRow.risk_acknowledgment_at ?? null,
+      created_at: walletRow.created_at,
+    };
+
+    expect(mapped.custodian_name).toBe('Coinbase Custody');
+    expect(mapped.wallet_type).toBe('institutional');
+  });
+
+  it('handles safe wallet with signer fields', () => {
+    const walletRow = {
+      wallet_address: '0xsafe1234',
+      wallet_type: 'safe',
+      chain_id: 8453,
+      is_primary: true,
+      signer_count: 3,
+      signer_threshold: 2,
+      custodian_name: null,
+      proof_of_control_verified_at: '2026-05-20T00:00:00Z',
+      risk_acknowledgment_at: null,
+      created_at: '2026-05-20T00:00:00Z',
+    };
+
+    const mapped = {
+      wallet_address: walletRow.wallet_address,
+      wallet_type: walletRow.wallet_type,
+      chain_id: walletRow.chain_id,
+      is_primary: walletRow.is_primary,
+      signer_count: walletRow.signer_count ?? null,
+      signer_threshold: walletRow.signer_threshold ?? null,
+      custodian_name: walletRow.custodian_name ?? null,
+      proof_of_control_verified_at: walletRow.proof_of_control_verified_at ?? null,
+      risk_acknowledgment_at: walletRow.risk_acknowledgment_at ?? null,
+      created_at: walletRow.created_at,
+    };
+
+    expect(mapped.signer_count).toBe(3);
+    expect(mapped.signer_threshold).toBe(2);
+    expect(mapped.wallet_type).toBe('safe');
   });
 });

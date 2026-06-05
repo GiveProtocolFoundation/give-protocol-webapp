@@ -44,6 +44,14 @@ async function assembleExportPackage(
   const now = new Date().toISOString();
 
   // Fetch all user data in parallel
+  // First, fetch charity profile IDs to query charity_wallets
+  const { data: charityProfiles } = await supabase
+    .from('charity_profiles')
+    .select('id')
+    .eq('claimed_by', userId);
+
+  const charityProfileIds = (charityProfiles ?? []).map((p) => p.id);
+
   const [
     authUserResult,
     profileResult,
@@ -55,6 +63,7 @@ async function assembleExportPackage(
     selfReportedResult,
     volunteerVerifResult,
     fiatDonationsResult,
+    charityWalletsResult,
   ] = await Promise.all([
     supabase.auth.admin.getUserById(userId),
     supabase.from('profiles').select('*').eq('user_id', userId).single(),
@@ -76,6 +85,16 @@ async function assembleExportPackage(
     supabase.from('fiat_donations').select(
       'charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
     ).eq('donor_id', userId),
+    charityProfileIds.length > 0
+      ? supabase
+          .from('charity_wallets')
+          .select(
+            'wallet_address, wallet_type, chain_id, is_primary, signer_count, signer_threshold, ' +
+            'custodian_name, custodian_attestation_doc_url, proof_of_control_verified_at, ' +
+            'risk_acknowledgment_at, created_at'
+          )
+          .in('charity_profile_id', charityProfileIds)
+      : Promise.resolve({ data: [], error: null }),
   ]);
 
   const authUser = authUserResult.data?.user;
@@ -147,6 +166,18 @@ async function assembleExportPackage(
       cause_name: d.cause_name,
       fund_name: d.fund_name,
       created_at: d.created_at,
+    })),
+    charity_wallets: (charityWalletsResult.data ?? []).map((w) => ({
+      wallet_address: w.wallet_address,
+      wallet_type: w.wallet_type,
+      chain_id: w.chain_id,
+      is_primary: w.is_primary,
+      signer_count: w.signer_count ?? null,
+      signer_threshold: w.signer_threshold ?? null,
+      custodian_name: w.custodian_name ?? null,
+      proof_of_control_verified_at: w.proof_of_control_verified_at ?? null,
+      risk_acknowledgment_at: w.risk_acknowledgment_at ?? null,
+      created_at: w.created_at,
     })),
   };
 }
