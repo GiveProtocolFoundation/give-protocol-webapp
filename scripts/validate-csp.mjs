@@ -1,9 +1,8 @@
-#!/usr/bin/env node
 /**
  * CSP consistency validator — ensures all CSP locations match the canonical
  * meta tag in index.html. Run via `node scripts/validate-csp.mjs`.
  *
- * Exits 0 on success, 1 if any location diverges or contains forbidden tokens.
+ * Exits 0 on success, throws if any location diverges or contains forbidden tokens.
  */
 
 import { readFileSync } from "node:fs";
@@ -76,14 +75,8 @@ console.log("CSP Consistency Validator");
 console.log("========================\n");
 
 // 1. Extract canonical CSP
-let canonical;
-try {
-  canonical = extractFromIndexHtml();
-  console.log("✓ Canonical CSP extracted from index.html");
-} catch (e) {
-  console.error(`✗ ${e.message}`);
-  process.exit(1);
-}
+const canonical = extractFromIndexHtml();
+console.log("✓ Canonical CSP extracted from index.html");
 
 const normCanonical = normalise(canonical);
 
@@ -142,8 +135,6 @@ for (const loc of locations) {
 // 4. Summary
 console.log();
 if (failures > 0) {
-  console.error(`FAILED — ${failures} issue(s) found.`);
-  process.exit(1);
-} else {
-  console.log("PASSED — all CSP locations are consistent and hardened.");
+  throw new Error(`CSP validation FAILED — ${failures} issue(s) found.`);
 }
+console.log("PASSED — all CSP locations are consistent and hardened.");
