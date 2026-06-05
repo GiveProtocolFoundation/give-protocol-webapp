@@ -121,6 +121,8 @@ export class SecurityManager {
         form-action 'self';
         base-uri 'self';
         upgrade-insecure-requests;
+        report-uri /api/csp-report;
+        report-to csp-endpoint;
       `
         .replaceAll(/\s+/g, " ")
         .trim(),
