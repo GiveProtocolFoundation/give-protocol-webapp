@@ -1197,8 +1197,7 @@ export default {
 
     // Reset password (set new password page)
     "auth.resetPassword.title": "Set New Password",
-    "auth.resetPassword.subtitle":
-      "Choose a strong password for your account.",
+    "auth.resetPassword.subtitle": "Choose a strong password for your account.",
     "auth.resetPassword.newPassword": "New Password",
     "auth.resetPassword.confirmPassword": "Confirm New Password",
     "auth.resetPassword.submit": "Update Password",

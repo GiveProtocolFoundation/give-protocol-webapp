@@ -80,9 +80,7 @@ const ResetPassword: React.FC = () => {
       setError("");
 
       if (password !== confirmPassword) {
-        setError(
-          t("auth.resetPassword.mismatch", "Passwords do not match."),
-        );
+        setError(t("auth.resetPassword.mismatch", "Passwords do not match."));
         return;
       }
 
@@ -172,10 +170,7 @@ const ResetPassword: React.FC = () => {
             </svg>
           </div>
           <h1 className="text-xl font-bold text-gray-900 dark:text-gray-100 mb-3">
-            {t(
-              "auth.resetPassword.success",
-              "Password updated successfully!",
-            )}
+            {t("auth.resetPassword.success", "Password updated successfully!")}
           </h1>
           <p className="text-gray-600 dark:text-gray-400 mb-6">
             {t(
@@ -231,7 +226,10 @@ const ResetPassword: React.FC = () => {
           />
 
           {error !== "" && (
-            <div role="alert" className="text-sm text-red-600 dark:text-red-400">
+            <div
+              role="alert"
+              className="text-sm text-red-600 dark:text-red-400"
+            >
               {error}
             </div>
           )}
