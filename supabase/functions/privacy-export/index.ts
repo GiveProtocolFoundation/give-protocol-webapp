@@ -64,6 +64,7 @@ async function assembleExportPackage(
     volunteerVerifResult,
     fiatDonationsResult,
     charityWalletsResult,
+    passkeysResult,
   ] = await Promise.all([
     supabase.auth.admin.getUserById(userId),
     supabase.from('profiles').select('*').eq('user_id', userId).single(),
@@ -95,6 +96,10 @@ async function assembleExportPackage(
           )
           .in('charity_profile_id', charityProfileIds)
       : Promise.resolve({ data: [], error: null }),
+    supabase
+      .from('user_passkeys')
+      .select('device_name, transports, created_at, last_used_at')
+      .eq('user_id', userId),
   ]);
 
   const authUser = authUserResult.data?.user;
@@ -178,6 +183,12 @@ async function assembleExportPackage(
       proof_of_control_verified_at: w.proof_of_control_verified_at ?? null,
       risk_acknowledgment_at: w.risk_acknowledgment_at ?? null,
       created_at: w.created_at,
+    })),
+    passkeys: (passkeysResult.data ?? []).map((p) => ({
+      device_name: p.device_name,
+      transports: p.transports,
+      created_at: p.created_at,
+      last_used_at: p.last_used_at,
     })),
   };
 }
