@@ -1195,6 +1195,24 @@ export default {
     "auth.forgot.sendResetLink": "Send Reset Link",
     "auth.forgot.sendUsername": "Send Username",
 
+    // Reset password (set new password page)
+    "auth.resetPassword.title": "Set New Password",
+    "auth.resetPassword.subtitle":
+      "Choose a strong password for your account.",
+    "auth.resetPassword.newPassword": "New Password",
+    "auth.resetPassword.confirmPassword": "Confirm New Password",
+    "auth.resetPassword.submit": "Update Password",
+    "auth.resetPassword.updating": "Updating\u2026",
+    "auth.resetPassword.mismatch": "Passwords do not match.",
+    "auth.resetPassword.success": "Password updated successfully!",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
+    "auth.resetPassword.backToSignIn": "Back to Sign In",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
+    "auth.resetPassword.requestNew": "Request a new reset link",
+    "auth.resetPassword.validating": "Validating reset link\u2026",
+
     // Organization search
     "auth.orgSearch.orgNameLabel": "Organization Name",
     "auth.orgSearch.searchPlaceholder": "Search by organization name...",
