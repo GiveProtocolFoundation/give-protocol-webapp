@@ -12,12 +12,12 @@
 export function extractStoragePath(url: string, bucket: string): string {
   // Try to parse as a URL and extract the path after /object/(public|sign)/bucket/
   try {
-    const parsed = new URL(url, 'https://placeholder.supabase.co');
-    const pathParts = parsed.pathname.split('/');
+    const parsed = new URL(url, "https://placeholder.supabase.co");
+    const pathParts = parsed.pathname.split("/");
     // Find the bucket name in the path and return everything after it
     const bucketIdx = pathParts.indexOf(bucket);
     if (bucketIdx !== -1 && bucketIdx < pathParts.length - 1) {
-      return pathParts.slice(bucketIdx + 1).join('/');
+      return pathParts.slice(bucketIdx + 1).join("/");
     }
   } catch {
     // Not a valid URL; fall through
@@ -29,7 +29,7 @@ export function extractStoragePath(url: string, bucket: string): string {
   if (prefixIdx !== -1) {
     const afterBucket = url.substring(prefixIdx + bucketPrefix.length);
     // Strip any query string
-    const qIdx = afterBucket.indexOf('?');
+    const qIdx = afterBucket.indexOf("?");
     return qIdx !== -1 ? afterBucket.substring(0, qIdx) : afterBucket;
   }
 
