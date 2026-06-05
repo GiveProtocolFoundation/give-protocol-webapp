@@ -50,7 +50,9 @@ function extractFromNginx() {
 /** Extract the CSP from vercel.json headers */
 function extractFromVercel() {
   const json = JSON.parse(readFileSync(resolve(root, "vercel.json"), "utf8"));
-  const globalHeaders = json.headers?.find((h) => h.source === "/(.*)")?.headers;
+  const globalHeaders = json.headers?.find(
+    (h) => h.source === "/(.*)",
+  )?.headers;
   if (!globalHeaders) throw new Error("No global headers in vercel.json");
   const csp = globalHeaders.find((h) => h.key === "Content-Security-Policy");
   if (!csp) throw new Error("No CSP header in vercel.json");
@@ -60,9 +62,7 @@ function extractFromVercel() {
 /** Extract the CSP from netlify.toml headers */
 function extractFromNetlify() {
   const toml = readFileSync(resolve(root, "netlify.toml"), "utf8");
-  const match = toml.match(
-    /Content-Security-Policy\s*=\s*"([^"]+)"/s,
-  );
+  const match = toml.match(/Content-Security-Policy\s*=\s*"([^"]+)"/s);
   if (!match) throw new Error("Could not find CSP header in netlify.toml");
   return match[1];
 }
@@ -112,9 +112,7 @@ for (const loc of locations) {
     const locScriptSrc = raw.match(/script-src\s+([^;]+)/)?.[1] || "";
     for (const token of FORBIDDEN_SCRIPT_TOKENS) {
       if (locScriptSrc.includes(token)) {
-        console.error(
-          `✗ FORBIDDEN: ${loc.name} script-src contains ${token}`,
-        );
+        console.error(`✗ FORBIDDEN: ${loc.name} script-src contains ${token}`);
         failures++;
       }
     }
@@ -131,8 +129,7 @@ for (const loc of locations) {
         if (!locDirs.has(d)) console.error(`  missing in ${loc.name}: ${d}`);
       }
       for (const d of locDirs) {
-        if (!canonDirs.has(d))
-          console.error(`  extra in ${loc.name}:   ${d}`);
+        if (!canonDirs.has(d)) console.error(`  extra in ${loc.name}:   ${d}`);
       }
       failures++;
     }

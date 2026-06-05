@@ -24,13 +24,13 @@ The **single source of truth** for the Content Security Policy is the `<meta htt
 
 All other CSP locations **must mirror** the canonical definition:
 
-| Location | Role | Must match canonical? |
-| --- | --- | --- |
-| `index.html` meta tag | **Canonical** — enforced by browser on every page load | N/A (is the source) |
-| `netlify.toml` [[headers]] | HTTP header for Netlify (production hosting) | Yes |
-| `nginx.conf` add_header | HTTP header for nginx (self-hosted fallback) | Yes |
-| `vercel.json` headers | HTTP header for Vercel (alternative hosting) | Yes |
-| `src/utils/security/index.ts` | Runtime CSP reference for SecurityManager | Structurally aligned |
+| Location                      | Role                                                   | Must match canonical? |
+| ----------------------------- | ------------------------------------------------------ | --------------------- |
+| `index.html` meta tag         | **Canonical** — enforced by browser on every page load | N/A (is the source)   |
+| `netlify.toml` [[headers]]    | HTTP header for Netlify (production hosting)           | Yes                   |
+| `nginx.conf` add_header       | HTTP header for nginx (self-hosted fallback)           | Yes                   |
+| `vercel.json` headers         | HTTP header for Vercel (alternative hosting)           | Yes                   |
+| `src/utils/security/index.ts` | Runtime CSP reference for SecurityManager              | Structurally aligned  |
 
 ### Hardening Rules (per GIV-60)
 
