@@ -105,22 +105,51 @@ export class SecurityManager {
     ];
   }
 
-  /** Constructs the Content-Security-Policy and other security headers */
+  /**
+   * Constructs the Content-Security-Policy and other security headers.
+   * This MUST mirror the canonical CSP in index.html. Validated by scripts/validate-csp.mjs.
+   */
   private initializeSecurityHeaders(): SecurityHeaders {
-    const trustedDomainsList = this.trustedDomains.join(" ");
+    const scriptSrcDomains = [
+      "https://etqbojasfmpieigeefdj.supabase.co",
+      "https://*.sentry.io",
+      "https://translate.google.com",
+      "https://translate.googleapis.com",
+      "https://www.googletagmanager.com",
+      "https://www.google-analytics.com",
+      "https://secure.helcim.app",
+      "https://api.helcim.com",
+      "https://www.paypal.com",
+      "https://www.paypalobjects.com",
+    ].join(" ");
+
+    const connectSrcDomains = this.trustedDomains
+      .map((d) => `https://${d}`)
+      .concat([
+        "ws://localhost:*",
+        "wss://*.supabase.co",
+        "https://*.sentry.io",
+        "https://translate.googleapis.com",
+        "https://www.google-analytics.com",
+        "https://analytics.google.com",
+        "https://www.paypal.com",
+        "https://api-m.paypal.com",
+        "https://api-m.sandbox.paypal.com",
+      ])
+      .join(" ");
 
     return {
       "Content-Security-Policy": `
         default-src 'self';
-        script-src 'self' 'wasm-unsafe-eval' 'sha256-ooHLYUO0qxugBXSF0QzLAXnSRuY4UhNaiOFO9oNqiOY=' 'sha256-1A5C0PgHbkU0Dcl68Pe/TR1vV/k5AMjAVNdjxLJHUaE=' 'sha256-m9VrlzP2G46X7nBNMitQ7UMiGkSb46V+wRGTzBoGJmE=' ${trustedDomainsList};
-        style-src 'self' 'unsafe-inline';
+        script-src 'self' 'wasm-unsafe-eval' 'sha256-ooHLYUO0qxugBXSF0QzLAXnSRuY4UhNaiOFO9oNqiOY=' 'sha256-1A5C0PgHbkU0Dcl68Pe/TR1vV/k5AMjAVNdjxLJHUaE=' 'sha256-m9VrlzP2G46X7nBNMitQ7UMiGkSb46V+wRGTzBoGJmE=' ${scriptSrcDomains};
+        style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://fonts.googleapis.com;
         img-src 'self' data: https: blob:;
-        font-src 'self';
-        connect-src 'self' ${trustedDomainsList};
-        frame-ancestors 'none';
-        form-action 'self';
+        font-src 'self' https://fonts.gstatic.com;
+        connect-src 'self' ${connectSrcDomains};
+        frame-src 'self' https://translate.google.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://www.sandbox.paypal.com;
+        object-src 'none';
         base-uri 'self';
-        upgrade-insecure-requests;
+        form-action 'self';
       `
         .replaceAll(/\s+/g, " ")
         .trim(),
