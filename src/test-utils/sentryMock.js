@@ -38,3 +38,8 @@ export function captureCustomEvent(_message, _data, _level) {
 // Aliases for AuthContext compatibility — jest.fn() for toHaveBeenCalledWith assertions
 export const setSentryUser = jest.fn();
 export const clearSentryUser = jest.fn();
+
+// Phase B consent-gated integrations — jest.fn() for SentryConsentReactor assertions
+export const enableAnalyticsIntegrations = jest.fn();
+export const disableAnalyticsIntegrations = jest.fn();
+export const isAnalyticsEnabled = jest.fn(() => false);
