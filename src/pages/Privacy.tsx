@@ -268,20 +268,55 @@ export const Privacy: React.FC = () => {
       </section>
 
       <section>
-        <h2>11. Legal Basis for Processing</h2>
-        <p>We process your personal data based on:</p>
+        <h2>11. Cookie Preferences and Analytics Processing</h2>
+        <p>
+          We use cookies and similar technologies on our platform. Some are
+          essential and cannot be disabled; others are optional and require
+          your explicit consent.
+        </p>
+
+        <h3>11.1 Essential technologies</h3>
+        <p>
+          Required for the site to function: session authentication, CSRF
+          protection, and storing your privacy preferences. These are always
+          active and cannot be turned off.
+        </p>
+
+        <h3>11.2 Analytics and error monitoring (optional)</h3>
+        <p>
+          With your consent, we use Sentry (Functional Software, Inc., 45
+          Fremont Street, San Francisco, CA 94105, USA) to capture error
+          reports and session analytics, which helps us identify bugs and
+          improve site performance. When you consent, Sentry may receive your
+          user identifier, email address, account type, and session activity.
+        </p>
+        <p>
+          Data is transferred to the United States. The legal mechanism for
+          this transfer is EU Standard Contractual Clauses (Art. 46(2)(c)
+          GDPR) under our Data Processing Agreement with Sentry &mdash; see
+          the International Transfers section.
+        </p>
+
+        <h3>11.3 Your consent choices</h3>
+        <p>A consent banner is shown on your first visit. You may:</p>
         <ul>
           <li>
-            Performance of a contract when we provide you with our Service
+            <strong>Accept all</strong> &mdash; enable essential and analytics
+            technologies
           </li>
-          <li>Legitimate interests in operating and improving our Service</li>
-          <li>Compliance with our legal obligations</li>
-          <li>Your consent, where applicable</li>
+          <li>
+            <strong>Decline non-essential</strong> &mdash; essential only;
+            analytics and error monitoring will not run
+          </li>
+          <li>
+            <strong>Customize</strong> &mdash; choose per category
+          </li>
         </ul>
         <p>
-          You have the right to lodge a complaint with a supervisory authority
-          if you believe our processing of your personal data violates
-          applicable law.
+          You may withdraw or change your consent at any time via the{" "}
+          <strong>Cookie preferences</strong> link in the site footer.
+          Withdrawal does not affect the lawfulness of processing before
+          withdrawal (Art. 7(3) GDPR).
         </p>
       </section>
 
