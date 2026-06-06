@@ -279,4 +279,3 @@ export function captureCustomEvent(
     console.log(`Custom event: ${message}`, { level, data });
   }
 }
-
