@@ -29,6 +29,23 @@ const AuthCallback: React.FC = () => {
   // Extract email encoded in the emailRedirectTo URL (set at signup time).
   const email = searchParams.get("email") ?? "";
 
+  // Defensive guard: if a password-reset link is somehow routed here,
+  // forward the user to the dedicated ResetPassword page instead of
+  // misrouting them to their dashboard.
+  useEffect(() => {
+    const {
+      data: { subscription },
+    } = supabase.auth.onAuthStateChange((event) => {
+      if (event === "PASSWORD_RECOVERY") {
+        navigate("/auth/reset-password", { replace: true });
+      }
+    });
+    return () => {
+      // skipcq: JS-0045 — useEffect cleanup is a valid return value
+      subscription.unsubscribe();
+    };
+  }, [navigate]);
+
   useEffect(() => {
     if (!loading && user) {
       if (userType === "charity") {

@@ -63,6 +63,9 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
 
+      - name: Validate CSP consistency
+        run: npm run validate:csp
+
       - name: Run TypeScript compiler check
         run: npx tsc --noEmit
 

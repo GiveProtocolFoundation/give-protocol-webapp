@@ -112,7 +112,7 @@ describe("VerificationStatusBanner", () => {
         expect(link).toBeInTheDocument();
         expect(link.closest("a")).toHaveAttribute(
           "href",
-          "mailto:support@giveprotocol.org",
+          "mailto:support@giveprotocol.io",
         );
       });
     });
@@ -167,7 +167,7 @@ describe("VerificationStatusBanner", () => {
         expect(link).toBeInTheDocument();
         expect(link.closest("a")).toHaveAttribute(
           "href",
-          "mailto:support@giveprotocol.org",
+          "mailto:support@giveprotocol.io",
         );
       });
     });

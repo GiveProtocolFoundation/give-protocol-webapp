@@ -20,7 +20,8 @@
     "test:jest": "NODE_OPTIONS='--experimental-vm-modules' jest --config jest.config.mjs --passWithNoTests",
     "test:e2e": "cypress open",
     "test:e2e:headless": "cypress run",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner",
+    "validate:csp": "node scripts/validate-csp.mjs"
   },
   "dependencies": {
     "@ledgerhq/device-management-kit": "^1.0.1",
@@ -61,7 +62,7 @@
     "react-dom": "^18.2.0",
     "react-i18next": "^14.0.5",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^6.30.3",
+    "react-router-dom": "^6.30.4",
     "react-window": "^1.8.10",
     "sirv": "^2.0.4",
     "tailwind-merge": "^2.2.1",

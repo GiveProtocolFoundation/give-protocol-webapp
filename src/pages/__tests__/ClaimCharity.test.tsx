@@ -41,6 +41,10 @@ const renderClaimCharity = (ein = "12-3456789") =>
     <MemoryRouter initialEntries={[`/claim/${ein}`]}>
       <Routes>
         <Route path="/claim/:ein" element={<ClaimCharity />} />
+        <Route
+          path="/auth/registration-success"
+          element={<div data-testid="registration-success-page">Success</div>}
+        />
       </Routes>
     </MemoryRouter>,
   );
@@ -262,7 +266,7 @@ describe("ClaimCharity", () => {
       });
     });
 
-    it("shows success message after successful submission", async () => {
+    it("navigates to registration-success after successful submission", async () => {
       renderClaimCharity();
       await waitFor(() => {
         expect(
@@ -280,7 +284,9 @@ describe("ClaimCharity", () => {
       });
       fireEvent.click(screen.getByText("Continue"));
       await waitFor(() => {
-        expect(screen.getByText(/Request submitted/)).toBeInTheDocument();
+        expect(
+          screen.getByTestId("registration-success-page"),
+        ).toBeInTheDocument();
       });
     });
 
