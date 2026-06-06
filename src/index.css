@@ -68,11 +68,6 @@
   background-color: rgb(55 65 81);
 }
 
-/* Fix for Silktide consent manager backdrop-filter Safari compatibility */
-#silktide-backdrop,
-#silktide-backdrop-global {
-  -webkit-backdrop-filter: blur(var(--backdropBackgroundBlur));
-}
 
 @layer utilities {
   .scrollbar-styled {

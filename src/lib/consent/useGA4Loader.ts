@@ -25,15 +25,15 @@ export function useGA4Loader(): void {
     injected.current = true;
 
     try {
-      const s = document.createElement("script");
-      s.async = true;
-      s.src = GA4_SRC;
-      s.onerror = () => {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = GA4_SRC;
+      script.onerror = () => {
         console.info(
           "GTM blocked (ad-blocker or network issue) — analytics disabled",
         );
       };
-      document.head.appendChild(s);
+      document.head.appendChild(script);
 
       // Configure GA4 once the library loads
       if (typeof window.gtag === "function") {
