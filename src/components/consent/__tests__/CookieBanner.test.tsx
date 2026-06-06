@@ -50,6 +50,12 @@ const renderBanner = () =>
 describe("CookieBanner", () => {
   beforeEach(() => {
     localStorage.clear();
+    // Suppress gtag bridge calls in banner tests
+    (window as typeof window & { gtag?: unknown }).gtag = jest.fn();
+  });
+
+  afterEach(() => {
+    delete (window as typeof window & { gtag?: unknown }).gtag;
   });
 
   it("renders nothing when hasDecided is true", () => {
@@ -90,6 +96,25 @@ describe("CookieBanner", () => {
     renderBanner();
     const link = screen.getByText("Privacy policy").closest("a");
     expect(link).toHaveAttribute("href", "/privacy");
+  });
+
+  it("banner body discloses Google Analytics 4 and Sentry as processors", () => {
+    renderBanner();
+    const region = screen.getByRole("region", { name: "Cookie consent" });
+    expect(region.textContent).toMatch(/Google Analytics/i);
+    expect(region.textContent).toMatch(/Sentry/i);
+  });
+
+  it("no silktide script or element exists in the rendered banner", () => {
+    renderBanner();
+    const silktideElements = document.querySelectorAll('[id*="silktide"], [class*="silktide"], [src*="silktide"]');
+    expect(silktideElements.length).toBe(0);
+  });
+
+  it("only one consent region is rendered (no dual-banner state)", () => {
+    renderBanner();
+    const regions = screen.getAllByRole("region", { name: "Cookie consent" });
+    expect(regions).toHaveLength(1);
   });
 
   it("focuses the Accept all button on initial mount", () => {

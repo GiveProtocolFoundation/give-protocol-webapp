@@ -1306,7 +1306,7 @@ export default {
     // Cookie consent banner + customize modal (GIV-362)
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, error monitoring and session analytics to improve the site. You can change this anytime in the footer.",
+      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
     "consent.banner.privacyLink": "Privacy policy",
     "consent.banner.acceptAll": "Accept all",
     "consent.banner.decline": "Decline non-essential",
@@ -1316,11 +1316,11 @@ export default {
     "consent.modal.essentialDesc":
       "Required for core site features such as navigation and authentication. Cannot be disabled.",
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+    "consent.modal.analyticsTitle": "Analytics (Google Analytics 4 · US, Sentry · US/EU)",
     "consent.modal.analyticsDesc":
-      "Helps us find bugs and understand site performance. Uses Sentry (US) and may capture your session activity. Off by default.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use: Google Analytics 4 — session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU–US Data Privacy Framework). Sentry — anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor. Off by default.",
+    "consent.modal.analyticsOn": "Analytics — on",
+    "consent.modal.analyticsOff": "Analytics — off",
     "consent.modal.cancel": "Cancel",
     "consent.modal.save": "Save preferences",
 
