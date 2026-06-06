@@ -43,7 +43,6 @@ function StatusBadge({
   );
 }
 
-
 /** Action buttons row for a single charity row */
 function CharityActions({
   charity,
