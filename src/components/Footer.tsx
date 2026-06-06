@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBluesky, FaGithub, FaDiscord } from "react-icons/fa6";
 import { Logo } from "@/components/Logo";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DOCS_CONFIG } from "@/config/docs";
+import { CustomizeModal } from "@/components/consent/CustomizeModal";
 
 /** Footer branding with logo and tagline. */
 function FooterBrand() {
@@ -60,33 +61,55 @@ function FooterResources() {
   );
 }
 
-/** Footer legal navigation links. */
+/** Footer legal navigation links + cookie preferences. */
 function FooterLegal() {
   const { t } = useTranslation();
+  const [showCookieModal, setShowCookieModal] = useState(false);
+  const cookieBtnRef = useRef<HTMLButtonElement>(null);
+
   return (
-    <div className="flex-1 min-w-0">
-      <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
-        {t("footer.legal.title")}
-      </h3>
-      <ul className="space-y-2">
-        <li>
-          <Link
-            to="/legal"
-            className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
-          >
-            {t("footer.legal.terms")}
-          </Link>
-        </li>
-        <li>
-          <Link
-            to="/privacy"
-            className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
-          >
-            {t("footer.legal.privacy")}
-          </Link>
-        </li>
-      </ul>
-    </div>
+    <>
+      <div className="flex-1 min-w-0">
+        <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
+          {t("footer.legal.title")}
+        </h3>
+        <ul className="space-y-2">
+          <li>
+            <Link
+              to="/legal"
+              className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
+            >
+              {t("footer.legal.terms")}
+            </Link>
+          </li>
+          <li>
+            <Link
+              to="/privacy"
+              className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block"
+            >
+              {t("footer.legal.privacy")}
+            </Link>
+          </li>
+          <li>
+            <button
+              ref={cookieBtnRef}
+              type="button"
+              onClick={() => setShowCookieModal(true)}
+              className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block bg-transparent border-0 cursor-pointer p-0"
+            >
+              Cookie preferences
+            </button>
+          </li>
+        </ul>
+      </div>
+
+      {showCookieModal && (
+        <CustomizeModal
+          onClose={() => setShowCookieModal(false)}
+          triggerRef={cookieBtnRef}
+        />
+      )}
+    </>
   );
 }
 
