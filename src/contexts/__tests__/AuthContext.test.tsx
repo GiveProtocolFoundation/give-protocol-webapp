@@ -263,11 +263,9 @@ describe("AuthContext", () => {
         expect(screen.getByTestId("user-type")).toHaveTextContent("donor");
       });
 
-      // setSentryUser is called with a custom object, not the raw user
+      // setSentryUser is called with ID only (no PII per ePrivacy)
       expect(mockSetSentryUser).toHaveBeenCalledWith({
         id: MOCK_USER.id,
-        email: MOCK_USER.email,
-        userType: "donor",
       });
     });
 
@@ -317,8 +315,6 @@ describe("AuthContext", () => {
         );
         expect(mockSetSentryUser).toHaveBeenCalledWith({
           id: MOCK_USER.id,
-          email: MOCK_USER.email,
-          userType: "donor",
         });
       });
     });

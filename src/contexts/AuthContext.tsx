@@ -74,18 +74,14 @@ function resolveUserType(user: User | null | undefined): Promise<UserType> {
 }
 
 /**
- * Updates Sentry user context based on session
+ * Updates Sentry user context based on session (ID only, no PII).
  */
 function updateSentryUserContext(
   user: User | null | undefined,
-  userType: UserType,
+  _userType: UserType,
 ): void {
   if (user) {
-    setSentryUser({
-      id: user.id,
-      email: user.email,
-      userType: userType || undefined,
-    });
+    setSentryUser({ id: user.id });
   } else {
     clearSentryUser();
   }
