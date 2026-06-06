@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useConsent } from "@/lib/consent/ConsentProvider";
 import { Modal } from "@/components/ui/Modal";
