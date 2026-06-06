@@ -54,8 +54,10 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
 
   // Dev-only: ?_consentReset=1 forces the banner back to the undecided state
   // so developers can verify the banner without clearing localStorage manually.
+  // Uses process.env.NODE_ENV (equivalent to import.meta.env.DEV in Vite builds
+  // and also testable in Jest without ESM import.meta restrictions).
   useEffect(() => {
-    if (import.meta.env?.DEV) {
+    if (process.env.NODE_ENV !== "production") {
       const params = new URLSearchParams(window.location.search);
       if (params.get("_consentReset") === "1") {
         clearConsent();

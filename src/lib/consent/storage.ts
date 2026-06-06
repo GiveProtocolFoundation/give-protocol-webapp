@@ -13,6 +13,7 @@ export interface ConsentRecord {
   categories: ConsentCategories;
 }
 
+/** True when running outside a browser environment (no window). */
 function isSSR(): boolean {
   return typeof window === "undefined";
 }
