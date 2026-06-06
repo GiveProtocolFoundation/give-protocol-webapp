@@ -3,7 +3,7 @@ import * as Sentry from "@sentry/react";
 /**
  * Initializes Sentry error tracking for production environments.
  * Skipped in development. Requires VITE_SENTRY_DSN to be configured.
- * Enables browser tracing, session replay, and sensitive data filtering.
+ * Error-only mode: replay and performance tracing are disabled (ePrivacy).
  */
 export function initSentry() {
   // Only initialize Sentry in production
@@ -24,22 +24,16 @@ export function initSentry() {
     environment: import.meta.env.MODE,
     release: import.meta.env.VITE_APP_VERSION || "1.0.0",
 
-    // Performance monitoring
-    tracesSampleRate: 0.1, // 10% of transactions
+    // ePrivacy: disable performance tracing and session replay
+    tracesSampleRate: 0,
+    replaysSessionSampleRate: 0,
+    replaysOnErrorSampleRate: 0,
 
-    // Session replay for debugging
-    replaysSessionSampleRate: 0.01, // 1% of sessions
-    replaysOnErrorSampleRate: 1.0, // 100% of sessions with errors
+    // No PII in default payloads; keep stacktraces for error diagnostics
+    sendDefaultPii: false,
+    attachStacktrace: true,
 
-    integrations: [
-      Sentry.browserTracingIntegration(),
-      Sentry.replayIntegration({
-        // Mask sensitive data in replays
-        maskAllText: false,
-        maskAllInputs: true,
-        blockAllMedia: true,
-      }),
-    ],
+    integrations: [],
 
     // Filter out noise and sensitive data
     beforeSend(event) {
@@ -63,22 +57,6 @@ export function initSentry() {
       // Filter out ResizeObserver warnings
       if (event.exception?.values?.[0]?.value?.includes("ResizeObserver")) {
         return null;
-      }
-
-      return event;
-    },
-
-    // Filter sensitive data from transactions
-    beforeSendTransaction(event) {
-      // Remove sensitive headers
-      if (event.request?.headers) {
-        const {
-          Authorization: _auth,
-          Cookie: _cookie,
-          "X-API-Key": _apiKey,
-          ...safeHeaders
-        } = event.request.headers;
-        event.request.headers = safeHeaders;
       }
 
       return event;
@@ -138,34 +116,13 @@ export function trackEvent(name: string, data?: Record<string, unknown>) {
 
 /**
  * Sets the current user context in Sentry for error tracking.
- * Only active in production environment.
+ * Only the opaque user ID is sent — no email or PII (ePrivacy).
  *
- * @function setUserContext
- * @param {object} user - The user context object
- * @param {string} user.id - The user's unique identifier
- * @param {string} [user.email] - The user's email address
- * @param {string} [user.type] - The user's account type (donor/charity)
- * @returns {void}
- * @example
- * ```typescript
- * setUserContext({
- *   id: 'user-123',
- *   email: 'user@example.com',
- *   type: 'donor'
- * });
- * ```
+ * @param user - Object containing the user's UUID
  */
-export function setUserContext(user: {
-  id: string;
-  email?: string;
-  type?: string;
-}) {
+export function setUserContext(user: { id: string }) {
   if (import.meta.env.PROD) {
-    Sentry.setUser({
-      id: user.id,
-      email: user.email,
-      type: user.type,
-    });
+    Sentry.setUser({ id: user.id });
   }
 }
 
