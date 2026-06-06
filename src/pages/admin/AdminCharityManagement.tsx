@@ -43,26 +43,6 @@ function StatusBadge({
   );
 }
 
-/** Wallet address badge for admin charity list */
-function WalletBadge({
-  address,
-}: {
-  address: string | null;
-}): React.ReactElement {
-  const { t } = useTranslation();
-  if (address) {
-    return (
-      <span className="inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-emerald-100 text-emerald-800">
-        {`${address.slice(0, 6)}\u2026${address.slice(-4)}`}
-      </span>
-    );
-  }
-  return (
-    <span className="inline-block px-2 py-0.5 text-xs font-semibold rounded-full bg-gray-100 text-gray-500">
-      {t("admin.charity.walletNotSet", "Not set")}
-    </span>
-  );
-}
 
 /** Action buttons row for a single charity row */
 function CharityActions({
@@ -310,6 +290,34 @@ function ActionModal({
           </>
         )}
       </p>
+      {(charity.ein !== null || charity.signerName !== null) && (
+        <div className="bg-gray-50 rounded-lg p-3 mb-4 text-sm space-y-1">
+          {charity.ein !== null && (
+            <p>
+              <span className="font-medium text-gray-700">EIN:</span>{" "}
+              <span className="font-mono">{charity.ein}</span>
+            </p>
+          )}
+          {charity.signerName !== null && (
+            <p>
+              <span className="font-medium text-gray-700">Contact:</span>{" "}
+              {charity.signerName}
+            </p>
+          )}
+          {charity.signerEmail !== null && (
+            <p>
+              <span className="font-medium text-gray-700">Email:</span>{" "}
+              {charity.signerEmail}
+            </p>
+          )}
+          {charity.signerPhone !== null && (
+            <p>
+              <span className="font-medium text-gray-700">Phone:</span>{" "}
+              {charity.signerPhone}
+            </p>
+          )}
+        </div>
+      )}
       <textarea
         className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-y min-h-[80px]"
         placeholder={
@@ -377,7 +385,7 @@ function CharityTable({
             scope="col"
             className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
           >
-            {t("admin.charity.colCategory", "Category")}
+            {t("admin.charity.colEin", "EIN")}
           </th>
           <th
             scope="col"
@@ -389,13 +397,13 @@ function CharityTable({
             scope="col"
             className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
           >
-            {t("admin.charity.colJoined", "Joined")}
+            {t("admin.charity.colSigner", "Contact")}
           </th>
           <th
             scope="col"
             className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
           >
-            {t("admin.charity.colWallet", "Wallet")}
+            {t("admin.charity.colJoined", "Joined")}
           </th>
           <th
             scope="col"
@@ -452,16 +460,22 @@ function CharityRow({
       <td className="px-4 py-3 text-sm font-medium text-gray-900">
         {charity.name}
       </td>
-      <td className="px-4 py-3 text-sm text-gray-500">
-        {charity.category ?? "—"}
+      <td className="px-4 py-3 text-sm text-gray-500 font-mono">
+        {charity.ein ?? "—"}
       </td>
       <td className="px-4 py-3">
         <StatusBadge status={charity.verificationStatus} />
       </td>
-      <td className="px-4 py-3 text-sm text-gray-500">{formattedDate}</td>
-      <td className="px-4 py-3">
-        <WalletBadge address={charity.walletAddress} />
+      <td className="px-4 py-3 text-sm text-gray-500">
+        {charity.signerName ? (
+          <span title={charity.signerEmail ?? undefined}>
+            {charity.signerName}
+          </span>
+        ) : (
+          "—"
+        )}
       </td>
+      <td className="px-4 py-3 text-sm text-gray-500">{formattedDate}</td>
       <td className="px-4 py-3">
         <CharityActions
           charity={charity}
