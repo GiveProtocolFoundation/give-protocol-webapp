@@ -141,7 +141,7 @@ export class SecurityManager {
     return {
       "Content-Security-Policy": `
         default-src 'self';
-        script-src 'self' 'wasm-unsafe-eval' 'sha256-L3h1aieX3I2RUG5NsRZhXdSCcrNfENurvDu3+sQob80=' ${scriptSrcDomains};
+        script-src 'self' 'wasm-unsafe-eval' 'sha256-FE0b/aIu3qmhPRVUXn/+TXDCpLi5oRzW6cwcyknX2PU=' ${scriptSrcDomains};
         style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://fonts.googleapis.com;
         img-src 'self' data: https: blob:;
         font-src 'self' https://fonts.gstatic.com;
