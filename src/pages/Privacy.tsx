@@ -321,15 +321,19 @@ export const Privacy: React.FC = () => {
         <p>A consent banner is shown on your first visit. You may:</p>
         <ul>
           <li>
-            <strong>Accept all</strong> &mdash; enable essential and analytics
-            technologies
+            <strong>Accept all</strong> &mdash; enable session analytics in
+            addition to the always-on essential technologies and error
+            monitoring described in &sect;11.2
           </li>
           <li>
-            <strong>Decline non-essential</strong> &mdash; essential only;
-            analytics and error monitoring will not run
+            <strong>Decline non-essential</strong> &mdash; only essential
+            technologies and the always-on error monitoring described in
+            &sect;11.2 will run; session analytics will not
           </li>
           <li>
-            <strong>Customize</strong> &mdash; choose per category
+            <strong>Customize</strong> &mdash; toggle session analytics on or
+            off; essential technologies and error monitoring cannot be turned
+            off
           </li>
         </ul>
         <p>
