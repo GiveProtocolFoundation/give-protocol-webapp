@@ -1299,8 +1299,30 @@ export default {
     "footer.legal.title": "Legal",
     "footer.legal.terms": "Terms of Service",
     "footer.legal.privacy": "Privacy Policy",
+    "footer.legal.cookiePreferences": "Cookie preferences",
     "footer.connect.title": "Connect",
     "footer.copyright": "Give Protocol. All rights reserved.",
+
+    // Cookie consent banner + customize modal (GIV-362)
+    "consent.banner.ariaLabel": "Cookie consent",
+    "consent.banner.body":
+      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
+    "consent.banner.privacyLink": "Privacy policy",
+    "consent.banner.acceptAll": "Accept all",
+    "consent.banner.decline": "Decline non-essential",
+    "consent.banner.customize": "Customize",
+    "consent.modal.title": "Cookie preferences",
+    "consent.modal.essentialTitle": "Essential",
+    "consent.modal.essentialDesc":
+      "Required for core site features such as navigation and authentication. Cannot be disabled.",
+    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
+    "consent.modal.analyticsTitle": "Analytics & error replay",
+    "consent.modal.analyticsDesc":
+      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
+    "consent.modal.analyticsOn": "Analytics & error replay — on",
+    "consent.modal.analyticsOff": "Analytics & error replay — off",
+    "consent.modal.cancel": "Cancel",
+    "consent.modal.save": "Save preferences",
 
     // Navigation - additional (GIV-253 / GIV-263 fix)
     "nav.signIn": "Sign In",

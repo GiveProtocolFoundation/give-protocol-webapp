@@ -14,6 +14,8 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { SentryFallback } from "./components/SentryFallback";
 import { useSafeAutoConnect } from "./hooks/useSafeAutoConnect";
 import { useWalletAuthSync } from "./hooks/useWalletAuthSync";
+import { ConsentProvider } from "./lib/consent/ConsentProvider";
+import { CookieBanner } from "./components/consent/CookieBanner";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
 
@@ -80,11 +82,14 @@ const AuthWeb3Providers = ({ children }: { children: React.ReactNode }) => (
   </AuthSettingsProviders>
 );
 
-// Combined providers component
+// Combined providers component (ConsentProvider wraps everything so
+// the banner and footer link can reach useConsent() from anywhere in the tree)
 const AppProviders = ({ children }: { children: React.ReactNode }) => (
-  <CoreProviders>
-    <AuthWeb3Providers>{children}</AuthWeb3Providers>
-  </CoreProviders>
+  <ConsentProvider>
+    <CoreProviders>
+      <AuthWeb3Providers>{children}</AuthWeb3Providers>
+    </CoreProviders>
+  </ConsentProvider>
 );
 
 // Safe auto-connect wrapper
@@ -100,9 +105,12 @@ const SafeAutoConnectWrapper = ({
 // Router wrapper component (Router is now provided by entry files)
 const AppRouter = () => (
   <SafeAutoConnectWrapper>
-    <Layout>
-      <AppRoutes />
-    </Layout>
+    <>
+      <Layout>
+        <AppRoutes />
+      </Layout>
+      <CookieBanner />
+    </>
   </SafeAutoConnectWrapper>
 );
 
