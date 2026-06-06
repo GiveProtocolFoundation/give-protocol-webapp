@@ -1,5 +1,5 @@
 import React, { useEffect, useState, useCallback } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -145,6 +145,7 @@ const VerifyIdentityStep: React.FC<{
 function ClaimCharity() {
   const { ein } = useParams<{ ein: string }>();
   const { user } = useAuth();
+  const navigate = useNavigate();
   const [profile, setProfile] = useState<CharityProfile | null>(null);
   const [loading, setLoading] = useState(true);
   const [role, setRole] = useState("");
@@ -203,10 +204,14 @@ function ClaimCharity() {
     setSubmitting(false);
     if (ok) {
       setSubmitted(true);
+      navigate(
+        `/auth/registration-success?type=charity-claim&email=${encodeURIComponent(email)}`,
+        { replace: true },
+      );
     } else {
       setSubmitError("Could not submit your request. Please try again.");
     }
-  }, [role, email, ein, user]);
+  }, [role, email, ein, user, navigate]);
 
   if (loading) {
     return (
