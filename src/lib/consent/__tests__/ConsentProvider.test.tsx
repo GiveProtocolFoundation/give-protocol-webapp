@@ -10,9 +10,7 @@ function ConsentStatus() {
   return (
     <div>
       <span data-testid="decided">{hasDecided ? "yes" : "no"}</span>
-      <span data-testid="analytics">
-        {categories.analytics ? "on" : "off"}
-      </span>
+      <span data-testid="analytics">{categories.analytics ? "on" : "off"}</span>
       <button onClick={() => accept({ analytics: true })}>acceptOn</button>
       <button onClick={() => accept({ analytics: false })}>acceptOff</button>
       <button onClick={() => decline()}>decline</button>
