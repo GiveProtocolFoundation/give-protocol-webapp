@@ -224,8 +224,8 @@ export const Privacy: React.FC = () => {
         <p>
           We retain personal data only for as long as necessary to fulfill the
           purposes outlined in this Privacy Policy, unless a longer retention
-          period is required or permitted by law. Specific retention periods
-          per data category are set out below.
+          period is required or permitted by law. Specific retention periods per
+          data category are set out below.
         </p>
 
         <h3>7.1 Retention Periods by Data Category</h3>
@@ -239,14 +239,13 @@ export const Privacy: React.FC = () => {
             records are aggregated and the personal identifiers are removed.
           </li>
           <li>
-            <strong>Identity verification documents</strong> (KYC/AML
-            documents, charity registration documents): retained for the
-            duration of the verified relationship plus <strong>five (5)
-            years</strong>, to satisfy anti-money-laundering record-keeping
-            requirements. Where a verification is rejected, documents are
-            deleted within <strong>thirty (30) days</strong> of the final
-            decision unless retention is required for a regulatory or legal
-            dispute.
+            <strong>Identity verification documents</strong> (KYC/AML documents,
+            charity registration documents): retained for the duration of the
+            verified relationship plus <strong>five (5) years</strong>, to
+            satisfy anti-money-laundering record-keeping requirements. Where a
+            verification is rejected, documents are deleted within{" "}
+            <strong>thirty (30) days</strong> of the final decision unless
+            retention is required for a regulatory or legal dispute.
           </li>
           <li>
             <strong>Account profile data</strong> (name, email, contact details,
@@ -265,15 +264,15 @@ export const Privacy: React.FC = () => {
           </li>
           <li>
             <strong>Authentication and security logs</strong> (login events,
-            session metadata, IP addresses, security audit trails): retained
-            for up to <strong>twelve (12) months</strong> for security
-            monitoring, fraud detection, and incident investigation. Logs
-            relating to an active or recent security incident may be retained
-            longer until the incident is closed.
+            session metadata, IP addresses, security audit trails): retained for
+            up to <strong>twelve (12) months</strong> for security monitoring,
+            fraud detection, and incident investigation. Logs relating to an
+            active or recent security incident may be retained longer until the
+            incident is closed.
           </li>
           <li>
-            <strong>Communications and correspondence</strong> (support
-            tickets, emails, in-app messages): retained for up to{" "}
+            <strong>Communications and correspondence</strong> (support tickets,
+            emails, in-app messages): retained for up to{" "}
             <strong>three (3) years</strong> from the last interaction, for
             quality assurance and dispute resolution.
           </li>
@@ -286,8 +285,8 @@ export const Privacy: React.FC = () => {
             <strong>Blockchain transaction data</strong>: by the immutable
             nature of public blockchains, on-chain transactions cannot be
             deleted. Where on-chain data is linked to a Give Protocol account,
-            we can sever the link in our off-chain records but cannot remove
-            the underlying on-chain record.
+            we can sever the link in our off-chain records but cannot remove the
+            underlying on-chain record.
           </li>
         </ul>
 
@@ -304,10 +303,10 @@ export const Privacy: React.FC = () => {
           out automatically as the backup retention window passes.
         </p>
         <p>
-          If a disaster-recovery restore takes place during the backup
-          retention window, any restored copies of previously-erased data are
-          re-deleted within twenty-four (24) hours of the restore completing,
-          and a record of the re-deletion is logged.
+          If a disaster-recovery restore takes place during the backup retention
+          window, any restored copies of previously-erased data are re-deleted
+          within twenty-four (24) hours of the restore completing, and a record
+          of the re-deletion is logged.
         </p>
 
         <h3>7.3 Legal and Regulatory Retention</h3>
@@ -316,21 +315,21 @@ export const Privacy: React.FC = () => {
           required by law (for example, where a tax authority, supervisory
           authority, or court order requires longer retention), or where the
           records are necessary for the establishment, exercise, or defense of
-          legal claims. In those cases, retention is limited to what is
-          strictly necessary for the legal purpose and the data is segregated
-          from active processing.
+          legal claims. In those cases, retention is limited to what is strictly
+          necessary for the legal purpose and the data is segregated from active
+          processing.
         </p>
 
         <h3>7.4 Personal Data Breach Notification</h3>
         <p>
           If we determine that a personal data breach has occurred that is
-          likely to result in a risk to your rights and freedoms, we will
-          notify the competent supervisory authority within seventy-two (72)
-          hours of becoming aware of the breach, in line with Article 33 GDPR.
-          If the breach is likely to result in a high risk to your rights and
-          freedoms, we will also notify you directly without undue delay, in
-          line with Article 34 GDPR. We maintain an internal register of all
-          personal data breaches as required by Article 33(5) GDPR.
+          likely to result in a risk to your rights and freedoms, we will notify
+          the competent supervisory authority within seventy-two (72) hours of
+          becoming aware of the breach, in line with Article 33 GDPR. If the
+          breach is likely to result in a high risk to your rights and freedoms,
+          we will also notify you directly without undue delay, in line with
+          Article 34 GDPR. We maintain an internal register of all personal data
+          breaches as required by Article 33(5) GDPR.
         </p>
       </section>
 
