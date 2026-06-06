@@ -27,6 +27,7 @@ const ResetPassword: React.FC = () => {
   useEffect(() => {
     let timeoutId: ReturnType<typeof setTimeout> | null = null;
 
+    /** Starts a 5-second countdown; if still validating, transitions to invalid-link state. */
     const startInvalidTimer = () => {
       timeoutId = setTimeout(() => {
         setPageState((prev) => (prev === "validating" ? "invalid" : prev));

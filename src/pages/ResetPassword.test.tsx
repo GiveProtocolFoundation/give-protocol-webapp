@@ -50,7 +50,7 @@ describe("ResetPassword", () => {
     jest.clearAllMocks();
   });
 
-  it("shows loading spinner while validating", async () => {
+  it("shows loading spinner while validating", () => {
     renderPage();
     expect(screen.getByTestId("loading-spinner")).toBeInTheDocument();
     expect(screen.getByText(/validating reset link/i)).toBeInTheDocument();
@@ -133,7 +133,7 @@ describe("ResetPassword", () => {
       .closest("form");
     if (form === null) throw new Error("Form not found");
 
-    await act(async () => {
+    act(() => {
       fireEvent.submit(form);
     });
 
