@@ -122,18 +122,18 @@ export function enableAnalyticsIntegrations(user: {
 
 /**
  * Disables Phase B integrations on consent withdrawal.
- * Closes the current Sentry client, re-inits Phase A, and reloads the page
- * so that no stale replay/tracing state leaks.
+ * Closes the current Sentry client (flushing in-flight envelopes),
+ * re-inits Phase A, and reloads the page so that no stale replay/tracing
+ * state leaks.
  */
-export function disableAnalyticsIntegrations(): void {
+export async function disableAnalyticsIntegrations(): Promise<void> {
   if (!import.meta.env.PROD) return;
 
   analyticsEnabled = false;
 
-  void Sentry.close().then(() => {
-    initSentry();
-    window.location.reload();
-  });
+  await Sentry.close();
+  initSentry();
+  window.location.reload();
 }
 
 /** Returns whether Phase B (analytics) integrations are currently active. */
@@ -149,14 +149,14 @@ export function isAnalyticsEnabled(): boolean {
  * Sets an opaque user ID in Sentry (Phase A level — no email/PII).
  * @param user - Object with user id
  */
-export function setUserContext(user: { id: string }): void {
+export function setSentryUser(user: { id: string }): void {
   if (import.meta.env.PROD) {
     Sentry.setUser({ id: user.id });
   }
 }
 
 /** Clears the current user context from Sentry. */
-export function clearUserContext(): void {
+export function clearSentryUser(): void {
   if (import.meta.env.PROD) {
     Sentry.setUser(null);
   }
@@ -280,8 +280,3 @@ export function captureCustomEvent(
   }
 }
 
-// Aliases for AuthContext compatibility
-/** Alias for setUserContext — sets the authenticated user in Sentry. */
-export const setSentryUser = setUserContext;
-/** Alias for clearUserContext — clears the authenticated user from Sentry. */
-export const clearSentryUser = clearUserContext;
