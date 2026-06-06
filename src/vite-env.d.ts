@@ -66,6 +66,10 @@ interface PolkadotWalletProvider {
 }
 
 interface Window {
+  /** GA4 gtag command queue (set by inline script in index.html) */
+  gtag?: (..._args: unknown[]) => void;
+  /** GA4 dataLayer (set by inline script in index.html) */
+  dataLayer?: unknown[];
   /** MetaMask and generic EVM providers */
   ethereum?: EIP1193Provider;
   /** Coinbase Wallet extension */

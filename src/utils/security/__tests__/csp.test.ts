@@ -39,14 +39,10 @@ jest.mock("@/utils/logger", () => ({
 
 import { SecurityManager } from "../index";
 
-// SHA-256 hashes of the three inline scripts in index.html (PCI DSS SAQ A-EP requirement 6.4.3)
+// SHA-256 hash of the single consolidated inline script in index.html (PCI DSS SAQ A-EP requirement 6.4.3)
 const INLINE_SCRIPT_HASHES = [
-  // GTM loader script
-  "sha256-ooHLYUO0qxugBXSF0QzLAXnSRuY4UhNaiOFO9oNqiOY=",
-  // gtag consent/config script
-  "sha256-1A5C0PgHbkU0Dcl68Pe/TR1vV/k5AMjAVNdjxLJHUaE=",
-  // Silktide consent manager config script
-  "sha256-m9VrlzP2G46X7nBNMitQ7UMiGkSb46V+wRGTzBoGJmE=",
+  // Consolidated GTM + gtag + Silktide consent script
+  "sha256-L3h1aieX3I2RUG5NsRZhXdSCcrNfENurvDu3+sQob80=",
 ];
 
 type SecurityManagerPrivate = {
@@ -85,7 +81,7 @@ describe("SecurityManager CSP (PCI DSS SAQ A-EP Requirement 6.4.3)", () => {
     expect(scriptSrc).not.toContain("'unsafe-eval'");
   });
 
-  it("includes all three inline script SHA-256 hashes in script-src", () => {
+  it("includes the consolidated inline script SHA-256 hash in script-src", () => {
     const manager = SecurityManager.getInstance();
     const csp = (manager as unknown as SecurityManagerPrivate).securityHeaders[
       "Content-Security-Policy"

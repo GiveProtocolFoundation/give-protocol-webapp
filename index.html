@@ -12,7 +12,7 @@
     -->
     <meta
       http-equiv="Content-Security-Policy"
-      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-ooHLYUO0qxugBXSF0QzLAXnSRuY4UhNaiOFO9oNqiOY=' 'sha256-1A5C0PgHbkU0Dcl68Pe/TR1vV/k5AMjAVNdjxLJHUaE=' 'sha256-m9VrlzP2G46X7nBNMitQ7UMiGkSb46V+wRGTzBoGJmE=' https://etqbojasfmpieigeefdj.supabase.co https://*.sentry.io https://translate.google.com https://translate.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://www.paypalobjects.com; style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' ws://localhost:* https://etqbojasfmpieigeefdj.supabase.co https://*.sentry.io wss://*.supabase.co https://api.giveprotocol.io https://translate.googleapis.com https://www.google-analytics.com https://analytics.google.com https://api.coingecko.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://api-m.paypal.com https://api-m.sandbox.paypal.com https://mainnet.base.org https://base.publicnode.com https://mainnet.optimism.io https://rpc.api.moonbeam.network https://sepolia.base.org https://sepolia.optimism.io https://rpc.api.moonbase.moonbeam.network https://s3.amazonaws.com; frame-src 'self' https://translate.google.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://www.sandbox.paypal.com; object-src 'none'; base-uri 'self'; form-action 'self';"
+      content="default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'sha256-L3h1aieX3I2RUG5NsRZhXdSCcrNfENurvDu3+sQob80=' https://etqbojasfmpieigeefdj.supabase.co https://*.sentry.io https://translate.google.com https://translate.googleapis.com https://www.googletagmanager.com https://www.google-analytics.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://www.paypalobjects.com; style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://fonts.googleapis.com; img-src 'self' data: https: blob:; font-src 'self' https://fonts.gstatic.com; connect-src 'self' ws://localhost:* https://etqbojasfmpieigeefdj.supabase.co https://*.sentry.io wss://*.supabase.co https://api.giveprotocol.io https://translate.googleapis.com https://www.google-analytics.com https://analytics.google.com https://api.coingecko.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://api-m.paypal.com https://api-m.sandbox.paypal.com https://mainnet.base.org https://base.publicnode.com https://mainnet.optimism.io https://rpc.api.moonbeam.network https://sepolia.base.org https://sepolia.optimism.io https://rpc.api.moonbase.moonbeam.network https://s3.amazonaws.com; frame-src 'self' https://translate.google.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://www.sandbox.paypal.com; object-src 'none'; base-uri 'self'; form-action 'self';"
     />
 
     <!-- Google Fonts: DM Serif Display + DM Sans -->
@@ -23,39 +23,13 @@
       rel="stylesheet"
     />
 
-    <!-- Silktide Consent Manager -->
-    <link
-      rel="stylesheet"
-      id="silktide-consent-manager-css"
-      href="/silktide-consent-manager.css"
-    />
-    <script src="/silktide-consent-manager.js"></script>
-
-    <!-- Google tag (gtag.js) - wrapped to handle ad-blockers gracefully -->
-    <script>
-      (function () {
-        try {
-          var s = document.createElement("script");
-          s.async = true;
-          s.src = "https://www.googletagmanager.com/gtag/js?id=G-CBQHKLHD8T";
-          s.onerror = function () {
-            console.info(
-              "GTM blocked (ad-blocker or network issue) — analytics disabled",
-            );
-          };
-          document.head.appendChild(s);
-        } catch (e) {
-          // Silently ignore GTM load failures
-        }
-      })();
-    </script>
+    <!-- GA4 consent defaults — denied until ConsentProvider grants -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
 
-      // Set default consent to denied
       gtag("consent", "default", {
         analytics_storage: "denied",
         ad_storage: "denied",
@@ -63,105 +37,6 @@
         ad_personalization: "denied",
         wait_for_update: 500,
       });
-
-      gtag("js", new Date());
-      gtag("config", "G-CBQHKLHD8T");
-    </script>
-
-    <!-- Silktide Configuration -->
-    <script>
-      // Wait for Silktide to load before configuring
-      if (typeof silktideCookieBannerManager !== "undefined") {
-        silktideCookieBannerManager.updateCookieBannerConfig({
-          background: {
-            showBackground: false,
-          },
-          cookieIcon: {
-            position: "bottomLeft",
-          },
-          cookieTypes: [
-            {
-              id: "necessary",
-              name: "Necessary",
-              description:
-                "<p>These cookies are necessary for the website to function properly and cannot be switched off. They help with things like logging in and setting your privacy preferences.</p>",
-              required: true,
-              onAccept: function () {
-                console.log("Add logic for the required Necessary here");
-              },
-            },
-            {
-              id: "analytics",
-              name: "Analytics",
-              description:
-                "<p>These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.</p>",
-              defaultValue: true,
-              onAccept: function () {
-                gtag("consent", "update", {
-                  analytics_storage: "granted",
-                });
-                dataLayer.push({
-                  event: "consent_accepted_analytics",
-                });
-              },
-              onReject: function () {
-                gtag("consent", "update", {
-                  analytics_storage: "denied",
-                });
-              },
-            },
-            {
-              id: "advertising",
-              name: "Advertising",
-              description:
-                "<p>These cookies provide extra features and personalization to improve your experience. They may be set by us or by partners whose services we use.</p>",
-              onAccept: function () {
-                gtag("consent", "update", {
-                  ad_storage: "granted",
-                  ad_user_data: "granted",
-                  ad_personalization: "granted",
-                });
-                dataLayer.push({
-                  event: "consent_accepted_advertising",
-                });
-              },
-              onReject: function () {
-                gtag("consent", "update", {
-                  ad_storage: "denied",
-                  ad_user_data: "denied",
-                  ad_personalization: "denied",
-                });
-              },
-            },
-          ],
-          text: {
-            banner: {
-              description:
-                '<p>We use cookies to enhance your browsing experience, personalize content, and analyze our traffic. By clicking "Accept All Cookies", you agree to the storing of cookies on your device. For more information, please see our <a href="/privacy" target="_blank">Privacy Policy</a>.</p>',
-              acceptAllButtonText: "Accept all",
-              acceptAllButtonAccessibleLabel: "Accept all cookies",
-              rejectNonEssentialButtonText: "Reject non-essential",
-              rejectNonEssentialButtonAccessibleLabel: "Reject non-essential",
-              preferencesButtonText: "Preferences",
-              preferencesButtonAccessibleLabel: "Toggle preferences",
-            },
-            preferences: {
-              title: "Customize your cookie preferences",
-              description:
-                "<p>We respect your right to privacy. You can choose not to allow some types of cookies. Your cookie preferences will apply across our website.</p>",
-              creditLinkText: "",
-              creditLinkAccessibleLabel: "",
-            },
-          },
-          position: {
-            banner: "bottomCenter",
-          },
-        });
-      } else {
-        console.warn(
-          "Silktide consent manager not loaded. Please ensure the JS file is available.",
-        );
-      }
     </script>
 
     <title>Give Protocol - Smart Giving Platform</title>
