@@ -20,7 +20,8 @@
     "test:jest": "NODE_OPTIONS='--experimental-vm-modules' jest --config jest.config.mjs --passWithNoTests",
     "test:e2e": "cypress open",
     "test:e2e:headless": "cypress run",
-    "sonar": "sonar-scanner"
+    "sonar": "sonar-scanner",
+    "validate:csp": "node scripts/validate-csp.mjs"
   },
   "dependencies": {
     "@ledgerhq/device-management-kit": "^1.0.1",
