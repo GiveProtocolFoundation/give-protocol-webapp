@@ -55,7 +55,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
   // Dev-only: ?_consentReset=1 forces the banner back to the undecided state
   // so developers can verify the banner without clearing localStorage manually.
   useEffect(() => {
-    if (import.meta.env.DEV) {
+    if (import.meta.env?.DEV) {
       const params = new URLSearchParams(window.location.search);
       if (params.get("_consentReset") === "1") {
         clearConsent();
