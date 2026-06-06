@@ -1,10 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-} from "@jest/globals";
+import { describe, it, expect, beforeEach, afterEach } from "@jest/globals";
 import {
   readConsent,
   writeConsent,

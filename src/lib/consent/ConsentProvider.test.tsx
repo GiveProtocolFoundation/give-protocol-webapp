@@ -1,10 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-} from "@jest/globals";
+import { describe, it, expect, beforeEach, afterEach } from "@jest/globals";
 import { render, screen, act } from "@testing-library/react";
 import { ConsentProvider, useConsent } from "./ConsentProvider.js";
 import { CONSENT_STORAGE_KEY } from "./storage.js";
@@ -161,11 +155,9 @@ describe("ConsentProvider", () => {
   });
 
   it("throws when useConsent is used outside ConsentProvider", () => {
-    const consoleSpy = jest
-      .spyOn(console, "error")
-      .mockImplementation(() => {
-        // Suppress React error boundary console output
-      });
+    const consoleSpy = jest.spyOn(console, "error").mockImplementation(() => {
+      // Suppress React error boundary console output
+    });
 
     expect(() => {
       render(<TestConsumer />);

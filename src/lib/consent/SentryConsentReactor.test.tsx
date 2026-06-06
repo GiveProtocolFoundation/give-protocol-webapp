@@ -1,10 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-} from "@jest/globals";
+import { describe, it, expect, beforeEach, afterEach } from "@jest/globals";
 import { render, act } from "@testing-library/react";
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -20,9 +14,15 @@ import { ConsentProvider, useConsent } from "./ConsentProvider.js";
 // enableAnalyticsIntegrations and disableAnalyticsIntegrations are jest.fn()
 // in sentryMock. useAuth is a jest.fn() in authContextMock.
 
-const mockUseAuth = useAuth as ReturnType<typeof import("@jest/globals").jest.fn>;
-const mockEnable = enableAnalyticsIntegrations as ReturnType<typeof import("@jest/globals").jest.fn>;
-const mockDisable = disableAnalyticsIntegrations as ReturnType<typeof import("@jest/globals").jest.fn>;
+const mockUseAuth = useAuth as ReturnType<
+  typeof import("@jest/globals").jest.fn
+>;
+const mockEnable = enableAnalyticsIntegrations as ReturnType<
+  typeof import("@jest/globals").jest.fn
+>;
+const mockDisable = disableAnalyticsIntegrations as ReturnType<
+  typeof import("@jest/globals").jest.fn
+>;
 
 /** Component that exposes consent controls for tests */
 function ConsentControls() {
