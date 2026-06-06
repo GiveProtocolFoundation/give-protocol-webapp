@@ -41,7 +41,9 @@ export function readConsent(): ConsentRecord | null {
 /**
  * Persist a consent decision.  Always forces essential:true.
  */
-export function writeConsent(categories: { analytics: boolean }): ConsentRecord {
+export function writeConsent(categories: {
+  analytics: boolean;
+}): ConsentRecord {
   const record: ConsentRecord = {
     version: SCHEMA_VERSION,
     decidedAt: new Date().toISOString(),

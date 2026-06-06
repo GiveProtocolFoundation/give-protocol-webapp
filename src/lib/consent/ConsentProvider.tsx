@@ -36,7 +36,10 @@ interface ConsentContextValue {
   reset: () => void;
 }
 
-const defaultCategories: ConsentCategories = { essential: true, analytics: false };
+const defaultCategories: ConsentCategories = {
+  essential: true,
+  analytics: false,
+};
 
 const ConsentContext = createContext<ConsentContextValue | null>(null);
 
@@ -45,7 +48,9 @@ const ConsentContext = createContext<ConsentContextValue | null>(null);
 // ---------------------------------------------------------------------------
 
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
-  const [record, setRecord] = useState<ConsentRecord | null>(() => readConsent());
+  const [record, setRecord] = useState<ConsentRecord | null>(() =>
+    readConsent(),
+  );
 
   // Dev-only: ?_consentReset=1 forces the banner back to the undecided state
   // so developers can verify the banner without clearing localStorage manually.
@@ -64,7 +69,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
       const updated = writeConsent({ analytics: cats.analytics });
       setRecord(updated);
     },
-    []
+    [],
   );
 
   const decline = useCallback(() => {

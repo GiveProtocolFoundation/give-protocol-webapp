@@ -16,7 +16,7 @@ const FOCUSABLE_SELECTORS = [
 
 function useFocusTrap(
   containerRef: React.RefObject<HTMLDivElement>,
-  active: boolean
+  active: boolean,
 ) {
   useEffect(() => {
     if (!active || !containerRef.current) return;
@@ -76,7 +76,7 @@ interface CustomizeModalProps {
 export function CustomizeModal({ onClose, triggerRef }: CustomizeModalProps) {
   const { categories, accept } = useConsent();
   const [analyticsEnabled, setAnalyticsEnabled] = useState(
-    categories.analytics
+    categories.analytics,
   );
   const containerRef = useRef<HTMLDivElement>(null);
   const prevFocusRef = useRef<HTMLElement | null>(null);
@@ -87,8 +87,7 @@ export function CustomizeModal({ onClose, triggerRef }: CustomizeModalProps) {
   useEffect(() => {
     prevFocusRef.current = document.activeElement as HTMLElement | null;
     return () => {
-      const returnTarget =
-        triggerRef?.current ?? prevFocusRef.current;
+      const returnTarget = triggerRef?.current ?? prevFocusRef.current;
       returnTarget?.focus();
     };
   }, [triggerRef]);
@@ -115,7 +114,7 @@ export function CustomizeModal({ onClose, triggerRef }: CustomizeModalProps) {
         onClose();
       }
     },
-    [onClose]
+    [onClose],
   );
 
   return (
