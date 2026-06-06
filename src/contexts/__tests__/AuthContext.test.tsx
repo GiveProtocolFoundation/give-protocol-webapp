@@ -677,7 +677,7 @@ describe("AuthContext", () => {
       await waitFor(() => {
         expect(mockSupabase.auth.resetPasswordForEmail).toHaveBeenCalledWith(
           "test@example.com",
-          { redirectTo: `${window.location.origin}/reset-password` },
+          { redirectTo: `${window.location.origin}/auth/reset-password` },
         );
         expect(mockShowToast).toHaveBeenCalledWith(
           "success",
