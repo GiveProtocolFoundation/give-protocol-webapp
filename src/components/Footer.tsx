@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBluesky, FaGithub, FaDiscord } from "react-icons/fa6";
 import { Logo } from "@/components/Logo";
@@ -65,7 +65,6 @@ function FooterResources() {
 function FooterLegal() {
   const { t } = useTranslation();
   const [showCookieModal, setShowCookieModal] = useState(false);
-  const cookieBtnRef = useRef<HTMLButtonElement>(null);
 
   return (
     <>
@@ -92,12 +91,11 @@ function FooterLegal() {
           </li>
           <li>
             <button
-              ref={cookieBtnRef}
               type="button"
               onClick={() => setShowCookieModal(true)}
               className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block bg-transparent border-0 cursor-pointer p-0"
             >
-              Cookie preferences
+              {t("footer.legal.cookiePreferences")}
             </button>
           </li>
         </ul>
@@ -106,7 +104,7 @@ function FooterLegal() {
       {showCookieModal && (
         <CustomizeModal
           onClose={() => setShowCookieModal(false)}
-          triggerRef={cookieBtnRef}
+          showCloseButton
         />
       )}
     </>

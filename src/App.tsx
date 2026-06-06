@@ -14,6 +14,8 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { SentryFallback } from "./components/SentryFallback";
 import { useSafeAutoConnect } from "./hooks/useSafeAutoConnect";
 import { useWalletAuthSync } from "./hooks/useWalletAuthSync";
+import { ConsentProvider } from "./lib/consent/ConsentProvider";
+import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
 import { ConsentProvider } from "./lib/consent/ConsentProvider";
@@ -77,6 +79,7 @@ const AuthWeb3Providers = ({ children }: { children: React.ReactNode }) => (
   <AuthSettingsProviders>
     <ChainWeb3Providers>
       <WalletAuthSync />
+      <SentryConsentReactor />
       {children}
     </ChainWeb3Providers>
   </AuthSettingsProviders>
