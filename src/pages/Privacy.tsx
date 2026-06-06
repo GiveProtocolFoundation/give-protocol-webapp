@@ -224,7 +224,113 @@ export const Privacy: React.FC = () => {
         <p>
           We retain personal data only for as long as necessary to fulfill the
           purposes outlined in this Privacy Policy, unless a longer retention
-          period is required or permitted by law.
+          period is required or permitted by law. Specific retention periods
+          per data category are set out below.
+        </p>
+
+        <h3>7.1 Retention Periods by Data Category</h3>
+        <ul>
+          <li>
+            <strong>Donation and transaction records</strong> (donation amounts,
+            charity recipient, transaction timestamps, tax-relevant
+            attribution): retained for <strong>seven (7) years</strong> after
+            the donation, to satisfy charitable tax-reporting and audit
+            obligations under US and EU member-state law. After this period,
+            records are aggregated and the personal identifiers are removed.
+          </li>
+          <li>
+            <strong>Identity verification documents</strong> (KYC/AML
+            documents, charity registration documents): retained for the
+            duration of the verified relationship plus <strong>five (5)
+            years</strong>, to satisfy anti-money-laundering record-keeping
+            requirements. Where a verification is rejected, documents are
+            deleted within <strong>thirty (30) days</strong> of the final
+            decision unless retention is required for a regulatory or legal
+            dispute.
+          </li>
+          <li>
+            <strong>Account profile data</strong> (name, email, contact details,
+            profile preferences, volunteer skills): retained for as long as the
+            account is active. On account deletion, profile data is anonymized
+            or deleted within <strong>thirty (30) days</strong> of the deletion
+            request being processed.
+          </li>
+          <li>
+            <strong>Volunteer activity records</strong> (volunteer hours,
+            charity affiliations, references): retained for the duration of the
+            account plus <strong>three (3) years</strong> to allow verification
+            of past volunteer history by current and prospective charities, and
+            to defend against disputes. After this period, records are
+            anonymized.
+          </li>
+          <li>
+            <strong>Authentication and security logs</strong> (login events,
+            session metadata, IP addresses, security audit trails): retained
+            for up to <strong>twelve (12) months</strong> for security
+            monitoring, fraud detection, and incident investigation. Logs
+            relating to an active or recent security incident may be retained
+            longer until the incident is closed.
+          </li>
+          <li>
+            <strong>Communications and correspondence</strong> (support
+            tickets, emails, in-app messages): retained for up to{" "}
+            <strong>three (3) years</strong> from the last interaction, for
+            quality assurance and dispute resolution.
+          </li>
+          <li>
+            <strong>Cookie and analytics data</strong>: retained per the cookie
+            lifetime declared in our Cookies notice; aggregated analytics are
+            retained indefinitely in non-personal form.
+          </li>
+          <li>
+            <strong>Blockchain transaction data</strong>: by the immutable
+            nature of public blockchains, on-chain transactions cannot be
+            deleted. Where on-chain data is linked to a Give Protocol account,
+            we can sever the link in our off-chain records but cannot remove
+            the underlying on-chain record.
+          </li>
+        </ul>
+
+        <h3>7.2 Backup Retention and the Right to Erasure</h3>
+        <p>
+          When you exercise the right to erasure (Article 17 GDPR), we delete
+          your personal data from our live production systems promptly. Because
+          we operate encrypted database backups for disaster-recovery purposes,
+          residual copies of your data may persist in those backups for up to{" "}
+          <strong>seven (7) days</strong> after your erasure request is
+          processed in production. We do not access, sell, share, or otherwise
+          use backup data for any purpose other than restoring service in the
+          event of a disaster. Backup data is encrypted at rest and is rotated
+          out automatically as the backup retention window passes.
+        </p>
+        <p>
+          If a disaster-recovery restore takes place during the backup
+          retention window, any restored copies of previously-erased data are
+          re-deleted within twenty-four (24) hours of the restore completing,
+          and a record of the re-deletion is logged.
+        </p>
+
+        <h3>7.3 Legal and Regulatory Retention</h3>
+        <p>
+          We may retain specific records beyond the periods stated above where
+          required by law (for example, where a tax authority, supervisory
+          authority, or court order requires longer retention), or where the
+          records are necessary for the establishment, exercise, or defense of
+          legal claims. In those cases, retention is limited to what is
+          strictly necessary for the legal purpose and the data is segregated
+          from active processing.
+        </p>
+
+        <h3>7.4 Personal Data Breach Notification</h3>
+        <p>
+          If we determine that a personal data breach has occurred that is
+          likely to result in a risk to your rights and freedoms, we will
+          notify the competent supervisory authority within seventy-two (72)
+          hours of becoming aware of the breach, in line with Article 33 GDPR.
+          If the breach is likely to result in a high risk to your rights and
+          freedoms, we will also notify you directly without undue delay, in
+          line with Article 34 GDPR. We maintain an internal register of all
+          personal data breaches as required by Article 33(5) GDPR.
         </p>
       </section>
 
