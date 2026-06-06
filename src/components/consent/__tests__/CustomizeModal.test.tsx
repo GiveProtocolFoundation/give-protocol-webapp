@@ -57,7 +57,7 @@ describe("CustomizeModal", () => {
     fireEvent.click(screen.getByText("Save preferences"));
 
     expect(onClose).toHaveBeenCalledTimes(1);
-    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY)!);
+    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) ?? "");
     expect(stored.categories).toEqual({ essential: true, analytics: false });
   });
 
@@ -72,7 +72,7 @@ describe("CustomizeModal", () => {
     fireEvent.click(screen.getByText("Save preferences"));
 
     expect(onClose).toHaveBeenCalledTimes(1);
-    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY)!);
+    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) ?? "");
     expect(stored.categories).toEqual({ essential: true, analytics: true });
   });
 

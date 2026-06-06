@@ -58,7 +58,7 @@ describe("ConsentProvider", () => {
     fireEvent.click(screen.getByText("acceptOn"));
     expect(screen.getByTestId("decided")).toHaveTextContent("yes");
     expect(screen.getByTestId("analytics")).toHaveTextContent("on");
-    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY)!);
+    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) ?? "");
     expect(stored.categories).toEqual({ essential: true, analytics: true });
   });
 
@@ -67,7 +67,7 @@ describe("ConsentProvider", () => {
     fireEvent.click(screen.getByText("decline"));
     expect(screen.getByTestId("decided")).toHaveTextContent("yes");
     expect(screen.getByTestId("analytics")).toHaveTextContent("off");
-    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY)!);
+    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) ?? "");
     expect(stored.categories.analytics).toBe(false);
   });
 
@@ -99,7 +99,7 @@ describe("ConsentProvider", () => {
       window.history.replaceState(null, "", "/");
     });
 
-    it("clears an existing consent record when ?_consentReset=1 is in the URL (non-production env)", async () => {
+    it("clears an existing consent record when ?_consentReset=1 is in the URL (non-production env)", () => {
       // Seed localStorage with an already-decided record.
       localStorage.setItem(
         CONSENT_STORAGE_KEY,
@@ -115,7 +115,7 @@ describe("ConsentProvider", () => {
       // guard runs and clears consent when the param is present.
       window.history.replaceState(null, "", "/?_consentReset=1");
 
-      await act(async () => {
+      act(() => {
         renderProvider();
       });
 
@@ -125,7 +125,7 @@ describe("ConsentProvider", () => {
       expect(localStorage.getItem(CONSENT_STORAGE_KEY)).toBeNull();
     });
 
-    it("does NOT clear consent when ?_consentReset=1 is absent", async () => {
+    it("does NOT clear consent when ?_consentReset=1 is absent", () => {
       localStorage.setItem(
         CONSENT_STORAGE_KEY,
         JSON.stringify({
@@ -136,7 +136,7 @@ describe("ConsentProvider", () => {
       );
 
       // No reset param — consent record should survive.
-      await act(async () => {
+      act(() => {
         renderProvider();
       });
 

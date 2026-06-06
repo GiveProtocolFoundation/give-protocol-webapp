@@ -68,14 +68,14 @@ describe("CookieBanner", () => {
   it("calls accept({ essential:true, analytics:true }) when Accept all is clicked", () => {
     renderBanner();
     fireEvent.click(screen.getByText("Accept all"));
-    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY)!);
+    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) ?? "");
     expect(stored.categories).toEqual({ essential: true, analytics: true });
   });
 
   it("calls decline() (analytics:false) when Decline non-essential is clicked", () => {
     renderBanner();
     fireEvent.click(screen.getByText("Decline non-essential"));
-    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY)!);
+    const stored = JSON.parse(localStorage.getItem(CONSENT_STORAGE_KEY) ?? "");
     expect(stored.categories).toEqual({ essential: true, analytics: false });
   });
 

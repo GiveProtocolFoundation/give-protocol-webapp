@@ -24,6 +24,25 @@ interface BannerActionsProps {
   t: (key: string) => string;
 }
 
+interface BannerBodyProps {
+  t: (key: string) => string;
+}
+
+/** Banner copy and privacy policy link. */
+function BannerBody({ t }: BannerBodyProps) {
+  return (
+    <p className="flex-1 text-sm text-gray-700">
+      {t("consent.banner.body")}{" "}
+      <Link
+        to="/privacy"
+        className="text-emerald-600 underline hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+      >
+        {t("consent.banner.privacyLink")}
+      </Link>
+    </p>
+  );
+}
+
 /** Three equal-weight action buttons rendered inside the banner strip. */
 function BannerActions({
   acceptBtnRef,
@@ -62,6 +81,7 @@ function BannerActions({
   );
 }
 
+/** Fixed bottom-of-viewport consent banner. Only renders when undecided. */
 export function CookieBanner() {
   const { t } = useTranslation();
   const { hasDecided, accept, decline } = useConsent();
@@ -81,7 +101,7 @@ export function CookieBanner() {
 
   return (
     <>
-      {/* skipcq: JS-0764 -- consent banner requires explicit role="region" per AC */}
+      {/* skipcq: JS-0764 -- explicit region role required by AC for screen-reader consistency */}
       <section
         role="region"
         aria-label={t("consent.banner.ariaLabel")}
@@ -89,15 +109,7 @@ export function CookieBanner() {
       >
         <div className="max-w-7xl mx-auto px-4 py-4 sm:px-6 lg:px-8">
           <div className="flex flex-col sm:flex-row sm:items-center gap-4">
-            <p className="flex-1 text-sm text-gray-700">
-              {t("consent.banner.body")}{" "}
-              <Link
-                to="/privacy"
-                className="text-emerald-600 underline hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
-              >
-                {t("consent.banner.privacyLink")}
-              </Link>
-            </p>
+            <BannerBody t={t} />
 
             <BannerActions
               acceptBtnRef={acceptBtnRef}

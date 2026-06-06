@@ -82,6 +82,7 @@ function ConsentRow({
   );
 }
 
+/** Cookie preferences dialog. Uses ui/Modal as shell; owns consent row UI and Save/Cancel actions. */
 export function CustomizeModal({
   onClose,
   showCloseButton = false,
@@ -112,8 +113,8 @@ export function CustomizeModal({
           title={t("consent.modal.essentialTitle")}
           description={t("consent.modal.essentialDesc")}
           toggleLabel={t("consent.modal.essentialAlwaysOn")}
-          checked={true}
-          disabled={true}
+          checked
+          disabled
         />
 
         <ConsentRow
