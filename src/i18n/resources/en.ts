@@ -1316,7 +1316,8 @@ export default {
     "consent.modal.essentialDesc":
       "Required for core site features such as navigation and authentication. Cannot be disabled.",
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics (Google Analytics 4 · US, Sentry · US/EU)",
+    "consent.modal.analyticsTitle":
+      "Analytics (Google Analytics 4 · US, Sentry · US/EU)",
     "consent.modal.analyticsDesc":
       "Analytics cookies help us understand which pages are visited and how people navigate the app. We use: Google Analytics 4 — session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU–US Data Privacy Framework). Sentry — anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor. Off by default.",
     "consent.modal.analyticsOn": "Analytics — on",

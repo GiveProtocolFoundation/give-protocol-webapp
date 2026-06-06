@@ -30,7 +30,9 @@ export function useGA4Loader(): void {
       s.async = true;
       s.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
       s.onerror = () => {
-        console.info("GA4 blocked (ad-blocker or network issue) — analytics disabled");
+        console.info(
+          "GA4 blocked (ad-blocker or network issue) — analytics disabled",
+        );
         loaded.current = false; // allow retry on next consent change if desired
       };
       s.onload = () => {

@@ -107,7 +107,9 @@ describe("CookieBanner", () => {
 
   it("no silktide script or element exists in the rendered banner", () => {
     renderBanner();
-    const silktideElements = document.querySelectorAll('[id*="silktide"], [class*="silktide"], [src*="silktide"]');
+    const silktideElements = document.querySelectorAll(
+      '[id*="silktide"], [class*="silktide"], [src*="silktide"]',
+    );
     expect(silktideElements.length).toBe(0);
   });
 
