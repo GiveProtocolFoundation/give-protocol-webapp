@@ -1069,7 +1069,7 @@ export default {
     "footer.legal.cookiePreferences": "Cookie preferences",
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
+      "We use cookies for essential site functions and, with your permission, error monitoring and session analytics to improve the site. You can change this anytime in the footer.",
     "consent.banner.privacyLink": "Privacy policy",
     "consent.banner.acceptAll": "Accept all",
     "consent.banner.decline": "Decline non-essential",
@@ -1081,7 +1081,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
+      "Helps us find bugs and understand site performance. Uses Sentry (US) and may capture your session activity. Off by default.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",
