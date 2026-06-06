@@ -27,6 +27,11 @@
  * Step 5c-storage runs before the RPC so attestation URLs are still readable.
  * Step 10 is an external API call; on failure a compensating re-queue is attempted.
  * Step 11 is written regardless of step 10 outcome (with partial status on failure).
+ *
+ * Storage-limitation cleanup (per GIV-346/GIV-347, Art. 5(1)(e)):
+ *   — Delete expired passkey_challenges (expires_at older than 1 hour)
+ *   — Delete stale export_requests (expired/failed, requested_at older than 30 days)
+ * These run every cycle regardless of whether any user erasures are processed.
  */
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
@@ -563,13 +568,6 @@ serve(async (req: Request) => {
     const targets = await findErasureTargets(supabase);
     console.log(`[gdpr-erasure-cron] Found ${targets.length} account(s) due for erasure`);
 
-    if (targets.length === 0) {
-      return new Response(JSON.stringify({ processed: 0, results: [], runStart }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
     const results: ErasureResult[] = [];
     for (const target of targets) {
       console.log(`[gdpr-erasure-cron] Processing erasure for user ${target.userId}`);
@@ -584,13 +582,57 @@ serve(async (req: Request) => {
     const successCount = results.filter((r) => r.success).length;
     const failCount = results.length - successCount;
 
-    console.log(`[gdpr-erasure-cron] Run complete. Success: ${successCount}, Failed: ${failCount}`);
+    if (results.length > 0) {
+      console.log(`[gdpr-erasure-cron] Erasure complete. Success: ${successCount}, Failed: ${failCount}`);
+    }
+
+    // -----------------------------------------------------------------
+    // Storage-limitation cleanup — Art. 5(1)(e)
+    // Runs every cycle regardless of whether any user erasures ran.
+    // -----------------------------------------------------------------
+
+    // 1. Delete expired passkey_challenges (older than 1 hour past expiry)
+    const challengeThreshold = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const { data: deletedChallenges, error: challengesError } = await supabase
+      .from('passkey_challenges')
+      .delete()
+      .lt('expires_at', challengeThreshold)
+      .select('id');
+
+    const expiredPasskeyChallenges = challengesError ? 0 : (deletedChallenges?.length ?? 0);
+    if (challengesError) {
+      console.error(`[gdpr-erasure-cron] passkey_challenges cleanup failed: ${challengesError.message}`);
+    } else {
+      console.log(`[gdpr-erasure-cron] Cleaned up ${expiredPasskeyChallenges} expired passkey_challenges`);
+    }
+
+    // 2. Delete stale export_requests (expired/failed, older than 30 days)
+    const exportThreshold = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    const { data: deletedExports, error: exportsError } = await supabase
+      .from('export_requests')
+      .delete()
+      .in('status', ['expired', 'failed'])
+      .lt('requested_at', exportThreshold)
+      .select('id');
+
+    const staleExportRequests = exportsError ? 0 : (deletedExports?.length ?? 0);
+    if (exportsError) {
+      console.error(`[gdpr-erasure-cron] export_requests cleanup failed: ${exportsError.message}`);
+    } else {
+      console.log(`[gdpr-erasure-cron] Cleaned up ${staleExportRequests} stale export_requests`);
+    }
+
+    console.log(`[gdpr-erasure-cron] Run complete`);
 
     return new Response(
       JSON.stringify({
         processed: results.length,
         succeeded: successCount,
         failed: failCount,
+        cleanup: {
+          expiredPasskeyChallenges,
+          staleExportRequests,
+        },
         runStart,
         results: results.map((r) => ({
           userId: r.userId,
