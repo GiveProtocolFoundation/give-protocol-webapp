@@ -175,7 +175,28 @@ export const Privacy: React.FC = () => {
         <p>
           You have the right to lodge a complaint with a supervisory authority
           if you believe our processing of your personal data violates
-          applicable law.
+          applicable law. If you are located in the European Union, the
+          competent supervisory authority for Give Protocol is the{" "}
+          <strong>Irish Data Protection Commission (DPC)</strong> —{" "}
+          <a
+            href="https://www.dataprotection.ie"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            www.dataprotection.ie
+          </a>
+          . If you are located in the United Kingdom, you may contact the{" "}
+          <strong>Information Commissioner&apos;s Office (ICO)</strong> —{" "}
+          <a
+            href="https://ico.org.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ico.org.uk
+          </a>
+          . You may also lodge a complaint with the supervisory authority of
+          your habitual residence, place of work, or place of the alleged
+          infringement.
         </p>
       </section>
 
@@ -206,6 +227,16 @@ export const Privacy: React.FC = () => {
         <p>
           Transaction data is publicly visible on the blockchain as part of its
           transparent nature.
+        </p>
+
+        <h3>5.5 Data Storage Location</h3>
+        <p>
+          Personal data submitted through Give Protocol is stored on servers
+          located in <strong>Ireland, European Union</strong> (Supabase
+          eu-west-1 region). Encrypted disaster-recovery backups are held in
+          the same region. Further detail on cross-border data flows, including
+          residual transfers to third-party processors and remote access by
+          our staff, is set out in Section 9 (International Data Transfers).
         </p>
       </section>
 
@@ -356,10 +387,66 @@ export const Privacy: React.FC = () => {
 
       <section>
         <h2>9. International Data Transfers</h2>
+
+        <h3>9.1 Primary Database — European Economic Area</h3>
         <p>
-          Your information may be transferred to and processed in countries
-          other than your own. We ensure appropriate safeguards are in place for
-          such transfers.
+          Personal data stored in our primary database remains within the
+          European Economic Area (Ireland). We do not transfer primary
+          database data to countries outside the EEA for storage purposes.
+          For EU and UK data subjects whose personal data is held only in the
+          primary database, no Article 44–49 GDPR transfer occurs by virtue
+          of storage.
+        </p>
+
+        <h3>9.2 Residual Transfers — Third-Party Processors</h3>
+        <p>
+          Certain processing activities still involve personal data being
+          transmitted outside the EEA. For each active processor transfer, we
+          rely on a recognised Article 46 GDPR transfer mechanism (typically
+          the European Commission&apos;s Standard Contractual Clauses
+          (&quot;SCCs&quot;)) or, where applicable, an adequacy decision.
+        </p>
+        <ul>
+          <li>
+            <strong>Error monitoring (Sentry)</strong>: application error and
+            performance data is sent to Sentry. Where the Sentry organisation
+            is hosted in the United States, this constitutes a transfer to a
+            third country and is covered by SCCs. Replay capture and
+            performance tracing have been disabled, and email identifiers are
+            stripped from Sentry user context (see GIV-359).
+          </li>
+          <li>
+            <strong>Analytics (Google Analytics 4, if active)</strong>: where
+            we operate analytics that transmit usage data to Google in the
+            United States, the transfer is covered by the EU–US Data Privacy
+            Framework adequacy decision and Google&apos;s SCCs. We only load
+            analytics after you grant cookie consent (see our Cookies notice).
+          </li>
+          <li>
+            <strong>Remote database access by US-based staff</strong>: members
+            of our engineering and operations team based in the United States
+            may access the primary database remotely for administration,
+            support, and incident response. Following EDPB guidance, remote
+            access from a third country is treated as a transfer for GDPR
+            purposes. Such access is governed by intra-group SCCs and
+            role-based access controls, and is logged in the administrative
+            access audit log described in Section 6.
+          </li>
+          <li>
+            <strong>Blockchain layer</strong>: by design, public blockchain
+            networks are globally distributed and immutable. On-chain data
+            (wallet addresses, transaction amounts, timestamps, smart-contract
+            interactions) is not subject to geographic restriction and cannot
+            be subjected to a transfer mechanism in the conventional sense.
+            We minimise the personal data published on-chain, as described in
+            Section 2.3.
+          </li>
+        </ul>
+
+        <h3>9.3 Your Rights in Respect of Transfers</h3>
+        <p>
+          You may request a copy of the safeguards we rely on for any
+          third-country transfer by contacting us at privacy@giveprotocol.io.
         </p>
       </section>
 
@@ -386,7 +473,28 @@ export const Privacy: React.FC = () => {
         <p>
           You have the right to lodge a complaint with a supervisory authority
           if you believe our processing of your personal data violates
-          applicable law.
+          applicable law. If you are located in the European Union, the
+          competent supervisory authority for Give Protocol is the{" "}
+          <strong>Irish Data Protection Commission (DPC)</strong> —{" "}
+          <a
+            href="https://www.dataprotection.ie"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            www.dataprotection.ie
+          </a>
+          . If you are located in the United Kingdom, you may contact the{" "}
+          <strong>Information Commissioner&apos;s Office (ICO)</strong> —{" "}
+          <a
+            href="https://ico.org.uk"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            ico.org.uk
+          </a>
+          . You may also lodge a complaint with the supervisory authority of
+          your habitual residence, place of work, or place of the alleged
+          infringement.
         </p>
       </section>
 
