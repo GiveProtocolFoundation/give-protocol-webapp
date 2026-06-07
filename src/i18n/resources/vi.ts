@@ -1049,6 +1049,11 @@ export default {
     "charity.claim.validation.password": "Mật khẩu phải có ít nhất 8 ký tự",
     "charity.claim.validation.confirmPassword": "Mật khẩu không khớp",
     "charity.claim.validation.fix": "Vui lòng sửa các lỗi xác thực",
+    "charity.claim.useAsPublicEmail":
+      "Sử dụng email của tôi làm email liên hệ công khai của tổ chức",
+    "charity.claim.publicContactEmail": "Email liên hệ công khai của tổ chức",
+    "charity.claim.privacyNotice":
+      "Email/số điện thoại cá nhân của người ký chỉ được sử dụng để xác minh và không hiển thị cho người dùng nền tảng khác. Email liên hệ công khai sẽ được hiển thị trên hồ sơ tổ chức của bạn.",
     "charity.claim.error.creation": "Tạo tài khoản thất bại",
     "charity.claim.error.generic": "Không thể tạo tài khoản",
     "charity.vetting.orgDetails": "Thông tin tổ chức",

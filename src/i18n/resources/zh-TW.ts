@@ -990,6 +990,10 @@ export default {
     "charity.claim.validation.password": "密碼長度至少需要 8 個字元",
     "charity.claim.validation.confirmPassword": "兩次輸入的密碼不一致",
     "charity.claim.validation.fix": "請修正驗證錯誤",
+    "charity.claim.useAsPublicEmail": "使用我的電子郵件作為組織的公開聯絡郵箱",
+    "charity.claim.publicContactEmail": "組織公開聯絡電子郵件",
+    "charity.claim.privacyNotice":
+      "您的個人簽署人電子郵件/電話僅用於驗證，其他平台使用者無法看到。公開聯絡電子郵件將顯示在您的組織檔案中。",
     "charity.claim.error.creation": "帳戶建立失敗",
     "charity.claim.error.generic": "無法建立帳戶",
     "charity.vetting.orgDetails": "組織資訊",

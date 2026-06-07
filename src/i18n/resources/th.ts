@@ -1043,6 +1043,11 @@ export default {
       "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "charity.claim.validation.confirmPassword": "รหัสผ่านไม่ตรงกัน",
     "charity.claim.validation.fix": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
+    "charity.claim.useAsPublicEmail":
+      "ใช้อีเมลของฉันเป็นอีเมลติดต่อสาธารณะขององค์กร",
+    "charity.claim.publicContactEmail": "อีเมลติดต่อสาธารณะขององค์กร",
+    "charity.claim.privacyNotice":
+      "อีเมล/โทรศัพท์ส่วนตัวของผู้ลงนามใช้สำหรับการยืนยันตัวตนเท่านั้นและไม่แสดงให้ผู้ใช้แพลตฟอร์มอื่นเห็น อีเมลติดต่อสาธารณะจะแสดงในโปรไฟล์องค์กรของคุณ",
     "charity.claim.error.creation": "การสร้างบัญชีล้มเหลว",
     "charity.claim.error.generic": "ไม่สามารถสร้างบัญชีได้",
     "charity.vetting.orgDetails": "รายละเอียดองค์กร",

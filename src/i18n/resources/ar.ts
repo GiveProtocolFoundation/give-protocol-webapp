@@ -1019,6 +1019,11 @@ export default {
       "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     "charity.claim.validation.confirmPassword": "كلمتا المرور غير متطابقتين",
     "charity.claim.validation.fix": "يرجى تصحيح أخطاء التحقق",
+    "charity.claim.useAsPublicEmail":
+      "استخدم بريدي الإلكتروني كبريد الاتصال العام للمنظمة",
+    "charity.claim.publicContactEmail": "البريد الإلكتروني العام للمنظمة",
+    "charity.claim.privacyNotice":
+      "يُستخدم بريدك الإلكتروني/هاتفك الشخصي للتحقق فقط ولا يظهر لمستخدمي المنصة الآخرين. يُعرض البريد الإلكتروني العام في ملف منظمتك.",
     "charity.claim.error.creation": "فشل إنشاء الحساب",
     "charity.claim.error.generic": "تعذّر إنشاء الحساب",
     "charity.vetting.orgDetails": "تفاصيل المنظمة",

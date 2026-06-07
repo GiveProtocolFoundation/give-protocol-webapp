@@ -1104,6 +1104,12 @@ export default {
       "Les mots de passe ne correspondent pas",
     "charity.claim.validation.fix":
       "Veuillez corriger les erreurs de validation",
+    "charity.claim.useAsPublicEmail":
+      "Utiliser mon e-mail comme e-mail de contact public de l'organisation",
+    "charity.claim.publicContactEmail":
+      "E-mail de contact public de l'organisation",
+    "charity.claim.privacyNotice":
+      "Votre e-mail/téléphone personnel de signataire est utilisé uniquement pour la vérification et n'est pas visible par les autres utilisateurs de la plateforme. L'e-mail de contact public est affiché sur le profil de votre organisation.",
     "charity.claim.error.creation": "La création du compte a échoué",
     "charity.claim.error.generic": "Impossible de créer le compte",
     "charity.vetting.orgDetails": "Détails de l'Organisation",
