@@ -4,6 +4,8 @@ import type {
   AdminAuditLogFilters,
   AdminAuditLogResult,
   AdminAuditLogRow,
+  AdminAuditEntityType,
+  AdminAuditReadContext,
 } from "@/types/adminAudit";
 import { Logger } from "@/utils/logger";
 
@@ -125,6 +127,50 @@ export async function insertAuditEntry(
     Logger.error("Audit entry insertion failed", {
       error: error instanceof Error ? error.message : String(error),
       actionType,
+      entityType,
+      entityId,
+    });
+    return null;
+  }
+}
+
+/**
+ * Records a PII read-access audit entry via insert_admin_audit_read_entry RPC.
+ * Called by admin pages that display PII (donor lists, donor detail, etc.).
+ * The server-side RPC enforces context allowlisting and derives action_type from entity_id presence.
+ * @param entityType - The type of entity whose PII was accessed
+ * @param entityId - The specific entity ID (null for list views)
+ * @param context - Metadata about the access (page, limit, source, etc.)
+ * @returns The generated audit entry UUID, or null on failure
+ */
+export async function logRead(
+  entityType: AdminAuditEntityType,
+  entityId?: string | null,
+  context?: AdminAuditReadContext | null,
+): Promise<string | null> {
+  try {
+    const { data, error } = await supabase.rpc(
+      "insert_admin_audit_read_entry",
+      {
+        p_entity_type: entityType,
+        p_entity_id: entityId ?? null,
+        p_context: context ?? null,
+      },
+    );
+
+    if (error) {
+      Logger.error("Failed to log PII read access", {
+        error,
+        entityType,
+        entityId,
+      });
+      return null;
+    }
+
+    return data as string;
+  } catch (error) {
+    Logger.error("PII read audit failed", {
+      error: error instanceof Error ? error.message : String(error),
       entityType,
       entityId,
     });
