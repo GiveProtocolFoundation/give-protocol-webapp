@@ -18,6 +18,8 @@ import { ConsentProvider } from "./lib/consent/ConsentProvider";
 import { CookieBanner } from "./components/consent/CookieBanner";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
+import { ConsentProvider } from "./lib/consent/ConsentProvider";
+import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 
 // Initialize monitoring if enabled
 if (ENV.MONITORING_API_KEY && ENV.MONITORING_APP_ID) {
@@ -77,13 +79,13 @@ const AuthWeb3Providers = ({ children }: { children: React.ReactNode }) => (
   <AuthSettingsProviders>
     <ChainWeb3Providers>
       <WalletAuthSync />
+      <SentryConsentReactor />
       {children}
     </ChainWeb3Providers>
   </AuthSettingsProviders>
 );
 
-// Combined providers component (ConsentProvider wraps everything so
-// the banner and footer link can reach useConsent() from anywhere in the tree)
+// Combined providers component (ConsentProvider wraps outermost)
 const AppProviders = ({ children }: { children: React.ReactNode }) => (
   <ConsentProvider>
     <CoreProviders>

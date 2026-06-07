@@ -11,7 +11,12 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "./ToastContext";
 import { Logger } from "@/utils/logger";
 import { ENV as _ENV } from "@/config/env";
-import { setSentryUser, clearSentryUser } from "@/lib/sentry";
+import {
+  setSentryUser,
+  clearSentryUser,
+  isAnalyticsEnabled,
+} from "@/lib/sentry";
+import * as Sentry from "@sentry/react";
 
 interface AuthState {
   user: User | null;
@@ -74,14 +79,26 @@ function resolveUserType(user: User | null | undefined): Promise<UserType> {
 }
 
 /**
- * Updates Sentry user context based on session (ID only, no PII).
+ * Updates Sentry user context based on session.
+ * Phase A: sets opaque user ID only (no email/PII).
+ * Phase B (analytics consented): also pushes email + userType.
  */
 function updateSentryUserContext(
   user: User | null | undefined,
   _userType: UserType,
 ): void {
   if (user) {
+    // Phase A: opaque ID only
     setSentryUser({ id: user.id });
+
+    // Phase B: full PII when analytics integrations are active
+    if (isAnalyticsEnabled()) {
+      Sentry.setUser({
+        id: user.id,
+        email: user.email,
+        type: userType ?? undefined,
+      });
+    }
   } else {
     clearSentryUser();
   }
