@@ -1309,7 +1309,7 @@ export default {
     "footer.copyright": "Give Protocol. All rights reserved.",
 
     // Cookie consent banner + customize modal (GIV-362)
-    // TODO(GIV-353): revert Sentry transfer mechanism to "SCCs" once DPA is executed
+    // GIV-353: revert Sentry transfer mechanism to "SCCs" once DPA is executed
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
       "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
