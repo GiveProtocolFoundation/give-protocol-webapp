@@ -6,6 +6,7 @@ import {
   getCharityWalletAddress,
   fetchCharityProfileAssets,
   fetchCharityProfileAssetsByEin,
+  claimCharityProfileBySignerEmail,
 } from "./charityProfileService";
 
 describe("charityProfileService", () => {
@@ -450,6 +451,80 @@ describe("charityProfileService", () => {
         throw new Error("network");
       });
       const result = await fetchCharityProfileAssetsByEin("12-3456789");
+      expect(result).toBeNull();
+    });
+  });
+
+  describe("claimCharityProfileBySignerEmail", () => {
+    beforeEach(() => {
+      (supabase.rpc as ReturnType<typeof jest.fn>).mockReset();
+    });
+
+    it("calls the claim_charity_profile_by_signer_email RPC with no params", async () => {
+      const mockRow = {
+        id: "cp-1",
+        name: "My Charity",
+        ein: "12-3456789",
+        logo_url: "https://l.test/logo.png",
+        banner_image_url: null,
+        claimed_by: "user-1",
+      };
+      (supabase.rpc as ReturnType<typeof jest.fn>).mockResolvedValue({
+        data: [mockRow],
+        error: null,
+      });
+
+      const result = await claimCharityProfileBySignerEmail();
+
+      expect(supabase.rpc).toHaveBeenCalledWith(
+        "claim_charity_profile_by_signer_email",
+      );
+      expect(result).toEqual({
+        id: "cp-1",
+        name: "My Charity",
+        ein: "12-3456789",
+        logoUrl: "https://l.test/logo.png",
+        bannerImageUrl: null,
+        claimedByUserId: "user-1",
+      });
+    });
+
+    it("returns null when RPC returns empty array (no matching profile)", async () => {
+      (supabase.rpc as ReturnType<typeof jest.fn>).mockResolvedValue({
+        data: [],
+        error: null,
+      });
+
+      const result = await claimCharityProfileBySignerEmail();
+      expect(result).toBeNull();
+    });
+
+    it("returns null when RPC returns null data", async () => {
+      (supabase.rpc as ReturnType<typeof jest.fn>).mockResolvedValue({
+        data: null,
+        error: null,
+      });
+
+      const result = await claimCharityProfileBySignerEmail();
+      expect(result).toBeNull();
+    });
+
+    it("returns null on RPC error (column SELECT denied for non-owner)", async () => {
+      (supabase.rpc as ReturnType<typeof jest.fn>).mockResolvedValue({
+        data: null,
+        error: { message: "permission denied for column authorized_signer_email" },
+      });
+
+      const result = await claimCharityProfileBySignerEmail();
+      expect(result).toBeNull();
+    });
+
+    it("returns null when RPC throws", async () => {
+      (supabase.rpc as ReturnType<typeof jest.fn>).mockRejectedValue(
+        new Error("Network error"),
+      );
+
+      const result = await claimCharityProfileBySignerEmail();
       expect(result).toBeNull();
     });
   });

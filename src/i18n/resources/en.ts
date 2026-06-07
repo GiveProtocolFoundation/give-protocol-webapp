@@ -1245,6 +1245,11 @@ export default {
       "Password must be at least 8 characters long",
     "charity.claim.validation.confirmPassword": "Passwords do not match",
     "charity.claim.validation.fix": "Please correct the validation errors",
+    "charity.claim.useAsPublicEmail":
+      "Use my email as the charity's public contact email",
+    "charity.claim.publicContactEmail": "Organization public contact email",
+    "charity.claim.privacyNotice":
+      "Your personal signer email/phone is used for verification only and is not visible to other platform users. The public contact email is shown on your charity profile.",
     "charity.claim.error.creation": "Account creation failed",
     "charity.claim.error.generic": "Failed to create account",
 

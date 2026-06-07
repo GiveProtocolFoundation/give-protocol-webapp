@@ -81,7 +81,9 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
     contactEmail: "",
     password: "",
     confirmPassword: "",
+    publicContactEmail: "",
   });
+  const [useSignerAsPublicEmail, setUseSignerAsPublicEmail] = useState(true);
 
   const registryLocation = [
     organization.city,
@@ -105,6 +107,13 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
       }
     },
     [validationErrors],
+  );
+
+  const handlePublicEmailToggle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setUseSignerAsPublicEmail(e.target.checked);
+    },
+    [],
   );
 
   const validateField = useCallback(
@@ -209,7 +218,10 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           });
         }
 
-        // 4. Claim the charity profile (p_signer_phone required by SQL function)
+        // 4. Claim the charity profile
+        const publicEmail = useSignerAsPublicEmail
+          ? formData.contactEmail
+          : formData.publicContactEmail || null;
         const { error: claimError } = await supabase.rpc(
           "claim_charity_profile",
           {
@@ -217,6 +229,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
             p_signer_name: formData.contactName,
             p_signer_email: formData.contactEmail,
             p_signer_phone: null,
+            p_public_contact_email: publicEmail,
           },
         );
 
@@ -276,7 +289,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, t, showToast],
+    [formData, organization, validateField, navigate, t, showToast, useSignerAsPublicEmail],
   );
 
   return (
@@ -328,6 +341,44 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           required
           error={validationErrors["contactEmail"]}
         />
+
+        <div className="space-y-2">
+          <label className="flex items-start gap-2 text-sm cursor-pointer">
+            <input
+              type="checkbox"
+              checked={useSignerAsPublicEmail}
+              onChange={handlePublicEmailToggle}
+              className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+            />
+            <span className="text-gray-700">
+              {t(
+                "charity.claim.useAsPublicEmail",
+                "Use my email as the charity's public contact email",
+              )}
+            </span>
+          </label>
+          {!useSignerAsPublicEmail && (
+            <Input
+              label={t(
+                "charity.claim.publicContactEmail",
+                "Organization public contact email",
+              )}
+              type="email"
+              name="publicContactEmail"
+              variant="fintech"
+              value={formData.publicContactEmail}
+              onChange={handleChange}
+              error={validationErrors["publicContactEmail"]}
+            />
+          )}
+          <p className="text-xs text-gray-500">
+            {t(
+              "charity.claim.privacyNotice",
+              "Your personal signer email/phone is used for verification only and is not visible to other platform users. The public contact email is shown on your charity profile.",
+            )}
+          </p>
+        </div>
+
         <h3 className="text-lg font-semibold text-gray-900">
           {t("charity.claim.accountSecurity")}
         </h3>
