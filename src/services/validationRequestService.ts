@@ -85,14 +85,16 @@ function mapRowToSelfReportedHours(
 export async function getOrganizationValidationQueue(
   organizationId: string,
 ): Promise<ValidationQueueItem[]> {
-  // Fetch validation requests with self_reported_hours and volunteer profile in a single query
+  // Fetch validation requests with self_reported_hours and volunteer profile in a single query.
+  // GDPR Art. 5(1)(c) data minimisation: do NOT select volunteer email — charity admins only
+  // need the display name to make an approve/reject decision. See GIV-406.
   const { data, error } = await supabase
     .from("validation_requests")
     .select(
       `
       *,
       self_reported_hours:self_reported_hours_id (*),
-      volunteer:volunteer_id (user_id, display_name, email)
+      volunteer:volunteer_id (user_id, display_name)
     `,
     )
     .eq("organization_id", organizationId)
@@ -113,7 +115,7 @@ export async function getOrganizationValidationQueue(
   return data.map((row) => {
     const request = mapRowToValidationRequest(row);
     const hoursData = row.self_reported_hours as Record<string, unknown>;
-    const volunteerProfile = row.volunteer as { user_id: string; display_name: string | null; email: string | null } | null;
+    const volunteerProfile = row.volunteer as { user_id: string; display_name: string | null } | null;
 
     const daysUntilExpiration = Math.ceil(
       (request.expiresAt - now) / (1000 * 60 * 60 * 24),
@@ -123,7 +125,6 @@ export async function getOrganizationValidationQueue(
       requestId: request.id,
       selfReportedHours: mapRowToSelfReportedHours(hoursData),
       volunteerName: volunteerProfile?.display_name || "Anonymous Volunteer",
-      volunteerEmail: volunteerProfile?.email || "",
       daysUntilExpiration: Math.max(0, daysUntilExpiration),
       isResubmission: request.isResubmission,
     };
