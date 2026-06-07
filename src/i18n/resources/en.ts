@@ -1170,8 +1170,7 @@ export default {
     "auth.donorReg.orSetPassword": "Or set a password",
     "auth.donorReg.creating": "Creating Account...",
     "auth.donorReg.createAccount": "Create Donor Account",
-    "auth.donorReg.privacyNotice":
-      "By creating an account, you agree to our",
+    "auth.donorReg.privacyNotice": "By creating an account, you agree to our",
     "auth.donorReg.termsLink": "Terms of Service",
     "auth.donorReg.privacyAnd": "and acknowledge our",
     "auth.donorReg.privacyLink": "Privacy Policy",
