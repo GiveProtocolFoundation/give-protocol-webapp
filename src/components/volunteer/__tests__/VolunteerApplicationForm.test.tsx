@@ -539,7 +539,9 @@ describe("VolunteerApplicationForm", () => {
 
       const payload = insertMock.mock.calls[0][0];
       // phone_number plaintext dropped — nullable column with no audited reader
-      expect(Object.prototype.hasOwnProperty.call(payload, "phone_number")).toBe(false);
+      expect(
+        Object.prototype.hasOwnProperty.call(payload, "phone_number"),
+      ).toBe(false);
     });
 
     it("insert payload retains full_name and email plaintext (NOT NULL + active readers — GIV-59 step 2 follow-up)", async () => {
@@ -596,7 +598,9 @@ describe("VolunteerApplicationForm", () => {
       });
 
       const payload = insertMock.mock.calls[0][0];
-      expect(Object.prototype.hasOwnProperty.call(payload, "phone_encrypted")).toBe(false);
+      expect(
+        Object.prototype.hasOwnProperty.call(payload, "phone_encrypted"),
+      ).toBe(false);
     });
   });
 });
