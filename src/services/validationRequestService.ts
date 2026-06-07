@@ -115,7 +115,10 @@ export async function getOrganizationValidationQueue(
   return data.map((row) => {
     const request = mapRowToValidationRequest(row);
     const hoursData = row.self_reported_hours as Record<string, unknown>;
-    const volunteerProfile = row.volunteer as { user_id: string; display_name: string | null } | null;
+    const volunteerProfile = row.volunteer as {
+      user_id: string;
+      display_name: string | null;
+    } | null;
 
     const daysUntilExpiration = Math.ceil(
       (request.expiresAt - now) / (1000 * 60 * 60 * 24),
