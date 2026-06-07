@@ -114,6 +114,7 @@ async function assembleExportPackage(
       created_at: authUser?.created_at ?? null,
       auth_method: identity?.primary_auth_method ?? 'email',
       wallet_linked_at: identity?.wallet_linked_at ?? null,
+      phone: authUser?.user_metadata?.phone ?? null,
     },
     profile: profile
       ? {
