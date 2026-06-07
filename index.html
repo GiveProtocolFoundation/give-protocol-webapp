@@ -23,14 +23,6 @@
       rel="stylesheet"
     />
 
-    <!-- Silktide Consent Manager -->
-    <link
-      rel="stylesheet"
-      id="silktide-consent-manager-css"
-      href="/silktide-consent-manager.css"
-    />
-    <script src="/silktide-consent-manager.js"></script>
-
     <!-- Google tag (gtag.js) - wrapped to handle ad-blockers gracefully -->
     <script>
       (function () {
@@ -66,102 +58,6 @@
 
       gtag("js", new Date());
       gtag("config", "G-CBQHKLHD8T");
-    </script>
-
-    <!-- Silktide Configuration -->
-    <script>
-      // Wait for Silktide to load before configuring
-      if (typeof silktideCookieBannerManager !== "undefined") {
-        silktideCookieBannerManager.updateCookieBannerConfig({
-          background: {
-            showBackground: false,
-          },
-          cookieIcon: {
-            position: "bottomLeft",
-          },
-          cookieTypes: [
-            {
-              id: "necessary",
-              name: "Necessary",
-              description:
-                "<p>These cookies are necessary for the website to function properly and cannot be switched off. They help with things like logging in and setting your privacy preferences.</p>",
-              required: true,
-              onAccept: function () {
-                console.log("Add logic for the required Necessary here");
-              },
-            },
-            {
-              id: "analytics",
-              name: "Analytics",
-              description:
-                "<p>These cookies help us improve the site by tracking which pages are most popular and how visitors move around the site.</p>",
-              defaultValue: true,
-              onAccept: function () {
-                gtag("consent", "update", {
-                  analytics_storage: "granted",
-                });
-                dataLayer.push({
-                  event: "consent_accepted_analytics",
-                });
-              },
-              onReject: function () {
-                gtag("consent", "update", {
-                  analytics_storage: "denied",
-                });
-              },
-            },
-            {
-              id: "advertising",
-              name: "Advertising",
-              description:
-                "<p>These cookies provide extra features and personalization to improve your experience. They may be set by us or by partners whose services we use.</p>",
-              onAccept: function () {
-                gtag("consent", "update", {
-                  ad_storage: "granted",
-                  ad_user_data: "granted",
-                  ad_personalization: "granted",
-                });
-                dataLayer.push({
-                  event: "consent_accepted_advertising",
-                });
-              },
-              onReject: function () {
-                gtag("consent", "update", {
-                  ad_storage: "denied",
-                  ad_user_data: "denied",
-                  ad_personalization: "denied",
-                });
-              },
-            },
-          ],
-          text: {
-            banner: {
-              description:
-                '<p>We use cookies to enhance your browsing experience, personalize content, and analyze our traffic. By clicking "Accept All Cookies", you agree to the storing of cookies on your device. For more information, please see our <a href="/privacy" target="_blank">Privacy Policy</a>.</p>',
-              acceptAllButtonText: "Accept all",
-              acceptAllButtonAccessibleLabel: "Accept all cookies",
-              rejectNonEssentialButtonText: "Reject non-essential",
-              rejectNonEssentialButtonAccessibleLabel: "Reject non-essential",
-              preferencesButtonText: "Preferences",
-              preferencesButtonAccessibleLabel: "Toggle preferences",
-            },
-            preferences: {
-              title: "Customize your cookie preferences",
-              description:
-                "<p>We respect your right to privacy. You can choose not to allow some types of cookies. Your cookie preferences will apply across our website.</p>",
-              creditLinkText: "",
-              creditLinkAccessibleLabel: "",
-            },
-          },
-          position: {
-            banner: "bottomCenter",
-          },
-        });
-      } else {
-        console.warn(
-          "Silktide consent manager not loaded. Please ensure the JS file is available.",
-        );
-      }
     </script>
 
     <title>Give Protocol - Smart Giving Platform</title>
