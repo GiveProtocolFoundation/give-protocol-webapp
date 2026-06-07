@@ -20,7 +20,6 @@ import { useGA4Loader } from "./lib/consent/useGA4Loader";
 import { useGAConsentBridge } from "./lib/consent/useGAConsentBridge";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
-import { ConsentProvider } from "./lib/consent/ConsentProvider";
 import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 
 // Initialize monitoring if enabled
