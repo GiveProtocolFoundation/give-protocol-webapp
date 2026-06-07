@@ -26,20 +26,20 @@ export function useGA4Loader(): void {
     loaded.current = true;
 
     try {
-      const s = document.createElement("script");
-      s.async = true;
-      s.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
-      s.onerror = () => {
+      const script = document.createElement("script");
+      script.async = true;
+      script.src = `https://www.googletagmanager.com/gtag/js?id=${GA4_MEASUREMENT_ID}`;
+      script.onerror = () => {
         console.info(
           "GA4 blocked (ad-blocker or network issue) — analytics disabled",
         );
         loaded.current = false; // allow retry on next consent change if desired
       };
-      s.onload = () => {
+      script.onload = () => {
         window.gtag?.("js", new Date());
         window.gtag?.("config", GA4_MEASUREMENT_ID);
       };
-      document.head.appendChild(s);
+      document.head.appendChild(script);
     } catch {
       // Silently ignore script injection failures
     }
