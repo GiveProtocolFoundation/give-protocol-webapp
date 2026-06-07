@@ -289,7 +289,15 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, t, showToast, useSignerAsPublicEmail],
+    [
+      formData,
+      organization,
+      validateField,
+      navigate,
+      t,
+      showToast,
+      useSignerAsPublicEmail,
+    ],
   );
 
   return (

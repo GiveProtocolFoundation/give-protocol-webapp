@@ -512,7 +512,9 @@ describe("charityProfileService", () => {
     it("returns null on RPC error (column SELECT denied for non-owner)", async () => {
       (supabase.rpc as ReturnType<typeof jest.fn>).mockResolvedValue({
         data: null,
-        error: { message: "permission denied for column authorized_signer_email" },
+        error: {
+          message: "permission denied for column authorized_signer_email",
+        },
       });
 
       const result = await claimCharityProfileBySignerEmail();
