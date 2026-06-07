@@ -1,4 +1,11 @@
-import { describe, it, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import { render, act } from "@testing-library/react";
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
