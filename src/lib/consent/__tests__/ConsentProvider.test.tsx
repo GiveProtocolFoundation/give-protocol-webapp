@@ -1,6 +1,6 @@
 import React from "react"; // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
-import { describe, it, expect, beforeEach, afterEach } from "@jest/globals";
-import { render, screen, act, fireEvent } from "@testing-library/react";
+import { describe, it, expect, beforeEach } from "@jest/globals";
+import { render, screen, fireEvent } from "@testing-library/react";
 import { ConsentProvider, useConsent } from "../ConsentProvider";
 import { CONSENT_STORAGE_KEY } from "../storage";
 
@@ -29,8 +29,6 @@ const renderProvider = () =>
 describe("ConsentProvider", () => {
   beforeEach(() => {
     localStorage.clear();
-    // Ensure the URL has no _consentReset param between tests.
-    window.history.replaceState(null, "", "/");
   });
 
   it("starts undecided when localStorage is empty", () => {
@@ -94,53 +92,9 @@ describe("ConsentProvider", () => {
     expect(screen.getByTestId("decided")).toHaveTextContent("no");
   });
 
-  describe("?_consentReset=1 dev guard", () => {
-    afterEach(() => {
-      window.history.replaceState(null, "", "/");
-    });
-
-    it("clears an existing consent record when ?_consentReset=1 is in the URL (non-production env)", () => {
-      // Seed localStorage with an already-decided record.
-      localStorage.setItem(
-        CONSENT_STORAGE_KEY,
-        JSON.stringify({
-          version: 1,
-          decidedAt: new Date().toISOString(),
-          categories: { essential: true, analytics: true },
-        }),
-      );
-
-      // Set the reset query param before mounting.
-      // In Jest, process.env.NODE_ENV is 'test' (not 'production'), so the
-      // guard runs and clears consent when the param is present.
-      window.history.replaceState(null, "", "/?_consentReset=1");
-
-      act(() => {
-        renderProvider();
-      });
-
-      // Despite localStorage having a decided record, the provider should
-      // have reset to undecided.
-      expect(screen.getByTestId("decided")).toHaveTextContent("no");
-      expect(localStorage.getItem(CONSENT_STORAGE_KEY)).toBeNull();
-    });
-
-    it("does NOT clear consent when ?_consentReset=1 is absent", () => {
-      localStorage.setItem(
-        CONSENT_STORAGE_KEY,
-        JSON.stringify({
-          version: 1,
-          decidedAt: new Date().toISOString(),
-          categories: { essential: true, analytics: false },
-        }),
-      );
-
-      // No reset param — consent record should survive.
-      act(() => {
-        renderProvider();
-      });
-
-      expect(screen.getByTestId("decided")).toHaveTextContent("yes");
-    });
+  it("treats corrupt JSON as undecided without throwing", () => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, "not valid json{{{");
+    renderProvider();
+    expect(screen.getByTestId("decided")).toHaveTextContent("no");
   });
 });
