@@ -14,32 +14,25 @@ import {
  * - On consent transition true→false → disables + reloads.
  * - Idempotent: does not double-add integrations across renders.
  *
+ * Only the opaque user ID is sent — no email or PII (consent copy guarantee).
  * Must be mounted inside both ConsentProvider and AuthProvider.
  */
 export function SentryConsentReactor(): null {
   const { categories } = useConsent();
-  const { user, userType } = useAuth();
+  const { user } = useAuth();
   const enabledRef = useRef(false);
 
   useEffect(() => {
     const wantsAnalytics = categories.analytics;
 
     if (wantsAnalytics && !enabledRef.current) {
-      const sentryUser = user
-        ? {
-            id: user.id,
-            email: user.email,
-            type: userType ?? undefined,
-          }
-        : { id: "anonymous" };
-
-      enableAnalyticsIntegrations(sentryUser);
+      enableAnalyticsIntegrations({ id: user?.id ?? "anonymous" });
       enabledRef.current = true;
     } else if (!wantsAnalytics && enabledRef.current) {
       enabledRef.current = false;
       disableAnalyticsIntegrations();
     }
-  }, [categories.analytics, user, userType]);
+  }, [categories.analytics, user]);
 
   return null;
 }
