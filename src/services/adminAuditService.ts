@@ -118,7 +118,12 @@ export async function insertAuditEntry(
     });
 
     if (error) {
-      Logger.error("Failed to insert audit entry", { error, actionType, entityType, entityId });
+      Logger.error("Failed to insert audit entry", {
+        error,
+        actionType,
+        entityType,
+        entityId,
+      });
       return null;
     }
 

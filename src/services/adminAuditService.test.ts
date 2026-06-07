@@ -1,6 +1,10 @@
 import { describe, it, expect, beforeEach } from "@jest/globals";
 import { supabase } from "@/lib/supabase";
-import { getAdminAuditLog, insertAuditEntry, logRead } from "./adminAuditService";
+import {
+  getAdminAuditLog,
+  insertAuditEntry,
+  logRead,
+} from "./adminAuditService";
 
 describe("adminAuditService", () => {
   beforeEach(() => {
@@ -237,11 +241,7 @@ describe("adminAuditService", () => {
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network error"));
 
-      const auditId = await insertAuditEntry(
-        "user_suspend",
-        "user",
-        "user-1",
-      );
+      const auditId = await insertAuditEntry("user_suspend", "user", "user-1");
 
       expect(auditId).toBeNull();
     });
