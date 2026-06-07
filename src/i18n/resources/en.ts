@@ -479,8 +479,10 @@ export default {
     "modal.connect.noWallets": "No wallets available for {{chainType}} chains.",
     "modal.connect.tryDifferentChain": "Try selecting a different chain type.",
     "modal.connect.viewOtherWallets": "View other supported wallets",
-    "modal.connect.termsAgreement": "By connecting, you agree to the",
+    "modal.connect.termsAgreement": "By connecting, you agree to our",
     "modal.connect.termsLink": "Terms of Service",
+    "modal.connect.termsPrivacyConnector": "and",
+    "modal.connect.privacyLink": "Privacy Policy",
     "modal.connect.chainTypeAria": "Chain type",
     "modal.connect.failedConnect": "Connection failed",
 

@@ -477,8 +477,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "別のチェーンタイプを選択してみてください。",
     "modal.connect.viewOtherWallets": "他の対応ウォレットを表示",
-    "modal.connect.termsAgreement": "接続することにより、",
+    "modal.connect.termsAgreement": "接続することにより、当社の",
     "modal.connect.termsLink": "利用規約",
+    "modal.connect.termsPrivacyConnector": "および",
+    "modal.connect.privacyLink": "プライバシーポリシー",
     "modal.connect.chainTypeAria": "チェーンタイプ",
     "modal.connect.failedConnect": "接続に失敗しました",
 

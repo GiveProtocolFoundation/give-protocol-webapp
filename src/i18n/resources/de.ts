@@ -507,8 +507,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Versuchen Sie, einen anderen Chain-Typ auszuwählen.",
     "modal.connect.viewOtherWallets": "Andere unterstützte Wallets anzeigen",
-    "modal.connect.termsAgreement": "Durch die Verbindung stimmen Sie den",
+    "modal.connect.termsAgreement": "Durch die Verbindung stimmen Sie unseren",
     "modal.connect.termsLink": "Nutzungsbedingungen",
+    "modal.connect.termsPrivacyConnector": "und",
+    "modal.connect.privacyLink": "Datenschutzrichtlinie",
     "modal.connect.chainTypeAria": "Chain-Typ",
     "modal.connect.failedConnect": "Verbindung fehlgeschlagen",
 

@@ -445,8 +445,10 @@ export default {
     "modal.connect.noWallets": "沒有可用於 {{chainType}} 鏈的錢包。",
     "modal.connect.tryDifferentChain": "嘗試選擇不同的鏈類型。",
     "modal.connect.viewOtherWallets": "檢視其他支援的錢包",
-    "modal.connect.termsAgreement": "連接即表示您同意",
+    "modal.connect.termsAgreement": "連接即表示您同意我們的",
     "modal.connect.termsLink": "服務條款",
+    "modal.connect.termsPrivacyConnector": "和",
+    "modal.connect.privacyLink": "隱私政策",
     "modal.connect.chainTypeAria": "鏈類型",
     "modal.connect.failedConnect": "連接失敗",
 

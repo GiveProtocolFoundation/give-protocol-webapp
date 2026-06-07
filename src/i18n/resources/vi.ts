@@ -476,6 +476,8 @@ export default {
     "modal.connect.viewOtherWallets": "Xem các ví được hỗ trợ khác",
     "modal.connect.termsAgreement": "Bằng việc kết nối, bạn đồng ý với",
     "modal.connect.termsLink": "Điều khoản dịch vụ",
+    "modal.connect.termsPrivacyConnector": "và",
+    "modal.connect.privacyLink": "Chính sách Bảo mật",
     "modal.connect.chainTypeAria": "Loại chuỗi",
     "modal.connect.failedConnect": "Kết nối thất bại",
 

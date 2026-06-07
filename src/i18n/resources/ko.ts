@@ -466,8 +466,10 @@ export default {
       "{{chainType}} 체인에 사용 가능한 지갑이 없습니다.",
     "modal.connect.tryDifferentChain": "다른 체인 유형을 선택해 보세요.",
     "modal.connect.viewOtherWallets": "지원되는 다른 지갑 보기",
-    "modal.connect.termsAgreement": "연결함으로써 다음에 동의합니다:",
+    "modal.connect.termsAgreement": "연결함으로써 당사의",
     "modal.connect.termsLink": "이용약관",
+    "modal.connect.termsPrivacyConnector": "및",
+    "modal.connect.privacyLink": "개인정보 처리방침",
     "modal.connect.chainTypeAria": "체인 유형",
     "modal.connect.failedConnect": "연결에 실패했습니다",
 
