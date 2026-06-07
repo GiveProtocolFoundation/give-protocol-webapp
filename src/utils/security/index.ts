@@ -87,7 +87,7 @@ export class SecurityManager {
     return [
       ENV.APP_DOMAIN,
       `app.${ENV.APP_DOMAIN}`,
-      "etqbojasfmpieigeefdj.supabase.co",
+      "lhbyfidtlhojnrewpstp.supabase.co",
       "westend-rpc.polkadot.io",
       "api.giveprotocol.io",
       "images.unsplash.com",

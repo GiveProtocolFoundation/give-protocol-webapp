@@ -34,7 +34,7 @@
         {
           "key": "Content-Security-Policy",
           "comment": "Supabase URL is intentionally public - security is enforced via RLS policies and anon key",
-          "value": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://lucid.thereadme.com https://cdn.silktide.com https://silktide.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://etqbojasfmpieigeefdj.supabase.co https://www.google-analytics.com https://lucid.thereadme.com https://rpc.api.moonbase.moonbeam.network wss://rpc.api.moonbase.moonbeam.network; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /api/csp-report; report-to csp-endpoint;"
+          "value": "default-src 'self'; script-src 'self' 'wasm-unsafe-eval' 'unsafe-inline' https://www.googletagmanager.com https://lucid.thereadme.com https://cdn.silktide.com https://silktide.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://lhbyfidtlhojnrewpstp.supabase.co https://www.google-analytics.com https://lucid.thereadme.com https://rpc.api.moonbase.moonbeam.network wss://rpc.api.moonbase.moonbeam.network; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /api/csp-report; report-to csp-endpoint;"
         }
       ]
     },

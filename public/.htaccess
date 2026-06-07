@@ -10,7 +10,7 @@ Header always set Strict-Transport-Security "max-age=31536000; includeSubDomains
 Header always set Report-To "{\"group\":\"csp-endpoint\",\"max_age\":10886400,\"endpoints\":[{\"url\":\"/api/csp-report\"}]}"
 
 # Content Security Policy
-Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://lucid.thereadme.com https://cdn.silktide.com https://silktide.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://etqbojasfmpieigeefdj.supabase.co https://www.google-analytics.com https://lucid.thereadme.com https://rpc.api.moonbase.moonbeam.network wss://rpc.api.moonbase.moonbeam.network; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /api/csp-report; report-to csp-endpoint;"
+Header always set Content-Security-Policy "default-src 'self'; script-src 'self' 'unsafe-inline' https://www.googletagmanager.com https://lucid.thereadme.com https://cdn.silktide.com https://silktide.com; style-src 'self' 'unsafe-inline'; img-src 'self' data: https: blob:; font-src 'self' data:; connect-src 'self' https://lhbyfidtlhojnrewpstp.supabase.co https://www.google-analytics.com https://lucid.thereadme.com https://rpc.api.moonbase.moonbeam.network wss://rpc.api.moonbase.moonbeam.network; frame-src 'self'; object-src 'none'; base-uri 'self'; form-action 'self'; report-uri /api/csp-report; report-to csp-endpoint;"
 
 # Caching for static assets
 <FilesMatch "\.(js|css)$">
