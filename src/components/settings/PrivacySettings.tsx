@@ -311,17 +311,21 @@ export const PrivacySettings: React.FC = () => {
                   <li>Your profile, preferences, and contact information</li>
                   <li>Wallet address to identity mapping</li>
                   <li>Volunteer application PII (name, email, phone)</li>
-                  <li>All donation and volunteer hour history</li>
+                  <li>Volunteer hour history</li>
                   <li>Your Give Protocol account and login access</li>
                 </ul>
                 <p className="mt-3 text-sm font-semibold text-red-900 dark:text-red-100">
                   What will be retained
                 </p>
                 <ul className="mt-2 text-sm text-red-700 dark:text-red-300 space-y-1 list-disc list-inside">
-                  <li>Volunteer verification records (required for blockchain audit trail)</li>
+                  <li>Fiat donation records (anonymized — your name and email removed; transaction amounts and payment references retained for financial and tax compliance)</li>
+                  <li>Volunteer application records (anonymized — charity operational records)</li>
+                  <li>Volunteer verification records (blockchain audit metadata only — personal link severed)</li>
                   <li>Consent records (required by law)</li>
-                  <li>Anonymized application records (charity operational records)</li>
                 </ul>
+                <p className="mt-3 text-xs text-red-700 dark:text-red-300 italic">
+                  Fiat donation transaction amounts and payment references will be anonymized (your name and email removed) and retained for up to 7 years for financial and tax compliance obligations under applicable law (GDPR Art. 17(2)/(3)(b)).
+                </p>
                 {/* Warn if user is charity authorized signer */}
                 <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950 rounded border border-amber-200 dark:border-amber-800">
                   <p className="text-xs text-amber-800 dark:text-amber-200 font-medium">
