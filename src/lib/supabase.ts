@@ -6,8 +6,13 @@ const supabaseUrl = ENV.SUPABASE_URL;
 const supabaseAnonKey = ENV.SUPABASE_ANON_KEY;
 
 if (!supabaseUrl || !supabaseAnonKey) {
-  throw new Error(
-    "Missing Supabase environment variables. Please check VITE_SUPABASE_URL and VITE_SUPABASE_ANON_KEY.",
+  // Log clearly but do not throw at module-load time — a top-level throw
+  // crashes the app before React mounts, bypassing ErrorBoundary entirely
+  // and producing a blank page with no visible error. Auth calls will fail
+  // gracefully at runtime so the UI can still render and display the issue.
+  console.error(
+    "[supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. " +
+      "Set these in your hosting environment and redeploy.",
   );
 }
 
@@ -15,7 +20,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
  * Supabase client instance configured for the Give Protocol application
  * Provides authenticated access to the database and authentication services
  */
-export const supabase = createClient(supabaseUrl, supabaseAnonKey, {
+export const supabase = createClient(supabaseUrl ?? "", supabaseAnonKey ?? "", {
   auth: {
     // Configure auth settings
     autoRefreshToken: true,
