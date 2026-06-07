@@ -992,6 +992,10 @@ export default {
     "charity.claim.validation.password": "密码长度至少为 8 个字符",
     "charity.claim.validation.confirmPassword": "两次输入的密码不一致",
     "charity.claim.validation.fix": "请更正验证错误",
+    "charity.claim.useAsPublicEmail": "使用我的电子邮件作为组织的公开联系邮箱",
+    "charity.claim.publicContactEmail": "组织公开联系邮箱",
+    "charity.claim.privacyNotice":
+      "您的个人签署人邮箱/电话仅用于验证，其他平台用户无法看到。公开联系邮箱将显示在您的组织简介中。",
     "charity.claim.error.creation": "账户创建失败",
     "charity.claim.error.generic": "创建账户失败",
     "charity.vetting.orgDetails": "组织详情",
