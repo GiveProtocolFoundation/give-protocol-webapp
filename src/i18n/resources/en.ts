@@ -1170,6 +1170,11 @@ export default {
     "auth.donorReg.orSetPassword": "Or set a password",
     "auth.donorReg.creating": "Creating Account...",
     "auth.donorReg.createAccount": "Create Donor Account",
+    "auth.donorReg.privacyNotice":
+      "By creating an account, you agree to our",
+    "auth.donorReg.termsLink": "Terms of Service",
+    "auth.donorReg.privacyAnd": "and acknowledge our",
+    "auth.donorReg.privacyLink": "Privacy Policy",
 
     // Charity login
     "auth.charityLogin.mismatch":
@@ -1286,6 +1291,11 @@ export default {
     "charity.vetting.validation.country": "Country is required",
     "charity.vetting.validation.fix": "Please correct the validation errors",
     "charity.vetting.error.generic": "Failed to submit application",
+    "charity.vetting.privacyNotice":
+      "By submitting this application, you agree to our",
+    "charity.vetting.termsLink": "Terms of Service",
+    "charity.vetting.privacyAnd": "and acknowledge our",
+    "charity.vetting.privacyLink": "Privacy Policy",
 
     // Common - shared auth fields
     "common.email": "Email",
