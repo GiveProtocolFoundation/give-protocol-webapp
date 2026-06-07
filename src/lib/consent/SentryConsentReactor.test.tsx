@@ -101,8 +101,6 @@ describe("SentryConsentReactor", () => {
     expect(mockEnable).toHaveBeenCalledTimes(1);
     expect(mockEnable).toHaveBeenCalledWith({
       id: "user-123",
-      email: "test@example.com",
-      type: "donor",
     });
   });
 

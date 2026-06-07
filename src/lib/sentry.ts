@@ -93,13 +93,10 @@ export function initSentry() {
 /**
  * Enables Sentry replay + perf tracing after the user consents to analytics.
  * Idempotent: no-ops if already enabled or not in production.
- * @param user - Minimal user context to attach (id required; email/type optional)
+ * Only the opaque user ID is sent — no email or PII (consent copy guarantee).
+ * @param user - Object containing the user's opaque ID
  */
-export function enableAnalyticsIntegrations(user: {
-  id: string;
-  email?: string;
-  type?: string;
-}): void {
+export function enableAnalyticsIntegrations(user: { id: string }): void {
   if (!import.meta.env.PROD || analyticsEnabled) return;
 
   Sentry.addIntegration(
@@ -110,11 +107,7 @@ export function enableAnalyticsIntegrations(user: {
   );
   Sentry.addIntegration(Sentry.browserTracingIntegration());
 
-  Sentry.setUser({
-    id: user.id,
-    email: user.email,
-    type: user.type,
-  });
+  Sentry.setUser({ id: user.id });
 
   analyticsEnabled = true;
   console.log("Sentry: Phase B analytics integrations enabled");
