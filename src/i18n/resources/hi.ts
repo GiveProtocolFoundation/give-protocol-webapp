@@ -780,8 +780,10 @@ export default {
     "admin.charity.allStatuses": "सभी स्थितियां",
     "admin.charity.searchPlaceholder": "नाम से खोजें\u2026",
     "admin.charity.colName": "नाम",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "श्रेणी",
     "admin.charity.colStatus": "स्थिति",
+    "admin.charity.colSigner": "संपर्क",
     "admin.charity.colJoined": "शामिल हुए",
     "admin.charity.colWallet": "वॉलेट",
     "admin.charity.colActions": "कार्य",
@@ -1062,6 +1064,11 @@ export default {
       "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "charity.claim.validation.confirmPassword": "पासवर्ड मेल नहीं खाते",
     "charity.claim.validation.fix": "कृपया सत्यापन त्रुटियों को ठीक करें",
+    "charity.claim.useAsPublicEmail":
+      "मेरे ईमेल को संगठन के सार्वजनिक संपर्क ईमेल के रूप में उपयोग करें",
+    "charity.claim.publicContactEmail": "संगठन का सार्वजनिक संपर्क ईमेल",
+    "charity.claim.privacyNotice":
+      "आपका व्यक्तिगत हस्ताक्षरकर्ता ईमेल/फोन केवल सत्यापन के लिए उपयोग किया जाता है और अन्य प्लेटफ़ॉर्म उपयोगकर्ताओं को दिखाई नहीं देता। सार्वजनिक संपर्क ईमेल आपके संगठन प्रोफ़ाइल पर दिखाया जाता है।",
     "charity.claim.error.creation": "खाता निर्माण विफल",
     "charity.claim.error.generic": "खाता बनाने में विफल",
     "charity.vetting.orgDetails": "संगठन विवरण",

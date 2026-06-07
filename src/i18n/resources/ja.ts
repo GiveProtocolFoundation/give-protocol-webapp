@@ -771,8 +771,10 @@ export default {
     "admin.charity.allStatuses": "すべてのステータス",
     "admin.charity.searchPlaceholder": "名前で検索\u2026",
     "admin.charity.colName": "名前",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "カテゴリ",
     "admin.charity.colStatus": "ステータス",
+    "admin.charity.colSigner": "連絡先",
     "admin.charity.colJoined": "登録日",
     "admin.charity.colWallet": "ウォレット",
     "admin.charity.colActions": "操作",
@@ -1055,6 +1057,11 @@ export default {
       "パスワードは8文字以上で入力してください",
     "charity.claim.validation.confirmPassword": "パスワードが一致しません",
     "charity.claim.validation.fix": "入力エラーを修正してください",
+    "charity.claim.useAsPublicEmail":
+      "自分のメールアドレスを団体の公開連絡先メールアドレスとして使用する",
+    "charity.claim.publicContactEmail": "団体の公開連絡先メールアドレス",
+    "charity.claim.privacyNotice":
+      "個人の署名者メール/電話番号は本人確認のみに使用され、他のプラットフォームユーザーには表示されません。公開連絡先メールアドレスは団体プロフィールに表示されます。",
     "charity.claim.error.creation": "アカウントの作成に失敗しました",
     "charity.claim.error.generic": "アカウントを作成できませんでした",
     "charity.vetting.orgDetails": "団体情報",
