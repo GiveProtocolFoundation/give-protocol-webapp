@@ -1,9 +1,10 @@
-import React from "react";
+import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import { FaBluesky, FaGithub, FaDiscord } from "react-icons/fa6";
 import { Logo } from "@/components/Logo";
 import { useTranslation } from "@/hooks/useTranslation";
 import { DOCS_CONFIG } from "@/config/docs";
+import { CustomizeModal } from "@/components/consent/CustomizeModal";
 
 /** Footer branding with logo and tagline. */
 function FooterBrand() {
@@ -60,9 +61,14 @@ function FooterResources() {
   );
 }
 
-/** Footer legal navigation links. */
-function FooterLegal() {
+interface FooterLegalProps {
+  onOpenCookieModal: () => void;
+}
+
+/** Footer legal navigation links + cookie preferences. */
+function FooterLegal({ onOpenCookieModal }: FooterLegalProps) {
   const { t } = useTranslation();
+
   return (
     <div className="flex-1 min-w-0">
       <h3 className="text-sm font-semibold text-white tracking-wider uppercase mb-4">
@@ -84,6 +90,15 @@ function FooterLegal() {
           >
             {t("footer.legal.privacy")}
           </Link>
+        </li>
+        <li>
+          <button
+            type="button"
+            onClick={onOpenCookieModal}
+            className="text-sm text-white/90 hover:text-white focus:text-white focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded px-1 -mx-1 transition-colors inline-block bg-transparent border-0 cursor-pointer p-0"
+          >
+            {t("footer.legal.cookiePreferences")}
+          </button>
         </li>
       </ul>
     </div>
@@ -128,13 +143,15 @@ function FooterConnect() {
 /** Site-wide footer with resource links, legal links, and social media icons. */
 export const Footer: React.FC = () => {
   const { t } = useTranslation();
+  const [showCookieModal, setShowCookieModal] = useState(false);
+
   return (
     <footer className="bg-gradient-to-r from-emerald-600 to-teal-600 border-t border-emerald-700">
       <div className="max-w-7xl mx-auto px-4 py-16 sm:px-6 lg:px-8">
         <div className="flex flex-col lg:flex-row lg:justify-between lg:items-start gap-8">
           <FooterBrand />
           <FooterResources />
-          <FooterLegal />
+          <FooterLegal onOpenCookieModal={() => setShowCookieModal(true)} />
           <FooterConnect />
         </div>
         <div className="mt-16 border-t border-white/20 pt-8">
@@ -143,6 +160,12 @@ export const Footer: React.FC = () => {
           </p>
         </div>
       </div>
+      {showCookieModal && (
+        <CustomizeModal
+          onClose={() => setShowCookieModal(false)}
+          showCloseButton
+        />
+      )}
     </footer>
   );
 };

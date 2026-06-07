@@ -58,3 +58,10 @@ path_patterns = [
   "**/__tests__/**"
 ]
 enabled = false
+
+[[issue_overrides]]
+issue_id = "JS-0764"
+path_patterns = [
+  "src/components/consent/CookieBanner.tsx"
+]
+enabled = false

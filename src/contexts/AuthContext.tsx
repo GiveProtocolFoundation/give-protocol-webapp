@@ -85,7 +85,7 @@ function resolveUserType(user: User | null | undefined): Promise<UserType> {
  */
 function updateSentryUserContext(
   user: User | null | undefined,
-  userType: UserType,
+  _userType: UserType,
 ): void {
   if (user) {
     // Phase A: opaque ID only

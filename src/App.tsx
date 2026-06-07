@@ -14,6 +14,8 @@ import { ErrorBoundary } from "./components/ErrorBoundary";
 import { SentryFallback } from "./components/SentryFallback";
 import { useSafeAutoConnect } from "./hooks/useSafeAutoConnect";
 import { useWalletAuthSync } from "./hooks/useWalletAuthSync";
+import { ConsentProvider } from "./lib/consent/ConsentProvider";
+import { CookieBanner } from "./components/consent/CookieBanner";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
 import { ConsentProvider } from "./lib/consent/ConsentProvider";
@@ -105,9 +107,12 @@ const SafeAutoConnectWrapper = ({
 // Router wrapper component (Router is now provided by entry files)
 const AppRouter = () => (
   <SafeAutoConnectWrapper>
-    <Layout>
-      <AppRoutes />
-    </Layout>
+    <>
+      <Layout>
+        <AppRoutes />
+      </Layout>
+      <CookieBanner />
+    </>
   </SafeAutoConnectWrapper>
 );
 
