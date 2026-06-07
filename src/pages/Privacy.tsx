@@ -412,7 +412,7 @@ export const Privacy: React.FC = () => {
             hosted in the United States, this constitutes a transfer to a third
             country and is covered by SCCs. Replay capture and performance
             tracing have been disabled, and email identifiers are stripped from
-            Sentry user context (see GIV-359).
+            Sentry user context.
           </li>
           <li>
             <strong>Analytics (Google Analytics 4, if active)</strong>: where we
@@ -427,9 +427,8 @@ export const Privacy: React.FC = () => {
             may access the primary database remotely for administration,
             support, and incident response. Following EDPB guidance, remote
             access from a third country is treated as a transfer for GDPR
-            purposes. Such access is governed by intra-group SCCs and role-based
-            access controls, and is logged in the administrative access audit
-            log described in Section 6.
+            purposes. Such access is governed by intra-group SCCs and
+            role-based access controls, with access events logged.
           </li>
           <li>
             <strong>Blockchain layer</strong>: by design, public blockchain
