@@ -23,41 +23,17 @@
       rel="stylesheet"
     />
 
-    <!-- Google tag (gtag.js) - wrapped to handle ad-blockers gracefully -->
-    <script>
-      (function () {
-        try {
-          var s = document.createElement("script");
-          s.async = true;
-          s.src = "https://www.googletagmanager.com/gtag/js?id=G-CBQHKLHD8T";
-          s.onerror = function () {
-            console.info(
-              "GTM blocked (ad-blocker or network issue) — analytics disabled",
-            );
-          };
-          document.head.appendChild(s);
-        } catch (e) {
-          // Silently ignore GTM load failures
-        }
-      })();
-    </script>
+    <!-- GA4 consent defaults — denied until ConsentProvider grants -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
 
-      // Set default consent to denied
       gtag("consent", "default", {
         analytics_storage: "denied",
-        ad_storage: "denied",
-        ad_user_data: "denied",
-        ad_personalization: "denied",
         wait_for_update: 500,
       });
-
-      gtag("js", new Date());
-      gtag("config", "G-CBQHKLHD8T");
     </script>
 
     <title>Give Protocol - Smart Giving Platform</title>
