@@ -271,8 +271,8 @@ export const Privacy: React.FC = () => {
         <h2>11. Cookie Preferences and Analytics Processing</h2>
         <p>
           We use cookies and similar technologies on our platform. Some are
-          essential and cannot be disabled; others are optional and require
-          your explicit consent.
+          essential and cannot be disabled; others are optional and require your
+          explicit consent.
         </p>
 
         <h3>11.1 Essential technologies</h3>
@@ -287,12 +287,11 @@ export const Privacy: React.FC = () => {
           <strong>Error monitoring (always active).</strong> We use Sentry
           (Functional Software, Inc., 45 Fremont Street, San Francisco, CA
           94105, USA) to receive error reports. In this mode, Sentry receives
-          only a randomly generated, opaque session identifier &mdash; no
-          email address, no account information, and no session recording. We
-          rely on our legitimate interests in operating a stable, secure
-          service (Art. 6(1)(f) GDPR). You have the right to object to this
-          processing at any time by contacting us at the address in &sect;1
-          (Art. 21 GDPR).
+          only a randomly generated, opaque session identifier &mdash; no email
+          address, no account information, and no session recording. We rely on
+          our legitimate interests in operating a stable, secure service (Art.
+          6(1)(f) GDPR). You have the right to object to this processing at any
+          time by contacting us at the address in &sect;1 (Art. 21 GDPR).
         </p>
         <p>
           <strong>
@@ -302,19 +301,19 @@ export const Privacy: React.FC = () => {
           mode, Sentry additionally receives your user identifier, email
           address, and masked session activity. Session replays are configured
           with <code>maskAllText: true</code> and{" "}
-          <code>blockAllMedia: true</code> &mdash; all text and media visible
-          on screen is masked or blocked before transmission to Sentry, so no
-          readable content is captured in replay recordings. The legal basis
-          for this processing is your consent (Art. 6(1)(a) GDPR).
+          <code>blockAllMedia: true</code> &mdash; all text and media visible on
+          screen is masked or blocked before transmission to Sentry, so no
+          readable content is captured in replay recordings. The legal basis for
+          this processing is your consent (Art. 6(1)(a) GDPR).
         </p>
         <p>
-          Data is transferred to the United States under EU Standard
-          Contractual Clauses (Art. 46(2)(c) GDPR) per our Data Processing
-          Agreement with Sentry &mdash; see the International Transfers
-          section. You may withdraw consent at any time via the{" "}
-          <strong>Cookie preferences</strong> link in the site footer (Art.
-          7(3) GDPR). Withdrawal does not affect the lawfulness of processing
-          before withdrawal.
+          Data is transferred to the United States under EU Standard Contractual
+          Clauses (Art. 46(2)(c) GDPR) per our Data Processing Agreement with
+          Sentry &mdash; see the International Transfers section. You may
+          withdraw consent at any time via the{" "}
+          <strong>Cookie preferences</strong> link in the site footer (Art. 7(3)
+          GDPR). Withdrawal does not affect the lawfulness of processing before
+          withdrawal.
         </p>
 
         <h3>11.3 Your consent choices</h3>
