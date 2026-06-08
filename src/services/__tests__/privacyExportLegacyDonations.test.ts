@@ -132,9 +132,7 @@ describe("privacy-export legacy_fiat_donations mapping", () => {
   });
 
   it("should skip the query and return empty array when auth email is undefined", () => {
-    const result = buildLegacyDonationsResult(undefined, [
-      MOCK_LEGACY_ROW_1,
-    ]);
+    const result = buildLegacyDonationsResult(undefined, [MOCK_LEGACY_ROW_1]);
 
     expect(result).toEqual([]);
     expect(Array.isArray(result)).toBe(true);
