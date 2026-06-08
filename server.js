@@ -14,12 +14,24 @@ const app = express();
 app.use(cookieParser());
 
 // Parse JSON bodies for RPC proxy and CSP reports
-app.use(express.json({ type: ["application/json", "application/csp-report", "application/reports+json"] }));
+app.use(
+  express.json({
+    type: [
+      "application/json",
+      "application/csp-report",
+      "application/reports+json",
+    ],
+  }),
+);
 
 // --- CSP violation report collector (TT-F1 / GIV-328) ---
 const CSP_HIGH_RISK_DIRECTIVES = new Set([
-  "script-src", "script-src-elem", "script-src-attr",
-  "frame-src", "object-src", "base-uri",
+  "script-src",
+  "script-src-elem",
+  "script-src-attr",
+  "frame-src",
+  "object-src",
+  "base-uri",
 ]);
 const CSP_EXTENSION_RE = /^(chrome|moz|safari|ms-browser)-extension:\/\//;
 
@@ -31,14 +43,16 @@ app.post("/api/csp-report", (req, res) => {
   const report = legacy
     ? {
         documentUri: legacy["document-uri"] ?? "",
-        directive: legacy["effective-directive"] ?? legacy["violated-directive"] ?? "",
+        directive:
+          legacy["effective-directive"] ?? legacy["violated-directive"] ?? "",
         blockedUri: legacy["blocked-uri"] ?? "",
         sourceFile: legacy["source-file"] ?? "",
       }
     : modern
       ? {
           documentUri: modern.documentURL ?? raw.url ?? "",
-          directive: modern.effectiveDirective ?? modern.violatedDirective ?? "",
+          directive:
+            modern.effectiveDirective ?? modern.violatedDirective ?? "",
           blockedUri: modern.blockedURL ?? "",
           sourceFile: modern.sourceFile ?? "",
         }
@@ -47,15 +61,25 @@ app.post("/api/csp-report", (req, res) => {
   if (!report) return res.status(204).end();
 
   // Drop browser-extension noise
-  if (CSP_EXTENSION_RE.test(report.blockedUri) || CSP_EXTENSION_RE.test(report.sourceFile)) {
+  if (
+    CSP_EXTENSION_RE.test(report.blockedUri) ||
+    CSP_EXTENSION_RE.test(report.sourceFile)
+  ) {
     return res.status(204).end();
   }
 
   const isHighRisk = CSP_HIGH_RISK_DIRECTIVES.has(report.directive);
-  const entry = { event: "csp_violation", ts: new Date().toISOString(), ...report, highRisk: isHighRisk };
+  const entry = {
+    event: "csp_violation",
+    ts: new Date().toISOString(),
+    ...report,
+    highRisk: isHighRisk,
+  };
 
   if (isHighRisk) {
-    console.error(`[CSP-ALERT] ${report.directive} blocked ${report.blockedUri} on ${report.documentUri}`);
+    console.error(
+      `[CSP-ALERT] ${report.directive} blocked ${report.blockedUri} on ${report.documentUri}`,
+    );
     console.error(JSON.stringify(entry));
   } else {
     console.log(JSON.stringify(entry));
@@ -68,10 +92,15 @@ app.post("/api/csp-report", (req, res) => {
 const RPC_ENDPOINTS = {
   base: process.env.VITE_BASE_RPC_URL || "https://base.publicnode.com",
   optimism: process.env.VITE_OPTIMISM_RPC_URL || "https://mainnet.optimism.io",
-  moonbeam: process.env.VITE_MOONBEAM_RPC_URL || "https://rpc.api.moonbeam.network",
-  "base-sepolia": process.env.VITE_BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
-  "optimism-sepolia": process.env.VITE_OPTIMISM_SEPOLIA_RPC_URL || "https://sepolia.optimism.io",
-  moonbase: process.env.VITE_MOONBASE_RPC_URL || "https://rpc.api.moonbase.moonbeam.network",
+  moonbeam:
+    process.env.VITE_MOONBEAM_RPC_URL || "https://rpc.api.moonbeam.network",
+  "base-sepolia":
+    process.env.VITE_BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
+  "optimism-sepolia":
+    process.env.VITE_OPTIMISM_SEPOLIA_RPC_URL || "https://sepolia.optimism.io",
+  moonbase:
+    process.env.VITE_MOONBASE_RPC_URL ||
+    "https://rpc.api.moonbase.moonbeam.network",
 };
 
 app.post("/api/rpc/:chain", async (req, res) => {
@@ -87,7 +116,10 @@ app.post("/api/rpc/:chain", async (req, res) => {
       res.status(400).json({
         jsonrpc: "2.0",
         id: null,
-        error: { code: -32600, message: "Invalid Request: empty or malformed JSON-RPC body" },
+        error: {
+          code: -32600,
+          message: "Invalid Request: empty or malformed JSON-RPC body",
+        },
       });
       return;
     }
@@ -103,7 +135,9 @@ app.post("/api/rpc/:chain", async (req, res) => {
       body,
     });
 
-    console.log(`RPC proxy (${safeChain}): upstream responded ${Number(response.status)}`);
+    console.log(
+      `RPC proxy (${safeChain}): upstream responded ${Number(response.status)}`,
+    );
 
     const data = await response.json();
 
@@ -122,13 +156,17 @@ app.post("/api/rpc/:chain", async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    const safeMessage = error instanceof Error ? error.message.slice(0, 200) : "Unknown error";
+    const safeMessage =
+      error instanceof Error ? error.message.slice(0, 200) : "Unknown error";
     console.error(`RPC proxy error (${safeChain}): ${safeMessage}`);
-    res.status(502).set("Content-Type", "application/json").json({
-      jsonrpc: "2.0",
-      id: req.body?.id ?? null,
-      error: { code: -32603, message: `RPC request failed for ${safeChain}` },
-    });
+    res
+      .status(502)
+      .set("Content-Type", "application/json")
+      .json({
+        jsonrpc: "2.0",
+        id: req.body?.id ?? null,
+        error: { code: -32603, message: `RPC request failed for ${safeChain}` },
+      });
   }
 });
 

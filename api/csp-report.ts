@@ -114,9 +114,7 @@ function normalizeReport(raw: unknown): {
     return {
       documentUri: modern.body.documentURL ?? modern.url ?? "",
       effectiveDirective:
-        modern.body.effectiveDirective ??
-        modern.body.violatedDirective ??
-        "",
+        modern.body.effectiveDirective ?? modern.body.violatedDirective ?? "",
       blockedUri: modern.body.blockedURL ?? "",
       sourceFile: modern.body.sourceFile ?? "",
       disposition: modern.body.disposition ?? "enforce",
