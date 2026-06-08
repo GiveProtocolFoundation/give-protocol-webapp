@@ -474,6 +474,8 @@ export default {
     "modal.connect.viewOtherWallets": "ดูกระเป๋าเงินอื่นที่รองรับ",
     "modal.connect.termsAgreement": "การเชื่อมต่อแสดงว่าคุณยอมรับ",
     "modal.connect.termsLink": "ข้อกำหนดการใช้บริการ",
+    "modal.connect.termsPrivacyConnector": "และ",
+    "modal.connect.privacyLink": "นโยบายความเป็นส่วนตัว",
     "modal.connect.chainTypeAria": "ประเภทเชน",
     "modal.connect.failedConnect": "การเชื่อมต่อล้มเหลว",
 
@@ -764,8 +766,10 @@ export default {
     "admin.charity.allStatuses": "ทุกสถานะ",
     "admin.charity.searchPlaceholder": "ค้นหาตามชื่อ\u2026",
     "admin.charity.colName": "ชื่อ",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "หมวดหมู่",
     "admin.charity.colStatus": "สถานะ",
+    "admin.charity.colSigner": "ผู้ติดต่อ",
     "admin.charity.colJoined": "เข้าร่วมเมื่อ",
     "admin.charity.colWallet": "กระเป๋าเงิน",
     "admin.charity.colActions": "การดำเนินการ",
@@ -1045,6 +1049,11 @@ export default {
       "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "charity.claim.validation.confirmPassword": "รหัสผ่านไม่ตรงกัน",
     "charity.claim.validation.fix": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
+    "charity.claim.useAsPublicEmail":
+      "ใช้อีเมลของฉันเป็นอีเมลติดต่อสาธารณะขององค์กร",
+    "charity.claim.publicContactEmail": "อีเมลติดต่อสาธารณะขององค์กร",
+    "charity.claim.privacyNotice":
+      "อีเมล/โทรศัพท์ส่วนตัวของผู้ลงนามใช้สำหรับการยืนยันตัวตนเท่านั้นและไม่แสดงให้ผู้ใช้แพลตฟอร์มอื่นเห็น อีเมลติดต่อสาธารณะจะแสดงในโปรไฟล์องค์กรของคุณ",
     "charity.claim.error.creation": "การสร้างบัญชีล้มเหลว",
     "charity.claim.error.generic": "ไม่สามารถสร้างบัญชีได้",
     "charity.vetting.orgDetails": "รายละเอียดองค์กร",

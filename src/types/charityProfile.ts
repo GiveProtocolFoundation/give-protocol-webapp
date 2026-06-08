@@ -34,6 +34,8 @@ export interface CharityProfile {
   authorized_signer_title: string | null;
   authorized_signer_email: string | null;
   authorized_signer_phone: string | null;
+  public_contact_email: string | null;
+  public_contact_phone: string | null;
   claimed_by: string | null;
   wallet_address: string | null;
   wallet_type: WalletType | null;

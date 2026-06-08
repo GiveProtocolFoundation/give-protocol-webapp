@@ -476,6 +476,8 @@ export default {
     "modal.connect.viewOtherWallets": "Xem các ví được hỗ trợ khác",
     "modal.connect.termsAgreement": "Bằng việc kết nối, bạn đồng ý với",
     "modal.connect.termsLink": "Điều khoản dịch vụ",
+    "modal.connect.termsPrivacyConnector": "và",
+    "modal.connect.privacyLink": "Chính sách Bảo mật",
     "modal.connect.chainTypeAria": "Loại chuỗi",
     "modal.connect.failedConnect": "Kết nối thất bại",
 
@@ -769,8 +771,10 @@ export default {
     "admin.charity.allStatuses": "Tất cả trạng thái",
     "admin.charity.searchPlaceholder": "Tìm theo tên\u2026",
     "admin.charity.colName": "Tên",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Danh mục",
     "admin.charity.colStatus": "Trạng thái",
+    "admin.charity.colSigner": "Liên hệ",
     "admin.charity.colJoined": "Ngày tham gia",
     "admin.charity.colWallet": "Ví",
     "admin.charity.colActions": "Thao tác",
@@ -1051,6 +1055,11 @@ export default {
     "charity.claim.validation.password": "Mật khẩu phải có ít nhất 8 ký tự",
     "charity.claim.validation.confirmPassword": "Mật khẩu không khớp",
     "charity.claim.validation.fix": "Vui lòng sửa các lỗi xác thực",
+    "charity.claim.useAsPublicEmail":
+      "Sử dụng email của tôi làm email liên hệ công khai của tổ chức",
+    "charity.claim.publicContactEmail": "Email liên hệ công khai của tổ chức",
+    "charity.claim.privacyNotice":
+      "Email/số điện thoại cá nhân của người ký chỉ được sử dụng để xác minh và không hiển thị cho người dùng nền tảng khác. Email liên hệ công khai sẽ được hiển thị trên hồ sơ tổ chức của bạn.",
     "charity.claim.error.creation": "Tạo tài khoản thất bại",
     "charity.claim.error.generic": "Không thể tạo tài khoản",
     "charity.vetting.orgDetails": "Thông tin tổ chức",

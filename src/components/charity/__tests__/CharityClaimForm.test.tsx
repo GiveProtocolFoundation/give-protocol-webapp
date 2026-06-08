@@ -55,10 +55,10 @@ const renderForm = (
   );
 
 const fillFormFields = () => {
-  fireEvent.change(screen.getByLabelText(/contact name/i), {
+  fireEvent.change(screen.getByLabelText(/^contact name$/i), {
     target: { name: "contactName", value: "Jane Doe" },
   });
-  fireEvent.change(screen.getByLabelText(/contact email/i), {
+  fireEvent.change(screen.getByLabelText(/^contact email$/i), {
     target: { name: "contactEmail", value: "jane@example.com" },
   });
   fireEvent.change(screen.getByLabelText(/^password$/i), {
@@ -121,8 +121,8 @@ describe("CharityClaimForm", () => {
     it("renders contact information fields", () => {
       renderForm();
       expect(screen.getByText("Contact Information")).toBeInTheDocument();
-      expect(screen.getByLabelText(/contact name/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/contact email/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^contact name$/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^contact email$/i)).toBeInTheDocument();
       expect(screen.queryByLabelText(/contact phone/i)).not.toBeInTheDocument();
     });
 
@@ -177,7 +177,7 @@ describe("CharityClaimForm", () => {
       });
 
       // Change a field to clear errors
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane" },
       });
 
@@ -208,10 +208,10 @@ describe("CharityClaimForm", () => {
     it("shows email validation error for invalid email", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "not-an-email" },
       });
 
@@ -231,10 +231,10 @@ describe("CharityClaimForm", () => {
     it("shows password mismatch error", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "jane@example.com" },
       });
       fireEvent.change(screen.getByLabelText(/^password$/i), {
@@ -258,10 +258,10 @@ describe("CharityClaimForm", () => {
     it("shows password length error for short password", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "jane@example.com" },
       });
       fireEvent.change(screen.getByLabelText(/^password$/i), {
@@ -328,6 +328,7 @@ describe("CharityClaimForm", () => {
           p_signer_name: "Jane Doe",
           p_signer_email: "jane@example.com",
           p_signer_phone: null,
+          p_public_contact_email: "jane@example.com",
         });
       });
     });

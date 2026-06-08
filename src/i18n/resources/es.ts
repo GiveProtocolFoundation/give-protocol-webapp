@@ -496,8 +496,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Intente seleccionar un tipo de cadena diferente.",
     "modal.connect.viewOtherWallets": "Ver otras billeteras compatibles",
-    "modal.connect.termsAgreement": "Al conectar, acepta los",
+    "modal.connect.termsAgreement": "Al conectar, acepta nuestros",
     "modal.connect.termsLink": "Términos de Servicio",
+    "modal.connect.termsPrivacyConnector": "y",
+    "modal.connect.privacyLink": "Política de Privacidad",
     "modal.connect.chainTypeAria": "Tipo de cadena",
     "modal.connect.failedConnect": "Error en la conexión",
 
@@ -794,8 +796,10 @@ export default {
     "admin.charity.allStatuses": "Todos los estados",
     "admin.charity.searchPlaceholder": "Buscar por nombre\u2026",
     "admin.charity.colName": "Nombre",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Categoría",
     "admin.charity.colStatus": "Estado",
+    "admin.charity.colSigner": "Contacto",
     "admin.charity.colJoined": "Registro",
     "admin.charity.colWallet": "Billetera",
     "admin.charity.colActions": "Acciones",
@@ -1088,6 +1092,12 @@ export default {
       "La contraseña debe tener al menos 8 caracteres",
     "charity.claim.validation.confirmPassword": "Las contraseñas no coinciden",
     "charity.claim.validation.fix": "Corrija los errores de validación",
+    "charity.claim.useAsPublicEmail":
+      "Usar mi correo como el correo de contacto público de la organización",
+    "charity.claim.publicContactEmail":
+      "Correo electrónico de contacto público de la organización",
+    "charity.claim.privacyNotice":
+      "Su correo y teléfono personal de firmante se utilizan solo para verificación y no son visibles para otros usuarios de la plataforma. El correo de contacto público se muestra en el perfil de su organización.",
     "charity.claim.error.creation": "Error al crear la cuenta",
     "charity.claim.error.generic": "No se pudo crear la cuenta",
     "charity.vetting.orgDetails": "Datos de la Organización",

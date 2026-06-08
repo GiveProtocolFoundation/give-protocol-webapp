@@ -506,8 +506,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Essayez de sélectionner un type de chaîne différent.",
     "modal.connect.viewOtherWallets": "Voir les autres portefeuilles supportés",
-    "modal.connect.termsAgreement": "En vous connectant, vous acceptez les",
+    "modal.connect.termsAgreement": "En vous connectant, vous acceptez nos",
     "modal.connect.termsLink": "Conditions de Service",
+    "modal.connect.termsPrivacyConnector": "et",
+    "modal.connect.privacyLink": "Politique de Confidentialité",
     "modal.connect.chainTypeAria": "Type de chaîne",
     "modal.connect.failedConnect": "Échec de connexion",
 
@@ -808,8 +810,10 @@ export default {
     "admin.charity.allStatuses": "Tous les statuts",
     "admin.charity.searchPlaceholder": "Rechercher par nom\u2026",
     "admin.charity.colName": "Nom",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Catégorie",
     "admin.charity.colStatus": "Statut",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Inscription",
     "admin.charity.colWallet": "Portefeuille",
     "admin.charity.colActions": "Actions",
@@ -1106,6 +1110,12 @@ export default {
       "Les mots de passe ne correspondent pas",
     "charity.claim.validation.fix":
       "Veuillez corriger les erreurs de validation",
+    "charity.claim.useAsPublicEmail":
+      "Utiliser mon e-mail comme e-mail de contact public de l'organisation",
+    "charity.claim.publicContactEmail":
+      "E-mail de contact public de l'organisation",
+    "charity.claim.privacyNotice":
+      "Votre e-mail/téléphone personnel de signataire est utilisé uniquement pour la vérification et n'est pas visible par les autres utilisateurs de la plateforme. L'e-mail de contact public est affiché sur le profil de votre organisation.",
     "charity.claim.error.creation": "La création du compte a échoué",
     "charity.claim.error.generic": "Impossible de créer le compte",
     "charity.vetting.orgDetails": "Détails de l'Organisation",

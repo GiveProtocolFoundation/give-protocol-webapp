@@ -461,6 +461,8 @@ export default {
     "modal.connect.viewOtherWallets": "عرض المحافظ الأخرى المدعومة",
     "modal.connect.termsAgreement": "بالاتصال، فإنك توافق على",
     "modal.connect.termsLink": "شروط الخدمة",
+    "modal.connect.termsPrivacyConnector": "و",
+    "modal.connect.privacyLink": "سياسة الخصوصية",
     "modal.connect.chainTypeAria": "نوع السلسلة",
     "modal.connect.failedConnect": "فشل الاتصال",
 
@@ -742,8 +744,10 @@ export default {
     "admin.charity.allStatuses": "جميع الحالات",
     "admin.charity.searchPlaceholder": "البحث بالاسم\u2026",
     "admin.charity.colName": "الاسم",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "الفئة",
     "admin.charity.colStatus": "الحالة",
+    "admin.charity.colSigner": "جهة الاتصال",
     "admin.charity.colJoined": "تاريخ الانضمام",
     "admin.charity.colWallet": "المحفظة",
     "admin.charity.colActions": "الإجراءات",
@@ -1021,6 +1025,11 @@ export default {
       "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     "charity.claim.validation.confirmPassword": "كلمتا المرور غير متطابقتين",
     "charity.claim.validation.fix": "يرجى تصحيح أخطاء التحقق",
+    "charity.claim.useAsPublicEmail":
+      "استخدم بريدي الإلكتروني كبريد الاتصال العام للمنظمة",
+    "charity.claim.publicContactEmail": "البريد الإلكتروني العام للمنظمة",
+    "charity.claim.privacyNotice":
+      "يُستخدم بريدك الإلكتروني/هاتفك الشخصي للتحقق فقط ولا يظهر لمستخدمي المنصة الآخرين. يُعرض البريد الإلكتروني العام في ملف منظمتك.",
     "charity.claim.error.creation": "فشل إنشاء الحساب",
     "charity.claim.error.generic": "تعذّر إنشاء الحساب",
     "charity.vetting.orgDetails": "تفاصيل المنظمة",

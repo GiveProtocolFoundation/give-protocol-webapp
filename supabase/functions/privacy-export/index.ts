@@ -84,7 +84,7 @@ async function assembleExportPackage(
       'verified_at, blockchain_tx_hash, nft_token_id, verification_hash'
     ).eq('volunteer_id', userId),
     supabase.from('fiat_donations').select(
-      'charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
+      'donor_name, donor_email, charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
     ).eq('donor_id', userId),
     charityProfileIds.length > 0
       ? supabase
@@ -162,6 +162,8 @@ async function assembleExportPackage(
       nft_token_id: v.nft_token_id,
     })),
     fiat_donations: (fiatDonationsResult.data ?? []).map((d) => ({
+      donor_name: d.donor_name,
+      donor_email: d.donor_email,
       charity_id: d.charity_id,
       amount_cents: d.amount_cents,
       currency: d.currency,
