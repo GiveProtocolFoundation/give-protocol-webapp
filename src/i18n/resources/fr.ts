@@ -506,8 +506,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Essayez de sélectionner un type de chaîne différent.",
     "modal.connect.viewOtherWallets": "Voir les autres portefeuilles supportés",
-    "modal.connect.termsAgreement": "En vous connectant, vous acceptez les",
+    "modal.connect.termsAgreement": "En vous connectant, vous acceptez nos",
     "modal.connect.termsLink": "Conditions de Service",
+    "modal.connect.termsPrivacyConnector": "et",
+    "modal.connect.privacyLink": "Politique de Confidentialité",
     "modal.connect.chainTypeAria": "Type de chaîne",
     "modal.connect.failedConnect": "Échec de connexion",
 

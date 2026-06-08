@@ -564,6 +564,18 @@ export function FiatDonationForm({
         isMonthly={isMonthly}
         formattedAmount={fmtAmount(chargeAmount)}
       />
+
+      {/* Art. 13 GDPR privacy notice */}
+      <p className="text-xs text-center text-gray-400 dark:text-gray-500">
+        Your donation data is processed in accordance with our{" "}
+        <a
+          href="/privacy"
+          className="underline hover:text-gray-600 dark:hover:text-gray-300"
+        >
+          Privacy Policy
+        </a>
+        .
+      </p>
     </form>
   );
 }

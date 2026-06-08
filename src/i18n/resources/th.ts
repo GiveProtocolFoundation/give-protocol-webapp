@@ -474,6 +474,8 @@ export default {
     "modal.connect.viewOtherWallets": "ดูกระเป๋าเงินอื่นที่รองรับ",
     "modal.connect.termsAgreement": "การเชื่อมต่อแสดงว่าคุณยอมรับ",
     "modal.connect.termsLink": "ข้อกำหนดการใช้บริการ",
+    "modal.connect.termsPrivacyConnector": "และ",
+    "modal.connect.privacyLink": "นโยบายความเป็นส่วนตัว",
     "modal.connect.chainTypeAria": "ประเภทเชน",
     "modal.connect.failedConnect": "การเชื่อมต่อล้มเหลว",
 

@@ -231,6 +231,13 @@ const WalletDialogContent: React.FC<{
             className="text-emerald-600 dark:text-emerald-400 hover:underline"
           >
             {t("modal.connect.termsLink")}
+          </a>{" "}
+          {t("modal.connect.termsPrivacyConnector")}{" "}
+          <a
+            href="/privacy"
+            className="text-emerald-600 dark:text-emerald-400 hover:underline"
+          >
+            {t("modal.connect.privacyLink")}
           </a>
         </p>
       </div>

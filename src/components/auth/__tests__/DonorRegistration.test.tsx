@@ -52,6 +52,14 @@ describe("DonorRegistration", () => {
     expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
   });
 
+  it("renders privacy policy and terms of service links", () => {
+    render(<DonorRegistration />);
+    const privacyLink = screen.getByRole("link", { name: /privacy policy/i });
+    const termsLink = screen.getByRole("link", { name: /terms of service/i });
+    expect(privacyLink).toHaveAttribute("href", "/privacy");
+    expect(termsLink).toHaveAttribute("href", "/terms");
+  });
+
   it("does not render password fields by default", () => {
     render(<DonorRegistration />);
     expect(screen.queryByLabelText(/^password$/i)).not.toBeInTheDocument();

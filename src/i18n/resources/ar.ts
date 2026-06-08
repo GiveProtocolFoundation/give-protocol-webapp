@@ -461,6 +461,8 @@ export default {
     "modal.connect.viewOtherWallets": "عرض المحافظ الأخرى المدعومة",
     "modal.connect.termsAgreement": "بالاتصال، فإنك توافق على",
     "modal.connect.termsLink": "شروط الخدمة",
+    "modal.connect.termsPrivacyConnector": "و",
+    "modal.connect.privacyLink": "سياسة الخصوصية",
     "modal.connect.chainTypeAria": "نوع السلسلة",
     "modal.connect.failedConnect": "فشل الاتصال",
 

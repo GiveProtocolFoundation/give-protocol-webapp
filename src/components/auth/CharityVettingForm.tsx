@@ -459,6 +459,28 @@ export const CharityVettingForm: React.FC = () => {
         error={validationErrors["confirmPassword"]}
       />
 
+      {/* Art. 13 GDPR privacy notice */}
+      <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+        {t(
+          "charity.vetting.privacyNotice",
+          "By submitting this application, you agree to our",
+        )}{" "}
+        <a
+          href="/terms"
+          className="underline hover:text-gray-700 dark:hover:text-gray-300"
+        >
+          {t("charity.vetting.termsLink", "Terms of Service")}
+        </a>{" "}
+        {t("charity.vetting.privacyAnd", "and acknowledge our")}{" "}
+        <a
+          href="/privacy"
+          className="underline hover:text-gray-700 dark:hover:text-gray-300"
+        >
+          {t("charity.vetting.privacyLink", "Privacy Policy")}
+        </a>
+        .
+      </p>
+
       <Button
         type="submit"
         className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"

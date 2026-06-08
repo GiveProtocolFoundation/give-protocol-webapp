@@ -485,8 +485,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "कोई अन्य चेन प्रकार चुनने का प्रयास करें।",
     "modal.connect.viewOtherWallets": "अन्य समर्थित वॉलेट देखें",
-    "modal.connect.termsAgreement": "कनेक्ट करके, आप सहमत होते हैं",
+    "modal.connect.termsAgreement": "कनेक्ट करके, आप हमारी",
     "modal.connect.termsLink": "सेवा की शर्तें",
+    "modal.connect.termsPrivacyConnector": "और",
+    "modal.connect.privacyLink": "गोपनीयता नीति",
     "modal.connect.chainTypeAria": "चेन प्रकार",
     "modal.connect.failedConnect": "कनेक्शन विफल",
 

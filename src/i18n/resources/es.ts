@@ -496,8 +496,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Intente seleccionar un tipo de cadena diferente.",
     "modal.connect.viewOtherWallets": "Ver otras billeteras compatibles",
-    "modal.connect.termsAgreement": "Al conectar, acepta los",
+    "modal.connect.termsAgreement": "Al conectar, acepta nuestros",
     "modal.connect.termsLink": "Términos de Servicio",
+    "modal.connect.termsPrivacyConnector": "y",
+    "modal.connect.privacyLink": "Política de Privacidad",
     "modal.connect.chainTypeAria": "Tipo de cadena",
     "modal.connect.failedConnect": "Error en la conexión",
 
