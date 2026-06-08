@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminVolunteerValidation } from "@/hooks/useAdminVolunteerValidation";
+import { logRead } from "@/services/adminAuditService";
 import type {
   AdminValidationRequestFilters,
   AdminValidationRequestItem,
@@ -462,6 +463,19 @@ export default function AdminVolunteerValidation(): React.ReactElement {
   const [selectedRequest, setSelectedRequest] =
     useState<AdminValidationRequestItem | null>(null);
 
+  // Audit: active filter keys for PII access logging
+  const serializedFilterKeys = useMemo(() => {
+    const keys = Object.keys(filters)
+      .filter(
+        (k) =>
+          k !== "page" &&
+          k !== "limit" &&
+          filters[k as keyof AdminValidationRequestFilters] !== undefined,
+      )
+      .sort();
+    return JSON.stringify(keys);
+  }, [filters]);
+
   // Initial data load
   useEffect(() => {
     fetchStats().catch(() => {
@@ -474,6 +488,16 @@ export default function AdminVolunteerValidation(): React.ReactElement {
       // Error handled internally by hook
     });
   }, [fetchStats, fetchRequests, fetchSuspiciousPatterns]);
+
+  // Audit: log list view on page/filter change
+  useEffect(() => {
+    const filterKeys = JSON.parse(serializedFilterKeys) as string[];
+    logRead("volunteer", null, {
+      page: filters.page,
+      limit: filters.limit,
+      filterKeys: filterKeys.length > 0 ? filterKeys : undefined,
+    });
+  }, [filters.page, filters.limit, serializedFilterKeys]);
 
   const handleStatusChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -525,6 +549,7 @@ export default function AdminVolunteerValidation(): React.ReactElement {
 
   const handleOpenOverride = useCallback((req: AdminValidationRequestItem) => {
     setSelectedRequest(req);
+    logRead("volunteer", req.id);
   }, []);
 
   const handleCloseOverride = useCallback(() => {
