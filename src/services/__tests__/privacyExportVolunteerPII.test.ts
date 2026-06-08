@@ -34,7 +34,9 @@ async function tryDecryptPII(
   try {
     const { data, error } = await supabase.functions.invoke<{
       plaintext: string;
-    }>("pii-crypto", { body: { operation: "decrypt", value: ciphertext, field } });
+    }>("pii-crypto", {
+      body: { operation: "decrypt", value: ciphertext, field },
+    });
     if (error || !data?.plaintext) return null;
     return data.plaintext;
   } catch {
@@ -119,21 +121,19 @@ const BASE_ROW: VolunteerAppRow = {
 };
 
 function makeMockSupabase(
-  decryptResult:
-    | { plaintext: string }
-    | null = null,
+  decryptResult: { plaintext: string } | null = null,
   shouldError = false,
 ): MockSupabaseClient {
   return {
     functions: {
-      invoke: jest.fn<MockSupabaseClient["functions"]["invoke"]>().mockImplementation(
-        async () => {
+      invoke: jest
+        .fn<MockSupabaseClient["functions"]["invoke"]>()
+        .mockImplementation(async () => {
           if (shouldError) {
             return { data: null, error: new Error("decrypt failed") };
           }
           return { data: decryptResult, error: null };
-        },
-      ),
+        }),
     },
   };
 }
