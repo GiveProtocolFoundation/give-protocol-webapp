@@ -859,23 +859,51 @@ function VolunteerHoursTab({
 // ─── Audit Trail Tab ──────────────────────────────────────────────────────────
 
 /** All action types available for filtering in the audit trail */
-const ACTION_TYPE_OPTIONS: { value: AdminAuditActionType; i18nKey: string }[] = [
-  { value: "charity_status_change", i18nKey: "admin.auditTrail.action.charityStatusChange" },
-  { value: "user_status_change", i18nKey: "admin.auditTrail.action.userStatusChange" },
-  { value: "donation_flag", i18nKey: "admin.auditTrail.action.donationFlag" },
-  { value: "donation_flag_resolve", i18nKey: "admin.auditTrail.action.donationFlagResolve" },
-  { value: "validation_override", i18nKey: "admin.auditTrail.action.validationOverride" },
-  { value: "config_change", i18nKey: "admin.auditTrail.action.configChange" },
-  { value: "verification_approve", i18nKey: "admin.auditTrail.action.verificationApprove" },
-  { value: "verification_reject", i18nKey: "admin.auditTrail.action.verificationReject" },
-  { value: "charity_suspend", i18nKey: "admin.auditTrail.action.charitySuspend" },
-  { value: "charity_reinstate", i18nKey: "admin.auditTrail.action.charityReinstate" },
-  { value: "user_suspend", i18nKey: "admin.auditTrail.action.userSuspend" },
-  { value: "user_reinstate", i18nKey: "admin.auditTrail.action.userReinstate" },
-  { value: "user_ban", i18nKey: "admin.auditTrail.action.userBan" },
-  { value: "view_pii", i18nKey: "admin.auditTrail.action.viewPii" },
-  { value: "view_pii_list", i18nKey: "admin.auditTrail.action.viewPiiList" },
-];
+const ACTION_TYPE_OPTIONS: { value: AdminAuditActionType; i18nKey: string }[] =
+  [
+    {
+      value: "charity_status_change",
+      i18nKey: "admin.auditTrail.action.charityStatusChange",
+    },
+    {
+      value: "user_status_change",
+      i18nKey: "admin.auditTrail.action.userStatusChange",
+    },
+    { value: "donation_flag", i18nKey: "admin.auditTrail.action.donationFlag" },
+    {
+      value: "donation_flag_resolve",
+      i18nKey: "admin.auditTrail.action.donationFlagResolve",
+    },
+    {
+      value: "validation_override",
+      i18nKey: "admin.auditTrail.action.validationOverride",
+    },
+    { value: "config_change", i18nKey: "admin.auditTrail.action.configChange" },
+    {
+      value: "verification_approve",
+      i18nKey: "admin.auditTrail.action.verificationApprove",
+    },
+    {
+      value: "verification_reject",
+      i18nKey: "admin.auditTrail.action.verificationReject",
+    },
+    {
+      value: "charity_suspend",
+      i18nKey: "admin.auditTrail.action.charitySuspend",
+    },
+    {
+      value: "charity_reinstate",
+      i18nKey: "admin.auditTrail.action.charityReinstate",
+    },
+    { value: "user_suspend", i18nKey: "admin.auditTrail.action.userSuspend" },
+    {
+      value: "user_reinstate",
+      i18nKey: "admin.auditTrail.action.userReinstate",
+    },
+    { value: "user_ban", i18nKey: "admin.auditTrail.action.userBan" },
+    { value: "view_pii", i18nKey: "admin.auditTrail.action.viewPii" },
+    { value: "view_pii_list", i18nKey: "admin.auditTrail.action.viewPiiList" },
+  ];
 
 /**
  * Builds a human-readable summary for a view_pii or view_pii_list audit entry.
@@ -891,11 +919,15 @@ function formatPiiSummary(
   const entityType = entry.entityType.replaceAll("_", " ");
 
   if (entry.actionType === "view_pii") {
-    return t("admin.auditTrail.viewedEntity", "Admin {{adminId}} viewed {{entityType}} {{entityId}}", {
-      adminId,
-      entityType,
-      entityId: entry.entityId.slice(0, 8),
-    });
+    return t(
+      "admin.auditTrail.viewedEntity",
+      "Admin {{adminId}} viewed {{entityType}} {{entityId}}",
+      {
+        adminId,
+        entityType,
+        entityId: entry.entityId.slice(0, 8),
+      },
+    );
   }
 
   // view_pii_list
@@ -904,19 +936,27 @@ function formatPiiSummary(
   const filterKeys = context?.filter_keys as string[] | undefined;
 
   if (filterKeys && filterKeys.length > 0) {
-    return t("admin.auditTrail.viewedList", "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})", {
+    return t(
+      "admin.auditTrail.viewedList",
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})",
+      {
+        adminId,
+        entityType,
+        page,
+        filters: filterKeys.join(", "),
+      },
+    );
+  }
+
+  return t(
+    "admin.auditTrail.viewedListNoFilters",
+    "Admin {{adminId}} viewed {{entityType}} list (page {{page}})",
+    {
       adminId,
       entityType,
       page,
-      filters: filterKeys.join(", "),
-    });
-  }
-
-  return t("admin.auditTrail.viewedListNoFilters", "Admin {{adminId}} viewed {{entityType}} list (page {{page}})", {
-    adminId,
-    entityType,
-    page,
-  });
+    },
+  );
 }
 
 /**
@@ -936,10 +976,17 @@ function AuditTrailTab({
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
-  const [actionFilter, setActionFilter] = useState<AdminAuditActionType | "">("");
+  const [actionFilter, setActionFilter] = useState<AdminAuditActionType | "">(
+    "",
+  );
 
   const fetchPage = useCallback(
-    (p: number, from: string, to: string, action: AdminAuditActionType | "") => {
+    (
+      p: number,
+      from: string,
+      to: string,
+      action: AdminAuditActionType | "",
+    ) => {
       if (!from || !to) return;
       setLoading(true);
       const filters: AdminAuditLogFilters = {
@@ -1110,9 +1157,7 @@ function AuditTrailTab({
                       : entry.entityType.replaceAll("_", " ")}
                   </td>
                   <td className="px-4 py-2 font-mono text-xs text-gray-500">
-                    {entry.entityId
-                      ? `${entry.entityId.slice(0, 8)}…`
-                      : "—"}
+                    {entry.entityId ? `${entry.entityId.slice(0, 8)}…` : "—"}
                   </td>
                   <td className="px-4 py-2 font-mono text-xs text-gray-500">
                     {entry.adminUserId.slice(0, 8)}…

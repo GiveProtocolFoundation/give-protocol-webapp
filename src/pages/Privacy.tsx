@@ -427,8 +427,8 @@ export const Privacy: React.FC = () => {
             may access the primary database remotely for administration,
             support, and incident response. Following EDPB guidance, remote
             access from a third country is treated as a transfer for GDPR
-            purposes. Such access is governed by intra-group SCCs and
-            role-based access controls, with access events logged.
+            purposes. Such access is governed by intra-group SCCs and role-based
+            access controls, with access events logged.
           </li>
           <li>
             <strong>Blockchain layer</strong>: by design, public blockchain

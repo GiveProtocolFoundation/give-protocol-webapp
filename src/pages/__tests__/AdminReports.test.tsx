@@ -370,8 +370,12 @@ describe("AdminReports", () => {
     expect(screen.getByText("Entity ID")).toBeInTheDocument();
     expect(screen.getByText("Admin")).toBeInTheDocument();
     // Action text appears both in filter dropdown options and table rows
-    expect(screen.getAllByText("charity status change").length).toBeGreaterThanOrEqual(1);
-    expect(screen.getAllByText("user status change").length).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getAllByText("charity status change").length,
+    ).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getAllByText("user status change").length,
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it("audit trail tab shows pagination when multiple pages", async () => {
