@@ -36,6 +36,28 @@ function jsonResponse(body: Record<string, unknown>, status: number): Response {
   );
 }
 
+/**
+ * Attempt to decrypt a volunteer_applications PII ciphertext via the pii-crypto edge function.
+ * Returns the plaintext on success, `null` on failure (logged, never throws).
+ */
+async function tryDecryptPII(
+  supabase: SupabaseClient,
+  ciphertext: string | null | undefined,
+  field: string,
+): Promise<string | null> {
+  if (!ciphertext) return null;
+  try {
+    const { data, error } = await supabase.functions.invoke<{ plaintext: string }>(
+      'pii-crypto',
+      { body: { operation: 'decrypt', value: ciphertext, field } },
+    );
+    if (error || !data?.plaintext) return null;
+    return data.plaintext;
+  } catch {
+    return null;
+  }
+}
+
 /** Assemble the full data export package for the authenticated user. */
 async function assembleExportPackage(
   userId: string,
@@ -72,7 +94,9 @@ async function assembleExportPackage(
     supabase.from('user_identities').select('primary_auth_method, wallet_linked_at, created_at').eq('user_id', userId).single(),
     supabase.from('user_preferences').select('privacy_settings, notification_preferences').eq('user_id', userId).single(),
     supabase.from('volunteer_applications').select(
-      'opportunity_id, status, applied_at, consent_given, international_transfers_consent, timezone'
+      'opportunity_id, status, applied_at, consent_given, international_transfers_consent, timezone, ' +
+      'full_name, email, phone, message, location, age_range, ' +
+      'full_name_encrypted, email_encrypted, phone_encrypted'
     ).eq('applicant_id', userId),
     supabase.from('volunteer_hours').select(
       'hours, date_performed, description, status'
@@ -133,14 +157,35 @@ async function assembleExportPackage(
           notification_preferences: userPrefsResult.data.notification_preferences,
         }
       : null,
-    volunteer_applications: (volunteerAppsResult.data ?? []).map((a) => ({
-      opportunity_id: a.opportunity_id,
-      status: a.status,
-      applied_at: a.applied_at,
-      consent_given: a.consent_given,
-      international_transfers_consent: a.international_transfers_consent,
-      timezone: a.timezone,
-    })),
+    volunteer_applications: await Promise.all(
+      (volunteerAppsResult.data ?? []).map(async (a) => {
+        const isAnonymized = (v: unknown) => v === '[deleted]' || v === null || v === undefined;
+        const resolve = async (
+          plaintext: string | null | undefined,
+          ciphertext: string | null | undefined,
+          field: string,
+        ): Promise<string | null> => {
+          if (!isAnonymized(plaintext)) return plaintext as string;
+          const decrypted = await tryDecryptPII(supabase, ciphertext, field);
+          if (decrypted !== null) return decrypted;
+          return ciphertext ? '[encrypted — decryption unavailable]' : null;
+        };
+        return {
+          opportunity_id: a.opportunity_id,
+          status: a.status,
+          applied_at: a.applied_at,
+          consent_given: a.consent_given,
+          international_transfers_consent: a.international_transfers_consent,
+          timezone: a.timezone,
+          full_name: await resolve(a.full_name, a.full_name_encrypted, 'full_name'),
+          email: await resolve(a.email, a.email_encrypted, 'email'),
+          phone: await resolve(a.phone, a.phone_encrypted, 'phone'),
+          message: a.message ?? null,
+          location: a.location ?? null,
+          age_range: a.age_range ?? null,
+        };
+      }),
+    ),
     volunteer_hours: (volunteerHoursResult.data ?? []).map((h) => ({
       hours: h.hours,
       date_performed: h.date_performed,
