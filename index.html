@@ -23,13 +23,16 @@
       rel="stylesheet"
     />
 
-    <!-- GA4 consent defaults — denied until ConsentProvider grants -->
+    <!-- Google Analytics consent defaults (denied until user accepts via React banner) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
 
+      // All consent categories denied by default — GDPR Art. 4(11).
+      // The React ConsentProvider bridges stored consent into gtag on mount.
+      // The useGA4Loader hook loads gtag.js only after analytics consent is granted.
       gtag("consent", "default", {
         analytics_storage: "denied",
         wait_for_update: 500,

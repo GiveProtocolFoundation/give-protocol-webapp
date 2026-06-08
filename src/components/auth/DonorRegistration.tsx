@@ -229,6 +229,28 @@ export const DonorRegistration: React.FC = () => {
         {t("auth.donorReg.connectWallet")}
       </Button>
 
+      {/* Art. 13 GDPR privacy notice */}
+      <p className="text-xs text-center text-gray-500 dark:text-gray-400">
+        {t(
+          "auth.donorReg.privacyNotice",
+          "By creating an account, you agree to our",
+        )}{" "}
+        <a
+          href="/terms"
+          className="underline hover:text-gray-700 dark:hover:text-gray-300"
+        >
+          {t("auth.donorReg.termsLink", "Terms of Service")}
+        </a>{" "}
+        {t("auth.donorReg.privacyAnd", "and acknowledge our")}{" "}
+        <a
+          href="/privacy"
+          className="underline hover:text-gray-700 dark:hover:text-gray-300"
+        >
+          {t("auth.donorReg.privacyLink", "Privacy Policy")}
+        </a>
+        .
+      </p>
+
       {/* Collapsible password section */}
       <div>
         <button

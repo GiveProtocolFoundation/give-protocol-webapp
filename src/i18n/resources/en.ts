@@ -479,8 +479,10 @@ export default {
     "modal.connect.noWallets": "No wallets available for {{chainType}} chains.",
     "modal.connect.tryDifferentChain": "Try selecting a different chain type.",
     "modal.connect.viewOtherWallets": "View other supported wallets",
-    "modal.connect.termsAgreement": "By connecting, you agree to the",
+    "modal.connect.termsAgreement": "By connecting, you agree to our",
     "modal.connect.termsLink": "Terms of Service",
+    "modal.connect.termsPrivacyConnector": "and",
+    "modal.connect.privacyLink": "Privacy Policy",
     "modal.connect.chainTypeAria": "Chain type",
     "modal.connect.failedConnect": "Connection failed",
 
@@ -921,8 +923,10 @@ export default {
     "admin.charity.allStatuses": "All statuses",
     "admin.charity.searchPlaceholder": "Search by name\u2026",
     "admin.charity.colName": "Name",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Category",
     "admin.charity.colStatus": "Status",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Joined",
     "admin.charity.colWallet": "Wallet",
     "admin.charity.colActions": "Actions",
@@ -1168,6 +1172,10 @@ export default {
     "auth.donorReg.orSetPassword": "Or set a password",
     "auth.donorReg.creating": "Creating Account...",
     "auth.donorReg.createAccount": "Create Donor Account",
+    "auth.donorReg.privacyNotice": "By creating an account, you agree to our",
+    "auth.donorReg.termsLink": "Terms of Service",
+    "auth.donorReg.privacyAnd": "and acknowledge our",
+    "auth.donorReg.privacyLink": "Privacy Policy",
 
     // Charity login
     "auth.charityLogin.mismatch":
@@ -1289,6 +1297,11 @@ export default {
     "charity.vetting.validation.country": "Country is required",
     "charity.vetting.validation.fix": "Please correct the validation errors",
     "charity.vetting.error.generic": "Failed to submit application",
+    "charity.vetting.privacyNotice":
+      "By submitting this application, you agree to our",
+    "charity.vetting.termsLink": "Terms of Service",
+    "charity.vetting.privacyAnd": "and acknowledge our",
+    "charity.vetting.privacyLink": "Privacy Policy",
 
     // Common - shared auth fields
     "common.email": "Email",
@@ -1322,7 +1335,8 @@ export default {
     "consent.modal.essentialDesc":
       "Required for core site features such as navigation and authentication. Cannot be disabled.",
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+    "consent.modal.analyticsTitle":
+      "Analytics (Google Analytics 4 · US, Sentry · US/EU)",
     "consent.modal.analyticsDesc":
       "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 — session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry — anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",

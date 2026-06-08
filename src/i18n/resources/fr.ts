@@ -506,8 +506,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Essayez de sélectionner un type de chaîne différent.",
     "modal.connect.viewOtherWallets": "Voir les autres portefeuilles supportés",
-    "modal.connect.termsAgreement": "En vous connectant, vous acceptez les",
+    "modal.connect.termsAgreement": "En vous connectant, vous acceptez nos",
     "modal.connect.termsLink": "Conditions de Service",
+    "modal.connect.termsPrivacyConnector": "et",
+    "modal.connect.privacyLink": "Politique de Confidentialité",
     "modal.connect.chainTypeAria": "Type de chaîne",
     "modal.connect.failedConnect": "Échec de connexion",
 
@@ -808,8 +810,10 @@ export default {
     "admin.charity.allStatuses": "Tous les statuts",
     "admin.charity.searchPlaceholder": "Rechercher par nom\u2026",
     "admin.charity.colName": "Nom",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Catégorie",
     "admin.charity.colStatus": "Statut",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Inscription",
     "admin.charity.colWallet": "Portefeuille",
     "admin.charity.colActions": "Actions",
