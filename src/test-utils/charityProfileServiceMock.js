@@ -9,7 +9,7 @@ export const fetchCharityProfileAssets = jest.fn(() => Promise.resolve(null));
 export const fetchCharityProfileAssetsByEin = jest.fn(() =>
   Promise.resolve(null),
 );
-export const fetchCharityProfileBySignerEmail = jest.fn(() =>
+export const claimCharityProfileBySignerEmail = jest.fn(() =>
   Promise.resolve(null),
 );
 export const fetchCharityProfileByName = jest.fn(() => Promise.resolve(null));

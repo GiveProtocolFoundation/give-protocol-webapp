@@ -782,8 +782,10 @@ export default {
     "admin.charity.allStatuses": "सभी स्थितियां",
     "admin.charity.searchPlaceholder": "नाम से खोजें\u2026",
     "admin.charity.colName": "नाम",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "श्रेणी",
     "admin.charity.colStatus": "स्थिति",
+    "admin.charity.colSigner": "संपर्क",
     "admin.charity.colJoined": "शामिल हुए",
     "admin.charity.colWallet": "वॉलेट",
     "admin.charity.colActions": "कार्य",
@@ -1064,6 +1066,11 @@ export default {
       "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "charity.claim.validation.confirmPassword": "पासवर्ड मेल नहीं खाते",
     "charity.claim.validation.fix": "कृपया सत्यापन त्रुटियों को ठीक करें",
+    "charity.claim.useAsPublicEmail":
+      "मेरे ईमेल को संगठन के सार्वजनिक संपर्क ईमेल के रूप में उपयोग करें",
+    "charity.claim.publicContactEmail": "संगठन का सार्वजनिक संपर्क ईमेल",
+    "charity.claim.privacyNotice":
+      "आपका व्यक्तिगत हस्ताक्षरकर्ता ईमेल/फोन केवल सत्यापन के लिए उपयोग किया जाता है और अन्य प्लेटफ़ॉर्म उपयोगकर्ताओं को दिखाई नहीं देता। सार्वजनिक संपर्क ईमेल आपके संगठन प्रोफ़ाइल पर दिखाया जाता है।",
     "charity.claim.error.creation": "खाता निर्माण विफल",
     "charity.claim.error.generic": "खाता बनाने में विफल",
     "charity.vetting.orgDetails": "संगठन विवरण",
@@ -1114,7 +1121,7 @@ export default {
     "footer.legal.cookiePreferences": "Cookie preferences",
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, error monitoring and session analytics to improve the site. You can change this anytime in the footer.",
+      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
     "consent.banner.privacyLink": "Privacy policy",
     "consent.banner.acceptAll": "Accept all",
     "consent.banner.decline": "Decline non-essential",
@@ -1126,7 +1133,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Helps us find bugs and understand site performance. Uses Sentry (US) and may capture your session activity. Off by default.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",

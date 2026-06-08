@@ -923,8 +923,10 @@ export default {
     "admin.charity.allStatuses": "All statuses",
     "admin.charity.searchPlaceholder": "Search by name\u2026",
     "admin.charity.colName": "Name",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Category",
     "admin.charity.colStatus": "Status",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Joined",
     "admin.charity.colWallet": "Wallet",
     "admin.charity.colActions": "Actions",
@@ -1251,6 +1253,11 @@ export default {
       "Password must be at least 8 characters long",
     "charity.claim.validation.confirmPassword": "Passwords do not match",
     "charity.claim.validation.fix": "Please correct the validation errors",
+    "charity.claim.useAsPublicEmail":
+      "Use my email as the charity's public contact email",
+    "charity.claim.publicContactEmail": "Organization public contact email",
+    "charity.claim.privacyNotice":
+      "Your personal signer email/phone is used for verification only and is not visible to other platform users. The public contact email is shown on your charity profile.",
     "charity.claim.error.creation": "Account creation failed",
     "charity.claim.error.generic": "Failed to create account",
 

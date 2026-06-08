@@ -754,8 +754,10 @@ export default {
     "admin.charity.allStatuses": "모든 상태",
     "admin.charity.searchPlaceholder": "이름으로 검색\u2026",
     "admin.charity.colName": "이름",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "카테고리",
     "admin.charity.colStatus": "상태",
+    "admin.charity.colSigner": "연락처",
     "admin.charity.colJoined": "가입일",
     "admin.charity.colWallet": "지갑",
     "admin.charity.colActions": "작업",
@@ -1030,6 +1032,11 @@ export default {
     "charity.claim.validation.password": "비밀번호는 8자 이상이어야 합니다",
     "charity.claim.validation.confirmPassword": "비밀번호가 일치하지 않습니다",
     "charity.claim.validation.fix": "유효성 검사 오류를 수정해 주세요",
+    "charity.claim.useAsPublicEmail":
+      "내 이메일을 단체의 공개 연락처 이메일로 사용",
+    "charity.claim.publicContactEmail": "단체 공개 연락처 이메일",
+    "charity.claim.privacyNotice":
+      "개인 서명자 이메일/전화번호는 인증 목적으로만 사용되며 다른 플랫폼 사용자에게 표시되지 않습니다. 공개 연락처 이메일은 단체 프로필에 표시됩니다.",
     "charity.claim.error.creation": "계정 생성에 실패했습니다",
     "charity.claim.error.generic": "계정을 만들 수 없습니다",
     "charity.vetting.orgDetails": "단체 정보",
@@ -1080,7 +1087,7 @@ export default {
     "footer.legal.cookiePreferences": "Cookie preferences",
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, error monitoring and session analytics to improve the site. You can change this anytime in the footer.",
+      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
     "consent.banner.privacyLink": "Privacy policy",
     "consent.banner.acceptAll": "Accept all",
     "consent.banner.decline": "Decline non-essential",
@@ -1092,7 +1099,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Helps us find bugs and understand site performance. Uses Sentry (US) and may capture your session activity. Off by default.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",

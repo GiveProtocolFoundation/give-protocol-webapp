@@ -124,4 +124,21 @@ describe("CookieBanner", () => {
     const acceptBtn = screen.getByText("Accept all");
     expect(document.activeElement).toBe(acceptBtn);
   });
+
+  describe("Silktide removal (GIV-377)", () => {
+    it("does not render any Silktide markup or elements", () => {
+      renderBanner();
+      // No element with silktide in id, class, or data attributes
+      const silktideEls = document.querySelectorAll(
+        '[id*="silktide"], [class*="silktide"], [data-silktide]',
+      );
+      expect(silktideEls).toHaveLength(0);
+    });
+
+    it("renders exactly one consent banner region", () => {
+      renderBanner();
+      const regions = screen.getAllByRole("region");
+      expect(regions).toHaveLength(1);
+    });
+  });
 });

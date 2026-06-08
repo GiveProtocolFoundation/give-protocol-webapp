@@ -771,8 +771,10 @@ export default {
     "admin.charity.allStatuses": "Tất cả trạng thái",
     "admin.charity.searchPlaceholder": "Tìm theo tên\u2026",
     "admin.charity.colName": "Tên",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Danh mục",
     "admin.charity.colStatus": "Trạng thái",
+    "admin.charity.colSigner": "Liên hệ",
     "admin.charity.colJoined": "Ngày tham gia",
     "admin.charity.colWallet": "Ví",
     "admin.charity.colActions": "Thao tác",
@@ -1053,6 +1055,11 @@ export default {
     "charity.claim.validation.password": "Mật khẩu phải có ít nhất 8 ký tự",
     "charity.claim.validation.confirmPassword": "Mật khẩu không khớp",
     "charity.claim.validation.fix": "Vui lòng sửa các lỗi xác thực",
+    "charity.claim.useAsPublicEmail":
+      "Sử dụng email của tôi làm email liên hệ công khai của tổ chức",
+    "charity.claim.publicContactEmail": "Email liên hệ công khai của tổ chức",
+    "charity.claim.privacyNotice":
+      "Email/số điện thoại cá nhân của người ký chỉ được sử dụng để xác minh và không hiển thị cho người dùng nền tảng khác. Email liên hệ công khai sẽ được hiển thị trên hồ sơ tổ chức của bạn.",
     "charity.claim.error.creation": "Tạo tài khoản thất bại",
     "charity.claim.error.generic": "Không thể tạo tài khoản",
     "charity.vetting.orgDetails": "Thông tin tổ chức",
@@ -1103,7 +1110,7 @@ export default {
     "footer.legal.cookiePreferences": "Cookie preferences",
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, error monitoring and session analytics to improve the site. You can change this anytime in the footer.",
+      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
     "consent.banner.privacyLink": "Privacy policy",
     "consent.banner.acceptAll": "Accept all",
     "consent.banner.decline": "Decline non-essential",
@@ -1115,7 +1122,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Helps us find bugs and understand site performance. Uses Sentry (US) and may capture your session activity. Off by default.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",

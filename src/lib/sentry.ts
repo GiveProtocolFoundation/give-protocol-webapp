@@ -1,18 +1,24 @@
 import * as Sentry from "@sentry/react";
 
+// ---------------------------------------------------------------------------
+// Module state — tracks whether Phase B (analytics) integrations are active
+// ---------------------------------------------------------------------------
+let analyticsEnabled = false;
+
+// ---------------------------------------------------------------------------
+// Phase A – error-only baseline (called once at startup)
+// ---------------------------------------------------------------------------
+
 /**
- * Initializes Sentry error tracking for production environments.
- * Skipped in development. Requires VITE_SENTRY_DSN to be configured.
- * Error-only mode: replay and performance tracing are disabled (ePrivacy).
+ * Initializes Sentry Phase A: error capture only, no PII, no replay,
+ * no performance tracing. Safe to call before consent is collected.
  */
 export function initSentry() {
-  // Only initialize Sentry in production
   if (!import.meta.env.PROD) {
     console.log("Sentry: Skipping initialization in development");
     return;
   }
 
-  // Check if DSN is configured
   const dsn = import.meta.env.VITE_SENTRY_DSN;
   if (!dsn) {
     console.warn("Sentry: No DSN configured, skipping initialization");
@@ -24,18 +30,18 @@ export function initSentry() {
     environment: import.meta.env.MODE,
     release: import.meta.env.VITE_APP_VERSION || "1.0.0",
 
-    // ePrivacy: disable performance tracing and session replay
+    // Phase A: no performance tracing, no replay
     tracesSampleRate: 0,
     replaysSessionSampleRate: 0,
     replaysOnErrorSampleRate: 0,
 
-    // No PII in default payloads; keep stacktraces for error diagnostics
+    // No PII by default
     sendDefaultPii: false,
     attachStacktrace: true,
 
+    // No analytics integrations at init time
     integrations: [],
 
-    // Filter out noise and sensitive data
     beforeSend(event) {
       // Filter out browser extension errors
       if (
@@ -61,12 +67,105 @@ export function initSentry() {
 
       return event;
     },
+
+    beforeSendTransaction(event) {
+      // Remove sensitive headers
+      if (event.request?.headers) {
+        const {
+          Authorization: _auth,
+          Cookie: _cookie,
+          "X-API-Key": _apiKey,
+          ...safeHeaders
+        } = event.request.headers;
+        event.request.headers = safeHeaders;
+      }
+      return event;
+    },
   });
 
-  console.log("Sentry: Initialized successfully");
+  console.log("Sentry: Initialized (Phase A — errors only)");
 }
 
-// Helper functions for custom tracking
+// ---------------------------------------------------------------------------
+// Phase B – consent-gated analytics integrations
+// ---------------------------------------------------------------------------
+
+/**
+ * Enables Sentry replay + perf tracing after the user consents to analytics.
+ * Idempotent: no-ops if already enabled or not in production.
+ * @param user - Minimal user context to attach (id required; email/type optional)
+ */
+export function enableAnalyticsIntegrations(user: {
+  id: string;
+  email?: string;
+  type?: string;
+}): void {
+  if (!import.meta.env.PROD || analyticsEnabled) return;
+
+  Sentry.addIntegration(
+    Sentry.replayIntegration({
+      maskAllText: true,
+      blockAllMedia: true,
+    }),
+  );
+  Sentry.addIntegration(Sentry.browserTracingIntegration());
+
+  Sentry.setUser({
+    id: user.id,
+    email: user.email,
+    type: user.type,
+  });
+
+  analyticsEnabled = true;
+  console.log("Sentry: Phase B analytics integrations enabled");
+}
+
+/**
+ * Disables Phase B integrations on consent withdrawal.
+ * Closes the current Sentry client (flushing in-flight envelopes),
+ * re-inits Phase A, and reloads the page so that no stale replay/tracing
+ * state leaks.
+ */
+export async function disableAnalyticsIntegrations(): Promise<void> {
+  if (!import.meta.env.PROD) return;
+
+  analyticsEnabled = false;
+
+  await Sentry.close();
+  initSentry();
+  window.location.reload();
+}
+
+/** Returns whether Phase B (analytics) integrations are currently active. */
+export function isAnalyticsEnabled(): boolean {
+  return analyticsEnabled;
+}
+
+// ---------------------------------------------------------------------------
+// User context helpers
+// ---------------------------------------------------------------------------
+
+/**
+ * Sets an opaque user ID in Sentry (Phase A level — no email/PII).
+ * @param user - Object with user id
+ */
+export function setSentryUser(user: { id: string }): void {
+  if (import.meta.env.PROD) {
+    Sentry.setUser({ id: user.id });
+  }
+}
+
+/** Clears the current user context from Sentry. */
+export function clearSentryUser(): void {
+  if (import.meta.env.PROD) {
+    Sentry.setUser(null);
+  }
+}
+
+// ---------------------------------------------------------------------------
+// Existing helper functions (unchanged API surface)
+// ---------------------------------------------------------------------------
+
 /**
  * Captures an error exception in Sentry (production) or logs to console (development).
  * @param error - The Error object to capture
@@ -87,20 +186,8 @@ export function trackError(error: Error, context?: Record<string, unknown>) {
 
 /**
  * Tracks a custom event with optional data as a breadcrumb in Sentry.
- * Only sends data in production environment.
- *
- * @function trackEvent
- * @param {string} name - The event name
- * @param {Record<string, unknown>} [data] - Optional event data
- * @returns {void}
- * @example
- * ```typescript
- * trackEvent('user_action', {
- *   action: 'button_click',
- *   component: 'navbar',
- *   timestamp: Date.now()
- * });
- * ```
+ * @param name - The event name
+ * @param data - Optional event data
  */
 export function trackEvent(name: string, data?: Record<string, unknown>) {
   if (import.meta.env.PROD) {
@@ -115,40 +202,9 @@ export function trackEvent(name: string, data?: Record<string, unknown>) {
 }
 
 /**
- * Sets the current user context in Sentry for error tracking.
- * Only the opaque user ID is sent — no email or PII (ePrivacy).
- *
- * @param user - Object containing the user's UUID
- */
-export function setUserContext(user: { id: string }) {
-  if (import.meta.env.PROD) {
-    Sentry.setUser({ id: user.id });
-  }
-}
-
-/**
- * Clears the current user context from Sentry.
- * Only active in production environment.
- *
- * @function clearUserContext
- * @returns {void}
- * @example
- * ```typescript
- * clearUserContext(); // Called during logout
- * ```
- */
-export function clearUserContext() {
-  if (import.meta.env.PROD) {
-    Sentry.setUser(null);
-  }
-}
-
-// Transaction tracking for Web3 operations
-/**
  * Tracks a Web3 transaction lifecycle in Sentry as a breadcrumb.
- * Captures failed transactions as exceptions in production.
- * @param operation - Name of the transaction operation (e.g., "donate", "approve")
- * @param data - Optional transaction details including hash, amount, token, status
+ * @param operation - Name of the transaction operation
+ * @param data - Optional transaction details
  * @returns Object with a `finish` method to record final transaction status
  */
 export function trackTransaction(
@@ -172,7 +228,6 @@ export function trackTransaction(
       category: "transaction",
     });
 
-    // If transaction failed, also capture as an exception
     if (data?.status === "failed" && data?.error) {
       Sentry.captureException(
         new Error(`Transaction failed: ${operation} - ${data.error}`),
@@ -182,7 +237,6 @@ export function trackTransaction(
     console.log(`Transaction tracked: ${operation}`, data);
   }
 
-  // Return an object with a finish method for transaction lifecycle tracking
   return {
     finish: (status: "ok" | "error") => {
       if (import.meta.env.PROD) {
@@ -199,12 +253,11 @@ export function trackTransaction(
   };
 }
 
-// Custom event capture for testing and debugging
 /**
- * Captures a custom message event in Sentry with an optional breadcrumb and severity level.
+ * Captures a custom message event in Sentry with optional breadcrumb and severity.
  * @param message - The event message to capture
- * @param data - Optional key-value data to attach as a breadcrumb
- * @param level - Severity level: "info" (default), "warning", or "error"
+ * @param data - Optional key-value data to attach
+ * @param level - Severity level
  */
 export function captureCustomEvent(
   message: string,
@@ -226,9 +279,3 @@ export function captureCustomEvent(
     console.log(`Custom event: ${message}`, { level, data });
   }
 }
-
-// Aliases for AuthContext compatibility
-/** Alias for setUserContext — sets the authenticated user in Sentry. */
-export const setSentryUser = setUserContext;
-/** Alias for clearUserContext — clears the authenticated user from Sentry. */
-export const clearSentryUser = clearUserContext;

@@ -766,8 +766,10 @@ export default {
     "admin.charity.allStatuses": "ทุกสถานะ",
     "admin.charity.searchPlaceholder": "ค้นหาตามชื่อ\u2026",
     "admin.charity.colName": "ชื่อ",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "หมวดหมู่",
     "admin.charity.colStatus": "สถานะ",
+    "admin.charity.colSigner": "ผู้ติดต่อ",
     "admin.charity.colJoined": "เข้าร่วมเมื่อ",
     "admin.charity.colWallet": "กระเป๋าเงิน",
     "admin.charity.colActions": "การดำเนินการ",
@@ -1047,6 +1049,11 @@ export default {
       "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "charity.claim.validation.confirmPassword": "รหัสผ่านไม่ตรงกัน",
     "charity.claim.validation.fix": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
+    "charity.claim.useAsPublicEmail":
+      "ใช้อีเมลของฉันเป็นอีเมลติดต่อสาธารณะขององค์กร",
+    "charity.claim.publicContactEmail": "อีเมลติดต่อสาธารณะขององค์กร",
+    "charity.claim.privacyNotice":
+      "อีเมล/โทรศัพท์ส่วนตัวของผู้ลงนามใช้สำหรับการยืนยันตัวตนเท่านั้นและไม่แสดงให้ผู้ใช้แพลตฟอร์มอื่นเห็น อีเมลติดต่อสาธารณะจะแสดงในโปรไฟล์องค์กรของคุณ",
     "charity.claim.error.creation": "การสร้างบัญชีล้มเหลว",
     "charity.claim.error.generic": "ไม่สามารถสร้างบัญชีได้",
     "charity.vetting.orgDetails": "รายละเอียดองค์กร",
@@ -1097,7 +1104,7 @@ export default {
     "footer.legal.cookiePreferences": "Cookie preferences",
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, error monitoring and session analytics to improve the site. You can change this anytime in the footer.",
+      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
     "consent.banner.privacyLink": "Privacy policy",
     "consent.banner.acceptAll": "Accept all",
     "consent.banner.decline": "Decline non-essential",
@@ -1109,7 +1116,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Helps us find bugs and understand site performance. Uses Sentry (US) and may capture your session activity. Off by default.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",
