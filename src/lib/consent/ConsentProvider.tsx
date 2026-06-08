@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   clearConsent,
   readConsent,
@@ -88,9 +94,16 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     setRecord(null);
   }, []);
 
-  const categories = record?.categories ?? defaultCategories;
-
-  useGAConsentBridge(categories);
+  // Dev-only: clear consent when ?_consentReset=1 is in the URL.
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("_consentReset") === "1") {
+        clearConsent();
+        setRecord(null);
+      }
+    }
+  }, []);
 
   const value: ConsentContextValue = {
     categories,
