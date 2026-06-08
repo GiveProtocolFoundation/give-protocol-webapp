@@ -1546,5 +1546,30 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox \u2014 the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    // Admin Audit Trail (GIV-415)
+    "admin.auditTrail.filterByAction": "Filter by action",
+    "admin.auditTrail.allActions": "All actions",
+    "admin.auditTrail.action.charityStatusChange": "Charity status change",
+    "admin.auditTrail.action.userStatusChange": "User status change",
+    "admin.auditTrail.action.donationFlag": "Donation flag",
+    "admin.auditTrail.action.donationFlagResolve": "Donation flag resolve",
+    "admin.auditTrail.action.validationOverride": "Validation override",
+    "admin.auditTrail.action.configChange": "Config change",
+    "admin.auditTrail.action.verificationApprove": "Verification approve",
+    "admin.auditTrail.action.verificationReject": "Verification reject",
+    "admin.auditTrail.action.charitySuspend": "Charity suspend",
+    "admin.auditTrail.action.charityReinstate": "Charity reinstate",
+    "admin.auditTrail.action.userSuspend": "User suspend",
+    "admin.auditTrail.action.userReinstate": "User reinstate",
+    "admin.auditTrail.action.userBan": "User ban",
+    "admin.auditTrail.action.viewPii": "View PII",
+    "admin.auditTrail.action.viewPiiList": "View PII list",
+    "admin.auditTrail.viewedEntity":
+      "Admin {{adminId}} viewed {{entityType}} {{entityId}}",
+    "admin.auditTrail.viewedList":
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})",
+    "admin.auditTrail.viewedListNoFilters":
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}})",
   },
 };
