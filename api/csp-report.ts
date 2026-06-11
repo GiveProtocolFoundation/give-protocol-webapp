@@ -68,6 +68,14 @@ function isExtensionUri(uri: string | undefined): boolean {
   return EXTENSION_PATTERNS.some((p) => p.test(uri));
 }
 
+/**
+ * Returns true when the report's document URI belongs to a Give Protocol
+ * origin (or a local dev host). Used to drop reports from stale tabs on
+ * other sites that still have our service worker / extension contexts.
+ *
+ * @param documentUri - The document URI from the CSP report.
+ * @returns Whether the URI is one of our donation pages.
+ */
 function isDonationPage(documentUri: string | undefined): boolean {
   if (!documentUri) return false;
   try {
@@ -82,6 +90,14 @@ function isDonationPage(documentUri: string | undefined): boolean {
   }
 }
 
+/**
+ * Normalizes a raw CSP violation payload into a flat shape regardless of
+ * whether it arrived via the legacy `report-uri` format, the Reporting
+ * API v1 format, or as a batched array.
+ *
+ * @param raw - The parsed JSON body received from the browser.
+ * @returns A normalized report, or null if the payload is unrecognized.
+ */
 function normalizeReport(raw: unknown): {
   documentUri: string;
   effectiveDirective: string;
