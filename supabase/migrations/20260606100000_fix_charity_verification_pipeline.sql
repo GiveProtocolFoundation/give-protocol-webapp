@@ -149,7 +149,7 @@ BEGIN
 END;
 $$;
 
-COMMENT ON FUNCTION claim_charity_profile IS
+COMMENT ON FUNCTION claim_charity_profile(TEXT, TEXT, TEXT, TEXT) IS
   'Transitions a charity profile from unclaimed to claimed-pending, records '
   'the authorized signer, and creates a pending verification row for admin '
   'review. Requires an authenticated session. SECURITY DEFINER. GIV-372.';
