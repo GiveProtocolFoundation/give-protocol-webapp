@@ -525,7 +525,7 @@ const AdminCharityManagement: React.FC = () => {
           k !== "limit" &&
           filters[k as keyof AdminCharityListFilters] !== undefined,
       )
-      .sort();
+      .sort((a, b) => a.localeCompare(b));
     return JSON.stringify(keys);
   }, [filters]);
 

@@ -185,12 +185,14 @@ const SectionLegalBasis: React.FC = () => (
       >
         www.dataprotection.ie
       </a>
-      . If you are located in the United Kingdom, you may contact the{" "}
+      {". "}
+      If you are located in the United Kingdom, you may contact the{" "}
       <strong>Information Commissioner&apos;s Office (ICO)</strong> —{" "}
       <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer">
         ico.org.uk
       </a>
-      . You may also lodge a complaint with the supervisory authority of your
+      {". "}
+      You may also lodge a complaint with the supervisory authority of your
       habitual residence, place of work, or place of the alleged infringement.
     </p>
   </section>

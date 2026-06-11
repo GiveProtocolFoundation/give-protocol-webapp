@@ -46,7 +46,10 @@ function stableContextKey(ctx?: LogReadContext): string {
   const parts: string[] = [];
   if (ctx.page !== undefined) parts.push(`p:${ctx.page}`);
   if (ctx.limit !== undefined) parts.push(`l:${ctx.limit}`);
-  if (ctx.filterKeys) parts.push(`fk:${[...ctx.filterKeys].sort().join(",")}`);
+  if (ctx.filterKeys)
+    parts.push(
+      `fk:${[...ctx.filterKeys].sort((a, b) => a.localeCompare(b)).join(",")}`,
+    );
   if (ctx.resultCount !== undefined) parts.push(`rc:${ctx.resultCount}`);
   if (ctx.source) parts.push(`s:${ctx.source}`);
   return parts.join("|");
@@ -208,7 +211,7 @@ export async function logRead(
   dedupWindow.set(dedupKey, now);
 
   try {
-    const actionType = entityId !== null ? "view_pii" : "view_pii_list";
+    const actionType = entityId === null ? "view_pii_list" : "view_pii";
     const { data, error } = await supabase.rpc(
       "insert_admin_audit_read_entry",
       {

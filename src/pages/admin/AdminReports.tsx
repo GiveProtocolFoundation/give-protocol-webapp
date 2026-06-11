@@ -931,8 +931,12 @@ function formatPiiSummary(
   }
 
   // view_pii_list
-  const context = entry.newValues as Record<string, unknown> | null;
-  const page = context?.page !== undefined ? String(context.page) : "1";
+  const context = entry.newValues;
+  const rawPage = context?.page;
+  const page =
+    typeof rawPage === "number" || typeof rawPage === "string"
+      ? String(rawPage)
+      : "1";
   const filterKeys = context?.filter_keys as string[] | undefined;
 
   if (filterKeys && filterKeys.length > 0) {

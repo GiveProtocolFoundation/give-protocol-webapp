@@ -443,7 +443,7 @@ const AdminDonorManagement: React.FC = () => {
           k !== "limit" &&
           filters[k as keyof AdminDonorListFilters] !== undefined,
       )
-      .sort();
+      .sort((a, b) => a.localeCompare(b));
     return JSON.stringify(keys);
   }, [filters]);
 

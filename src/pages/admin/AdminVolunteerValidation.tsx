@@ -472,7 +472,7 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           k !== "limit" &&
           filters[k as keyof AdminValidationRequestFilters] !== undefined,
       )
-      .sort();
+      .sort((a, b) => a.localeCompare(b));
     return JSON.stringify(keys);
   }, [filters]);
 

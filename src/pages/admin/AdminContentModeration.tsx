@@ -633,7 +633,7 @@ const AdminContentModeration: React.FC = () => {
           k !== "limit" &&
           filters[k as keyof AdminContentModerationFilters] !== undefined,
       )
-      .sort();
+      .sort((a, b) => a.localeCompare(b));
     return JSON.stringify(keys);
   }, [filters]);
 
