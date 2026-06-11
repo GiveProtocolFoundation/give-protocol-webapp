@@ -2,10 +2,12 @@ import React from "react";
 import { StaticPageLayout } from "@/components/layout/StaticPageLayout";
 import { ImportantNotice } from "@/components/ui/ImportantNotice";
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /** Privacy policy page displaying GiveProtocol's data handling practices. */
 export const Privacy: React.FC = () => {
   usePageTitle("Privacy Policy");
+  const { t } = useTranslation();
   return (
     <StaticPageLayout
       title="GiveProtocol Privacy Policy"
@@ -247,6 +249,12 @@ export const Privacy: React.FC = () => {
           protect your personal data against unauthorized access, alteration,
           disclosure, or destruction. However, no method of transmission over
           the internet or electronic storage is 100% secure.
+        </p>
+        <p>
+          {t(
+            "privacy.security.auditLog",
+            "As an additional technical measure under GDPR Article 32, we maintain an administrative access audit log. When Give Protocol staff access the platform\u2019s administrative functions, we record the action type, timestamp, IP address, and a reference to the affected entity. No donor personal data is duplicated into the log. This log supports our ability to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a data breach (Article 34 notification). Audit log records are retained for a minimum of two years."
+          )}
         </p>
       </section>
 

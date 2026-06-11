@@ -1571,5 +1571,9 @@ export default {
       "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})",
     "admin.auditTrail.viewedListNoFilters":
       "Admin {{adminId}} viewed {{entityType}} list (page {{page}})",
+
+    // Privacy Policy §6 — Admin access audit log (GIV-416)
+    "privacy.security.auditLog":
+      "As an additional technical measure under GDPR Article 32, we maintain an administrative access audit log. When Give Protocol staff access the platform\u2019s administrative functions, we record the action type, timestamp, IP address, and a reference to the affected entity. No donor personal data is duplicated into the log. This log supports our ability to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a data breach (Article 34 notification). Audit log records are retained for a minimum of two years.",
   },
 };
