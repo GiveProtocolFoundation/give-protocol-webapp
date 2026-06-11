@@ -17,6 +17,7 @@ import { useWalletAuthSync } from "./hooks/useWalletAuthSync";
 import { ConsentProvider } from "./lib/consent/ConsentProvider";
 import { CookieBanner } from "./components/consent/CookieBanner";
 import { useGA4Loader } from "./lib/consent/useGA4Loader";
+import { useGAConsentBridge } from "./lib/consent/useGAConsentBridge";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
 import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
@@ -112,17 +113,10 @@ const SafeAutoConnectWrapper = ({
   return children;
 };
 
-// Consent-gated GA4 loader — runs inside ConsentProvider
-function GA4Loader() {
-  useGA4Loader();
-  return null;
-}
-
 // Router wrapper component (Router is now provided by entry files)
 const AppRouter = () => (
   <SafeAutoConnectWrapper>
     <>
-      <GA4Loader />
       <Layout>
         <AppRoutes />
       </Layout>
