@@ -268,20 +268,78 @@ export const Privacy: React.FC = () => {
       </section>
 
       <section>
-        <h2>11. Legal Basis for Processing</h2>
-        <p>We process your personal data based on:</p>
+        <h2>11. Cookie Preferences and Analytics Processing</h2>
+        <p>
+          We use cookies and similar technologies on our platform. Some are
+          essential and cannot be disabled; others are optional and require your
+          explicit consent.
+        </p>
+
+        <h3>11.1 Essential technologies</h3>
+        <p>
+          Required for the site to function: session authentication, CSRF
+          protection, and storing your privacy preferences. These are always
+          active and cannot be turned off.
+        </p>
+
+        <h3>11.2 Error monitoring and session analytics (Sentry)</h3>
+        <p>
+          <strong>Error monitoring (always active).</strong> We use Sentry
+          (Functional Software, Inc., 45 Fremont Street, San Francisco, CA
+          94105, USA) to receive error reports. In this mode, Sentry receives
+          only a randomly generated, opaque session identifier &mdash; no email
+          address, no account information, and no session recording. We rely on
+          our legitimate interests in operating a stable, secure service (Art.
+          6(1)(f) GDPR). You have the right to object to this processing at any
+          time by contacting us at the address in &sect;1 (Art. 21 GDPR).
+        </p>
+        <p>
+          <strong>
+            Session analytics (optional &mdash; consent required).
+          </strong>{" "}
+          With your consent, we also enable enhanced Sentry analytics. In this
+          mode, Sentry additionally receives your user identifier, email
+          address, and masked session activity. Session replays are configured
+          with <code>maskAllText: true</code> and{" "}
+          <code>blockAllMedia: true</code> &mdash; all text and media visible on
+          screen is masked or blocked before transmission to Sentry, so no
+          readable content is captured in replay recordings. The legal basis for
+          this processing is your consent (Art. 6(1)(a) GDPR).
+        </p>
+        <p>
+          Data is transferred to the United States under EU Standard Contractual
+          Clauses (Art. 46(2)(c) GDPR) per our Data Processing Agreement with
+          Sentry &mdash; see the International Transfers section. You may
+          withdraw consent at any time via the{" "}
+          <strong>Cookie preferences</strong> link in the site footer (Art. 7(3)
+          GDPR). Withdrawal does not affect the lawfulness of processing before
+          withdrawal.
+        </p>
+
+        <h3>11.3 Your consent choices</h3>
+        <p>A consent banner is shown on your first visit. You may:</p>
         <ul>
           <li>
-            Performance of a contract when we provide you with our Service
+            <strong>Accept all</strong> &mdash; enable session analytics in
+            addition to the always-on essential technologies and error
+            monitoring described in &sect;11.2
           </li>
-          <li>Legitimate interests in operating and improving our Service</li>
-          <li>Compliance with our legal obligations</li>
-          <li>Your consent, where applicable</li>
+          <li>
+            <strong>Decline non-essential</strong> &mdash; only essential
+            technologies and the always-on error monitoring described in
+            &sect;11.2 will run; session analytics will not
+          </li>
+          <li>
+            <strong>Customize</strong> &mdash; toggle session analytics on or
+            off; essential technologies and error monitoring cannot be turned
+            off
+          </li>
         </ul>
         <p>
-          You have the right to lodge a complaint with a supervisory authority
-          if you believe our processing of your personal data violates
-          applicable law.
+          You may withdraw or change your consent at any time via the{" "}
+          <strong>Cookie preferences</strong> link in the site footer.
+          Withdrawal does not affect the lawfulness of processing before
+          withdrawal (Art. 7(3) GDPR).
         </p>
       </section>
 

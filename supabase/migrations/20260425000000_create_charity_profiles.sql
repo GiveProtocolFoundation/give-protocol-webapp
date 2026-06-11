@@ -234,7 +234,7 @@ $$;
 GRANT EXECUTE ON FUNCTION claim_charity_profile(TEXT, TEXT, TEXT, TEXT) TO authenticated;
 GRANT EXECUTE ON FUNCTION claim_charity_profile(TEXT, TEXT, TEXT, TEXT) TO service_role;
 
-COMMENT ON FUNCTION claim_charity_profile IS
+COMMENT ON FUNCTION claim_charity_profile(TEXT, TEXT, TEXT, TEXT) IS
   'Transitions a charity profile from unclaimed → claimed-pending and records '
   'the authorized signer. Called after a charity rep signs up. '
   'Requires an authenticated session. SECURITY DEFINER.';
