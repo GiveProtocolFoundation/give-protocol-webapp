@@ -105,6 +105,10 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     }
   }, []);
 
+  const categories = record?.categories ?? defaultCategories;
+
+  useGAConsentBridge(categories);
+
   const value: ConsentContextValue = {
     categories,
     hasDecided: record !== null,
