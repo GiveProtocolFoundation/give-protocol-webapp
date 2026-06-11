@@ -285,6 +285,8 @@ COMMENT ON FUNCTION admin_update_charity_status IS
 -- 5. Update admin_list_charities to include EIN + signer details from
 --    charity_profiles for proper admin review context
 -- ---------------------------------------------------------------------------
+-- DROP required because the RETURNS TABLE shape changes (new columns added)
+DROP FUNCTION IF EXISTS admin_list_charities(TEXT, TEXT, TEXT, INT, INT);
 CREATE OR REPLACE FUNCTION admin_list_charities(
   p_status        TEXT        DEFAULT NULL,
   p_category      TEXT        DEFAULT NULL,
