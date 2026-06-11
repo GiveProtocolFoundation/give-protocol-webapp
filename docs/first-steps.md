@@ -12,7 +12,7 @@ Head to **Profile Settings** (`/settings`) and fill in your display name, prefer
 
 If you plan to donate cryptocurrency, connect your wallet now so it's ready when you find a cause you love. Click **Connect Wallet** in the navigation bar and follow the prompts.
 
-Supported wallets include MetaMask, WalletConnect, Coinbase Wallet, Ledger, and more. See [Wallet Connection](./wallet-connection.md) for the full list.
+Supported wallets include MetaMask, WalletConnect, Coinbase Wallet, Ledger, and more. See [Personal Wallet Setup](./personal-wallet-setup.md) for the full list.
 
 > **Prefer fiat?** No wallet needed. Look for **Pay with Card** on the donation form to donate via credit or debit card.
 
@@ -38,12 +38,9 @@ On any charity's detail page, click **Donate**.
 
 After the transaction is confirmed on-chain, you'll receive a donation receipt by email.
 
-### 5. Explore Portfolio Funds
+### 5. Explore Cause-Specific Impact Funds (CIFs)
 
-Give Protocol offers **Portfolio Funds** — pooled investment vehicles that distribute your donation across multiple charities aligned with a cause. Browse available funds from your Donor Dashboard (`/give-dashboard`) or navigate directly to individual fund pages such as `/portfolio/environmental`, `/portfolio/education`, or `/portfolio/poverty`.
-
-- **Charitable Equity Funds (CEFs)** — Diversified giving across a curated set of organizations
-- **Cause-Specific Impact Funds (CIFs)** — Focused giving within a single cause area (e.g., climate, education)
+Give Protocol offers **Cause-Specific Impact Funds (CIFs)** — pooled giving vehicles that distribute your donation across multiple charities aligned with a single cause area. Browse available funds from your Donor Dashboard (`/give-dashboard`) or navigate directly to individual fund pages such as `/portfolio/environmental`, `/portfolio/education`, or `/portfolio/poverty`.
 
 ### 6. Set Up Recurring Donations
 
@@ -53,7 +50,13 @@ For ongoing impact, set up automatic monthly or quarterly donations at `/schedul
 
 ## For Charities
 
-### 1. Complete Your Organization Profile
+### 1. Set Up Your Treasury Wallet
+
+Before you can receive donations, you need to register a wallet address in your Charity Portal. Give Protocol recommends a **Safe multisig wallet** for all organizations — it requires multiple signers to approve any transaction, which protects your funds and meets standard nonprofit governance requirements.
+
+See [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md) for step-by-step instructions covering Safe multisig, institutional custody, and (for very small orgs only) single-signer options.
+
+### 2. Complete Your Organization Profile
 
 After your account is verified, go to the **Charity Portal** (`/charity-portal`) and fill in:
 
@@ -64,15 +67,15 @@ After your account is verified, go to the **Charity Portal** (`/charity-portal`)
 
 See [Setting Up Your Profile](./setting-up-profile.md) for details.
 
-### 2. Add Causes
+### 3. Add Causes
 
 Create one or more **Causes** in your portal — these are specific programs or initiatives donors can direct their giving to. Each cause has its own title, description, and funding goal.
 
-### 3. Post Volunteer Opportunities
+### 4. Post Volunteer Opportunities
 
 Use the Volunteer section of the Charity Portal to list open volunteer positions. Describe the role, required skills, and schedule. Volunteers who apply and complete hours will be verified on-chain.
 
-### 4. Share Your Profile
+### 5. Share Your Profile
 
 Once your profile is live, share your Give Protocol page with your donor community. Your public URL is `giveprotocol.io/charity/{your-slug}`.
 

@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useContract } from "./useContract";
 import { useWeb3 } from "@/contexts/Web3Context";
+import { useToast } from "@/contexts/ToastContext";
 import {
   parseEther,
   getAddress,
@@ -87,6 +88,7 @@ interface DonationParams {
 export function useDonation() {
   const { contract } = useContract("donation");
   const { address, signer, chainId } = useWeb3();
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [approving, setApproving] = useState(false);
   const [error, setError] = useState<string | null>(null);
@@ -235,6 +237,7 @@ export function useDonation() {
       const message =
         err instanceof Error ? err.message : "Failed to process donation";
       setError(message);
+      showToast({ type: "error", title: "Donation failed", message });
       Logger.error("Donation failed", {
         error: err,
         amount,

@@ -13,7 +13,7 @@ At the top of the dashboard you'll see summary cards:
 - **Total Donated** — Cumulative amount given across all donations (in your preferred display currency)
 - **Active Recurring Donations** — Number of scheduled recurring donations currently running
 - **Charities Supported** — Count of distinct organizations you've donated to
-- **Portfolio Fund Value** — Current estimated value of your portfolio fund contributions
+- **CIF Value** — Current estimated value of your Cause-Specific Impact Fund (CIF) contributions
 
 ### Donation History
 
@@ -41,9 +41,9 @@ The **Scheduled Donations** section (`/scheduled-donations`) shows all active re
 
 Use the **Pause**, **Edit**, or **Cancel** buttons to manage each schedule.
 
-### Portfolio Funds
+### Cause-Specific Impact Funds (CIFs)
 
-The **My Portfolio Funds** section shows your current positions in any Charitable Equity Funds (CEFs) or Cause-Specific Impact Funds (CIFs) you've joined. For each fund you can see:
+The **My CIFs** section shows your current positions in any Cause-Specific Impact Funds (CIFs) you've joined. For each fund you can see:
 
 - Current allocation across member charities
 - Total contributed
@@ -101,8 +101,18 @@ Customize your dashboard experience:
 
 ---
 
+## Wallet Setup
+
+Give Protocol supports two wallet tiers depending on whether you are a **donor** or a **charity administrator**:
+
+- **Donors** — Connect a personal wallet (MetaMask, WalletConnect, Coinbase Wallet, Ledger, and others). See [Personal Wallet Setup](./personal-wallet-setup.md).
+- **Charity administrators** — Configure a secure treasury wallet appropriate for your organization. Options include a Safe multisig (recommended), institutional custody, or a single-signer wallet for very small orgs. See [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md).
+
+---
+
 ## Related Guides
 
 - [First Steps](./first-steps.md) — Making your first donation
-- [Wallet Connection](./wallet-connection.md) — Connecting and managing wallets
+- [Personal Wallet Setup](./personal-wallet-setup.md) — Connecting and managing a personal wallet
+- [Organizational Treasury Wallet Setup](./organizational-wallet-setup.md) — Secure wallet setup for charity administrators
 - [Setting Up Your Profile](./setting-up-profile.md) — Personalizing your account

@@ -130,7 +130,7 @@ export const SelfReportedHoursDashboard: React.FC<
 
   if (loading && !hours.length) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
         <div className="flex justify-center py-12">
           <LoadingSpinner size="lg" />
         </div>
@@ -140,8 +140,8 @@ export const SelfReportedHoursDashboard: React.FC<
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+        <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-300">
           {error}
         </div>
       </div>
@@ -149,7 +149,7 @@ export const SelfReportedHoursDashboard: React.FC<
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md">
+    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md">
       {/* Header */}
       <div className="p-6 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-2">
@@ -161,8 +161,8 @@ export const SelfReportedHoursDashboard: React.FC<
             onClick={toggleInfo}
             className={`p-1 rounded-full transition-colors ${
               showInfo
-                ? "bg-blue-100 text-blue-600"
-                : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                ? "bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
+                : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             }`}
             title={t(
               "volunteer.aboutSelfReported",
@@ -191,7 +191,7 @@ export const SelfReportedHoursDashboard: React.FC<
 
         {/* Info banner - toggled by (i) button */}
         {showInfo && (
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg">
             <div className="flex items-start gap-3">
               <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-blue-800">
@@ -287,7 +287,7 @@ export const SelfReportedHoursDashboard: React.FC<
             </div>
             {/* View details - simplified for now */}
             <div className="space-y-4">
-              <pre className="bg-gray-50 p-4 rounded-lg text-sm overflow-auto">
+              <pre className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg text-sm overflow-auto text-gray-900 dark:text-gray-100">
                 {JSON.stringify(selectedRecord, null, 2)}
               </pre>
             </div>
@@ -298,7 +298,7 @@ export const SelfReportedHoursDashboard: React.FC<
       {/* Delete confirmation modal */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white dark:bg-gray-900 rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-medium text-gray-900 mb-2">
               {t("volunteer.deleteRecord", "Delete Record?")}
             </h3>

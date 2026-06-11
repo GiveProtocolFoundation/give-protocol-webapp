@@ -5,7 +5,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import {
   fetchCharityProfileAssets,
   fetchCharityProfileAssetsByEin,
-  fetchCharityProfileBySignerEmail,
+  claimCharityProfileBySignerEmail,
   fetchCharityProfileByName,
   repairClaimedBy,
 } from "@/services/charityProfileService";
@@ -14,7 +14,7 @@ import { OrganizationProfileTab } from "../OrganizationProfileTab";
 const mockUseAuth = jest.mocked(useAuth);
 const mockFetchCharityProfileAssets = jest.mocked(fetchCharityProfileAssets);
 const mockFetchByEin = jest.mocked(fetchCharityProfileAssetsByEin);
-const mockFetchByEmail = jest.mocked(fetchCharityProfileBySignerEmail);
+const mockClaimByEmail = jest.mocked(claimCharityProfileBySignerEmail);
 const mockFetchByName = jest.mocked(fetchCharityProfileByName);
 const _mockRepair = jest.mocked(repairClaimedBy);
 
@@ -48,7 +48,7 @@ describe("OrganizationProfileTab", () => {
       claimedByUserId: USER_ID,
     });
     mockFetchByEin.mockResolvedValue(null);
-    mockFetchByEmail.mockResolvedValue(null);
+    mockClaimByEmail.mockResolvedValue(null);
     mockFetchByName.mockResolvedValue(null);
   });
 
@@ -98,14 +98,16 @@ describe("OrganizationProfileTab", () => {
     expect(mockFetchByEin).toHaveBeenCalledWith("98-7654321");
   });
 
-  it("falls back to signer email when both claimed_by and EIN fail", async () => {
+  it("falls back to signer email RPC when both claimed_by and EIN fail", async () => {
     mockFetchCharityProfileAssets.mockResolvedValue(null);
     mockFetchByEin.mockResolvedValue(null);
-    mockFetchByEmail.mockResolvedValue({
+    mockClaimByEmail.mockResolvedValue({
+      id: "cp-55",
       ein: "55-1234567",
+      name: "Signer Charity",
       logoUrl: null,
       bannerImageUrl: null,
-      claimedByUserId: null,
+      claimedByUserId: USER_ID,
     });
     mockUseAuth.mockReturnValue({
       ...ownerAuthState,
@@ -119,13 +121,14 @@ describe("OrganizationProfileTab", () => {
     await waitFor(() => {
       expect(screen.getByText(/logo & banner/i)).toBeInTheDocument();
     });
-    expect(mockFetchByEmail).toHaveBeenCalledWith("signer@example.com");
+    // New RPC takes no params (uses auth.email() server-side)
+    expect(mockClaimByEmail).toHaveBeenCalledWith();
   });
 
   it("falls back to org name when all other lookups fail", async () => {
     mockFetchCharityProfileAssets.mockResolvedValue(null);
     mockFetchByEin.mockResolvedValue(null);
-    mockFetchByEmail.mockResolvedValue(null);
+    mockClaimByEmail.mockResolvedValue(null);
     mockFetchByName.mockResolvedValue({
       ein: "77-9999999",
       logoUrl: null,

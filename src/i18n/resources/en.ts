@@ -479,8 +479,10 @@ export default {
     "modal.connect.noWallets": "No wallets available for {{chainType}} chains.",
     "modal.connect.tryDifferentChain": "Try selecting a different chain type.",
     "modal.connect.viewOtherWallets": "View other supported wallets",
-    "modal.connect.termsAgreement": "By connecting, you agree to the",
+    "modal.connect.termsAgreement": "By connecting, you agree to our",
     "modal.connect.termsLink": "Terms of Service",
+    "modal.connect.termsPrivacyConnector": "and",
+    "modal.connect.privacyLink": "Privacy Policy",
     "modal.connect.chainTypeAria": "Chain type",
     "modal.connect.failedConnect": "Connection failed",
 
@@ -638,6 +640,120 @@ export default {
     "charity.portal.walletDonationNote":
       "Connect a wallet to receive on-chain donations.",
     "charity.portal.setupWallet": "Set Up Wallet",
+
+    // Wallet Setup (GIV-289)
+    "wallet.setup.title": "Set up your receiving wallet",
+    "wallet.setup.subtitle":
+      "Choose how your charity will receive crypto donations. We recommend a multisig wallet for maximum security.",
+    "wallet.setup.walletsTitle": "Receiving wallets",
+    "wallet.setup.addAnother": "Add another",
+    "wallet.setup.recommended": "Recommended",
+    "wallet.setup.safeTitle": "Multisig Safe",
+    "wallet.setup.safeDesc":
+      "Multiple signers required for every transaction. Highest security for organizational funds.",
+    "wallet.setup.institutionalTitle": "Institutional Custody",
+    "wallet.setup.institutionalDesc":
+      "Managed by a qualified custodian (Fireblocks, Anchorage, etc.). Requires attestation document.",
+    "wallet.setup.eoaTitle": "Single Signer (EOA)",
+    "wallet.setup.eoaDesc":
+      "A standard wallet controlled by one private key. Simplest but least secure for organizational use.",
+    "wallet.setup.primary": "Primary",
+    "wallet.setup.safeSigners": "Signers",
+    "wallet.setup.custodian": "Custodian",
+    "wallet.setup.viewExplorer": "View on block explorer",
+    "wallet.setup.makePrimary": "Make primary",
+    "wallet.setup.remove": "Remove wallet",
+    "wallet.setup.walletAdded": "Wallet registered successfully",
+    "wallet.setup.primaryUpdated": "Primary wallet updated",
+    "wallet.setup.primaryFailed": "Failed to update primary wallet",
+    "wallet.setup.walletDeleted": "Wallet removed",
+    "wallet.setup.deleteFailed": "Failed to remove wallet",
+
+    // Wallet - Safe flow (GIV-289)
+    "wallet.safe.title": "Set up a Safe multisig wallet",
+    "wallet.safe.subtitle":
+      "A Safe requires multiple signers to approve every transaction, providing the highest level of security for your charity's funds.",
+    "wallet.safe.createNew": "Create a new Safe",
+    "wallet.safe.createNewDesc":
+      "Opens app.safe.global where you can create a new multisig. Come back here once it's deployed.",
+    "wallet.safe.haveOne": "I already have a Safe",
+    "wallet.safe.haveOneDesc":
+      "Enter your Safe address and verify control by signing a message from a signer wallet.",
+    "wallet.safe.verifyTitle": "Verify Safe ownership",
+    "wallet.safe.chain": "Network",
+    "wallet.safe.address": "Safe address",
+    "wallet.safe.signerWallet": "Signer wallet",
+    "wallet.safe.connectSigner": "Connect signer wallet",
+    "wallet.safe.signVerify": "Sign to verify control",
+    "wallet.safe.verifying": "Verifying...",
+    "wallet.safe.invalidAddress":
+      "Please enter a valid Ethereum address (0x...)",
+    "wallet.safe.connectFirst": "Please connect your signer wallet first.",
+    "wallet.safe.rejected": "Signature request was rejected.",
+    "wallet.safe.signError":
+      "Failed to sign verification message. Please try again.",
+
+    // Wallet - Institutional flow (GIV-289)
+    "wallet.institutional.title": "Register an institutional custody wallet",
+    "wallet.institutional.subtitle":
+      "Provide your custodian-managed wallet details and upload an attestation document for verification.",
+    "wallet.institutional.chain": "Network",
+    "wallet.institutional.address": "Wallet address",
+    "wallet.institutional.custodian": "Custodian",
+    "wallet.institutional.selectCustodianOption": "Select custodian...",
+    "wallet.institutional.attestation": "Attestation document",
+    "wallet.institutional.attestationHelp":
+      "Upload a PDF, JPEG, or PNG (max 10MB) proving your custodial relationship.",
+    "wallet.institutional.uploadFile": "Upload attestation file",
+    "wallet.institutional.removeFile": "Remove file",
+    "wallet.institutional.chooseFile": "Choose file or drag & drop",
+    "wallet.institutional.submit": "Submit for review",
+    "wallet.institutional.submitting": "Submitting...",
+    "wallet.institutional.submittedTitle": "Wallet submitted for review",
+    "wallet.institutional.submittedDesc":
+      "Your institutional wallet registration is under review. You will receive an email within 3 business days.",
+    "wallet.institutional.backToWallets": "Back to wallets",
+    "wallet.institutional.invalidAddress":
+      "Please enter a valid Ethereum address (0x...)",
+    "wallet.institutional.selectCustodian": "Please select a custodian.",
+    "wallet.institutional.uploadRequired":
+      "Please upload an attestation document.",
+    "wallet.institutional.invalidFileType":
+      "Please upload a PDF, JPEG, or PNG file.",
+    "wallet.institutional.fileTooLarge": "File must be smaller than 10MB.",
+
+    // Wallet - EOA / Single-signer flow (GIV-289)
+    "wallet.eoa.riskTitle": "Single-signer wallet: important risks",
+    "wallet.eoa.riskParagraph1":
+      "A single-signer (EOA) wallet is controlled by one private key. If that key is lost, stolen, or compromised, all funds sent to this wallet are permanently unrecoverable.",
+    "wallet.eoa.riskParagraph2":
+      "For organizational funds, we strongly recommend using a multisig Safe wallet instead. Multisig wallets require multiple approvals for every transaction, protecting against single points of failure.",
+    "wallet.eoa.riskParagraph3":
+      "By proceeding, you acknowledge that Give Protocol is not responsible for any loss of funds due to private key compromise, loss, or mismanagement.",
+    "wallet.eoa.useMultisig": "Use a multisig instead",
+    "wallet.eoa.proceedAnyway": "I understand, proceed",
+    "wallet.eoa.signTitle": "Connect and sign",
+    "wallet.eoa.signSubtitle":
+      "Connect your wallet and sign a message to prove you control this address.",
+    "wallet.eoa.chain": "Network",
+    "wallet.eoa.walletConnection": "Wallet",
+    "wallet.eoa.connectWallet": "Connect wallet",
+    "wallet.eoa.signMessage": "Sign verification message",
+    "wallet.eoa.connectFirst": "Please connect your wallet first.",
+    "wallet.eoa.rejected": "Signature request was rejected.",
+    "wallet.eoa.signError": "Failed to sign message. Please try again.",
+    "wallet.eoa.confirmTitle": "Final confirmation",
+    "wallet.eoa.confirmSubtitle":
+      "Please confirm the following before registering this wallet.",
+    "wallet.eoa.walletToRegister": "Wallet to register",
+    "wallet.eoa.checkRisk":
+      "I understand that a single-signer wallet carries higher risk than a multisig, and that loss of the private key means permanent loss of funds.",
+    "wallet.eoa.checkAuthorized":
+      "I am authorized by my organization to designate this wallet as a receiving address for charitable donations.",
+    "wallet.eoa.register": "Register wallet",
+    "wallet.eoa.registering": "Registering...",
+    "wallet.eoa.missingSignature":
+      "Missing signature. Please go back and sign again.",
 
     // Timestamps (GIV-254)
     "timestamp.justNow": "Just now",
@@ -807,8 +923,10 @@ export default {
     "admin.charity.allStatuses": "All statuses",
     "admin.charity.searchPlaceholder": "Search by name\u2026",
     "admin.charity.colName": "Name",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Category",
     "admin.charity.colStatus": "Status",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Joined",
     "admin.charity.colWallet": "Wallet",
     "admin.charity.colActions": "Actions",
@@ -994,6 +1112,15 @@ export default {
     "auth.panel.statusDesc": "Building the foundation of transparent giving",
     "auth.panel.runsOn": "Runs on",
 
+    // Auth - Toast notifications (GIV-302)
+    "auth.toast.walletConnected": "Wallet connected",
+    "auth.toast.signedInWith": "Signed in with {{address}}.",
+    "auth.toast.welcomeBack": "Welcome back, {{firstName}}",
+    "auth.toast.youreSignedIn": "You\u2019re signed in.",
+    "auth.toast.signedOut": "Signed out",
+    "auth.toast.signInFailed": "Sign-in failed",
+    "auth.toast.signOutFailed": "Sign-out failed",
+
     // Auth - Wallet connection
     "auth.wallet.connect": "Connect Wallet",
     "auth.wallet.connecting": "Connecting wallet\u2026",
@@ -1045,6 +1172,10 @@ export default {
     "auth.donorReg.orSetPassword": "Or set a password",
     "auth.donorReg.creating": "Creating Account...",
     "auth.donorReg.createAccount": "Create Donor Account",
+    "auth.donorReg.privacyNotice": "By creating an account, you agree to our",
+    "auth.donorReg.termsLink": "Terms of Service",
+    "auth.donorReg.privacyAnd": "and acknowledge our",
+    "auth.donorReg.privacyLink": "Privacy Policy",
 
     // Charity login
     "auth.charityLogin.mismatch":
@@ -1071,6 +1202,23 @@ export default {
     "auth.forgot.sending": "Sending...",
     "auth.forgot.sendResetLink": "Send Reset Link",
     "auth.forgot.sendUsername": "Send Username",
+
+    // Reset password (set new password page)
+    "auth.resetPassword.title": "Set New Password",
+    "auth.resetPassword.subtitle": "Choose a strong password for your account.",
+    "auth.resetPassword.newPassword": "New Password",
+    "auth.resetPassword.confirmPassword": "Confirm New Password",
+    "auth.resetPassword.submit": "Update Password",
+    "auth.resetPassword.updating": "Updating\u2026",
+    "auth.resetPassword.mismatch": "Passwords do not match.",
+    "auth.resetPassword.success": "Password updated successfully!",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
+    "auth.resetPassword.backToSignIn": "Back to Sign In",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
+    "auth.resetPassword.requestNew": "Request a new reset link",
+    "auth.resetPassword.validating": "Validating reset link\u2026",
 
     // Organization search
     "auth.orgSearch.orgNameLabel": "Organization Name",
@@ -1105,6 +1253,11 @@ export default {
       "Password must be at least 8 characters long",
     "charity.claim.validation.confirmPassword": "Passwords do not match",
     "charity.claim.validation.fix": "Please correct the validation errors",
+    "charity.claim.useAsPublicEmail":
+      "Use my email as the charity's public contact email",
+    "charity.claim.publicContactEmail": "Organization public contact email",
+    "charity.claim.privacyNotice":
+      "Your personal signer email/phone is used for verification only and is not visible to other platform users. The public contact email is shown on your charity profile.",
     "charity.claim.error.creation": "Account creation failed",
     "charity.claim.error.generic": "Failed to create account",
 
@@ -1144,6 +1297,11 @@ export default {
     "charity.vetting.validation.country": "Country is required",
     "charity.vetting.validation.fix": "Please correct the validation errors",
     "charity.vetting.error.generic": "Failed to submit application",
+    "charity.vetting.privacyNotice":
+      "By submitting this application, you agree to our",
+    "charity.vetting.termsLink": "Terms of Service",
+    "charity.vetting.privacyAnd": "and acknowledge our",
+    "charity.vetting.privacyLink": "Privacy Policy",
 
     // Common - shared auth fields
     "common.email": "Email",
@@ -1159,8 +1317,32 @@ export default {
     "footer.legal.title": "Legal",
     "footer.legal.terms": "Terms of Service",
     "footer.legal.privacy": "Privacy Policy",
+    "footer.legal.cookiePreferences": "Cookie preferences",
     "footer.connect.title": "Connect",
     "footer.copyright": "Give Protocol. All rights reserved.",
+
+    // Cookie consent banner + customize modal (GIV-362)
+    // GIV-353: revert Sentry transfer mechanism to "SCCs" once DPA is executed
+    "consent.banner.ariaLabel": "Cookie consent",
+    "consent.banner.body":
+      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
+    "consent.banner.privacyLink": "Privacy policy",
+    "consent.banner.acceptAll": "Accept all",
+    "consent.banner.decline": "Decline non-essential",
+    "consent.banner.customize": "Customize",
+    "consent.modal.title": "Cookie preferences",
+    "consent.modal.essentialTitle": "Essential",
+    "consent.modal.essentialDesc":
+      "Required for core site features such as navigation and authentication. Cannot be disabled.",
+    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
+    "consent.modal.analyticsTitle":
+      "Analytics (Google Analytics 4 · US, Sentry · US/EU)",
+    "consent.modal.analyticsDesc":
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 — session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry — anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
+    "consent.modal.analyticsOn": "Analytics & error replay — on",
+    "consent.modal.analyticsOff": "Analytics & error replay — off",
+    "consent.modal.cancel": "Cancel",
+    "consent.modal.save": "Save preferences",
 
     // Navigation - additional (GIV-253 / GIV-263 fix)
     "nav.signIn": "Sign In",
@@ -1349,6 +1531,15 @@ export default {
     "charity.profile.donate.feeNote":
       "0% platform fee on direct donations. Network gas fees apply.",
 
+    // Wallet-type badge (GIV-290)
+    "charity.walletBadge.safeLabel":
+      "Multisig treasury · {{threshold}}-of-{{count}} signers",
+    "charity.walletBadge.safeTooltip":
+      "Donations go to a multi-signature wallet requiring multiple approvals before funds can move.",
+    "charity.walletBadge.institutionalLabel": "Held at {{custodianName}}",
+    "charity.walletBadge.institutionalTooltip":
+      "Donations go to a wallet held by a qualified institutional custodian.",
+
     // Portfolio Funds page (GIV-264)
     "portfolio.title": "Portfolio Funds",
 
@@ -1357,5 +1548,23 @@ export default {
     "settings.theme": "Theme",
     "settings.light": "Light",
     "settings.dark": "Dark",
+
+    // Donation toast notifications (GIV-300)
+    "donation.toast.received": "Donation received",
+    "donation.toast.receivedMessage":
+      "Thank you \u2014 your tax receipt is on the way.",
+    "donation.toast.submitted": "Transaction submitted",
+    "donation.toast.submittedMessage":
+      "Waiting for on-chain confirmation\u2026",
+    "donation.toast.confirmed": "Donation confirmed",
+    "donation.toast.confirmedMessage":
+      "Your contribution is recorded on-chain.",
+    "donation.toast.failed": "Donation failed",
+
+    // Charity claim toast notifications (GIV-300)
+    "charity.toast.verificationEmailSent": "Verification email sent",
+    "charity.toast.verificationEmailMessage":
+      "Check your inbox \u2014 the link expires in 24 hours.",
+    "charity.toast.submissionFailed": "Submission failed",
   },
 };

@@ -7,23 +7,31 @@
  * Trigger: Called by pg_cron at 02:00 UTC daily, or via HTTP POST with
  * the service-role key (for manual runs / testing).
  *
- * Erasure sequence (per GIV-58 spec):
- *   Step 1  — Collect audit data (blockchain refs from sbt_audit_log)
- *   Step 2  — Anonymize volunteer_applications PII fields
- *   Step 3  — Anonymize charity_profile authorized signer fields
- *   Step 4  — Anonymize charity_nominations.nominator_email
- *   Step 5  — Set volunteer_verifications.volunteer_id = NULL
- *   Step 5b — Anonymize fiat_donations PII fields; set donor_id = NULL
- *   Step 6  — Hard delete wallet_aliases
- *   Step 7  — Hard delete user_identities
- *   Step 8  — Hard delete user_preferences
- *   Step 9  — Hard delete profiles
- *   Step 10 — Delete auth.users via Supabase Admin API (cascades downstream tables)
- *   Step 11 — Write deletion_audit_log entry
+ * Erasure sequence (per GIV-58 spec, amended by GIV-314):
+ *   Step 1        — Collect audit data (blockchain refs from sbt_audit_log)
+ *   Step 2        — Anonymize volunteer_applications PII fields
+ *   Step 3        — Anonymize charity_profile authorized signer fields
+ *   Step 4        — Anonymize charity_nominations.nominator_email
+ *   Step 5        — Set volunteer_verifications.volunteer_id = NULL
+ *   Step 5b       — Anonymize fiat_donations PII fields; set donor_id = NULL
+ *   Step 5c-store — Delete custodian attestation objects from Storage (best-effort)
+ *   Step 5c       — Anonymize charity_wallets PII (wallet_address, custodian fields)
+ *   Step 6        — Hard delete wallet_aliases
+ *   Step 7        — Hard delete user_identities
+ *   Step 8        — Hard delete user_preferences
+ *   Step 9        — Hard delete profiles
+ *   Step 10       — Delete auth.users via Supabase Admin API (cascades downstream tables)
+ *   Step 11       — Write deletion_audit_log entry
  *
- * Steps 1–9 run inside a DB transaction via an RPC function.
+ * Steps 1–9 (including 5c) run inside a DB transaction via an RPC function.
+ * Step 5c-storage runs before the RPC so attestation URLs are still readable.
  * Step 10 is an external API call; on failure a compensating re-queue is attempted.
  * Step 11 is written regardless of step 10 outcome (with partial status on failure).
+ *
+ * Storage-limitation cleanup (per GIV-346/GIV-347, Art. 5(1)(e)):
+ *   — Delete expired passkey_challenges (expires_at older than 1 hour)
+ *   — Delete stale export_requests (expired/failed, requested_at older than 30 days)
+ * These run every cycle regardless of whether any user erasures are processed.
  */
 
 import { serve } from 'https://deno.land/std@0.168.0/http/server.ts';
@@ -67,6 +75,8 @@ const STEPS = {
   ANONYMIZE_CHARITY_NOMINATIONS: 'anonymize_charity_nominations',
   NULL_VOLUNTEER_VERIFICATIONS: 'null_volunteer_verifications',
   ANONYMIZE_FIAT_DONATIONS: 'anonymize_fiat_donations',
+  DELETE_CHARITY_ATTESTATION_STORAGE: 'delete_charity_attestation_storage',
+  ANONYMIZE_CHARITY_WALLETS: 'anonymize_charity_wallets',
   DELETE_WALLET_ALIASES: 'delete_wallet_aliases',
   DELETE_USER_IDENTITIES: 'delete_user_identities',
   DELETE_USER_PREFERENCES: 'delete_user_preferences',
@@ -74,6 +84,8 @@ const STEPS = {
   DELETE_AUTH_USER: 'delete_auth_user',
   WRITE_AUDIT_LOG: 'write_audit_log',
 } as const;
+
+const ATTESTATION_BUCKET = 'charity-attestations';
 
 // ---------------------------------------------------------------------------
 // Helper: SHA-256 hash of a string (no PII stored in audit log)
@@ -86,6 +98,108 @@ async function sha256Hex(input: string): Promise<string> {
   return Array.from(new Uint8Array(hashBuffer))
     .map((b) => b.toString(16).padStart(2, '0'))
     .join('');
+}
+
+// ---------------------------------------------------------------------------
+// Helper: extract storage path from a Supabase Storage URL
+// ---------------------------------------------------------------------------
+
+/**
+ * Extracts the object path from a Supabase Storage signed/public URL.
+ * Handles both public URLs (`/storage/v1/object/public/bucket/path`)
+ * and signed URLs (`/storage/v1/object/sign/bucket/path?token=...`).
+ * Falls back to using the full URL as a path if no pattern matches.
+ *
+ * @param url - The full Supabase Storage URL or relative path
+ * @param bucket - The storage bucket name to strip from the path
+ * @returns The object path within the bucket
+ */
+function extractStoragePath(url: string, bucket: string): string {
+  // Try to parse as a URL and extract the path after /object/(public|sign)/bucket/
+  try {
+    const parsed = new URL(url, 'https://placeholder.supabase.co');
+    const pathParts = parsed.pathname.split('/');
+    // Find the bucket name in the path and return everything after it
+    const bucketIdx = pathParts.indexOf(bucket);
+    if (bucketIdx !== -1 && bucketIdx < pathParts.length - 1) {
+      return pathParts.slice(bucketIdx + 1).join('/');
+    }
+  } catch {
+    // Not a valid URL; fall through
+  }
+
+  // Fallback: if the URL contains the bucket name, extract the path after it
+  const bucketPrefix = `${bucket}/`;
+  const prefixIdx = url.indexOf(bucketPrefix);
+  if (prefixIdx !== -1) {
+    const afterBucket = url.substring(prefixIdx + bucketPrefix.length);
+    // Strip any query string
+    const qIdx = afterBucket.indexOf('?');
+    return qIdx !== -1 ? afterBucket.substring(0, qIdx) : afterBucket;
+  }
+
+  // Last resort: use as-is (caller should handle failures gracefully)
+  return url;
+}
+
+// ---------------------------------------------------------------------------
+// Step 5c-storage: Delete custodian attestation objects from Storage
+// ---------------------------------------------------------------------------
+
+/**
+ * Deletes custody attestation files from Supabase Storage for the given user.
+ * Runs BEFORE the SQL anonymization step so the URLs are still available.
+ * Failures are logged but do not abort the erasure — storage cleanup is
+ * best-effort; SQL anonymization is the legal guarantee.
+ *
+ * @param userId - The user ID whose charities' attestation files to delete
+ * @param supabase - Supabase client with service_role privileges
+ * @returns List of step names completed
+ */
+async function deleteCharityAttestationStorage(
+  userId: string,
+  supabase: SupabaseClient,
+): Promise<string[]> {
+  // Find charity_profile IDs owned by this user
+  const { data: charityProfiles } = await supabase
+    .from('charity_profiles')
+    .select('id')
+    .eq('claimed_by', userId);
+
+  const charityProfileIds = (charityProfiles ?? []).map((p) => p.id);
+
+  if (charityProfileIds.length === 0) {
+    return [STEPS.DELETE_CHARITY_ATTESTATION_STORAGE];
+  }
+
+  // Find wallets with attestation documents
+  const { data: wallets } = await supabase
+    .from('charity_wallets')
+    .select('custodian_attestation_doc_url, charity_profile_id')
+    .not('custodian_attestation_doc_url', 'is', null)
+    .in('charity_profile_id', charityProfileIds);
+
+  for (const wallet of wallets ?? []) {
+    if (!wallet.custodian_attestation_doc_url) continue;
+    try {
+      const path = extractStoragePath(wallet.custodian_attestation_doc_url, ATTESTATION_BUCKET);
+      const { error } = await supabase.storage.from(ATTESTATION_BUCKET).remove([path]);
+      if (error) {
+        console.error(
+          `[gdpr-erasure-cron] Failed to delete attestation object ` +
+          `(charity_profile=${wallet.charity_profile_id}, path=${path}): ${error.message}`,
+        );
+      }
+    } catch (err) {
+      const msg = err instanceof Error ? err.message : String(err);
+      console.error(
+        `[gdpr-erasure-cron] Error deleting attestation object for ` +
+        `charity_profile=${wallet.charity_profile_id}: ${msg}`,
+      );
+    }
+  }
+
+  return [STEPS.DELETE_CHARITY_ATTESTATION_STORAGE];
 }
 
 // ---------------------------------------------------------------------------
@@ -186,6 +300,7 @@ async function executeTransactionalErasure(
     STEPS.ANONYMIZE_CHARITY_NOMINATIONS,
     STEPS.NULL_VOLUNTEER_VERIFICATIONS,
     STEPS.ANONYMIZE_FIAT_DONATIONS,
+    STEPS.ANONYMIZE_CHARITY_WALLETS,
     STEPS.DELETE_WALLET_ALIASES,
     STEPS.DELETE_USER_IDENTITIES,
     STEPS.DELETE_USER_PREFERENCES,
@@ -285,7 +400,11 @@ async function eraseUser(
     blockchainRefs = refs;
     allStepsCompleted.push(...step1Steps);
 
-    // Steps 2–9: Transactional PII erasure
+    // Step 5c-storage: Delete custodian attestation objects (before SQL anonymization)
+    const storageSteps = await deleteCharityAttestationStorage(target.userId, supabase);
+    allStepsCompleted.push(...storageSteps);
+
+    // Steps 2–9 (including 5c SQL): Transactional PII erasure
     const transactionalSteps = await executeTransactionalErasure(target.userId, target.email, supabase);
     allStepsCompleted.push(...transactionalSteps);
 
@@ -449,13 +568,6 @@ serve(async (req: Request) => {
     const targets = await findErasureTargets(supabase);
     console.log(`[gdpr-erasure-cron] Found ${targets.length} account(s) due for erasure`);
 
-    if (targets.length === 0) {
-      return new Response(JSON.stringify({ processed: 0, results: [], runStart }), {
-        status: 200,
-        headers: { 'Content-Type': 'application/json' },
-      });
-    }
-
     const results: ErasureResult[] = [];
     for (const target of targets) {
       console.log(`[gdpr-erasure-cron] Processing erasure for user ${target.userId}`);
@@ -470,13 +582,57 @@ serve(async (req: Request) => {
     const successCount = results.filter((r) => r.success).length;
     const failCount = results.length - successCount;
 
-    console.log(`[gdpr-erasure-cron] Run complete. Success: ${successCount}, Failed: ${failCount}`);
+    if (results.length > 0) {
+      console.log(`[gdpr-erasure-cron] Erasure complete. Success: ${successCount}, Failed: ${failCount}`);
+    }
+
+    // -----------------------------------------------------------------
+    // Storage-limitation cleanup — Art. 5(1)(e)
+    // Runs every cycle regardless of whether any user erasures ran.
+    // -----------------------------------------------------------------
+
+    // 1. Delete expired passkey_challenges (older than 1 hour past expiry)
+    const challengeThreshold = new Date(Date.now() - 60 * 60 * 1000).toISOString();
+    const { data: deletedChallenges, error: challengesError } = await supabase
+      .from('passkey_challenges')
+      .delete()
+      .lt('expires_at', challengeThreshold)
+      .select('id');
+
+    const expiredPasskeyChallenges = challengesError ? 0 : (deletedChallenges?.length ?? 0);
+    if (challengesError) {
+      console.error(`[gdpr-erasure-cron] passkey_challenges cleanup failed: ${challengesError.message}`);
+    } else {
+      console.log(`[gdpr-erasure-cron] Cleaned up ${expiredPasskeyChallenges} expired passkey_challenges`);
+    }
+
+    // 2. Delete stale export_requests (expired/failed, older than 30 days)
+    const exportThreshold = new Date(Date.now() - 30 * 24 * 60 * 60 * 1000).toISOString();
+    const { data: deletedExports, error: exportsError } = await supabase
+      .from('export_requests')
+      .delete()
+      .in('status', ['expired', 'failed'])
+      .lt('requested_at', exportThreshold)
+      .select('id');
+
+    const staleExportRequests = exportsError ? 0 : (deletedExports?.length ?? 0);
+    if (exportsError) {
+      console.error(`[gdpr-erasure-cron] export_requests cleanup failed: ${exportsError.message}`);
+    } else {
+      console.log(`[gdpr-erasure-cron] Cleaned up ${staleExportRequests} stale export_requests`);
+    }
+
+    console.log(`[gdpr-erasure-cron] Run complete`);
 
     return new Response(
       JSON.stringify({
         processed: results.length,
         succeeded: successCount,
         failed: failCount,
+        cleanup: {
+          expiredPasskeyChallenges,
+          staleExportRequests,
+        },
         runStart,
         results: results.map((r) => ({
           userId: r.userId,

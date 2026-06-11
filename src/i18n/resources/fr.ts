@@ -506,8 +506,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Essayez de sélectionner un type de chaîne différent.",
     "modal.connect.viewOtherWallets": "Voir les autres portefeuilles supportés",
-    "modal.connect.termsAgreement": "En vous connectant, vous acceptez les",
+    "modal.connect.termsAgreement": "En vous connectant, vous acceptez nos",
     "modal.connect.termsLink": "Conditions de Service",
+    "modal.connect.termsPrivacyConnector": "et",
+    "modal.connect.privacyLink": "Politique de Confidentialité",
     "modal.connect.chainTypeAria": "Type de chaîne",
     "modal.connect.failedConnect": "Échec de connexion",
 
@@ -808,8 +810,10 @@ export default {
     "admin.charity.allStatuses": "Tous les statuts",
     "admin.charity.searchPlaceholder": "Rechercher par nom\u2026",
     "admin.charity.colName": "Nom",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Catégorie",
     "admin.charity.colStatus": "Statut",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Inscription",
     "admin.charity.colWallet": "Portefeuille",
     "admin.charity.colActions": "Actions",
@@ -1055,6 +1059,23 @@ export default {
     "auth.forgot.sending": "Envoi en cours...",
     "auth.forgot.sendResetLink": "Envoyer le Lien de Réinitialisation",
     "auth.forgot.sendUsername": "Envoyer le Nom d'Utilisateur",
+
+    // Reset password (set new password page) — pending translation (GIV-367)
+    "auth.resetPassword.title": "Set New Password",
+    "auth.resetPassword.subtitle": "Choose a strong password for your account.",
+    "auth.resetPassword.newPassword": "New Password",
+    "auth.resetPassword.confirmPassword": "Confirm New Password",
+    "auth.resetPassword.submit": "Update Password",
+    "auth.resetPassword.updating": "Updating\u2026",
+    "auth.resetPassword.mismatch": "Passwords do not match.",
+    "auth.resetPassword.success": "Password updated successfully!",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
+    "auth.resetPassword.backToSignIn": "Back to Sign In",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
+    "auth.resetPassword.requestNew": "Request a new reset link",
+    "auth.resetPassword.validating": "Validating reset link\u2026",
     "auth.orgSearch.orgNameLabel": "Nom de l'Organisation",
     "auth.orgSearch.searchPlaceholder": "Rechercher par nom d'organisation...",
     "auth.orgSearch.countryLabel": "Pays",
@@ -1089,6 +1110,12 @@ export default {
       "Les mots de passe ne correspondent pas",
     "charity.claim.validation.fix":
       "Veuillez corriger les erreurs de validation",
+    "charity.claim.useAsPublicEmail":
+      "Utiliser mon e-mail comme e-mail de contact public de l'organisation",
+    "charity.claim.publicContactEmail":
+      "E-mail de contact public de l'organisation",
+    "charity.claim.privacyNotice":
+      "Votre e-mail/téléphone personnel de signataire est utilisé uniquement pour la vérification et n'est pas visible par les autres utilisateurs de la plateforme. L'e-mail de contact public est affiché sur le profil de votre organisation.",
     "charity.claim.error.creation": "La création du compte a échoué",
     "charity.claim.error.generic": "Impossible de créer le compte",
     "charity.vetting.orgDetails": "Détails de l'Organisation",
@@ -1140,6 +1167,26 @@ export default {
     "footer.legal.title": "Mentions Légales",
     "footer.legal.terms": "Conditions d'Utilisation",
     "footer.legal.privacy": "Politique de Confidentialité",
+    "footer.legal.cookiePreferences": "Cookie preferences",
+    "consent.banner.ariaLabel": "Cookie consent",
+    "consent.banner.body":
+      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
+    "consent.banner.privacyLink": "Privacy policy",
+    "consent.banner.acceptAll": "Accept all",
+    "consent.banner.decline": "Decline non-essential",
+    "consent.banner.customize": "Customize",
+    "consent.modal.title": "Cookie preferences",
+    "consent.modal.essentialTitle": "Essential",
+    "consent.modal.essentialDesc":
+      "Required for core site features such as navigation and authentication. Cannot be disabled.",
+    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
+    "consent.modal.analyticsTitle": "Analytics & error replay",
+    "consent.modal.analyticsDesc":
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
+    "consent.modal.analyticsOn": "Analytics & error replay — on",
+    "consent.modal.analyticsOff": "Analytics & error replay — off",
+    "consent.modal.cancel": "Cancel",
+    "consent.modal.save": "Save preferences",
     "footer.connect.title": "Contact",
     "footer.copyright": "Give Protocol. Tous droits réservés.",
     "nav.signIn": "Connexion",
@@ -1317,5 +1364,25 @@ export default {
     "settings.theme": "Thème",
     "settings.light": "Clair",
     "settings.dark": "Sombre",
+    "auth.toast.welcomeBack": "Welcome back, {{firstName}}",
+    "auth.toast.youreSignedIn": "You're signed in.",
+    "auth.toast.walletConnected": "Wallet connected",
+    "auth.toast.signedInWith": "Signed in with {{address}}.",
+    "auth.toast.signedOut": "Signed out",
+    "auth.toast.signInFailed": "Sign-in failed",
+    "auth.toast.signOutFailed": "Sign-out failed",
+    "donation.toast.received": "Donation received",
+    "donation.toast.receivedMessage":
+      "Thank you — your tax receipt is on the way.",
+    "donation.toast.submitted": "Transaction submitted",
+    "donation.toast.submittedMessage": "Waiting for on-chain confirmation…",
+    "donation.toast.confirmed": "Donation confirmed",
+    "donation.toast.confirmedMessage":
+      "Your contribution is recorded on-chain.",
+    "donation.toast.failed": "Donation failed",
+    "charity.toast.verificationEmailSent": "Verification email sent",
+    "charity.toast.verificationEmailMessage":
+      "Check your inbox — the link expires in 24 hours.",
+    "charity.toast.submissionFailed": "Submission failed",
   },
 };

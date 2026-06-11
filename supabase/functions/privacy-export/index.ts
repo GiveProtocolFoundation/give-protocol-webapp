@@ -44,6 +44,14 @@ async function assembleExportPackage(
   const now = new Date().toISOString();
 
   // Fetch all user data in parallel
+  // First, fetch charity profile IDs to query charity_wallets
+  const { data: charityProfiles } = await supabase
+    .from('charity_profiles')
+    .select('id, ein, name, authorized_signer_name, authorized_signer_email, authorized_signer_phone, status, claimed_by')
+    .eq('claimed_by', userId);
+
+  const charityProfileIds = (charityProfiles ?? []).map((p) => p.id);
+
   const [
     authUserResult,
     profileResult,
@@ -55,6 +63,8 @@ async function assembleExportPackage(
     selfReportedResult,
     volunteerVerifResult,
     fiatDonationsResult,
+    charityWalletsResult,
+    passkeysResult,
   ] = await Promise.all([
     supabase.auth.admin.getUserById(userId),
     supabase.from('profiles').select('*').eq('user_id', userId).single(),
@@ -74,8 +84,22 @@ async function assembleExportPackage(
       'verified_at, blockchain_tx_hash, nft_token_id, verification_hash'
     ).eq('volunteer_id', userId),
     supabase.from('fiat_donations').select(
-      'charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
+      'donor_name, donor_email, charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
     ).eq('donor_id', userId),
+    charityProfileIds.length > 0
+      ? supabase
+          .from('charity_wallets')
+          .select(
+            'wallet_address, wallet_type, chain_id, is_primary, signer_count, signer_threshold, ' +
+            'custodian_name, custodian_attestation_doc_url, proof_of_control_verified_at, ' +
+            'risk_acknowledgment_at, created_at'
+          )
+          .in('charity_profile_id', charityProfileIds)
+      : Promise.resolve({ data: [], error: null }),
+    supabase
+      .from('user_passkeys')
+      .select('device_name, transports, created_at, last_used_at')
+      .eq('user_id', userId),
   ]);
 
   const authUser = authUserResult.data?.user;
@@ -138,6 +162,8 @@ async function assembleExportPackage(
       nft_token_id: v.nft_token_id,
     })),
     fiat_donations: (fiatDonationsResult.data ?? []).map((d) => ({
+      donor_name: d.donor_name,
+      donor_email: d.donor_email,
       charity_id: d.charity_id,
       amount_cents: d.amount_cents,
       currency: d.currency,
@@ -147,6 +173,32 @@ async function assembleExportPackage(
       cause_name: d.cause_name,
       fund_name: d.fund_name,
       created_at: d.created_at,
+    })),
+    charity_representative: (charityProfiles ?? []).map((p) => ({
+      charity_ein: p.ein,
+      charity_name: p.name,
+      authorized_signer_name: p.authorized_signer_name ?? null,
+      authorized_signer_email: p.authorized_signer_email ?? null,
+      authorized_signer_phone: p.authorized_signer_phone ?? null,
+      status: p.status,
+    })),
+    charity_wallets: (charityWalletsResult.data ?? []).map((w) => ({
+      wallet_address: w.wallet_address,
+      wallet_type: w.wallet_type,
+      chain_id: w.chain_id,
+      is_primary: w.is_primary,
+      signer_count: w.signer_count ?? null,
+      signer_threshold: w.signer_threshold ?? null,
+      custodian_name: w.custodian_name ?? null,
+      proof_of_control_verified_at: w.proof_of_control_verified_at ?? null,
+      risk_acknowledgment_at: w.risk_acknowledgment_at ?? null,
+      created_at: w.created_at,
+    })),
+    passkeys: (passkeysResult.data ?? []).map((p) => ({
+      device_name: p.device_name,
+      transports: p.transports,
+      created_at: p.created_at,
+      last_used_at: p.last_used_at,
     })),
   };
 }

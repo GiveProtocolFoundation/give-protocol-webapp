@@ -7,10 +7,11 @@ import { Logger } from "@/utils/logger";
 import { OrganizationProfileForm } from "./OrganizationProfileForm";
 import { LogoBannerUploadCard } from "@/components/charity/LogoBannerUploadCard";
 import { DesignatedWalletCard } from "@/components/charity/DesignatedWalletCard";
+import { ReceivingWalletSetup } from "@/components/charity/ReceivingWalletSetup";
 import {
   fetchCharityProfileAssets,
   fetchCharityProfileAssetsByEin,
-  fetchCharityProfileBySignerEmail,
+  claimCharityProfileBySignerEmail,
   fetchCharityProfileByName,
   repairClaimedBy,
 } from "@/services/charityProfileService";
@@ -114,14 +115,11 @@ export const OrganizationProfileTab: React.FC<OrganizationProfileTabProps> = ({
         }
       }
 
-      // Fallback 2: look up by authorized_signer_email matching user email
+      // Fallback 2: claim via server-side email match (SECURITY DEFINER RPC
+      // reads auth.email() — no client-supplied parameter, closing spoof bypass)
       if (user.email) {
-        const emailAssets = await fetchCharityProfileBySignerEmail(user.email);
+        const emailAssets = await claimCharityProfileBySignerEmail();
         if (emailAssets) {
-          // Self-repair: link this user to the charity_profiles row
-          if (!emailAssets.claimedByUserId) {
-            await repairClaimedBy(emailAssets.ein, user.id, user.email);
-          }
           setCharityProfile({
             ...emailAssets,
             claimedByUserId: emailAssets.claimedByUserId ?? user.id,
@@ -317,6 +315,12 @@ export const OrganizationProfileTab: React.FC<OrganizationProfileTabProps> = ({
             charityProfileId={charityProfile.id}
             charityName={charityProfile.name}
           />
+        </div>
+      )}
+
+      {charityProfile !== null && (
+        <div className="mb-6">
+          <ReceivingWalletSetup charityProfileId={charityProfile.id} />
         </div>
       )}
 

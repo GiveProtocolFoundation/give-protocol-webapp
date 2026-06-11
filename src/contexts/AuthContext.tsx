@@ -6,7 +6,7 @@ import React, {
   useCallback,
   startTransition,
 } from "react";
-import { User, AuthError as _AuthError } from "@supabase/supabase-js";
+import { User, Session, AuthError as _AuthError } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "./ToastContext";
 import { Logger } from "@/utils/logger";
@@ -74,18 +74,17 @@ function resolveUserType(user: User | null | undefined): Promise<UserType> {
 }
 
 /**
- * Updates Sentry user context based on session
+ * Updates Sentry user context based on session.
+ * Phase A: sets opaque user ID only (no email/PII).
+ * Phase B (analytics consented): also pushes email + userType.
  */
 function updateSentryUserContext(
   user: User | null | undefined,
-  userType: UserType,
+  _userType: UserType,
 ): void {
   if (user) {
-    setSentryUser({
-      id: user.id,
-      email: user.email,
-      userType: userType || undefined,
-    });
+    // Opaque ID only — consent copy promises no email/PII is shared (GIV-397)
+    setSentryUser({ id: user.id });
   } else {
     clearSentryUser();
   }
@@ -165,16 +164,51 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     /** Displays a toast and starts/stops session refresh based on the auth event */
     const handleAuthEvent = (
       event: string,
+      session: Session | null,
       startRefresh: () => void,
       stopRefresh: () => void,
     ) => {
       switch (event) {
-        case "SIGNED_IN":
-          showToast("success", "Signed in successfully");
+        case "SIGNED_IN": {
+          const user = session?.user;
+          const walletAddress = user?.user_metadata?.wallet_address as
+            | string
+            | undefined;
+          const authMethod = user?.user_metadata?.auth_method as
+            | string
+            | undefined;
+          if (authMethod === "wallet" || walletAddress) {
+            const addr = walletAddress ?? "";
+            const truncated =
+              addr.length > 10
+                ? `${addr.slice(0, 6)}\u2026${addr.slice(-4)}`
+                : addr;
+            showToast({
+              type: "success",
+              title: "Wallet connected",
+              message: `Signed in with ${truncated}.`,
+            });
+          } else {
+            const fullName = user?.user_metadata?.full_name as
+              | string
+              | undefined;
+            const firstName =
+              fullName?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
+            showToast({
+              type: "success",
+              title: `Welcome back, ${firstName}`,
+              message: "You\u2019re signed in.",
+            });
+          }
           startRefresh();
           break;
+        }
         case "SIGNED_OUT":
-          showToast("success", "Signed out successfully");
+          showToast({
+            type: "info",
+            title: "Signed out",
+            duration: 3000,
+          });
           stopRefresh();
           break;
         case "USER_UPDATED":
@@ -240,7 +274,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           const userType = await resolveUserType(session?.user);
 
-          handleAuthEvent(event, startRefreshInterval, stopRefreshInterval);
+          handleAuthEvent(
+            event,
+            session,
+            startRefreshInterval,
+            stopRefreshInterval,
+          );
 
           startTransition(() => {
             setState((prev) => ({
@@ -369,7 +408,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to sign in";
-        showToast("error", "Authentication Error", message);
+        showToast({
+          type: "error",
+          title: "Sign-in failed",
+          message,
+        });
         setState((prev) => ({
           ...prev,
           error: err instanceof Error ? err : new Error(message),
@@ -407,7 +450,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to sign in with Google";
-      showToast("error", "Authentication Error", message);
+      showToast({
+        type: "error",
+        title: "Sign-in failed",
+        message,
+      });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -440,7 +487,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to sign in with Apple";
-      showToast("error", "Authentication Error", message);
+      showToast({
+        type: "error",
+        title: "Sign-in failed",
+        message,
+      });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -474,10 +525,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Redirect to login page so user must re-authenticate
       window.location.href = `${window.location.origin}/login`;
 
-      showToast("success", "Logged out successfully");
+      // SIGNED_OUT auth event fires the sign-out toast via handleAuthEvent
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to log out";
-      showToast("error", "Logout Error", message);
+      showToast({ type: "error", title: "Sign-out failed", message });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -492,7 +543,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         setState((prev) => ({ ...prev, loading: true, error: null }));
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/reset-password`,
+          redirectTo: `${window.location.origin}/auth/reset-password`,
         });
 
         if (error) {

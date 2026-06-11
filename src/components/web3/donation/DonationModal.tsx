@@ -39,11 +39,14 @@ import type {
   DonationModalAction,
   HelcimPaymentResult,
 } from "./types/donation";
+import type { CharityWallet } from "@/types/charityWallet";
+import { WalletTypeBadge } from "@/components/charity/WalletTypeBadge";
 import { calculateFeeOffset } from "./types/donation";
 import { getERC20TokensForChain, type TokenConfig } from "@/config/tokens";
 import { getContractAddress, CHAIN_IDS } from "@/config/contracts";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useAuth } from "@/contexts/AuthContext";
+import { useToast } from "@/contexts/ToastContext";
 import {
   type FiatCurrencyConfig,
   getFiatCurrencyByCode,
@@ -105,10 +108,12 @@ function SuccessContent({
   result,
   charityName,
   onClose,
+  primaryWallet,
 }: {
   result: DonationResult;
   charityName: string;
   onClose: () => void;
+  primaryWallet?: CharityWallet | null;
 }): React.ReactElement {
   const { t } = useTranslation();
   return (
@@ -130,6 +135,16 @@ function SuccessContent({
               charityName,
             })}
       </p>
+      {primaryWallet && primaryWallet.wallet_type !== "eoa" && (
+        <div className="flex justify-center mb-4">
+          <WalletTypeBadge
+            walletType={primaryWallet.wallet_type}
+            signerThreshold={primaryWallet.signer_threshold}
+            signerCount={primaryWallet.signer_count}
+            custodianName={primaryWallet.custodian_name}
+          />
+        </div>
+      )}
       {result.isRecurring && (
         <p className="text-sm text-emerald-600 dark:text-emerald-400 mb-4">
           {t("modal.donation.recurringNote")}
@@ -225,6 +240,8 @@ interface DonationModalProps {
   onClose: () => void;
   /** Optional callback after successful donation */
   onSuccess?: (_result: DonationResult) => void;
+  /** Optional primary wallet record for displaying wallet-type badge */
+  primaryWallet?: CharityWallet | null;
 }
 
 /** Creates the initial reducer state for the donation modal based on the selected frequency. */
@@ -302,6 +319,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   frequency,
   onClose,
   onSuccess,
+  primaryWallet,
 }) => {
   const { t } = useTranslation();
   const [isMounted, setIsMounted] = useState(false);
@@ -311,6 +329,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
 
   const { chainId, isConnected: _isConnected, address } = useWeb3();
   const { user } = useAuth();
+  const { showToast } = useToast();
   const [state, dispatch] = useReducer(
     donationReducer,
     frequency,
@@ -410,6 +429,14 @@ export const DonationModal: React.FC<DonationModalProps> = ({
         timestamp: new Date(),
       };
       dispatch({ type: "SET_SUCCESS", payload: result });
+      showToast({
+        type: "success",
+        title: t("donation.toast.received", "Donation received"),
+        message: t(
+          "donation.toast.receivedMessage",
+          "Thank you \u2014 your tax receipt is on the way.",
+        ),
+      });
       onSuccess?.(result);
     },
     [
@@ -418,12 +445,22 @@ export const DonationModal: React.FC<DonationModalProps> = ({
       state.fiatCurrencyCode,
       state.frequency,
       onSuccess,
+      showToast,
+      t,
     ],
   );
 
-  const handleFiatError = useCallback((error: Error) => {
-    dispatch({ type: "SET_ERROR", payload: error.message });
-  }, []);
+  const handleFiatError = useCallback(
+    (error: Error) => {
+      dispatch({ type: "SET_ERROR", payload: error.message });
+      showToast({
+        type: "error",
+        title: t("donation.toast.failed", "Donation failed"),
+        message: error.message,
+      });
+    },
+    [showToast, t],
+  );
 
   const handleReset = useCallback(() => {
     dispatch({ type: "RESET" });
@@ -468,6 +505,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
           result={state.result}
           charityName={charityName}
           onClose={onClose}
+          primaryWallet={primaryWallet}
         />
       </ModalShell>
     );
@@ -495,7 +533,17 @@ export const DonationModal: React.FC<DonationModalProps> = ({
           <h2 className="flex items-center gap-3 mb-2 text-2xl font-semibold text-gray-900 dark:text-white">
             {modalTitle}
           </h2>
-          {FrequencyBadge}
+          <div className="flex flex-wrap items-center gap-2">
+            {FrequencyBadge}
+            {primaryWallet && primaryWallet.wallet_type !== "eoa" && (
+              <WalletTypeBadge
+                walletType={primaryWallet.wallet_type}
+                signerThreshold={primaryWallet.signer_threshold}
+                signerCount={primaryWallet.signer_count}
+                custodianName={primaryWallet.custodian_name}
+              />
+            )}
+          </div>
         </div>
 
         {/* Frequency Toggle (one-time vs monthly) */}

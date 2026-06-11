@@ -1,0 +1,148 @@
+#!/usr/bin/env bash
+#
+# bin/rollback — One-command rollback for Give Protocol webapp
+#
+# Triggers the rollback.yml GitHub Actions workflow to redeploy
+# a specific commit SHA through the standard build pipeline.
+#
+# IRP-001 §7.1 — "roll back the deployed bundle to the last-known-good commit"
+#
+# Prerequisites:
+#   - GitHub CLI (gh) installed and authenticated
+#   - Repository write access (IC or Engineering Lead)
+#   - VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID set as repo secrets
+#
+# Usage:
+#   bin/rollback <commit-sha> [environment] [reason]
+#
+# Examples:
+#   bin/rollback abc1234def5678
+#   bin/rollback abc1234def5678 production "Class A — payment-page tampering"
+#   bin/rollback abc1234def5678 staging "Pre-drill validation"
+#
+# Alternative (direct gh CLI):
+#   gh workflow run rollback.yml \
+#     -f commit_sha=abc1234 \
+#     -f environment=production \
+#     -f reason="IRP activation"
+
+set -euo pipefail
+
+REPO="GiveProtocolFoundation/give-protocol-webapp"
+WORKFLOW="rollback.yml"
+
+# --- Argument parsing ---
+
+COMMIT_SHA="${1:-}"
+ENVIRONMENT="${2:-staging}"
+REASON="${3:-Manual rollback via bin/rollback}"
+
+if [ -z "$COMMIT_SHA" ]; then
+  echo "Usage: bin/rollback <commit-sha> [environment] [reason]"
+  echo ""
+  echo "Arguments:"
+  echo "  commit-sha    Full or short commit SHA to roll back to (required)"
+  echo "  environment   'production' or 'staging' (default: staging)"
+  echo "  reason        Reason for rollback (default: 'Manual rollback via bin/rollback')"
+  echo ""
+  echo "Examples:"
+  echo "  bin/rollback abc1234"
+  echo "  bin/rollback abc1234 production 'Class A incident'"
+  exit 1
+fi
+
+# --- Validate environment ---
+
+if [ "$ENVIRONMENT" != "production" ] && [ "$ENVIRONMENT" != "staging" ]; then
+  echo "Error: environment must be 'production' or 'staging', got '$ENVIRONMENT'"
+  exit 1
+fi
+
+# --- Check prerequisites ---
+
+if ! command -v gh &>/dev/null; then
+  echo "Error: GitHub CLI (gh) is not installed."
+  echo "Install: https://cli.github.com/"
+  exit 1
+fi
+
+if ! gh auth status &>/dev/null; then
+  echo "Error: GitHub CLI is not authenticated."
+  echo "Run: gh auth login"
+  exit 1
+fi
+
+# --- Validate commit exists ---
+
+echo "Validating commit $COMMIT_SHA exists in $REPO..."
+
+if ! gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.sha' &>/dev/null; then
+  echo "Error: Commit $COMMIT_SHA not found in $REPO"
+  echo ""
+  echo "Recent commits on main:"
+  gh api "repos/$REPO/commits?per_page=5" --jq '.[] | "  " + .sha[:12] + " " + (.commit.message | split("\n")[0])'
+  exit 1
+fi
+
+FULL_SHA=$(gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.sha')
+COMMIT_MSG=$(gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.commit.message | split("\n")[0]')
+COMMIT_DATE=$(gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.commit.committer.date')
+
+# --- Confirm ---
+
+echo ""
+echo "=== Rollback Summary ==="
+echo "  Commit:      $FULL_SHA"
+echo "  Message:     $COMMIT_MSG"
+echo "  Date:        $COMMIT_DATE"
+echo "  Environment: $ENVIRONMENT"
+echo "  Reason:      $REASON"
+echo "  Triggered by: $(gh api user --jq '.login' 2>/dev/null || echo 'unknown')"
+echo "========================"
+echo ""
+
+if [ "$ENVIRONMENT" = "production" ]; then
+  echo "WARNING: You are about to rollback PRODUCTION."
+  read -rp "Type 'yes' to confirm: " CONFIRM
+  if [ "$CONFIRM" != "yes" ]; then
+    echo "Aborted."
+    exit 1
+  fi
+fi
+
+# --- Trigger workflow ---
+
+echo "Triggering rollback workflow..."
+
+gh workflow run "$WORKFLOW" \
+  --repo "$REPO" \
+  -f "commit_sha=$FULL_SHA" \
+  -f "environment=$ENVIRONMENT" \
+  -f "reason=$REASON"
+
+echo "Workflow triggered. Waiting for run to start..."
+sleep 5
+
+# --- Show run status ---
+
+RUN_ID=$(gh run list \
+  --repo "$REPO" \
+  --workflow "$WORKFLOW" \
+  --limit 1 \
+  --json databaseId \
+  --jq '.[0].databaseId')
+
+if [ -n "$RUN_ID" ]; then
+  echo ""
+  echo "Run started: https://github.com/$REPO/actions/runs/$RUN_ID"
+  echo ""
+  echo "Watch progress:"
+  echo "  gh run watch $RUN_ID --repo $REPO"
+  echo ""
+  echo "View logs:"
+  echo "  gh run view $RUN_ID --repo $REPO --log"
+else
+  echo ""
+  echo "Run may still be queuing. Check:"
+  echo "  gh run list --repo $REPO --workflow $WORKFLOW --limit 3"
+fi

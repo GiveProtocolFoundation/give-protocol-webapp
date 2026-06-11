@@ -1,10 +1,46 @@
-import React, { createContext, useContext, useState, useCallback } from "react";
-import { Toast, ToastType } from "../components/ui/Toast";
+import React, {
+  createContext,
+  useContext,
+  useState,
+  useCallback,
+  useRef,
+} from "react";
+import type { ToastType } from "../components/ui/Toast";
+import { ToastContainer } from "../components/ui/ToastContainer";
 import { SecureRandom } from "@/utils/security/index";
 
-interface ToastContextType {
-  showToast: (_type: ToastType, _title: string, _message?: string) => void;
+/** Internal toast state. */
+export interface ToastItem {
+  id: string;
+  type: ToastType;
+  title: string;
+  message?: string;
+  duration: number;
+  persistent: boolean;
 }
+
+/** Options-object signature for showToast. */
+export interface ToastOptions {
+  type: ToastType;
+  title: string;
+  message?: string;
+  duration?: number;
+  persistent?: boolean;
+}
+
+/** Overloaded showToast: options-object OR legacy positional args. Returns the toast id. */
+export type ShowToastFn = {
+  (options: ToastOptions): string;
+  (type: ToastType, title: string, message?: string): string;
+};
+
+interface ToastContextType {
+  showToast: ShowToastFn;
+  dismissToast: (id: string) => void;
+}
+
+const MAX_VISIBLE = 3;
+const DEFAULT_DURATION = 4000;
 
 /** React context for displaying toast notifications. */
 // eslint-disable-next-line react-refresh/only-export-components
@@ -16,63 +52,99 @@ export const ToastContext = createContext<ToastContextType | null>(null);
  * @returns JSX element with toast context provider and toast display
  */
 export function ToastProvider({ children }: { children: React.ReactNode }) {
-  const [toasts, setToasts] = useState<
-    Array<{
-      id: string;
-      type: ToastType;
-      title: string;
-      message?: string;
-    }>
-  >([]);
-
-  const showToast = useCallback(
-    (type: ToastType, title: string, message?: string) => {
-      const id = SecureRandom.generateSecureId();
-      setToasts((prev) => [...prev, { id, type, title, message }]);
-
-      if (type !== "loading") {
-        setTimeout(() => {
-          setToasts((prev) => prev.filter((t) => t.id !== id));
-        }, 5000);
-      }
-    },
-    [],
+  const [toasts, setToasts] = useState<ToastItem[]>([]);
+  const timersRef = useRef<Map<string, ReturnType<typeof setTimeout>>>(
+    new Map(),
   );
 
   const removeToast = useCallback((id: string) => {
+    const timer = timersRef.current.get(id);
+    if (timer !== undefined) {
+      clearTimeout(timer);
+      timersRef.current.delete(id);
+    }
     setToasts((prev) => prev.filter((t) => t.id !== id));
   }, []);
 
-  const createRemoveHandler = useCallback(
-    (id: string) => {
-      return () => removeToast(id);
-    },
-    [removeToast],
-  );
+  const showToast = useCallback(
+    (...args: [ToastOptions] | [ToastType, string, string?]) => {
+      let type: ToastType;
+      let title: string;
+      let message: string | undefined;
+      let duration: number;
+      let persistent: boolean;
 
-  const contextValue = React.useMemo(() => ({ showToast }), [showToast]);
+      if (
+        typeof args[0] === "object" &&
+        args[0] !== null &&
+        "type" in args[0]
+      ) {
+        const opts = args[0];
+        type = opts.type;
+        title = opts.title;
+        message = opts.message;
+        duration = opts.duration ?? DEFAULT_DURATION;
+        persistent = opts.persistent ?? false;
+      } else {
+        type = args[0] as ToastType;
+        title = args[1] as string;
+        message = args[2];
+        duration = DEFAULT_DURATION;
+        persistent = false;
+      }
+
+      if (type === "loading") {
+        persistent = true;
+      }
+
+      const id = SecureRandom.generateSecureId();
+      const toast: ToastItem = {
+        id,
+        type,
+        title,
+        message,
+        duration,
+        persistent,
+      };
+
+      setToasts((prev) => {
+        const next = [...prev, toast];
+        return next;
+      });
+
+      if (!persistent) {
+        const timer = setTimeout(() => {
+          timersRef.current.delete(id);
+          setToasts((prev) => prev.filter((t) => t.id !== id));
+        }, duration);
+        timersRef.current.set(id, timer);
+      }
+
+      return id;
+    },
+    [],
+  ) as ShowToastFn;
+
+  const contextValue = React.useMemo(
+    () => ({ showToast, dismissToast: removeToast }),
+    [showToast, removeToast],
+  );
 
   return (
     <ToastContext.Provider value={contextValue}>
       {children}
-      <div className="fixed top-20 right-4 space-y-4 z-50 pointer-events-none">
-        {toasts.map((toast) => (
-          <Toast
-            key={toast.id}
-            type={toast.type}
-            title={toast.title}
-            message={toast.message}
-            onClose={createRemoveHandler(toast.id)}
-          />
-        ))}
-      </div>
+      <ToastContainer
+        toasts={toasts}
+        maxVisible={MAX_VISIBLE}
+        onDismiss={removeToast}
+      />
     </ToastContext.Provider>
   );
 }
 
 /**
  * Hook to access toast notification functionality
- * @returns Object containing showToast function for displaying toast notifications
+ * @returns Object containing showToast (returns toast id) and dismissToast(id) for programmatic dismissal
  * @throws {Error} When used outside of ToastProvider
  */
 // eslint-disable-next-line react-refresh/only-export-components

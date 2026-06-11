@@ -3,12 +3,14 @@ import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { CharityClaimForm } from "../../auth/CharityClaimForm";
 import { supabase } from "@/lib/supabase";
+import { useToast } from "@/contexts/ToastContext";
 import type { CharityOrganization } from "@/types/charityOrganization";
 
 // All mocks handled via moduleNameMapper:
-// supabase, validation, ui/Button, ui/Input, PasswordStrengthBar, logger
+// supabase, validation, ui/Button, ui/Input, PasswordStrengthBar, logger, ToastContext
 
 const mockSupabase = jest.mocked(supabase);
+const mockUseToast = jest.mocked(useToast);
 
 const mockOrganization: CharityOrganization = {
   id: "org-1",
@@ -53,10 +55,10 @@ const renderForm = (
   );
 
 const fillFormFields = () => {
-  fireEvent.change(screen.getByLabelText(/contact name/i), {
+  fireEvent.change(screen.getByLabelText(/^contact name$/i), {
     target: { name: "contactName", value: "Jane Doe" },
   });
-  fireEvent.change(screen.getByLabelText(/contact email/i), {
+  fireEvent.change(screen.getByLabelText(/^contact email$/i), {
     target: { name: "contactEmail", value: "jane@example.com" },
   });
   fireEvent.change(screen.getByLabelText(/^password$/i), {
@@ -119,8 +121,8 @@ describe("CharityClaimForm", () => {
     it("renders contact information fields", () => {
       renderForm();
       expect(screen.getByText("Contact Information")).toBeInTheDocument();
-      expect(screen.getByLabelText(/contact name/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/contact email/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^contact name$/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^contact email$/i)).toBeInTheDocument();
       expect(screen.queryByLabelText(/contact phone/i)).not.toBeInTheDocument();
     });
 
@@ -175,7 +177,7 @@ describe("CharityClaimForm", () => {
       });
 
       // Change a field to clear errors
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane" },
       });
 
@@ -206,10 +208,10 @@ describe("CharityClaimForm", () => {
     it("shows email validation error for invalid email", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "not-an-email" },
       });
 
@@ -229,10 +231,10 @@ describe("CharityClaimForm", () => {
     it("shows password mismatch error", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "jane@example.com" },
       });
       fireEvent.change(screen.getByLabelText(/^password$/i), {
@@ -256,10 +258,10 @@ describe("CharityClaimForm", () => {
     it("shows password length error for short password", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "jane@example.com" },
       });
       fireEvent.change(screen.getByLabelText(/^password$/i), {
@@ -326,6 +328,7 @@ describe("CharityClaimForm", () => {
           p_signer_name: "Jane Doe",
           p_signer_email: "jane@example.com",
           p_signer_phone: null,
+          p_public_contact_email: "jane@example.com",
         });
       });
     });
@@ -485,6 +488,76 @@ describe("CharityClaimForm", () => {
         expect(
           screen.getByRole("button", { name: /creating account/i }),
         ).toBeDisabled();
+      });
+    });
+  });
+
+  describe("GIV-300 toast call sites", () => {
+    let mockShowToast: jest.Mock;
+    let mockDismissToast: jest.Mock;
+
+    beforeEach(() => {
+      mockShowToast = jest.fn(() => "mock-toast-id");
+      mockDismissToast = jest.fn();
+      mockUseToast.mockReturnValue({
+        showToast: mockShowToast,
+        dismissToast: mockDismissToast,
+      });
+    });
+
+    it("shows Verification email sent toast on successful claim submission", async () => {
+      renderForm();
+      fillFormFields();
+
+      const form = screen
+        .getByRole("button", { name: /claim organization/i })
+        .closest("form");
+      if (!form) throw new Error("Could not find form element");
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "success",
+            title: "Verification email sent",
+            message: expect.stringContaining("inbox"),
+          }),
+        );
+      });
+    });
+
+    it("shows Submission failed toast on claim error", async () => {
+      (mockSupabase.auth as Record<string, unknown>).signUp = jest
+        .fn()
+        .mockResolvedValue({
+          data: { user: { id: "user-1" } },
+          error: null,
+        });
+      (mockSupabase as Record<string, unknown>).from = jest
+        .fn()
+        .mockReturnValue({
+          insert: jest.fn().mockResolvedValue({ error: null }),
+        });
+      mockSupabase.rpc
+        .mockResolvedValueOnce({ data: null, error: null })
+        .mockRejectedValueOnce(new Error("RPC failed"));
+
+      renderForm();
+      fillFormFields();
+
+      const form = screen
+        .getByRole("button", { name: /claim organization/i })
+        .closest("form");
+      if (!form) throw new Error("Could not find form element");
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "error",
+            title: "Submission failed",
+          }),
+        );
       });
     });
   });

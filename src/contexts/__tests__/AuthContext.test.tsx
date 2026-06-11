@@ -1,6 +1,12 @@
 import React, { useCallback } from "react";
 import { jest } from "@jest/globals";
-import { render, screen, waitFor, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  waitFor,
+  act,
+  fireEvent,
+} from "@testing-library/react";
 import { AuthProvider, useAuth } from "../AuthContext";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "../ToastContext";
@@ -133,11 +139,14 @@ const TestComponent: React.FC = () => {
 };
 
 let mockShowToast: jest.Mock;
+let mockDismissToast: jest.Mock;
 
 const setupMocks = () => {
-  mockShowToast = jest.fn();
+  mockShowToast = jest.fn(() => "mock-toast-id");
+  mockDismissToast = jest.fn();
   mockUseToast.mockReturnValue({
     showToast: mockShowToast,
+    dismissToast: mockDismissToast,
   });
 
   // Set up all auth methods on the mock
@@ -254,11 +263,9 @@ describe("AuthContext", () => {
         expect(screen.getByTestId("user-type")).toHaveTextContent("donor");
       });
 
-      // setSentryUser is called with a custom object, not the raw user
+      // setSentryUser is called with ID only (no PII per ePrivacy)
       expect(mockSetSentryUser).toHaveBeenCalledWith({
         id: MOCK_USER.id,
-        email: MOCK_USER.email,
-        userType: "donor",
       });
     });
 
@@ -308,8 +315,6 @@ describe("AuthContext", () => {
         );
         expect(mockSetSentryUser).toHaveBeenCalledWith({
           id: MOCK_USER.id,
-          email: MOCK_USER.email,
-          userType: "donor",
         });
       });
     });
@@ -378,9 +383,11 @@ describe("AuthContext", () => {
 
       await waitFor(() =>
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          "Failed to sign in",
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Failed to sign in",
+          }),
         ),
       );
     });
@@ -395,9 +402,11 @@ describe("AuthContext", () => {
 
       await waitFor(() =>
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          "Network error",
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Network error",
+          }),
         ),
       );
     });
@@ -446,9 +455,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          "Failed to sign in with Google",
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Failed to sign in with Google",
+          }),
         );
       });
     });
@@ -494,9 +505,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          "Failed to sign in with Apple",
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Failed to sign in with Apple",
+          }),
         );
       });
     });
@@ -514,10 +527,6 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockSupabase.auth.signOut).toHaveBeenCalled();
-        expect(mockShowToast).toHaveBeenCalledWith(
-          "success",
-          "Logged out successfully",
-        );
       });
     });
 
@@ -535,9 +544,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Logout Error",
-          "Failed to log out",
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-out failed",
+            message: "Failed to log out",
+          }),
         );
       });
     });
@@ -662,7 +673,7 @@ describe("AuthContext", () => {
       await waitFor(() => {
         expect(mockSupabase.auth.resetPasswordForEmail).toHaveBeenCalledWith(
           "test@example.com",
-          { redirectTo: `${window.location.origin}/reset-password` },
+          { redirectTo: `${window.location.origin}/auth/reset-password` },
         );
         expect(mockShowToast).toHaveBeenCalledWith(
           "success",
@@ -893,9 +904,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          "Network unavailable",
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: "Network unavailable",
+          }),
         );
       });
     });
@@ -999,9 +1012,11 @@ describe("AuthContext", () => {
       await waitFor(() => {
         expect(mockSupabase.auth.signOut).toHaveBeenCalled();
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          expect.stringMatching(/registered as a charity account/),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: expect.stringMatching(/registered as a charity account/),
+          }),
         );
       });
     });
@@ -1040,9 +1055,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          expect.stringMatching(/registered as a donor account/),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: expect.stringMatching(/registered as a donor account/),
+          }),
         );
       });
     });
@@ -1068,9 +1085,11 @@ describe("AuthContext", () => {
 
       await waitFor(() => {
         expect(mockShowToast).toHaveBeenCalledWith(
-          "error",
-          "Authentication Error",
-          expect.stringMatching(/Account not found/),
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+            message: expect.stringMatching(/Account not found/),
+          }),
         );
       });
     });
@@ -1098,6 +1117,133 @@ describe("AuthContext", () => {
           "error",
           "Registration Error",
           "Failed to register",
+        );
+      });
+    });
+  });
+
+  describe("GIV-300 toast call sites", () => {
+    /** Helper that captures the onAuthStateChange callback registered by AuthProvider. */
+    function captureAuthCb() {
+      let captured: ((_event: string, _session: unknown) => unknown) | null =
+        null;
+      mockSupabase.auth.onAuthStateChange.mockImplementation((cb) => {
+        captured = cb;
+        return { data: { subscription: { unsubscribe: jest.fn() } } };
+      });
+      return () => captured;
+    }
+
+    it("shows personalized Welcome back toast on email SIGNED_IN", async () => {
+      const getCallback = captureAuthCb();
+      renderWithAuthProvider();
+      await waitFor(() =>
+        expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled(),
+      );
+
+      const cb = getCallback();
+      if (!cb) throw new Error("auth callback not captured");
+
+      await act(() => {
+        // skipcq: JS-0255 — Supabase onAuthStateChange signature is (event, session), not (err, result)
+        cb("SIGNED_IN", {
+          user: {
+            ...MOCK_USER,
+            user_metadata: { type: "donor", full_name: "Jane Donor" },
+          },
+        });
+      });
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "success",
+            title: expect.stringContaining("Jane"),
+            message: expect.any(String),
+          }),
+        );
+      });
+    });
+
+    it("shows Wallet connected toast on SIGNED_IN when wallet_address in metadata", async () => {
+      const getCallback = captureAuthCb();
+      renderWithAuthProvider();
+      await waitFor(() =>
+        expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled(),
+      );
+
+      const cb = getCallback();
+      if (!cb) throw new Error("auth callback not captured");
+
+      await act(() => {
+        // skipcq: JS-0255 — Supabase onAuthStateChange signature is (event, session), not (err, result)
+        cb("SIGNED_IN", {
+          user: {
+            ...MOCK_USER,
+            user_metadata: {
+              auth_method: "wallet",
+              wallet_address: "0xAbCd1234567890AbCd1234567890AbCd12345678",
+            },
+          },
+        });
+      });
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "success",
+            title: "Wallet connected",
+            message: expect.stringContaining("0xAbCd"),
+          }),
+        );
+      });
+    });
+
+    it("shows info Signed out toast on SIGNED_OUT", async () => {
+      const getCallback = captureAuthCb();
+      renderWithAuthProvider();
+      await waitFor(() =>
+        expect(mockSupabase.auth.onAuthStateChange).toHaveBeenCalled(),
+      );
+
+      const cb = getCallback();
+      if (!cb) throw new Error("auth callback not captured");
+
+      await act(() => {
+        // skipcq: JS-0255 — Supabase onAuthStateChange signature is (event, session), not (err, result)
+        cb("SIGNED_OUT", null);
+      });
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "info",
+            title: "Signed out",
+            duration: 3000,
+          }),
+        );
+      });
+    });
+
+    it("shows Sign-in failed toast on login error", async () => {
+      (mockSupabase.auth as Record<string, unknown>).signInWithPassword = jest
+        .fn()
+        .mockResolvedValue({
+          data: { user: null },
+          error: { message: "Invalid credentials", status: 400 },
+        });
+
+      renderWithAuthProvider();
+
+      const loginButton = screen.getByTestId("login-btn");
+      fireEvent.click(loginButton);
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "error",
+            title: "Sign-in failed",
+          }),
         );
       });
     });

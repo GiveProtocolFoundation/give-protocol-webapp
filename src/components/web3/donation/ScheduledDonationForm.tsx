@@ -376,12 +376,16 @@ const SuccessMessage: React.FC<SuccessMessageProps> = ({
 };
 
 /** Info banner describing the scheduled donation flow. */
-const ScheduleInfoBanner: React.FC<{ charityName: string }> = ({ charityName }) => (
+const ScheduleInfoBanner: React.FC<{ charityName: string }> = ({
+  charityName,
+}) => (
   <div className="bg-gradient-to-br from-emerald-50 to-blue-50 dark:from-emerald-900/20 dark:to-blue-900/20 p-4 rounded-xl border border-emerald-100 dark:border-emerald-800">
     <p className="text-sm text-gray-700 dark:text-gray-300 leading-relaxed">
       Schedule recurring donations to{" "}
-      <span className="font-semibold text-emerald-900 dark:text-emerald-300">{charityName}</span>.
-      The total amount will be divided into equal monthly payments.
+      <span className="font-semibold text-emerald-900 dark:text-emerald-300">
+        {charityName}
+      </span>
+      . The total amount will be divided into equal monthly payments.
     </p>
   </div>
 );
@@ -413,19 +417,28 @@ const SchedulePreview: React.FC<{
     </h4>
     <div className="space-y-2.5 text-sm">
       <div className="flex justify-between items-center p-2 bg-white dark:bg-gray-700 rounded-lg">
-        <span className="text-gray-600 dark:text-gray-300">Monthly payment:</span>
+        <span className="text-gray-600 dark:text-gray-300">
+          Monthly payment:
+        </span>
         <span className="font-bold text-emerald-900 dark:text-emerald-300">
           {amount ? (amount / numberOfMonths).toFixed(6) : "0.00"} {tokenSymbol}
         </span>
       </div>
       <div className="flex justify-between items-center p-2 bg-white dark:bg-gray-700 rounded-lg">
-        <span className="text-gray-600 dark:text-gray-300">Total payments:</span>
-        <span className="font-semibold text-gray-900 dark:text-gray-100">{numberOfMonths} months</span>
+        <span className="text-gray-600 dark:text-gray-300">
+          Total payments:
+        </span>
+        <span className="font-semibold text-gray-900 dark:text-gray-100">
+          {numberOfMonths} months
+        </span>
       </div>
       <div className="flex justify-between items-center p-2 bg-white dark:bg-gray-700 rounded-lg">
-        <span className="text-gray-600 dark:text-gray-300">Schedule period:</span>
+        <span className="text-gray-600 dark:text-gray-300">
+          Schedule period:
+        </span>
         <span className="font-medium text-gray-700 dark:text-gray-200 text-xs">
-          {formatDate(startDate.toISOString())} to {formatDate(endDate.toISOString())}
+          {formatDate(startDate.toISOString())} to{" "}
+          {formatDate(endDate.toISOString())}
         </span>
       </div>
     </div>
@@ -467,7 +480,7 @@ export function ScheduledDonationForm({
   onClose: _onClose,
 }: ScheduledDonationFormProps) {
   const { provider, address, isConnected, connect, chainId } = useWeb3();
-  const { showToast: _showToast } = useToast();
+  const { showToast, dismissToast } = useToast();
   const { convertToFiat: _convertToFiat, tokenPrices } = useCurrencyContext();
 
   // Get ERC20 tokens available for the current chain
@@ -610,7 +623,19 @@ export function ScheduledDonationForm({
           )
           .catch(handleTransactionError);
 
+        const submittedToastId = showToast({
+          type: "info",
+          title: "Transaction submitted",
+          message: "Waiting for on-chain confirmation…",
+          persistent: true,
+        });
         const receipt = await tx.wait();
+        dismissToast(submittedToastId);
+        showToast({
+          type: "success",
+          title: "Donation confirmed",
+          message: "Your contribution is recorded on-chain.",
+        });
         setTransactionHash(receipt.hash);
 
         // Calculate transaction fee
@@ -648,6 +673,8 @@ export function ScheduledDonationForm({
       selectedToken,
       tokenPrices,
       numberOfMonths,
+      showToast,
+      dismissToast,
     ],
   );
 

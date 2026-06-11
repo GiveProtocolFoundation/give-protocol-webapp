@@ -38,6 +38,12 @@ function mapCharityRow(row: AdminCharityListRow): AdminCharityListItem {
     walletAddress: row.wallet_address,
     createdAt: row.created_at,
     updatedAt: row.updated_at,
+    ein: row.ein ?? null,
+    signerName: row.signer_name ?? null,
+    signerEmail: row.signer_email ?? null,
+    signerPhone: row.signer_phone ?? null,
+    claimedAt: row.claimed_at ?? null,
+    charityProfileStatus: row.charity_profile_status ?? null,
   };
 }
 

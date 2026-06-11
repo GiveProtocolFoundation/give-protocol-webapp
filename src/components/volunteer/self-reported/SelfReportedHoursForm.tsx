@@ -35,7 +35,7 @@ type OrgMode = "verified" | "other";
 
 // Common input classes for consistency
 const INPUT_BASE_CLASSES =
-  "h-11 w-full rounded-lg border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent";
+  "h-11 w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent";
 const INPUT_WITH_ICON_CLASSES = `${INPUT_BASE_CLASSES} pl-10 pr-4`;
 
 /**
@@ -83,7 +83,7 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
         aria-expanded={isOpen}
         aria-haspopup="true"
         onClick={onToggle}
-        className="w-full h-auto min-h-[2.75rem] flex items-center justify-between px-4 py-3 text-left rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent"
+        className="w-full h-auto min-h-[2.75rem] flex items-center justify-between px-4 py-3 text-left rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent"
       >
         <div className="min-w-0 flex-1">
           <span className="block text-sm font-medium text-gray-900">
@@ -101,7 +101,7 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
       {isOpen && (
         <ul
           aria-labelledby="activityTypeButton"
-          className="absolute z-20 w-full mt-2 bg-white rounded-xl shadow-xl shadow-gray-200/50 border border-gray-100 max-h-72 overflow-auto list-none m-0 p-0"
+          className="absolute z-20 w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 border border-gray-100 dark:border-gray-700 max-h-72 overflow-auto list-none m-0 p-0"
         >
           {Object.values(ActivityType).map((type) => (
             <li key={type}>
@@ -111,7 +111,9 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
                 data-type={type}
                 onClick={handleOptionClick}
                 className={`w-full px-4 py-3 text-left transition-colors flex items-start gap-3 first:rounded-t-xl last:rounded-b-xl ${
-                  value === type ? "bg-emerald-50" : "hover:bg-gray-50"
+                  value === type
+                    ? "bg-emerald-50 dark:bg-emerald-900/30"
+                    : "hover:bg-gray-50 dark:hover:bg-gray-700"
                 }`}
               >
                 <div className="flex-1 min-w-0">
@@ -179,12 +181,12 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
       </legend>
 
       {/* Segmented Control */}
-      <div className="inline-flex rounded-lg bg-gray-100 p-1 mb-4">
+      <div className="inline-flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1 mb-4">
         <label
           className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer ${
             orgMode === "verified"
-              ? "bg-white text-gray-900 shadow-sm"
-              : "text-gray-600 hover:text-gray-900"
+              ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm"
+              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
           }`}
         >
           <input
@@ -200,8 +202,8 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
         <label
           className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer ${
             orgMode === "other"
-              ? "bg-white text-gray-900 shadow-sm"
-              : "text-gray-600 hover:text-gray-900"
+              ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm"
+              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
           }`}
         >
           <input
@@ -307,7 +309,7 @@ const ValidationPreview: React.FC<ValidationPreviewProps> = ({
 
   if (orgMode === "verified" && hasOrganization && !isExpired) {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-600 bg-amber-50 rounded-lg px-4 py-3">
+      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-amber-50 dark:bg-amber-900/30 rounded-lg px-4 py-3">
         <span className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0" />
         {selectedOrgName
           ? t(
@@ -325,7 +327,7 @@ const ValidationPreview: React.FC<ValidationPreviewProps> = ({
 
   if (orgMode === "verified" && isExpired) {
     return (
-      <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 rounded-lg px-4 py-3">
+      <div className="flex items-center gap-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 rounded-lg px-4 py-3">
         <AlertTriangle className="w-4 h-4 flex-shrink-0" />
         {t(
           "volunteer.validationExpired",
@@ -337,7 +339,7 @@ const ValidationPreview: React.FC<ValidationPreviewProps> = ({
 
   if (orgMode === "other") {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg px-4 py-3">
+      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 rounded-lg px-4 py-3">
         <span className="w-2 h-2 bg-gray-400 rounded-full flex-shrink-0" />{" "}
         {t(
           "volunteer.savedAsUnvalidated",
@@ -535,7 +537,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl shadow-lg shadow-gray-200/50 overflow-hidden p-8 space-y-8"
+      className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg shadow-gray-200/50 dark:shadow-black/30 overflow-hidden p-8 space-y-8"
     >
       {/* Date, Hours, Location Row */}
       <DateHoursLocationRow
@@ -575,7 +577,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
             value={formData.description}
             onChange={handleInputChange}
             rows={4}
-            className={`w-full rounded-lg border bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 resize-none transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent ${
+            className={`w-full rounded-lg border bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 resize-none transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent ${
               errors.description !== undefined
                 ? "border-red-300"
                 : "border-gray-200"
@@ -633,7 +635,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
       </div>
 
       {/* Form Actions */}
-      <div className="flex items-center justify-end gap-4 px-8 py-5 bg-gray-50/50 border-t border-gray-100">
+      <div className="flex items-center justify-end gap-4 px-8 py-5 bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700">
         <button
           type="button"
           onClick={onCancel}

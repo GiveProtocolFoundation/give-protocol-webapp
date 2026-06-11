@@ -865,13 +865,7 @@ export const CharityPortal: React.FC = () => {
     try {
       const { data: pendingHoursData, error } = await supabase
         .from("volunteer_hours")
-        .select(
-          `id, volunteer_id, hours, date_performed, description,
-          profiles:volunteer_id (
-            display_name,
-            full_name
-          )`,
-        )
+        .select("id, volunteer_id, hours, date_performed, description")
         .eq("charity_id", charityId)
         .eq("status", "pending")
         .order("created_at", { ascending: false });
@@ -883,35 +877,46 @@ export const CharityPortal: React.FC = () => {
           errorCode: error.code,
           errorMessage: error.message,
         });
-        return []; // Return empty array instead of throwing
+        return [];
       }
 
       const pendingHoursList = Array.isArray(pendingHoursData)
         ? pendingHoursData
         : [];
 
-      return pendingHoursList.map((hour) => {
-        const profile = hour?.profiles as
-          | { display_name?: string | null; full_name?: string | null }
-          | null
-          | undefined;
-        const volunteerName =
-          profile?.display_name ?? profile?.full_name ?? "Anonymous Volunteer";
-        return {
-          id: hour?.id || "",
-          volunteer_id: hour?.volunteer_id || "",
-          volunteerName,
-          hours: hour?.hours ? Number(hour.hours) : 0,
-          date_performed: hour?.date_performed || new Date().toISOString(),
-          description: hour?.description || "",
-        };
-      });
+      if (pendingHoursList.length === 0) return [];
+
+      // Fetch volunteer display names from profiles via user_id
+      const volunteerIds = [
+        ...new Set(pendingHoursList.map((h) => h.volunteer_id).filter(Boolean)),
+      ];
+      const { data: profilesData } = await supabase
+        .from("profiles")
+        .select("user_id, name")
+        .in("user_id", volunteerIds);
+
+      const profileMap = new Map(
+        (Array.isArray(profilesData) ? profilesData : []).map((p) => [
+          p.user_id,
+          p.name,
+        ]),
+      );
+
+      return pendingHoursList.map((hour) => ({
+        id: hour?.id || "",
+        volunteer_id: hour?.volunteer_id || "",
+        volunteerName:
+          profileMap.get(hour?.volunteer_id) ?? "Anonymous Volunteer",
+        hours: hour?.hours ? Number(hour.hours) : 0,
+        date_performed: hour?.date_performed || new Date().toISOString(),
+        description: hour?.description || "",
+      }));
     } catch (err) {
       Logger.warn("Exception fetching pending volunteer hours:", {
         error: err,
         charityId,
       });
-      return []; // Return empty array instead of throwing
+      return [];
     }
   }, []);
 

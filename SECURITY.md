@@ -1,6 +1,6 @@
 # Security Policy for Give Protocol
 
-**Last Updated:** February 2026
+**Last Updated:** June 2026
 
 Give Protocol is a blockchain-based philanthropic platform managed by the Give Protocol Foundation, a Delaware-incorporated 501(c)(3) nonprofit. Security is paramount because we handle charitable donations and volunteer data.
 
@@ -16,6 +16,49 @@ We take security seriously and are committed to:
 
 ---
 
+## Content Security Policy (CSP)
+
+### Canonical Source of Truth
+
+The **single source of truth** for the Content Security Policy is the `<meta http-equiv="Content-Security-Policy">` tag in **`index.html`** (lines 7-15).
+
+All other CSP locations **must mirror** the canonical definition:
+
+| Location                      | Role                                                   | Must match canonical? |
+| ----------------------------- | ------------------------------------------------------ | --------------------- |
+| `index.html` meta tag         | **Canonical** — enforced by browser on every page load | N/A (is the source)   |
+| `netlify.toml` [[headers]]    | HTTP header for Netlify (production hosting)           | Yes                   |
+| `nginx.conf` add_header       | HTTP header for nginx (self-hosted fallback)           | Yes                   |
+| `vercel.json` headers         | HTTP header for Vercel (alternative hosting)           | Yes                   |
+| `src/utils/security/index.ts` | Runtime CSP reference for SecurityManager              | Structurally aligned  |
+
+### Hardening Rules (per GIV-60)
+
+- `script-src` **must not** contain `'unsafe-inline'` or `'unsafe-eval'`. Inline scripts use SHA-256 hashes instead.
+- `object-src 'none'` — blocks plugins (Flash, Java applets).
+- `base-uri 'self'` — prevents `<base>` tag injection.
+- `form-action 'self'` — restricts form submission targets.
+- `style-src 'unsafe-inline'` is permitted (CSS injection is lower risk; required for many UI libraries).
+
+### CI Enforcement
+
+The script `scripts/validate-csp.mjs` (run via `npm run validate:csp`) validates:
+
+1. No `'unsafe-inline'` or `'unsafe-eval'` in any `script-src`.
+2. All secondary locations (nginx.conf, vercel.json, netlify.toml) match the canonical index.html meta tag directive-for-directive.
+
+This check runs in the **Code Quality** CI workflow on every push and PR.
+
+### Changing the CSP
+
+1. Edit the `<meta>` tag in `index.html` (the canonical source).
+2. Copy the updated CSP value to `netlify.toml`, `nginx.conf`, and `vercel.json`.
+3. Update `src/utils/security/index.ts` if directive structure changed.
+4. Run `npm run validate:csp` locally to verify.
+5. CI will also verify on push.
+
+---
+
 ## 📋 Supported Versions
 
 | Version       | Status         | Security Updates |
@@ -28,13 +71,13 @@ We take security seriously and are committed to:
 
 ### Smart Contract Versions
 
-| Chain    | Contract                 | Version | Audited    | Status     |
-| -------- | ------------------------ | ------- | ---------- | ---------- |
-| Moonbeam | DirectDonation.sol       | 1.2.0   | ✅ Yes     | Production |
-| Moonbeam | CharitableEquityFund.sol | 1.0.0   | ✅ Yes     | Production |
-| Moonbeam | CauseImpactFund.sol      | 1.0.0   | ⏳ Pending | Testnet    |
-| Base     | DirectDonation.sol       | 1.2.0   | ⏳ Pending | Testnet    |
-| Optimism | DirectDonation.sol       | 1.2.0   | ⏳ Pending | Testnet    |
+| Chain    | Contract                 | Version     | Audited                  | Status  |
+| -------- | ------------------------ | ----------- | ------------------------ | ------- |
+| Moonbeam | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
+| Moonbeam | CharitableEquityFund.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Moonbeam | CauseImpactFund.sol      | pre-release | No — planned pre-mainnet | Testnet |
+| Base     | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
+| Optimism | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
 
 ---
 
