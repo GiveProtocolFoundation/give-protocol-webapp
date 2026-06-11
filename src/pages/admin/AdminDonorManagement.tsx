@@ -341,67 +341,65 @@ function DonorTable({
   updating: boolean;
 }): React.ReactElement {
   return (
-    <div className="overflow-x-auto">
-      <table className="w-full text-left">
-        <caption className="sr-only">Donor management list</caption>
-        <thead>
-          <tr className="bg-gray-50">
-            <th
-              scope="col"
-              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-            >
-              Donor
-            </th>
-            <th
-              scope="col"
-              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-            >
-              Auth
-            </th>
-            <th
-              scope="col"
-              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-            >
-              Status
-            </th>
-            <th
-              scope="col"
-              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-            >
-              Total Donated
-            </th>
-            <th
-              scope="col"
-              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-            >
-              Donations
-            </th>
-            <th
-              scope="col"
-              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-            >
-              Joined
-            </th>
-            <th
-              scope="col"
-              className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-            >
-              Actions
-            </th>
-          </tr>
-        </thead>
-        <tbody>
-          {donors.map((donor) => (
-            <DonorRow
-              key={donor.userId}
-              donor={donor}
-              onAction={onAction}
-              updating={updating}
-            />
-          ))}
-        </tbody>
-      </table>
-    </div>
+    <table className="w-full text-left overflow-x-auto">
+      <caption className="sr-only">Donor management list</caption>
+      <thead>
+        <tr className="bg-gray-50">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            Donor
+          </th>
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            Auth
+          </th>
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            Status
+          </th>
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            Total Donated
+          </th>
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            Donations
+          </th>
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            Joined
+          </th>
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
+            Actions
+          </th>
+        </tr>
+      </thead>
+      <tbody>
+        {donors.map((donor) => (
+          <DonorRow
+            key={donor.userId}
+            donor={donor}
+            onAction={onAction}
+            updating={updating}
+          />
+        ))}
+      </tbody>
+    </table>
   );
 }
 
