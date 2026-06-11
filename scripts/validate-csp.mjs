@@ -133,8 +133,7 @@ for (const loc of locations) {
       console.log(`✓ ${loc.name} matches canonical`);
     } else {
       console.error(`✗ ${loc.name} DIVERGES from canonical`);
-      for (const d of missing)
-        console.error(`  missing in ${loc.name}: ${d}`);
+      for (const d of missing) console.error(`  missing in ${loc.name}: ${d}`);
       for (const d of extra) console.error(`  extra in ${loc.name}:   ${d}`);
       failures++;
     }
