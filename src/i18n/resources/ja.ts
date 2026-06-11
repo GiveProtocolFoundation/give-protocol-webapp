@@ -988,6 +988,11 @@ export default {
     "auth.donorReg.orSetPassword": "またはパスワードを設定",
     "auth.donorReg.creating": "アカウントを作成中...",
     "auth.donorReg.createAccount": "寄付者アカウントを作成",
+    "auth.donorReg.privacyNotice":
+      "アカウントを作成すると、以下に同意したことになります：",
+    "auth.donorReg.termsLink": "利用規約",
+    "auth.donorReg.privacyAnd": "および",
+    "auth.donorReg.privacyLink": "プライバシーポリシー",
     "auth.charityLogin.mismatch":
       "このメールアドレスは寄付者アカウントとして登録されています。寄付者ポータルからサインインしてください。",
     "auth.charityLogin.signingIn": "サインイン中...",
@@ -1102,6 +1107,11 @@ export default {
     "charity.vetting.validation.country": "国は必須です",
     "charity.vetting.validation.fix": "入力エラーを修正してください",
     "charity.vetting.error.generic": "申請の送信に失敗しました",
+    "charity.vetting.privacyNotice":
+      "この申請を送信すると、以下に同意したことになります：",
+    "charity.vetting.termsLink": "利用規約",
+    "charity.vetting.privacyAnd": "および",
+    "charity.vetting.privacyLink": "プライバシーポリシー",
     "common.email": "メールアドレス",
     "common.password": "パスワード",
     "common.confirmPassword": "パスワード確認",

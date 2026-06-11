@@ -987,6 +987,10 @@ export default {
     "auth.donorReg.orSetPassword": "Hoặc đặt mật khẩu",
     "auth.donorReg.creating": "Đang tạo tài khoản...",
     "auth.donorReg.createAccount": "Tạo tài khoản nhà tài trợ",
+    "auth.donorReg.privacyNotice": "Bằng cách tạo tài khoản, bạn đồng ý với",
+    "auth.donorReg.termsLink": "Điều khoản dịch vụ",
+    "auth.donorReg.privacyAnd": "của chúng tôi và xác nhận",
+    "auth.donorReg.privacyLink": "Chính sách Bảo mật",
     "auth.charityLogin.mismatch":
       "Email này được đăng ký dưới tài khoản nhà tài trợ. Vui lòng đăng nhập tại cổng nhà tài trợ.",
     "auth.charityLogin.signingIn": "Đang đăng nhập...",
@@ -1096,6 +1100,11 @@ export default {
     "charity.vetting.validation.country": "Quốc gia là bắt buộc",
     "charity.vetting.validation.fix": "Vui lòng sửa các lỗi xác thực",
     "charity.vetting.error.generic": "Gửi đơn đăng ký thất bại",
+    "charity.vetting.privacyNotice":
+      "Bằng cách gửi đơn đăng ký này, bạn đồng ý với",
+    "charity.vetting.termsLink": "Điều khoản dịch vụ",
+    "charity.vetting.privacyAnd": "của chúng tôi và xác nhận",
+    "charity.vetting.privacyLink": "Chính sách Bảo mật",
     "common.email": "Email",
     "common.password": "Mật khẩu",
     "common.confirmPassword": "Xác nhận mật khẩu",

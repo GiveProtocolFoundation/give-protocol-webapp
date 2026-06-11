@@ -1036,6 +1036,10 @@ export default {
     "auth.donorReg.orSetPassword": "Ou définir un mot de passe",
     "auth.donorReg.creating": "Création du Compte...",
     "auth.donorReg.createAccount": "Créer un Compte Donateur",
+    "auth.donorReg.privacyNotice": "En créant un compte, vous acceptez nos",
+    "auth.donorReg.termsLink": "Conditions de Service",
+    "auth.donorReg.privacyAnd": "et reconnaissez notre",
+    "auth.donorReg.privacyLink": "Politique de Confidentialité",
     "auth.charityLogin.mismatch":
       "Cet e-mail est enregistré en tant que compte donateur. Veuillez vous connecter via le portail donateur.",
     "auth.charityLogin.signingIn": "Connexion en cours...",
@@ -1156,6 +1160,11 @@ export default {
     "charity.vetting.validation.fix":
       "Veuillez corriger les erreurs de validation",
     "charity.vetting.error.generic": "Impossible de soumettre la candidature",
+    "charity.vetting.privacyNotice":
+      "En soumettant cette candidature, vous acceptez nos",
+    "charity.vetting.termsLink": "Conditions de Service",
+    "charity.vetting.privacyAnd": "et reconnaissez notre",
+    "charity.vetting.privacyLink": "Politique de Confidentialité",
     "common.email": "E-mail",
     "common.password": "Mot de passe",
     "common.confirmPassword": "Confirmer le Mot de Passe",
