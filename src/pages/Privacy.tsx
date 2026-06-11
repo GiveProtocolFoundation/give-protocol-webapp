@@ -3,6 +3,7 @@ import { StaticPageLayout } from "@/components/layout/StaticPageLayout";
 import { ImportantNotice } from "@/components/ui/ImportantNotice";
 import { usePageTitle } from "@/hooks/usePageTitle";
 
+/** Renders the introduction section of the privacy policy. */
 const SectionIntroduction: React.FC = () => (
   <section>
     <h2>1. Introduction</h2>
@@ -39,6 +40,7 @@ const SectionIntroduction: React.FC = () => (
   </section>
 );
 
+/** Renders the information collection section of the privacy policy. */
 const SectionInformationWeCollect: React.FC = () => (
   <section>
     <h2>2. Information We Collect</h2>
@@ -139,6 +141,7 @@ const SectionInformationWeCollect: React.FC = () => (
   </section>
 );
 
+/** Renders the information usage section of the privacy policy. */
 const SectionHowWeUseInfo: React.FC = () => (
   <section>
     <h2>3. How We Use Your Information</h2>
@@ -157,6 +160,7 @@ const SectionHowWeUseInfo: React.FC = () => (
   </section>
 );
 
+/** Renders the legal basis for processing section of the privacy policy. */
 const SectionLegalBasis: React.FC = () => (
   <section>
     <h2>4. Legal Basis for Processing</h2>
@@ -174,6 +178,7 @@ const SectionLegalBasis: React.FC = () => (
   </section>
 );
 
+/** Renders the information sharing section of the privacy policy. */
 const SectionHowWeShare: React.FC = () => (
   <section>
     <h2>5. How We Share Your Information</h2>
@@ -206,6 +211,7 @@ const SectionHowWeShare: React.FC = () => (
   </section>
 );
 
+/** Renders the data security section of the privacy policy. */
 const SectionDataSecurity: React.FC = () => (
   <section>
     <h2>6. Data Security</h2>
@@ -218,6 +224,7 @@ const SectionDataSecurity: React.FC = () => (
   </section>
 );
 
+/** Renders the data retention section of the privacy policy. */
 const SectionDataRetention: React.FC = () => (
   <section>
     <h2>7. Data Retention</h2>
@@ -229,6 +236,7 @@ const SectionDataRetention: React.FC = () => (
   </section>
 );
 
+/** Renders the user rights section of the privacy policy. */
 const SectionYourRights: React.FC = () => (
   <section>
     <h2>8. Your Rights</h2>
@@ -251,6 +259,7 @@ const SectionYourRights: React.FC = () => (
   </section>
 );
 
+/** Renders the international data transfers section of the privacy policy. */
 const SectionInternationalTransfers: React.FC = () => (
   <section>
     <h2>9. International Data Transfers</h2>
@@ -262,6 +271,7 @@ const SectionInternationalTransfers: React.FC = () => (
   </section>
 );
 
+/** Renders the policy changes section of the privacy policy. */
 const SectionChanges: React.FC = () => (
   <section>
     <h2>10. Changes to This Privacy Policy</h2>
@@ -273,6 +283,7 @@ const SectionChanges: React.FC = () => (
   </section>
 );
 
+/** Renders the cookie preferences and analytics processing section of the privacy policy. */
 const SectionCookiePreferences: React.FC = () => (
   <section>
     <h2>11. Cookie Preferences and Analytics Processing</h2>
@@ -347,6 +358,7 @@ const SectionCookiePreferences: React.FC = () => (
   </section>
 );
 
+/** Renders the children's privacy section of the privacy policy. */
 const SectionChildrensPrivacy: React.FC = () => (
   <section>
     <h2>12. Children&apos;s Privacy</h2>
@@ -360,6 +372,7 @@ const SectionChildrensPrivacy: React.FC = () => (
   </section>
 );
 
+/** Renders the contact information section of the privacy policy. */
 const SectionContactUs: React.FC = () => (
   <section className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
     <h2>13. Contact Us</h2>
