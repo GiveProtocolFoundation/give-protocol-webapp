@@ -12,7 +12,9 @@ export type AdminAuditActionType =
   | "charity_reinstate"
   | "user_suspend"
   | "user_reinstate"
-  | "user_ban";
+  | "user_ban"
+  | "view_pii"
+  | "view_pii_list";
 
 /** Entity types that admin actions can target */
 export type AdminAuditEntityType =
@@ -21,7 +23,9 @@ export type AdminAuditEntityType =
   | "donation"
   | "validation_request"
   | "platform_config"
-  | "charity_verification";
+  | "charity_verification"
+  | "volunteer"
+  | "content";
 
 /** A single entry in the admin_audit_log table */
 export interface AdminAuditLogEntry {
