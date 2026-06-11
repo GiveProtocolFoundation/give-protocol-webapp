@@ -64,8 +64,12 @@ function isExtension(uri: string): boolean {
 
 describe("CSP report collector smoke tests (GIV-328)", () => {
   beforeEach(() => {
-    jest.spyOn(console, "error").mockImplementation(() => {});
-    jest.spyOn(console, "log").mockImplementation(() => {});
+    jest.spyOn(console, "error").mockImplementation(() => {
+      // Silence console.error so test output stays clean
+    });
+    jest.spyOn(console, "log").mockImplementation(() => {
+      // Silence console.log so test output stays clean
+    });
   });
 
   it("normalizes a legacy report-uri payload", () => {
@@ -79,10 +83,10 @@ describe("CSP report collector smoke tests (GIV-328)", () => {
       },
     };
     const report = normalizeReport(payload);
-    expect(report).not.toBeNull();
-    expect(report!.directive).toBe("script-src");
-    expect(report!.blockedUri).toBe("https://evil.example.com/inject.js");
-    expect(report!.documentUri).toBe("https://giveprotocol.io/donate");
+    if (report === null) throw new Error("Expected normalized report");
+    expect(report.directive).toBe("script-src");
+    expect(report.blockedUri).toBe("https://evil.example.com/inject.js");
+    expect(report.documentUri).toBe("https://giveprotocol.io/donate");
   });
 
   it("normalizes a Reporting API v1 payload", () => {
@@ -99,8 +103,8 @@ describe("CSP report collector smoke tests (GIV-328)", () => {
       },
     };
     const report = normalizeReport(payload);
-    expect(report).not.toBeNull();
-    expect(report!.directive).toBe("frame-src");
+    if (report === null) throw new Error("Expected normalized report");
+    expect(report.directive).toBe("frame-src");
   });
 
   it("returns null for malformed payloads", () => {

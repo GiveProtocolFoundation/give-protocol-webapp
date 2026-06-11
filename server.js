@@ -58,14 +58,18 @@ app.post("/api/csp-report", (req, res) => {
         }
       : null;
 
-  if (!report) return res.status(204).end();
+  if (!report) {
+    res.status(204).end();
+    return;
+  }
 
   // Drop browser-extension noise
   if (
     CSP_EXTENSION_RE.test(report.blockedUri) ||
     CSP_EXTENSION_RE.test(report.sourceFile)
   ) {
-    return res.status(204).end();
+    res.status(204).end();
+    return;
   }
 
   const isHighRisk = CSP_HIGH_RISK_DIRECTIVES.has(report.directive);
