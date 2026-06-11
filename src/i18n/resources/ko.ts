@@ -965,6 +965,10 @@ export default {
     "auth.donorReg.orSetPassword": "또는 비밀번호 설정",
     "auth.donorReg.creating": "계정 생성 중...",
     "auth.donorReg.createAccount": "기부자 계정 만들기",
+    "auth.donorReg.privacyNotice": "계정을 생성하면 다음에 동의하게 됩니다:",
+    "auth.donorReg.termsLink": "이용약관",
+    "auth.donorReg.privacyAnd": "및",
+    "auth.donorReg.privacyLink": "개인정보 처리방침",
     "auth.charityLogin.mismatch":
       "이 이메일은 기부자 계정으로 등록되어 있습니다. 기부자 포털에서 로그인해 주세요.",
     "auth.charityLogin.signingIn": "로그인 중...",
@@ -1074,6 +1078,11 @@ export default {
     "charity.vetting.validation.country": "국가는 필수입니다",
     "charity.vetting.validation.fix": "유효성 검사 오류를 수정해 주세요",
     "charity.vetting.error.generic": "신청서 제출에 실패했습니다",
+    "charity.vetting.privacyNotice":
+      "이 신청서를 제출하면 다음에 동의하게 됩니다:",
+    "charity.vetting.termsLink": "이용약관",
+    "charity.vetting.privacyAnd": "및",
+    "charity.vetting.privacyLink": "개인정보 처리방침",
     "common.email": "이메일",
     "common.password": "비밀번호",
     "common.confirmPassword": "비밀번호 확인",

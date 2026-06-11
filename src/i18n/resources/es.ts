@@ -1020,6 +1020,10 @@ export default {
     "auth.donorReg.orSetPassword": "O establezca una contraseña",
     "auth.donorReg.creating": "Creando Cuenta...",
     "auth.donorReg.createAccount": "Crear Cuenta de Donante",
+    "auth.donorReg.privacyNotice": "Al crear una cuenta, acepta nuestros",
+    "auth.donorReg.termsLink": "Términos de Servicio",
+    "auth.donorReg.privacyAnd": "y reconoce nuestra",
+    "auth.donorReg.privacyLink": "Política de Privacidad",
     "auth.charityLogin.mismatch":
       "Este correo está registrado como cuenta de donante. Inicie sesión en el portal de donantes.",
     "auth.charityLogin.signingIn": "Iniciando sesión...",
@@ -1137,6 +1141,11 @@ export default {
     "charity.vetting.validation.country": "El país es obligatorio",
     "charity.vetting.validation.fix": "Corrija los errores de validación",
     "charity.vetting.error.generic": "No se pudo enviar la solicitud",
+    "charity.vetting.privacyNotice":
+      "Al enviar esta solicitud, acepta nuestros",
+    "charity.vetting.termsLink": "Términos de Servicio",
+    "charity.vetting.privacyAnd": "y reconoce nuestra",
+    "charity.vetting.privacyLink": "Política de Privacidad",
     "common.email": "Correo electrónico",
     "common.password": "Contraseña",
     "common.confirmPassword": "Confirmar Contraseña",
