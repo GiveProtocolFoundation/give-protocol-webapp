@@ -63,6 +63,11 @@ interface ReportingApiBody {
   };
 }
 
+/**
+ * Determines if the given URI matches any known extension patterns.
+ * @param uri The URI string to check, or undefined.
+ * @returns True if the URI matches an extension pattern; otherwise, false.
+ */
 function isExtensionUri(uri: string | undefined): boolean {
   if (!uri) return false;
   return EXTENSION_PATTERNS.some((p) => p.test(uri));
