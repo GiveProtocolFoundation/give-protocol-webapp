@@ -9,6 +9,11 @@
       All other CSP locations (nginx.conf, vercel.json, security/index.ts) must mirror this.
       CI validates consistency via scripts/validate-csp.mjs.
       Supabase URL is intentionally public — security via RLS policies and anon key.
+
+      NOTE: CSP meta tags do not support report-uri/report-to directives.
+      Violation reporting is handled by the server-sent Content-Security-Policy
+      HTTP header (vercel.json, nginx.conf, .htaccess) which includes report-to
+      and report-uri pointing to /api/csp-report. See GIV-328.
     -->
     <meta
       http-equiv="Content-Security-Policy"

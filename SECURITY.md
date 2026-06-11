@@ -148,3 +148,49 @@ PGP Key: [if you have one, include your public key]
 
 - We include fixes in the next regular release
 - Public disclosure happens with the release announcement
+
+---
+
+## CSP Violation Reporting
+
+**Added:** June 2026 (TT-F1 / GIV-328)
+
+All server-sent CSP headers include `report-to` (Reporting API v1) and `report-uri` (legacy) directives that point to `/api/csp-report`.
+
+### Architecture
+
+| Config            | Location            | Reporting                                                    |
+| ----------------- | ------------------- | ------------------------------------------------------------ |
+| `vercel.json`     | Production (Vercel) | `Report-To` header + `report-to`/`report-uri` in CSP         |
+| `nginx.conf`      | Self-hosted         | `Report-To` header + `report-to`/`report-uri` in CSP         |
+| `.htaccess`       | Apache              | `Report-To` header + `report-to`/`report-uri` in CSP         |
+| `server.js`       | Express SSR dev     | `/api/csp-report` route (collector)                          |
+| `index.html`      | Meta tag            | No reporting (CSP meta tags cannot use report-to/report-uri) |
+| `SecurityManager` | TypeScript          | `report-to`/`report-uri` in generated CSP string             |
+
+### Collector endpoint
+
+`POST /api/csp-report` accepts both `application/csp-report` (legacy) and `application/reports+json` (Reporting API v1) content types. It:
+
+1. Normalizes the payload across report formats.
+2. Drops browser-extension violations (chrome-extension://, moz-extension://, etc.).
+3. Drops reports from non-Give-Protocol origins.
+4. Classifies violations: `script-src`, `frame-src`, `object-src`, `base-uri` are **high-risk** (ALERT level).
+5. Logs to stdout — picked up by Vercel Log Drains / Sentry for routing to `#security-incidents`.
+
+### Smoke-testing
+
+To verify reporting works, open the browser console on the donation page and run:
+
+```javascript
+// Inject a script from an untrusted origin to trigger a CSP violation
+const s = document.createElement("script");
+s.src = "https://csp-test.invalid/probe.js";
+document.head.appendChild(s);
+```
+
+A `[CSP-ALERT]` log entry should appear in the server logs (or Vercel function logs) within seconds.
+
+### IRP-001 §4 — Detection Sources (off-cycle revision per §11.3)
+
+CSP violation reports from the donation page are now a detection source for the Incident Response Plan. High-risk violations (`script-src`, `frame-src` on the payment domain) are escalated to `#security-incidents` via log drain alerting.
