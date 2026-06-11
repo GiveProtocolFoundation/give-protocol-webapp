@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import type {
+  AdminAuditEntityType,
   AdminAuditLogEntry,
   AdminAuditLogFilters,
   AdminAuditLogResult,
@@ -14,6 +15,42 @@ const EMPTY_RESULT: AdminAuditLogResult = {
   limit: 50,
   totalPages: 0,
 };
+
+/** Context for read audit log entries. Only filter keys (not values) are recorded. */
+export interface LogReadContext {
+  page?: number;
+  limit?: number;
+  filterKeys?: string[];
+  resultCount?: number;
+  source?: string;
+}
+
+/** In-memory dedup window (~1 s) to absorb StrictMode double-mount and rapid filter typing */
+const dedupWindow = new Map<string, number>();
+const DEDUP_MS = 1000;
+
+/**
+ * Clears the in-memory dedup window. Exposed for testing only.
+ */
+export function _resetDedupWindow(): void {
+  dedupWindow.clear();
+}
+
+/**
+ * Produces a stable string key from a LogReadContext for dedup keying.
+ * @param ctx - The context to hash
+ * @returns A deterministic string representation
+ */
+function stableContextKey(ctx?: LogReadContext): string {
+  if (!ctx) return "";
+  const parts: string[] = [];
+  if (ctx.page !== undefined) parts.push(`p:${ctx.page}`);
+  if (ctx.limit !== undefined) parts.push(`l:${ctx.limit}`);
+  if (ctx.filterKeys) parts.push(`fk:${[...ctx.filterKeys].sort().join(",")}`);
+  if (ctx.resultCount !== undefined) parts.push(`rc:${ctx.resultCount}`);
+  if (ctx.source) parts.push(`s:${ctx.source}`);
+  return parts.join("|");
+}
 
 /**
  * Maps a raw database row (snake_case) to a camelCase AdminAuditLogEntry.
@@ -116,7 +153,12 @@ export async function insertAuditEntry(
     });
 
     if (error) {
-      Logger.error("Failed to insert audit entry", { error, actionType, entityType, entityId });
+      Logger.error("Failed to insert audit entry", {
+        error,
+        actionType,
+        entityType,
+        entityId,
+      });
       return null;
     }
 
@@ -125,6 +167,79 @@ export async function insertAuditEntry(
     Logger.error("Audit entry insertion failed", {
       error: error instanceof Error ? error.message : String(error),
       actionType,
+      entityType,
+      entityId,
+    });
+    return null;
+  }
+}
+
+/**
+ * Logs a read/view action for admin PII access audit trail.
+ * Invokes the insert_admin_audit_read_entry RPC. Includes in-memory dedup
+ * (~1 s window) to absorb React StrictMode double-mount and rapid filter typing.
+ * Errors are swallowed silently to avoid breaking the user-facing page.
+ * @param entityType - The type of entity being viewed
+ * @param entityId - The specific entity ID, or null for list views
+ * @param context - Additional context (page, limit, filter keys, result count)
+ * @returns The generated audit entry UUID, or null on failure/dedup
+ */
+export async function logRead(
+  entityType: AdminAuditEntityType,
+  entityId: string | null,
+  context?: LogReadContext,
+): Promise<string | null> {
+  const dedupKey = `${entityType}:${entityId ?? "list"}:${stableContextKey(context)}`;
+  const now = Date.now();
+
+  // Check dedup window
+  const lastCall = dedupWindow.get(dedupKey);
+  if (lastCall !== undefined && now - lastCall < DEDUP_MS) {
+    return null;
+  }
+
+  // Expire stale entries
+  for (const [key, ts] of dedupWindow) {
+    if (now - ts >= DEDUP_MS) {
+      dedupWindow.delete(key);
+    }
+  }
+
+  dedupWindow.set(dedupKey, now);
+
+  try {
+    const actionType = entityId !== null ? "view_pii" : "view_pii_list";
+    const { data, error } = await supabase.rpc(
+      "insert_admin_audit_read_entry",
+      {
+        p_action_type: actionType,
+        p_entity_type: entityType,
+        p_entity_id: entityId,
+        p_context: context
+          ? {
+              page: context.page,
+              limit: context.limit,
+              filter_keys: context.filterKeys,
+              result_count: context.resultCount,
+              source: context.source,
+            }
+          : null,
+      },
+    );
+
+    if (error) {
+      Logger.warn("Failed to log admin read audit entry", {
+        error,
+        entityType,
+        entityId,
+      });
+      return null;
+    }
+
+    return data as string;
+  } catch (error) {
+    Logger.warn("Admin read audit logging failed", {
+      error: error instanceof Error ? error.message : String(error),
       entityType,
       entityId,
     });

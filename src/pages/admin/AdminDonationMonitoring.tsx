@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useAdminDonations } from "@/hooks/useAdminDonations";
+import { logRead } from "@/services/adminAuditService";
 import type {
   AdminDonationListFilters,
   AdminDonationListItem,
@@ -482,9 +483,32 @@ const AdminDonationMonitoring: React.FC = () => {
   const [reportDateFrom, setReportDateFrom] = useState("");
   const [reportDateTo, setReportDateTo] = useState("");
 
+  // Audit: active filter keys for PII access logging
+  const serializedFilterKeys = useMemo(() => {
+    const keys = Object.keys(filters)
+      .filter(
+        (k) =>
+          k !== "page" &&
+          k !== "limit" &&
+          filters[k as keyof AdminDonationListFilters] !== undefined,
+      )
+      .sort();
+    return JSON.stringify(keys);
+  }, [filters]);
+
   useEffect(() => {
     fetchDonations(filters);
   }, [fetchDonations, filters]);
+
+  // Audit: log list view on page/filter change
+  useEffect(() => {
+    const filterKeys = JSON.parse(serializedFilterKeys) as string[];
+    logRead("donation", null, {
+      page: filters.page,
+      limit: filters.limit,
+      filterKeys: filterKeys.length > 0 ? filterKeys : undefined,
+    });
+  }, [filters.page, filters.limit, serializedFilterKeys]);
 
   const handlePaymentMethodChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -545,6 +569,7 @@ const AdminDonationMonitoring: React.FC = () => {
   const handleOpenFlag = useCallback((donation: AdminDonationListItem) => {
     setFlagTarget(donation);
     setFlagReason("");
+    logRead("donation", donation.id);
   }, []);
 
   const handleCloseFlagModal = useCallback(() => {

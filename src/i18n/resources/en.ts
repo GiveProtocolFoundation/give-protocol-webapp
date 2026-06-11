@@ -1566,5 +1566,34 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox \u2014 the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    // Admin Audit Trail (GIV-415)
+    "admin.auditTrail.filterByAction": "Filter by action",
+    "admin.auditTrail.allActions": "All actions",
+    "admin.auditTrail.action.charityStatusChange": "Charity status change",
+    "admin.auditTrail.action.userStatusChange": "User status change",
+    "admin.auditTrail.action.donationFlag": "Donation flag",
+    "admin.auditTrail.action.donationFlagResolve": "Donation flag resolve",
+    "admin.auditTrail.action.validationOverride": "Validation override",
+    "admin.auditTrail.action.configChange": "Config change",
+    "admin.auditTrail.action.verificationApprove": "Verification approve",
+    "admin.auditTrail.action.verificationReject": "Verification reject",
+    "admin.auditTrail.action.charitySuspend": "Charity suspend",
+    "admin.auditTrail.action.charityReinstate": "Charity reinstate",
+    "admin.auditTrail.action.userSuspend": "User suspend",
+    "admin.auditTrail.action.userReinstate": "User reinstate",
+    "admin.auditTrail.action.userBan": "User ban",
+    "admin.auditTrail.action.viewPii": "View PII",
+    "admin.auditTrail.action.viewPiiList": "View PII list",
+    "admin.auditTrail.viewedEntity":
+      "Admin {{adminId}} viewed {{entityType}} {{entityId}}",
+    "admin.auditTrail.viewedList":
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})",
+    "admin.auditTrail.viewedListNoFilters":
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}})",
+
+    // Privacy Policy §6 — Admin access audit log (GIV-416)
+    "privacy.security.auditLog":
+      "As an additional technical measure under GDPR Article 32, we maintain an administrative access audit log. When Give Protocol staff access the platform\u2019s administrative functions, we record the action type, timestamp, IP address, and a reference to the affected entity. No donor personal data is duplicated into the log. This log supports our ability to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a data breach (Article 34 notification). Audit log records are retained for a minimum of two years.",
   },
 };

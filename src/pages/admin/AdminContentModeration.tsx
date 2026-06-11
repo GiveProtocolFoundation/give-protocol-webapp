@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
@@ -8,6 +8,7 @@ import {
   listCauses,
   moderateContent,
 } from "@/services/adminContentModerationService";
+import { logRead } from "@/services/adminAuditService";
 import { useToast } from "@/contexts/ToastContext";
 import type {
   AdminOpportunityListItem,
@@ -623,6 +624,19 @@ const AdminContentModeration: React.FC = () => {
   );
   const [reason, setReason] = useState("");
 
+  // Audit: active filter keys for PII access logging
+  const serializedFilterKeys = useMemo(() => {
+    const keys = Object.keys(filters)
+      .filter(
+        (k) =>
+          k !== "page" &&
+          k !== "limit" &&
+          filters[k as keyof AdminContentModerationFilters] !== undefined,
+      )
+      .sort();
+    return JSON.stringify(keys);
+  }, [filters]);
+
   const fetchOpportunities = useCallback(
     async (f: AdminContentModerationFilters) => {
       setLoading(true);
@@ -654,6 +668,17 @@ const AdminContentModeration: React.FC = () => {
     }
   }, [activeTab, filters, fetchOpportunities, fetchCauses]);
 
+  // Audit: log list view on page/filter change
+  useEffect(() => {
+    const filterKeys = JSON.parse(serializedFilterKeys) as string[];
+    logRead("content", null, {
+      page: filters.page,
+      limit: filters.limit,
+      filterKeys: filterKeys.length > 0 ? filterKeys : undefined,
+      source: activeTab,
+    });
+  }, [filters.page, filters.limit, serializedFilterKeys, activeTab]);
+
   const handleTabOpportunities = useCallback(() => {
     setActiveTab("opportunities");
     setFilters({ page: 1, limit: 50 });
@@ -673,6 +698,7 @@ const AdminContentModeration: React.FC = () => {
         action,
       });
       setReason("");
+      logRead("content", item.id);
     },
     [],
   );
@@ -686,6 +712,7 @@ const AdminContentModeration: React.FC = () => {
         action,
       });
       setReason("");
+      logRead("content", item.id);
     },
     [],
   );

@@ -194,3 +194,66 @@ A `[CSP-ALERT]` log entry should appear in the server logs (or Vercel function l
 ### IRP-001 §4 — Detection Sources (off-cycle revision per §11.3)
 
 CSP violation reports from the donation page are now a detection source for the Incident Response Plan. High-risk violations (`script-src`, `frame-src` on the payment domain) are escalated to `#security-incidents` via log drain alerting.
+
+---
+
+## 🛂 Internal Data Breach Response (GDPR Art. 33 / Art. 34)
+
+> The section above governs how _external researchers_ report vulnerabilities to us. This section governs what _Give Protocol does internally_ when we discover a personal data breach affecting our users. The two processes can run in parallel for the same incident.
+
+### Authoritative procedure
+
+The full internal procedure — roles, decision tree, notification templates, and post-incident review — is the **Data Breach Response Procedure (DBRP)** document, owned by the CEO acting as Data Breach Owner (DBO). Engineering should treat the DBRP as the source of truth; this section is a quick-reference summary.
+
+### The 72-hour regulatory clock is separate from the engineering SLA
+
+The High-severity researcher response time in the table above is **3-5 business days**. This is an engineering remediation SLA for the researcher relationship.
+
+It is **not** the regulatory notification clock.
+
+GDPR Art. 33 requires notification to the competent supervisory authority within **72 hours** of becoming aware of a personal data breach, unless the breach is unlikely to result in a risk to natural persons. The 72-hour clock is independent of:
+
+- The engineering remediation timeline
+- Whether the researcher has been credited
+- Whether the patch has shipped to production
+
+If a High- or Critical-severity issue involves personal data, the on-call engineer **must** page the CEO (DBO) and CTO immediately. The 72-hour clock starts at the moment of reasonable certainty that personal data has been compromised, not at the moment of researcher report receipt and not at the moment internal triage completes.
+
+### Data categories that trigger GDPR consideration
+
+Any incident that exposes or could expose the following data categories must be evaluated by the DBO for Art. 33 reportability:
+
+- Account credentials (email, password hash, session token, OAuth identity)
+- Identity verification documents (KYC)
+- Wallet addresses linked to identifiable users
+- Donation history linked to identifiable users
+- Volunteer activity linked to identifiable users
+- Charity affiliation linked to identifiable users
+- Any data processed under Supabase Row Level Security with PII fields
+
+### What engineering does in the first hour
+
+1. Open a private incident channel and page CEO + CTO.
+2. Preserve evidence: do not delete logs, do not wipe affected systems, snapshot Supabase audit logs.
+3. Contain the breach (rotate credentials, revoke tokens, disable affected endpoints).
+4. Do **not** publicly disclose anything until the DBO authorises external communication. Internal candor, external discipline.
+
+### What the DBO does in the first 24 hours
+
+1. Formally declare whether the incident is a personal data breach under Art. 4(12) GDPR. The moment of formal declaration is recorded in UTC and starts the 72-hour clock.
+2. Run the DBRP decision tree to determine reportability and Art. 34 high-risk status.
+3. Open an entry in the **Personal Data Breach Register** (Art. 33(5)). Every declared breach is registered, reportable or not.
+4. Engage external counsel for confirmation of the lead supervisory authority and review of the notification draft.
+
+### Documents
+
+- `data-breach-response-procedure` — full DBRP, owned by the DBO
+- `breach-register` — Art. 33(5) register of all declared breaches
+
+Both live as Paperclip documents on the originating governance issue.
+
+### Contact
+
+- Internal escalation for suspected data breach: page CEO (DBO) and CTO via the on-call rotation
+- Privacy / data-subject inquiries: `privacy@giveprotocol.io`
+- External researcher vulnerability disclosure (separate process, see above): `security@giveprotocol.io`

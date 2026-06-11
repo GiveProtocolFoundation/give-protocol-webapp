@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminCharities } from "@/hooks/useAdminCharities";
+import { logRead } from "@/services/adminAuditService";
 import type {
   AdminCharityListItem,
   AdminCharityListFilters,
@@ -515,15 +516,39 @@ const AdminCharityManagement: React.FC = () => {
   const [currentAction, setCurrentAction] = useState("");
   const [reason, setReason] = useState("");
 
+  // Audit: active filter keys for PII access logging
+  const serializedFilterKeys = useMemo(() => {
+    const keys = Object.keys(filters)
+      .filter(
+        (k) =>
+          k !== "page" &&
+          k !== "limit" &&
+          filters[k as keyof AdminCharityListFilters] !== undefined,
+      )
+      .sort();
+    return JSON.stringify(keys);
+  }, [filters]);
+
   useEffect(() => {
     fetchCharities(filters);
   }, [fetchCharities, filters]);
+
+  // Audit: log list view on page/filter change
+  useEffect(() => {
+    const filterKeys = JSON.parse(serializedFilterKeys) as string[];
+    logRead("charity", null, {
+      page: filters.page,
+      limit: filters.limit,
+      filterKeys: filterKeys.length > 0 ? filterKeys : undefined,
+    });
+  }, [filters.page, filters.limit, serializedFilterKeys]);
 
   const handleAction = useCallback(
     (charity: AdminCharityListItem, action: string) => {
       setActionCharity(charity);
       setCurrentAction(action);
       setReason("");
+      logRead("charity", charity.id);
     },
     [],
   );
