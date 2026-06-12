@@ -320,8 +320,6 @@ export default {
       "<rootDir>/src/test-utils/walletAliasSettingsComponentMock.js",
     "^@/components/settings/LinkedAccountsSection$":
       "<rootDir>/src/test-utils/linkedAccountsSectionMock.js",
-    "^@/components/settings/PhoneSettings$":
-      "<rootDir>/src/test-utils/phoneSettingsMock.js",
     "^@/components/settings/SetPasswordSettings$":
       "<rootDir>/src/test-utils/setPasswordSettingsMock.js",
     "^@/components/settings/PrivacySettings$":
