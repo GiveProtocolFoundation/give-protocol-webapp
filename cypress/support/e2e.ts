@@ -1,4 +1,5 @@
 import './commands';
+import './supabase-auth';
 
 beforeEach(() => {
   // Reset application state
