@@ -1174,14 +1174,12 @@ export default {
     "consent.modal.essentialTitle": "Esenciales",
     "consent.modal.essentialDesc":
       "Necesarias para las funciones principales del sitio, como la navegación y la autenticación. No se pueden desactivar.",
-    "consent.modal.essentialAlwaysOn":
-      "Cookies esenciales — siempre activas",
+    "consent.modal.essentialAlwaysOn": "Cookies esenciales — siempre activas",
     "consent.modal.analyticsTitle":
       "Análisis (Google Analytics 4 · EE.\u00a0UU., Sentry · EE.\u00a0UU./UE)",
     "consent.modal.analyticsDesc":
       "Las cookies de análisis nos ayudan a comprender qué páginas se visitan y cómo los usuarios navegan por la aplicación. Utilizamos Google Analytics 4 \u2014 identificadores de sesión, URL de páginas, metadatos de dispositivo/navegador, ubicación aproximada a partir de IP anonimizada (Google LLC, EE.\u00a0UU.; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 trazas de errores anonimizadas y metadatos del navegador para la supervisión de fiabilidad (Functional Software, UE/EE.\u00a0UU.; mecanismo de transferencia pendiente). No se comparten direcciones de correo electrónico, direcciones de wallet ni nombres de donantes con ningún procesador.",
-    "consent.modal.analyticsOn":
-      "Análisis y registro de errores — activado",
+    "consent.modal.analyticsOn": "Análisis y registro de errores — activado",
     "consent.modal.analyticsOff":
       "Análisis y registro de errores — desactivado",
     "consent.modal.cancel": "Cancelar",
