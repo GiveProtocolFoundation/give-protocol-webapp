@@ -13,6 +13,7 @@ import {
 import { AlertCircle, X, Mail } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 import { useTranslation } from "@/hooks/useTranslation";
+import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
 
 type CommitmentType = "one-time" | "short-term" | "long-term";
 
@@ -358,8 +359,7 @@ const ConsentPanel: React.FC<ConsentPanelProps> = ({
           checked={formData.ageConfirmation}
           onChange={onCheckboxChange("ageConfirmation")}
           title={t("volunteer.ageConfirmationTitle", "Age Confirmation:")}
-          description="I confirm that I am at least 16 years of age."
-          note="(If you are under 16 years of age, parental or guardian consent is required)"
+          description={AGE_AFFIRMATION_COPY.positive}
         />
         <ConsentCheckbox
           id="privacy-notice"

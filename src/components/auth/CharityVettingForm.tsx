@@ -13,6 +13,7 @@ import {
 } from "@/utils/validation";
 import { AlertCircle } from "lucide-react";
 import { CharityCategory, CHARITY_CATEGORY_LABELS } from "@/types/charity";
+import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
 
 interface CountrySelectProps {
   value: string;
@@ -121,6 +122,7 @@ export const CharityVettingForm: React.FC = () => {
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
+  const [ageAffirmed, setAgeAffirmed] = useState(false);
 
   const [formData, setFormData] = useState({
     organizationName: "",
@@ -137,6 +139,38 @@ export const CharityVettingForm: React.FC = () => {
     password: "",
     confirmPassword: "",
   });
+
+  const clearPii = useCallback(() => {
+    setFormData({
+      organizationName: "",
+      description: "",
+      category: "",
+      streetAddress: "",
+      city: "",
+      state: "",
+      country: "",
+      postalCode: "",
+      taxId: "",
+      contactName: "",
+      contactEmail: "",
+      password: "",
+      confirmPassword: "",
+    });
+    setValidationErrors({});
+    setError("");
+  }, []);
+
+  const handleAgeAffirmedChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const checked = e.target.checked;
+      setAgeAffirmed(checked);
+      if (!checked) {
+        // PII-clear guard: wipe entered data on decline (GIV-454)
+        clearPii();
+      }
+    },
+    [clearPii],
+  );
 
   const handleChange = useCallback(
     (
@@ -254,6 +288,17 @@ export const CharityVettingForm: React.FC = () => {
         errors["country"] = t("charity.vetting.validation.country");
       }
 
+      // Age affirmation gate (GIV-454)
+      if (!ageAffirmed) {
+        setError(
+          t(
+            "charity.vetting.validation.ageRequired",
+            "You must confirm you are 16 years of age or older to proceed.",
+          ),
+        );
+        return;
+      }
+
       // If there are validation errors, don't submit
       if (Object.keys(errors).length > 0) {
         setValidationErrors(errors);
@@ -290,7 +335,7 @@ export const CharityVettingForm: React.FC = () => {
         setError(message);
       }
     },
-    [formData, navigate, register, validateField, t],
+    [formData, ageAffirmed, navigate, register, validateField, t],
   );
 
   return (
@@ -459,6 +504,29 @@ export const CharityVettingForm: React.FC = () => {
         error={validationErrors["confirmPassword"]}
       />
 
+      {/* Age-affirmation gate (GIV-454) — below confirm-password, above submit */}
+      <label className="flex items-start gap-3 cursor-pointer select-none">
+        <input
+          id="age-affirmation"
+          type="checkbox"
+          checked={ageAffirmed}
+          onChange={handleAgeAffirmedChange}
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          aria-required="true"
+        />
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {AGE_AFFIRMATION_COPY.positive}{" "}
+          <a
+            href="/privacy"
+            className="underline hover:text-gray-900 dark:hover:text-gray-100"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </span>
+      </label>
+
       {/* Art. 13 GDPR privacy notice */}
       <p className="text-xs text-center text-gray-500 dark:text-gray-400">
         {t(
@@ -484,7 +552,7 @@ export const CharityVettingForm: React.FC = () => {
       <Button
         type="submit"
         className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
-        disabled={loading}
+        disabled={loading || !ageAffirmed}
       >
         {loading
           ? t("charity.vetting.submitting")
