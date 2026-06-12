@@ -477,8 +477,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "別のチェーンタイプを選択してみてください。",
     "modal.connect.viewOtherWallets": "他の対応ウォレットを表示",
-    "modal.connect.termsAgreement": "接続することにより、",
+    "modal.connect.termsAgreement": "接続することにより、当社の",
     "modal.connect.termsLink": "利用規約",
+    "modal.connect.termsPrivacyConnector": "および",
+    "modal.connect.privacyLink": "プライバシーポリシー",
     "modal.connect.chainTypeAria": "チェーンタイプ",
     "modal.connect.failedConnect": "接続に失敗しました",
 
@@ -771,8 +773,10 @@ export default {
     "admin.charity.allStatuses": "すべてのステータス",
     "admin.charity.searchPlaceholder": "名前で検索\u2026",
     "admin.charity.colName": "名前",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "カテゴリ",
     "admin.charity.colStatus": "ステータス",
+    "admin.charity.colSigner": "連絡先",
     "admin.charity.colJoined": "登録日",
     "admin.charity.colWallet": "ウォレット",
     "admin.charity.colActions": "操作",
@@ -984,6 +988,11 @@ export default {
     "auth.donorReg.orSetPassword": "またはパスワードを設定",
     "auth.donorReg.creating": "アカウントを作成中...",
     "auth.donorReg.createAccount": "寄付者アカウントを作成",
+    "auth.donorReg.privacyNotice":
+      "アカウントを作成すると、以下に同意したことになります：",
+    "auth.donorReg.termsLink": "利用規約",
+    "auth.donorReg.privacyAnd": "および",
+    "auth.donorReg.privacyLink": "プライバシーポリシー",
     "auth.charityLogin.mismatch":
       "このメールアドレスは寄付者アカウントとして登録されています。寄付者ポータルからサインインしてください。",
     "auth.charityLogin.signingIn": "サインイン中...",
@@ -1055,6 +1064,11 @@ export default {
       "パスワードは8文字以上で入力してください",
     "charity.claim.validation.confirmPassword": "パスワードが一致しません",
     "charity.claim.validation.fix": "入力エラーを修正してください",
+    "charity.claim.useAsPublicEmail":
+      "自分のメールアドレスを団体の公開連絡先メールアドレスとして使用する",
+    "charity.claim.publicContactEmail": "団体の公開連絡先メールアドレス",
+    "charity.claim.privacyNotice":
+      "個人の署名者メール/電話番号は本人確認のみに使用され、他のプラットフォームユーザーには表示されません。公開連絡先メールアドレスは団体プロフィールに表示されます。",
     "charity.claim.error.creation": "アカウントの作成に失敗しました",
     "charity.claim.error.generic": "アカウントを作成できませんでした",
     "charity.vetting.orgDetails": "団体情報",
@@ -1093,6 +1107,11 @@ export default {
     "charity.vetting.validation.country": "国は必須です",
     "charity.vetting.validation.fix": "入力エラーを修正してください",
     "charity.vetting.error.generic": "申請の送信に失敗しました",
+    "charity.vetting.privacyNotice":
+      "この申請を送信すると、以下に同意したことになります：",
+    "charity.vetting.termsLink": "利用規約",
+    "charity.vetting.privacyAnd": "および",
+    "charity.vetting.privacyLink": "プライバシーポリシー",
     "common.email": "メールアドレス",
     "common.password": "パスワード",
     "common.confirmPassword": "パスワード確認",
@@ -1118,7 +1137,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",

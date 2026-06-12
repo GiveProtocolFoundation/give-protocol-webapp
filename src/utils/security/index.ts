@@ -87,7 +87,7 @@ export class SecurityManager {
     return [
       ENV.APP_DOMAIN,
       `app.${ENV.APP_DOMAIN}`,
-      "etqbojasfmpieigeefdj.supabase.co",
+      "lhbyfidtlhojnrewpstp.supabase.co",
       "westend-rpc.polkadot.io",
       "api.giveprotocol.io",
       "images.unsplash.com",
@@ -111,7 +111,7 @@ export class SecurityManager {
    */
   private initializeSecurityHeaders(): SecurityHeaders {
     const scriptSrcDomains = [
-      "https://etqbojasfmpieigeefdj.supabase.co",
+      "https://*.supabase.co",
       "https://*.sentry.io",
       "https://translate.google.com",
       "https://translate.googleapis.com",
@@ -150,6 +150,9 @@ export class SecurityManager {
         object-src 'none';
         base-uri 'self';
         form-action 'self';
+        upgrade-insecure-requests;
+        report-uri /api/csp-report;
+        report-to csp-endpoint;
       `
         .replaceAll(/\s+/g, " ")
         .trim(),

@@ -476,6 +476,8 @@ export default {
     "modal.connect.viewOtherWallets": "Xem các ví được hỗ trợ khác",
     "modal.connect.termsAgreement": "Bằng việc kết nối, bạn đồng ý với",
     "modal.connect.termsLink": "Điều khoản dịch vụ",
+    "modal.connect.termsPrivacyConnector": "và",
+    "modal.connect.privacyLink": "Chính sách Bảo mật",
     "modal.connect.chainTypeAria": "Loại chuỗi",
     "modal.connect.failedConnect": "Kết nối thất bại",
 
@@ -769,8 +771,10 @@ export default {
     "admin.charity.allStatuses": "Tất cả trạng thái",
     "admin.charity.searchPlaceholder": "Tìm theo tên\u2026",
     "admin.charity.colName": "Tên",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Danh mục",
     "admin.charity.colStatus": "Trạng thái",
+    "admin.charity.colSigner": "Liên hệ",
     "admin.charity.colJoined": "Ngày tham gia",
     "admin.charity.colWallet": "Ví",
     "admin.charity.colActions": "Thao tác",
@@ -983,6 +987,10 @@ export default {
     "auth.donorReg.orSetPassword": "Hoặc đặt mật khẩu",
     "auth.donorReg.creating": "Đang tạo tài khoản...",
     "auth.donorReg.createAccount": "Tạo tài khoản nhà tài trợ",
+    "auth.donorReg.privacyNotice": "Bằng cách tạo tài khoản, bạn đồng ý với",
+    "auth.donorReg.termsLink": "Điều khoản dịch vụ",
+    "auth.donorReg.privacyAnd": "của chúng tôi và xác nhận",
+    "auth.donorReg.privacyLink": "Chính sách Bảo mật",
     "auth.charityLogin.mismatch":
       "Email này được đăng ký dưới tài khoản nhà tài trợ. Vui lòng đăng nhập tại cổng nhà tài trợ.",
     "auth.charityLogin.signingIn": "Đang đăng nhập...",
@@ -1051,6 +1059,11 @@ export default {
     "charity.claim.validation.password": "Mật khẩu phải có ít nhất 8 ký tự",
     "charity.claim.validation.confirmPassword": "Mật khẩu không khớp",
     "charity.claim.validation.fix": "Vui lòng sửa các lỗi xác thực",
+    "charity.claim.useAsPublicEmail":
+      "Sử dụng email của tôi làm email liên hệ công khai của tổ chức",
+    "charity.claim.publicContactEmail": "Email liên hệ công khai của tổ chức",
+    "charity.claim.privacyNotice":
+      "Email/số điện thoại cá nhân của người ký chỉ được sử dụng để xác minh và không hiển thị cho người dùng nền tảng khác. Email liên hệ công khai sẽ được hiển thị trên hồ sơ tổ chức của bạn.",
     "charity.claim.error.creation": "Tạo tài khoản thất bại",
     "charity.claim.error.generic": "Không thể tạo tài khoản",
     "charity.vetting.orgDetails": "Thông tin tổ chức",
@@ -1087,6 +1100,11 @@ export default {
     "charity.vetting.validation.country": "Quốc gia là bắt buộc",
     "charity.vetting.validation.fix": "Vui lòng sửa các lỗi xác thực",
     "charity.vetting.error.generic": "Gửi đơn đăng ký thất bại",
+    "charity.vetting.privacyNotice":
+      "Bằng cách gửi đơn đăng ký này, bạn đồng ý với",
+    "charity.vetting.termsLink": "Điều khoản dịch vụ",
+    "charity.vetting.privacyAnd": "của chúng tôi và xác nhận",
+    "charity.vetting.privacyLink": "Chính sách Bảo mật",
     "common.email": "Email",
     "common.password": "Mật khẩu",
     "common.confirmPassword": "Xác nhận mật khẩu",
@@ -1113,7 +1131,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",

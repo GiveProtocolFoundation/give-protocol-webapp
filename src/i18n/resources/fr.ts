@@ -506,8 +506,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Essayez de sélectionner un type de chaîne différent.",
     "modal.connect.viewOtherWallets": "Voir les autres portefeuilles supportés",
-    "modal.connect.termsAgreement": "En vous connectant, vous acceptez les",
+    "modal.connect.termsAgreement": "En vous connectant, vous acceptez nos",
     "modal.connect.termsLink": "Conditions de Service",
+    "modal.connect.termsPrivacyConnector": "et",
+    "modal.connect.privacyLink": "Politique de Confidentialité",
     "modal.connect.chainTypeAria": "Type de chaîne",
     "modal.connect.failedConnect": "Échec de connexion",
 
@@ -808,8 +810,10 @@ export default {
     "admin.charity.allStatuses": "Tous les statuts",
     "admin.charity.searchPlaceholder": "Rechercher par nom\u2026",
     "admin.charity.colName": "Nom",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Catégorie",
     "admin.charity.colStatus": "Statut",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Inscription",
     "admin.charity.colWallet": "Portefeuille",
     "admin.charity.colActions": "Actions",
@@ -1032,6 +1036,10 @@ export default {
     "auth.donorReg.orSetPassword": "Ou définir un mot de passe",
     "auth.donorReg.creating": "Création du Compte...",
     "auth.donorReg.createAccount": "Créer un Compte Donateur",
+    "auth.donorReg.privacyNotice": "En créant un compte, vous acceptez nos",
+    "auth.donorReg.termsLink": "Conditions de Service",
+    "auth.donorReg.privacyAnd": "et reconnaissez notre",
+    "auth.donorReg.privacyLink": "Politique de Confidentialité",
     "auth.charityLogin.mismatch":
       "Cet e-mail est enregistré en tant que compte donateur. Veuillez vous connecter via le portail donateur.",
     "auth.charityLogin.signingIn": "Connexion en cours...",
@@ -1106,6 +1114,12 @@ export default {
       "Les mots de passe ne correspondent pas",
     "charity.claim.validation.fix":
       "Veuillez corriger les erreurs de validation",
+    "charity.claim.useAsPublicEmail":
+      "Utiliser mon e-mail comme e-mail de contact public de l'organisation",
+    "charity.claim.publicContactEmail":
+      "E-mail de contact public de l'organisation",
+    "charity.claim.privacyNotice":
+      "Votre e-mail/téléphone personnel de signataire est utilisé uniquement pour la vérification et n'est pas visible par les autres utilisateurs de la plateforme. L'e-mail de contact public est affiché sur le profil de votre organisation.",
     "charity.claim.error.creation": "La création du compte a échoué",
     "charity.claim.error.generic": "Impossible de créer le compte",
     "charity.vetting.orgDetails": "Détails de l'Organisation",
@@ -1146,6 +1160,11 @@ export default {
     "charity.vetting.validation.fix":
       "Veuillez corriger les erreurs de validation",
     "charity.vetting.error.generic": "Impossible de soumettre la candidature",
+    "charity.vetting.privacyNotice":
+      "En soumettant cette candidature, vous acceptez nos",
+    "charity.vetting.termsLink": "Conditions de Service",
+    "charity.vetting.privacyAnd": "et reconnaissez notre",
+    "charity.vetting.privacyLink": "Politique de Confidentialité",
     "common.email": "E-mail",
     "common.password": "Mot de passe",
     "common.confirmPassword": "Confirmer le Mot de Passe",
@@ -1172,7 +1191,7 @@ export default {
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
     "consent.modal.analyticsTitle": "Analytics & error replay",
     "consent.modal.analyticsDesc":
-      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",

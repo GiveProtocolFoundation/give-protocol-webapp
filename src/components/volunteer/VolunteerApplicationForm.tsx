@@ -1173,8 +1173,12 @@ export const VolunteerApplicationForm: React.FC<
             days: [],
             times: [],
           },
-          consent_given: true,
+          consent_given: formData.essentialProcessing,
           international_transfers_consent: formData.internationalTransfers,
+          age_confirmation: formData.ageConfirmation,
+          privacy_notice_acknowledged: formData.privacyNotice,
+          consent_given_at: new Date().toISOString(),
+          consent_version: "v1",
         });
 
         if (error) throw error;

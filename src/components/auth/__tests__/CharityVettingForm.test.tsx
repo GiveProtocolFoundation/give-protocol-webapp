@@ -36,6 +36,14 @@ describe("CharityVettingForm", () => {
     });
   });
 
+  it("renders privacy policy and terms of service links", () => {
+    renderForm();
+    const privacyLink = screen.getByRole("link", { name: /privacy policy/i });
+    const termsLink = screen.getByRole("link", { name: /terms of service/i });
+    expect(privacyLink).toHaveAttribute("href", "/privacy");
+    expect(termsLink).toHaveAttribute("href", "/terms");
+  });
+
   it("renders all form fields", () => {
     renderForm();
     expect(screen.getByLabelText(/organization name/i)).toBeInTheDocument();

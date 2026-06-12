@@ -1,4 +1,11 @@
-import { describe, it, expect, beforeEach, afterEach } from "@jest/globals";
+import {
+  jest,
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+} from "@jest/globals";
 import { render, act } from "@testing-library/react";
 import React from "react";
 import { useAuth } from "@/contexts/AuthContext";
@@ -101,8 +108,6 @@ describe("SentryConsentReactor", () => {
     expect(mockEnable).toHaveBeenCalledTimes(1);
     expect(mockEnable).toHaveBeenCalledWith({
       id: "user-123",
-      email: "test@example.com",
-      type: "donor",
     });
   });
 

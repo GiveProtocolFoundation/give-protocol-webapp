@@ -84,7 +84,7 @@ async function assembleExportPackage(
       'verified_at, blockchain_tx_hash, nft_token_id, verification_hash'
     ).eq('volunteer_id', userId),
     supabase.from('fiat_donations').select(
-      'charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
+      'donor_name, donor_email, charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
     ).eq('donor_id', userId),
     charityProfileIds.length > 0
       ? supabase
@@ -105,6 +105,20 @@ async function assembleExportPackage(
   const authUser = authUserResult.data?.user;
   const profile = profileResult.data;
   const identity = userIdentityResult.data;
+
+  // Legacy donations table — helcim-payment writes here without donor_id.
+  // Look up by donor_email (subject's auth email).
+  let legacyDonationsResult: { data: Array<Record<string, unknown>> | null } = { data: [] };
+  if (authUser?.email) {
+    legacyDonationsResult = await supabase
+      .from('donations')
+      .select(
+        'charity_id, donor_name, donor_email, amount_cents, currency, ' +
+        'payment_method, transaction_id, card_type, card_last_four, ' +
+        'fee_covered, status, created_at'
+      )
+      .eq('donor_email', authUser.email);
+  }
 
   return {
     export_generated_at: now,
@@ -163,6 +177,8 @@ async function assembleExportPackage(
       nft_token_id: v.nft_token_id,
     })),
     fiat_donations: (fiatDonationsResult.data ?? []).map((d) => ({
+      donor_name: d.donor_name,
+      donor_email: d.donor_email,
       charity_id: d.charity_id,
       amount_cents: d.amount_cents,
       currency: d.currency,
@@ -171,6 +187,21 @@ async function assembleExportPackage(
       card_last_four: d.card_last_four,
       cause_name: d.cause_name,
       fund_name: d.fund_name,
+      created_at: d.created_at,
+    })),
+    legacy_fiat_donations: (legacyDonationsResult.data ?? []).map((d) => ({
+      type: 'fiat_legacy',
+      charity_id: d.charity_id,
+      donor_name: d.donor_name,
+      donor_email: d.donor_email,
+      amount_cents: d.amount_cents,
+      currency: d.currency,
+      payment_method: d.payment_method,
+      transaction_id: d.transaction_id,
+      card_type: d.card_type,
+      card_last_four: d.card_last_four,
+      fee_covered: d.fee_covered,
+      status: d.status,
       created_at: d.created_at,
     })),
     charity_representative: (charityProfiles ?? []).map((p) => ({
