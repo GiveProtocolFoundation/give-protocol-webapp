@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import {
   Heart,
   TrendingUp,
@@ -11,12 +11,14 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useTranslation } from "@/hooks/useTranslation";
+import { CustomizeModal } from "@/components/consent/CustomizeModal";
 
 interface FooterLink {
   label: string;
   href?: string;
   isExternal?: boolean;
   isDisabled?: boolean;
+  onClick?: () => void;
 }
 
 const features = [
@@ -260,6 +262,17 @@ function HomeFooterLink({ link }: { link: FooterLink }) {
   if (link.isDisabled) {
     return <span className="opacity-60">{link.label}</span>;
   }
+  if (link.onClick) {
+    return (
+      <button
+        type="button"
+        onClick={link.onClick}
+        className="hover:text-emerald-400 bg-transparent border-0 cursor-pointer p-0 text-inherit text-left"
+      >
+        {link.label}
+      </button>
+    );
+  }
   if (link.isExternal) {
     return (
       <a
@@ -364,6 +377,16 @@ function CTASection() {
 /** Home page footer with links and copyright. */
 function HomeFooter() {
   const { t } = useTranslation();
+  const [showCookieModal, setShowCookieModal] = useState(false);
+
+  const handleOpenCookieModal = useCallback(() => {
+    setShowCookieModal(true);
+  }, []);
+
+  const handleCloseCookieModal = useCallback(() => {
+    setShowCookieModal(false);
+  }, []);
+
   const productLinks: FooterLink[] = [
     { label: t("home.nav.features"), href: "#features" },
     { label: t("home.footer.product.impactFunds"), href: "#impact" },
@@ -375,6 +398,14 @@ function HomeFooter() {
     { label: t("home.footer.resources.whitepaper"), isDisabled: true },
     { label: t("home.footer.resources.blog"), isDisabled: true },
     { label: t("home.footer.resources.community"), isDisabled: true },
+  ];
+  const legalLinks: FooterLink[] = [
+    { label: t("footer.legal.terms", "Terms of Service"), href: "/legal" },
+    { label: t("footer.legal.privacy", "Privacy Policy"), href: "/privacy" },
+    {
+      label: t("footer.legal.cookiePreferences", "Cookie preferences"),
+      onClick: handleOpenCookieModal,
+    },
   ];
   const connectLinks: FooterLink[] = [
     {
@@ -397,7 +428,7 @@ function HomeFooter() {
 
   return (
     <footer className="relative z-10 container mx-auto px-6 py-12 border-t border-white/10">
-      <div className="grid md:grid-cols-4 gap-8 mb-8">
+      <div className="grid md:grid-cols-5 gap-8 mb-8">
         <HomeFooterBrand />
         <HomeFooterLinks
           title={t("home.footer.product.title")}
@@ -406,6 +437,10 @@ function HomeFooter() {
         <HomeFooterLinks
           title={t("home.footer.resources.title")}
           links={resourceLinks}
+        />
+        <HomeFooterLinks
+          title={t("footer.legal.title", "Legal")}
+          links={legalLinks}
         />
         <HomeFooterLinks
           title={t("home.footer.connect.title")}
@@ -417,6 +452,9 @@ function HomeFooter() {
           © {new Date().getFullYear()} {t("home.footer.copyright")}
         </p>
       </div>
+      {showCookieModal && (
+        <CustomizeModal onClose={handleCloseCookieModal} showCloseButton />
+      )}
     </footer>
   );
 }

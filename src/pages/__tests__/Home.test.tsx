@@ -149,6 +149,28 @@ describe("Home", () => {
       renderHome();
       expect(screen.getByText("Connect")).toBeInTheDocument();
     });
+
+    it("renders Legal footer section", () => {
+      renderHome();
+      expect(screen.getByText("Legal")).toBeInTheDocument();
+    });
+
+    it("renders Cookie preferences button in footer", () => {
+      renderHome();
+      const cookieBtn = screen.getByText("Cookie preferences");
+      expect(cookieBtn).toBeInTheDocument();
+      expect(cookieBtn.tagName).toBe("BUTTON");
+    });
+
+    it("renders Terms of Service link in Legal section", () => {
+      renderHome();
+      expect(screen.getByText("Terms of Service")).toBeInTheDocument();
+    });
+
+    it("renders Privacy Policy link in Legal section", () => {
+      renderHome();
+      expect(screen.getByText("Privacy Policy")).toBeInTheDocument();
+    });
   });
 
   describe("Navigation", () => {
