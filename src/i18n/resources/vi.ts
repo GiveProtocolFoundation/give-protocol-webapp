@@ -356,8 +356,7 @@ export default {
       "Bạn phải xác nhận độ tuổi và rằng bạn đã đọc Thông báo bảo mật",
 
     // Age affirmation gate (shared across all surfaces — GIV-453)
-    "ageGate.positive":
-      "Tôi xác nhận rằng tôi từ 16 tuổi trở lên.",
+    "ageGate.positive": "Tôi xác nhận rằng tôi từ 16 tuổi trở lên.",
     "ageGate.negative":
       "Give Protocol dành cho người dùng từ 16 tuổi trở lên. Nếu bạn dưới 16 tuổi, chúng tôi không thể xử lý yêu cầu của bạn vào lúc này.",
 
