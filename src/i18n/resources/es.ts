@@ -370,6 +370,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "Debe confirmar su edad y que ha leído el Aviso de Privacidad",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "Confirmo que tengo 16 años de edad o más.",
+    "ageGate.negative":
+      "Give Protocol está disponible para usuarios que tengan 16 años de edad o más. Si tiene menos de 16 años, no podemos procesar su solicitud en este momento.",
+
     // Languages
     "language.english": "Inglés",
     "language.spanish": "Español",
@@ -1020,6 +1025,10 @@ export default {
     "auth.donorReg.orSetPassword": "O establezca una contraseña",
     "auth.donorReg.creating": "Creando Cuenta...",
     "auth.donorReg.createAccount": "Crear Cuenta de Donante",
+    "auth.donorReg.privacyNotice": "Al crear una cuenta, acepta nuestros",
+    "auth.donorReg.termsLink": "Términos de Servicio",
+    "auth.donorReg.privacyAnd": "y reconoce nuestra",
+    "auth.donorReg.privacyLink": "Política de Privacidad",
     "auth.charityLogin.mismatch":
       "Este correo está registrado como cuenta de donante. Inicie sesión en el portal de donantes.",
     "auth.charityLogin.signingIn": "Iniciando sesión...",
@@ -1137,6 +1146,11 @@ export default {
     "charity.vetting.validation.country": "El país es obligatorio",
     "charity.vetting.validation.fix": "Corrija los errores de validación",
     "charity.vetting.error.generic": "No se pudo enviar la solicitud",
+    "charity.vetting.privacyNotice":
+      "Al enviar esta solicitud, acepta nuestros",
+    "charity.vetting.termsLink": "Términos de Servicio",
+    "charity.vetting.privacyAnd": "y reconoce nuestra",
+    "charity.vetting.privacyLink": "Política de Privacidad",
     "common.email": "Correo electrónico",
     "common.password": "Contraseña",
     "common.confirmPassword": "Confirmar Contraseña",

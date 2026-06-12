@@ -332,6 +332,11 @@ export default {
     "volunteer.validation.essentialRequired": "必须同意基本处理才能继续",
     "volunteer.validation.agePrivacyRequired": "您必须确认年龄并已阅读隐私声明",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "我确认我已年满16周岁。",
+    "ageGate.negative":
+      "Give Protocol仅供16周岁及以上的用户使用。如果您未满16周岁，我们目前无法处理您的请求。",
+
     // Languages
     "language.english": "英语",
     "language.spanish": "西班牙语",
@@ -931,6 +936,10 @@ export default {
     "auth.donorReg.orSetPassword": "或设置密码",
     "auth.donorReg.creating": "正在创建账户...",
     "auth.donorReg.createAccount": "创建捐赠者账户",
+    "auth.donorReg.privacyNotice": "创建账户即表示您同意我们的",
+    "auth.donorReg.termsLink": "服务条款",
+    "auth.donorReg.privacyAnd": "并确认我们的",
+    "auth.donorReg.privacyLink": "隐私政策",
     "auth.charityLogin.mismatch":
       "此邮箱已注册为捐赠者账户，请在捐赠者门户登录。",
     "auth.charityLogin.signingIn": "正在登录...",
@@ -1035,6 +1044,10 @@ export default {
     "charity.vetting.validation.country": "国家/地区为必填项",
     "charity.vetting.validation.fix": "请更正验证错误",
     "charity.vetting.error.generic": "提交申请失败",
+    "charity.vetting.privacyNotice": "提交此申请即表示您同意我们的",
+    "charity.vetting.termsLink": "服务条款",
+    "charity.vetting.privacyAnd": "并确认我们的",
+    "charity.vetting.privacyLink": "隐私政策",
     "common.email": "电子邮箱",
     "common.password": "密码",
     "common.confirmPassword": "确认密码",

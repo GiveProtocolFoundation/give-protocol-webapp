@@ -362,6 +362,12 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "आपको अपनी आयु की पुष्टि करनी होगी और यह सुनिश्चित करना होगा कि आपने गोपनीयता सूचना पढ़ ली है",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive":
+      "मैं पुष्टि करता/करती हूँ कि मेरी आयु 16 वर्ष या उससे अधिक है।",
+    "ageGate.negative":
+      "Give Protocol 16 वर्ष या उससे अधिक आयु के उपयोगकर्ताओं के लिए उपलब्ध है। यदि आपकी आयु 16 वर्ष से कम है, तो हम इस समय आपके अनुरोध को संसाधित करने में असमर्थ हैं।",
+
     // Languages
     "language.english": "अंग्रेज़ी",
     "language.spanish": "स्पेनिश",
@@ -998,6 +1004,10 @@ export default {
     "auth.donorReg.orSetPassword": "या पासवर्ड सेट करें",
     "auth.donorReg.creating": "खाता बनाया जा रहा है...",
     "auth.donorReg.createAccount": "दाता खाता बनाएँ",
+    "auth.donorReg.privacyNotice": "खाता बनाकर, आप हमारी",
+    "auth.donorReg.termsLink": "सेवा की शर्तें",
+    "auth.donorReg.privacyAnd": "से सहमत होते हैं और हमारी",
+    "auth.donorReg.privacyLink": "गोपनीयता नीति",
     "auth.charityLogin.mismatch":
       "यह ईमेल एक दाता खाते के रूप में पंजीकृत है। कृपया दाता पोर्टल पर साइन इन करें।",
     "auth.charityLogin.signingIn": "साइन इन हो रहा है...",
@@ -1108,6 +1118,10 @@ export default {
     "charity.vetting.validation.country": "देश आवश्यक है",
     "charity.vetting.validation.fix": "कृपया सत्यापन त्रुटियों को ठीक करें",
     "charity.vetting.error.generic": "आवेदन सबमिट करने में विफल",
+    "charity.vetting.privacyNotice": "यह आवेदन सबमिट करके, आप हमारी",
+    "charity.vetting.termsLink": "सेवा की शर्तें",
+    "charity.vetting.privacyAnd": "से सहमत होते हैं और हमारी",
+    "charity.vetting.privacyLink": "गोपनीयता नीति",
     "common.email": "ईमेल",
     "common.password": "पासवर्ड",
     "common.confirmPassword": "पासवर्ड की पुष्टि करें",

@@ -69,6 +69,9 @@ function extractFromNetlify() {
 // ── main ─────────────────────────────────────────────────────────────────────
 
 const FORBIDDEN_SCRIPT_TOKENS = ["'unsafe-inline'", "'unsafe-eval'"];
+// Directives valid only on HTTP-served CSPs — meta tags ignore them per spec.
+// See GIV-328 violation-reporting setup.
+const HTTP_ONLY_DIRECTIVES = ["report-uri", "report-to"];
 let failures = 0;
 
 console.log("CSP Consistency Validator");
@@ -110,20 +113,28 @@ for (const loc of locations) {
       }
     }
 
-    // Check consistency with canonical
-    if (norm === normCanonical) {
+    // Check consistency with canonical — report-uri/report-to are valid only
+    // on HTTP-served CSPs (meta tags ignore them), so they're permitted as
+    // extras in non-meta locations.
+    const canonDirs = new Set(normCanonical.split("; "));
+    const locDirs = new Set(norm.split("; "));
+    const missing = [];
+    const extra = [];
+    for (const d of canonDirs) {
+      if (!locDirs.has(d)) missing.push(d);
+    }
+    for (const d of locDirs) {
+      if (canonDirs.has(d)) continue;
+      const name = d.split(" ")[0];
+      if (HTTP_ONLY_DIRECTIVES.includes(name)) continue;
+      extra.push(d);
+    }
+    if (missing.length === 0 && extra.length === 0) {
       console.log(`✓ ${loc.name} matches canonical`);
     } else {
       console.error(`✗ ${loc.name} DIVERGES from canonical`);
-      // Show directive-level diff
-      const canonDirs = new Set(normCanonical.split("; "));
-      const locDirs = new Set(norm.split("; "));
-      for (const d of canonDirs) {
-        if (!locDirs.has(d)) console.error(`  missing in ${loc.name}: ${d}`);
-      }
-      for (const d of locDirs) {
-        if (!canonDirs.has(d)) console.error(`  extra in ${loc.name}:   ${d}`);
-      }
+      for (const d of missing) console.error(`  missing in ${loc.name}: ${d}`);
+      for (const d of extra) console.error(`  extra in ${loc.name}:   ${d}`);
       failures++;
     }
   } catch (e) {

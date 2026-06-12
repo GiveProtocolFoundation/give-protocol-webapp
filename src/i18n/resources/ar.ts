@@ -344,6 +344,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "يجب تأكيد عمرك والإقرار بأنك قرأت إشعار الخصوصية",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "أؤكد أن عمري 16 عامًا أو أكثر.",
+    "ageGate.negative":
+      "بروتوكول Give متاح للمستخدمين الذين تبلغ أعمارهم 16 عامًا أو أكثر. إذا كان عمرك أقل من 16 عامًا، فلا يمكننا معالجة طلبك في هذا الوقت.",
+
     // Languages
     "language.english": "الإنجليزية",
     "language.spanish": "الإسبانية",
@@ -956,6 +961,10 @@ export default {
     "auth.donorReg.orSetPassword": "أو قم بتعيين كلمة مرور",
     "auth.donorReg.creating": "جارٍ إنشاء الحساب...",
     "auth.donorReg.createAccount": "إنشاء حساب متبرع",
+    "auth.donorReg.privacyNotice": "بإنشاء حساب، فإنك توافق على",
+    "auth.donorReg.termsLink": "شروط الخدمة",
+    "auth.donorReg.privacyAnd": "وتقر بـ",
+    "auth.donorReg.privacyLink": "سياسة الخصوصية",
     "auth.charityLogin.mismatch":
       "هذا البريد الإلكتروني مسجل كحساب متبرع. يرجى تسجيل الدخول من بوابة المتبرعين.",
     "auth.charityLogin.signingIn": "جارٍ تسجيل الدخول...",
@@ -1067,6 +1076,10 @@ export default {
     "charity.vetting.validation.country": "الدولة مطلوبة",
     "charity.vetting.validation.fix": "يرجى تصحيح أخطاء التحقق",
     "charity.vetting.error.generic": "تعذّر تقديم الطلب",
+    "charity.vetting.privacyNotice": "بتقديم هذا الطلب، فإنك توافق على",
+    "charity.vetting.termsLink": "شروط الخدمة",
+    "charity.vetting.privacyAnd": "وتقر بـ",
+    "charity.vetting.privacyLink": "سياسة الخصوصية",
     "common.email": "البريد الإلكتروني",
     "common.password": "كلمة المرور",
     "common.confirmPassword": "تأكيد كلمة المرور",

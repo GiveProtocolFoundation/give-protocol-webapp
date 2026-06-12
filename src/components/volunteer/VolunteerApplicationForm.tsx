@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/Button";
 import { Logger } from "@/utils/logger";
+import { encryptVolunteerApplicationPII } from "@/utils/crypto/piiEncryption";
 import {
   validateEmail,
   validateName,
@@ -12,6 +13,7 @@ import {
 import { AlertCircle, X, Mail } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 import { useTranslation } from "@/hooks/useTranslation";
+import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
 
 type CommitmentType = "one-time" | "short-term" | "long-term";
 
@@ -60,7 +62,7 @@ const ConsentCheckbox: React.FC<ConsentCheckboxProps> = ({
       type="checkbox"
       checked={checked}
       onChange={onChange}
-      className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-emerald-600 focus:ring-emerald-500"
+      className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-emerald-600 focus:ring-2 focus:ring-emerald-500"
     />
     <div className="ml-3">
       <strong className="font-semibold text-gray-900 dark:text-gray-100">
@@ -357,8 +359,7 @@ const ConsentPanel: React.FC<ConsentPanelProps> = ({
           checked={formData.ageConfirmation}
           onChange={onCheckboxChange("ageConfirmation")}
           title={t("volunteer.ageConfirmationTitle", "Age Confirmation:")}
-          description="I confirm that I am at least 16 years of age."
-          note="(If you are under 16 years of age, parental or guardian consent is required)"
+          description={AGE_AFFIRMATION_COPY.positive}
         />
         <ConsentCheckbox
           id="privacy-notice"
@@ -725,9 +726,16 @@ const ConsentAndAgreementSection: React.FC<{
         onCheckboxChange={handleCheckboxChange}
       />
       {validationErrors.consent && (
-        <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-start">
-          <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0" />
-          <p className="text-red-700 dark:text-red-400">
+        <div
+          role="alert"
+          aria-live="polite"
+          className="mt-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start"
+        >
+          <AlertCircle
+            className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0"
+            aria-hidden="true"
+          />
+          <p className="text-red-700 dark:text-red-300">
             {validationErrors.consent}
           </p>
         </div>
@@ -1154,13 +1162,24 @@ export const VolunteerApplicationForm: React.FC<
 
       setLoading(true);
       try {
+        const fullName = `${formData.firstName} ${formData.lastName}`;
+        // GIV-409: populate encrypted shadow columns alongside plaintext.
+        // Plaintext full_name + email RETAINED (NOT NULL columns + CharityPortal.tsx:847 reads full_name).
+        // Plaintext phone_number DROPPED (nullable, no audited reader).
+        // Plaintext retire planned as GIV-59 step 2 follow-up once readers consume encrypted columns.
+        const encryptedPII = await encryptVolunteerApplicationPII({
+          fullName,
+          email: formData.email,
+          phone: formData.phoneNumber || undefined,
+        });
+
         const { error } = await supabase.from("volunteer_applications").insert({
           opportunity_id: opportunityId,
           applicant_id: user.id,
           charity_id: charityId,
-          full_name: `${formData.firstName} ${formData.lastName}`,
+          full_name: fullName,
           email: formData.email,
-          phone_number: formData.phoneNumber || null,
+          ...encryptedPII,
           location: formData.location || null,
           timezone: formData.timezone || null,
           age_range: formData.ageRange || null,

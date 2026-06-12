@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { AlertCircle, Mail } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
 
 // Sub-component for consent checkbox items
 interface ConsentCheckboxProps {
@@ -20,8 +21,11 @@ interface ConsentCheckboxProps {
 const ConsentModalHeader: React.FC = () => {
   const { t } = useTranslation();
   return (
-    <header className="bg-gradient-to-r from-emerald-600 to-emerald-600 text-gray-900 p-8 text-center">
-      <h1 id="consent-modal-title" className="text-3xl font-light mb-2">
+    <header className="bg-gradient-to-r from-emerald-600 to-emerald-600 text-white p-8 text-center">
+      <h1
+        id="consent-modal-title"
+        className="text-3xl font-light mb-2 text-white"
+      >
         {t("volunteer.applicationTitle", "Volunteer Opportunity Application")}
       </h1>
       <p className="text-lg opacity-90">
@@ -38,7 +42,7 @@ const ConsentModalHeader: React.FC = () => {
  * List of consent understanding items - extracted to reduce nesting depth
  */
 const ConsentUnderstandingList: React.FC = () => (
-  <ol className="list-decimal pl-6 space-y-2 text-gray-700 mb-6">
+  <ol className="list-decimal pl-6 space-y-2 text-gray-700 dark:text-gray-300 mb-6">
     <li>
       My personal information will be processed for the purposes of evaluating
       my volunteer application, managing volunteer assignments, and related
@@ -68,7 +72,7 @@ const ConsentUnderstandingList: React.FC = () => (
       I can withdraw my consent at any time by contacting{" "}
       <a
         href="mailto:legal@giveprotocol.io"
-        className="text-emerald-600 hover:text-emerald-700 inline-flex items-center gap-1"
+        className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 inline-flex items-center gap-1"
       >
         legal@giveprotocol.io <Mail className="h-3 w-3" aria-hidden="true" />
       </a>
@@ -100,12 +104,18 @@ const ConsentCheckbox: React.FC<ConsentCheckboxProps> = ({
       id={id}
       checked={checked}
       onChange={onChange}
-      className="mt-1 h-5 w-5 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+      className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-emerald-600 focus:ring-2 focus:ring-emerald-500"
     />
     <div className="ml-4">
-      <strong className="font-semibold text-gray-900">{title}</strong>
-      <p className="text-gray-700 mt-1">{description}</p>
-      {note && <p className="text-gray-500 italic text-sm mt-2">{note}</p>}
+      <strong className="font-semibold text-gray-900 dark:text-gray-100">
+        {title}
+      </strong>
+      <p className="text-gray-700 dark:text-gray-300 mt-1">{description}</p>
+      {note && (
+        <p className="text-gray-500 dark:text-gray-400 italic text-sm mt-2">
+          {note}
+        </p>
+      )}
     </div>
   </label>
 );
@@ -145,32 +155,32 @@ const ConsentDialog: React.FC<{
   const { t } = useTranslation();
   return (
     <dialog
-      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white rounded-2xl shadow-2xl max-w-4xl w-[95%] max-h-[90dvh] overflow-hidden z-50 p-0 m-0"
+      className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl max-w-4xl w-[95%] max-h-[90dvh] overflow-hidden z-50 p-0 m-0"
       open
       aria-modal="true"
       aria-labelledby="consent-modal-title"
     >
       <ConsentModalHeader />
       <article className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
-        <h2 className="text-xl font-semibold text-gray-900 mb-4">
+        <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
           {t("volunteer.consentHeader", "Volunteer Application Consent")}
         </h2>
-        <p className="mb-6 text-gray-700 leading-relaxed">
+        <p className="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed">
           By completing and submitting this form, I consent to GIVE PROTOCOL
           collecting, processing, and storing my personal information as
           described in the Volunteer Application Privacy Notice, which I have
           read and understood.
         </p>
-        <p className="font-semibold text-gray-900 mb-3">
+        <p className="font-semibold text-gray-900 dark:text-gray-100 mb-3">
           {t("volunteer.consentUnderstand", "I understand that:")}
         </p>
         <ConsentUnderstandingList />
 
-        <div className="border-t border-gray-200 pt-6 mb-6">
-          <p className="font-semibold text-gray-900 mb-4">
+        <div className="border-t border-gray-200 dark:border-gray-600 pt-6 mb-6">
+          <p className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
             {t("volunteer.specificConsents", "SPECIFIC CONSENTS")}
           </p>
-          <p className="text-gray-600 text-sm mb-6">
+          <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
             {t(
               "volunteer.specificConsentsDesc",
               "Please review and indicate your consent to each of the following:",
@@ -178,7 +188,7 @@ const ConsentDialog: React.FC<{
           </p>
         </div>
 
-        <div className="bg-gray-50 rounded-xl p-6 mb-4 border-l-4 border-emerald-600 space-y-6">
+        <div className="bg-gray-50 dark:bg-gray-700 rounded-xl p-6 mb-4 border-l-4 border-emerald-600 space-y-6">
           <ConsentCheckbox
             id="essential-processing"
             checked={essentialProcessing}
@@ -189,7 +199,7 @@ const ConsentDialog: React.FC<{
             )}
             description="I consent to GIVE PROTOCOL collecting and processing my personal information for the purpose of evaluating my volunteer application and, if successful, managing my volunteer engagement."
             note="Note: This consent is necessary to process your volunteer application. If you do not provide this consent, we will not be able to consider your application."
-            className="hover:bg-white"
+            className="hover:bg-white dark:hover:bg-gray-600"
           />
           <ConsentCheckbox
             id="international-transfers"
@@ -200,12 +210,12 @@ const ConsentDialog: React.FC<{
               "International Transfers (if applicable):",
             )}
             description="I consent to GIVE PROTOCOL transferring my personal information to countries outside my country of residence, including countries that may not provide the same level of data protection, with appropriate safeguards in place as described in the Privacy Notice."
-            className="hover:bg-white"
+            className="hover:bg-white dark:hover:bg-gray-600"
           />
         </div>
 
-        <section className="border-t border-gray-200 pt-6">
-          <p className="font-semibold text-gray-900 mb-4">
+        <section className="border-t border-gray-200 dark:border-gray-600 pt-6">
+          <p className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
             {t("volunteer.acknowledgmentTitle", "ACKNOWLEDGMENT")}
           </p>
           <ConsentCheckbox
@@ -213,9 +223,9 @@ const ConsentDialog: React.FC<{
             checked={ageConfirmation}
             onChange={onAgeConfirmationChange}
             title={t("volunteer.ageConfirmationTitle", "Age Confirmation:")}
-            description="I confirm that I am at least 16 years of age."
+            description={AGE_AFFIRMATION_COPY.positive}
             note="(If you are under 16 years of age, parental or guardian consent is required)"
-            className="mb-4 hover:bg-gray-50"
+            className="mb-4 hover:bg-gray-50 dark:hover:bg-gray-600"
           />
           <ConsentCheckbox
             id="privacy-notice"
@@ -223,18 +233,25 @@ const ConsentDialog: React.FC<{
             onChange={onPrivacyNoticeChange}
             title={t("volunteer.privacyNoticeTitle", "Privacy Notice:")}
             description="I confirm that I have read and understood the Privacy Notice."
-            className="hover:bg-gray-50"
+            className="hover:bg-gray-50 dark:hover:bg-gray-600"
           />
         </section>
 
         {validationError && (
-          <div className="mb-6 p-4 bg-red-50 rounded-lg flex items-start">
-            <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
-            <p className="text-red-700">{validationError}</p>
+          <div
+            role="alert"
+            aria-live="polite"
+            className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start"
+          >
+            <AlertCircle
+              className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0"
+              aria-hidden="true"
+            />
+            <p className="text-red-700 dark:text-red-300">{validationError}</p>
           </div>
         )}
 
-        <div className="flex justify-end gap-4 pt-6 border-t border-gray-200">
+        <div className="flex justify-end gap-4 pt-6 border-t border-gray-200 dark:border-gray-600">
           <Button variant="secondary" onClick={onDecline} className="px-8 py-3">
             {t("volunteer.doNotAccept", "Do Not Accept")}
           </Button>
@@ -247,7 +264,7 @@ const ConsentDialog: React.FC<{
           </Button>
         </div>
 
-        <p className="mt-6 text-center text-sm text-gray-500">
+        <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
           By submitting this application, you acknowledge that you have read and
           understood Give Protocol&apos;s privacy policy and volunteer
           guidelines. Your data will be processed in accordance with applicable
