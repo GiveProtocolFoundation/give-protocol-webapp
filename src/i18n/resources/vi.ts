@@ -1133,16 +1133,13 @@ export default {
     "consent.modal.essentialTitle": "Thiết yếu",
     "consent.modal.essentialDesc":
       "Cần thiết cho các tính năng cốt lõi của trang web như điều hướng và xác thực. Không thể tắt.",
-    "consent.modal.essentialAlwaysOn":
-      "Cookie thiết yếu — luôn bật",
+    "consent.modal.essentialAlwaysOn": "Cookie thiết yếu — luôn bật",
     "consent.modal.analyticsTitle":
       "Phân tích (Google Analytics 4 · Hoa Kỳ, Sentry · Hoa Kỳ/EU)",
     "consent.modal.analyticsDesc":
       "Cookie phân tích giúp chúng tôi hiểu những trang nào được truy cập và cách người dùng điều hướng trong ứng dụng. Chúng tôi sử dụng Google Analytics 4 \u2014 mã nhận dạng phiên, URL trang, siêu dữ liệu thiết bị/trình duyệt, vị trí ước tính từ IP ẩn danh (Google LLC, Hoa Kỳ; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 dấu vết lỗi ẩn danh và siêu dữ liệu trình duyệt để giám sát độ tin cậy (Functional Software, EU/Hoa Kỳ; cơ chế chuyển giao đang chờ xử lý). Không có địa chỉ email, địa chỉ ví hoặc tên nhà tài trợ nào được chia sẻ với bất kỳ bên xử lý nào.",
-    "consent.modal.analyticsOn":
-      "Phân tích và ghi nhận lỗi — bật",
-    "consent.modal.analyticsOff":
-      "Phân tích và ghi nhận lỗi — tắt",
+    "consent.modal.analyticsOn": "Phân tích và ghi nhận lỗi — bật",
+    "consent.modal.analyticsOff": "Phân tích và ghi nhận lỗi — tắt",
     "consent.modal.cancel": "Hủy",
     "consent.modal.save": "Lưu tùy chọn",
     "footer.connect.title": "Kết nối",

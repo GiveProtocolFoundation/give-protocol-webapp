@@ -1144,8 +1144,7 @@ export default {
     "consent.modal.essentialTitle": "आवश्यक",
     "consent.modal.essentialDesc":
       "नेविगेशन और प्रमाणीकरण जैसी मुख्य साइट सुविधाओं के लिए आवश्यक। अक्षम नहीं किया जा सकता।",
-    "consent.modal.essentialAlwaysOn":
-      "आवश्यक कुकीज़ — हमेशा सक्रिय",
+    "consent.modal.essentialAlwaysOn": "आवश्यक कुकीज़ — हमेशा सक्रिय",
     "consent.modal.analyticsTitle":
       "विश्लेषण (Google Analytics 4 · अमेरिका, Sentry · अमेरिका/यूरोपीय संघ)",
     "consent.modal.analyticsDesc":

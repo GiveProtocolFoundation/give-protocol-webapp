@@ -1193,14 +1193,12 @@ export default {
     "consent.modal.essentialTitle": "Essentiels",
     "consent.modal.essentialDesc":
       "Nécessaires au fonctionnement de base du site, comme la navigation et l'authentification. Ne peuvent pas être désactivés.",
-    "consent.modal.essentialAlwaysOn":
-      "Cookies essentiels — toujours actifs",
+    "consent.modal.essentialAlwaysOn": "Cookies essentiels — toujours actifs",
     "consent.modal.analyticsTitle":
       "Analyse (Google Analytics 4 · États-Unis, Sentry · États-Unis/UE)",
     "consent.modal.analyticsDesc":
       "Les cookies d'analyse nous aident à comprendre quelles pages sont visitées et comment les utilisateurs naviguent dans l'application. Nous utilisons Google Analytics 4 \u2014 identifiants de session, URL des pages, métadonnées appareil/navigateur, localisation approximative à partir d'IP anonymisée (Google LLC, États-Unis ; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 traces d'erreurs anonymisées et métadonnées du navigateur pour la surveillance de fiabilité (Functional Software, UE/États-Unis ; mécanisme de transfert en attente). Aucune adresse e-mail, adresse de portefeuille ou nom de donateur n'est partagé avec les sous-traitants.",
-    "consent.modal.analyticsOn":
-      "Analyse et enregistrement d'erreurs — activé",
+    "consent.modal.analyticsOn": "Analyse et enregistrement d'erreurs — activé",
     "consent.modal.analyticsOff":
       "Analyse et enregistrement d'erreurs — désactivé",
     "consent.modal.cancel": "Annuler",

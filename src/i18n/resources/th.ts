@@ -1126,16 +1126,13 @@ export default {
     "consent.modal.essentialTitle": "จำเป็น",
     "consent.modal.essentialDesc":
       "จำเป็นสำหรับฟีเจอร์หลักของเว็บไซต์ เช่น การนำทางและการยืนยันตัวตน ไม่สามารถปิดใช้งานได้",
-    "consent.modal.essentialAlwaysOn":
-      "คุกกี้ที่จำเป็น — เปิดใช้งานเสมอ",
+    "consent.modal.essentialAlwaysOn": "คุกกี้ที่จำเป็น — เปิดใช้งานเสมอ",
     "consent.modal.analyticsTitle":
       "การวิเคราะห์ (Google Analytics 4 · สหรัฐอเมริกา, Sentry · สหรัฐอเมริกา/สหภาพยุโรป)",
     "consent.modal.analyticsDesc":
       "คุกกี้การวิเคราะห์ช่วยให้เราเข้าใจว่าหน้าไหนถูกเข้าชมและผู้ใช้นำทางในแอปอย่างไร เราใช้ Google Analytics 4 \u2014 ตัวระบุเซสชัน, URL ของหน้า, ข้อมูลเมตาของอุปกรณ์/เบราว์เซอร์, ตำแหน่งโดยประมาณจาก IP ที่ไม่ระบุตัวตน (Google LLC สหรัฐอเมริกา; SCCs + EU\u2013US Data Privacy Framework) Sentry \u2014 การติดตามข้อผิดพลาดที่ไม่ระบุตัวตนและข้อมูลเมตาของเบราว์เซอร์เพื่อการเฝ้าระวังความเสถียร (Functional Software สหภาพยุโรป/สหรัฐอเมริกา; กลไกการถ่ายโอนอยู่ระหว่างดำเนินการ) ไม่มีการแชร์อีเมล ที่อยู่กระเป๋าเงิน หรือชื่อผู้บริจาคกับผู้ประมวลผลข้อมูลใดๆ",
-    "consent.modal.analyticsOn":
-      "การวิเคราะห์และบันทึกข้อผิดพลาด — เปิด",
-    "consent.modal.analyticsOff":
-      "การวิเคราะห์และบันทึกข้อผิดพลาด — ปิด",
+    "consent.modal.analyticsOn": "การวิเคราะห์และบันทึกข้อผิดพลาด — เปิด",
+    "consent.modal.analyticsOff": "การวิเคราะห์และบันทึกข้อผิดพลาด — ปิด",
     "consent.modal.cancel": "ยกเลิก",
     "consent.modal.save": "บันทึกการตั้งค่า",
     "footer.connect.title": "เชื่อมต่อ",
