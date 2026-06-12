@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import {
   Heart,
   TrendingUp,
@@ -11,6 +11,7 @@ import {
 } from "lucide-react";
 import { Logo } from "@/components/Logo";
 import { useTranslation } from "@/hooks/useTranslation";
+import { CustomizeModal } from "@/components/consent/CustomizeModal";
 
 interface FooterLink {
   label: string;
@@ -364,6 +365,16 @@ function CTASection() {
 /** Home page footer with links and copyright. */
 function HomeFooter() {
   const { t } = useTranslation();
+  const [showCookieModal, setShowCookieModal] = useState(false);
+
+  const handleOpenCookieModal = useCallback(() => {
+    setShowCookieModal(true);
+  }, []);
+
+  const handleCloseCookieModal = useCallback(() => {
+    setShowCookieModal(false);
+  }, []);
+
   const productLinks: FooterLink[] = [
     { label: t("home.nav.features"), href: "#features" },
     { label: t("home.footer.product.impactFunds"), href: "#impact" },
@@ -397,7 +408,7 @@ function HomeFooter() {
 
   return (
     <footer className="relative z-10 container mx-auto px-6 py-12 border-t border-white/10">
-      <div className="grid md:grid-cols-4 gap-8 mb-8">
+      <div className="grid md:grid-cols-5 gap-8 mb-8">
         <HomeFooterBrand />
         <HomeFooterLinks
           title={t("home.footer.product.title")}
@@ -407,6 +418,30 @@ function HomeFooter() {
           title={t("home.footer.resources.title")}
           links={resourceLinks}
         />
+        <div>
+          <h4 className="font-semibold mb-4">{t("footer.legal.title", "Legal")}</h4>
+          <ul className="space-y-2 text-gray-400 text-sm">
+            <li>
+              <a href="/legal" className="hover:text-emerald-400">
+                {t("footer.legal.terms", "Terms of Service")}
+              </a>
+            </li>
+            <li>
+              <a href="/privacy" className="hover:text-emerald-400">
+                {t("footer.legal.privacy", "Privacy Policy")}
+              </a>
+            </li>
+            <li>
+              <button
+                type="button"
+                onClick={handleOpenCookieModal}
+                className="hover:text-emerald-400 bg-transparent border-0 cursor-pointer p-0 text-gray-400 text-sm"
+              >
+                {t("footer.legal.cookiePreferences", "Cookie preferences")}
+              </button>
+            </li>
+          </ul>
+        </div>
         <HomeFooterLinks
           title={t("home.footer.connect.title")}
           links={connectLinks}
@@ -417,6 +452,9 @@ function HomeFooter() {
           © {new Date().getFullYear()} {t("home.footer.copyright")}
         </p>
       </div>
+      {showCookieModal && (
+        <CustomizeModal onClose={handleCloseCookieModal} showCloseButton />
+      )}
     </footer>
   );
 }
