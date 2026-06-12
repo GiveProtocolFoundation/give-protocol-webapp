@@ -730,7 +730,10 @@ const ConsentAndAgreementSection: React.FC<{
           aria-live="polite"
           className="mt-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start"
         >
-          <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0" aria-hidden="true" />
+          <AlertCircle
+            className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0"
+            aria-hidden="true"
+          />
           <p className="text-red-700 dark:text-red-300">
             {validationErrors.consent}
           </p>

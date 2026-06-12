@@ -21,7 +21,10 @@ const ConsentModalHeader: React.FC = () => {
   const { t } = useTranslation();
   return (
     <header className="bg-gradient-to-r from-emerald-600 to-emerald-600 text-white p-8 text-center">
-      <h1 id="consent-modal-title" className="text-3xl font-light mb-2 text-white">
+      <h1
+        id="consent-modal-title"
+        className="text-3xl font-light mb-2 text-white"
+      >
         {t("volunteer.applicationTitle", "Volunteer Opportunity Application")}
       </h1>
       <p className="text-lg opacity-90">
@@ -103,9 +106,15 @@ const ConsentCheckbox: React.FC<ConsentCheckboxProps> = ({
       className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-emerald-600 focus:ring-2 focus:ring-emerald-500"
     />
     <div className="ml-4">
-      <strong className="font-semibold text-gray-900 dark:text-gray-100">{title}</strong>
+      <strong className="font-semibold text-gray-900 dark:text-gray-100">
+        {title}
+      </strong>
       <p className="text-gray-700 dark:text-gray-300 mt-1">{description}</p>
-      {note && <p className="text-gray-500 dark:text-gray-400 italic text-sm mt-2">{note}</p>}
+      {note && (
+        <p className="text-gray-500 dark:text-gray-400 italic text-sm mt-2">
+          {note}
+        </p>
+      )}
     </div>
   </label>
 );
@@ -233,7 +242,10 @@ const ConsentDialog: React.FC<{
             aria-live="polite"
             className="mb-6 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start"
           >
-            <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0" aria-hidden="true" />
+            <AlertCircle
+              className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0"
+              aria-hidden="true"
+            />
             <p className="text-red-700 dark:text-red-300">{validationError}</p>
           </div>
         )}
