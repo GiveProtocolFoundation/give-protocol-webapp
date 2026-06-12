@@ -7,7 +7,6 @@ describe("ValidationResponseModal", () => {
   const mockItem = {
     id: "req-123",
     volunteerName: "Jane Smith",
-    volunteerEmail: "jane@example.com",
     activityDate: "2024-03-15",
     hours: 4,
     activityType: ActivityType.DIRECT_SERVICE,
@@ -37,10 +36,12 @@ describe("ValidationResponseModal", () => {
     expect(container.firstChild).toBeNull();
   });
 
-  it("renders volunteer info", () => {
+  it("renders volunteer name only (GDPR Art. 5(1)(c) data minimisation — no email)", () => {
     render(<ValidationResponseModal {...defaultProps} />);
     expect(screen.getByText("Jane Smith")).toBeInTheDocument();
-    expect(screen.getByText("jane@example.com")).toBeInTheDocument();
+    // GIV-406: volunteer email must not be rendered to charity admins.
+    expect(screen.queryByText("jane@example.com")).not.toBeInTheDocument();
+    expect(screen.queryByText(/@/)).not.toBeInTheDocument();
   });
 
   it("renders activity details", () => {

@@ -1,12 +1,19 @@
 /**
- * Shared copy for the age-affirmation gate (GIV-435 approved text).
- * Import this constant on every surface that shows the age affirmation
- * checkbox or decline message so that copy stays consistent site-wide.
+ * Shared age-affirmation copy approved in GIV-435.
+ * All surfaces (signup, donation, volunteer) import from here so
+ * the legal wording stays in one authoritative place.
  */
-export const AGE_AFFIRMATION_COPY = {
-  /** Checkbox label — positive path */
+export const AGE_AFFIRMATION_COPY = Object.freeze({
+  /** Checkbox label / positive-path affirmation. */
   positive: "I confirm I am 16 years of age or older.",
-  /** Message shown on decline / failure */
+
+  /** Rejection / negative-path message shown when affirmation is declined. */
   negative:
     "Give Protocol is available to users who are 16 years of age or older. If you are under 16, we are unable to process your request at this time.",
-} as const;
+
+  /** Minimum age threshold used by the gate. */
+  minimumAge: 16,
+
+  /** Consent version tag persisted alongside the affirmation. */
+  consentVersion: "age-gate-v1",
+});

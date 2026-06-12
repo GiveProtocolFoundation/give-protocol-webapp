@@ -62,7 +62,7 @@ const ConsentCheckbox: React.FC<ConsentCheckboxProps> = ({
       type="checkbox"
       checked={checked}
       onChange={onChange}
-      className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-emerald-600 focus:ring-emerald-500"
+      className="mt-1 h-5 w-5 rounded border-gray-300 dark:border-gray-500 text-emerald-600 focus:ring-2 focus:ring-emerald-500"
     />
     <div className="ml-3">
       <strong className="font-semibold text-gray-900 dark:text-gray-100">
@@ -726,9 +726,16 @@ const ConsentAndAgreementSection: React.FC<{
         onCheckboxChange={handleCheckboxChange}
       />
       {validationErrors.consent && (
-        <div className="mt-4 p-4 bg-red-50 dark:bg-red-900/20 rounded-lg flex items-start">
-          <AlertCircle className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0" />
-          <p className="text-red-700 dark:text-red-400">
+        <div
+          role="alert"
+          aria-live="polite"
+          className="mt-4 p-4 bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg flex items-start"
+        >
+          <AlertCircle
+            className="h-5 w-5 text-red-500 dark:text-red-400 mt-0.5 mr-2 flex-shrink-0"
+            aria-hidden="true"
+          />
+          <p className="text-red-700 dark:text-red-300">
             {validationErrors.consent}
           </p>
         </div>
