@@ -137,7 +137,6 @@ export const Modal: React.FC<ModalProps> = ({
           ref={modalRef}
           tabIndex={-1}
           open
-          role="dialog"
           aria-modal="true"
           aria-labelledby={title ? "modal-title" : undefined}
           className={`
