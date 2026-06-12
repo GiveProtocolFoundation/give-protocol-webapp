@@ -332,6 +332,12 @@ export default {
     "volunteer.validation.essentialRequired": "必須同意基本處理才能繼續",
     "volunteer.validation.agePrivacyRequired": "您必須確認年齡並已閱讀隱私聲明",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive":
+      "我確認我已年滿16歲。",
+    "ageGate.negative":
+      "Give Protocol僅供16歲及以上的使用者使用。如果您未滿16歲，我們目前無法處理您的請求。",
+
     // Languages
     "language.english": "英語",
     "language.spanish": "西班牙語",

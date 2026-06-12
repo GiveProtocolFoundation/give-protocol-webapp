@@ -380,6 +380,12 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "Sie müssen Ihr Alter bestätigen und bestätigen, dass Sie den Datenschutzhinweis gelesen haben",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive":
+      "Ich bestätige, dass ich 16 Jahre oder älter bin.",
+    "ageGate.negative":
+      "Give Protocol steht Nutzern ab 16 Jahren zur Verfügung. Wenn Sie unter 16 Jahre alt sind, können wir Ihre Anfrage derzeit nicht bearbeiten.",
+
     // Languages
     "language.english": "Englisch",
     "language.spanish": "Spanisch",
