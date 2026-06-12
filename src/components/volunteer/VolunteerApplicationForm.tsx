@@ -4,6 +4,7 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { Button } from "@/components/ui/Button";
 import { Logger } from "@/utils/logger";
+import { encryptVolunteerApplicationPII } from "@/utils/crypto/piiEncryption";
 import {
   validateEmail,
   validateName,
@@ -1154,13 +1155,24 @@ export const VolunteerApplicationForm: React.FC<
 
       setLoading(true);
       try {
+        const fullName = `${formData.firstName} ${formData.lastName}`;
+        // GIV-409: populate encrypted shadow columns alongside plaintext.
+        // Plaintext full_name + email RETAINED (NOT NULL columns + CharityPortal.tsx:847 reads full_name).
+        // Plaintext phone_number DROPPED (nullable, no audited reader).
+        // Plaintext retire planned as GIV-59 step 2 follow-up once readers consume encrypted columns.
+        const encryptedPII = await encryptVolunteerApplicationPII({
+          fullName,
+          email: formData.email,
+          phone: formData.phoneNumber || undefined,
+        });
+
         const { error } = await supabase.from("volunteer_applications").insert({
           opportunity_id: opportunityId,
           applicant_id: user.id,
           charity_id: charityId,
-          full_name: `${formData.firstName} ${formData.lastName}`,
+          full_name: fullName,
           email: formData.email,
-          phone_number: formData.phoneNumber || null,
+          ...encryptedPII,
           location: formData.location || null,
           timezone: formData.timezone || null,
           age_range: formData.ageRange || null,

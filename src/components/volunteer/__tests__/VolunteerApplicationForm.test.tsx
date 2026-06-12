@@ -16,6 +16,25 @@ const mockUseAuth = jest.mocked(useAuth);
 const mockUseProfile = jest.mocked(useProfile);
 const mockUseToast = jest.mocked(useToast);
 
+/** Configure supabase.functions.invoke to return successful PII ciphertext. */
+const mockEncryptionSuccess = () => {
+  (supabase.functions.invoke as jest.Mock).mockImplementation(
+    (_name: unknown, opts: unknown) => {
+      const body = (opts as { body: { operation: string } }).body;
+      if (body.operation === "hmac") {
+        return Promise.resolve({
+          data: { digest: "hmac-digest" },
+          error: null,
+        });
+      }
+      return Promise.resolve({
+        data: { ciphertext: "v1:iv:ciphertext" },
+        error: null,
+      });
+    },
+  );
+};
+
 const mockOnClose = jest.fn();
 const mockOnSuccess = jest.fn();
 const mockShowToast = jest.fn();
@@ -79,6 +98,7 @@ const submitForm = (container: HTMLElement) => {
 describe("VolunteerApplicationForm", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    mockEncryptionSuccess();
     mockUseAuth.mockReturnValue({
       user: { id: "user-123" },
       loading: false,
@@ -454,6 +474,133 @@ describe("VolunteerApplicationForm", () => {
         ).toBeInTheDocument();
       });
       expect(mockOnSuccess).not.toHaveBeenCalled();
+    });
+  });
+
+  describe("encrypted PII columns (GIV-409)", () => {
+    let insertMock: jest.Mock;
+
+    beforeEach(() => {
+      mockEncryptionSuccess();
+      insertMock = jest.fn().mockResolvedValue({ error: null });
+      (supabase.from as jest.Mock).mockImplementation(() => ({
+        insert: insertMock,
+      }));
+    });
+
+    it("calls supabase.functions.invoke for encrypt + hmac before insert", async () => {
+      const { container } = render(
+        <VolunteerApplicationForm {...defaultProps} />,
+      );
+      fillValidForm();
+      submitForm(container);
+
+      await waitFor(() => {
+        expect(supabase.functions.invoke).toHaveBeenCalled();
+      });
+
+      const calls = (supabase.functions.invoke as jest.Mock).mock.calls;
+      const operations = calls.map(
+        (c: [string, { body: { operation: string } }]) => c[1].body.operation,
+      );
+      expect(operations).toContain("encrypt");
+      expect(operations).toContain("hmac");
+      // Encryption must have been called before insert
+      expect(insertMock).toHaveBeenCalledTimes(1);
+    });
+
+    it("insert payload contains full_name_encrypted, email_encrypted, email_hmac", async () => {
+      const { container } = render(
+        <VolunteerApplicationForm {...defaultProps} />,
+      );
+      fillValidForm();
+      submitForm(container);
+
+      await waitFor(() => {
+        expect(insertMock).toHaveBeenCalledTimes(1);
+      });
+
+      const payload = insertMock.mock.calls[0][0];
+      expect(payload.full_name_encrypted).toBe("v1:iv:ciphertext");
+      expect(payload.email_encrypted).toBe("v1:iv:ciphertext");
+      expect(payload.email_hmac).toBe("hmac-digest");
+    });
+
+    it("insert payload does NOT contain phone_number (plaintext dropped)", async () => {
+      const { container } = render(
+        <VolunteerApplicationForm {...defaultProps} />,
+      );
+      fillValidForm();
+      submitForm(container);
+
+      await waitFor(() => {
+        expect(insertMock).toHaveBeenCalledTimes(1);
+      });
+
+      const payload = insertMock.mock.calls[0][0];
+      // phone_number plaintext dropped — nullable column with no audited reader
+      expect(
+        Object.prototype.hasOwnProperty.call(payload, "phone_number"),
+      ).toBe(false);
+    });
+
+    it("insert payload retains full_name and email plaintext (NOT NULL + active readers — GIV-59 step 2 follow-up)", async () => {
+      // Plaintext retained because:
+      // - full_name: NOT NULL constraint + CharityPortal.tsx:847 reads it
+      // - email: NOT NULL constraint, retire in lockstep with full_name
+      const { container } = render(
+        <VolunteerApplicationForm {...defaultProps} />,
+      );
+      fillValidForm();
+      submitForm(container);
+
+      await waitFor(() => {
+        expect(insertMock).toHaveBeenCalledTimes(1);
+      });
+
+      const payload = insertMock.mock.calls[0][0];
+      expect(payload.full_name).toBe("Jane Doe");
+      expect(payload.email).toBe("jane@example.com");
+    });
+
+    it("includes phone_encrypted when phone is provided", async () => {
+      const { container } = render(
+        <VolunteerApplicationForm {...defaultProps} />,
+      );
+      fillValidForm();
+      // Add phone number
+      fireEvent.change(screen.getByLabelText(/Phone Number/), {
+        target: { value: "+1234567890" },
+      });
+      submitForm(container);
+
+      await waitFor(() => {
+        expect(insertMock).toHaveBeenCalledTimes(1);
+      });
+
+      const payload = insertMock.mock.calls[0][0];
+      expect(payload.phone_encrypted).toBe("v1:iv:ciphertext");
+    });
+
+    it("omits phone_encrypted when phone is empty", async () => {
+      const { container } = render(
+        <VolunteerApplicationForm {...defaultProps} />,
+      );
+      fillValidForm();
+      // Clear the pre-filled phone
+      fireEvent.change(screen.getByLabelText(/Phone Number/), {
+        target: { value: "" },
+      });
+      submitForm(container);
+
+      await waitFor(() => {
+        expect(insertMock).toHaveBeenCalledTimes(1);
+      });
+
+      const payload = insertMock.mock.calls[0][0];
+      expect(
+        Object.prototype.hasOwnProperty.call(payload, "phone_encrypted"),
+      ).toBe(false);
     });
   });
 });
