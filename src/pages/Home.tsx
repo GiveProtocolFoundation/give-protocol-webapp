@@ -362,6 +362,43 @@ function CTASection() {
   );
 }
 
+/** Footer column with legal links and cookie preferences button. */
+function HomeFooterLegal({
+  onOpenCookieModal,
+}: {
+  onOpenCookieModal: () => void;
+}) {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <h4 className="font-semibold mb-4">
+        {t("footer.legal.title", "Legal")}
+      </h4>
+      <ul className="space-y-2 text-gray-400 text-sm">
+        <li>
+          <a href="/legal" className="hover:text-emerald-400">
+            {t("footer.legal.terms", "Terms of Service")}
+          </a>
+        </li>
+        <li>
+          <a href="/privacy" className="hover:text-emerald-400">
+            {t("footer.legal.privacy", "Privacy Policy")}
+          </a>
+        </li>
+        <li>
+          <button
+            type="button"
+            onClick={onOpenCookieModal}
+            className="hover:text-emerald-400 bg-transparent border-0 cursor-pointer p-0 text-gray-400 text-sm"
+          >
+            {t("footer.legal.cookiePreferences", "Cookie preferences")}
+          </button>
+        </li>
+      </ul>
+    </div>
+  );
+}
+
 /** Home page footer with links and copyright. */
 function HomeFooter() {
   const { t } = useTranslation();
@@ -418,32 +455,7 @@ function HomeFooter() {
           title={t("home.footer.resources.title")}
           links={resourceLinks}
         />
-        <div>
-          <h4 className="font-semibold mb-4">
-            {t("footer.legal.title", "Legal")}
-          </h4>
-          <ul className="space-y-2 text-gray-400 text-sm">
-            <li>
-              <a href="/legal" className="hover:text-emerald-400">
-                {t("footer.legal.terms", "Terms of Service")}
-              </a>
-            </li>
-            <li>
-              <a href="/privacy" className="hover:text-emerald-400">
-                {t("footer.legal.privacy", "Privacy Policy")}
-              </a>
-            </li>
-            <li>
-              <button
-                type="button"
-                onClick={handleOpenCookieModal}
-                className="hover:text-emerald-400 bg-transparent border-0 cursor-pointer p-0 text-gray-400 text-sm"
-              >
-                {t("footer.legal.cookiePreferences", "Cookie preferences")}
-              </button>
-            </li>
-          </ul>
-        </div>
+        <HomeFooterLegal onOpenCookieModal={handleOpenCookieModal} />
         <HomeFooterLinks
           title={t("home.footer.connect.title")}
           links={connectLinks}
