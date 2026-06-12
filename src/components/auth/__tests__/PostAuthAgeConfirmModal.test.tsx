@@ -10,9 +10,7 @@ describe("PostAuthAgeConfirmModal", () => {
     expect(
       screen.getByRole("dialog", { name: /age confirmation/i }),
     ).toBeInTheDocument();
-    expect(
-      screen.getByText(/I confirm.*16 or older/i),
-    ).toBeInTheDocument();
+    expect(screen.getByText(/I confirm.*16 or older/i)).toBeInTheDocument();
     expect(screen.getByText(/I am under 16/i)).toBeInTheDocument();
   });
 

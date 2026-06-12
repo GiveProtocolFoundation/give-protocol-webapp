@@ -55,7 +55,9 @@ describe("DonorRegistration", () => {
   it("renders privacy policy and terms of service links", () => {
     render(<DonorRegistration />);
     // Age-affirmation label + GDPR notice both link to /privacy, so multiple links exist
-    const privacyLinks = screen.getAllByRole("link", { name: /privacy policy/i });
+    const privacyLinks = screen.getAllByRole("link", {
+      name: /privacy policy/i,
+    });
     expect(privacyLinks.length).toBeGreaterThan(0);
     privacyLinks.forEach((link) =>
       expect(link).toHaveAttribute("href", "/privacy"),
