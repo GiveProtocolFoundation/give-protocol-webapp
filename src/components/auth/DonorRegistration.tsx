@@ -40,7 +40,8 @@ const GoogleIcon: React.FC = () => (
  * DonorRegistration component with passwordless-first auth options.
  * Displays passkey, Google, and wallet sign-up methods.
  * A collapsible section provides traditional email + password registration.
- * All auth paths are gated behind an age-affirmation checkbox (GIV-454).
+ * Email/password path is gated by an inline age-affirmation checkbox (GIV-454).
+ * OAuth/passkey/wallet paths are gated by PostAuthAgeConfirmModal on click.
  * @returns JSX.Element representing the donor registration form.
  */
 export const DonorRegistration: React.FC = () => {
@@ -116,11 +117,13 @@ export const DonorRegistration: React.FC = () => {
   /**
    * Wraps OAuth/passkey/wallet handlers to inject PostAuthAgeConfirmModal
    * for the age-affirmation bypass path (GIV-454).
+   * Returns a synchronous void function so it is safe to pass directly to
+   * onClick without triggering no-misused-promises lint rules.
    */
   const withPostAuthAgeGate = useCallback(
-    (action: () => Promise<void>) => async () => {
+    (action: () => Promise<void>) => () => {
       setError("");
-      // Launch the action; the modal will fire before account activation
+      // Store the action; the modal fires it after age confirmation
       setPendingPostAuthAction(() => action);
       setShowPostAuthModal(true);
     },
@@ -270,13 +273,13 @@ export const DonorRegistration: React.FC = () => {
         </span>
       </label>
 
-      {/* Primary CTA: Passkey — gated on age affirmation */}
+      {/* Primary CTA: Passkey — age-gated via PostAuthAgeConfirmModal (GIV-454) */}
       {isPasskeySupported && (
         <Button
           type="button"
           onClick={withPostAuthAgeGate(handlePasskeySignUp)}
           className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
-          disabled={loading || !ageAffirmed}
+          disabled={loading}
           aria-busy={loading}
           icon={<Fingerprint className="h-4 w-4" />}
         >
@@ -286,13 +289,13 @@ export const DonorRegistration: React.FC = () => {
         </Button>
       )}
 
-      {/* Social buttons — gated on age affirmation */}
+      {/* Social buttons — age-gated via PostAuthAgeConfirmModal (GIV-454) */}
       <Button
         type="button"
         onClick={withPostAuthAgeGate(handleGoogleSignUp)}
         variant="secondary"
         className="w-full"
-        disabled={loading || !ageAffirmed}
+        disabled={loading}
         icon={<GoogleIcon />}
       >
         {t("auth.donorReg.withGoogle")}
@@ -303,7 +306,7 @@ export const DonorRegistration: React.FC = () => {
         onClick={withPostAuthAgeGate(handleWalletSignUp)}
         variant="secondary"
         className="w-full"
-        disabled={loading || !ageAffirmed}
+        disabled={loading}
         icon={<Wallet className="h-4 w-4" />}
       >
         {t("auth.donorReg.connectWallet")}
