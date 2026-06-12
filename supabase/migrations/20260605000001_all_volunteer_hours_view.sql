@@ -3,6 +3,14 @@
 --
 -- Spec: GIV-340 / GIV-341 / GIV-473
 
+-- Schema reconciliation guard: volunteer_hours is created by two earlier
+-- `CREATE TABLE IF NOT EXISTS` migrations that disagree on opportunity_id
+-- (20250810000001 omits it; 20250811124738 is a no-op because the table
+-- already exists). On a clean `db reset` the column is therefore absent and
+-- the view below would fail. This idempotent ALTER guarantees the column
+-- exists in every environment (no-op where it already does).
+ALTER TABLE volunteer_hours ADD COLUMN IF NOT EXISTS opportunity_id uuid;
+
 CREATE OR REPLACE VIEW all_volunteer_hours
 WITH (security_invoker = true)
 AS
