@@ -362,6 +362,12 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "आपको अपनी आयु की पुष्टि करनी होगी और यह सुनिश्चित करना होगा कि आपने गोपनीयता सूचना पढ़ ली है",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive":
+      "मैं पुष्टि करता/करती हूँ कि मेरी आयु 16 वर्ष या उससे अधिक है।",
+    "ageGate.negative":
+      "Give Protocol 16 वर्ष या उससे अधिक आयु के उपयोगकर्ताओं के लिए उपलब्ध है। यदि आपकी आयु 16 वर्ष से कम है, तो हम इस समय आपके अनुरोध को संसाधित करने में असमर्थ हैं।",
+
     // Languages
     "language.english": "अंग्रेज़ी",
     "language.spanish": "स्पेनिश",

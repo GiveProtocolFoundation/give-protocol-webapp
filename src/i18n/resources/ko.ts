@@ -348,6 +348,12 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "연령을 확인하고 개인정보 처리방침을 읽었음을 확인해야 합니다",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive":
+      "본인은 만 16세 이상임을 확인합니다.",
+    "ageGate.negative":
+      "Give Protocol은 만 16세 이상의 사용자가 이용할 수 있습니다. 만 16세 미만인 경우 현재 요청을 처리할 수 없습니다.",
+
     // Languages
     "language.english": "영어",
     "language.spanish": "스페인어",
