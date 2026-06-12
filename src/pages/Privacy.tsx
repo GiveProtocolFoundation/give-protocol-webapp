@@ -322,9 +322,11 @@ const SectionDataRetention: React.FC = () => (
         assurance and dispute resolution.
       </li>
       <li>
-        <strong>Cookie and analytics data</strong>: retained per the cookie
-        lifetime declared in our Cookies notice; aggregated analytics are
-        retained indefinitely in non-personal form.
+        <strong>Cookie and analytics data</strong>: Google Analytics 4 user-
+        and event-level data is retained for{" "}
+        <strong>two (2) months</strong>; other cookie data is retained per the
+        lifetime declared in our Cookies notice. Aggregated, non-personal
+        analytics are retained indefinitely.
       </li>
       <li>
         <strong>Blockchain transaction data</strong>: by the immutable nature of
@@ -434,10 +436,15 @@ const SectionInternationalTransfers: React.FC = () => (
       </li>
       <li>
         <strong>Analytics (Google Analytics 4, if active)</strong>: where we
-        operate analytics that transmit usage data to Google in the United
-        States, the transfer is covered by the EU–US Data Privacy Framework
-        adequacy decision and Google&apos;s SCCs. We only load analytics after
-        you grant cookie consent (see our Cookies notice).
+        operate analytics, usage data is transmitted to{" "}
+        <strong>Google LLC</strong> (1600 Amphitheatre Parkway, Mountain View,
+        CA 94043, USA). This transfer to the United States is covered by the
+        European Commission&apos;s Standard Contractual Clauses (SCCs) and,
+        where applicable, the EU&ndash;US Data Privacy Framework adequacy
+        decision. We only load analytics after you grant cookie consent (see
+        our Cookies notice), and GA4 user- and event-level data is retained
+        for <strong>two (2) months</strong>, after which it is deleted or
+        aggregated into non-personal form.
       </li>
       <li>
         <strong>Remote database access by US-based staff</strong>: members of
