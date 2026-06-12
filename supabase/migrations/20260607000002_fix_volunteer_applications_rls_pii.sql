@@ -37,7 +37,7 @@ DROP POLICY IF EXISTS "Charities can view applications for their opportunities" 
 CREATE POLICY "Charities can view applications for their opportunities" ON volunteer_applications
   FOR SELECT
   TO authenticated
-  USING (charity_id IN (
+  USING (charity_id::uuid IN (
     SELECT id FROM profiles
     WHERE user_id = (SELECT auth.uid()) AND type = 'charity'
   ));
@@ -47,11 +47,11 @@ DROP POLICY IF EXISTS "Charities can update applications" ON volunteer_applicati
 CREATE POLICY "Charities can update applications" ON volunteer_applications
   FOR UPDATE
   TO authenticated
-  USING (charity_id IN (
+  USING (charity_id::uuid IN (
     SELECT id FROM profiles
     WHERE user_id = (SELECT auth.uid()) AND type = 'charity'
   ))
-  WITH CHECK (charity_id IN (
+  WITH CHECK (charity_id::uuid IN (
     SELECT id FROM profiles
     WHERE user_id = (SELECT auth.uid()) AND type = 'charity'
   ));
