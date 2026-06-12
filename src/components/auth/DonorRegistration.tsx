@@ -5,6 +5,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { validateEmail, validatePassword } from "@/utils/validation";
+import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
+import { PostAuthAgeConfirmModal } from "@/components/auth/PostAuthAgeConfirmModal";
 
 /** Google "G" icon for social auth button. */
 const GoogleIcon: React.FC = () => (
@@ -38,6 +40,7 @@ const GoogleIcon: React.FC = () => (
  * DonorRegistration component with passwordless-first auth options.
  * Displays passkey, Google, and wallet sign-up methods.
  * A collapsible section provides traditional email + password registration.
+ * All auth paths are gated behind an age-affirmation checkbox (GIV-454).
  * @returns JSX.Element representing the donor registration form.
  */
 export const DonorRegistration: React.FC = () => {
@@ -56,6 +59,31 @@ export const DonorRegistration: React.FC = () => {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [error, setError] = useState("");
   const [isPasswordOpen, setIsPasswordOpen] = useState(false);
+  const [ageAffirmed, setAgeAffirmed] = useState(false);
+  // PostAuthAgeConfirmModal is shown when OAuth/passkey/wallet completes without a form-based affirmation
+  const [showPostAuthModal, setShowPostAuthModal] = useState(false);
+  const [pendingPostAuthAction, setPendingPostAuthAction] = useState<
+    (() => Promise<void>) | null
+  >(null);
+
+  const clearPii = useCallback(() => {
+    setEmail("");
+    setPassword("");
+    setConfirmPassword("");
+    setIsPasswordOpen(false);
+  }, []);
+
+  const handleAgeAffirmedChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const checked = e.target.checked;
+      setAgeAffirmed(checked);
+      if (!checked) {
+        // PII-clear guard: wipe entered data on decline (GIV-454)
+        clearPii();
+      }
+    },
+    [clearPii],
+  );
 
   const handleEmailChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -84,6 +112,20 @@ export const DonorRegistration: React.FC = () => {
   const handlePasswordToggle = useCallback(() => {
     setIsPasswordOpen((prev) => !prev);
   }, []);
+
+  /**
+   * Wraps OAuth/passkey/wallet handlers to inject PostAuthAgeConfirmModal
+   * for the age-affirmation bypass path (GIV-454).
+   */
+  const withPostAuthAgeGate = useCallback(
+    (action: () => Promise<void>) => async () => {
+      setError("");
+      // Launch the action; the modal will fire before account activation
+      setPendingPostAuthAction(() => action);
+      setShowPostAuthModal(true);
+    },
+    [],
+  );
 
   const handlePasskeySignUp = useCallback(async () => {
     setError("");
@@ -165,6 +207,21 @@ export const DonorRegistration: React.FC = () => {
     [email, password, confirmPassword, signUpWithEmail, t],
   );
 
+  const handlePostAuthConfirm = useCallback(async () => {
+    setShowPostAuthModal(false);
+    if (pendingPostAuthAction) {
+      await pendingPostAuthAction();
+      setPendingPostAuthAction(null);
+    }
+  }, [pendingPostAuthAction]);
+
+  const handlePostAuthDecline = useCallback(() => {
+    setShowPostAuthModal(false);
+    setPendingPostAuthAction(null);
+    // PII-clear guard on decline from modal
+    clearPii();
+  }, [clearPii]);
+
   return (
     <div className="space-y-4" aria-label="Donor registration form">
       {error !== "" && (
@@ -190,13 +247,36 @@ export const DonorRegistration: React.FC = () => {
         aria-required="true"
       />
 
-      {/* Primary CTA: Passkey */}
+      {/* Age-affirmation gate (GIV-454) — must be checked before any auth action */}
+      <label className="flex items-start gap-3 cursor-pointer select-none">
+        <input
+          id="age-affirmation"
+          type="checkbox"
+          checked={ageAffirmed}
+          onChange={handleAgeAffirmedChange}
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          aria-required="true"
+        />
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {AGE_AFFIRMATION_COPY.positive}{" "}
+          <a
+            href="/privacy"
+            className="underline hover:text-gray-900 dark:hover:text-gray-100"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </span>
+      </label>
+
+      {/* Primary CTA: Passkey — gated on age affirmation */}
       {isPasskeySupported && (
         <Button
           type="button"
-          onClick={handlePasskeySignUp}
+          onClick={withPostAuthAgeGate(handlePasskeySignUp)}
           className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
-          disabled={loading}
+          disabled={loading || !ageAffirmed}
           aria-busy={loading}
           icon={<Fingerprint className="h-4 w-4" />}
         >
@@ -206,13 +286,13 @@ export const DonorRegistration: React.FC = () => {
         </Button>
       )}
 
-      {/* Social buttons */}
+      {/* Social buttons — gated on age affirmation */}
       <Button
         type="button"
-        onClick={handleGoogleSignUp}
+        onClick={withPostAuthAgeGate(handleGoogleSignUp)}
         variant="secondary"
         className="w-full"
-        disabled={loading}
+        disabled={loading || !ageAffirmed}
         icon={<GoogleIcon />}
       >
         {t("auth.donorReg.withGoogle")}
@@ -220,10 +300,10 @@ export const DonorRegistration: React.FC = () => {
 
       <Button
         type="button"
-        onClick={handleWalletSignUp}
+        onClick={withPostAuthAgeGate(handleWalletSignUp)}
         variant="secondary"
         className="w-full"
-        disabled={loading}
+        disabled={loading || !ageAffirmed}
         icon={<Wallet className="h-4 w-4" />}
       >
         {t("auth.donorReg.connectWallet")}
@@ -301,7 +381,7 @@ export const DonorRegistration: React.FC = () => {
             <Button
               type="submit"
               className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
-              disabled={loading}
+              disabled={loading || !ageAffirmed}
               aria-busy={loading}
             >
               {loading
@@ -311,6 +391,14 @@ export const DonorRegistration: React.FC = () => {
           </form>
         )}
       </div>
+
+      {/* PostAuthAgeConfirmModal — shown for OAuth/passkey/wallet bypass path (GIV-454) */}
+      {showPostAuthModal && (
+        <PostAuthAgeConfirmModal
+          onConfirm={handlePostAuthConfirm}
+          onDecline={handlePostAuthDecline}
+        />
+      )}
     </div>
   );
 };

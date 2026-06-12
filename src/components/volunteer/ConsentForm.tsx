@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { Button } from "@/components/ui/Button";
 import { AlertCircle, Mail } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
+import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
 
 // Sub-component for consent checkbox items
 interface ConsentCheckboxProps {
@@ -213,8 +214,7 @@ const ConsentDialog: React.FC<{
             checked={ageConfirmation}
             onChange={onAgeConfirmationChange}
             title={t("volunteer.ageConfirmationTitle", "Age Confirmation:")}
-            description="I confirm that I am at least 16 years of age."
-            note="(If you are under 16 years of age, parental or guardian consent is required)"
+            description={AGE_AFFIRMATION_COPY.positive}
             className="mb-4 hover:bg-gray-50"
           />
           <ConsentCheckbox
