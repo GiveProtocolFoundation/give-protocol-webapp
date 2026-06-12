@@ -62,52 +62,51 @@ describeAuth("Age gate — Item 8: Authenticated no-re-prompt", () => {
 /* ------------------------------------------------------------------ */
 /*  Item 9 — Legacy-user modal persistence                            */
 /* ------------------------------------------------------------------ */
-describeAuth(
-  "Age gate — Item 9: Legacy-user modal persistence",
-  () => {
-    it("user without age_affirmed_at sees PostAuthAgeConfirmModal on signup flow", () => {
-      // Create a user WITHOUT ageAffirmed to simulate a legacy account
-      cy.supabaseLogin({
-        email: `e2e-item9-${Date.now()}@test.giveprotocol.io`,
-        ageAffirmed: false,
-        metadata: { type: "donor" },
-      });
-
-      cy.visit("/auth/signup");
-
-      // On the signup page, clicking an OAuth/passkey button should trigger
-      // the PostAuthAgeConfirmModal. We simulate by checking the signup page
-      // is accessible and the modal mechanism is present.
-      // The modal is triggered by button clicks (Google/Passkey/Wallet)
-      // so we verify the buttons exist for the flow.
-      cy.get('button')
-        .contains(/Google|Sign up with passkey/i)
-        .should("exist");
+describeAuth("Age gate — Item 9: Legacy-user modal persistence", () => {
+  it("user without age_affirmed_at sees PostAuthAgeConfirmModal on signup flow", () => {
+    // Create a user WITHOUT ageAffirmed to simulate a legacy account
+    cy.supabaseLogin({
+      email: `e2e-item9-${Date.now()}@test.giveprotocol.io`,
+      ageAffirmed: false,
+      metadata: { type: "donor" },
     });
 
-    it("PostAuthAgeConfirmModal renders confirm and decline buttons", () => {
-      cy.supabaseLogin({
-        email: `e2e-item9-modal-${Date.now()}@test.giveprotocol.io`,
-        ageAffirmed: false,
-        metadata: { type: "donor" },
-      });
+    cy.visit("/auth/signup");
 
-      cy.visit("/auth/signup");
+    // On the signup page, clicking an OAuth/passkey button should trigger
+    // the PostAuthAgeConfirmModal. We simulate by checking the signup page
+    // is accessible and the modal mechanism is present.
+    // The modal is triggered by button clicks (Google/Passkey/Wallet)
+    // so we verify the buttons exist for the flow.
+    cy.get("button")
+      .contains(/Google|Sign up with passkey/i)
+      .should("exist");
+  });
 
-      // Click the Google sign-up button to trigger the modal
-      cy.get("button").contains(/Google/i).click();
-
-      // The PostAuthAgeConfirmModal should appear
-      cy.get('[role="dialog"][aria-modal="true"]', { timeout: 5000 }).should(
-        "be.visible",
-      );
-
-      // Confirm and decline buttons should be present
-      cy.get("button").contains("I confirm").should("be.visible");
-      cy.get("button").contains("I am under 16").should("be.visible");
+  it("PostAuthAgeConfirmModal renders confirm and decline buttons", () => {
+    cy.supabaseLogin({
+      email: `e2e-item9-modal-${Date.now()}@test.giveprotocol.io`,
+      ageAffirmed: false,
+      metadata: { type: "donor" },
     });
-  },
-);
+
+    cy.visit("/auth/signup");
+
+    // Click the Google sign-up button to trigger the modal
+    cy.get("button")
+      .contains(/Google/i)
+      .click();
+
+    // The PostAuthAgeConfirmModal should appear
+    cy.get('[role="dialog"][aria-modal="true"]', { timeout: 5000 }).should(
+      "be.visible",
+    );
+
+    // Confirm and decline buttons should be present
+    cy.get("button").contains("I confirm").should("be.visible");
+    cy.get("button").contains("I am under 16").should("be.visible");
+  });
+});
 
 /* ------------------------------------------------------------------ */
 /*  Item 10 — Guest fiat no DB write                                  */
@@ -183,7 +182,9 @@ describe("Age gate — Item 11: Decline-path PII clear", () => {
     cy.get('input[name="email"]').type("test@example.com");
 
     // Expand password section
-    cy.get("button").contains(/password/i).click();
+    cy.get("button")
+      .contains(/password/i)
+      .click();
 
     // Fill in password fields
     cy.get('input[name="password"]').type("TestPass123!");
@@ -215,7 +216,9 @@ describe("Age gate — Item 11: Decline-path PII clear", () => {
     cy.get('input[name="email"]').type("modal-test@example.com");
 
     // Click Google button to trigger PostAuthAgeConfirmModal
-    cy.get("button").contains(/Google/i).click();
+    cy.get("button")
+      .contains(/Google/i)
+      .click();
 
     // Wait for modal
     cy.get('[role="dialog"][aria-modal="true"]', { timeout: 5000 }).should(
