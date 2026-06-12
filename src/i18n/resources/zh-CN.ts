@@ -333,8 +333,7 @@ export default {
     "volunteer.validation.agePrivacyRequired": "您必须确认年龄并已阅读隐私声明",
 
     // Age affirmation gate (shared across all surfaces — GIV-453)
-    "ageGate.positive":
-      "我确认我已年满16周岁。",
+    "ageGate.positive": "我确认我已年满16周岁。",
     "ageGate.negative":
       "Give Protocol仅供16周岁及以上的用户使用。如果您未满16周岁，我们目前无法处理您的请求。",
 

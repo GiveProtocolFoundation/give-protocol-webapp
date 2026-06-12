@@ -371,8 +371,7 @@ export default {
       "Debe confirmar su edad y que ha leído el Aviso de Privacidad",
 
     // Age affirmation gate (shared across all surfaces — GIV-453)
-    "ageGate.positive":
-      "Confirmo que tengo 16 años de edad o más.",
+    "ageGate.positive": "Confirmo que tengo 16 años de edad o más.",
     "ageGate.negative":
       "Give Protocol está disponible para usuarios que tengan 16 años de edad o más. Si tiene menos de 16 años, no podemos procesar su solicitud en este momento.",
 
