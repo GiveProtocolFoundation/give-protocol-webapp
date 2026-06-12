@@ -371,9 +371,7 @@ function HomeFooterLegal({
   const { t } = useTranslation();
   return (
     <div>
-      <h4 className="font-semibold mb-4">
-        {t("footer.legal.title", "Legal")}
-      </h4>
+      <h4 className="font-semibold mb-4">{t("footer.legal.title", "Legal")}</h4>
       <ul className="space-y-2 text-gray-400 text-sm">
         <li>
           <a href="/legal" className="hover:text-emerald-400">
