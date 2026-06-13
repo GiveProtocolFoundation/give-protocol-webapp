@@ -530,10 +530,10 @@ const SectionInternationalTransfers: React.FC = () => (
       <li>
         <strong>Transactional email delivery (Resend)</strong>: recipient email
         addresses, names, and message content are transmitted to Resend, Inc. in
-        the United States to deliver platform emails. This transfer is covered by
-        the Standard Contractual Clauses incorporated into our Data Processing
-        Agreement with Resend (Art. 46(2)(c) GDPR), and applies only to users who
-        receive a transactional email from us.
+        the United States to deliver platform emails. This transfer is covered
+        by the Standard Contractual Clauses incorporated into our Data
+        Processing Agreement with Resend (Art. 46(2)(c) GDPR), and applies only
+        to users who receive a transactional email from us.
       </li>
       <li>
         <strong>Analytics (Google Analytics 4, if active)</strong>: where we
