@@ -207,13 +207,17 @@ export interface SelfReportedHoursDisplay extends SelfReportedHours {
 }
 
 /**
- * Item in the organization's validation queue
+ * Item in the organization's validation queue.
+ *
+ * GDPR Art. 5(1)(c) data minimisation: only the volunteer's display name is
+ * exposed to charity administrators in the validation queue. Email is
+ * intentionally NOT included — it is not required to make an approve/reject
+ * decision. See GIV-406.
  */
 export interface ValidationQueueItem {
   requestId: UUID;
   selfReportedHours: SelfReportedHours;
   volunteerName: string;
-  volunteerEmail: string;
   daysUntilExpiration: number;
   isResubmission: boolean;
 }

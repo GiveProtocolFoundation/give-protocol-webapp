@@ -56,7 +56,6 @@ describe("validationRequestService", () => {
           volunteer: {
             user_id: "vol-1",
             display_name: "Test User",
-            email: "test@example.com",
           },
         },
       ];
@@ -67,7 +66,8 @@ describe("validationRequestService", () => {
       expect(result).toHaveLength(1);
       expect(result[0].requestId).toBe("request-1");
       expect(result[0].volunteerName).toBe("Test User");
-      expect(result[0].volunteerEmail).toBe("test@example.com");
+      // GIV-406: Art. 5(1)(c) — email must not be exposed on the queue item.
+      expect(result[0]).not.toHaveProperty("volunteerEmail");
       expect(result[0].isResubmission).toBe(false);
     });
 
@@ -104,7 +104,8 @@ describe("validationRequestService", () => {
       const result = await getOrganizationValidationQueue("org-1");
 
       expect(result[0].volunteerName).toBe("Anonymous Volunteer");
-      expect(result[0].volunteerEmail).toBe("");
+      // GIV-406: queue item carries no email at all.
+      expect(result[0]).not.toHaveProperty("volunteerEmail");
     });
 
     it("should throw on database error", async () => {

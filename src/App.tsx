@@ -18,9 +18,9 @@ import { ConsentProvider } from "./lib/consent/ConsentProvider";
 import { CookieBanner } from "./components/consent/CookieBanner";
 import { useGA4Loader } from "./lib/consent/useGA4Loader";
 import { useGAConsentBridge } from "./lib/consent/useGAConsentBridge";
+import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
-import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 
 // Initialize monitoring if enabled
 if (ENV.MONITORING_API_KEY && ENV.MONITORING_APP_ID) {

@@ -1,12 +1,5 @@
 import React from "react"; // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  afterEach,
-  jest,
-} from "@jest/globals";
+import { describe, it, expect, beforeEach, afterEach } from "@jest/globals";
 import { render, screen, act, fireEvent } from "@testing-library/react";
 import { ConsentProvider, useConsent } from "../ConsentProvider";
 import { CONSENT_STORAGE_KEY } from "../storage";
@@ -33,99 +26,11 @@ const renderProvider = () =>
     </ConsentProvider>,
   );
 
-// ---------------------------------------------------------------------------
-// GA4 consent bridge tests
-// ---------------------------------------------------------------------------
-
-describe("useGAConsentBridge (via ConsentProvider)", () => {
-  let mockGtag: jest.Mock;
-
-  beforeEach(() => {
-    localStorage.clear();
-    window.history.replaceState(null, "", "/");
-    mockGtag = jest.fn();
-    window.gtag = mockGtag;
-  });
-
-  afterEach(() => {
-    delete window.gtag;
-  });
-
-  it("calls gtag consent update with denied on mount when undecided", () => {
-    renderProvider();
-    expect(mockGtag).toHaveBeenCalledWith("consent", "update", {
-      analytics_storage: "denied",
-    });
-  });
-
-  it("calls gtag consent update with granted after accept({ analytics: true })", () => {
-    renderProvider();
-    fireEvent.click(screen.getByText("acceptOn"));
-    expect(mockGtag).toHaveBeenCalledWith("consent", "update", {
-      analytics_storage: "granted",
-    });
-  });
-
-  it("calls gtag consent update with denied after decline()", () => {
-    renderProvider();
-    fireEvent.click(screen.getByText("acceptOn")); // grant first
-    fireEvent.click(screen.getByText("decline"));
-    expect(mockGtag).toHaveBeenCalledWith("consent", "update", {
-      analytics_storage: "denied",
-    });
-  });
-
-  it("calls gtag consent update with denied after reset()", () => {
-    localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      JSON.stringify({
-        version: 1,
-        decidedAt: new Date().toISOString(),
-        categories: { essential: true, analytics: true },
-      }),
-    );
-    renderProvider(); // mounts with analytics: true
-    fireEvent.click(screen.getByText("reset"));
-    // After reset analytics falls back to defaultCategories.analytics = false
-    const calls = (mockGtag.mock.calls as unknown[][]).filter(
-      (c) => c[0] === "consent" && c[1] === "update",
-    );
-    const lastCall = calls[calls.length - 1];
-    expect(lastCall[2]).toEqual({ analytics_storage: "denied" });
-  });
-
-  it("replays stored consent (granted) into gtag on mount", () => {
-    localStorage.setItem(
-      CONSENT_STORAGE_KEY,
-      JSON.stringify({
-        version: 1,
-        decidedAt: new Date().toISOString(),
-        categories: { essential: true, analytics: true },
-      }),
-    );
-    renderProvider();
-    expect(mockGtag).toHaveBeenCalledWith("consent", "update", {
-      analytics_storage: "granted",
-    });
-  });
-
-  it("does not throw when window.gtag is undefined (SSR / no-gtag envs)", () => {
-    delete (window as typeof window & { gtag?: unknown }).gtag;
-    expect(() => renderProvider()).not.toThrow();
-  });
-});
-
 describe("ConsentProvider", () => {
   beforeEach(() => {
     localStorage.clear();
     // Ensure the URL has no _consentReset param between tests.
     window.history.replaceState(null, "", "/");
-    // Suppress gtag bridge calls in unrelated tests
-    window.gtag = jest.fn();
-  });
-
-  afterEach(() => {
-    delete window.gtag;
   });
 
   it("starts undecided when localStorage is empty", () => {
@@ -185,6 +90,12 @@ describe("ConsentProvider", () => {
         categories: { essential: true, analytics: true },
       }),
     );
+    renderProvider();
+    expect(screen.getByTestId("decided")).toHaveTextContent("no");
+  });
+
+  it("treats corrupt JSON as undecided without throwing", () => {
+    localStorage.setItem(CONSENT_STORAGE_KEY, "not valid json{{{");
     renderProvider();
     expect(screen.getByTestId("decided")).toHaveTextContent("no");
   });

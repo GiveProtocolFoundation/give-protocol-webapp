@@ -352,6 +352,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "คุณต้องยืนยันอายุและว่าคุณได้อ่านประกาศความเป็นส่วนตัวแล้ว",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "ข้าพเจ้ายืนยันว่ามีอายุ 16 ปีขึ้นไป",
+    "ageGate.negative":
+      "Give Protocol ให้บริการสำหรับผู้ใช้ที่มีอายุ 16 ปีขึ้นไป หากคุณอายุต่ำกว่า 16 ปี เราไม่สามารถดำเนินการตามคำขอของคุณได้ในขณะนี้",
+
     // Languages
     "language.english": "อังกฤษ",
     "language.spanish": "สเปน",
@@ -979,6 +984,10 @@ export default {
     "auth.donorReg.orSetPassword": "หรือตั้งรหัสผ่าน",
     "auth.donorReg.creating": "กำลังสร้างบัญชี...",
     "auth.donorReg.createAccount": "สร้างบัญชีผู้บริจาค",
+    "auth.donorReg.privacyNotice": "การสร้างบัญชีแสดงว่าคุณยอมรับ",
+    "auth.donorReg.termsLink": "ข้อกำหนดการใช้บริการ",
+    "auth.donorReg.privacyAnd": "และรับทราบ",
+    "auth.donorReg.privacyLink": "นโยบายความเป็นส่วนตัว",
     "auth.charityLogin.mismatch":
       "อีเมลนี้ลงทะเบียนเป็นบัญชีผู้บริจาค กรุณาเข้าสู่ระบบที่พอร์ทัลผู้บริจาค",
     "auth.charityLogin.signingIn": "กำลังเข้าสู่ระบบ...",
@@ -1091,6 +1100,10 @@ export default {
     "charity.vetting.validation.country": "จำเป็นต้องเลือกประเทศ",
     "charity.vetting.validation.fix": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
     "charity.vetting.error.generic": "ไม่สามารถส่งใบสมัครได้",
+    "charity.vetting.privacyNotice": "การส่งใบสมัครนี้แสดงว่าคุณยอมรับ",
+    "charity.vetting.termsLink": "ข้อกำหนดการใช้บริการ",
+    "charity.vetting.privacyAnd": "และรับทราบ",
+    "charity.vetting.privacyLink": "นโยบายความเป็นส่วนตัว",
     "common.email": "อีเมล",
     "common.password": "รหัสผ่าน",
     "common.confirmPassword": "ยืนยันรหัสผ่าน",
@@ -1101,26 +1114,27 @@ export default {
     "footer.legal.title": "กฎหมาย",
     "footer.legal.terms": "ข้อกำหนดการใช้บริการ",
     "footer.legal.privacy": "นโยบายความเป็นส่วนตัว",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "การตั้งค่าคุกกี้",
+    "consent.banner.ariaLabel": "ความยินยอมเกี่ยวกับคุกกี้",
     "consent.banner.body":
-      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "เราใช้ Google Analytics 4 (Google LLC สหรัฐอเมริกา) และ Sentry (Functional Software สหรัฐอเมริกา/สหภาพยุโรป) เพื่อทำความเข้าใจการใช้งานแอปและตรวจจับข้อผิดพลาด ไม่มีการแชร์อีเมล ที่อยู่กระเป๋าเงิน หรือชื่อผู้บริจาค คุณสามารถถอนความยินยอมได้ทุกเมื่อ",
+    "consent.banner.privacyLink": "นโยบายความเป็นส่วนตัว",
+    "consent.banner.acceptAll": "ยอมรับทั้งหมด",
+    "consent.banner.decline": "ปฏิเสธที่ไม่จำเป็น",
+    "consent.banner.customize": "ปรับแต่ง",
+    "consent.modal.title": "การตั้งค่าคุกกี้",
+    "consent.modal.essentialTitle": "จำเป็น",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "จำเป็นสำหรับฟีเจอร์หลักของเว็บไซต์ เช่น การนำทางและการยืนยันตัวตน ไม่สามารถปิดใช้งานได้",
+    "consent.modal.essentialAlwaysOn": "คุกกี้ที่จำเป็น — เปิดใช้งานเสมอ",
+    "consent.modal.analyticsTitle":
+      "การวิเคราะห์ (Google Analytics 4 · สหรัฐอเมริกา, Sentry · สหรัฐอเมริกา/สหภาพยุโรป)",
     "consent.modal.analyticsDesc":
-      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "คุกกี้การวิเคราะห์ช่วยให้เราเข้าใจว่าหน้าไหนถูกเข้าชมและผู้ใช้นำทางในแอปอย่างไร เราใช้ Google Analytics 4 \u2014 ตัวระบุเซสชัน, URL ของหน้า, ข้อมูลเมตาของอุปกรณ์/เบราว์เซอร์, ตำแหน่งโดยประมาณจาก IP ที่ไม่ระบุตัวตน (Google LLC สหรัฐอเมริกา; SCCs + EU\u2013US Data Privacy Framework) Sentry \u2014 การติดตามข้อผิดพลาดที่ไม่ระบุตัวตนและข้อมูลเมตาของเบราว์เซอร์เพื่อการเฝ้าระวังความเสถียร (Functional Software สหภาพยุโรป/สหรัฐอเมริกา; กลไกการถ่ายโอนอยู่ระหว่างดำเนินการ) ไม่มีการแชร์อีเมล ที่อยู่กระเป๋าเงิน หรือชื่อผู้บริจาคกับผู้ประมวลผลข้อมูลใดๆ",
+    "consent.modal.analyticsOn": "การวิเคราะห์และบันทึกข้อผิดพลาด — เปิด",
+    "consent.modal.analyticsOff": "การวิเคราะห์และบันทึกข้อผิดพลาด — ปิด",
+    "consent.modal.cancel": "ยกเลิก",
+    "consent.modal.save": "บันทึกการตั้งค่า",
     "footer.connect.title": "เชื่อมต่อ",
     "footer.copyright": "Give Protocol สงวนลิขสิทธิ์",
     "nav.signIn": "เข้าสู่ระบบ",

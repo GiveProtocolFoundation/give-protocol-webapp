@@ -380,6 +380,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "Sie müssen Ihr Alter bestätigen und bestätigen, dass Sie den Datenschutzhinweis gelesen haben",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "Ich bestätige, dass ich 16 Jahre oder älter bin.",
+    "ageGate.negative":
+      "Give Protocol steht Nutzern ab 16 Jahren zur Verfügung. Wenn Sie unter 16 Jahre alt sind, können wir Ihre Anfrage derzeit nicht bearbeiten.",
+
     // Languages
     "language.english": "Englisch",
     "language.spanish": "Spanisch",
@@ -1031,6 +1036,11 @@ export default {
     "auth.donorReg.orSetPassword": "Oder Passwort festlegen",
     "auth.donorReg.creating": "Konto wird erstellt...",
     "auth.donorReg.createAccount": "Spenderkonto erstellen",
+    "auth.donorReg.privacyNotice":
+      "Mit der Erstellung eines Kontos stimmen Sie unseren",
+    "auth.donorReg.termsLink": "Nutzungsbedingungen",
+    "auth.donorReg.privacyAnd": "zu und erkennen unsere",
+    "auth.donorReg.privacyLink": "Datenschutzrichtlinie",
     "auth.charityLogin.mismatch":
       "Diese E-Mail ist als Spenderkonto registriert. Bitte melden Sie sich über das Spenderportal an.",
     "auth.charityLogin.signingIn": "Anmeldung läuft...",
@@ -1153,6 +1163,11 @@ export default {
     "charity.vetting.validation.fix":
       "Bitte korrigieren Sie die Validierungsfehler",
     "charity.vetting.error.generic": "Antrag konnte nicht eingereicht werden",
+    "charity.vetting.privacyNotice":
+      "Mit dem Einreichen dieses Antrags stimmen Sie unseren",
+    "charity.vetting.termsLink": "Nutzungsbedingungen",
+    "charity.vetting.privacyAnd": "zu und erkennen unsere",
+    "charity.vetting.privacyLink": "Datenschutzrichtlinie",
     "common.email": "E-Mail",
     "common.password": "Passwort",
     "common.confirmPassword": "Passwort bestätigen",
@@ -1164,26 +1179,27 @@ export default {
     "footer.legal.title": "Rechtliches",
     "footer.legal.terms": "Nutzungsbedingungen",
     "footer.legal.privacy": "Datenschutzrichtlinie",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "Cookie-Einstellungen",
+    "consent.banner.ariaLabel": "Cookie-Einwilligung",
     "consent.banner.body":
-      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "Wir verwenden Google Analytics 4 (Google LLC, USA) und Sentry (Functional Software, USA/EU), um die App-Nutzung zu verstehen und Fehler zu erkennen. Es werden keine E-Mail-Adressen, Wallet-Adressen oder Spendernamen weitergegeben. Sie können Ihre Einwilligung jederzeit widerrufen.",
+    "consent.banner.privacyLink": "Datenschutzrichtlinie",
+    "consent.banner.acceptAll": "Alle akzeptieren",
+    "consent.banner.decline": "Nicht-essenzielle ablehnen",
+    "consent.banner.customize": "Anpassen",
+    "consent.modal.title": "Cookie-Einstellungen",
+    "consent.modal.essentialTitle": "Essenziell",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "Erforderlich für grundlegende Website-Funktionen wie Navigation und Authentifizierung. Kann nicht deaktiviert werden.",
+    "consent.modal.essentialAlwaysOn": "Essenzielle Cookies — immer aktiv",
+    "consent.modal.analyticsTitle":
+      "Analyse (Google Analytics 4 · USA, Sentry · USA/EU)",
     "consent.modal.analyticsDesc":
-      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "Analyse-Cookies helfen uns zu verstehen, welche Seiten besucht werden und wie Nutzer durch die App navigieren. Wir verwenden Google Analytics 4 \u2014 Sitzungskennungen, Seiten-URLs, Geräte-/Browser-Metadaten, ungefährer Standort aus anonymisierter IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymisierte Fehlerprotokolle und Browser-Metadaten für Zuverlässigkeitsüberwachung (Functional Software, EU/USA; Übertragungsmechanismus ausstehend). Es werden keine E-Mail-Adressen, Wallet-Adressen oder Spendernamen an die Auftragsverarbeiter weitergegeben.",
+    "consent.modal.analyticsOn": "Analyse & Fehleraufzeichnung — an",
+    "consent.modal.analyticsOff": "Analyse & Fehleraufzeichnung — aus",
+    "consent.modal.cancel": "Abbrechen",
+    "consent.modal.save": "Einstellungen speichern",
     "footer.connect.title": "Kontakt",
     "footer.copyright": "Give Protocol. Alle Rechte vorbehalten.",
     "nav.signIn": "Anmelden",

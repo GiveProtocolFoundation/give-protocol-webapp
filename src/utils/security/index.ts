@@ -111,7 +111,7 @@ export class SecurityManager {
    */
   private initializeSecurityHeaders(): SecurityHeaders {
     const scriptSrcDomains = [
-      "https://etqbojasfmpieigeefdj.supabase.co",
+      "https://lhbyfidtlhojnrewpstp.supabase.co",
       "https://*.sentry.io",
       "https://translate.google.com",
       "https://translate.googleapis.com",
