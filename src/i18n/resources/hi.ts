@@ -362,6 +362,12 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "आपको अपनी आयु की पुष्टि करनी होगी और यह सुनिश्चित करना होगा कि आपने गोपनीयता सूचना पढ़ ली है",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive":
+      "मैं पुष्टि करता/करती हूँ कि मेरी आयु 16 वर्ष या उससे अधिक है।",
+    "ageGate.negative":
+      "Give Protocol 16 वर्ष या उससे अधिक आयु के उपयोगकर्ताओं के लिए उपलब्ध है। यदि आपकी आयु 16 वर्ष से कम है, तो हम इस समय आपके अनुरोध को संसाधित करने में असमर्थ हैं।",
+
     // Languages
     "language.english": "अंग्रेज़ी",
     "language.spanish": "स्पेनिश",
@@ -485,8 +491,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "कोई अन्य चेन प्रकार चुनने का प्रयास करें।",
     "modal.connect.viewOtherWallets": "अन्य समर्थित वॉलेट देखें",
-    "modal.connect.termsAgreement": "कनेक्ट करके, आप सहमत होते हैं",
+    "modal.connect.termsAgreement": "कनेक्ट करके, आप हमारी",
     "modal.connect.termsLink": "सेवा की शर्तें",
+    "modal.connect.termsPrivacyConnector": "और",
+    "modal.connect.privacyLink": "गोपनीयता नीति",
     "modal.connect.chainTypeAria": "चेन प्रकार",
     "modal.connect.failedConnect": "कनेक्शन विफल",
 
@@ -996,6 +1004,10 @@ export default {
     "auth.donorReg.orSetPassword": "या पासवर्ड सेट करें",
     "auth.donorReg.creating": "खाता बनाया जा रहा है...",
     "auth.donorReg.createAccount": "दाता खाता बनाएँ",
+    "auth.donorReg.privacyNotice": "खाता बनाकर, आप हमारी",
+    "auth.donorReg.termsLink": "सेवा की शर्तें",
+    "auth.donorReg.privacyAnd": "से सहमत होते हैं और हमारी",
+    "auth.donorReg.privacyLink": "गोपनीयता नीति",
     "auth.charityLogin.mismatch":
       "यह ईमेल एक दाता खाते के रूप में पंजीकृत है। कृपया दाता पोर्टल पर साइन इन करें।",
     "auth.charityLogin.signingIn": "साइन इन हो रहा है...",
@@ -1106,6 +1118,10 @@ export default {
     "charity.vetting.validation.country": "देश आवश्यक है",
     "charity.vetting.validation.fix": "कृपया सत्यापन त्रुटियों को ठीक करें",
     "charity.vetting.error.generic": "आवेदन सबमिट करने में विफल",
+    "charity.vetting.privacyNotice": "यह आवेदन सबमिट करके, आप हमारी",
+    "charity.vetting.termsLink": "सेवा की शर्तें",
+    "charity.vetting.privacyAnd": "से सहमत होते हैं और हमारी",
+    "charity.vetting.privacyLink": "गोपनीयता नीति",
     "common.email": "ईमेल",
     "common.password": "पासवर्ड",
     "common.confirmPassword": "पासवर्ड की पुष्टि करें",
@@ -1116,26 +1132,27 @@ export default {
     "footer.legal.title": "कानूनी",
     "footer.legal.terms": "सेवा की शर्तें",
     "footer.legal.privacy": "गोपनीयता नीति",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "कुकी प्राथमिकताएँ",
+    "consent.banner.ariaLabel": "कुकी सहमति",
     "consent.banner.body":
-      "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "हम ऐप के उपयोग को समझने और त्रुटियों का पता लगाने के लिए Google Analytics 4 (Google LLC, अमेरिका) और Sentry (Functional Software, अमेरिका/यूरोपीय संघ) का उपयोग करते हैं। कोई ईमेल पता, वॉलेट पता या दानकर्ता का नाम साझा नहीं किया जाता। आप किसी भी समय अपनी सहमति वापस ले सकते हैं।",
+    "consent.banner.privacyLink": "गोपनीयता नीति",
+    "consent.banner.acceptAll": "सभी स्वीकार करें",
+    "consent.banner.decline": "गैर-आवश्यक अस्वीकार करें",
+    "consent.banner.customize": "अनुकूलित करें",
+    "consent.modal.title": "कुकी प्राथमिकताएँ",
+    "consent.modal.essentialTitle": "आवश्यक",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "नेविगेशन और प्रमाणीकरण जैसी मुख्य साइट सुविधाओं के लिए आवश्यक। अक्षम नहीं किया जा सकता।",
+    "consent.modal.essentialAlwaysOn": "आवश्यक कुकीज़ — हमेशा सक्रिय",
+    "consent.modal.analyticsTitle":
+      "विश्लेषण (Google Analytics 4 · अमेरिका, Sentry · अमेरिका/यूरोपीय संघ)",
     "consent.modal.analyticsDesc":
-      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 \u2014 session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "विश्लेषण कुकीज़ हमें यह समझने में मदद करती हैं कि कौन से पृष्ठ देखे जाते हैं और उपयोगकर्ता ऐप में कैसे नेविगेट करते हैं। हम Google Analytics 4 का उपयोग करते हैं \u2014 सत्र पहचानकर्ता, पृष्ठ URL, डिवाइस/ब्राउज़र मेटाडेटा, अज्ञात IP से अनुमानित स्थान (Google LLC, अमेरिका; SCCs + EU\u2013US Data Privacy Framework)। Sentry \u2014 विश्वसनीयता निगरानी के लिए अज्ञात त्रुटि ट्रेस और ब्राउज़र मेटाडेटा (Functional Software, यूरोपीय संघ/अमेरिका; स्थानांतरण तंत्र लंबित)। किसी भी प्रोसेसर के साथ कोई ईमेल पता, वॉलेट पता या दानकर्ता का नाम साझा नहीं किया जाता।",
+    "consent.modal.analyticsOn": "विश्लेषण और त्रुटि रिकॉर्डिंग — चालू",
+    "consent.modal.analyticsOff": "विश्लेषण और त्रुटि रिकॉर्डिंग — बंद",
+    "consent.modal.cancel": "रद्द करें",
+    "consent.modal.save": "प्राथमिकताएँ सहेजें",
     "footer.connect.title": "संपर्क करें",
     "footer.copyright": "Give Protocol. सर्वाधिकार सुरक्षित।",
     "nav.signIn": "साइन इन",

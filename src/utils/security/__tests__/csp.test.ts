@@ -119,4 +119,20 @@ describe("SecurityManager CSP (PCI DSS SAQ A-EP Requirement 6.4.3)", () => {
     const instance2 = SecurityManager.getInstance();
     expect(instance1).toBe(instance2);
   });
+
+  it("includes report-uri directive pointing to /api/csp-report", () => {
+    const manager = SecurityManager.getInstance();
+    const csp = (manager as unknown as SecurityManagerPrivate).securityHeaders[
+      "Content-Security-Policy"
+    ];
+    expect(csp).toContain("report-uri /api/csp-report");
+  });
+
+  it("includes report-to directive referencing csp-endpoint group", () => {
+    const manager = SecurityManager.getInstance();
+    const csp = (manager as unknown as SecurityManagerPrivate).securityHeaders[
+      "Content-Security-Policy"
+    ];
+    expect(csp).toContain("report-to csp-endpoint");
+  });
 });

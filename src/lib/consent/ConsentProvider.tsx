@@ -1,4 +1,10 @@
-import React, { createContext, useCallback, useContext, useState } from "react";
+import React, {
+  createContext,
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+} from "react";
 import {
   clearConsent,
   readConsent,
@@ -38,6 +44,26 @@ const defaultCategories: ConsentCategories = {
 const ConsentContext = createContext<ConsentContextValue | null>(null);
 
 // ---------------------------------------------------------------------------
+// GA4 consent bridge
+// ---------------------------------------------------------------------------
+
+/**
+ * Bridges the React consent state into gtag's consent API.
+ *
+ * - Fires on mount so returning visitors' stored consent is replayed into
+ *   gtag before the 500 ms wait_for_update timer in index.html expires.
+ * - Fires on every consent change so accept/decline immediately propagates.
+ * - Null-safe: no-ops if window.gtag is unavailable (SSR, test environments).
+ */
+function useGAConsentBridge(categories: ConsentCategories): void {
+  useEffect(() => {
+    window.gtag?.("consent", "update", {
+      analytics_storage: categories.analytics ? "granted" : "denied",
+    });
+  }, [categories.analytics]);
+}
+
+// ---------------------------------------------------------------------------
 // Provider
 // ---------------------------------------------------------------------------
 
@@ -68,8 +94,23 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     setRecord(null);
   }, []);
 
+  // Dev-only: clear consent when ?_consentReset=1 is in the URL.
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("_consentReset") === "1") {
+        clearConsent();
+        setRecord(null);
+      }
+    }
+  }, []);
+
+  const categories = record?.categories ?? defaultCategories;
+
+  useGAConsentBridge(categories);
+
   const value: ConsentContextValue = {
-    categories: record?.categories ?? defaultCategories,
+    categories,
     hasDecided: record !== null,
     accept,
     decline,

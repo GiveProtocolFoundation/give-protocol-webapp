@@ -1,5 +1,6 @@
 import { supabase } from "@/lib/supabase";
 import type {
+  AdminAuditEntityType,
   AdminAuditLogEntry,
   AdminAuditLogFilters,
   AdminAuditLogResult,
@@ -16,6 +17,45 @@ const EMPTY_RESULT: AdminAuditLogResult = {
   limit: 50,
   totalPages: 0,
 };
+
+/** Context for read audit log entries. Only filter keys (not values) are recorded. */
+export interface LogReadContext {
+  page?: number;
+  limit?: number;
+  filterKeys?: string[];
+  resultCount?: number;
+  source?: string;
+}
+
+/** In-memory dedup window (~1 s) to absorb StrictMode double-mount and rapid filter typing */
+const dedupWindow = new Map<string, number>();
+const DEDUP_MS = 1000;
+
+/**
+ * Clears the in-memory dedup window. Exposed for testing only.
+ */
+export function _resetDedupWindow(): void {
+  dedupWindow.clear();
+}
+
+/**
+ * Produces a stable string key from a LogReadContext for dedup keying.
+ * @param ctx - The context to hash
+ * @returns A deterministic string representation
+ */
+function stableContextKey(ctx?: LogReadContext): string {
+  if (!ctx) return "";
+  const parts: string[] = [];
+  if (ctx.page !== undefined) parts.push(`p:${ctx.page}`);
+  if (ctx.limit !== undefined) parts.push(`l:${ctx.limit}`);
+  if (ctx.filterKeys)
+    parts.push(
+      `fk:${[...ctx.filterKeys].sort((a, b) => a.localeCompare(b)).join(",")}`,
+    );
+  if (ctx.resultCount !== undefined) parts.push(`rc:${ctx.resultCount}`);
+  if (ctx.source) parts.push(`s:${ctx.source}`);
+  return parts.join("|");
+}
 
 /**
  * Maps a raw database row (snake_case) to a camelCase AdminAuditLogEntry.

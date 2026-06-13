@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { useTranslation } from "@/hooks/useTranslation";
 import { getDonationSummary } from "@/services/adminDonationService";
 import { getAdminAuditLog } from "@/services/adminAuditService";
 import {
@@ -24,6 +25,7 @@ import type {
   PlatformHealthRow,
 } from "@/types/adminReports";
 import type {
+  AdminAuditActionType,
   AdminAuditLogEntry,
   AdminAuditLogFilters,
 } from "@/types/adminAudit";
@@ -856,8 +858,114 @@ function VolunteerHoursTab({
 
 // ─── Audit Trail Tab ──────────────────────────────────────────────────────────
 
+/** All action types available for filtering in the audit trail */
+const ACTION_TYPE_OPTIONS: { value: AdminAuditActionType; i18nKey: string }[] =
+  [
+    {
+      value: "charity_status_change",
+      i18nKey: "admin.auditTrail.action.charityStatusChange",
+    },
+    {
+      value: "user_status_change",
+      i18nKey: "admin.auditTrail.action.userStatusChange",
+    },
+    { value: "donation_flag", i18nKey: "admin.auditTrail.action.donationFlag" },
+    {
+      value: "donation_flag_resolve",
+      i18nKey: "admin.auditTrail.action.donationFlagResolve",
+    },
+    {
+      value: "validation_override",
+      i18nKey: "admin.auditTrail.action.validationOverride",
+    },
+    { value: "config_change", i18nKey: "admin.auditTrail.action.configChange" },
+    {
+      value: "verification_approve",
+      i18nKey: "admin.auditTrail.action.verificationApprove",
+    },
+    {
+      value: "verification_reject",
+      i18nKey: "admin.auditTrail.action.verificationReject",
+    },
+    {
+      value: "charity_suspend",
+      i18nKey: "admin.auditTrail.action.charitySuspend",
+    },
+    {
+      value: "charity_reinstate",
+      i18nKey: "admin.auditTrail.action.charityReinstate",
+    },
+    { value: "user_suspend", i18nKey: "admin.auditTrail.action.userSuspend" },
+    {
+      value: "user_reinstate",
+      i18nKey: "admin.auditTrail.action.userReinstate",
+    },
+    { value: "user_ban", i18nKey: "admin.auditTrail.action.userBan" },
+    { value: "view_pii", i18nKey: "admin.auditTrail.action.viewPii" },
+    { value: "view_pii_list", i18nKey: "admin.auditTrail.action.viewPiiList" },
+  ];
+
+/**
+ * Builds a human-readable summary for a view_pii or view_pii_list audit entry.
+ * @param entry - The audit log entry
+ * @param t - Translation function
+ * @returns Translated summary string
+ */
+function formatPiiSummary(
+  entry: AdminAuditLogEntry,
+  t: (key: string, fallback: string, opts?: Record<string, string>) => string,
+): string {
+  const adminId = entry.adminUserId.slice(0, 8);
+  const entityType = entry.entityType.replaceAll("_", " ");
+
+  if (entry.actionType === "view_pii") {
+    return t(
+      "admin.auditTrail.viewedEntity",
+      "Admin {{adminId}} viewed {{entityType}} {{entityId}}",
+      {
+        adminId,
+        entityType,
+        entityId: entry.entityId.slice(0, 8),
+      },
+    );
+  }
+
+  // view_pii_list
+  const context = entry.newValues;
+  const rawPage = context?.page;
+  const page =
+    typeof rawPage === "number" || typeof rawPage === "string"
+      ? String(rawPage)
+      : "1";
+  const filterKeys = context?.filter_keys as string[] | undefined;
+
+  if (filterKeys && filterKeys.length > 0) {
+    return t(
+      "admin.auditTrail.viewedList",
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})",
+      {
+        adminId,
+        entityType,
+        page,
+        filters: filterKeys.join(", "),
+      },
+    );
+  }
+
+  return t(
+    "admin.auditTrail.viewedListNoFilters",
+    "Admin {{adminId}} viewed {{entityType}} list (page {{page}})",
+    {
+      adminId,
+      entityType,
+      page,
+    },
+  );
+}
+
 /**
  * Renders the audit trail report tab listing administrative actions within the date range.
+ * Supports filtering by action type including view_pii and view_pii_list entries.
  * @param props - Date range bounds for the report.
  * @param props.dateFrom - ISO date string lower bound.
  * @param props.dateTo - ISO date string upper bound.
@@ -867,43 +975,58 @@ function AuditTrailTab({
   dateFrom,
   dateTo,
 }: Readonly<DateRange>): React.ReactElement {
+  const { t } = useTranslation();
   const [entries, setEntries] = useState<AdminAuditLogEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [actionFilter, setActionFilter] = useState<AdminAuditActionType | "">(
+    "",
+  );
 
-  const fetchPage = useCallback((p: number, from: string, to: string) => {
-    if (!from || !to) return;
-    setLoading(true);
-    const filters: AdminAuditLogFilters = {
-      dateFrom: from,
-      dateTo: to,
-      page: p,
-      limit: 50,
-    };
-    getAdminAuditLog(filters).then((result) => {
-      setEntries(result.entries);
-      setTotalPages(result.totalPages);
-      setLoading(false);
-    });
-  }, []);
+  const fetchPage = useCallback(
+    (
+      p: number,
+      from: string,
+      to: string,
+      action: AdminAuditActionType | "",
+    ) => {
+      if (!from || !to) return;
+      setLoading(true);
+      const filters: AdminAuditLogFilters = {
+        dateFrom: from,
+        dateTo: to,
+        page: p,
+        limit: 50,
+      };
+      if (action) {
+        filters.actionType = action;
+      }
+      getAdminAuditLog(filters).then((result) => {
+        setEntries(result.entries);
+        setTotalPages(result.totalPages);
+        setLoading(false);
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
     setPage(1);
-    fetchPage(1, dateFrom, dateTo);
-  }, [dateFrom, dateTo, fetchPage]);
+    fetchPage(1, dateFrom, dateTo, actionFilter);
+  }, [dateFrom, dateTo, actionFilter, fetchPage]);
 
   const handlePrev = useCallback(() => {
     const next = Math.max(1, page - 1);
     setPage(next);
-    fetchPage(next, dateFrom, dateTo);
-  }, [page, dateFrom, dateTo, fetchPage]);
+    fetchPage(next, dateFrom, dateTo, actionFilter);
+  }, [page, dateFrom, dateTo, actionFilter, fetchPage]);
 
   const handleNext = useCallback(() => {
     const next = page + 1;
     setPage(next);
-    fetchPage(next, dateFrom, dateTo);
-  }, [page, dateFrom, dateTo, fetchPage]);
+    fetchPage(next, dateFrom, dateTo, actionFilter);
+  }, [page, dateFrom, dateTo, actionFilter, fetchPage]);
 
   const handleExport = useCallback(() => {
     downloadReport(
@@ -912,15 +1035,54 @@ function AuditTrailTab({
     );
   }, [entries, dateFrom, dateTo]);
 
+  const handleActionFilterChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setActionFilter(e.target.value as AdminAuditActionType | "");
+    },
+    [],
+  );
+
+  const actionOptions = useMemo(
+    () =>
+      ACTION_TYPE_OPTIONS.map((opt) => ({
+        value: opt.value,
+        label: t(opt.i18nKey, opt.value.replaceAll("_", " ")),
+      })),
+    [t],
+  );
+
   return (
     <div className="space-y-4">
-      {entries.length > 0 && (
-        <div className="flex justify-end">
-          <Button variant="secondary" size="sm" onClick={handleExport}>
+      <div className="flex flex-wrap items-center gap-3">
+        <label htmlFor="audit-action-filter" className="text-sm text-gray-600">
+          {t("admin.auditTrail.filterByAction", "Filter by action")}
+        </label>
+        <select
+          id="audit-action-filter"
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          value={actionFilter}
+          onChange={handleActionFilterChange}
+        >
+          <option value="">
+            {t("admin.auditTrail.allActions", "All actions")}
+          </option>
+          {actionOptions.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        {entries.length > 0 && (
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-auto"
+            onClick={handleExport}
+          >
             Export CSV
           </Button>
-        </div>
-      )}
+        )}
+      </div>
 
       {loading && (
         <div className="flex justify-center py-8">
@@ -952,7 +1114,7 @@ function AuditTrailTab({
                 scope="col"
                 className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
               >
-                Entity
+                Details
               </th>
               <th
                 scope="col"
@@ -969,30 +1131,44 @@ function AuditTrailTab({
             </tr>
           </thead>
           <tbody>
-            {entries.map((entry) => (
-              <tr
-                key={entry.id}
-                className="border-t border-gray-100 hover:bg-gray-50"
-              >
-                <td className="px-4 py-2 text-xs text-gray-500 whitespace-nowrap">
-                  {fmtDate(entry.createdAt)}
-                </td>
-                <td className="px-4 py-2">
-                  <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                    {entry.actionType.replaceAll("_", " ")}
-                  </span>
-                </td>
-                <td className="px-4 py-2 text-gray-600 capitalize">
-                  {entry.entityType.replaceAll("_", " ")}
-                </td>
-                <td className="px-4 py-2 font-mono text-xs text-gray-500">
-                  {entry.entityId.slice(0, 8)}…
-                </td>
-                <td className="px-4 py-2 font-mono text-xs text-gray-500">
-                  {entry.adminUserId.slice(0, 8)}…
-                </td>
-              </tr>
-            ))}
+            {entries.map((entry) => {
+              const isPiiAction =
+                entry.actionType === "view_pii" ||
+                entry.actionType === "view_pii_list";
+
+              return (
+                <tr
+                  key={entry.id}
+                  className="border-t border-gray-100 hover:bg-gray-50"
+                >
+                  <td className="px-4 py-2 text-xs text-gray-500 whitespace-nowrap">
+                    {fmtDate(entry.createdAt)}
+                  </td>
+                  <td className="px-4 py-2">
+                    <span
+                      className={`inline-block px-2 py-0.5 text-xs font-medium rounded-full ${
+                        isPiiAction
+                          ? "bg-amber-100 text-amber-800"
+                          : "bg-blue-100 text-blue-800"
+                      }`}
+                    >
+                      {entry.actionType.replaceAll("_", " ")}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2 text-gray-600 text-xs">
+                    {isPiiAction
+                      ? formatPiiSummary(entry, t)
+                      : entry.entityType.replaceAll("_", " ")}
+                  </td>
+                  <td className="px-4 py-2 font-mono text-xs text-gray-500">
+                    {entry.entityId ? `${entry.entityId.slice(0, 8)}…` : "—"}
+                  </td>
+                  <td className="px-4 py-2 font-mono text-xs text-gray-500">
+                    {entry.adminUserId.slice(0, 8)}…
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}

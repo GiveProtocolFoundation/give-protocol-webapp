@@ -11,12 +11,7 @@ import { supabase } from "@/lib/supabase";
 import { useToast } from "./ToastContext";
 import { Logger } from "@/utils/logger";
 import { ENV as _ENV } from "@/config/env";
-import {
-  setSentryUser,
-  clearSentryUser,
-  isAnalyticsEnabled,
-} from "@/lib/sentry";
-import * as Sentry from "@sentry/react";
+import { setSentryUser, clearSentryUser } from "@/lib/sentry";
 
 interface AuthState {
   user: User | null;
@@ -88,17 +83,8 @@ function updateSentryUserContext(
   _userType: UserType,
 ): void {
   if (user) {
-    // Phase A: opaque ID only
+    // Opaque ID only — consent copy promises no email/PII is shared (GIV-397)
     setSentryUser({ id: user.id });
-
-    // Phase B: full PII when analytics integrations are active
-    if (isAnalyticsEnabled()) {
-      Sentry.setUser({
-        id: user.id,
-        email: user.email,
-        type: userType ?? undefined,
-      });
-    }
   } else {
     clearSentryUser();
   }
@@ -194,9 +180,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (authMethod === "wallet" || walletAddress) {
             const addr = walletAddress ?? "";
             const truncated =
-              addr.length > 10
-                ? `${addr.slice(0, 6)}\u2026${addr.slice(-4)}`
-                : addr;
+              addr.length > 10 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr;
             showToast({
               type: "success",
               title: "Wallet connected",
@@ -211,7 +195,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             showToast({
               type: "success",
               title: `Welcome back, ${firstName}`,
-              message: "You\u2019re signed in.",
+              message: "You’re signed in.",
             });
           }
           startRefresh();

@@ -9,6 +9,11 @@
       All other CSP locations (nginx.conf, vercel.json, security/index.ts) must mirror this.
       CI validates consistency via scripts/validate-csp.mjs.
       Supabase URL is intentionally public — security via RLS policies and anon key.
+
+      NOTE: CSP meta tags do not support report-uri/report-to directives.
+      Violation reporting is handled by the server-sent Content-Security-Policy
+      HTTP header (vercel.json, nginx.conf, .htaccess) which includes report-to
+      and report-uri pointing to /api/csp-report. See GIV-328.
     -->
     <meta
       http-equiv="Content-Security-Policy"
@@ -23,13 +28,16 @@
       rel="stylesheet"
     />
 
-    <!-- GA4 consent defaults — denied until ConsentProvider grants -->
+    <!-- Google Analytics consent defaults (denied until user accepts via React banner) -->
     <script>
       window.dataLayer = window.dataLayer || [];
       function gtag() {
         dataLayer.push(arguments);
       }
 
+      // All consent categories denied by default — GDPR Art. 4(11).
+      // The React ConsentProvider bridges stored consent into gtag on mount.
+      // The useGA4Loader hook loads gtag.js only after analytics consent is granted.
       gtag("consent", "default", {
         analytics_storage: "denied",
         wait_for_update: 500,
