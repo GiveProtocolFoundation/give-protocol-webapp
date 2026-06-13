@@ -111,9 +111,9 @@ const SectionInformationWeCollect: React.FC = () => (
         On-chain records (donation transactions, volunteer verification tokens)
         are permanent and cannot be deleted or modified.
       </strong>{" "}
-      When you exercise your right to erasure (see Section 8), we will delete all
-      personal data from our internal systems, including the link between your
-      account and your wallet address, but the on-chain transaction records
+      When you exercise your right to erasure (see Section 8), we will delete
+      all personal data from our internal systems, including the link between
+      your account and your wallet address, but the on-chain transaction records
       associated with that wallet address will remain on the public blockchain
       indefinitely. If you have ever publicly connected your wallet address to
       your real-world identity (for example, on social media), that on-chain
@@ -440,20 +440,20 @@ const SectionYourRights: React.FC = () => (
       Exercising your right to erasure (Article 17 GDPR) will result in deletion
       of all personal data from our internal systems within{" "}
       <strong>30 days</strong>, including the link between your Give Protocol
-      account and your wallet address. However, transaction data that has already
-      been recorded on public blockchain networks (such as Moonbeam, Base, and
-      Optimism) <strong>cannot be erased</strong>, because blockchain ledgers are
-      immutable by design and no technical means exist to remove or alter a
-      confirmed on-chain record.
+      account and your wallet address. However, transaction data that has
+      already been recorded on public blockchain networks (such as Moonbeam,
+      Base, and Optimism) <strong>cannot be erased</strong>, because blockchain
+      ledgers are immutable by design and no technical means exist to remove or
+      alter a confirmed on-chain record.
     </p>
     <p>
       This means that after your erasure request is fulfilled, donation
       transactions and volunteer-verification tokens linked to your wallet
       address remain publicly visible on-chain. If you have previously linked
       your identity to your wallet address through public means outside of our
-      platform, we cannot control the re-identification of your on-chain history.
-      This limitation is described further in Section 2.3, and the corresponding
-      retention position is set out in Section 7.1.
+      platform, we cannot control the re-identification of your on-chain
+      history. This limitation is described further in Section 2.3, and the
+      corresponding retention position is set out in Section 7.1.
     </p>
   </section>
 );
