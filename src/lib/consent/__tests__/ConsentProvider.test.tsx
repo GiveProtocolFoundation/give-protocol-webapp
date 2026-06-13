@@ -1,5 +1,12 @@
 import React from "react"; // eslint-disable-line no-unused-vars, @typescript-eslint/no-unused-vars
-import { describe, it, expect, beforeEach, afterEach, jest } from "@jest/globals";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  afterEach,
+  jest,
+} from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { ConsentProvider, useConsent } from "../ConsentProvider";
 import { CONSENT_STORAGE_KEY } from "../storage";
