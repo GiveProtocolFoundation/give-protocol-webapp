@@ -243,8 +243,8 @@ const SectionHowWeShare: React.FC = () => (
     </p>
     <p>
       When you <strong>volunteer</strong> for an organization, we share the
-      information necessary to facilitate the volunteer opportunity (such as your
-      name and the details you submit in your application) with that
+      information necessary to facilitate the volunteer opportunity (such as
+      your name and the details you submit in your application) with that
       organization.
     </p>
     <p>
