@@ -80,7 +80,7 @@ function resolveUserType(user: User | null | undefined): Promise<UserType> {
  */
 function updateSentryUserContext(
   user: User | null | undefined,
-  userType: UserType,
+  _userType: UserType,
 ): void {
   if (user) {
     // Opaque ID only — consent copy promises no email/PII is shared (GIV-397)
@@ -181,7 +181,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             const addr = walletAddress ?? "";
             const truncated =
               addr.length > 10
-                ? `${addr.slice(0, 6)}\u2026${addr.slice(-4)}`
+                ? `${addr.slice(0, 6)}…${addr.slice(-4)}`
                 : addr;
             showToast({
               type: "success",
@@ -197,7 +197,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             showToast({
               type: "success",
               title: `Welcome back, ${firstName}`,
-              message: "You\u2019re signed in.",
+              message: "You’re signed in.",
             });
           }
           startRefresh();

@@ -31,8 +31,6 @@ const renderProvider = () =>
 // ---------------------------------------------------------------------------
 
 describe("useGAConsentBridge (via ConsentProvider)", () => {
-  let mockGtag: jest.Mock;
-
   beforeEach(() => {
     localStorage.clear();
   });
