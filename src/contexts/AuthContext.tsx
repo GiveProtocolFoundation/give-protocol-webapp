@@ -80,7 +80,7 @@ function resolveUserType(user: User | null | undefined): Promise<UserType> {
  */
 function updateSentryUserContext(
   user: User | null | undefined,
-  userType: UserType,
+  _userType: UserType,
 ): void {
   if (user) {
     // Opaque ID only — consent copy promises no email/PII is shared (GIV-397)
