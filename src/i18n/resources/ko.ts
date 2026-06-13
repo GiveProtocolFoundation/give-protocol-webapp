@@ -333,18 +333,16 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "다음 사항을 이해합니다:",
-    "volunteer.specificConsents": "개별 동의",
-    "volunteer.specificConsentsDesc":
-      "다음 각 항목을 검토하고 동의 여부를 표시해 주세요:",
-    "volunteer.essentialProcessingTitle": "필수 처리 (필수):",
-    "volunteer.internationalTransfersTitle": "국제 전송 (해당되는 경우):",
+    "volunteer.processingAckTitle": "처리 확인",
+    "volunteer.processingAckDesc": "계속하기 전에 다음 사항을 확인해 주세요:",
+    "volunteer.essentialProcessingTitle": "신청 처리 (확인 필요):",
     "volunteer.acknowledgmentTitle": "확인",
     "volunteer.ageConfirmationTitle": "연령 확인:",
     "volunteer.privacyNoticeTitle": "개인정보 처리방침:",
     "volunteer.doNotAccept": "동의하지 않음",
     "volunteer.acceptAndContinue": "동의하고 계속하기",
     "volunteer.validation.essentialRequired":
-      "진행하려면 필수 처리 동의가 필요합니다",
+      "계속하려면 신청 처리 확인을 완료해야 합니다",
     "volunteer.validation.agePrivacyRequired":
       "연령을 확인하고 개인정보 처리방침을 읽었음을 확인해야 합니다",
 

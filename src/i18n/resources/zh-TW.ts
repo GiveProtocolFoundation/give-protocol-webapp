@@ -320,16 +320,16 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "我瞭解：",
-    "volunteer.specificConsents": "具體同意事項",
-    "volunteer.specificConsentsDesc": "請審閱並表明您對以下各項的同意：",
-    "volunteer.essentialProcessingTitle": "基本處理（必要）：",
-    "volunteer.internationalTransfersTitle": "國際傳輸（如適用）：",
+    "volunteer.processingAckTitle": "處理確認",
+    "volunteer.processingAckDesc": "請在繼續之前查閱並確認以下內容：",
+    "volunteer.essentialProcessingTitle": "申請處理（需要確認）：",
     "volunteer.acknowledgmentTitle": "確認",
     "volunteer.ageConfirmationTitle": "年齡確認：",
     "volunteer.privacyNoticeTitle": "隱私聲明：",
     "volunteer.doNotAccept": "不接受",
     "volunteer.acceptAndContinue": "接受並繼續",
-    "volunteer.validation.essentialRequired": "必須同意基本處理才能繼續",
+    "volunteer.validation.essentialRequired":
+      "您必須確認申請處理確認才能繼續",
     "volunteer.validation.agePrivacyRequired": "您必須確認年齡並已閱讀隱私聲明",
 
     // Age affirmation gate (shared across all surfaces — GIV-453)

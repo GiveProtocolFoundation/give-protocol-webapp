@@ -329,18 +329,17 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "أفهم أن:",
-    "volunteer.specificConsents": "الموافقات المحددة",
-    "volunteer.specificConsentsDesc":
-      "يرجى مراجعة كل من البنود التالية والإشارة إلى موافقتك عليها:",
-    "volunteer.essentialProcessingTitle": "المعالجة الأساسية (مطلوبة):",
-    "volunteer.internationalTransfersTitle": "النقل الدولي (إن وُجد):",
+    "volunteer.processingAckTitle": "الإقرار بالمعالجة",
+    "volunteer.processingAckDesc":
+      "يرجى مراجعة ما يلي والإقرار به قبل المتابعة:",
+    "volunteer.essentialProcessingTitle": "معالجة الطلب (يجب التأكيد):",
     "volunteer.acknowledgmentTitle": "الإقرار",
     "volunteer.ageConfirmationTitle": "تأكيد العمر:",
     "volunteer.privacyNoticeTitle": "إشعار الخصوصية:",
     "volunteer.doNotAccept": "عدم الموافقة",
     "volunteer.acceptAndContinue": "الموافقة والمتابعة",
     "volunteer.validation.essentialRequired":
-      "موافقة المعالجة الأساسية مطلوبة للمتابعة",
+      "يجب تأكيد إقرار معالجة الطلب للمتابعة",
     "volunteer.validation.agePrivacyRequired":
       "يجب تأكيد عمرك والإقرار بأنك قرأت إشعار الخصوصية",
 
