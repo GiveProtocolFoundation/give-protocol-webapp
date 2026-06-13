@@ -180,9 +180,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           if (authMethod === "wallet" || walletAddress) {
             const addr = walletAddress ?? "";
             const truncated =
-              addr.length > 10
-                ? `${addr.slice(0, 6)}\u2026${addr.slice(-4)}`
-                : addr;
+              addr.length > 10 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr;
             showToast({
               type: "success",
               title: "Wallet connected",
@@ -197,7 +195,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
             showToast({
               type: "success",
               title: `Welcome back, ${firstName}`,
-              message: "You\u2019re signed in.",
+              message: "You’re signed in.",
             });
           }
           startRefresh();
