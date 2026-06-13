@@ -346,19 +346,17 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "मैं समझता/समझती हूं कि:",
-    "volunteer.specificConsents": "विशिष्ट सहमतियां",
-    "volunteer.specificConsentsDesc":
-      "कृपया निम्नलिखित प्रत्येक मद की समीक्षा करें और अपनी सहमति दें:",
-    "volunteer.essentialProcessingTitle": "आवश्यक प्रसंस्करण (अनिवार्य):",
-    "volunteer.internationalTransfersTitle":
-      "अंतर्राष्ट्रीय स्थानांतरण (यदि लागू हो):",
+    "volunteer.processingAckTitle": "प्रसंस्करण की स्वीकृति",
+    "volunteer.processingAckDesc":
+      "आगे बढ़ने से पहले कृपया निम्नलिखित की समीक्षा करें और स्वीकार करें:",
+    "volunteer.essentialProcessingTitle": "आवेदन प्रसंस्करण (पुष्टि आवश्यक):",
     "volunteer.acknowledgmentTitle": "स्वीकृति",
     "volunteer.ageConfirmationTitle": "आयु पुष्टि:",
     "volunteer.privacyNoticeTitle": "गोपनीयता सूचना:",
     "volunteer.doNotAccept": "स्वीकार न करें",
     "volunteer.acceptAndContinue": "स्वीकार करें और जारी रखें",
     "volunteer.validation.essentialRequired":
-      "आगे बढ़ने के लिए आवश्यक प्रसंस्करण सहमति आवश्यक है",
+      "आगे बढ़ने के लिए आपको आवेदन-प्रसंस्करण स्वीकृति की पुष्टि करनी होगी",
     "volunteer.validation.agePrivacyRequired":
       "आपको अपनी आयु की पुष्टि करनी होगी और यह सुनिश्चित करना होगा कि आपने गोपनीयता सूचना पढ़ ली है",
 

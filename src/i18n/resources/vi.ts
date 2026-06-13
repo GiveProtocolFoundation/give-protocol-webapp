@@ -339,19 +339,18 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Tôi hiểu rằng:",
-    "volunteer.specificConsents": "ĐỒNG Ý CỤ THỂ",
-    "volunteer.specificConsentsDesc":
-      "Vui lòng xem xét và cho biết sự đồng ý của bạn đối với từng mục sau:",
-    "volunteer.essentialProcessingTitle": "Xử lý thiết yếu (Bắt buộc):",
-    "volunteer.internationalTransfersTitle":
-      "Chuyển dữ liệu quốc tế (nếu áp dụng):",
+    "volunteer.processingAckTitle": "XÁC NHẬN XỬ LÝ",
+    "volunteer.processingAckDesc":
+      "Vui lòng xem xét và xác nhận những điều sau trước khi tiếp tục:",
+    "volunteer.essentialProcessingTitle":
+      "Xử lý Đơn đăng ký (Bắt buộc xác nhận):",
     "volunteer.acknowledgmentTitle": "XÁC NHẬN",
     "volunteer.ageConfirmationTitle": "Xác nhận độ tuổi:",
     "volunteer.privacyNoticeTitle": "Thông báo bảo mật:",
     "volunteer.doNotAccept": "Không đồng ý",
     "volunteer.acceptAndContinue": "Đồng ý và tiếp tục",
     "volunteer.validation.essentialRequired":
-      "Cần có sự đồng ý xử lý thiết yếu để tiếp tục",
+      "Bạn phải xác nhận việc xử lý đơn đăng ký để tiếp tục",
     "volunteer.validation.agePrivacyRequired":
       "Bạn phải xác nhận độ tuổi và rằng bạn đã đọc Thông báo bảo mật",
 

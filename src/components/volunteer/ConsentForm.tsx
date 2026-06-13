@@ -44,15 +44,20 @@ const ConsentModalHeader: React.FC = () => {
 const ConsentUnderstandingList: React.FC = () => (
   <ol className="list-decimal pl-6 space-y-2 text-gray-700 dark:text-gray-300 mb-6">
     <li>
-      My personal information will be processed for the purposes of evaluating
-      my volunteer application, managing volunteer assignments, and related
-      activities.
+      My personal information will be processed to evaluate my volunteer
+      application, manage volunteer assignments, and carry out related
+      activities. This processing is necessary to take steps at my request
+      before, and to perform, any volunteer arrangement (GDPR Art. 6(1)(b)); it
+      does not rely on my consent.
     </li>
     <li>
       GIVE PROTOCOL may collect various categories of my personal information,
       including identity information, contact details, background information,
-      availability, references, and where relevant and permitted by law, certain
-      special categories of data.
+      availability, and references. I should not include special categories of
+      data (such as information about health, racial or ethnic origin, religious
+      or political beliefs, trade-union membership, or sex life or sexual
+      orientation) in free-text fields, as such data is not required to evaluate
+      my application.
     </li>
     <li>
       My personal information may be shared with authorized personnel within the
@@ -60,8 +65,10 @@ const ConsentUnderstandingList: React.FC = () => (
       providers, and third parties as outlined in the Privacy Notice.
     </li>
     <li>
-      My personal information may be transferred internationally with
-      appropriate safeguards in place.
+      Where a service provider is located outside my country of residence, my
+      personal information may be transferred internationally under appropriate
+      safeguards (such as Standard Contractual Clauses) as described in the
+      Privacy Notice. These transfers do not rely on my consent.
     </li>
     <li>
       I have certain rights regarding my personal information, which vary
@@ -69,16 +76,18 @@ const ConsentUnderstandingList: React.FC = () => (
       restrict processing, data portability, and object to processing.
     </li>
     <li className="flex flex-wrap items-center gap-1">
-      I can withdraw my consent at any time by contacting{" "}
+      I can object to processing (GDPR Art. 21) and request erasure of my
+      personal information (GDPR Art. 17) by contacting{" "}
       <a
         href="mailto:legal@giveprotocol.io"
         className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300 inline-flex items-center gap-1"
       >
         legal@giveprotocol.io <Mail className="h-3 w-3" aria-hidden="true" />
       </a>
-      {", "}
-      though this will not affect the lawfulness of processing based on my
-      consent before withdrawal. Withdrawing consent may impact the
+      {". "}
+      Where any specific processing is based on my consent, I can withdraw that
+      consent at any time without affecting the lawfulness of processing carried
+      out before withdrawal. Objecting or requesting erasure may impact the
       organization&apos;s ability to consider my volunteer application.
     </li>
   </ol>
@@ -126,10 +135,6 @@ const ConsentDialog: React.FC<{
   onEssentialProcessingChange: (
     _e: React.ChangeEvent<HTMLInputElement>,
   ) => void;
-  internationalTransfers: boolean;
-  onInternationalTransfersChange: (
-    _e: React.ChangeEvent<HTMLInputElement>,
-  ) => void;
   ageConfirmation: boolean;
   onAgeConfirmationChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   privacyNotice: boolean;
@@ -141,8 +146,6 @@ const ConsentDialog: React.FC<{
 }> = ({
   essentialProcessing,
   onEssentialProcessingChange,
-  internationalTransfers,
-  onInternationalTransfersChange,
   ageConfirmation,
   onAgeConfirmationChange,
   privacyNotice,
@@ -166,10 +169,13 @@ const ConsentDialog: React.FC<{
           {t("volunteer.consentHeader", "Volunteer Application Consent")}
         </h2>
         <p className="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed">
-          By completing and submitting this form, I consent to GIVE PROTOCOL
-          collecting, processing, and storing my personal information as
-          described in the Volunteer Application Privacy Notice, which I have
-          read and understood.
+          GIVE PROTOCOL processes the personal information in this application
+          to evaluate your volunteer application and, if successful, to manage
+          your volunteer engagement. This processing is necessary to take steps
+          at your request before, and to perform, any volunteer arrangement
+          (GDPR Art. 6(1)(b)) and does not rely on your consent. Processing is
+          carried out as described in the Volunteer Application Privacy Notice,
+          which you should read before continuing.
         </p>
         <p className="font-semibold text-gray-900 dark:text-gray-100 mb-3">
           {t("volunteer.consentUnderstand", "I understand that:")}
@@ -178,12 +184,12 @@ const ConsentDialog: React.FC<{
 
         <div className="border-t border-gray-200 dark:border-gray-600 pt-6 mb-6">
           <p className="font-semibold text-gray-900 dark:text-gray-100 mb-4">
-            {t("volunteer.specificConsents", "SPECIFIC CONSENTS")}
+            {t("volunteer.processingAckTitle", "PROCESSING ACKNOWLEDGMENT")}
           </p>
           <p className="text-gray-600 dark:text-gray-400 text-sm mb-6">
             {t(
-              "volunteer.specificConsentsDesc",
-              "Please review and indicate your consent to each of the following:",
+              "volunteer.processingAckDesc",
+              "Please review and acknowledge the following before continuing:",
             )}
           </p>
         </div>
@@ -195,21 +201,10 @@ const ConsentDialog: React.FC<{
             onChange={onEssentialProcessingChange}
             title={t(
               "volunteer.essentialProcessingTitle",
-              "Essential Processing (Required):",
+              "Application Processing (Required to confirm):",
             )}
-            description="I consent to GIVE PROTOCOL collecting and processing my personal information for the purpose of evaluating my volunteer application and, if successful, managing my volunteer engagement."
-            note="Note: This consent is necessary to process your volunteer application. If you do not provide this consent, we will not be able to consider your application."
-            className="hover:bg-white dark:hover:bg-gray-600"
-          />
-          <ConsentCheckbox
-            id="international-transfers"
-            checked={internationalTransfers}
-            onChange={onInternationalTransfersChange}
-            title={t(
-              "volunteer.internationalTransfersTitle",
-              "International Transfers (if applicable):",
-            )}
-            description="I consent to GIVE PROTOCOL transferring my personal information to countries outside my country of residence, including countries that may not provide the same level of data protection, with appropriate safeguards in place as described in the Privacy Notice."
+            description="I understand that GIVE PROTOCOL will process my personal information to evaluate my volunteer application and, if successful, to manage my volunteer engagement. This processing is necessary to act on my application and is carried out under GDPR Art. 6(1)(b) (steps prior to, and performance of, a volunteer arrangement); it is not based on my consent."
+            note="Note: This processing is necessary to consider your application. Confirming indicates you have been informed; it is not a consent to processing. International transfers, where applicable, rely on appropriate safeguards described in the Privacy Notice, not on this confirmation."
             className="hover:bg-white dark:hover:bg-gray-600"
           />
         </div>
@@ -288,7 +283,6 @@ export const ConsentForm: React.FC<ConsentFormProps> = ({
   const [essentialProcessing, setEssentialProcessing] = useState(false);
   const [ageConfirmation, setAgeConfirmation] = useState(false);
   const [privacyNotice, setPrivacyNotice] = useState(false);
-  const [internationalTransfers, setInternationalTransfers] = useState(false);
   const [validationError, setValidationError] = useState<string | null>(null);
   const { t } = useTranslation();
 
@@ -298,7 +292,7 @@ export const ConsentForm: React.FC<ConsentFormProps> = ({
       setValidationError(
         t(
           "volunteer.validation.essentialRequired",
-          "Essential Processing consent is required to proceed",
+          "You must confirm the application-processing acknowledgment to proceed",
         ),
       );
       return;
@@ -324,19 +318,12 @@ export const ConsentForm: React.FC<ConsentFormProps> = ({
       setEssentialProcessing(e.target.checked);
       if (
         e.target.checked &&
-        validationError?.includes("Essential Processing")
+        validationError?.includes("application-processing")
       ) {
         setValidationError(null);
       }
     },
     [validationError],
-  );
-
-  const handleInternationalTransfersChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setInternationalTransfers(e.target.checked);
-    },
-    [],
   );
 
   const handleAgeConfirmationChange = useCallback(
@@ -396,8 +383,6 @@ export const ConsentForm: React.FC<ConsentFormProps> = ({
       <ConsentDialog
         essentialProcessing={essentialProcessing}
         onEssentialProcessingChange={handleEssentialProcessingChange}
-        internationalTransfers={internationalTransfers}
-        onInternationalTransfersChange={handleInternationalTransfersChange}
         ageConfirmation={ageConfirmation}
         onAgeConfirmationChange={handleAgeConfirmationChange}
         privacyNotice={privacyNotice}

@@ -26,7 +26,6 @@ describe("ConsentForm", () => {
     renderForm();
     expect(screen.getByText("Volunteer Application Consent")).toBeTruthy();
     expect(getCheckbox("essential-processing")).toBeTruthy();
-    expect(getCheckbox("international-transfers")).toBeTruthy();
     expect(getCheckbox("age-confirmation")).toBeTruthy();
     expect(getCheckbox("privacy-notice")).toBeTruthy();
   });
@@ -98,13 +97,5 @@ describe("ConsentForm", () => {
     fireEvent.click(getCheckbox("age-confirmation"));
     fireEvent.click(getCheckbox("privacy-notice"));
     expect(screen.getByText("Accept and Continue")).not.toBeDisabled();
-  });
-
-  it("should allow toggling international transfers checkbox", () => {
-    renderForm();
-    const checkbox = getCheckbox("international-transfers");
-    expect(checkbox.checked).toBe(false);
-    fireEvent.click(checkbox);
-    expect(checkbox.checked).toBe(true);
   });
 });
