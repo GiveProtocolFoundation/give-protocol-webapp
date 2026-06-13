@@ -254,8 +254,8 @@ const SectionHowWeShare: React.FC = () => (
       &mdash; are delivered through Resend, Inc. (United States). Resend
       receives the recipient&apos;s email address and name and any personal data
       contained in the message body, solely to deliver the email on our behalf.
-      This processing is governed by a Data Processing Agreement with Resend; the
-      international-transfer mechanism is set out in Section 9.2.
+      This processing is governed by a Data Processing Agreement with Resend;
+      the international-transfer mechanism is set out in Section 9.2.
     </p>
     <p>
       Other named processors &mdash; including our error-monitoring provider
