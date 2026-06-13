@@ -66,9 +66,9 @@ interface PolkadotWalletProvider {
 }
 
 interface Window {
-  /** GA4 gtag command queue (set by inline script in index.html) */
-  gtag?: (..._args: unknown[]) => void;
-  /** GA4 dataLayer (set by inline script in index.html) */
+  /** Google Analytics gtag command queue (set by index.html; optional — absent in SSR/tests without the script) */
+  gtag?: (...args: unknown[]) => void;
+  /** GA4 data layer */
   dataLayer?: unknown[];
   /** MetaMask and generic EVM providers */
   ethereum?: EIP1193Provider;

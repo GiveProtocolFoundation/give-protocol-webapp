@@ -24,6 +24,7 @@ import {
   formatCurrencyAmount,
   getFiatCurrencyByCode,
 } from "@/config/fiatCurrencies";
+import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
 
 interface FiatDonationFormProps {
   /** Unique ID for the charity */
@@ -202,6 +203,26 @@ export function FiatDonationForm({
   const [formError, setFormError] = useState("");
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
+  const [ageAffirmed, setAgeAffirmed] = useState(false);
+
+  const clearPii = useCallback(() => {
+    setName("");
+    setEmail("");
+    setNameError("");
+    setEmailError("");
+  }, []);
+
+  const handleAgeAffirmedChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const checked = e.target.checked;
+      setAgeAffirmed(checked);
+      if (!checked) {
+        // PII-clear guard: wipe entered data on decline (GIV-454)
+        clearPii();
+      }
+    },
+    [clearPii],
+  );
 
   useEffect(() => {
     setMounted(true);
@@ -356,6 +377,14 @@ export function FiatDonationForm({
     async (e: React.FormEvent) => {
       e.preventDefault();
 
+      // Age affirmation gate (GIV-454)
+      if (!ageAffirmed) {
+        setFormError(
+          "You must confirm you are 16 years of age or older to donate.",
+        );
+        return;
+      }
+
       if (!validateForm()) {
         return;
       }
@@ -386,6 +415,7 @@ export function FiatDonationForm({
       }
     },
     [
+      ageAffirmed,
       validateForm,
       isPayPal,
       handlePayPalSubmit,
@@ -505,6 +535,29 @@ export function FiatDonationForm({
         formatAmount={fmtAmount}
       />
 
+      {/* Age-affirmation gate (GIV-454) — after email + fee-offset rows, above pay button */}
+      <label className="flex items-start gap-3 cursor-pointer select-none">
+        <input
+          id="age-affirmation"
+          type="checkbox"
+          checked={ageAffirmed}
+          onChange={handleAgeAffirmedChange}
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          aria-required="true"
+        />
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {AGE_AFFIRMATION_COPY.positive}{" "}
+          <a
+            href="/privacy"
+            className="underline hover:text-gray-900 dark:hover:text-gray-100"
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            Privacy Policy
+          </a>
+        </span>
+      </label>
+
       {/* Helcim script loading status (USD only) */}
       {!isPayPal && !scriptReady && (
         <div
@@ -544,7 +597,7 @@ export function FiatDonationForm({
       {/* Submit button */}
       <Button
         type="submit"
-        disabled={isBusy || !isReady || amount <= 0}
+        disabled={isBusy || !isReady || amount <= 0 || !ageAffirmed}
         fullWidth
         size="lg"
         icon={
@@ -564,6 +617,18 @@ export function FiatDonationForm({
         isMonthly={isMonthly}
         formattedAmount={fmtAmount(chargeAmount)}
       />
+
+      {/* Art. 13 GDPR privacy notice */}
+      <p className="text-xs text-center text-gray-400 dark:text-gray-500">
+        Your donation data is processed in accordance with our{" "}
+        <a
+          href="/privacy"
+          className="underline hover:text-gray-600 dark:hover:text-gray-300"
+        >
+          Privacy Policy
+        </a>
+        .
+      </p>
     </form>
   );
 }

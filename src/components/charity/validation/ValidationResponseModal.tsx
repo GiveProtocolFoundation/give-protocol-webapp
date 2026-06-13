@@ -194,11 +194,6 @@ export const ValidationResponseModal: React.FC<
                   <p className="font-medium text-gray-900">
                     {item.volunteerName}
                   </p>
-                  {item.volunteerEmail && (
-                    <p className="text-sm text-gray-500">
-                      {item.volunteerEmail}
-                    </p>
-                  )}
                 </div>
               </div>
 

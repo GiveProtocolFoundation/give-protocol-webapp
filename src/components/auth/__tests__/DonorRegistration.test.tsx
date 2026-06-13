@@ -52,6 +52,20 @@ describe("DonorRegistration", () => {
     expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
   });
 
+  it("renders privacy policy and terms of service links", () => {
+    render(<DonorRegistration />);
+    // Age-affirmation label + GDPR notice both link to /privacy, so multiple links exist
+    const privacyLinks = screen.getAllByRole("link", {
+      name: /privacy policy/i,
+    });
+    expect(privacyLinks.length).toBeGreaterThan(0);
+    privacyLinks.forEach((link) =>
+      expect(link).toHaveAttribute("href", "/privacy"),
+    );
+    const termsLink = screen.getByRole("link", { name: /terms of service/i });
+    expect(termsLink).toHaveAttribute("href", "/terms");
+  });
+
   it("does not render password fields by default", () => {
     render(<DonorRegistration />);
     expect(screen.queryByLabelText(/^password$/i)).not.toBeInTheDocument();
@@ -75,26 +89,106 @@ describe("DonorRegistration", () => {
     ).toBeInTheDocument();
   });
 
-  it("calls signInWithGoogle when Google button is clicked", async () => {
+  // --- Social / passkey paths: gated via PostAuthAgeConfirmModal ---
+
+  it("calls signInWithGoogle when Google button is clicked and modal confirmed", async () => {
     mockSignInWithGoogle.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
     render(<DonorRegistration />);
     fireEvent.click(screen.getByText("Continue with Google"));
+    // PostAuthAgeConfirmModal is now visible
+    expect(
+      screen.getByRole("dialog", { name: /age confirmation/i }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/I confirm.*16 or older/i));
     await waitFor(() => {
       expect(mockSignInWithGoogle).toHaveBeenCalled();
     });
   });
 
-  it("calls signInWithWallet when wallet button is clicked", async () => {
+  it("calls signInWithWallet when wallet button is clicked and modal confirmed", async () => {
     mockSignInWithWallet.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
     render(<DonorRegistration />);
     fireEvent.click(screen.getByText("Connect Wallet"));
+    expect(
+      screen.getByRole("dialog", { name: /age confirmation/i }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/I confirm.*16 or older/i));
     await waitFor(() => {
       expect(mockSignInWithWallet).toHaveBeenCalled();
     });
   });
 
+  it("calls signUpWithEmail and registerPasskey when passkey button clicked with valid email and modal confirmed", async () => {
+    mockSignUpWithEmail.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
+    mockRegisterPasskey.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
+    render(<DonorRegistration />);
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "donor@example.com" },
+    });
+    fireEvent.click(screen.getByText("Sign up with Passkey"));
+    expect(
+      screen.getByRole("dialog", { name: /age confirmation/i }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/I confirm.*16 or older/i));
+    await waitFor(() => {
+      expect(mockSignUpWithEmail).toHaveBeenCalledWith(
+        "donor@example.com",
+        expect.any(String),
+      );
+    });
+    expect(mockRegisterPasskey).toHaveBeenCalled();
+  });
+
+  it("shows error when passkey button clicked without email (modal confirmed)", async () => {
+    render(<DonorRegistration />);
+    fireEvent.click(screen.getByText("Sign up with Passkey"));
+    expect(
+      screen.getByRole("dialog", { name: /age confirmation/i }),
+    ).toBeInTheDocument();
+    fireEvent.click(screen.getByText(/I confirm.*16 or older/i));
+    await waitFor(() => {
+      expect(screen.getByRole("alert")).toHaveTextContent(/email/i);
+    });
+    expect(mockSignUpWithEmail).not.toHaveBeenCalled();
+    expect(mockRegisterPasskey).not.toHaveBeenCalled();
+  });
+
+  // --- Negative path: decline in PostAuthAgeConfirmModal ---
+
+  it("does not call signInWithGoogle when modal is declined", async () => {
+    render(<DonorRegistration />);
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "donor@example.com" },
+    });
+    fireEvent.click(screen.getByText("Continue with Google"));
+    fireEvent.click(screen.getByText(/I am under 16/i));
+    // Modal closes; auth fn not called
+    expect(
+      screen.queryByRole("dialog", { name: /age confirmation/i }),
+    ).not.toBeInTheDocument();
+    expect(mockSignInWithGoogle).not.toHaveBeenCalled();
+    // PII cleared
+    expect(screen.getByLabelText(/email/i)).toHaveValue("");
+  });
+
+  it("clears PII when age-affirmation checkbox is unchecked (email/password path)", () => {
+    render(<DonorRegistration />);
+    fireEvent.change(screen.getByLabelText(/email/i), {
+      target: { value: "donor@example.com" },
+    });
+    // Check age affirmation
+    fireEvent.click(screen.getByRole("checkbox"));
+    // Uncheck — PII should be cleared
+    fireEvent.click(screen.getByRole("checkbox"));
+    expect(screen.getByLabelText(/email/i)).toHaveValue("");
+  });
+
+  // --- Email / password path: gated by inline age-affirmation checkbox ---
+
   it("shows validation error for invalid email in password form", async () => {
     render(<DonorRegistration />);
+    // Age-affirmation must be checked to enable the submit button
+    fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "bad@domain" },
@@ -116,6 +210,7 @@ describe("DonorRegistration", () => {
 
   it("shows validation error for short password", async () => {
     render(<DonorRegistration />);
+    fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },
@@ -137,6 +232,7 @@ describe("DonorRegistration", () => {
 
   it("shows validation error when passwords do not match", async () => {
     render(<DonorRegistration />);
+    fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },
@@ -159,6 +255,7 @@ describe("DonorRegistration", () => {
   it("calls signUpWithEmail with correct args on valid password form submission", async () => {
     mockSignUpWithEmail.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
     render(<DonorRegistration />);
+    fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },
@@ -181,30 +278,15 @@ describe("DonorRegistration", () => {
     });
   });
 
-  it("calls signUpWithEmail and registerPasskey when passkey button clicked with valid email", async () => {
-    mockSignUpWithEmail.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
-    mockRegisterPasskey.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
+  it("email/password submit button is disabled until age-affirmation is checked", () => {
     render(<DonorRegistration />);
-    fireEvent.change(screen.getByLabelText(/email/i), {
-      target: { value: "donor@example.com" },
+    fireEvent.click(screen.getByText("Or set a password"));
+    const submitBtn = screen.getByRole("button", {
+      name: /create donor account/i,
     });
-    fireEvent.click(screen.getByText("Sign up with Passkey"));
-    await waitFor(() => {
-      expect(mockSignUpWithEmail).toHaveBeenCalledWith(
-        "donor@example.com",
-        expect.any(String),
-      );
-    });
-    expect(mockRegisterPasskey).toHaveBeenCalled();
-  });
-
-  it("shows error when passkey button clicked without email", async () => {
-    render(<DonorRegistration />);
-    fireEvent.click(screen.getByText("Sign up with Passkey"));
-    await waitFor(() => {
-      expect(screen.getByRole("alert")).toHaveTextContent(/email/i);
-    });
-    expect(mockSignUpWithEmail).not.toHaveBeenCalled();
-    expect(mockRegisterPasskey).not.toHaveBeenCalled();
+    // Not yet checked
+    expect(submitBtn).toBeDisabled();
+    fireEvent.click(screen.getByRole("checkbox"));
+    expect(submitBtn).not.toBeDisabled();
   });
 });

@@ -357,6 +357,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "You must confirm your age and that you have read the Privacy Notice",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "I confirm I am 16 years of age or older.",
+    "ageGate.negative":
+      "Give Protocol is available to users who are 16 years of age or older. If you are under 16, we are unable to process your request at this time.",
+
     // Languages
     "language.english": "English",
     "language.spanish": "Spanish",
@@ -479,8 +484,10 @@ export default {
     "modal.connect.noWallets": "No wallets available for {{chainType}} chains.",
     "modal.connect.tryDifferentChain": "Try selecting a different chain type.",
     "modal.connect.viewOtherWallets": "View other supported wallets",
-    "modal.connect.termsAgreement": "By connecting, you agree to the",
+    "modal.connect.termsAgreement": "By connecting, you agree to our",
     "modal.connect.termsLink": "Terms of Service",
+    "modal.connect.termsPrivacyConnector": "and",
+    "modal.connect.privacyLink": "Privacy Policy",
     "modal.connect.chainTypeAria": "Chain type",
     "modal.connect.failedConnect": "Connection failed",
 
@@ -1170,6 +1177,10 @@ export default {
     "auth.donorReg.orSetPassword": "Or set a password",
     "auth.donorReg.creating": "Creating Account...",
     "auth.donorReg.createAccount": "Create Donor Account",
+    "auth.donorReg.privacyNotice": "By creating an account, you agree to our",
+    "auth.donorReg.termsLink": "Terms of Service",
+    "auth.donorReg.privacyAnd": "and acknowledge our",
+    "auth.donorReg.privacyLink": "Privacy Policy",
 
     // Charity login
     "auth.charityLogin.mismatch":
@@ -1291,6 +1302,11 @@ export default {
     "charity.vetting.validation.country": "Country is required",
     "charity.vetting.validation.fix": "Please correct the validation errors",
     "charity.vetting.error.generic": "Failed to submit application",
+    "charity.vetting.privacyNotice":
+      "By submitting this application, you agree to our",
+    "charity.vetting.termsLink": "Terms of Service",
+    "charity.vetting.privacyAnd": "and acknowledge our",
+    "charity.vetting.privacyLink": "Privacy Policy",
 
     // Common - shared auth fields
     "common.email": "Email",
@@ -1311,6 +1327,7 @@ export default {
     "footer.copyright": "Give Protocol. All rights reserved.",
 
     // Cookie consent banner + customize modal (GIV-362)
+    // GIV-353: revert Sentry transfer mechanism to "SCCs" once DPA is executed
     "consent.banner.ariaLabel": "Cookie consent",
     "consent.banner.body":
       "We use Google Analytics 4 (Google LLC, US) and Sentry (Functional Software, US/EU) to understand how the app is used and catch errors. No email, wallet address, or donor name is shared. You can withdraw consent at any time.",
@@ -1323,9 +1340,10 @@ export default {
     "consent.modal.essentialDesc":
       "Required for core site features such as navigation and authentication. Cannot be disabled.",
     "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+    "consent.modal.analyticsTitle":
+      "Analytics (Google Analytics 4 · US, Sentry · US/EU)",
     "consent.modal.analyticsDesc":
-      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 — session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry — anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; SCCs). No email addresses, wallet addresses, or donor names are shared with either processor.",
+      "Analytics cookies help us understand which pages are visited and how people navigate the app. We use Google Analytics 4 — session identifiers, page URLs, device/browser metadata, coarse location from anonymised IP (Google LLC, USA; SCCs + EU\u2013US Data Privacy Framework). Sentry — anonymised error traces and browser metadata for reliability monitoring (Functional Software, EU/USA; transfer mechanism pending). No email addresses, wallet addresses, or donor names are shared with either processor.",
     "consent.modal.analyticsOn": "Analytics & error replay — on",
     "consent.modal.analyticsOff": "Analytics & error replay — off",
     "consent.modal.cancel": "Cancel",
@@ -1553,5 +1571,34 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox \u2014 the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    // Admin Audit Trail (GIV-415)
+    "admin.auditTrail.filterByAction": "Filter by action",
+    "admin.auditTrail.allActions": "All actions",
+    "admin.auditTrail.action.charityStatusChange": "Charity status change",
+    "admin.auditTrail.action.userStatusChange": "User status change",
+    "admin.auditTrail.action.donationFlag": "Donation flag",
+    "admin.auditTrail.action.donationFlagResolve": "Donation flag resolve",
+    "admin.auditTrail.action.validationOverride": "Validation override",
+    "admin.auditTrail.action.configChange": "Config change",
+    "admin.auditTrail.action.verificationApprove": "Verification approve",
+    "admin.auditTrail.action.verificationReject": "Verification reject",
+    "admin.auditTrail.action.charitySuspend": "Charity suspend",
+    "admin.auditTrail.action.charityReinstate": "Charity reinstate",
+    "admin.auditTrail.action.userSuspend": "User suspend",
+    "admin.auditTrail.action.userReinstate": "User reinstate",
+    "admin.auditTrail.action.userBan": "User ban",
+    "admin.auditTrail.action.viewPii": "View PII",
+    "admin.auditTrail.action.viewPiiList": "View PII list",
+    "admin.auditTrail.viewedEntity":
+      "Admin {{adminId}} viewed {{entityType}} {{entityId}}",
+    "admin.auditTrail.viewedList":
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})",
+    "admin.auditTrail.viewedListNoFilters":
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}})",
+
+    // Privacy Policy §6 — Admin access audit log (GIV-416)
+    "privacy.security.auditLog":
+      "As an additional technical measure under GDPR Article 32, we maintain an administrative access audit log. When Give Protocol staff access the platform\u2019s administrative functions, we record the action type, timestamp, IP address, and a reference to the affected entity. No donor personal data is duplicated into the log. This log supports our ability to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a data breach (Article 34 notification). Audit log records are retained for a minimum of two years.",
   },
 };
