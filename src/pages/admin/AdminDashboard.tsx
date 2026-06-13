@@ -8,12 +8,10 @@ import { useTranslation } from "@/hooks/useTranslation";
 import {
   getAdminDashboardStats,
   getAdminRecentActivity,
-  getAdminAlerts,
 } from "@/services/adminDashboardService";
 import type {
   AdminDashboardStats,
   AdminActivityEvent,
-  AdminAlert,
 } from "@/types/adminDashboard";
 
 // ---------------------------------------------------------------------------
@@ -72,30 +70,6 @@ function getActivityMeta(
         label: t("admin.activity.default", "Activity"),
         colourClass: "text-gray-700 bg-gray-100",
       };
-  }
-}
-
-/** Returns colour class for alert severity. */
-function getAlertSeverityClass(severity: string): string {
-  switch (severity) {
-    case "high":
-      return "border-l-red-500 bg-red-50";
-    case "medium":
-      return "border-l-yellow-500 bg-yellow-50";
-    default:
-      return "border-l-blue-500 bg-blue-50";
-  }
-}
-
-/** Returns text colour class for alert severity badge. */
-function getAlertBadgeClass(severity: string): string {
-  switch (severity) {
-    case "high":
-      return "text-red-700 bg-red-100";
-    case "medium":
-      return "text-yellow-700 bg-yellow-100";
-    default:
-      return "text-blue-700 bg-blue-100";
   }
 }
 
@@ -179,30 +153,6 @@ function ActivityItem({
   );
 }
 
-/** Single alert row. */
-function AlertItem({ alert }: { alert: AdminAlert }): React.ReactElement {
-  return (
-    <div
-      className={`flex items-start gap-3 p-4 mb-3 border-l-4 rounded-lg ${getAlertSeverityClass(alert.severity)}`}
-    >
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <span
-            className={`text-xs font-semibold uppercase tracking-wide rounded px-2 py-0.5 ${getAlertBadgeClass(alert.severity)}`}
-          >
-            {alert.severity}
-          </span>
-          <p className="text-sm font-semibold text-gray-800">{alert.title}</p>
-        </div>
-        <p className="text-sm text-gray-600 truncate">{alert.description}</p>
-        <p className="text-xs text-gray-400 mt-1">
-          {formatRelativeTime(alert.createdAt)}
-        </p>
-      </div>
-    </div>
-  );
-}
-
 /** Quick action button with title and description text. */
 function QuickActionButton({
   title,
@@ -228,7 +178,7 @@ function QuickActionButton({
 // Main page
 // ---------------------------------------------------------------------------
 
-/** Admin dashboard page displaying real KPIs, recent activity, and alerts. */
+/** Admin dashboard page displaying real KPIs and recent activity. */
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -236,7 +186,6 @@ const AdminDashboard: React.FC = () => {
 
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
   const [activity, setActivity] = useState<AdminActivityEvent[]>([]);
-  const [alerts, setAlerts] = useState<AdminAlert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -245,15 +194,13 @@ const AdminDashboard: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const [statsData, activityData, alertsData] = await Promise.all([
+      const [statsData, activityData] = await Promise.all([
         getAdminDashboardStats(),
         getAdminRecentActivity(1, 10),
-        getAdminAlerts(),
       ]);
 
       setStats(statsData);
       setActivity(activityData.events);
-      setAlerts(alertsData);
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : "Failed to load dashboard data.";
@@ -345,28 +292,6 @@ const AdminDashboard: React.FC = () => {
       <h1 className="text-3xl font-bold text-gray-900">
         {t("admin.dashboard.title", "Admin Dashboard")}
       </h1>
-
-      {/* Alerts panel */}
-      {alerts.length > 0 && (
-        <Card className="p-6">
-          <h2 className="text-xl font-semibold text-gray-900 mb-4">
-            {t("admin.dashboard.alerts", "Alerts")}{" "}
-            <span className="ml-2 text-sm font-normal text-red-600">
-              (
-              {t("admin.dashboard.alertsPending", "{{count}} pending", {
-                count: alerts.length,
-              })}
-              )
-            </span>
-          </h2>
-          {alerts.map((alert) => (
-            <AlertItem
-              key={`${alert.alertType}-${alert.entityId}-${alert.createdAt}`}
-              alert={alert}
-            />
-          ))}
-        </Card>
-      )}
 
       {/* KPI cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
