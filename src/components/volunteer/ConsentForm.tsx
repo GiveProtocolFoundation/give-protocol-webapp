@@ -169,13 +169,13 @@ const ConsentDialog: React.FC<{
           {t("volunteer.consentHeader", "Volunteer Application Consent")}
         </h2>
         <p className="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed">
-          GIVE PROTOCOL processes the personal information in this application to
-          evaluate your volunteer application and, if successful, to manage your
-          volunteer engagement. This processing is necessary to take steps at
-          your request before, and to perform, any volunteer arrangement (GDPR
-          Art. 6(1)(b)) and does not rely on your consent. Processing is carried
-          out as described in the Volunteer Application Privacy Notice, which you
-          should read before continuing.
+          GIVE PROTOCOL processes the personal information in this application
+          to evaluate your volunteer application and, if successful, to manage
+          your volunteer engagement. This processing is necessary to take steps
+          at your request before, and to perform, any volunteer arrangement
+          (GDPR Art. 6(1)(b)) and does not rely on your consent. Processing is
+          carried out as described in the Volunteer Application Privacy Notice,
+          which you should read before continuing.
         </p>
         <p className="font-semibold text-gray-900 dark:text-gray-100 mb-3">
           {t("volunteer.consentUnderstand", "I understand that:")}

@@ -317,8 +317,8 @@ const ConsentPanel: React.FC<ConsentPanelProps> = ({
 
       <div className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
         <p>
-          GIVE PROTOCOL processes the personal information in this application to
-          evaluate my volunteer application and, if successful, to manage my
+          GIVE PROTOCOL processes the personal information in this application
+          to evaluate my volunteer application and, if successful, to manage my
           volunteer engagement. This processing is necessary to take steps at my
           request before, and to perform, any volunteer arrangement (GDPR Art.
           6(1)(b)) and does not rely on my consent. Processing is carried out as
