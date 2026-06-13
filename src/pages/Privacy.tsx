@@ -234,7 +234,24 @@ const SectionHowWeShare: React.FC = () => (
     <h3>5.2 With Service Providers</h3>
     <p>
       We may share information with third-party service providers who help us
-      operate our platform, subject to confidentiality agreements.
+      operate our platform, under written data processing agreements that bind
+      them to act only on our instructions (Article 28 GDPR) and to apply
+      appropriate technical and organisational security measures.
+    </p>
+    <p>
+      <strong>Payment processing (Helcim).</strong> Fiat (card) donations are
+      processed by Helcim Inc., a payment processor based in Calgary, Canada. To
+      authorise a card payment and to carry out fraud-prevention checks, we
+      transmit the donor&apos;s name, email address, payment amount, and client
+      IP address to Helcim. Helcim acts as a data processor for this activity
+      under a data processing agreement; the related cross-border transfer to
+      Canada and the safeguards that apply to it are described in Section 9.2.
+    </p>
+    <p>
+      Other named processors &mdash; including our error-monitoring provider
+      (Sentry) and, where active, analytics (Google Analytics 4) &mdash; are
+      described, together with the international-transfer safeguards that apply
+      to them, in Sections 9.2 and 11.2.
     </p>
 
     <h3>5.3 For Legal Compliance</h3>
@@ -481,6 +498,17 @@ const SectionInternationalTransfers: React.FC = () => (
       where applicable, an adequacy decision.
     </p>
     <ul>
+      <li>
+        <strong>Payment processing (Helcim)</strong>: where you make a fiat
+        (card) donation, the donor name, email address, payment amount, and
+        client IP address are transmitted to Helcim Inc. in Canada to authorise
+        the payment and to perform fraud-prevention checks. Transfers to Canada
+        rely on the European Commission&apos;s adequacy decision for Canadian
+        commercial organisations subject to PIPEDA and, as a supplementary
+        safeguard, the European Commission&apos;s Standard Contractual Clauses
+        under our data processing agreement with Helcim. This transfer occurs
+        only when you choose to make a fiat donation.
+      </li>
       <li>
         <strong>Error monitoring (Sentry)</strong>: application error and
         performance data is sent to Sentry. Where the Sentry organisation is
