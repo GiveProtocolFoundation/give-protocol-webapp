@@ -64,7 +64,7 @@ const SectionInformationWeCollect: React.FC = () => (
       <li>Account credentials</li>
       <li>Payment information</li>
       <li>Transaction Data (donation history, volunteer hours)</li>
-      <li>Identification documents for KYC/AML compliance</li>
+      <li>Identification documents for identity verification (KYC)</li>
       <li>Organization verification documents</li>
       <li>Professional qualifications and experience</li>
       <li>Volunteer skills and availability</li>
@@ -285,13 +285,29 @@ const SectionDataRetention: React.FC = () => (
         personal identifiers are removed.
       </li>
       <li>
-        <strong>Identity verification documents</strong> (KYC/AML documents,
-        charity registration documents): retained for the duration of the
-        verified relationship plus <strong>five (5) years</strong>, to satisfy
-        anti-money-laundering record-keeping requirements. Where a verification
-        is rejected, documents are deleted within{" "}
-        <strong>thirty (30) days</strong> of the final decision unless retention
-        is required for a regulatory or legal dispute.
+        <strong>Identity verification documents</strong> (identity-verification
+        KYC documents, charity registration documents): the Foundation performs
+        KYC for <strong>identity verification only</strong> &mdash; to bind a
+        charity, recipient, or wallet to a verified identity for grant integrity
+        and fraud deterrence. The Foundation is{" "}
+        <strong>not an anti-money-laundering (AML) obliged entity</strong> (it
+        is not a money services business, money transmitter, or virtual-asset
+        service provider), so this KYC is <strong>not</strong> AML customer due
+        diligence and the five-year AML record-keeping regime does not apply.
+        Verification documents are retained only for the duration of the
+        verified relationship and deleted when that relationship ends. Where a
+        verification is <strong>rejected</strong>, the application and its
+        documents are deleted within <strong>thirty (30) days</strong> of the
+        final decision. This 30-day period is grounded in{" "}
+        <strong>GDPR data minimisation and storage limitation</strong> (Article
+        5(1)(c) and Article 5(1)(e)), not on AML record-keeping; we retain a
+        rejected application beyond 30 days only where strictly necessary for an
+        active regulatory or legal dispute. This identity-only, non-AML posture
+        applies while the Foundation does not take custody of donor or recipient
+        funds, does not accept regulated money flows, and keeps payment
+        processing intermediated by our regulated payment processor (Helcim) and
+        on-chain transfers wallet-to-recipient; if any of those facts change,
+        this retention basis will be re-assessed.
       </li>
       <li>
         <strong>Account profile data</strong> (name, email, contact details,
