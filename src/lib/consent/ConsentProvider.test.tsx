@@ -1,10 +1,10 @@
 import {
+  jest,
   describe,
   it,
   expect,
   beforeEach,
   afterEach,
-  jest,
 } from "@jest/globals";
 import { render, screen, act } from "@testing-library/react";
 import { ConsentProvider, useConsent } from "./ConsentProvider.js";

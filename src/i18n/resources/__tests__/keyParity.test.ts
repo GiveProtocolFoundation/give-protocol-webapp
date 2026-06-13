@@ -28,8 +28,30 @@ const LANGUAGE_CODES = [
  * Keys in en.ts that have not yet been translated to non-English languages.
  * GIV-279: Platform News admin CRUD keys — translations pending.
  * GIV-286: Charity wallet tier keys — translations pending.
+ * GIV-415: Admin audit trail view_pii keys — translations pending.
  */
 const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
+  "admin.auditTrail.filterByAction",
+  "admin.auditTrail.allActions",
+  "admin.auditTrail.action.charityStatusChange",
+  "admin.auditTrail.action.userStatusChange",
+  "admin.auditTrail.action.donationFlag",
+  "admin.auditTrail.action.donationFlagResolve",
+  "admin.auditTrail.action.validationOverride",
+  "admin.auditTrail.action.configChange",
+  "admin.auditTrail.action.verificationApprove",
+  "admin.auditTrail.action.verificationReject",
+  "admin.auditTrail.action.charitySuspend",
+  "admin.auditTrail.action.charityReinstate",
+  "admin.auditTrail.action.userSuspend",
+  "admin.auditTrail.action.userReinstate",
+  "admin.auditTrail.action.userBan",
+  "admin.auditTrail.action.viewPii",
+  "admin.auditTrail.action.viewPiiList",
+  "admin.auditTrail.viewedEntity",
+  "admin.auditTrail.viewedList",
+  "admin.auditTrail.viewedListNoFilters",
+  "privacy.security.auditLog",
   "admin.actions.platformNews",
   "admin.actions.platformNewsDesc",
   "admin.news.activate",

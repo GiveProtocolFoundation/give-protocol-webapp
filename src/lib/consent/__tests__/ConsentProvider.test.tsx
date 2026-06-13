@@ -26,7 +26,13 @@ const renderProvider = () =>
     </ConsentProvider>,
   );
 
-describe("ConsentProvider", () => {
+// ---------------------------------------------------------------------------
+// GA4 consent bridge tests
+// ---------------------------------------------------------------------------
+
+describe("useGAConsentBridge (via ConsentProvider)", () => {
+  let mockGtag: jest.Mock;
+
   beforeEach(() => {
     localStorage.clear();
   });

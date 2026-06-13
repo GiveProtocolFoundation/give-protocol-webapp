@@ -5,9 +5,9 @@ import DashboardSettings from "../DashboardSettings";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useSettings } from "@/contexts/SettingsContext";
 
-// All sub-section components (LinkedAccountsSection, PhoneSettings,
-// SetPasswordSettings, WalletAliasSettings, PrivacySettings) are stubbed via
-// moduleNameMapper so this file only exercises DashboardSettings itself.
+// All sub-section components (LinkedAccountsSection, SetPasswordSettings,
+// WalletAliasSettings, PrivacySettings) are stubbed via moduleNameMapper so
+// this file only exercises DashboardSettings itself.
 // useSettings and useTranslation are also globally mocked via moduleNameMapper.
 
 const mockUseUnifiedAuth = jest.mocked(useUnifiedAuth);
@@ -165,11 +165,6 @@ describe("DashboardSettings", () => {
     it("renders the Linked Accounts section", () => {
       renderPage();
       expect(screen.getByTestId("linked-accounts")).toBeInTheDocument();
-    });
-
-    it("renders the Phone settings section", () => {
-      renderPage();
-      expect(screen.getByTestId("phone-settings")).toBeInTheDocument();
     });
 
     it("renders the Set Password section", () => {

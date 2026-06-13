@@ -12,3 +12,5 @@ export const getAdminAuditLog = jest.fn(() =>
   }),
 );
 export const insertAuditEntry = jest.fn(() => Promise.resolve(null));
+export const logRead = jest.fn(() => Promise.resolve(null));
+export const _resetDedupWindow = jest.fn();
