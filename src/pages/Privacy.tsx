@@ -30,13 +30,20 @@ const SectionIntroduction: React.FC = () => (
     </ImportantNotice>
 
     <p>
-      If you provide personal data to us, you consent to the collection, use,
-      and disclosure of such personal data in accordance with this Privacy
-      Policy. If you provide the personal data of another individual (such as
-      organization representatives or volunteer references), it means that you
-      have informed them of the purposes for which we require their personal
-      data and they have consented to the collection, use, and disclosure of
-      their personal data in accordance with this Privacy Policy.
+      This Privacy Policy describes the personal data we process, the purposes
+      and legal bases for that processing, and the rights available to you under
+      applicable data protection law. The legal basis for each processing
+      activity is set out in Section 4 (Legal Basis for Processing) and in the
+      relevant sections below. We do not treat your provision of personal data
+      as blanket consent to all processing; each processing activity relies on
+      the specific legal basis identified for it.
+    </p>
+    <p>
+      Where you provide us with personal data relating to another individual
+      (such as an organization representative or a volunteer reference), we
+      process that data as the data controller on the legal basis identified in
+      Section 4. Please ensure you are permitted to share that data with us and,
+      where appropriate, make the individual aware of this Privacy Policy.
     </p>
   </section>
 );
@@ -711,17 +718,17 @@ const SectionChildrensPrivacy: React.FC = () => (
     <h2>12. Children&apos;s Privacy</h2>
     <p>
       Our Service is intended for users aged 16 and over. When you register, you
-      must affirm via our age-affirmation gate that you meet this requirement. We
-      rely on this self-attestation as our age-verification mechanism. This
+      must affirm via our age-affirmation gate that you meet this requirement.
+      We rely on this self-attestation as our age-verification mechanism. This
       processing is carried out for the performance of our contract with you
       under Art. 6(1)(b) GDPR.
     </p>
     <p>
-      We do not knowingly collect personal data from individuals under the age of
-      16. If we discover or are notified that we hold personal data belonging to
-      a user under 16, we will delete that account and all associated personal
-      data immediately and without exception. No parental-consent alternative is
-      available; the only outcome is prompt erasure.
+      We do not knowingly collect personal data from individuals under the age
+      of 16. If we discover or are notified that we hold personal data belonging
+      to a user under 16, we will delete that account and all associated
+      personal data immediately and without exception. No parental-consent
+      alternative is available; the only outcome is prompt erasure.
     </p>
     <p>
       If you believe an under-16 individual has registered with our Service,
