@@ -370,6 +370,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "Debe confirmar su edad y que ha leído el Aviso de Privacidad",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "Confirmo que tengo 16 años de edad o más.",
+    "ageGate.negative":
+      "Give Protocol está disponible para usuarios que tengan 16 años de edad o más. Si tiene menos de 16 años, no podemos procesar su solicitud en este momento.",
+
     // Languages
     "language.english": "Inglés",
     "language.spanish": "Español",
@@ -496,8 +501,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Intente seleccionar un tipo de cadena diferente.",
     "modal.connect.viewOtherWallets": "Ver otras billeteras compatibles",
-    "modal.connect.termsAgreement": "Al conectar, acepta los",
+    "modal.connect.termsAgreement": "Al conectar, acepta nuestros",
     "modal.connect.termsLink": "Términos de Servicio",
+    "modal.connect.termsPrivacyConnector": "y",
+    "modal.connect.privacyLink": "Política de Privacidad",
     "modal.connect.chainTypeAria": "Tipo de cadena",
     "modal.connect.failedConnect": "Error en la conexión",
 
@@ -794,8 +801,10 @@ export default {
     "admin.charity.allStatuses": "Todos los estados",
     "admin.charity.searchPlaceholder": "Buscar por nombre\u2026",
     "admin.charity.colName": "Nombre",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Categoría",
     "admin.charity.colStatus": "Estado",
+    "admin.charity.colSigner": "Contacto",
     "admin.charity.colJoined": "Registro",
     "admin.charity.colWallet": "Billetera",
     "admin.charity.colActions": "Acciones",
@@ -1016,6 +1025,10 @@ export default {
     "auth.donorReg.orSetPassword": "O establezca una contraseña",
     "auth.donorReg.creating": "Creando Cuenta...",
     "auth.donorReg.createAccount": "Crear Cuenta de Donante",
+    "auth.donorReg.privacyNotice": "Al crear una cuenta, acepta nuestros",
+    "auth.donorReg.termsLink": "Términos de Servicio",
+    "auth.donorReg.privacyAnd": "y reconoce nuestra",
+    "auth.donorReg.privacyLink": "Política de Privacidad",
     "auth.charityLogin.mismatch":
       "Este correo está registrado como cuenta de donante. Inicie sesión en el portal de donantes.",
     "auth.charityLogin.signingIn": "Iniciando sesión...",
@@ -1050,9 +1063,11 @@ export default {
     "auth.resetPassword.updating": "Updating\u2026",
     "auth.resetPassword.mismatch": "Passwords do not match.",
     "auth.resetPassword.success": "Password updated successfully!",
-    "auth.resetPassword.successSubtitle": "You can now sign in with your new password.",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
     "auth.resetPassword.backToSignIn": "Back to Sign In",
-    "auth.resetPassword.invalidLink": "This password reset link is invalid or has expired.",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
     "auth.resetPassword.requestNew": "Request a new reset link",
     "auth.resetPassword.validating": "Validating reset link\u2026",
     "auth.orgSearch.orgNameLabel": "Nombre de la Organización",
@@ -1086,6 +1101,12 @@ export default {
       "La contraseña debe tener al menos 8 caracteres",
     "charity.claim.validation.confirmPassword": "Las contraseñas no coinciden",
     "charity.claim.validation.fix": "Corrija los errores de validación",
+    "charity.claim.useAsPublicEmail":
+      "Usar mi correo como el correo de contacto público de la organización",
+    "charity.claim.publicContactEmail":
+      "Correo electrónico de contacto público de la organización",
+    "charity.claim.privacyNotice":
+      "Su correo y teléfono personal de firmante se utilizan solo para verificación y no son visibles para otros usuarios de la plataforma. El correo de contacto público se muestra en el perfil de su organización.",
     "charity.claim.error.creation": "Error al crear la cuenta",
     "charity.claim.error.generic": "No se pudo crear la cuenta",
     "charity.vetting.orgDetails": "Datos de la Organización",
@@ -1125,6 +1146,11 @@ export default {
     "charity.vetting.validation.country": "El país es obligatorio",
     "charity.vetting.validation.fix": "Corrija los errores de validación",
     "charity.vetting.error.generic": "No se pudo enviar la solicitud",
+    "charity.vetting.privacyNotice":
+      "Al enviar esta solicitud, acepta nuestros",
+    "charity.vetting.termsLink": "Términos de Servicio",
+    "charity.vetting.privacyAnd": "y reconoce nuestra",
+    "charity.vetting.privacyLink": "Política de Privacidad",
     "common.email": "Correo electrónico",
     "common.password": "Contraseña",
     "common.confirmPassword": "Confirmar Contraseña",
@@ -1136,26 +1162,28 @@ export default {
     "footer.legal.title": "Legal",
     "footer.legal.terms": "Términos de Servicio",
     "footer.legal.privacy": "Política de Privacidad",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "Preferencias de cookies",
+    "consent.banner.ariaLabel": "Consentimiento de cookies",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "Utilizamos Google Analytics 4 (Google LLC, EE.\u00a0UU.) y Sentry (Functional Software, EE.\u00a0UU./UE) para comprender cómo se utiliza la aplicación y detectar errores. No se comparten direcciones de correo electrónico, direcciones de wallet ni nombres de donantes. Puede retirar su consentimiento en cualquier momento.",
+    "consent.banner.privacyLink": "Política de privacidad",
+    "consent.banner.acceptAll": "Aceptar todas",
+    "consent.banner.decline": "Rechazar no esenciales",
+    "consent.banner.customize": "Personalizar",
+    "consent.modal.title": "Preferencias de cookies",
+    "consent.modal.essentialTitle": "Esenciales",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "Necesarias para las funciones principales del sitio, como la navegación y la autenticación. No se pueden desactivar.",
+    "consent.modal.essentialAlwaysOn": "Cookies esenciales — siempre activas",
+    "consent.modal.analyticsTitle":
+      "Análisis (Google Analytics 4 · EE.\u00a0UU., Sentry · EE.\u00a0UU./UE)",
     "consent.modal.analyticsDesc":
-      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "Las cookies de análisis nos ayudan a comprender qué páginas se visitan y cómo los usuarios navegan por la aplicación. Utilizamos Google Analytics 4 \u2014 identificadores de sesión, URL de páginas, metadatos de dispositivo/navegador, ubicación aproximada a partir de IP anonimizada (Google LLC, EE.\u00a0UU.; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 trazas de errores anonimizadas y metadatos del navegador para la supervisión de fiabilidad (Functional Software, UE/EE.\u00a0UU.; mecanismo de transferencia pendiente). No se comparten direcciones de correo electrónico, direcciones de wallet ni nombres de donantes con ningún procesador.",
+    "consent.modal.analyticsOn": "Análisis y registro de errores — activado",
+    "consent.modal.analyticsOff":
+      "Análisis y registro de errores — desactivado",
+    "consent.modal.cancel": "Cancelar",
+    "consent.modal.save": "Guardar preferencias",
     "footer.connect.title": "Conectar",
     "footer.copyright": "Give Protocol. Todos los derechos reservados.",
     "nav.signIn": "Iniciar Sesión",

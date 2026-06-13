@@ -50,6 +50,12 @@ const renderBanner = () =>
 describe("CookieBanner", () => {
   beforeEach(() => {
     localStorage.clear();
+    // Suppress gtag bridge calls in banner tests
+    (window as typeof window & { gtag?: unknown }).gtag = jest.fn();
+  });
+
+  afterEach(() => {
+    delete (window as typeof window & { gtag?: unknown }).gtag;
   });
 
   it("renders nothing when hasDecided is true", () => {
@@ -92,9 +98,47 @@ describe("CookieBanner", () => {
     expect(link).toHaveAttribute("href", "/privacy");
   });
 
+  it("banner body discloses Google Analytics 4 and Sentry as processors", () => {
+    renderBanner();
+    const region = screen.getByRole("region", { name: "Cookie consent" });
+    expect(region.textContent).toMatch(/Google Analytics/i);
+    expect(region.textContent).toMatch(/Sentry/i);
+  });
+
+  it("no silktide script or element exists in the rendered banner", () => {
+    renderBanner();
+    const silktideElements = document.querySelectorAll(
+      '[id*="silktide"], [class*="silktide"], [src*="silktide"]',
+    );
+    expect(silktideElements.length).toBe(0);
+  });
+
+  it("only one consent region is rendered (no dual-banner state)", () => {
+    renderBanner();
+    const regions = screen.getAllByRole("region", { name: "Cookie consent" });
+    expect(regions).toHaveLength(1);
+  });
+
   it("focuses the Accept all button on initial mount", () => {
     renderBanner();
     const acceptBtn = screen.getByText("Accept all");
     expect(document.activeElement).toBe(acceptBtn);
+  });
+
+  describe("Silktide removal (GIV-377)", () => {
+    it("does not render any Silktide markup or elements", () => {
+      renderBanner();
+      // No element with silktide in id, class, or data attributes
+      const silktideEls = document.querySelectorAll(
+        '[id*="silktide"], [class*="silktide"], [data-silktide]',
+      );
+      expect(silktideEls).toHaveLength(0);
+    });
+
+    it("renders exactly one consent banner region", () => {
+      renderBanner();
+      const regions = screen.getAllByRole("region");
+      expect(regions).toHaveLength(1);
+    });
   });
 });

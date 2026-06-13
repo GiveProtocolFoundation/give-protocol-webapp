@@ -348,6 +348,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "연령을 확인하고 개인정보 처리방침을 읽었음을 확인해야 합니다",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "본인은 만 16세 이상임을 확인합니다.",
+    "ageGate.negative":
+      "Give Protocol은 만 16세 이상의 사용자가 이용할 수 있습니다. 만 16세 미만인 경우 현재 요청을 처리할 수 없습니다.",
+
     // Languages
     "language.english": "영어",
     "language.spanish": "스페인어",
@@ -466,8 +471,10 @@ export default {
       "{{chainType}} 체인에 사용 가능한 지갑이 없습니다.",
     "modal.connect.tryDifferentChain": "다른 체인 유형을 선택해 보세요.",
     "modal.connect.viewOtherWallets": "지원되는 다른 지갑 보기",
-    "modal.connect.termsAgreement": "연결함으로써 다음에 동의합니다:",
+    "modal.connect.termsAgreement": "연결함으로써 당사의",
     "modal.connect.termsLink": "이용약관",
+    "modal.connect.termsPrivacyConnector": "및",
+    "modal.connect.privacyLink": "개인정보 처리방침",
     "modal.connect.chainTypeAria": "체인 유형",
     "modal.connect.failedConnect": "연결에 실패했습니다",
 
@@ -752,8 +759,10 @@ export default {
     "admin.charity.allStatuses": "모든 상태",
     "admin.charity.searchPlaceholder": "이름으로 검색\u2026",
     "admin.charity.colName": "이름",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "카테고리",
     "admin.charity.colStatus": "상태",
+    "admin.charity.colSigner": "연락처",
     "admin.charity.colJoined": "가입일",
     "admin.charity.colWallet": "지갑",
     "admin.charity.colActions": "작업",
@@ -961,6 +970,10 @@ export default {
     "auth.donorReg.orSetPassword": "또는 비밀번호 설정",
     "auth.donorReg.creating": "계정 생성 중...",
     "auth.donorReg.createAccount": "기부자 계정 만들기",
+    "auth.donorReg.privacyNotice": "계정을 생성하면 다음에 동의하게 됩니다:",
+    "auth.donorReg.termsLink": "이용약관",
+    "auth.donorReg.privacyAnd": "및",
+    "auth.donorReg.privacyLink": "개인정보 처리방침",
     "auth.charityLogin.mismatch":
       "이 이메일은 기부자 계정으로 등록되어 있습니다. 기부자 포털에서 로그인해 주세요.",
     "auth.charityLogin.signingIn": "로그인 중...",
@@ -993,9 +1006,11 @@ export default {
     "auth.resetPassword.updating": "Updating\u2026",
     "auth.resetPassword.mismatch": "Passwords do not match.",
     "auth.resetPassword.success": "Password updated successfully!",
-    "auth.resetPassword.successSubtitle": "You can now sign in with your new password.",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
     "auth.resetPassword.backToSignIn": "Back to Sign In",
-    "auth.resetPassword.invalidLink": "This password reset link is invalid or has expired.",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
     "auth.resetPassword.requestNew": "Request a new reset link",
     "auth.resetPassword.validating": "Validating reset link\u2026",
     "auth.orgSearch.orgNameLabel": "단체명",
@@ -1026,6 +1041,11 @@ export default {
     "charity.claim.validation.password": "비밀번호는 8자 이상이어야 합니다",
     "charity.claim.validation.confirmPassword": "비밀번호가 일치하지 않습니다",
     "charity.claim.validation.fix": "유효성 검사 오류를 수정해 주세요",
+    "charity.claim.useAsPublicEmail":
+      "내 이메일을 단체의 공개 연락처 이메일로 사용",
+    "charity.claim.publicContactEmail": "단체 공개 연락처 이메일",
+    "charity.claim.privacyNotice":
+      "개인 서명자 이메일/전화번호는 인증 목적으로만 사용되며 다른 플랫폼 사용자에게 표시되지 않습니다. 공개 연락처 이메일은 단체 프로필에 표시됩니다.",
     "charity.claim.error.creation": "계정 생성에 실패했습니다",
     "charity.claim.error.generic": "계정을 만들 수 없습니다",
     "charity.vetting.orgDetails": "단체 정보",
@@ -1063,6 +1083,11 @@ export default {
     "charity.vetting.validation.country": "국가는 필수입니다",
     "charity.vetting.validation.fix": "유효성 검사 오류를 수정해 주세요",
     "charity.vetting.error.generic": "신청서 제출에 실패했습니다",
+    "charity.vetting.privacyNotice":
+      "이 신청서를 제출하면 다음에 동의하게 됩니다:",
+    "charity.vetting.termsLink": "이용약관",
+    "charity.vetting.privacyAnd": "및",
+    "charity.vetting.privacyLink": "개인정보 처리방침",
     "common.email": "이메일",
     "common.password": "비밀번호",
     "common.confirmPassword": "비밀번호 확인",
@@ -1073,26 +1098,27 @@ export default {
     "footer.legal.title": "법적 정보",
     "footer.legal.terms": "이용약관",
     "footer.legal.privacy": "개인정보처리방침",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "쿠키 환경설정",
+    "consent.banner.ariaLabel": "쿠키 동의",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "앱 사용 방식을 이해하고 오류를 감지하기 위해 Google Analytics 4(Google LLC, 미국) 및 Sentry(Functional Software, 미국/EU)를 사용합니다. 이메일 주소, 지갑 주소 또는 기부자 이름은 공유되지 않습니다. 언제든지 동의를 철회할 수 있습니다.",
+    "consent.banner.privacyLink": "개인정보처리방침",
+    "consent.banner.acceptAll": "모두 수락",
+    "consent.banner.decline": "비필수 항목 거부",
+    "consent.banner.customize": "맞춤 설정",
+    "consent.modal.title": "쿠키 환경설정",
+    "consent.modal.essentialTitle": "필수",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "탐색 및 인증과 같은 핵심 사이트 기능에 필요합니다. 비활성화할 수 없습니다.",
+    "consent.modal.essentialAlwaysOn": "필수 쿠키 — 항상 활성",
+    "consent.modal.analyticsTitle":
+      "분석(Google Analytics 4 · 미국, Sentry · 미국/EU)",
     "consent.modal.analyticsDesc":
-      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "분석 쿠키는 어떤 페이지가 방문되고 사용자가 앱에서 어떻게 탐색하는지 이해하는 데 도움을 줍니다. Google Analytics 4를 사용합니다 \u2014 세션 식별자, 페이지 URL, 기기/브라우저 메타데이터, 익명화된 IP의 대략적인 위치(Google LLC, 미국; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 안정성 모니터링을 위한 익명화된 오류 추적 및 브라우저 메타데이터(Functional Software, EU/미국; 전송 메커니즘 보류 중). 이메일 주소, 지갑 주소 또는 기부자 이름은 어떤 처리자와도 공유되지 않습니다.",
+    "consent.modal.analyticsOn": "분석 및 오류 기록 — 켜짐",
+    "consent.modal.analyticsOff": "분석 및 오류 기록 — 꺼짐",
+    "consent.modal.cancel": "취소",
+    "consent.modal.save": "환경설정 저장",
     "footer.connect.title": "연결",
     "footer.copyright": "Give Protocol. 모든 권리 보유.",
     "nav.signIn": "로그인",

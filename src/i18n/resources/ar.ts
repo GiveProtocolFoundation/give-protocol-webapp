@@ -344,6 +344,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "يجب تأكيد عمرك والإقرار بأنك قرأت إشعار الخصوصية",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "أؤكد أن عمري 16 عامًا أو أكثر.",
+    "ageGate.negative":
+      "بروتوكول Give متاح للمستخدمين الذين تبلغ أعمارهم 16 عامًا أو أكثر. إذا كان عمرك أقل من 16 عامًا، فلا يمكننا معالجة طلبك في هذا الوقت.",
+
     // Languages
     "language.english": "الإنجليزية",
     "language.spanish": "الإسبانية",
@@ -461,6 +466,8 @@ export default {
     "modal.connect.viewOtherWallets": "عرض المحافظ الأخرى المدعومة",
     "modal.connect.termsAgreement": "بالاتصال، فإنك توافق على",
     "modal.connect.termsLink": "شروط الخدمة",
+    "modal.connect.termsPrivacyConnector": "و",
+    "modal.connect.privacyLink": "سياسة الخصوصية",
     "modal.connect.chainTypeAria": "نوع السلسلة",
     "modal.connect.failedConnect": "فشل الاتصال",
 
@@ -742,8 +749,10 @@ export default {
     "admin.charity.allStatuses": "جميع الحالات",
     "admin.charity.searchPlaceholder": "البحث بالاسم\u2026",
     "admin.charity.colName": "الاسم",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "الفئة",
     "admin.charity.colStatus": "الحالة",
+    "admin.charity.colSigner": "جهة الاتصال",
     "admin.charity.colJoined": "تاريخ الانضمام",
     "admin.charity.colWallet": "المحفظة",
     "admin.charity.colActions": "الإجراءات",
@@ -952,6 +961,10 @@ export default {
     "auth.donorReg.orSetPassword": "أو قم بتعيين كلمة مرور",
     "auth.donorReg.creating": "جارٍ إنشاء الحساب...",
     "auth.donorReg.createAccount": "إنشاء حساب متبرع",
+    "auth.donorReg.privacyNotice": "بإنشاء حساب، فإنك توافق على",
+    "auth.donorReg.termsLink": "شروط الخدمة",
+    "auth.donorReg.privacyAnd": "وتقر بـ",
+    "auth.donorReg.privacyLink": "سياسة الخصوصية",
     "auth.charityLogin.mismatch":
       "هذا البريد الإلكتروني مسجل كحساب متبرع. يرجى تسجيل الدخول من بوابة المتبرعين.",
     "auth.charityLogin.signingIn": "جارٍ تسجيل الدخول...",
@@ -985,9 +998,11 @@ export default {
     "auth.resetPassword.updating": "Updating\u2026",
     "auth.resetPassword.mismatch": "Passwords do not match.",
     "auth.resetPassword.success": "Password updated successfully!",
-    "auth.resetPassword.successSubtitle": "You can now sign in with your new password.",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
     "auth.resetPassword.backToSignIn": "Back to Sign In",
-    "auth.resetPassword.invalidLink": "This password reset link is invalid or has expired.",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
     "auth.resetPassword.requestNew": "Request a new reset link",
     "auth.resetPassword.validating": "Validating reset link\u2026",
     "auth.orgSearch.orgNameLabel": "اسم المنظمة",
@@ -1019,6 +1034,11 @@ export default {
       "يجب أن تتكون كلمة المرور من 8 أحرف على الأقل",
     "charity.claim.validation.confirmPassword": "كلمتا المرور غير متطابقتين",
     "charity.claim.validation.fix": "يرجى تصحيح أخطاء التحقق",
+    "charity.claim.useAsPublicEmail":
+      "استخدم بريدي الإلكتروني كبريد الاتصال العام للمنظمة",
+    "charity.claim.publicContactEmail": "البريد الإلكتروني العام للمنظمة",
+    "charity.claim.privacyNotice":
+      "يُستخدم بريدك الإلكتروني/هاتفك الشخصي للتحقق فقط ولا يظهر لمستخدمي المنصة الآخرين. يُعرض البريد الإلكتروني العام في ملف منظمتك.",
     "charity.claim.error.creation": "فشل إنشاء الحساب",
     "charity.claim.error.generic": "تعذّر إنشاء الحساب",
     "charity.vetting.orgDetails": "تفاصيل المنظمة",
@@ -1056,6 +1076,10 @@ export default {
     "charity.vetting.validation.country": "الدولة مطلوبة",
     "charity.vetting.validation.fix": "يرجى تصحيح أخطاء التحقق",
     "charity.vetting.error.generic": "تعذّر تقديم الطلب",
+    "charity.vetting.privacyNotice": "بتقديم هذا الطلب، فإنك توافق على",
+    "charity.vetting.termsLink": "شروط الخدمة",
+    "charity.vetting.privacyAnd": "وتقر بـ",
+    "charity.vetting.privacyLink": "سياسة الخصوصية",
     "common.email": "البريد الإلكتروني",
     "common.password": "كلمة المرور",
     "common.confirmPassword": "تأكيد كلمة المرور",
@@ -1066,26 +1090,28 @@ export default {
     "footer.legal.title": "القانونية",
     "footer.legal.terms": "شروط الخدمة",
     "footer.legal.privacy": "سياسة الخصوصية",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "تفضيلات ملفات تعريف الارتباط",
+    "consent.banner.ariaLabel": "الموافقة على ملفات تعريف الارتباط",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "نستخدم Google Analytics 4 (Google LLC، الولايات المتحدة) وSentry (Functional Software، الولايات المتحدة/الاتحاد الأوروبي) لفهم كيفية استخدام التطبيق واكتشاف الأخطاء. لا تتم مشاركة أي عناوين بريد إلكتروني أو عناوين محفظة أو أسماء متبرعين. يمكنك سحب موافقتك في أي وقت.",
+    "consent.banner.privacyLink": "سياسة الخصوصية",
+    "consent.banner.acceptAll": "قبول الكل",
+    "consent.banner.decline": "رفض غير الأساسية",
+    "consent.banner.customize": "تخصيص",
+    "consent.modal.title": "تفضيلات ملفات تعريف الارتباط",
+    "consent.modal.essentialTitle": "أساسية",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "مطلوبة لميزات الموقع الأساسية مثل التنقل والمصادقة. لا يمكن تعطيلها.",
+    "consent.modal.essentialAlwaysOn":
+      "ملفات تعريف الارتباط الأساسية — مفعّلة دائمًا",
+    "consent.modal.analyticsTitle":
+      "التحليلات (Google Analytics 4 · الولايات المتحدة، Sentry · الولايات المتحدة/الاتحاد الأوروبي)",
     "consent.modal.analyticsDesc":
-      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "تساعدنا ملفات تعريف الارتباط التحليلية على فهم الصفحات التي تتم زيارتها وكيفية تنقل المستخدمين في التطبيق. نستخدم Google Analytics 4 \u2014 معرّفات الجلسات، عناوين URL للصفحات، بيانات الجهاز/المتصفح الوصفية، الموقع التقريبي من عنوان IP مجهّل الهوية (Google LLC، الولايات المتحدة؛ SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 تتبّع أخطاء مجهّل الهوية وبيانات المتصفح الوصفية لمراقبة الموثوقية (Functional Software، الاتحاد الأوروبي/الولايات المتحدة؛ آلية النقل قيد الانتظار). لا تتم مشاركة أي عناوين بريد إلكتروني أو عناوين محفظة أو أسماء متبرعين مع أي معالج بيانات.",
+    "consent.modal.analyticsOn": "التحليلات وتسجيل الأخطاء — مفعّل",
+    "consent.modal.analyticsOff": "التحليلات وتسجيل الأخطاء — معطّل",
+    "consent.modal.cancel": "إلغاء",
+    "consent.modal.save": "حفظ التفضيلات",
     "footer.connect.title": "تواصل",
     "footer.copyright": "Give Protocol. جميع الحقوق محفوظة.",
     "nav.signIn": "تسجيل الدخول",

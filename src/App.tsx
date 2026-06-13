@@ -16,6 +16,9 @@ import { useSafeAutoConnect } from "./hooks/useSafeAutoConnect";
 import { useWalletAuthSync } from "./hooks/useWalletAuthSync";
 import { ConsentProvider } from "./lib/consent/ConsentProvider";
 import { CookieBanner } from "./components/consent/CookieBanner";
+import { useGA4Loader } from "./lib/consent/useGA4Loader";
+import { useGAConsentBridge } from "./lib/consent/useGAConsentBridge";
+import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
 
@@ -72,20 +75,28 @@ const WalletAuthSync = () => {
   return null;
 };
 
+// Gates GA4 script load on analytics consent and syncs consent state to gtag
+const GA4Bridge = () => {
+  useGA4Loader();
+  useGAConsentBridge();
+  return null;
+};
+
 // Auth and Web3 providers combined
 const AuthWeb3Providers = ({ children }: { children: React.ReactNode }) => (
   <AuthSettingsProviders>
     <ChainWeb3Providers>
       <WalletAuthSync />
+      <SentryConsentReactor />
       {children}
     </ChainWeb3Providers>
   </AuthSettingsProviders>
 );
 
-// Combined providers component (ConsentProvider wraps everything so
-// the banner and footer link can reach useConsent() from anywhere in the tree)
+// Combined providers component (ConsentProvider wraps outermost)
 const AppProviders = ({ children }: { children: React.ReactNode }) => (
   <ConsentProvider>
+    <GA4Bridge />
     <CoreProviders>
       <AuthWeb3Providers>{children}</AuthWeb3Providers>
     </CoreProviders>

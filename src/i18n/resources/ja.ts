@@ -356,6 +356,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "年齢の確認とプライバシー通知の閲覧を確認する必要があります",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "16歳以上であることを確認します。",
+    "ageGate.negative":
+      "Give Protocolは16歳以上のユーザーがご利用いただけます。16歳未満の場合、現時点ではリクエストを処理することができません。",
+
     // Languages
     "language.english": "英語",
     "language.spanish": "スペイン語",
@@ -477,8 +482,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "別のチェーンタイプを選択してみてください。",
     "modal.connect.viewOtherWallets": "他の対応ウォレットを表示",
-    "modal.connect.termsAgreement": "接続することにより、",
+    "modal.connect.termsAgreement": "接続することにより、当社の",
     "modal.connect.termsLink": "利用規約",
+    "modal.connect.termsPrivacyConnector": "および",
+    "modal.connect.privacyLink": "プライバシーポリシー",
     "modal.connect.chainTypeAria": "チェーンタイプ",
     "modal.connect.failedConnect": "接続に失敗しました",
 
@@ -771,8 +778,10 @@ export default {
     "admin.charity.allStatuses": "すべてのステータス",
     "admin.charity.searchPlaceholder": "名前で検索\u2026",
     "admin.charity.colName": "名前",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "カテゴリ",
     "admin.charity.colStatus": "ステータス",
+    "admin.charity.colSigner": "連絡先",
     "admin.charity.colJoined": "登録日",
     "admin.charity.colWallet": "ウォレット",
     "admin.charity.colActions": "操作",
@@ -984,6 +993,11 @@ export default {
     "auth.donorReg.orSetPassword": "またはパスワードを設定",
     "auth.donorReg.creating": "アカウントを作成中...",
     "auth.donorReg.createAccount": "寄付者アカウントを作成",
+    "auth.donorReg.privacyNotice":
+      "アカウントを作成すると、以下に同意したことになります：",
+    "auth.donorReg.termsLink": "利用規約",
+    "auth.donorReg.privacyAnd": "および",
+    "auth.donorReg.privacyLink": "プライバシーポリシー",
     "auth.charityLogin.mismatch":
       "このメールアドレスは寄付者アカウントとして登録されています。寄付者ポータルからサインインしてください。",
     "auth.charityLogin.signingIn": "サインイン中...",
@@ -1018,9 +1032,11 @@ export default {
     "auth.resetPassword.updating": "Updating\u2026",
     "auth.resetPassword.mismatch": "Passwords do not match.",
     "auth.resetPassword.success": "Password updated successfully!",
-    "auth.resetPassword.successSubtitle": "You can now sign in with your new password.",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
     "auth.resetPassword.backToSignIn": "Back to Sign In",
-    "auth.resetPassword.invalidLink": "This password reset link is invalid or has expired.",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
     "auth.resetPassword.requestNew": "Request a new reset link",
     "auth.resetPassword.validating": "Validating reset link\u2026",
     "auth.orgSearch.orgNameLabel": "団体名",
@@ -1053,6 +1069,11 @@ export default {
       "パスワードは8文字以上で入力してください",
     "charity.claim.validation.confirmPassword": "パスワードが一致しません",
     "charity.claim.validation.fix": "入力エラーを修正してください",
+    "charity.claim.useAsPublicEmail":
+      "自分のメールアドレスを団体の公開連絡先メールアドレスとして使用する",
+    "charity.claim.publicContactEmail": "団体の公開連絡先メールアドレス",
+    "charity.claim.privacyNotice":
+      "個人の署名者メール/電話番号は本人確認のみに使用され、他のプラットフォームユーザーには表示されません。公開連絡先メールアドレスは団体プロフィールに表示されます。",
     "charity.claim.error.creation": "アカウントの作成に失敗しました",
     "charity.claim.error.generic": "アカウントを作成できませんでした",
     "charity.vetting.orgDetails": "団体情報",
@@ -1091,6 +1112,11 @@ export default {
     "charity.vetting.validation.country": "国は必須です",
     "charity.vetting.validation.fix": "入力エラーを修正してください",
     "charity.vetting.error.generic": "申請の送信に失敗しました",
+    "charity.vetting.privacyNotice":
+      "この申請を送信すると、以下に同意したことになります：",
+    "charity.vetting.termsLink": "利用規約",
+    "charity.vetting.privacyAnd": "および",
+    "charity.vetting.privacyLink": "プライバシーポリシー",
     "common.email": "メールアドレス",
     "common.password": "パスワード",
     "common.confirmPassword": "パスワード確認",
@@ -1101,26 +1127,27 @@ export default {
     "footer.legal.title": "法的情報",
     "footer.legal.terms": "利用規約",
     "footer.legal.privacy": "プライバシーポリシー",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "Cookie設定",
+    "consent.banner.ariaLabel": "Cookieの同意",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "アプリの利用状況の把握やエラーの検出のために、Google Analytics 4（Google LLC、米国）およびSentry（Functional Software、米国/EU）を使用しています。メールアドレス、ウォレットアドレス、寄付者名が共有されることはありません。同意はいつでも撤回できます。",
+    "consent.banner.privacyLink": "プライバシーポリシー",
+    "consent.banner.acceptAll": "すべて受け入れる",
+    "consent.banner.decline": "必須でないものを拒否",
+    "consent.banner.customize": "カスタマイズ",
+    "consent.modal.title": "Cookie設定",
+    "consent.modal.essentialTitle": "必須",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "ナビゲーションや認証などの基本的なサイト機能に必要です。無効にすることはできません。",
+    "consent.modal.essentialAlwaysOn": "必須Cookie — 常に有効",
+    "consent.modal.analyticsTitle":
+      "分析（Google Analytics 4 · 米国、Sentry · 米国/EU）",
     "consent.modal.analyticsDesc":
-      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "分析Cookieは、どのページが閲覧されているか、ユーザーがアプリ内でどのように移動しているかを理解するのに役立ちます。Google Analytics 4を使用しています \u2014 セッション識別子、ページURL、デバイス/ブラウザのメタデータ、匿名化されたIPからのおおよその位置情報（Google LLC、米国；SCCs + EU\u2013US Data Privacy Framework）。Sentry \u2014 信頼性監視のための匿名化されたエラートレースとブラウザメタデータ（Functional Software、EU/米国；転送メカニズム保留中）。メールアドレス、ウォレットアドレス、寄付者名がいずれの処理者とも共有されることはありません。",
+    "consent.modal.analyticsOn": "分析とエラー記録 — オン",
+    "consent.modal.analyticsOff": "分析とエラー記録 — オフ",
+    "consent.modal.cancel": "キャンセル",
+    "consent.modal.save": "設定を保存",
     "footer.connect.title": "つながる",
     "footer.copyright": "Give Protocol. All rights reserved.",
     "nav.signIn": "サインイン",

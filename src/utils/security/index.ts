@@ -87,7 +87,7 @@ export class SecurityManager {
     return [
       ENV.APP_DOMAIN,
       `app.${ENV.APP_DOMAIN}`,
-      "etqbojasfmpieigeefdj.supabase.co",
+      "lhbyfidtlhojnrewpstp.supabase.co",
       "westend-rpc.polkadot.io",
       "api.giveprotocol.io",
       "images.unsplash.com",
@@ -111,7 +111,7 @@ export class SecurityManager {
    */
   private initializeSecurityHeaders(): SecurityHeaders {
     const scriptSrcDomains = [
-      "https://etqbojasfmpieigeefdj.supabase.co",
+      "https://lhbyfidtlhojnrewpstp.supabase.co",
       "https://*.sentry.io",
       "https://translate.google.com",
       "https://translate.googleapis.com",
@@ -141,7 +141,7 @@ export class SecurityManager {
     return {
       "Content-Security-Policy": `
         default-src 'self';
-        script-src 'self' 'wasm-unsafe-eval' 'sha256-ooHLYUO0qxugBXSF0QzLAXnSRuY4UhNaiOFO9oNqiOY=' 'sha256-1A5C0PgHbkU0Dcl68Pe/TR1vV/k5AMjAVNdjxLJHUaE=' 'sha256-m9VrlzP2G46X7nBNMitQ7UMiGkSb46V+wRGTzBoGJmE=' ${scriptSrcDomains};
+        script-src 'self' 'wasm-unsafe-eval' 'sha256-FE0b/aIu3qmhPRVUXn/+TXDCpLi5oRzW6cwcyknX2PU=' ${scriptSrcDomains};
         style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://fonts.googleapis.com;
         img-src 'self' data: https: blob:;
         font-src 'self' https://fonts.gstatic.com;
@@ -150,6 +150,9 @@ export class SecurityManager {
         object-src 'none';
         base-uri 'self';
         form-action 'self';
+        upgrade-insecure-requests;
+        report-uri /api/csp-report;
+        report-to csp-endpoint;
       `
         .replaceAll(/\s+/g, " ")
         .trim(),

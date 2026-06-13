@@ -2,9 +2,6 @@ version = 1
 
 # Exclude third-party and generated files from analysis
 exclude_patterns = [
-  "public/silktide-consent-manager.js",
-  "public/silktide-consent-manager.css",
-  "public/silktide-*",
   "public/**/*.js",
   "**/node_modules/**",
   "**/dist/**",
@@ -40,15 +37,6 @@ enabled = true
 issue_id = "JS-0415"
 enabled = true
 
-[[issue_overrides]]
-issue_id = "JS-0105"
-path_patterns = ["public/silktide-consent-manager.js"]
-enabled = false
-
-[[issue_overrides]]
-issue_id = "JS-D1001"
-path_patterns = ["public/silktide-consent-manager.js"]
-enabled = false
 
 [[issue_overrides]]
 issue_id = "JS-0116"

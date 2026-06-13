@@ -355,6 +355,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "Bạn phải xác nhận độ tuổi và rằng bạn đã đọc Thông báo bảo mật",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "Tôi xác nhận rằng tôi từ 16 tuổi trở lên.",
+    "ageGate.negative":
+      "Give Protocol dành cho người dùng từ 16 tuổi trở lên. Nếu bạn dưới 16 tuổi, chúng tôi không thể xử lý yêu cầu của bạn vào lúc này.",
+
     // Languages
     "language.english": "Tiếng Anh",
     "language.spanish": "Tiếng Tây Ban Nha",
@@ -476,6 +481,8 @@ export default {
     "modal.connect.viewOtherWallets": "Xem các ví được hỗ trợ khác",
     "modal.connect.termsAgreement": "Bằng việc kết nối, bạn đồng ý với",
     "modal.connect.termsLink": "Điều khoản dịch vụ",
+    "modal.connect.termsPrivacyConnector": "và",
+    "modal.connect.privacyLink": "Chính sách Bảo mật",
     "modal.connect.chainTypeAria": "Loại chuỗi",
     "modal.connect.failedConnect": "Kết nối thất bại",
 
@@ -769,8 +776,10 @@ export default {
     "admin.charity.allStatuses": "Tất cả trạng thái",
     "admin.charity.searchPlaceholder": "Tìm theo tên\u2026",
     "admin.charity.colName": "Tên",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Danh mục",
     "admin.charity.colStatus": "Trạng thái",
+    "admin.charity.colSigner": "Liên hệ",
     "admin.charity.colJoined": "Ngày tham gia",
     "admin.charity.colWallet": "Ví",
     "admin.charity.colActions": "Thao tác",
@@ -983,6 +992,10 @@ export default {
     "auth.donorReg.orSetPassword": "Hoặc đặt mật khẩu",
     "auth.donorReg.creating": "Đang tạo tài khoản...",
     "auth.donorReg.createAccount": "Tạo tài khoản nhà tài trợ",
+    "auth.donorReg.privacyNotice": "Bằng cách tạo tài khoản, bạn đồng ý với",
+    "auth.donorReg.termsLink": "Điều khoản dịch vụ",
+    "auth.donorReg.privacyAnd": "của chúng tôi và xác nhận",
+    "auth.donorReg.privacyLink": "Chính sách Bảo mật",
     "auth.charityLogin.mismatch":
       "Email này được đăng ký dưới tài khoản nhà tài trợ. Vui lòng đăng nhập tại cổng nhà tài trợ.",
     "auth.charityLogin.signingIn": "Đang đăng nhập...",
@@ -1016,9 +1029,11 @@ export default {
     "auth.resetPassword.updating": "Updating\u2026",
     "auth.resetPassword.mismatch": "Passwords do not match.",
     "auth.resetPassword.success": "Password updated successfully!",
-    "auth.resetPassword.successSubtitle": "You can now sign in with your new password.",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
     "auth.resetPassword.backToSignIn": "Back to Sign In",
-    "auth.resetPassword.invalidLink": "This password reset link is invalid or has expired.",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
     "auth.resetPassword.requestNew": "Request a new reset link",
     "auth.resetPassword.validating": "Validating reset link\u2026",
     "auth.orgSearch.orgNameLabel": "Tên tổ chức",
@@ -1049,6 +1064,11 @@ export default {
     "charity.claim.validation.password": "Mật khẩu phải có ít nhất 8 ký tự",
     "charity.claim.validation.confirmPassword": "Mật khẩu không khớp",
     "charity.claim.validation.fix": "Vui lòng sửa các lỗi xác thực",
+    "charity.claim.useAsPublicEmail":
+      "Sử dụng email của tôi làm email liên hệ công khai của tổ chức",
+    "charity.claim.publicContactEmail": "Email liên hệ công khai của tổ chức",
+    "charity.claim.privacyNotice":
+      "Email/số điện thoại cá nhân của người ký chỉ được sử dụng để xác minh và không hiển thị cho người dùng nền tảng khác. Email liên hệ công khai sẽ được hiển thị trên hồ sơ tổ chức của bạn.",
     "charity.claim.error.creation": "Tạo tài khoản thất bại",
     "charity.claim.error.generic": "Không thể tạo tài khoản",
     "charity.vetting.orgDetails": "Thông tin tổ chức",
@@ -1085,6 +1105,11 @@ export default {
     "charity.vetting.validation.country": "Quốc gia là bắt buộc",
     "charity.vetting.validation.fix": "Vui lòng sửa các lỗi xác thực",
     "charity.vetting.error.generic": "Gửi đơn đăng ký thất bại",
+    "charity.vetting.privacyNotice":
+      "Bằng cách gửi đơn đăng ký này, bạn đồng ý với",
+    "charity.vetting.termsLink": "Điều khoản dịch vụ",
+    "charity.vetting.privacyAnd": "của chúng tôi và xác nhận",
+    "charity.vetting.privacyLink": "Chính sách Bảo mật",
     "common.email": "Email",
     "common.password": "Mật khẩu",
     "common.confirmPassword": "Xác nhận mật khẩu",
@@ -1096,26 +1121,27 @@ export default {
     "footer.legal.title": "Pháp lý",
     "footer.legal.terms": "Điều khoản dịch vụ",
     "footer.legal.privacy": "Chính sách quyền riêng tư",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "Tùy chọn cookie",
+    "consent.banner.ariaLabel": "Đồng ý cookie",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "Chúng tôi sử dụng Google Analytics 4 (Google LLC, Hoa Kỳ) và Sentry (Functional Software, Hoa Kỳ/EU) để hiểu cách ứng dụng được sử dụng và phát hiện lỗi. Không có địa chỉ email, địa chỉ ví hoặc tên nhà tài trợ nào được chia sẻ. Bạn có thể rút lại sự đồng ý bất cứ lúc nào.",
+    "consent.banner.privacyLink": "Chính sách quyền riêng tư",
+    "consent.banner.acceptAll": "Chấp nhận tất cả",
+    "consent.banner.decline": "Từ chối không thiết yếu",
+    "consent.banner.customize": "Tùy chỉnh",
+    "consent.modal.title": "Tùy chọn cookie",
+    "consent.modal.essentialTitle": "Thiết yếu",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "Cần thiết cho các tính năng cốt lõi của trang web như điều hướng và xác thực. Không thể tắt.",
+    "consent.modal.essentialAlwaysOn": "Cookie thiết yếu — luôn bật",
+    "consent.modal.analyticsTitle":
+      "Phân tích (Google Analytics 4 · Hoa Kỳ, Sentry · Hoa Kỳ/EU)",
     "consent.modal.analyticsDesc":
-      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "Cookie phân tích giúp chúng tôi hiểu những trang nào được truy cập và cách người dùng điều hướng trong ứng dụng. Chúng tôi sử dụng Google Analytics 4 \u2014 mã nhận dạng phiên, URL trang, siêu dữ liệu thiết bị/trình duyệt, vị trí ước tính từ IP ẩn danh (Google LLC, Hoa Kỳ; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 dấu vết lỗi ẩn danh và siêu dữ liệu trình duyệt để giám sát độ tin cậy (Functional Software, EU/Hoa Kỳ; cơ chế chuyển giao đang chờ xử lý). Không có địa chỉ email, địa chỉ ví hoặc tên nhà tài trợ nào được chia sẻ với bất kỳ bên xử lý nào.",
+    "consent.modal.analyticsOn": "Phân tích và ghi nhận lỗi — bật",
+    "consent.modal.analyticsOff": "Phân tích và ghi nhận lỗi — tắt",
+    "consent.modal.cancel": "Hủy",
+    "consent.modal.save": "Lưu tùy chọn",
     "footer.connect.title": "Kết nối",
     "footer.copyright": "Give Protocol. Mọi quyền được bảo lưu.",
     "nav.signIn": "Đăng nhập",

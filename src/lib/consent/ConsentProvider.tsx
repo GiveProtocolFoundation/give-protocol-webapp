@@ -44,27 +44,38 @@ const defaultCategories: ConsentCategories = {
 const ConsentContext = createContext<ConsentContextValue | null>(null);
 
 // ---------------------------------------------------------------------------
+// GA4 consent bridge
+// ---------------------------------------------------------------------------
+
+/**
+ * Bridges the React consent state into gtag's consent API.
+ *
+ * - Fires on mount so returning visitors' stored consent is replayed into
+ *   gtag before the 500 ms wait_for_update timer in index.html expires.
+ * - Fires on every consent change so accept/decline immediately propagates.
+ * - Null-safe: no-ops if window.gtag is unavailable (SSR, test environments).
+ */
+function useGAConsentBridge(categories: ConsentCategories): void {
+  useEffect(() => {
+    window.gtag?.("consent", "update", {
+      analytics_storage: categories.analytics ? "granted" : "denied",
+    });
+  }, [categories.analytics]);
+}
+
+// ---------------------------------------------------------------------------
 // Provider
 // ---------------------------------------------------------------------------
 
+/**
+ * Provides cookie-consent state to the component tree.
+ * @param children - React children to wrap
+ * @returns Provider element
+ */
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
   const [record, setRecord] = useState<ConsentRecord | null>(() =>
     readConsent(),
   );
-
-  // Dev-only: ?_consentReset=1 forces the banner back to the undecided state
-  // so developers can verify the banner without clearing localStorage manually.
-  // Uses process.env.NODE_ENV (equivalent to import.meta.env.DEV in Vite builds
-  // and also testable in Jest without ESM import.meta restrictions).
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("_consentReset") === "1") {
-        clearConsent();
-        setRecord(null);
-      }
-    }
-  }, []);
 
   const accept = useCallback(
     (cats: { essential?: true; analytics: boolean }) => {
@@ -83,8 +94,23 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
     setRecord(null);
   }, []);
 
+  // Dev-only: clear consent when ?_consentReset=1 is in the URL.
+  useEffect(() => {
+    if (process.env.NODE_ENV !== "production") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.get("_consentReset") === "1") {
+        clearConsent();
+        setRecord(null);
+      }
+    }
+  }, []);
+
+  const categories = record?.categories ?? defaultCategories;
+
+  useGAConsentBridge(categories);
+
   const value: ConsentContextValue = {
-    categories: record?.categories ?? defaultCategories,
+    categories,
     hasDecided: record !== null,
     accept,
     decline,
@@ -100,6 +126,11 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
 // Hook
 // ---------------------------------------------------------------------------
 
+/**
+ * Returns the current consent state and actions.
+ * @returns ConsentContextValue
+ * @throws Error if called outside ConsentProvider
+ */
 export function useConsent(): ConsentContextValue {
   const ctx = useContext(ConsentContext);
   if (!ctx) {

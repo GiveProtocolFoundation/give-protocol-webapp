@@ -379,6 +379,11 @@ export default {
     "volunteer.validation.agePrivacyRequired":
       "Vous devez confirmer votre âge et avoir lu l'Avis de Confidentialité",
 
+    // Age affirmation gate (shared across all surfaces — GIV-453)
+    "ageGate.positive": "Je confirme que j'ai 16 ans ou plus.",
+    "ageGate.negative":
+      "Give Protocol est disponible pour les utilisateurs âgés de 16 ans ou plus. Si vous avez moins de 16 ans, nous ne sommes pas en mesure de traiter votre demande pour le moment.",
+
     // Languages
     "language.english": "Anglais",
     "language.spanish": "Espagnol",
@@ -506,8 +511,10 @@ export default {
     "modal.connect.tryDifferentChain":
       "Essayez de sélectionner un type de chaîne différent.",
     "modal.connect.viewOtherWallets": "Voir les autres portefeuilles supportés",
-    "modal.connect.termsAgreement": "En vous connectant, vous acceptez les",
+    "modal.connect.termsAgreement": "En vous connectant, vous acceptez nos",
     "modal.connect.termsLink": "Conditions de Service",
+    "modal.connect.termsPrivacyConnector": "et",
+    "modal.connect.privacyLink": "Politique de Confidentialité",
     "modal.connect.chainTypeAria": "Type de chaîne",
     "modal.connect.failedConnect": "Échec de connexion",
 
@@ -808,8 +815,10 @@ export default {
     "admin.charity.allStatuses": "Tous les statuts",
     "admin.charity.searchPlaceholder": "Rechercher par nom\u2026",
     "admin.charity.colName": "Nom",
+    "admin.charity.colEin": "EIN",
     "admin.charity.colCategory": "Catégorie",
     "admin.charity.colStatus": "Statut",
+    "admin.charity.colSigner": "Contact",
     "admin.charity.colJoined": "Inscription",
     "admin.charity.colWallet": "Portefeuille",
     "admin.charity.colActions": "Actions",
@@ -1032,6 +1041,10 @@ export default {
     "auth.donorReg.orSetPassword": "Ou définir un mot de passe",
     "auth.donorReg.creating": "Création du Compte...",
     "auth.donorReg.createAccount": "Créer un Compte Donateur",
+    "auth.donorReg.privacyNotice": "En créant un compte, vous acceptez nos",
+    "auth.donorReg.termsLink": "Conditions de Service",
+    "auth.donorReg.privacyAnd": "et reconnaissez notre",
+    "auth.donorReg.privacyLink": "Politique de Confidentialité",
     "auth.charityLogin.mismatch":
       "Cet e-mail est enregistré en tant que compte donateur. Veuillez vous connecter via le portail donateur.",
     "auth.charityLogin.signingIn": "Connexion en cours...",
@@ -1065,9 +1078,11 @@ export default {
     "auth.resetPassword.updating": "Updating\u2026",
     "auth.resetPassword.mismatch": "Passwords do not match.",
     "auth.resetPassword.success": "Password updated successfully!",
-    "auth.resetPassword.successSubtitle": "You can now sign in with your new password.",
+    "auth.resetPassword.successSubtitle":
+      "You can now sign in with your new password.",
     "auth.resetPassword.backToSignIn": "Back to Sign In",
-    "auth.resetPassword.invalidLink": "This password reset link is invalid or has expired.",
+    "auth.resetPassword.invalidLink":
+      "This password reset link is invalid or has expired.",
     "auth.resetPassword.requestNew": "Request a new reset link",
     "auth.resetPassword.validating": "Validating reset link\u2026",
     "auth.orgSearch.orgNameLabel": "Nom de l'Organisation",
@@ -1104,6 +1119,12 @@ export default {
       "Les mots de passe ne correspondent pas",
     "charity.claim.validation.fix":
       "Veuillez corriger les erreurs de validation",
+    "charity.claim.useAsPublicEmail":
+      "Utiliser mon e-mail comme e-mail de contact public de l'organisation",
+    "charity.claim.publicContactEmail":
+      "E-mail de contact public de l'organisation",
+    "charity.claim.privacyNotice":
+      "Votre e-mail/téléphone personnel de signataire est utilisé uniquement pour la vérification et n'est pas visible par les autres utilisateurs de la plateforme. L'e-mail de contact public est affiché sur le profil de votre organisation.",
     "charity.claim.error.creation": "La création du compte a échoué",
     "charity.claim.error.generic": "Impossible de créer le compte",
     "charity.vetting.orgDetails": "Détails de l'Organisation",
@@ -1144,6 +1165,11 @@ export default {
     "charity.vetting.validation.fix":
       "Veuillez corriger les erreurs de validation",
     "charity.vetting.error.generic": "Impossible de soumettre la candidature",
+    "charity.vetting.privacyNotice":
+      "En soumettant cette candidature, vous acceptez nos",
+    "charity.vetting.termsLink": "Conditions de Service",
+    "charity.vetting.privacyAnd": "et reconnaissez notre",
+    "charity.vetting.privacyLink": "Politique de Confidentialité",
     "common.email": "E-mail",
     "common.password": "Mot de passe",
     "common.confirmPassword": "Confirmer le Mot de Passe",
@@ -1155,26 +1181,28 @@ export default {
     "footer.legal.title": "Mentions Légales",
     "footer.legal.terms": "Conditions d'Utilisation",
     "footer.legal.privacy": "Politique de Confidentialité",
-    "footer.legal.cookiePreferences": "Cookie preferences",
-    "consent.banner.ariaLabel": "Cookie consent",
+    "footer.legal.cookiePreferences": "Préférences de cookies",
+    "consent.banner.ariaLabel": "Consentement aux cookies",
     "consent.banner.body":
-      "We use cookies for essential site functions and, with your permission, anonymous error replay and performance analytics to improve the site. You can change this anytime in the footer.",
-    "consent.banner.privacyLink": "Privacy policy",
-    "consent.banner.acceptAll": "Accept all",
-    "consent.banner.decline": "Decline non-essential",
-    "consent.banner.customize": "Customize",
-    "consent.modal.title": "Cookie preferences",
-    "consent.modal.essentialTitle": "Essential",
+      "Nous utilisons Google Analytics 4 (Google LLC, États-Unis) et Sentry (Functional Software, États-Unis/UE) pour comprendre comment l'application est utilisée et détecter les erreurs. Aucune adresse e-mail, adresse de portefeuille ou nom de donateur n'est partagé. Vous pouvez retirer votre consentement à tout moment.",
+    "consent.banner.privacyLink": "Politique de confidentialité",
+    "consent.banner.acceptAll": "Tout accepter",
+    "consent.banner.decline": "Refuser les non essentiels",
+    "consent.banner.customize": "Personnaliser",
+    "consent.modal.title": "Préférences de cookies",
+    "consent.modal.essentialTitle": "Essentiels",
     "consent.modal.essentialDesc":
-      "Required for core site features such as navigation and authentication. Cannot be disabled.",
-    "consent.modal.essentialAlwaysOn": "Essential cookies — always on",
-    "consent.modal.analyticsTitle": "Analytics & error replay",
+      "Nécessaires au fonctionnement de base du site, comme la navigation et l'authentification. Ne peuvent pas être désactivés.",
+    "consent.modal.essentialAlwaysOn": "Cookies essentiels — toujours actifs",
+    "consent.modal.analyticsTitle":
+      "Analyse (Google Analytics 4 · États-Unis, Sentry · États-Unis/UE)",
     "consent.modal.analyticsDesc":
-      "Anonymous performance metrics and error-replay sessions to help us diagnose bugs and improve the site.",
-    "consent.modal.analyticsOn": "Analytics & error replay — on",
-    "consent.modal.analyticsOff": "Analytics & error replay — off",
-    "consent.modal.cancel": "Cancel",
-    "consent.modal.save": "Save preferences",
+      "Les cookies d'analyse nous aident à comprendre quelles pages sont visitées et comment les utilisateurs naviguent dans l'application. Nous utilisons Google Analytics 4 \u2014 identifiants de session, URL des pages, métadonnées appareil/navigateur, localisation approximative à partir d'IP anonymisée (Google LLC, États-Unis ; SCCs + EU\u2013US Data Privacy Framework). Sentry \u2014 traces d'erreurs anonymisées et métadonnées du navigateur pour la surveillance de fiabilité (Functional Software, UE/États-Unis ; mécanisme de transfert en attente). Aucune adresse e-mail, adresse de portefeuille ou nom de donateur n'est partagé avec les sous-traitants.",
+    "consent.modal.analyticsOn": "Analyse et enregistrement d'erreurs — activé",
+    "consent.modal.analyticsOff":
+      "Analyse et enregistrement d'erreurs — désactivé",
+    "consent.modal.cancel": "Annuler",
+    "consent.modal.save": "Enregistrer les préférences",
     "footer.connect.title": "Contact",
     "footer.copyright": "Give Protocol. Tous droits réservés.",
     "nav.signIn": "Connexion",
