@@ -390,6 +390,9 @@ COMMENT ON FUNCTION admin_get_donor_detail IS
   'Admin-only via JWT check. Part of GIV-87/GIV-413.';
 
 -- 6c. admin_list_charities — exposes charity name, wallet_address (list view)
+-- DROP required because 20260606100000 changed the return type to 19 columns;
+-- CREATE OR REPLACE cannot alter an existing function's return signature.
+DROP FUNCTION IF EXISTS admin_list_charities(TEXT, TEXT, TEXT, INT, INT);
 CREATE OR REPLACE FUNCTION admin_list_charities(
   p_status        TEXT        DEFAULT NULL,
   p_category      TEXT        DEFAULT NULL,
