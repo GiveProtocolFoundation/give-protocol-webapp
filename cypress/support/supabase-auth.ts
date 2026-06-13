@@ -32,6 +32,10 @@ function requireEnv(name: string): string {
 
 let _adminClient: ReturnType<typeof createClient> | null = null;
 
+/**
+ * Returns the lazy-initialised Supabase admin client (service-role key).
+ * @returns A Supabase client authenticated with the service-role key.
+ */
 function getAdminClient(): ReturnType<typeof createClient> {
   if (_adminClient) return _adminClient;
   const url = requireEnv("SUPABASE_URL");
@@ -49,6 +53,10 @@ function getAdminClient(): ReturnType<typeof createClient> {
 
 let _anonClient: ReturnType<typeof createClient> | null = null;
 
+/**
+ * Returns the lazy-initialised Supabase anon client (public key, PKCE flow).
+ * @returns A Supabase client authenticated with the anon key.
+ */
 function getAnonClient(): ReturnType<typeof createClient> {
   if (_anonClient) return _anonClient;
   const url = requireEnv("SUPABASE_URL");
