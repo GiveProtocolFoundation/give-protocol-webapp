@@ -30,13 +30,20 @@ const SectionIntroduction: React.FC = () => (
     </ImportantNotice>
 
     <p>
-      If you provide personal data to us, you consent to the collection, use,
-      and disclosure of such personal data in accordance with this Privacy
-      Policy. If you provide the personal data of another individual (such as
-      organization representatives or volunteer references), it means that you
-      have informed them of the purposes for which we require their personal
-      data and they have consented to the collection, use, and disclosure of
-      their personal data in accordance with this Privacy Policy.
+      This Privacy Policy describes the personal data we process, the purposes
+      and legal bases for that processing, and the rights available to you under
+      applicable data protection law. The legal basis for each processing
+      activity is set out in Section 4 (Legal Basis for Processing) and in the
+      relevant sections below. We do not treat your provision of personal data
+      as blanket consent to all processing; each processing activity relies on
+      the specific legal basis identified for it.
+    </p>
+    <p>
+      Where you provide us with personal data relating to another individual
+      (such as an organization representative or a volunteer reference), we
+      process that data as the data controller on the legal basis identified in
+      Section 4. Please ensure you are permitted to share that data with us and,
+      where appropriate, make the individual aware of this Privacy Policy.
     </p>
   </section>
 );
