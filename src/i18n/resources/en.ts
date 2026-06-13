@@ -1594,6 +1594,6 @@ export default {
 
     // Privacy Policy §6 — Admin access audit log (GIV-416)
     "privacy.security.auditLog":
-      "As an additional technical measure under GDPR Article 32, we maintain an administrative access audit log. When Give Protocol staff access the platform\u2019s administrative functions, we record the action type, timestamp, IP address, and a reference to the affected entity. No donor personal data is duplicated into the log. This log supports our ability to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a data breach (Article 34 notification). Audit log records are retained for a minimum of two years.",
+      "As a technical measure under GDPR Article 32, we log and monitor administrative access to personal data \u2014 including the action taken and when it occurred \u2014 to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a personal data breach (Article 34). Donor personal data is not duplicated into these administrative-access logs. Administrative-access logs are distinct from the authentication and security logs described in \u00a77.1; their retention period is governed by our internal Record of Processing Activities.",
   },
 };
