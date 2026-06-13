@@ -336,19 +336,17 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "ข้าพเจ้าเข้าใจว่า:",
-    "volunteer.specificConsents": "ความยินยอมเฉพาะ",
-    "volunteer.specificConsentsDesc":
-      "กรุณาตรวจสอบและระบุความยินยอมของคุณในแต่ละรายการต่อไปนี้:",
-    "volunteer.essentialProcessingTitle": "การประมวลผลที่จำเป็น (จำเป็น):",
-    "volunteer.internationalTransfersTitle":
-      "การถ่ายโอนข้อมูลระหว่างประเทศ (ถ้ามี):",
+    "volunteer.processingAckTitle": "การรับทราบการประมวลผล",
+    "volunteer.processingAckDesc":
+      "กรุณาตรวจสอบและรับทราบสิ่งต่อไปนี้ก่อนดำเนินการต่อ:",
+    "volunteer.essentialProcessingTitle": "การประมวลผลใบสมัคร (ต้องยืนยัน):",
     "volunteer.acknowledgmentTitle": "การรับทราบ",
     "volunteer.ageConfirmationTitle": "การยืนยันอายุ:",
     "volunteer.privacyNoticeTitle": "ประกาศความเป็นส่วนตัว:",
     "volunteer.doNotAccept": "ไม่ยอมรับ",
     "volunteer.acceptAndContinue": "ยอมรับและดำเนินการต่อ",
     "volunteer.validation.essentialRequired":
-      "จำเป็นต้องให้ความยินยอมในการประมวลผลที่จำเป็นเพื่อดำเนินการต่อ",
+      "คุณต้องยืนยันการรับทราบการประมวลผลใบสมัครเพื่อดำเนินการต่อ",
     "volunteer.validation.agePrivacyRequired":
       "คุณต้องยืนยันอายุและว่าคุณได้อ่านประกาศความเป็นส่วนตัวแล้ว",
 
