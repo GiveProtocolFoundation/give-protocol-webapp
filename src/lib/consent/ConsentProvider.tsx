@@ -73,9 +73,16 @@ function useGAConsentBridge(categories: ConsentCategories): void {
  * @returns Provider element
  */
 export function ConsentProvider({ children }: { children: React.ReactNode }) {
-  const [record, setRecord] = useState<ConsentRecord | null>(() =>
-    readConsent(),
-  );
+  const [record, setRecord] = useState<ConsentRecord | null>(() => {
+    if (process.env.NODE_ENV !== "production") {
+      const params = new URLSearchParams(window.location.search);
+      if (params.has("_consentReset")) {
+        clearConsent();
+        return null;
+      }
+    }
+    return readConsent();
+  });
 
   const accept = useCallback(
     (cats: { essential?: true; analytics: boolean }) => {
@@ -92,17 +99,6 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
   const reset = useCallback(() => {
     clearConsent();
     setRecord(null);
-  }, []);
-
-  // Dev-only: clear consent when ?_consentReset=1 is in the URL.
-  useEffect(() => {
-    if (process.env.NODE_ENV !== "production") {
-      const params = new URLSearchParams(window.location.search);
-      if (params.get("_consentReset") === "1") {
-        clearConsent();
-        setRecord(null);
-      }
-    }
   }, []);
 
   const categories = record?.categories ?? defaultCategories;
