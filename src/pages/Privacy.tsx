@@ -98,8 +98,28 @@ const SectionInformationWeCollect: React.FC = () => (
       <li>Smart contract interactions</li>
     </ul>
     <p>
-      However, this blockchain data is not directly linked to personal
-      identifiers unless you choose to make such connections publicly known.
+      When you make a donation or receive volunteer verification through Give
+      Protocol, your wallet address is recorded both in our internal systems and
+      on the public blockchain. While the on-chain record itself does not embed
+      your name or email, your wallet address{" "}
+      <strong>is linked to your Give Protocol account in our database</strong>{" "}
+      for the duration of your account, so within our systems the address is
+      personal data relating to you.
+    </p>
+    <p>
+      <strong>
+        On-chain records (donation transactions, volunteer verification tokens)
+        are permanent and cannot be deleted or modified.
+      </strong>{" "}
+      When you exercise your right to erasure (see Section 8), we will delete
+      all personal data from our internal systems, including the link between
+      your account and your wallet address, but the on-chain transaction records
+      associated with that wallet address will remain on the public blockchain
+      indefinitely. If you have ever publicly connected your wallet address to
+      your real-world identity (for example, on social media), that on-chain
+      history may remain re-identifiable by third parties beyond our control. We
+      recommend reviewing the permanence of blockchain records before connecting
+      your wallet.
     </p>
 
     <h3>2.4 Information We Will Never Collect</h3>
@@ -413,6 +433,27 @@ const SectionYourRights: React.FC = () => (
     </ul>
     <p>
       To exercise these rights, please contact us at privacy@giveprotocol.io.
+    </p>
+
+    <h3>8.1 Right to Erasure — Blockchain Limitation</h3>
+    <p>
+      Exercising your right to erasure (Article 17 GDPR) will result in deletion
+      of all personal data from our internal systems within{" "}
+      <strong>30 days</strong>, including the link between your Give Protocol
+      account and your wallet address. However, transaction data that has
+      already been recorded on public blockchain networks (such as Moonbeam,
+      Base, and Optimism) <strong>cannot be erased</strong>, because blockchain
+      ledgers are immutable by design and no technical means exist to remove or
+      alter a confirmed on-chain record.
+    </p>
+    <p>
+      This means that after your erasure request is fulfilled, donation
+      transactions and volunteer-verification tokens linked to your wallet
+      address remain publicly visible on-chain. If you have previously linked
+      your identity to your wallet address through public means outside of our
+      platform, we cannot control the re-identification of your on-chain
+      history. This limitation is described further in Section 2.3, and the
+      corresponding retention position is set out in Section 7.1.
     </p>
   </section>
 );
