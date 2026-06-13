@@ -88,14 +88,14 @@ const SectionInformationWeCollect: React.FC = () => (
     <p>
       <strong>IP address.</strong> We collect your IP address automatically when
       you access the Service, when you make a card payment, and when
-      administrative or wallet-designation actions are performed on your account.
-      We use it to secure the platform, detect and prevent fraud, and maintain
-      administrative audit trails. Our legal basis is our legitimate interests in
-      keeping the Service and your account secure (Article 6(1)(f) GDPR). For
-      card payments, your IP address is shared with our payment processor for
-      fraud detection (see Section 5.2 and the international-transfer disclosures
-      in Section 9). We retain IP address and related security logs for up to
-      twelve (12) months (see Section 7.1).
+      administrative or wallet-designation actions are performed on your
+      account. We use it to secure the platform, detect and prevent fraud, and
+      maintain administrative audit trails. Our legal basis is our legitimate
+      interests in keeping the Service and your account secure (Article 6(1)(f)
+      GDPR). For card payments, your IP address is shared with our payment
+      processor for fraud detection (see Section 5.2 and the
+      international-transfer disclosures in Section 9). We retain IP address and
+      related security logs for up to twelve (12) months (see Section 7.1).
     </p>
 
     <h3>2.3 Blockchain Data</h3>
@@ -134,18 +134,18 @@ const SectionInformationWeCollect: React.FC = () => (
       your wallet.
     </p>
     <p>
-      <strong>Legal basis for processing your wallet address.</strong> We process
-      your wallet address to deliver the Service you request — recording and
-      verifying your donations and volunteer contributions (Article 6(1)(b) GDPR,
-      performance of a contract) — and to protect the integrity and security of
-      on-chain transactions (Article 6(1)(f) GDPR, legitimate interests). Your
-      wallet address is a public blockchain identifier: while we store it as
-      personal data linked to your account, the address itself is visible to
-      anyone on the public blockchain. We retain the link between your account
-      and your wallet address for the duration of your account (see Section 7.1);
-      the on-chain record is permanent as described above. You are first shown
-      this notice at the point your wallet is connected, where the wallet
-      connection screen links to this Privacy Policy.
+      <strong>Legal basis for processing your wallet address.</strong> We
+      process your wallet address to deliver the Service you request — recording
+      and verifying your donations and volunteer contributions (Article 6(1)(b)
+      GDPR, performance of a contract) — and to protect the integrity and
+      security of on-chain transactions (Article 6(1)(f) GDPR, legitimate
+      interests). Your wallet address is a public blockchain identifier: while
+      we store it as personal data linked to your account, the address itself is
+      visible to anyone on the public blockchain. We retain the link between
+      your account and your wallet address for the duration of your account (see
+      Section 7.1); the on-chain record is permanent as described above. You are
+      first shown this notice at the point your wallet is connected, where the
+      wallet connection screen links to this Privacy Policy.
     </p>
 
     <h3>2.4 Information We Will Never Collect</h3>
