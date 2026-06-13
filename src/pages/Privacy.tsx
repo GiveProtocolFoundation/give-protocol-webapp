@@ -248,6 +248,16 @@ const SectionHowWeShare: React.FC = () => (
       Canada and the safeguards that apply to it are described in Section 9.2.
     </p>
     <p>
+      <strong>Transactional email delivery (Resend).</strong> Outbound platform
+      emails &mdash; including donation receipts, charity claim and
+      volunteer-hours notifications, and wallet-designation confirmations
+      &mdash; are delivered through Resend, Inc. (United States). Resend
+      receives the recipient&apos;s email address and name and any personal data
+      contained in the message body, solely to deliver the email on our behalf.
+      This processing is governed by a Data Processing Agreement with Resend;
+      the international-transfer mechanism is set out in Section 9.2.
+    </p>
+    <p>
       Other named processors &mdash; including our error-monitoring provider
       (Sentry) and, where active, analytics (Google Analytics 4) &mdash; are
       described, together with the international-transfer safeguards that apply
@@ -516,6 +526,14 @@ const SectionInternationalTransfers: React.FC = () => (
         country and is covered by SCCs. Replay capture and performance tracing
         have been disabled, and email identifiers are stripped from Sentry user
         context.
+      </li>
+      <li>
+        <strong>Transactional email delivery (Resend)</strong>: recipient email
+        addresses, names, and message content are transmitted to Resend, Inc. in
+        the United States to deliver platform emails. This transfer is covered
+        by the Standard Contractual Clauses incorporated into our Data
+        Processing Agreement with Resend (Art. 46(2)(c) GDPR), and applies only
+        to users who receive a transactional email from us.
       </li>
       <li>
         <strong>Analytics (Google Analytics 4, if active)</strong>: where we
