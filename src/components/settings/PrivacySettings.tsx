@@ -310,32 +310,28 @@ export const PrivacySettings: React.FC = () => {
 
         {/* Active erasure request banner */}
         {erasureRequestId !== null && erasureStep === "idle" && (
-          <div className="rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950 dark:border-amber-800 p-4 mb-4">
-            <div className="flex items-start justify-between gap-3">
-              <div className="flex items-start gap-2">
-                <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
-                <div>
-                  <p className="text-sm font-medium text-amber-900 dark:text-amber-100">
-                    Account deletion pending
-                  </p>
-                  <p className="text-sm text-amber-700 dark:text-amber-300 mt-0.5">
-                    Your account is scheduled for deletion on{" "}
-                    <strong>{formattedDeletionDate}</strong>. You can cancel
-                    this request before that date.
-                  </p>
-                </div>
-              </div>
-              <Button
-                variant="secondary"
-                size="sm"
-                onClick={handleCancelErasure}
-                disabled={isCancellingErasure}
-                className="flex items-center gap-1 text-amber-800 border-amber-300 hover:bg-amber-100 shrink-0"
-              >
-                <X className="h-3 w-3" />
-                {isCancellingErasure ? "Cancelling…" : "Cancel Deletion"}
-              </Button>
+          <div className="rounded-lg border border-amber-200 bg-amber-50 dark:bg-amber-950 dark:border-amber-800 p-4 mb-4 flex items-start gap-2">
+            <AlertCircle className="h-5 w-5 text-amber-500 mt-0.5 flex-shrink-0" />
+            <div className="flex-1">
+              <p className="text-sm font-medium text-amber-900 dark:text-amber-100">
+                Account deletion pending
+              </p>
+              <p className="text-sm text-amber-700 dark:text-amber-300 mt-0.5">
+                Your account is scheduled for deletion on{" "}
+                <strong>{formattedDeletionDate}</strong>. You can cancel this
+                request before that date.
+              </p>
             </div>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleCancelErasure}
+              disabled={isCancellingErasure}
+              className="flex items-center gap-1 text-amber-800 border-amber-300 hover:bg-amber-100 shrink-0"
+            >
+              <X className="h-3 w-3" />
+              {isCancellingErasure ? "Cancelling…" : "Cancel Deletion"}
+            </Button>
           </div>
         )}
 
@@ -356,51 +352,49 @@ export const PrivacySettings: React.FC = () => {
           <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950 p-5 space-y-4">
             <div className="flex items-start gap-3">
               <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-              <div>
-                <p className="text-sm font-semibold text-red-900 dark:text-red-100">
-                  What will be permanently deleted
-                </p>
-                <ul className="mt-2 text-sm text-red-700 dark:text-red-300 space-y-1 list-disc list-inside">
-                  <li>Your profile, preferences, and contact information</li>
-                  <li>Wallet address to identity mapping</li>
-                  <li>Volunteer application PII (name, email, phone)</li>
-                  <li>Volunteer hour history</li>
-                  <li>Your Give Protocol account and login access</li>
-                </ul>
-                <p className="mt-3 text-sm font-semibold text-red-900 dark:text-red-100">
-                  What will be retained
-                </p>
-                <ul className="mt-2 text-sm text-red-700 dark:text-red-300 space-y-1 list-disc list-inside">
-                  <li>
-                    Fiat donation records (anonymized — your name and email
-                    removed; transaction amounts and payment references retained
-                    for financial and tax compliance)
-                  </li>
-                  <li>
-                    Volunteer application records (anonymized — charity
-                    operational records)
-                  </li>
-                  <li>
-                    Volunteer verification records (blockchain audit metadata
-                    only — personal link severed)
-                  </li>
-                  <li>Consent records (required by law)</li>
-                </ul>
-                <p className="mt-3 text-xs text-red-700 dark:text-red-300 italic">
-                  Fiat donation transaction amounts and payment references will
-                  be anonymized (your name and email removed) and retained for
-                  up to 7 years for financial and tax compliance obligations
-                  under applicable law (GDPR Art. 17(2)/(3)(b)).
-                </p>
-                {/* Warn if user is charity authorized signer */}
-                <div className="mt-3 p-3 bg-amber-50 dark:bg-amber-950 rounded border border-amber-200 dark:border-amber-800">
-                  <p className="text-xs text-amber-800 dark:text-amber-200 font-medium">
-                    If you are an authorized signer for a charity, your signer
-                    information will be anonymized. The charity profile will
-                    remain active but will need a new authorized signer.
-                  </p>
-                </div>
-              </div>
+              <p className="text-sm font-semibold text-red-900 dark:text-red-100">
+                What will be permanently deleted
+              </p>
+            </div>
+            <ul className="pl-8 text-sm text-red-700 dark:text-red-300 space-y-1 list-disc list-inside">
+              <li>Your profile, preferences, and contact information</li>
+              <li>Wallet address to identity mapping</li>
+              <li>Volunteer application PII (name, email, phone)</li>
+              <li>Volunteer hour history</li>
+              <li>Your Give Protocol account and login access</li>
+            </ul>
+            <p className="pl-8 text-sm font-semibold text-red-900 dark:text-red-100">
+              What will be retained
+            </p>
+            <ul className="pl-8 text-sm text-red-700 dark:text-red-300 space-y-1 list-disc list-inside">
+              <li>
+                Fiat donation records (anonymized — your name and email removed;
+                transaction amounts and payment references retained for
+                financial and tax compliance)
+              </li>
+              <li>
+                Volunteer application records (anonymized — charity operational
+                records)
+              </li>
+              <li>
+                Volunteer verification records (blockchain audit metadata only —
+                personal link severed)
+              </li>
+              <li>Consent records (required by law)</li>
+            </ul>
+            <p className="pl-8 text-xs text-red-700 dark:text-red-300 italic">
+              Fiat donation transaction amounts and payment references will be
+              anonymized (your name and email removed) and retained for up to 7
+              years for financial and tax compliance obligations under
+              applicable law (GDPR Art. 17(2)/(3)(b)).
+            </p>
+            {/* Warn if user is charity authorized signer */}
+            <div className="ml-8 p-3 bg-amber-50 dark:bg-amber-950 rounded border border-amber-200 dark:border-amber-800">
+              <p className="text-xs text-amber-800 dark:text-amber-200 font-medium">
+                If you are an authorized signer for a charity, your signer
+                information will be anonymized. The charity profile will remain
+                active but will need a new authorized signer.
+              </p>
             </div>
             <div className="flex gap-3">
               <Button
@@ -457,30 +451,28 @@ export const PrivacySettings: React.FC = () => {
           <div className="rounded-lg border border-red-200 dark:border-red-800 bg-red-50 dark:bg-red-950 p-5 space-y-4">
             <div className="flex items-start gap-3">
               <Trash2 className="h-5 w-5 text-red-500 mt-0.5 flex-shrink-0" />
-              <div className="flex-1">
-                <p className="text-sm font-semibold text-red-900 dark:text-red-100">
-                  Confirm account deletion
-                </p>
-                <p className="mt-1 text-sm text-red-700 dark:text-red-300">
-                  A 30-day cooling-off period applies. Your account will not be
-                  deleted immediately and you may cancel during this period.
-                </p>
-                <p className="mt-3 text-sm font-medium text-red-900 dark:text-red-100">
-                  Type <strong>DELETE</strong> to confirm:
-                </p>
-                <input
-                  type="text"
-                  value={confirmText}
-                  onChange={handleConfirmTextChange}
-                  placeholder="Type DELETE"
-                  disabled={erasureStep === "submitting"}
-                  className="mt-2 w-full max-w-xs px-3 py-2 text-sm border border-red-300 rounded-lg
-                             bg-white dark:bg-gray-800 text-gray-900 dark:text-white
-                             focus:outline-none focus:ring-2 focus:ring-red-400
-                             disabled:opacity-50"
-                />
-              </div>
+              <p className="text-sm font-semibold text-red-900 dark:text-red-100">
+                Confirm account deletion
+              </p>
             </div>
+            <p className="pl-8 text-sm text-red-700 dark:text-red-300">
+              A 30-day cooling-off period applies. Your account will not be
+              deleted immediately and you may cancel during this period.
+            </p>
+            <p className="pl-8 text-sm font-medium text-red-900 dark:text-red-100">
+              Type <strong>DELETE</strong> to confirm:
+            </p>
+            <input
+              type="text"
+              value={confirmText}
+              onChange={handleConfirmTextChange}
+              placeholder="Type DELETE"
+              disabled={erasureStep === "submitting"}
+              className="ml-8 w-full max-w-xs px-3 py-2 text-sm border border-red-300 rounded-lg
+                         bg-white dark:bg-gray-800 text-gray-900 dark:text-white
+                         focus:outline-none focus:ring-2 focus:ring-red-400
+                         disabled:opacity-50"
+            />
             <div className="flex gap-3">
               <Button
                 onClick={handleSubmitErasure}
