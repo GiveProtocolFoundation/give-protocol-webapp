@@ -4,6 +4,7 @@ import {
   getAdminAuditLog,
   insertAuditEntry,
   logRead,
+  _resetDedupWindow,
 } from "./adminAuditService";
 
 describe("adminAuditService", () => {
@@ -248,105 +249,166 @@ describe("adminAuditService", () => {
   });
 
   describe("logRead", () => {
-    it("should call insert_admin_audit_read_entry with entity_id for single-entity view", async () => {
-      (
-        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
-      ).mockResolvedValue({
-        data: "read-audit-id",
-        error: null,
-      });
-
-      const auditId = await logRead("user", "user-123", {
-        source: "admin_get_donor_detail",
-      });
-
-      expect(supabase.rpc).toHaveBeenCalledWith(
-        "insert_admin_audit_read_entry",
-        {
-          p_entity_type: "user",
-          p_entity_id: "user-123",
-          p_context: { source: "admin_get_donor_detail" },
-        },
-      );
-      expect(auditId).toBe("read-audit-id");
+    beforeEach(() => {
+      _resetDedupWindow();
     });
 
-    it("should call with null entity_id for list views", async () => {
+    it("should call insert_admin_audit_read_entry RPC with view_pii_list for null entityId", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
-      ).mockResolvedValue({
-        data: "list-audit-id",
-        error: null,
-      });
+      ).mockResolvedValue({ data: "read-audit-1", error: null });
 
-      const auditId = await logRead("user", null, {
-        source: "admin_list_donors",
+      const result = await logRead("user", null, {
         page: 1,
         limit: 50,
-        result_count: 25,
+        filterKeys: ["status"],
       });
 
       expect(supabase.rpc).toHaveBeenCalledWith(
         "insert_admin_audit_read_entry",
         {
+          p_action_type: "view_pii_list",
           p_entity_type: "user",
           p_entity_id: null,
           p_context: {
-            source: "admin_list_donors",
             page: 1,
             limit: 50,
-            result_count: 25,
+            filter_keys: ["status"],
+            result_count: undefined,
+            source: undefined,
           },
         },
       );
-      expect(auditId).toBe("list-audit-id");
+      expect(result).toBe("read-audit-1");
     });
 
-    it("should pass null context when not provided", async () => {
+    it("should call RPC with view_pii for concrete entityId", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
-      ).mockResolvedValue({
-        data: "audit-id",
-        error: null,
-      });
+      ).mockResolvedValue({ data: "read-audit-2", error: null });
 
-      await logRead("charity");
+      const result = await logRead("charity", "charity-123");
 
       expect(supabase.rpc).toHaveBeenCalledWith(
         "insert_admin_audit_read_entry",
         {
+          p_action_type: "view_pii",
           p_entity_type: "charity",
-          p_entity_id: null,
+          p_entity_id: "charity-123",
+          p_context: null,
+        },
+      );
+      expect(result).toBe("read-audit-2");
+    });
+
+    it("should deduplicate identical calls within 1s window", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({ data: "read-audit-3", error: null });
+
+      const first = await logRead("user", null, { page: 1, limit: 50 });
+      const second = await logRead("user", null, { page: 1, limit: 50 });
+
+      expect(first).toBe("read-audit-3");
+      expect(second).toBeNull();
+      // RPC should only be called once (the second is deduped)
+      expect(supabase.rpc).toHaveBeenCalledTimes(1);
+    });
+
+    it("should allow calls with different parameters", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({ data: "read-audit-4", error: null });
+
+      const first = await logRead("user", null, { page: 1, limit: 50 });
+      const second = await logRead("user", null, { page: 2, limit: 50 });
+
+      expect(first).toBe("read-audit-4");
+      expect(second).toBe("read-audit-4");
+      expect(supabase.rpc).toHaveBeenCalledTimes(2);
+    });
+
+    it("should not include filter values in context, only keys", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({ data: "read-audit-5", error: null });
+
+      await logRead("donation", null, {
+        page: 1,
+        limit: 50,
+        filterKeys: ["paymentMethod", "flagged"],
+      });
+
+      const rpcCall = (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mock.calls[0];
+      const context = rpcCall[1].p_context;
+
+      // Only filter keys, no filter values
+      expect(context.filter_keys).toEqual(["paymentMethod", "flagged"]);
+      expect(context).not.toHaveProperty("paymentMethod");
+      expect(context).not.toHaveProperty("flagged");
+    });
+
+    it("should return null and not throw on RPC error", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({
+        data: null,
+        error: { message: "Access denied" },
+      });
+
+      const result = await logRead("user", "user-1");
+
+      expect(result).toBeNull();
+    });
+
+    it("should return null and not throw on exception", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockRejectedValue(new Error("Network failure"));
+
+      const result = await logRead("charity", null);
+
+      expect(result).toBeNull();
+    });
+
+    it("should pass null context when no context provided", async () => {
+      (
+        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
+      ).mockResolvedValue({ data: "read-audit-6", error: null });
+
+      await logRead("volunteer", "vol-1");
+
+      expect(supabase.rpc).toHaveBeenCalledWith(
+        "insert_admin_audit_read_entry",
+        {
+          p_action_type: "view_pii",
+          p_entity_type: "volunteer",
+          p_entity_id: "vol-1",
           p_context: null,
         },
       );
     });
 
-    it("should return null on RPC error", async () => {
+    it("should sort filter keys for stable dedup", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
-      ).mockResolvedValue({
-        data: null,
-        error: { message: "Access denied: admin role required" },
+      ).mockResolvedValue({ data: "read-audit-7", error: null });
+
+      const first = await logRead("user", null, {
+        page: 1,
+        filterKeys: ["status", "authMethod"],
+      });
+      const second = await logRead("user", null, {
+        page: 1,
+        filterKeys: ["authMethod", "status"],
       });
 
-      const auditId = await logRead("user", "user-1", {
-        source: "admin_get_donor_detail",
-      });
-
-      expect(auditId).toBeNull();
-    });
-
-    it("should return null on thrown exception", async () => {
-      (
-        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
-      ).mockRejectedValue(new Error("Network error"));
-
-      const auditId = await logRead("volunteer", null, {
-        source: "admin_list_volunteers",
-      });
-
-      expect(auditId).toBeNull();
+      expect(first).toBe("read-audit-7");
+      // Same keys in different order should dedup
+      expect(second).toBeNull();
+      expect(supabase.rpc).toHaveBeenCalledTimes(1);
     });
   });
 });

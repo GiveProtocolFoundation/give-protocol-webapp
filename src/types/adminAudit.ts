@@ -27,19 +27,6 @@ export type AdminAuditEntityType =
   | "volunteer"
   | "content";
 
-/** Allowed context keys for PII read audit entries */
-export type AdminAuditReadContextKey =
-  | "page"
-  | "limit"
-  | "filter_keys"
-  | "result_count"
-  | "source";
-
-/** Context object for PII read audit entries (allowlisted keys only) */
-export type AdminAuditReadContext = Partial<
-  Record<AdminAuditReadContextKey, unknown>
->;
-
 /** A single entry in the admin_audit_log table */
 export interface AdminAuditLogEntry {
   id: string;
