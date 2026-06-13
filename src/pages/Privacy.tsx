@@ -226,9 +226,32 @@ const SectionHowWeShare: React.FC = () => (
 
     <h3>5.1 With Charitable Organizations</h3>
     <p>
-      When you make a donation or volunteer for an organization, we share
-      relevant information to facilitate the transaction or volunteer
-      opportunity.
+      When you make a <strong>fiat (card) donation</strong>, we share your{" "}
+      <strong>name</strong> with the recipient charitable organization so that
+      it can acknowledge your gift, issue any applicable tax receipt, and
+      maintain its own donation records. Your name appears in the charity&apos;s
+      administrative portal transaction history. We do <strong>not</strong>{" "}
+      share your email address, postal address, or payment-card details with the
+      recipient charity.
+    </p>
+    <p>
+      When you make a <strong>cryptocurrency donation</strong>, the transaction
+      details (wallet address, amount, and timestamp) are recorded on the public
+      blockchain and are inherently visible to the recipient charity and anyone
+      else; we do not additionally share your name or contact details. See
+      Section 5.4 (Blockchain Transparency).
+    </p>
+    <p>
+      When you <strong>volunteer</strong> for an organization, we share the
+      information necessary to facilitate the volunteer opportunity (such as your
+      name and the details you submit in your application) with that
+      organization.
+    </p>
+    <p>
+      The legal basis for this sharing is{" "}
+      <strong>Article 6(1)(b) (performance of a contract)</strong>, as the
+      donation or volunteer engagement is a transaction between you and the
+      recipient organization.
     </p>
 
     <h3>5.2 With Service Providers</h3>
