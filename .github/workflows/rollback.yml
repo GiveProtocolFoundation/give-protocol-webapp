@@ -1,203 +1,112 @@
-# Rollback Workflow — Redeploy from a specific commit SHA
-#
-# Purpose: IRP-001 §7.1 one-command rollback for incident containment.
-# Triggered manually via GitHub Actions UI or `gh workflow run`.
-#
-# Permissions: restricted to repository collaborators with write access.
-# By policy, only IC (CTO) and Engineering Lead may trigger this workflow.
-#
-# Usage:
-#   gh workflow run rollback.yml \
-#     -f commit_sha=abc1234 \
-#     -f environment=production \
-#     -f reason="IRP activation — Class A payment-page tampering"
-#
-# The workflow checks out the specified commit, runs the standard build
-# pipeline, and triggers a Vercel deployment — no out-of-band patches.
-
 name: Rollback Deploy
 
 on:
   workflow_dispatch:
     inputs:
       commit_sha:
-        description: 'Full commit SHA to roll back to (must exist in repo history)'
+        description: "Commit SHA to roll back to (full 40-char or 7-char prefix)"
         required: true
         type: string
       environment:
-        description: 'Target environment'
+        description: "Target environment"
         required: true
         type: choice
         options:
           - production
           - staging
-        default: staging
+        default: production
       reason:
-        description: 'Reason for rollback (logged in deploy metadata)'
+        description: "Reason for rollback (logged for audit trail)"
         required: true
         type: string
-
-# Ensure only one rollback runs at a time per environment
-concurrency:
-  group: rollback-${{ inputs.environment }}
-  cancel-in-progress: false
 
 permissions:
   contents: read
   deployments: write
 
 jobs:
-  validate:
-    name: Validate commit SHA
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout repository
-        uses: actions/checkout@v5
-        with:
-          fetch-depth: 0
-
-      - name: Validate SHA exists in repo
-        run: |
-          echo "::group::Validating commit ${{ inputs.commit_sha }}"
-          if ! git cat-file -t "${{ inputs.commit_sha }}" 2>/dev/null; then
-            echo "::error::Commit SHA ${{ inputs.commit_sha }} not found in repository"
-            exit 1
-          fi
-
-          COMMIT_TYPE=$(git cat-file -t "${{ inputs.commit_sha }}")
-          if [ "$COMMIT_TYPE" != "commit" ]; then
-            echo "::error::${{ inputs.commit_sha }} is a $COMMIT_TYPE, not a commit"
-            exit 1
-          fi
-
-          echo "Commit found:"
-          git log --oneline -1 "${{ inputs.commit_sha }}"
-          echo ""
-          echo "Commit date: $(git show -s --format='%ci' "${{ inputs.commit_sha }}")"
-          echo "Author: $(git show -s --format='%an <%ae>' "${{ inputs.commit_sha }}")"
-          echo "::endgroup::"
-
-      - name: Log rollback metadata
-        run: |
-          echo "## Rollback Summary" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Target SHA** | \`${{ inputs.commit_sha }}\` |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Environment** | ${{ inputs.environment }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Reason** | ${{ inputs.reason }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Triggered by** | ${{ github.actor }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Timestamp** | $(date -u +'%Y-%m-%dT%H:%M:%SZ') |" >> "$GITHUB_STEP_SUMMARY"
-
-  build:
-    name: Build from target commit
-    needs: validate
-    runs-on: ubuntu-latest
-    steps:
-      - name: Checkout target commit
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.commit_sha }}
-
-      - name: Setup Node.js
-        uses: actions/setup-node@v5
-        with:
-          node-version: '20'
-          cache: 'npm'
-
-      - name: Install dependencies
-        run: npm ci
-        env:
-          CYPRESS_INSTALL_BINARY: 0
-
-      - name: Build application
-        run: npm run build:spa
-        env:
-          NODE_ENV: production
-
-      - name: Upload build artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: rollback-build-${{ inputs.commit_sha }}
-          path: dist/
-          retention-days: 7
-
-  deploy:
-    name: Deploy to ${{ inputs.environment }}
-    needs: build
+  rollback:
+    name: Rollback to ${{ inputs.commit_sha }}
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - name: Checkout target commit
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.commit_sha }}
-
-      - name: Download build artifact
-        uses: actions/download-artifact@v4
-        with:
-          name: rollback-build-${{ inputs.commit_sha }}
-          path: dist/
-
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
-
-      - name: Deploy to Vercel
+      - name: Validate inputs
         run: |
-          DEPLOY_ARGS="--yes --token=${{ secrets.VERCEL_TOKEN }}"
-
-          if [ "${{ inputs.environment }}" = "production" ]; then
-            DEPLOY_ARGS="$DEPLOY_ARGS --prod"
+          SHA="${{ inputs.commit_sha }}"
+          if [[ ! "$SHA" =~ ^[0-9a-f]{7,40}$ ]]; then
+            echo "::error::Invalid commit SHA: $SHA"
+            exit 1
           fi
 
-          # Set rollback metadata as environment variables
-          export ROLLBACK_SHA="${{ inputs.commit_sha }}"
-          export ROLLBACK_REASON="${{ inputs.reason }}"
-          export ROLLBACK_ACTOR="${{ github.actor }}"
-          export ROLLBACK_TIMESTAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+      - name: Checkout target commit
+        uses: actions/checkout@v4
+        with:
+          ref: ${{ inputs.commit_sha }}
+          fetch-depth: 0
 
-          DEPLOY_URL=$(vercel deploy $DEPLOY_ARGS \
-            --scope=${{ secrets.VERCEL_ORG_ID }} \
-            --meta rollbackSha="${{ inputs.commit_sha }}" \
-            --meta rollbackReason="${{ inputs.reason }}" \
-            --meta rollbackActor="${{ github.actor }}" \
-            2>&1 | tail -1)
+      - name: Verify commit and log audit entry
+        run: |
+          SHA=$(git rev-parse HEAD)
+          echo "RESOLVED_SHA=$SHA" >> $GITHUB_ENV
+          echo "=== ROLLBACK AUDIT ==="
+          echo "Timestamp:    $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Target SHA:   $SHA"
+          echo "Environment:  ${{ inputs.environment }}"
+          echo "Reason:       ${{ inputs.reason }}"
+          echo "Run ID:       ${{ github.run_id }}"
+          git log -1 --format="Commit:       %H%nMessage:      %s%nAuthor:       %an <%ae>%nDate:         %ai" HEAD
 
-          echo "DEPLOY_URL=$DEPLOY_URL" >> "$GITHUB_ENV"
-          echo "Deployed to: $DEPLOY_URL"
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: ".nvmrc"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build from target commit
+        run: npm run build
         env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
+          NODE_ENV: production
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: |
+          if [[ "${{ inputs.environment }}" == "production" ]]; then
+            netlify deploy --prod --dir=dist \
+              --message "ROLLBACK to ${{ env.RESOLVED_SHA }} — ${{ inputs.reason }}"
+          else
+            netlify deploy --dir=dist \
+              --message "ROLLBACK (staging) to ${{ env.RESOLVED_SHA }} — ${{ inputs.reason }}"
+          fi
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
 
       - name: Verify deployment
         run: |
-          echo "Waiting 30s for deployment to propagate..."
           sleep 30
-
-          TARGET_URL="${{ inputs.environment == 'production' && 'https://giveprotocol.io' || env.DEPLOY_URL }}"
-
-          echo "Verifying deployment at: $TARGET_URL"
-          HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$TARGET_URL" || echo "000")
-
-          if [ "$HTTP_STATUS" = "200" ]; then
-            echo "Deployment verified — HTTP $HTTP_STATUS"
+          SITE_URL="${{ vars.SITE_URL }}"
+          if [[ -n "$SITE_URL" ]]; then
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL")
+            echo "Site responded with HTTP $HTTP_STATUS"
+            [[ "$HTTP_STATUS" == "200" ]] || echo "::warning::Site returned $HTTP_STATUS — verify manually"
           else
-            echo "::warning::Deployment returned HTTP $HTTP_STATUS — manual verification recommended"
+            echo "SITE_URL not configured — skipping automated check"
           fi
 
-      - name: Post deployment summary
-        if: always()
+      - name: Job summary
         run: |
-          echo "## Deployment Result" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "| Field | Value |" >> "$GITHUB_STEP_SUMMARY"
-          echo "|-------|-------|" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Deploy URL** | ${{ env.DEPLOY_URL }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Status** | ${{ job.status }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "| **Environment** | ${{ inputs.environment }} |" >> "$GITHUB_STEP_SUMMARY"
-          echo "" >> "$GITHUB_STEP_SUMMARY"
-          echo "### Next Steps (IRP-001)" >> "$GITHUB_STEP_SUMMARY"
-          echo "1. Verify the served page from an independent network" >> "$GITHUB_STEP_SUMMARY"
-          echo "2. Confirm CSP headers are intact" >> "$GITHUB_STEP_SUMMARY"
-          echo "3. For Class A: verify HelcimPay.js loads cleanly" >> "$GITHUB_STEP_SUMMARY"
-          echo "4. Monitor for re-occurrence for 72h at P0/P1" >> "$GITHUB_STEP_SUMMARY"
+          {
+            echo "### Rollback complete"
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| SHA | \`${{ env.RESOLVED_SHA }}\` |"
+            echo "| Environment | ${{ inputs.environment }} |"
+            echo "| Triggered by | ${{ github.actor }} |"
+            echo "| Reason | ${{ inputs.reason }} |"
+          } >> $GITHUB_STEP_SUMMARY
