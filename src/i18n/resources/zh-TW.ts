@@ -328,8 +328,7 @@ export default {
     "volunteer.privacyNoticeTitle": "隱私聲明：",
     "volunteer.doNotAccept": "不接受",
     "volunteer.acceptAndContinue": "接受並繼續",
-    "volunteer.validation.essentialRequired":
-      "您必須確認申請處理確認才能繼續",
+    "volunteer.validation.essentialRequired": "您必須確認申請處理確認才能繼續",
     "volunteer.validation.agePrivacyRequired": "您必須確認年齡並已閱讀隱私聲明",
 
     // Age affirmation gate (shared across all surfaces — GIV-453)

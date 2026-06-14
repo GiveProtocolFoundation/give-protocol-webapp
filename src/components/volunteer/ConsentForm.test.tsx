@@ -1,5 +1,11 @@
 import { describe, it, expect, jest, beforeEach } from "@jest/globals";
-import { render, screen, fireEvent, cleanup, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  cleanup,
+  act,
+} from "@testing-library/react";
 import { ConsentForm } from "./ConsentForm";
 
 function getCheckbox(id: string): HTMLInputElement {
