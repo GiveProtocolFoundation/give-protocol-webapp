@@ -1,148 +1,85 @@
 #!/usr/bin/env bash
+# bin/rollback — Roll back the webapp to an arbitrary commit SHA
+# Usage: bin/rollback <commit-sha> [environment] [reason]
 #
-# bin/rollback — One-command rollback for Give Protocol webapp
-#
-# Triggers the rollback.yml GitHub Actions workflow to redeploy
-# a specific commit SHA through the standard build pipeline.
-#
-# IRP-001 §7.1 — "roll back the deployed bundle to the last-known-good commit"
-#
-# Prerequisites:
-#   - GitHub CLI (gh) installed and authenticated
-#   - Repository write access (IC or Engineering Lead)
-#   - VERCEL_TOKEN, VERCEL_ORG_ID, VERCEL_PROJECT_ID set as repo secrets
-#
-# Usage:
-#   bin/rollback <commit-sha> [environment] [reason]
-#
-# Examples:
-#   bin/rollback abc1234def5678
-#   bin/rollback abc1234def5678 production "Class A — payment-page tampering"
-#   bin/rollback abc1234def5678 staging "Pre-drill validation"
-#
-# Alternative (direct gh CLI):
-#   gh workflow run rollback.yml \
-#     -f commit_sha=abc1234 \
-#     -f environment=production \
-#     -f reason="IRP activation"
-
+# Permissions: only IC and Engineering Lead may trigger production rollbacks.
 set -euo pipefail
 
-REPO="GiveProtocolFoundation/give-protocol-webapp"
-WORKFLOW="rollback.yml"
+SHA="${1:-}"
+ENVIRONMENT="${2:-production}"
+REASON="${3:-}"
 
-# --- Argument parsing ---
+REPO="GiveProtocolFoundation/give-protocol-webapp"  # update to your repo
 
-COMMIT_SHA="${1:-}"
-ENVIRONMENT="${2:-staging}"
-REASON="${3:-Manual rollback via bin/rollback}"
-
-if [ -z "$COMMIT_SHA" ]; then
+# ── Validation ────────────────────────────────────────────────────────────────
+if [[ -z "$SHA" ]]; then
   echo "Usage: bin/rollback <commit-sha> [environment] [reason]"
   echo ""
-  echo "Arguments:"
-  echo "  commit-sha    Full or short commit SHA to roll back to (required)"
-  echo "  environment   'production' or 'staging' (default: staging)"
-  echo "  reason        Reason for rollback (default: 'Manual rollback via bin/rollback')"
-  echo ""
-  echo "Examples:"
-  echo "  bin/rollback abc1234"
-  echo "  bin/rollback abc1234 production 'Class A incident'"
+  echo "  environment  production (default) | staging"
+  echo "  reason       Description for audit trail (required for production)"
   exit 1
 fi
 
-# --- Validate environment ---
-
-if [ "$ENVIRONMENT" != "production" ] && [ "$ENVIRONMENT" != "staging" ]; then
-  echo "Error: environment must be 'production' or 'staging', got '$ENVIRONMENT'"
+if [[ ! "$SHA" =~ ^[0-9a-f]{7,40}$ ]]; then
+  echo "Error: '$SHA' is not a valid commit SHA." >&2
   exit 1
 fi
 
-# --- Check prerequisites ---
-
-if ! command -v gh &>/dev/null; then
-  echo "Error: GitHub CLI (gh) is not installed."
-  echo "Install: https://cli.github.com/"
+if [[ "$ENVIRONMENT" != "production" && "$ENVIRONMENT" != "staging" ]]; then
+  echo "Error: environment must be 'production' or 'staging'" >&2
   exit 1
 fi
 
-if ! gh auth status &>/dev/null; then
-  echo "Error: GitHub CLI is not authenticated."
-  echo "Run: gh auth login"
+# ── Resolve and display commit info ──────────────────────────────────────────
+echo "Resolving $SHA in $REPO..."
+COMMIT_JSON=$(gh api "repos/$REPO/commits/$SHA" 2>/dev/null) || {
+  echo "Error: commit '$SHA' not found in $REPO." >&2
   exit 1
-fi
+}
 
-# --- Validate commit exists ---
-
-echo "Validating commit $COMMIT_SHA exists in $REPO..."
-
-if ! gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.sha' &>/dev/null; then
-  echo "Error: Commit $COMMIT_SHA not found in $REPO"
-  echo ""
-  echo "Recent commits on main:"
-  gh api "repos/$REPO/commits?per_page=5" --jq '.[] | "  " + .sha[:12] + " " + (.commit.message | split("\n")[0])'
-  exit 1
-fi
-
-FULL_SHA=$(gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.sha')
-COMMIT_MSG=$(gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.commit.message | split("\n")[0]')
-COMMIT_DATE=$(gh api "repos/$REPO/commits/$COMMIT_SHA" --jq '.commit.committer.date')
-
-# --- Confirm ---
+FULL_SHA=$(echo "$COMMIT_JSON" | jq -r .sha)
+COMMIT_MSG=$(echo "$COMMIT_JSON" | jq -r .commit.message | head -1)
+COMMIT_AUTHOR=$(echo "$COMMIT_JSON" | jq -r .commit.author.name)
+COMMIT_DATE=$(echo "$COMMIT_JSON" | jq -r .commit.author.date)
 
 echo ""
-echo "=== Rollback Summary ==="
-echo "  Commit:      $FULL_SHA"
-echo "  Message:     $COMMIT_MSG"
-echo "  Date:        $COMMIT_DATE"
-echo "  Environment: $ENVIRONMENT"
-echo "  Reason:      $REASON"
-echo "  Triggered by: $(gh api user --jq '.login' 2>/dev/null || echo 'unknown')"
-echo "========================"
+echo "Target commit:"
+echo "  SHA:     $FULL_SHA"
+echo "  Message: $COMMIT_MSG"
+echo "  Author:  $COMMIT_AUTHOR"
+echo "  Date:    $COMMIT_DATE"
 echo ""
 
-if [ "$ENVIRONMENT" = "production" ]; then
-  echo "WARNING: You are about to rollback PRODUCTION."
-  read -rp "Type 'yes' to confirm: " CONFIRM
-  if [ "$CONFIRM" != "yes" ]; then
-    echo "Aborted."
-    exit 1
+# ── Production confirmation ───────────────────────────────────────────────────
+if [[ "$ENVIRONMENT" == "production" ]]; then
+  if [[ -z "$REASON" ]]; then
+    read -rp "Rollback reason (required for production): " REASON
+    [[ -z "$REASON" ]] && { echo "Aborted: reason required."; exit 1; }
   fi
+  echo "WARNING: This will redeploy PRODUCTION from the commit above."
+  read -rp "Type 'yes' to continue: " CONFIRM
+  [[ "$CONFIRM" != "yes" ]] && { echo "Aborted."; exit 0; }
 fi
 
-# --- Trigger workflow ---
-
-echo "Triggering rollback workflow..."
-
-gh workflow run "$WORKFLOW" \
+# ── Trigger rollback workflow ─────────────────────────────────────────────────
+echo ""
+echo "Triggering rollback workflow on $REPO..."
+gh workflow run rollback.yml \
   --repo "$REPO" \
-  -f "commit_sha=$FULL_SHA" \
-  -f "environment=$ENVIRONMENT" \
-  -f "reason=$REASON"
+  -f commit_sha="$FULL_SHA" \
+  -f environment="$ENVIRONMENT" \
+  -f reason="${REASON:-Triggered via bin/rollback}"
 
-echo "Workflow triggered. Waiting for run to start..."
-sleep 5
+sleep 3
+RUN_URL=$(gh run list --repo "$REPO" --workflow=rollback.yml --limit=1 \
+  --json url --jq ".[0].url" 2>/dev/null || true)
 
-# --- Show run status ---
+echo ""
+echo "Rollback workflow triggered."
+[[ -n "$RUN_URL" ]] && echo "Monitor: $RUN_URL"
 
-RUN_ID=$(gh run list \
-  --repo "$REPO" \
-  --workflow "$WORKFLOW" \
-  --limit 1 \
-  --json databaseId \
-  --jq '.[0].databaseId')
-
-if [ -n "$RUN_ID" ]; then
-  echo ""
-  echo "Run started: https://github.com/$REPO/actions/runs/$RUN_ID"
-  echo ""
-  echo "Watch progress:"
-  echo "  gh run watch $RUN_ID --repo $REPO"
-  echo ""
-  echo "View logs:"
-  echo "  gh run view $RUN_ID --repo $REPO --log"
-else
-  echo ""
-  echo "Run may still be queuing. Check:"
-  echo "  gh run list --repo $REPO --workflow $WORKFLOW --limit 3"
-fi
+echo ""
+echo "Manual Netlify fallback (if workflow is unavailable):"
+echo "  1. Go to app.netlify.com → your site → Deploys"
+echo "  2. Find the deploy for SHA $FULL_SHA"
+echo "  3. Click 'Publish deploy'"
