@@ -29,7 +29,7 @@ describe("ConsentForm", () => {
   }
 
   it("should render consent form with all checkboxes", async () => {
-    await act(async () => {
+    await act(() => {
       renderForm();
     });
     expect(screen.getByText("Volunteer Application Consent")).toBeTruthy();
@@ -108,7 +108,7 @@ describe("ConsentForm", () => {
   });
 
   it("should allow toggling essential processing checkbox", async () => {
-    await act(async () => {
+    await act(() => {
       renderForm();
     });
     const checkbox = getCheckbox("essential-processing");

@@ -176,7 +176,7 @@ describe("VolunteerApplicationForm", () => {
     });
 
     it("renders the consent panel with checkboxes", async () => {
-      await act(async () => {
+      await act(() => {
         render(<VolunteerApplicationForm {...defaultProps} />);
       });
       expect(document.getElementById("essential-processing")).not.toBeNull();
