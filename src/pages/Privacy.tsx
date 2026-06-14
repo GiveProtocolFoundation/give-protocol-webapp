@@ -758,7 +758,7 @@ export const Privacy: React.FC = () => {
   return (
     <StaticPageLayout
       title="GiveProtocol Privacy Policy"
-      effectiveDate="Effective Date: March 11, 2025"
+      effectiveDate="Effective Date: June 13, 2026"
     >
       <SectionIntroduction />
       <SectionInformationWeCollect />
