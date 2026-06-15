@@ -810,6 +810,7 @@ export default {
     "admin.dashboard.title": "Admin Dashboard",
     "admin.dashboard.alerts": "Alerts",
     "admin.dashboard.alertsPending": "{{count}} pending",
+    "admin.dashboard.alertsView": "View",
     "admin.dashboard.recentActivity": "Recent Activity",
     "admin.dashboard.noRecentActivity": "No recent activity.",
     "admin.dashboard.quickActions": "Quick Actions",

@@ -179,27 +179,82 @@ function ActivityItem({
   );
 }
 
-/** Single alert row. */
-function AlertItem({ alert }: { alert: AdminAlert }): React.ReactElement {
+/** Groups alerts by type and returns one summary per group. */
+function groupAlerts(
+  alerts: AdminAlert[],
+): Array<{
+  alertType: string;
+  severity: string;
+  title: string;
+  count: number;
+  latestCreatedAt: string;
+}> {
+  const map = new Map<
+    string,
+    { severity: string; title: string; count: number; latestCreatedAt: string }
+  >();
+  for (const a of alerts) {
+    const existing = map.get(a.alertType);
+    if (existing !== undefined) {
+      existing.count += 1;
+      if (a.createdAt > existing.latestCreatedAt) {
+        existing.latestCreatedAt = a.createdAt;
+      }
+    } else {
+      map.set(a.alertType, {
+        severity: a.severity,
+        title: a.title,
+        count: 1,
+        latestCreatedAt: a.createdAt,
+      });
+    }
+  }
+  return Array.from(map.entries()).map(([alertType, v]) => ({
+    alertType,
+    ...v,
+  }));
+}
+
+/** Summary row for a group of alerts of the same type. */
+function AlertSummaryRow({
+  severity,
+  title,
+  count,
+  latestCreatedAt,
+  onClick,
+}: {
+  severity: string;
+  title: string;
+  count: number;
+  latestCreatedAt: string;
+  onClick: () => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
   return (
-    <div
-      className={`flex items-start gap-3 p-4 mb-3 border-l-4 rounded-lg ${getAlertSeverityClass(alert.severity)}`}
+    <button
+      onClick={onClick}
+      className={`flex items-center justify-between w-full p-4 mb-3 border-l-4 rounded-lg text-left hover:opacity-80 ${getAlertSeverityClass(severity)}`}
     >
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2 mb-1">
-          <span
-            className={`text-xs font-semibold uppercase tracking-wide rounded px-2 py-0.5 ${getAlertBadgeClass(alert.severity)}`}
-          >
-            {alert.severity}
-          </span>
-          <p className="text-sm font-semibold text-gray-800">{alert.title}</p>
-        </div>
-        <p className="text-sm text-gray-600 truncate">{alert.description}</p>
-        <p className="text-xs text-gray-400 mt-1">
-          {formatRelativeTime(alert.createdAt)}
-        </p>
+      <div className="flex items-center gap-3 min-w-0">
+        <span
+          className={`text-xs font-semibold uppercase tracking-wide rounded px-2 py-0.5 shrink-0 ${getAlertBadgeClass(severity)}`}
+        >
+          {severity}
+        </span>
+        <span className="text-sm font-semibold text-gray-800 truncate">
+          {title}
+        </span>
+        <span className="text-sm text-gray-500 shrink-0">
+          ({count})
+        </span>
+        <span className="text-xs text-gray-400 shrink-0">
+          {formatRelativeTime(latestCreatedAt)}
+        </span>
       </div>
-    </div>
+      <span className="text-sm font-medium text-blue-600 shrink-0 ml-4">
+        {t("admin.dashboard.alertsView", "View")} →
+      </span>
+    </button>
   );
 }
 
@@ -308,6 +363,16 @@ const AdminDashboard: React.FC = () => {
     navigate("/admin/platform-news");
   }, [navigate]);
 
+  /** Stable map of alertType → navigation handler for alert summary rows. */
+  const alertNavigators: Record<string, () => void> = React.useMemo(
+    () => ({
+      pending_verification: handleNavigateCharities,
+      expired_validation: handleNavigateCharities,
+      removal_request: handleNavigateCharities,
+    }),
+    [handleNavigateCharities],
+  );
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -346,7 +411,7 @@ const AdminDashboard: React.FC = () => {
         {t("admin.dashboard.title", "Admin Dashboard")}
       </h1>
 
-      {/* Alerts panel */}
+      {/* Alerts panel — grouped summary with links to relevant pages */}
       {alerts.length > 0 && (
         <Card className="p-6">
           <h2 className="text-xl font-semibold text-gray-900 mb-4">
@@ -359,10 +424,14 @@ const AdminDashboard: React.FC = () => {
               )
             </span>
           </h2>
-          {alerts.map((alert) => (
-            <AlertItem
-              key={`${alert.alertType}-${alert.entityId}-${alert.createdAt}`}
-              alert={alert}
+          {groupAlerts(alerts).map((group) => (
+            <AlertSummaryRow
+              key={group.alertType}
+              severity={group.severity}
+              title={group.title}
+              count={group.count}
+              latestCreatedAt={group.latestCreatedAt}
+              onClick={alertNavigators[group.alertType] ?? handleNavigateCharities}
             />
           ))}
         </Card>
