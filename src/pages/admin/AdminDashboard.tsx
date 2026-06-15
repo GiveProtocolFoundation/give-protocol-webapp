@@ -180,9 +180,7 @@ function ActivityItem({
 }
 
 /** Groups alerts by type and returns one summary per group. */
-function groupAlerts(
-  alerts: AdminAlert[],
-): Array<{
+function groupAlerts(alerts: AdminAlert[]): Array<{
   alertType: string;
   severity: string;
   title: string;
@@ -244,9 +242,7 @@ function AlertSummaryRow({
         <span className="text-sm font-semibold text-gray-800 truncate">
           {title}
         </span>
-        <span className="text-sm text-gray-500 shrink-0">
-          ({count})
-        </span>
+        <span className="text-sm text-gray-500 shrink-0">({count})</span>
         <span className="text-xs text-gray-400 shrink-0">
           {formatRelativeTime(latestCreatedAt)}
         </span>
@@ -431,7 +427,9 @@ const AdminDashboard: React.FC = () => {
               title={group.title}
               count={group.count}
               latestCreatedAt={group.latestCreatedAt}
-              onClick={alertNavigators[group.alertType] ?? handleNavigateCharities}
+              onClick={
+                alertNavigators[group.alertType] ?? handleNavigateCharities
+              }
             />
           ))}
         </Card>
