@@ -320,6 +320,20 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "我理解：",
+    "volunteer.understanding.item1":
+      "我的个人信息将被处理，用于评估我的志愿者申请、管理志愿者任务及开展相关活动。此处理是在我的要求下采取步骤并履行任何志愿者安排所必需的（GDPR第6条第1款第(b)项）；不依赖于我的同意。",
+    "volunteer.understanding.item2":
+      "GIVE PROTOCOL可能收集我的各类个人信息，包括身份信息、联系方式、背景信息、可用时间和推荐人。我不应在自由文本字段中填写特殊类别数据（如健康状况、种族或民族出身、宗教或政治信仰、工会成员身份、性生活或性取向方面的信息），因为此类数据不是评估申请所必需的。",
+    "volunteer.understanding.item3":
+      "我的个人信息可能与提供志愿者机会的慈善机构内的授权人员、服务提供商及第三方共享，如隐私声明所述。",
+    "volunteer.understanding.item4":
+      "当服务提供商位于我居住国以外时，我的个人信息可能在适当的保障措施（如标准合同条款）下进行国际传输，如隐私声明所述。这些传输不依赖于我的同意。",
+    "volunteer.understanding.item5":
+      "我对自己的个人信息享有某些权利，这些权利因我所在地而异，包括访问、更正、删除、限制处理、数据可携带以及反对处理的权利。",
+    "volunteer.understanding.item6Before":
+      "我可以反对处理（GDPR第21条）并要求删除我的个人信息（GDPR第17条），方法是联系",
+    "volunteer.understanding.item6After":
+      "。当任何特定处理基于我的同意时，我可以随时撤回该同意，而不影响撤回前所进行处理的合法性。反对或要求删除可能影响机构考虑我的志愿者申请的能力。",
     "volunteer.processingAckTitle": "处理确认",
     "volunteer.processingAckDesc": "请在继续之前查看并确认以下内容：",
     "volunteer.essentialProcessingTitle": "申请处理（需要确认）：",

@@ -341,6 +341,20 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "I understand that:",
+    "volunteer.understanding.item1":
+      "My personal information will be processed to evaluate my volunteer application, manage volunteer assignments, and carry out related activities. This processing is necessary to take steps at my request before, and to perform, any volunteer arrangement (GDPR Art. 6(1)(b)); it does not rely on my consent.",
+    "volunteer.understanding.item2":
+      "GIVE PROTOCOL may collect various categories of my personal information, including identity information, contact details, background information, availability, and references. I should not include special categories of data (such as information about health, racial or ethnic origin, religious or political beliefs, trade-union membership, or sex life or sexual orientation) in free-text fields, as such data is not required to evaluate my application.",
+    "volunteer.understanding.item3":
+      "My personal information may be shared with authorized personnel within the charity organization offering the volunteer opportunity, service providers, and third parties as outlined in the Privacy Notice.",
+    "volunteer.understanding.item4":
+      "Where a service provider is located outside my country of residence, my personal information may be transferred internationally under appropriate safeguards (such as Standard Contractual Clauses) as described in the Privacy Notice. These transfers do not rely on my consent.",
+    "volunteer.understanding.item5":
+      "I have certain rights regarding my personal information, which vary depending on my location, including the rights to access, rectify, delete, restrict processing, data portability, and object to processing.",
+    "volunteer.understanding.item6Before":
+      "I can object to processing (GDPR Art. 21) and request erasure of my personal information (GDPR Art. 17) by contacting",
+    "volunteer.understanding.item6After":
+      ". Where any specific processing is based on my consent, I can withdraw that consent at any time without affecting the lawfulness of processing carried out before withdrawal. Objecting or requesting erasure may impact the organisation\u2019s ability to consider my volunteer application.",
     "volunteer.processingAckTitle": "PROCESSING ACKNOWLEDGMENT",
     "volunteer.processingAckDesc":
       "Please review and acknowledge the following before continuing:",

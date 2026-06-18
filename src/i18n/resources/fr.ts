@@ -363,6 +363,20 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Je comprends que :",
+    "volunteer.understanding.item1":
+      "Mes données personnelles seront traitées pour évaluer ma candidature bénévole, gérer les affectations bénévoles et mener des activités connexes. Ce traitement est nécessaire pour prendre des mesures à ma demande avant et pour exécuter tout accord de bénévolat (RGPD Art. 6(1)(b)) ; il ne repose pas sur mon consentement.",
+    "volunteer.understanding.item2":
+      "GIVE PROTOCOL peut collecter diverses catégories de mes données personnelles, notamment des informations d'identité, des coordonnées, des informations générales, mes disponibilités et des références. Je ne dois pas inclure de catégories particulières de données (telles que des informations sur la santé, l'origine raciale ou ethnique, les convictions religieuses ou politiques, l'appartenance syndicale, la vie sexuelle ou l'orientation sexuelle) dans des champs de texte libre, car ces données ne sont pas nécessaires pour évaluer ma candidature.",
+    "volunteer.understanding.item3":
+      "Mes données personnelles peuvent être partagées avec le personnel autorisé au sein de l'organisation caritative proposant l'opportunité bénévole, des prestataires de services et des tiers, comme indiqué dans l'Avis de confidentialité.",
+    "volunteer.understanding.item4":
+      "Lorsqu'un prestataire de services est situé en dehors de mon pays de résidence, mes données personnelles peuvent être transférées à l'international sous des garanties appropriées (telles que les Clauses Contractuelles Standard) comme décrit dans l'Avis de confidentialité. Ces transferts ne reposent pas sur mon consentement.",
+    "volunteer.understanding.item5":
+      "Je dispose de certains droits concernant mes données personnelles, qui varient selon ma localisation, notamment les droits d'accès, de rectification, d'effacement, de limitation du traitement, de portabilité des données et d'opposition au traitement.",
+    "volunteer.understanding.item6Before":
+      "Je peux m'opposer au traitement (RGPD Art. 21) et demander l'effacement de mes données personnelles (RGPD Art. 17) en contactant",
+    "volunteer.understanding.item6After":
+      ". Lorsqu'un traitement spécifique est fondé sur mon consentement, je peux retirer ce consentement à tout moment sans affecter la licéité du traitement effectué avant ce retrait. S'opposer ou demander l'effacement peut affecter la capacité de l'organisation à examiner ma candidature bénévole.",
     "volunteer.processingAckTitle": "ACCUSÉ DE RÉCEPTION DU TRAITEMENT",
     "volunteer.processingAckDesc":
       "Veuillez examiner et confirmer ce qui suit avant de continuer :",

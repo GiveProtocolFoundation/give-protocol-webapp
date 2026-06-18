@@ -320,6 +320,20 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "我瞭解：",
+    "volunteer.understanding.item1":
+      "我的個人資料將被處理，用於評估我的志工申請、管理志工任務及開展相關活動。此處理是在我的要求下採取步驟並履行任何志工安排所必需的（GDPR第6條第1款第(b)項）；不依賴於我的同意。",
+    "volunteer.understanding.item2":
+      "GIVE PROTOCOL可能收集我的各類個人資料，包括身份資訊、聯絡方式、背景資訊、可用時間和推薦人。我不應在自由文字欄位中填寫特殊類別資料（如健康狀況、種族或民族出身、宗教或政治信仰、工會成員身份、性生活或性取向方面的資訊），因為此類資料不是評估申請所必需的。",
+    "volunteer.understanding.item3":
+      "我的個人資料可能與提供志工機會的慈善機構內的授權人員、服務供應商及第三方共享，如隱私聲明所述。",
+    "volunteer.understanding.item4":
+      "當服務供應商位於我居住國以外時，我的個人資料可能在適當的保障措施（如標準合約條款）下進行國際傳輸，如隱私聲明所述。這些傳輸不依賴於我的同意。",
+    "volunteer.understanding.item5":
+      "我對自己的個人資料享有某些權利，這些權利因我所在地而異，包括存取、更正、刪除、限制處理、資料可攜性以及反對處理的權利。",
+    "volunteer.understanding.item6Before":
+      "我可以反對處理（GDPR第21條）並要求刪除我的個人資料（GDPR第17條），方法是聯絡",
+    "volunteer.understanding.item6After":
+      "。當任何特定處理基於我的同意時，我可以隨時撤回該同意，而不影響撤回前所進行處理的合法性。反對或要求刪除可能影響機構考慮我的志工申請的能力。",
     "volunteer.processingAckTitle": "處理確認",
     "volunteer.processingAckDesc": "請在繼續之前查閱並確認以下內容：",
     "volunteer.essentialProcessingTitle": "申請處理（需要確認）：",
