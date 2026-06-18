@@ -354,19 +354,18 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Entiendo que:",
-    "volunteer.specificConsents": "CONSENTIMIENTOS ESPECÍFICOS",
-    "volunteer.specificConsentsDesc":
-      "Revise e indique su consentimiento para cada uno de los siguientes:",
-    "volunteer.essentialProcessingTitle": "Procesamiento Esencial (Requerido):",
-    "volunteer.internationalTransfersTitle":
-      "Transferencias Internacionales (si aplica):",
+    "volunteer.processingAckTitle": "RECONOCIMIENTO DE PROCESAMIENTO",
+    "volunteer.processingAckDesc":
+      "Revise y confirme lo siguiente antes de continuar:",
+    "volunteer.essentialProcessingTitle":
+      "Procesamiento de Solicitud (Confirmación requerida):",
     "volunteer.acknowledgmentTitle": "RECONOCIMIENTO",
     "volunteer.ageConfirmationTitle": "Confirmación de Edad:",
     "volunteer.privacyNoticeTitle": "Aviso de Privacidad:",
     "volunteer.doNotAccept": "No Aceptar",
     "volunteer.acceptAndContinue": "Aceptar y Continuar",
     "volunteer.validation.essentialRequired":
-      "El consentimiento de Procesamiento Esencial es necesario para continuar",
+      "Debe confirmar el reconocimiento de procesamiento de solicitud para continuar",
     "volunteer.validation.agePrivacyRequired":
       "Debe confirmar su edad y que ha leído el Aviso de Privacidad",
 

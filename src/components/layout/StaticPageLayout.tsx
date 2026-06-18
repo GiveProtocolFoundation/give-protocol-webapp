@@ -43,7 +43,7 @@ export const StaticPageLayout: React.FC<StaticPageLayoutProps> = ({
       </div>
 
       {/* Content with proper typography */}
-      <ScrollReveal direction="up" delay={100}>
+      <ScrollReveal direction="up" delay={100} threshold={0}>
         <div className="max-w-4xl mx-auto">
           <div
             className="prose prose-lg max-w-none

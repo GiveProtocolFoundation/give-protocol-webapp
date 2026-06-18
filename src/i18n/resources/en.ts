@@ -341,19 +341,18 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "I understand that:",
-    "volunteer.specificConsents": "SPECIFIC CONSENTS",
-    "volunteer.specificConsentsDesc":
-      "Please review and indicate your consent to each of the following:",
-    "volunteer.essentialProcessingTitle": "Essential Processing (Required):",
-    "volunteer.internationalTransfersTitle":
-      "International Transfers (if applicable):",
+    "volunteer.processingAckTitle": "PROCESSING ACKNOWLEDGMENT",
+    "volunteer.processingAckDesc":
+      "Please review and acknowledge the following before continuing:",
+    "volunteer.essentialProcessingTitle":
+      "Application Processing (Required to confirm):",
     "volunteer.acknowledgmentTitle": "ACKNOWLEDGMENT",
     "volunteer.ageConfirmationTitle": "Age Confirmation:",
     "volunteer.privacyNoticeTitle": "Privacy Notice:",
     "volunteer.doNotAccept": "Do Not Accept",
     "volunteer.acceptAndContinue": "Accept and Continue",
     "volunteer.validation.essentialRequired":
-      "Essential Processing consent is required to proceed",
+      "You must confirm the application-processing acknowledgment to proceed",
     "volunteer.validation.agePrivacyRequired":
       "You must confirm your age and that you have read the Privacy Notice",
 

@@ -175,10 +175,11 @@ describe("VolunteerApplicationForm", () => {
       expect(phone.value).toBe("555-555-5555");
     });
 
-    it("renders the consent panel with checkboxes", () => {
-      render(<VolunteerApplicationForm {...defaultProps} />);
+    it("renders the consent panel with checkboxes", async () => {
+      await act(() => {
+        render(<VolunteerApplicationForm {...defaultProps} />);
+      });
       expect(document.getElementById("essential-processing")).not.toBeNull();
-      expect(document.getElementById("international-transfers")).not.toBeNull();
       expect(document.getElementById("age-confirmation")).not.toBeNull();
       expect(document.getElementById("privacy-notice")).not.toBeNull();
     });

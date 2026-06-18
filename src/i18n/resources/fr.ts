@@ -363,19 +363,18 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Je comprends que :",
-    "volunteer.specificConsents": "CONSENTEMENTS SPÉCIFIQUES",
-    "volunteer.specificConsentsDesc":
-      "Veuillez examiner et indiquer votre consentement pour chacun des éléments suivants :",
-    "volunteer.essentialProcessingTitle": "Traitement Essentiel (Requis) :",
-    "volunteer.internationalTransfersTitle":
-      "Transferts Internationaux (le cas échéant) :",
+    "volunteer.processingAckTitle": "ACCUSÉ DE RÉCEPTION DU TRAITEMENT",
+    "volunteer.processingAckDesc":
+      "Veuillez examiner et confirmer ce qui suit avant de continuer :",
+    "volunteer.essentialProcessingTitle":
+      "Traitement de la Candidature (Confirmation requise) :",
     "volunteer.acknowledgmentTitle": "RECONNAISSANCE",
     "volunteer.ageConfirmationTitle": "Confirmation d'Âge :",
     "volunteer.privacyNoticeTitle": "Avis de Confidentialité :",
     "volunteer.doNotAccept": "Ne Pas Accepter",
     "volunteer.acceptAndContinue": "Accepter et Continuer",
     "volunteer.validation.essentialRequired":
-      "Le consentement au Traitement Essentiel est requis pour continuer",
+      "Vous devez confirmer l'accusé de réception du traitement de la candidature pour continuer",
     "volunteer.validation.agePrivacyRequired":
       "Vous devez confirmer votre âge et avoir lu l'Avis de Confidentialité",
 

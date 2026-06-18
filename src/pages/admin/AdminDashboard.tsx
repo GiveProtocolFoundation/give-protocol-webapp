@@ -8,12 +8,10 @@ import { useTranslation } from "@/hooks/useTranslation";
 import {
   getAdminDashboardStats,
   getAdminRecentActivity,
-  getAdminAlerts,
 } from "@/services/adminDashboardService";
 import type {
   AdminDashboardStats,
   AdminActivityEvent,
-  AdminAlert,
 } from "@/types/adminDashboard";
 
 // ---------------------------------------------------------------------------
@@ -72,30 +70,6 @@ function getActivityMeta(
         label: t("admin.activity.default", "Activity"),
         colourClass: "text-gray-700 bg-gray-100",
       };
-  }
-}
-
-/** Returns colour class for alert severity. */
-function getAlertSeverityClass(severity: string): string {
-  switch (severity) {
-    case "high":
-      return "border-l-red-500 bg-red-50";
-    case "medium":
-      return "border-l-yellow-500 bg-yellow-50";
-    default:
-      return "border-l-blue-500 bg-blue-50";
-  }
-}
-
-/** Returns text colour class for alert severity badge. */
-function getAlertBadgeClass(severity: string): string {
-  switch (severity) {
-    case "high":
-      return "text-red-700 bg-red-100";
-    case "medium":
-      return "text-yellow-700 bg-yellow-100";
-    default:
-      return "text-blue-700 bg-blue-100";
   }
 }
 
@@ -279,7 +253,7 @@ function QuickActionButton({
 // Main page
 // ---------------------------------------------------------------------------
 
-/** Admin dashboard page displaying real KPIs, recent activity, and alerts. */
+/** Admin dashboard page displaying real KPIs and recent activity. */
 const AdminDashboard: React.FC = () => {
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -287,7 +261,6 @@ const AdminDashboard: React.FC = () => {
 
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
   const [activity, setActivity] = useState<AdminActivityEvent[]>([]);
-  const [alerts, setAlerts] = useState<AdminAlert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -296,15 +269,13 @@ const AdminDashboard: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const [statsData, activityData, alertsData] = await Promise.all([
+      const [statsData, activityData] = await Promise.all([
         getAdminDashboardStats(),
         getAdminRecentActivity(1, 10),
-        getAdminAlerts(),
       ]);
 
       setStats(statsData);
       setActivity(activityData.events);
-      setAlerts(alertsData);
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : "Failed to load dashboard data.";
