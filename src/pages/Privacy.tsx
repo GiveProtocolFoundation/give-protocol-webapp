@@ -228,9 +228,21 @@ const SectionLegalBasis: React.FC = () => (
     <p>
       You have the right to lodge a complaint with a supervisory authority if
       you believe our processing of your personal data violates applicable law.
-      If you are located in the European Union, the competent supervisory
-      authority for Give Protocol is the{" "}
-      <strong>Irish Data Protection Commission (DPC)</strong> —{" "}
+      Because Give Protocol Foundation is established in the United States and
+      has no establishment in the European Union, no single &ldquo;lead&rdquo;
+      supervisory authority applies to us. If you are located in the European
+      Union or European Economic Area, you may lodge a complaint with the
+      supervisory authority of your habitual residence, place of work, or the
+      place of the alleged infringement. A list of EU/EEA supervisory
+      authorities is maintained by the{" "}
+      <a
+        href="https://www.edpb.europa.eu/about-edpb/about-edpb/members_en"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        European Data Protection Board
+      </a>
+      {"; the Irish Data Protection Commission ("}
       <a
         href="https://www.dataprotection.ie"
         target="_blank"
@@ -238,15 +250,13 @@ const SectionLegalBasis: React.FC = () => (
       >
         www.dataprotection.ie
       </a>
-      {". "}
+      {") is one such authority. "}
       If you are located in the United Kingdom, you may contact the{" "}
       <strong>Information Commissioner&apos;s Office (ICO)</strong> —{" "}
       <a href="https://ico.org.uk" target="_blank" rel="noopener noreferrer">
         ico.org.uk
       </a>
-      {". "}
-      You may also lodge a complaint with the supervisory authority of your
-      habitual residence, place of work, or place of the alleged infringement.
+      {"."}
     </p>
   </section>
 );
@@ -767,6 +777,16 @@ const SectionContactUs: React.FC = () => (
       offering our Service to them, that processing is subject to the EU General
       Data Protection Regulation and the UK GDPR under their extraterritorial
       scope (Art. 3(2) GDPR).
+    </p>
+    <p>
+      Because we have no establishment in the European Union or the United
+      Kingdom, we are designating a representative in the European Union and a
+      representative in the United Kingdom under Article 27 of the EU GDPR and
+      the UK GDPR respectively. Once appointed, their names and contact details
+      will be published here, and you may contact them on any matter relating to
+      our processing of your personal data. Until then, please direct all
+      requests and questions to{" "}
+      <a href="mailto:privacy@giveprotocol.io">privacy@giveprotocol.io</a>.
     </p>
   </section>
 );
