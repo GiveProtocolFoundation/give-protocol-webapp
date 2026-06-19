@@ -363,6 +363,20 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Ich verstehe, dass:",
+    "volunteer.understanding.item1":
+      "Meine personenbezogenen Daten werden verarbeitet, um meine Freiwilligenbewerbung zu prüfen, Freiwilligeneinsätze zu verwalten und damit zusammenhängende Tätigkeiten durchzuführen. Diese Verarbeitung ist erforderlich, um auf meinen Antrag hin Schritte einzuleiten und eine Freiwilligenvereinbarung zu erfüllen (DSGVO Art. 6(1)(b)); sie beruht nicht auf meiner Einwilligung.",
+    "volunteer.understanding.item2":
+      "GIVE PROTOCOL kann verschiedene Kategorien meiner personenbezogenen Daten erheben, darunter Identitätsinformationen, Kontaktdaten, Hintergrundinformationen, Verfügbarkeit und Referenzen. Ich sollte in Freitextfeldern keine besonderen Kategorien von Daten (wie Informationen über Gesundheit, rassische oder ethnische Herkunft, religiöse oder politische Überzeugungen, Gewerkschaftszugehörigkeit oder Sexualleben bzw. sexuelle Orientierung) angeben, da solche Daten für die Prüfung meiner Bewerbung nicht erforderlich sind.",
+    "volunteer.understanding.item3":
+      "Meine personenbezogenen Daten können mit autorisiertem Personal innerhalb der gemeinnützigen Organisation, die die Freiwilligenstelle anbietet, mit Dienstleistern und Dritten geteilt werden, wie im Datenschutzhinweis beschrieben.",
+    "volunteer.understanding.item4":
+      "Wenn ein Dienstleister außerhalb meines Wohnsitzlandes ansässig ist, können meine personenbezogenen Daten unter geeigneten Schutzmaßnahmen (wie Standardvertragsklauseln) international übermittelt werden, wie im Datenschutzhinweis beschrieben. Diese Übermittlungen beruhen nicht auf meiner Einwilligung.",
+    "volunteer.understanding.item5":
+      "Ich habe bestimmte Rechte bezüglich meiner personenbezogenen Daten, die je nach meinem Aufenthaltsort variieren, einschließlich der Rechte auf Auskunft, Berichtigung, Löschung, Einschränkung der Verarbeitung, Datenübertragbarkeit und Widerspruch gegen die Verarbeitung.",
+    "volunteer.understanding.item6Before":
+      "Ich kann der Verarbeitung widersprechen (DSGVO Art. 21) und die Löschung meiner personenbezogenen Daten beantragen (DSGVO Art. 17) durch Kontaktaufnahme mit",
+    "volunteer.understanding.item6After":
+      ". Wenn eine bestimmte Verarbeitung auf meiner Einwilligung beruht, kann ich diese jederzeit widerrufen, ohne die Rechtmäßigkeit der vor dem Widerruf erfolgten Verarbeitung zu beeinträchtigen. Ein Widerspruch oder ein Löschungsantrag kann die Fähigkeit der Organisation beeinträchtigen, meine Freiwilligenbewerbung zu berücksichtigen.",
     "volunteer.processingAckTitle": "VERARBEITUNGSBESTÄTIGUNG",
     "volunteer.processingAckDesc":
       "Bitte prüfen Sie das Folgende und bestätigen Sie es, bevor Sie fortfahren:",
