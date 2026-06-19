@@ -691,6 +691,7 @@ export default {
     "admin.dashboard.title": "관리자 대시보드",
     "admin.dashboard.alerts": "알림",
     "admin.dashboard.alertsPending": "{{count}}건 대기 중",
+    "admin.dashboard.alertsView": "보기",
     "admin.dashboard.recentActivity": "최근 활동",
     "admin.dashboard.noRecentActivity": "최근 활동이 없습니다.",
     "admin.dashboard.quickActions": "빠른 작업",

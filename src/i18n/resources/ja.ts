@@ -707,6 +707,7 @@ export default {
     "admin.dashboard.title": "管理者ダッシュボード",
     "admin.dashboard.alerts": "アラート",
     "admin.dashboard.alertsPending": "{{count}}件保留中",
+    "admin.dashboard.alertsView": "表示",
     "admin.dashboard.recentActivity": "最近のアクティビティ",
     "admin.dashboard.noRecentActivity": "最近のアクティビティはありません。",
     "admin.dashboard.quickActions": "クイックアクション",

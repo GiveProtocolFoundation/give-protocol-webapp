@@ -743,6 +743,7 @@ export default {
     "admin.dashboard.title": "Admin-Dashboard",
     "admin.dashboard.alerts": "Benachrichtigungen",
     "admin.dashboard.alertsPending": "{{count}} ausstehend",
+    "admin.dashboard.alertsView": "Ansehen",
     "admin.dashboard.recentActivity": "Letzte Aktivitäten",
     "admin.dashboard.noRecentActivity": "Keine letzten Aktivitäten.",
     "admin.dashboard.quickActions": "Schnellaktionen",

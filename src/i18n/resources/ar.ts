@@ -681,6 +681,7 @@ export default {
     "admin.dashboard.title": "لوحة تحكم المشرف",
     "admin.dashboard.alerts": "التنبيهات",
     "admin.dashboard.alertsPending": "{{count}} معلق",
+    "admin.dashboard.alertsView": "عرض",
     "admin.dashboard.recentActivity": "النشاط الأخير",
     "admin.dashboard.noRecentActivity": "لا يوجد نشاط حديث.",
     "admin.dashboard.quickActions": "الإجراءات السريعة",
