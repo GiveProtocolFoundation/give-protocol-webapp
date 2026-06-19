@@ -8,10 +8,12 @@ import { useTranslation } from "@/hooks/useTranslation";
 import {
   getAdminDashboardStats,
   getAdminRecentActivity,
+  getAdminAlerts,
 } from "@/services/adminDashboardService";
 import type {
   AdminDashboardStats,
   AdminActivityEvent,
+  AdminAlert,
 } from "@/types/adminDashboard";
 
 // ---------------------------------------------------------------------------
@@ -70,6 +72,36 @@ function getActivityMeta(
         label: t("admin.activity.default", "Activity"),
         colourClass: "text-gray-700 bg-gray-100",
       };
+  }
+}
+
+/** Returns the left-border / background class for an alert severity. */
+function getAlertSeverityClass(severity: string): string {
+  switch (severity) {
+    case "critical":
+    case "high":
+      return "border-red-600 bg-red-50";
+    case "medium":
+      return "border-yellow-500 bg-yellow-50";
+    case "low":
+      return "border-blue-500 bg-blue-50";
+    default:
+      return "border-gray-300 bg-gray-50";
+  }
+}
+
+/** Returns the badge class for severity text inside the alert row. */
+function getAlertBadgeClass(severity: string): string {
+  switch (severity) {
+    case "critical":
+    case "high":
+      return "text-red-700 bg-red-100";
+    case "medium":
+      return "text-yellow-700 bg-yellow-100";
+    case "low":
+      return "text-blue-700 bg-blue-100";
+    default:
+      return "text-gray-700 bg-gray-100";
   }
 }
 
@@ -261,6 +293,7 @@ const AdminDashboard: React.FC = () => {
 
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
   const [activity, setActivity] = useState<AdminActivityEvent[]>([]);
+  const [alerts, setAlerts] = useState<AdminAlert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -269,13 +302,15 @@ const AdminDashboard: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const [statsData, activityData] = await Promise.all([
+      const [statsData, activityData, alertsData] = await Promise.all([
         getAdminDashboardStats(),
         getAdminRecentActivity(1, 10),
+        getAdminAlerts(),
       ]);
 
       setStats(statsData);
       setActivity(activityData.events);
+      setAlerts(alertsData);
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : "Failed to load dashboard data.";
