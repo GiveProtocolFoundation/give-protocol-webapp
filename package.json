@@ -70,12 +70,12 @@
     "viem": "^2.7.9"
   },
   "overrides": {
-    "axios": ">=1.15.0",
+    "axios": ">=1.18.0",
     "node-forge": ">=1.4.0",
     "@polkadot/util": "^13.5.9"
   },
   "devDependencies": {
-    "@babel/core": "^7.28.0",
+    "@babel/core": "^7.29.6",
     "@babel/preset-env": "^7.28.0",
     "@babel/preset-react": "^7.27.1",
     "@babel/preset-typescript": "^7.27.1",
