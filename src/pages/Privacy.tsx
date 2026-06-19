@@ -742,12 +742,31 @@ const SectionChildrensPrivacy: React.FC = () => (
 /** Renders the contact information section of the privacy policy. */
 const SectionContactUs: React.FC = () => (
   <section className="mt-12 pt-8 border-t border-gray-200 dark:border-gray-700">
-    <h2>13. Contact Us</h2>
+    <h2>13. Data Controller and Contact</h2>
     <p>
-      If you have any questions about this Privacy Policy, please contact us at:
+      The data controller responsible for the personal data described in this
+      Privacy Policy is:
     </p>
     <p className="mt-4 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
-      <strong>Email:</strong> privacy@giveprotocol.io
+      <strong>Give Protocol Foundation</strong>
+      <br />
+      1930 18th St NW, Suite B2 PMB2430
+      <br />
+      Washington, DC 20009
+      <br />
+      United States
+      <br />
+      <br />
+      <strong>Privacy contact:</strong>{" "}
+      <a href="mailto:privacy@giveprotocol.io">privacy@giveprotocol.io</a>
+    </p>
+    <p>
+      Give Protocol Foundation is established in the United States. Where we
+      process the personal data of individuals located in the European Union,
+      the European Economic Area, or the United Kingdom in connection with
+      offering our Service to them, that processing is subject to the EU General
+      Data Protection Regulation and the UK GDPR under their extraterritorial
+      scope (Art. 3(2) GDPR).
     </p>
   </section>
 );
