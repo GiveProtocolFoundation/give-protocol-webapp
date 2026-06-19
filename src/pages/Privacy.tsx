@@ -30,13 +30,20 @@ const SectionIntroduction: React.FC = () => (
     </ImportantNotice>
 
     <p>
-      If you provide personal data to us, you consent to the collection, use,
-      and disclosure of such personal data in accordance with this Privacy
-      Policy. If you provide the personal data of another individual (such as
-      organization representatives or volunteer references), it means that you
-      have informed them of the purposes for which we require their personal
-      data and they have consented to the collection, use, and disclosure of
-      their personal data in accordance with this Privacy Policy.
+      This Privacy Policy describes the personal data we process, the purposes
+      and legal bases for that processing, and the rights available to you under
+      applicable data protection law. The legal basis for each processing
+      activity is set out in Section 4 (Legal Basis for Processing) and in the
+      relevant sections below. We do not treat your provision of personal data
+      as blanket consent to all processing; each processing activity relies on
+      the specific legal basis identified for it.
+    </p>
+    <p>
+      Where you provide us with personal data relating to another individual
+      (such as an organization representative or a volunteer reference), we
+      process that data as the data controller on the legal basis identified in
+      Section 4. Please ensure you are permitted to share that data with us and,
+      where appropriate, make the individual aware of this Privacy Policy.
     </p>
   </section>
 );
@@ -85,6 +92,18 @@ const SectionInformationWeCollect: React.FC = () => (
       </li>
       <li>Tracking Data from cookies and similar technologies</li>
     </ul>
+    <p>
+      <strong>IP address.</strong> We collect your IP address automatically when
+      you access the Service, when you make a card payment, and when
+      administrative or wallet-designation actions are performed on your
+      account. We use it to secure the platform, detect and prevent fraud, and
+      maintain administrative audit trails. Our legal basis is our legitimate
+      interests in keeping the Service and your account secure (Article 6(1)(f)
+      GDPR). For card payments, your IP address is shared with our payment
+      processor for fraud detection (see Section 5.2 and the
+      international-transfer disclosures in Section 9). We retain IP address and
+      related security logs for up to twelve (12) months (see Section 7.1).
+    </p>
 
     <h3>2.3 Blockchain Data</h3>
     <p>
@@ -98,8 +117,42 @@ const SectionInformationWeCollect: React.FC = () => (
       <li>Smart contract interactions</li>
     </ul>
     <p>
-      However, this blockchain data is not directly linked to personal
-      identifiers unless you choose to make such connections publicly known.
+      When you make a donation or receive volunteer verification through Give
+      Protocol, your wallet address is recorded both in our internal systems and
+      on the public blockchain. While the on-chain record itself does not embed
+      your name or email, your wallet address{" "}
+      <strong>is linked to your Give Protocol account in our database</strong>{" "}
+      for the duration of your account, so within our systems the address is
+      personal data relating to you.
+    </p>
+    <p>
+      <strong>
+        On-chain records (donation transactions, volunteer verification tokens)
+        are permanent and cannot be deleted or modified.
+      </strong>{" "}
+      When you exercise your right to erasure (see Section 8), we will delete
+      all personal data from our internal systems, including the link between
+      your account and your wallet address, but the on-chain transaction records
+      associated with that wallet address will remain on the public blockchain
+      indefinitely. If you have ever publicly connected your wallet address to
+      your real-world identity (for example, on social media), that on-chain
+      history may remain re-identifiable by third parties beyond our control. We
+      recommend reviewing the permanence of blockchain records before connecting
+      your wallet.
+    </p>
+    <p>
+      <strong>Legal basis for processing your wallet address.</strong> We
+      process your wallet address to deliver the Service you request — recording
+      and verifying your donations and volunteer contributions (Article 6(1)(b)
+      GDPR, performance of a contract) — and to protect the integrity and
+      security of on-chain transactions (Article 6(1)(f) GDPR, legitimate
+      interests). Your wallet address is a public blockchain identifier: while
+      we store it as personal data linked to your account, the address itself is
+      visible to anyone on the public blockchain. We retain the link between
+      your account and your wallet address for the duration of your account (see
+      Section 7.1); the on-chain record is permanent as described above. You are
+      first shown this notice at the point your wallet is connected, where the
+      wallet connection screen links to this Privacy Policy.
     </p>
 
     <h3>2.4 Information We Will Never Collect</h3>
@@ -206,15 +259,65 @@ const SectionHowWeShare: React.FC = () => (
 
     <h3>5.1 With Charitable Organizations</h3>
     <p>
-      When you make a donation or volunteer for an organization, we share
-      relevant information to facilitate the transaction or volunteer
-      opportunity.
+      When you make a <strong>fiat (card) donation</strong>, we share your{" "}
+      <strong>name</strong> with the recipient charitable organization so that
+      it can acknowledge your gift, issue any applicable tax receipt, and
+      maintain its own donation records. Your name appears in the charity&apos;s
+      administrative portal transaction history. We do <strong>not</strong>{" "}
+      share your email address, postal address, or payment-card details with the
+      recipient charity.
+    </p>
+    <p>
+      When you make a <strong>cryptocurrency donation</strong>, the transaction
+      details (wallet address, amount, and timestamp) are recorded on the public
+      blockchain and are inherently visible to the recipient charity and anyone
+      else; we do not additionally share your name or contact details. See
+      Section 5.4 (Blockchain Transparency).
+    </p>
+    <p>
+      When you <strong>volunteer</strong> for an organization, we share the
+      information necessary to facilitate the volunteer opportunity (such as
+      your name and the details you submit in your application) with that
+      organization.
+    </p>
+    <p>
+      The legal basis for this sharing is{" "}
+      <strong>Article 6(1)(b) (performance of a contract)</strong>, as the
+      donation or volunteer engagement is a transaction between you and the
+      recipient organization.
     </p>
 
     <h3>5.2 With Service Providers</h3>
     <p>
       We may share information with third-party service providers who help us
-      operate our platform, subject to confidentiality agreements.
+      operate our platform, under written data processing agreements that bind
+      them to act only on our instructions (Article 28 GDPR) and to apply
+      appropriate technical and organisational security measures.
+    </p>
+    <p>
+      <strong>Payment processing (Helcim).</strong> Fiat (card) donations are
+      processed by Helcim Inc., a payment processor based in Calgary, Canada. To
+      authorise a card payment and to carry out fraud-prevention checks, we
+      transmit the donor&apos;s name, email address, payment amount, and client
+      IP address to Helcim. Helcim acts as a data processor for this activity
+      under a data processing agreement; the related cross-border transfer to
+      Canada and the safeguards that apply to it are described in Section 9.2.
+    </p>
+    <p>
+      <strong>Transactional email delivery (Resend).</strong> Outbound platform
+      emails &mdash; including donation receipts, charity claim and
+      volunteer-hours notifications, and wallet-designation confirmations
+      &mdash; are delivered through Resend, Inc. (United States). Resend
+      receives the recipient&apos;s email address and name and any personal data
+      contained in the message body, solely to deliver the email on our behalf.
+      This processing is governed by a Data Processing Agreement with Resend;
+      the international-transfer mechanism is set out in Section 9.2.
+    </p>
+    <p>
+      Other named processors &mdash; including our error-monitoring provider
+      (Sentry) and, where active, analytics (Google Analytics 4) &mdash; are
+      described, together with the international-transfer safeguards that apply
+      to them, in Sections 9.2 and 11.2.
     </p>
 
     <h3>5.3 For Legal Compliance</h3>
@@ -414,6 +517,27 @@ const SectionYourRights: React.FC = () => (
     <p>
       To exercise these rights, please contact us at privacy@giveprotocol.io.
     </p>
+
+    <h3>8.1 Right to Erasure — Blockchain Limitation</h3>
+    <p>
+      Exercising your right to erasure (Article 17 GDPR) will result in deletion
+      of all personal data from our internal systems within{" "}
+      <strong>30 days</strong>, including the link between your Give Protocol
+      account and your wallet address. However, transaction data that has
+      already been recorded on public blockchain networks (such as Moonbeam,
+      Base, and Optimism) <strong>cannot be erased</strong>, because blockchain
+      ledgers are immutable by design and no technical means exist to remove or
+      alter a confirmed on-chain record.
+    </p>
+    <p>
+      This means that after your erasure request is fulfilled, donation
+      transactions and volunteer-verification tokens linked to your wallet
+      address remain publicly visible on-chain. If you have previously linked
+      your identity to your wallet address through public means outside of our
+      platform, we cannot control the re-identification of your on-chain
+      history. This limitation is described further in Section 2.3, and the
+      corresponding retention position is set out in Section 7.1.
+    </p>
   </section>
 );
 
@@ -441,12 +565,31 @@ const SectionInternationalTransfers: React.FC = () => (
     </p>
     <ul>
       <li>
+        <strong>Payment processing (Helcim)</strong>: where you make a fiat
+        (card) donation, the donor name, email address, payment amount, and
+        client IP address are transmitted to Helcim Inc. in Canada to authorise
+        the payment and to perform fraud-prevention checks. Transfers to Canada
+        rely on the European Commission&apos;s adequacy decision for Canadian
+        commercial organisations subject to PIPEDA and, as a supplementary
+        safeguard, the European Commission&apos;s Standard Contractual Clauses
+        under our data processing agreement with Helcim. This transfer occurs
+        only when you choose to make a fiat donation.
+      </li>
+      <li>
         <strong>Error monitoring (Sentry)</strong>: application error and
         performance data is sent to Sentry. Where the Sentry organisation is
         hosted in the United States, this constitutes a transfer to a third
         country and is covered by SCCs. Replay capture and performance tracing
         have been disabled, and email identifiers are stripped from Sentry user
         context.
+      </li>
+      <li>
+        <strong>Transactional email delivery (Resend)</strong>: recipient email
+        addresses, names, and message content are transmitted to Resend, Inc. in
+        the United States to deliver platform emails. This transfer is covered
+        by the Standard Contractual Clauses incorporated into our Data
+        Processing Agreement with Resend (Art. 46(2)(c) GDPR), and applies only
+        to users who receive a transactional email from us.
       </li>
       <li>
         <strong>Analytics (Google Analytics 4, if active)</strong>: where we
@@ -574,11 +717,24 @@ const SectionChildrensPrivacy: React.FC = () => (
   <section>
     <h2>12. Children&apos;s Privacy</h2>
     <p>
-      Our Service is not directed to children under the age of 18, and we do not
-      knowingly collect personal information from children. If we learn we have
-      collected personal information from a child under 18, we will delete that
-      information as quickly as possible. If you believe a child has provided us
-      with personal information, please contact us.
+      Our Service is intended for users aged 16 and over. When you register, you
+      must affirm via our age-affirmation gate that you meet this requirement.
+      We rely on this self-attestation as our age-verification mechanism. This
+      processing is carried out for the performance of our contract with you
+      under Art. 6(1)(b) GDPR.
+    </p>
+    <p>
+      We do not knowingly collect personal data from individuals under the age
+      of 16. If we discover or are notified that we hold personal data belonging
+      to a user under 16, we will delete that account and all associated
+      personal data immediately and without exception. No parental-consent
+      alternative is available; the only outcome is prompt erasure.
+    </p>
+    <p>
+      If you believe an under-16 individual has registered with our Service,
+      please contact us at{" "}
+      <a href="mailto:privacy@giveprotocol.io">privacy@giveprotocol.io</a> so we
+      can take immediate action.
     </p>
   </section>
 );
@@ -602,7 +758,7 @@ export const Privacy: React.FC = () => {
   return (
     <StaticPageLayout
       title="GiveProtocol Privacy Policy"
-      effectiveDate="Effective Date: March 11, 2025"
+      effectiveDate="Effective Date: June 13, 2026"
     >
       <SectionIntroduction />
       <SectionInformationWeCollect />

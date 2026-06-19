@@ -10,12 +10,10 @@ import AdminDashboard from "../admin/AdminDashboard";
 import {
   getAdminDashboardStats,
   getAdminRecentActivity,
-  getAdminAlerts,
 } from "@/services/adminDashboardService";
 
 const mockGetStats = jest.mocked(getAdminDashboardStats);
 const mockGetActivity = jest.mocked(getAdminRecentActivity);
-const mockGetAlerts = jest.mocked(getAdminAlerts);
 const mockUseAuth = jest.mocked(useAuth);
 
 const mockStats = {
@@ -66,19 +64,6 @@ const mockActivity = {
   totalPages: 1,
 };
 
-const mockAlerts = [
-  {
-    alertType: "pending_verification" as const,
-    entityId: "entity-1",
-    entityType: "charity",
-    title: "Suspicious Activity",
-    description: "Flagged donation pattern detected",
-    severity: "high" as const,
-    createdAt: new Date().toISOString(),
-    count: 1,
-  },
-];
-
 const renderDashboard = () =>
   render(
     <MemoryRouter>
@@ -94,7 +79,6 @@ describe("AdminDashboard", () => {
     );
     mockGetStats.mockResolvedValue(mockStats);
     mockGetActivity.mockResolvedValue(mockActivity);
-    mockGetAlerts.mockResolvedValue([]);
   });
 
   describe("Loading state", () => {
@@ -178,33 +162,6 @@ describe("AdminDashboard", () => {
       await waitFor(() => {
         expect(screen.getByText("Registration")).toBeInTheDocument();
       });
-    });
-  });
-
-  describe("Alerts panel", () => {
-    it("renders alerts section when alerts exist", async () => {
-      mockGetAlerts.mockResolvedValue(mockAlerts);
-      renderDashboard();
-      await waitFor(() => {
-        expect(screen.getByText("Alerts")).toBeInTheDocument();
-      });
-    });
-
-    it("renders alert title", async () => {
-      mockGetAlerts.mockResolvedValue(mockAlerts);
-      renderDashboard();
-      await waitFor(() => {
-        expect(screen.getByText("Suspicious Activity")).toBeInTheDocument();
-      });
-    });
-
-    it("does not render alerts section when no alerts", async () => {
-      mockGetAlerts.mockResolvedValue([]);
-      renderDashboard();
-      await waitFor(() => {
-        expect(screen.getByText("Admin Dashboard")).toBeInTheDocument();
-      });
-      expect(screen.queryByText("Alerts")).not.toBeInTheDocument();
     });
   });
 

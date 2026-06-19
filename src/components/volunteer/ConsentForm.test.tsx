@@ -1,5 +1,11 @@
 import { describe, it, expect, jest, beforeEach } from "@jest/globals";
-import { render, screen, fireEvent, cleanup } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  cleanup,
+  act,
+} from "@testing-library/react";
 import { ConsentForm } from "./ConsentForm";
 
 function getCheckbox(id: string): HTMLInputElement {
@@ -22,11 +28,12 @@ describe("ConsentForm", () => {
     );
   }
 
-  it("should render consent form with all checkboxes", () => {
-    renderForm();
+  it("should render consent form with all checkboxes", async () => {
+    await act(() => {
+      renderForm();
+    });
     expect(screen.getByText("Volunteer Application Consent")).toBeTruthy();
     expect(getCheckbox("essential-processing")).toBeTruthy();
-    expect(getCheckbox("international-transfers")).toBeTruthy();
     expect(getCheckbox("age-confirmation")).toBeTruthy();
     expect(getCheckbox("privacy-notice")).toBeTruthy();
   });
@@ -100,11 +107,15 @@ describe("ConsentForm", () => {
     expect(screen.getByText("Accept and Continue")).not.toBeDisabled();
   });
 
-  it("should allow toggling international transfers checkbox", () => {
-    renderForm();
-    const checkbox = getCheckbox("international-transfers");
+  it("should allow toggling essential processing checkbox", async () => {
+    await act(() => {
+      renderForm();
+    });
+    const checkbox = getCheckbox("essential-processing");
     expect(checkbox.checked).toBe(false);
     fireEvent.click(checkbox);
     expect(checkbox.checked).toBe(true);
+    fireEvent.click(checkbox);
+    expect(checkbox.checked).toBe(false);
   });
 });

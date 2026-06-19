@@ -363,20 +363,18 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Ich verstehe, dass:",
-    "volunteer.specificConsents": "SPEZIFISCHE EINWILLIGUNGEN",
-    "volunteer.specificConsentsDesc":
-      "Bitte prüfen Sie die folgenden Punkte und geben Sie Ihre Einwilligung:",
+    "volunteer.processingAckTitle": "VERARBEITUNGSBESTÄTIGUNG",
+    "volunteer.processingAckDesc":
+      "Bitte prüfen Sie das Folgende und bestätigen Sie es, bevor Sie fortfahren:",
     "volunteer.essentialProcessingTitle":
-      "Wesentliche Verarbeitung (Erforderlich):",
-    "volunteer.internationalTransfersTitle":
-      "Internationale Übermittlungen (falls zutreffend):",
+      "Antragsverarbeitung (Bestätigung erforderlich):",
     "volunteer.acknowledgmentTitle": "BESTÄTIGUNG",
     "volunteer.ageConfirmationTitle": "Altersbestätigung:",
     "volunteer.privacyNoticeTitle": "Datenschutzhinweis:",
     "volunteer.doNotAccept": "Nicht akzeptieren",
     "volunteer.acceptAndContinue": "Akzeptieren und fortfahren",
     "volunteer.validation.essentialRequired":
-      "Die Einwilligung zur wesentlichen Verarbeitung ist erforderlich, um fortzufahren",
+      "Sie müssen die Verarbeitungsbestätigung des Antrags bestätigen, um fortzufahren",
     "volunteer.validation.agePrivacyRequired":
       "Sie müssen Ihr Alter bestätigen und bestätigen, dass Sie den Datenschutzhinweis gelesen haben",
 

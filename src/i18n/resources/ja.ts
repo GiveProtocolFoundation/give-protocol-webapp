@@ -341,18 +341,16 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "以下の事項を理解しています：",
-    "volunteer.specificConsents": "個別の同意事項",
-    "volunteer.specificConsentsDesc":
-      "以下の各項目を確認し、同意を表明してください：",
-    "volunteer.essentialProcessingTitle": "必須処理（必須）：",
-    "volunteer.internationalTransfersTitle": "国際転送（該当する場合）：",
+    "volunteer.processingAckTitle": "処理の確認",
+    "volunteer.processingAckDesc": "続行する前に、以下を確認してください：",
+    "volunteer.essentialProcessingTitle": "申請処理（確認が必要）：",
     "volunteer.acknowledgmentTitle": "確認事項",
     "volunteer.ageConfirmationTitle": "年齢確認：",
     "volunteer.privacyNoticeTitle": "プライバシー通知：",
     "volunteer.doNotAccept": "同意しない",
     "volunteer.acceptAndContinue": "同意して続行",
     "volunteer.validation.essentialRequired":
-      "続行するには必須処理への同意が必要です",
+      "続行するには申請処理の確認を承認する必要があります",
     "volunteer.validation.agePrivacyRequired":
       "年齢の確認とプライバシー通知の閲覧を確認する必要があります",
 
