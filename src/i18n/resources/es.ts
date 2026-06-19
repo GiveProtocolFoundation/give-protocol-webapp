@@ -714,6 +714,7 @@ export default {
     "admin.dashboard.title": "Panel de Administración",
     "admin.dashboard.alerts": "Alertas",
     "admin.dashboard.alertsPending": "{{count}} pendientes",
+    "admin.dashboard.alertsView": "Ver",
     "admin.dashboard.recentActivity": "Actividad Reciente",
     "admin.dashboard.noRecentActivity": "Sin actividad reciente.",
     "admin.dashboard.quickActions": "Acciones Rápidas",

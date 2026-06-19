@@ -703,6 +703,7 @@ export default {
     "admin.dashboard.title": "एडमिन डैशबोर्ड",
     "admin.dashboard.alerts": "अलर्ट",
     "admin.dashboard.alertsPending": "{{count}} लंबित",
+    "admin.dashboard.alertsView": "देखें",
     "admin.dashboard.recentActivity": "हालिया गतिविधि",
     "admin.dashboard.noRecentActivity": "कोई हालिया गतिविधि नहीं।",
     "admin.dashboard.quickActions": "त्वरित कार्य",

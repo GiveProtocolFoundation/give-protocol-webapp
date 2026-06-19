@@ -651,6 +651,7 @@ export default {
     "admin.dashboard.title": "管理面板",
     "admin.dashboard.alerts": "警报",
     "admin.dashboard.alertsPending": "{{count}} 个待处理",
+    "admin.dashboard.alertsView": "查看",
     "admin.dashboard.recentActivity": "最近活动",
     "admin.dashboard.noRecentActivity": "没有最近活动。",
     "admin.dashboard.quickActions": "快捷操作",
