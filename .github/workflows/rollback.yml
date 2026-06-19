@@ -13,7 +13,11 @@
 #     -f reason="IRP activation — Class A payment-page tampering"
 #
 # The workflow checks out the specified commit, runs the standard build
-# pipeline, and triggers a Vercel deployment — no out-of-band patches.
+# pipeline, and triggers a Netlify deployment — no out-of-band patches.
+#
+# Required GitHub secrets:
+#   NETLIFY_AUTH_TOKEN — Personal access token from Netlify User Settings
+#   NETLIFY_SITE_ID   — Site API ID from Netlify Site Configuration
 
 name: Rollback Deploy
 
@@ -128,46 +132,36 @@ jobs:
     runs-on: ubuntu-latest
     environment: ${{ inputs.environment }}
     steps:
-      - name: Checkout target commit
-        uses: actions/checkout@v5
-        with:
-          ref: ${{ inputs.commit_sha }}
-
       - name: Download build artifact
         uses: actions/download-artifact@v4
         with:
           name: rollback-build-${{ inputs.commit_sha }}
           path: dist/
 
-      - name: Install Vercel CLI
-        run: npm install -g vercel@latest
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli@latest
 
-      - name: Deploy to Vercel
+      - name: Deploy to Netlify
+        id: deploy
         run: |
-          DEPLOY_ARGS="--yes --token=${{ secrets.VERCEL_TOKEN }}"
+          DEPLOY_ARGS="--dir=dist --site=${{ secrets.NETLIFY_SITE_ID }} --auth=${{ secrets.NETLIFY_AUTH_TOKEN }}"
+          DEPLOY_ARGS="$DEPLOY_ARGS --message='Rollback to ${{ inputs.commit_sha }} — ${{ inputs.reason }}'"
 
           if [ "${{ inputs.environment }}" = "production" ]; then
             DEPLOY_ARGS="$DEPLOY_ARGS --prod"
           fi
 
-          # Set rollback metadata as environment variables
-          export ROLLBACK_SHA="${{ inputs.commit_sha }}"
-          export ROLLBACK_REASON="${{ inputs.reason }}"
-          export ROLLBACK_ACTOR="${{ github.actor }}"
-          export ROLLBACK_TIMESTAMP="$(date -u +'%Y-%m-%dT%H:%M:%SZ')"
+          DEPLOY_OUTPUT=$(netlify deploy $DEPLOY_ARGS --json 2>&1)
 
-          DEPLOY_URL=$(vercel deploy $DEPLOY_ARGS \
-            --scope=${{ secrets.VERCEL_ORG_ID }} \
-            --meta rollbackSha="${{ inputs.commit_sha }}" \
-            --meta rollbackReason="${{ inputs.reason }}" \
-            --meta rollbackActor="${{ github.actor }}" \
-            2>&1 | tail -1)
+          DEPLOY_URL=$(echo "$DEPLOY_OUTPUT" | jq -r '.deploy_url // .url // empty')
+          if [ -z "$DEPLOY_URL" ]; then
+            echo "::error::Could not extract deploy URL from Netlify output"
+            echo "$DEPLOY_OUTPUT"
+            exit 1
+          fi
 
           echo "DEPLOY_URL=$DEPLOY_URL" >> "$GITHUB_ENV"
           echo "Deployed to: $DEPLOY_URL"
-        env:
-          VERCEL_ORG_ID: ${{ secrets.VERCEL_ORG_ID }}
-          VERCEL_PROJECT_ID: ${{ secrets.VERCEL_PROJECT_ID }}
 
       - name: Verify deployment
         run: |
