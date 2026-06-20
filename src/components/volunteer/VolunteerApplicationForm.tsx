@@ -316,8 +316,8 @@ const ConsentPanel: React.FC<ConsentPanelProps> = ({
       </h3>
 
       <p className="mb-4 text-sm italic text-gray-500 dark:text-gray-400">
-        These consent terms are provided in English as the operative legal
-        text. If you have questions, contact{" "}
+        These consent terms are provided in English as the operative legal text.
+        If you have questions, contact{" "}
         <a
           href="mailto:privacy@giveprotocol.io"
           className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
