@@ -315,6 +315,18 @@ const ConsentPanel: React.FC<ConsentPanelProps> = ({
         {t("volunteer.consentHeader", "Volunteer Application Consent")}
       </h3>
 
+      <p className="mb-4 text-sm italic text-gray-500 dark:text-gray-400">
+        These consent terms are provided in English as the operative legal
+        text. If you have questions, contact{" "}
+        <a
+          href="mailto:privacy@giveprotocol.io"
+          className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+        >
+          privacy@giveprotocol.io
+        </a>
+        .
+      </p>
+
       <div className="mb-4 text-gray-700 dark:text-gray-300 leading-relaxed">
         <p>
           GIVE PROTOCOL processes the personal information in this application
