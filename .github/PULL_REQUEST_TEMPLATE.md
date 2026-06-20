@@ -18,17 +18,17 @@ Closes #
 ## GDPR Art. 3(2) targeting-trigger gate
 
 > **Required for any PR touching i18n/locales, currency/payments, domains, or charity-onboarding scope.**
-> Reference: the **Art. 3(2) Targeting-Trigger Monitor** (governance control behind the GDPR/UK Art. 27 representative obligation). Tier-1 trigger list and rationale: [`docs/PRE_LAUNCH_CHECKLIST.md`](../docs/PRE_LAUNCH_CHECKLIST.md).
+> Reference: the **Art. 3(2) Targeting-Trigger Monitor** (governance control behind the GDPR/UK Art. 27 representative obligation). Full signal list, weak-vs-strong distinction, and legal rationale: [`docs/PRE_LAUNCH_CHECKLIST.md`](../docs/PRE_LAUNCH_CHECKLIST.md). No single factor is dispositive — targeting is assessed on the totality of factors; a factor equally explained by a worldwide audience is not probative of EU targeting.
 
 - [ ] **Not applicable** — this PR does not touch i18n/locales, currency/payments, domains, or charity-onboarding scope.
-- [ ] **Reviewed** — this PR touches one of those areas and I have checked the Tier-1 targeting triggers below.
+- [ ] **Reviewed** — this PR touches one of those areas and I have checked the strong (EU-specific) signals below.
 
-**Does this PR introduce a Tier-1 Art. 3(2) targeting trigger?** (any one = the service is being *directed* at EU data subjects)
+**Does this PR introduce a STRONG, EU-specific targeting signal?** (these point specifically at the EU and are not explained by a global audience)
 
-- [ ] **Language** — adds/enables an EU-member-state official language other than English (DE, FR, ES, IT, NL, PL, PT, …) in UI or emails.
-- [ ] **Currency / payments** — accepts or displays donations in EUR (or another EU currency), or enables an EU payment rail (SEPA, iDEAL, Bancontact, Giropay).
-- [ ] **Domain** — adds/uses an EU ccTLD (`.eu`, `.de`, `.fr`, …) or EU-geotargeted domain.
-- [ ] **Charity scope** — onboards/verifies EU-established charities or EU beneficiary organizations.
-- [ ] **None of the above** — no Tier-1 targeting trigger introduced.
+- [ ] **EU-specific / minority language** — adds an official language of an EU member state with no large non-EU speaker base (Dutch, Polish, Greek, Czech, Hungarian, Finnish, Swedish, …). _(Adding a globally-spoken EU-official language — ES, DE, FR, PT — is weak/equivocal, not a strong signal; note it but it does not by itself trigger.)_
+- [ ] **EU payment rail / EU-default currency** — enables an EU-specific rail (SEPA, iDEAL, Bancontact, Giropay) or sets EUR as the default for EU-geolocated users. _(Adding EUR as one option in a worldwide multi-currency list is weak/equivocal.)_
+- [ ] **EU domain** — adds/uses an EU ccTLD (`.eu`, `.de`, `.fr`, …) or EU-geotargeted domain.
+- [ ] **EU charity scope** — onboards/verifies EU-established charities or EU beneficiary organizations.
+- [ ] **None of the above** — no strong EU-specific signal introduced (any equivocal factors noted in the description).
 
-> ⚠️ **If you checked ANY trigger above (other than "None"): STOP — do not merge.** Escalate for Art. 3(2)/UK Art. 3(2) reassessment and EU + UK Art. 27 representative appointment **before** the feature goes live. Tag the Head of Data and CTO and open/link a compliance issue.
+> ⚠️ **If you checked ANY strong signal above (other than "None"): STOP — do not merge.** Escalate for an Art. 3(2)/UK GDPR reassessment (Head of Data + counsel) before the feature goes live; if it concludes Art. 3(2) applies, EU + UK Art. 27 representatives must be appointed first. Tag the Head of Data and CTO and open/link a compliance issue.

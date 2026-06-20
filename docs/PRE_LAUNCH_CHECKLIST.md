@@ -4,48 +4,55 @@
 
 ## Why this exists (legal basis)
 
-GDPR **Art. 3(2)** turns on **targeting** — whether the Foundation _directs_ its service at EU data subjects — **not** on the number of EU users or the mere accessibility of the website. The targeting criterion derives from CJEU _Pammer / Hotel Alpenhof_ (C-585/08 & C-144/09) as imported into **EDPB Guidelines 3/2018 on territorial scope, §2.1**. Indicative factors: language, currency, EU TLD, EU marketing/outreach, mention of EU users, EU-directed delivery/payment.
+GDPR **Art. 3(2)(a)** turns on **targeting** — whether the Foundation _envisages directing_ its service at EU data subjects — **not** on the number of EU users or the mere accessibility of the website. The targeting criterion derives from CJEU _Pammer / Hotel Alpenhof_ (C-585/08 & C-144/09) as imported into **EDPB Guidelines 3/2018 on territorial scope, §2.1**. (A separate limb, Art. 3(2)(b), covers **monitoring the behaviour** of EU data subjects.)
 
-If a Tier-1 trigger is met, the service is being directed at EU data subjects → Art. 3(2) applies → an **EU Art. 27 representative** (and a **UK Art. 27 representative** for UK GDPR) must be appointed **before the triggering feature goes live**.
+**No single factor is dispositive.** Targeting is assessed on the **totality of factors evidencing an intention to direct services at the EU**. Critically, a factor that is **equally explained by a worldwide audience is not probative of EU-specific targeting** — e.g., offering a globally-spoken language that happens to be an EU official language (Spanish → Latin America; French → francophone Africa/Canada; German → Switzerland/Namibia), or listing EUR as one option within a broad multi-currency picker, does **not** by itself indicate EU targeting. EDPB §2.1 is explicit that mere site accessibility, and use of a language/currency generally usable outside the EU, are insufficient.
+
+A **strong (EU-specific) signal** below means: **STOP — escalate for an Art. 3(2) / Art. 27 reassessment** before the feature goes live. It does **not** automatically mean Art. 3(2) applies — it means the question must be re-evaluated by the Head of Data / counsel on the full facts.
 
 ## Properties covered by the pre-launch gate
 
-Run the Tier-1 checklist below before any public launch of:
+Run the checklist below before any public launch of:
 
 - `giveprotocol.io`
 - `pacioli.io`
 - `commonry.app`
 
-## TIER 1 — Affirmative targeting triggers
+## STRONG signals — EU-specific (any one = STOP + escalate for reassessment)
 
-**ANY one of these = Art. 3(2) reassessment + appoint EU/UK Art. 27 reps BEFORE the feature goes live.** These are bright-line and objectively observable — no judgement call required.
+**These point specifically at the EU and are not readily explained by a global audience.** Any one fires a mandatory Art. 3(2)/Art. 27 reassessment before launch.
 
-- [ ] **1. Language** — the site/app/emails are offered in any **EU-member-state official language other than English** (e.g., DE, FR, ES, IT, NL, PL, PT, …). _(English alone is ambiguous — also US/UK/IE.)_
-- [ ] **2. Currency / payments** — donations accepted or **displayed in EUR** or any other EU currency, or EU payment rails enabled (SEPA, iDEAL, Bancontact, Giropay).
-- [ ] **3. Domain** — acquisition/use of an **EU ccTLD** (`.eu`, `.de`, `.fr`, …) or EU-geotargeted domains.
-- [ ] **4. Marketing** — any paid ads, SEO, social, or email outreach **geo-targeted to EU member states**; EU influencer/partner campaigns.
-- [ ] **5. Charity scope** — onboarding/verifying **EU-established charities** or enabling EU beneficiary organizations.
-- [ ] **6. Copy / positioning** — marketing or product copy that **references EU users/markets** ("available in Europe", EU testimonials, EU compliance used as a selling point).
-- [ ] **7. Operational presence** — EU-specific **contact details** (EU phone/mailing address), or active **solicitation of EU donors** at events.
+- [ ] **1. EU-specific / minority official language** — UI, app, or emails offered in an official language of an EU member state with **no large non-EU speaker base** (e.g., Dutch, Polish, Greek, Czech, Hungarian, Finnish, Swedish, Croatian, Slovak, Slovenian, Estonian, Latvian, Lithuanian, Maltese, Bulgarian, Romanian, Danish, …). _(Globally-spoken EU-official languages — ES, DE, FR, PT, EN — are weak/equivocal; see Tier 2.)_
+- [ ] **2. EU payment rail or EU-default currency** — enabling an **EU-specific payment method** (SEPA, iDEAL, Bancontact, Giropay) **or** setting **EUR as the default/primary currency for EU-geolocated users**. _(EUR offered as one option in a worldwide multi-currency list is weak/equivocal; see Tier 2.)_
+- [ ] **3. EU domain** — acquisition/use of an **EU ccTLD** (`.eu`, `.de`, `.fr`, …) or EU-geotargeted domains.
+- [ ] **4. EU-geotargeted marketing** — paid ads, SEO, social, or email outreach **geo-targeted to EU member states**; EU influencer/partner campaigns.
+- [ ] **5. EU charity scope** — onboarding/verifying **EU-established charities** or enabling EU beneficiary organizations.
+- [ ] **6. EU-referencing copy / positioning** — marketing or product copy that **references EU users/markets** ("available in Europe", EU testimonials, EU compliance used as a selling point).
+- [ ] **7. EU operational presence** — EU-specific **contact details** (EU phone/mailing address), or active **solicitation of EU donors** at events.
 
-## TIER 2 — Behavioral indicators (monitor; assess in aggregate, not auto-trigger)
+## WEAK / equivocal indicators — assess in aggregate, do NOT auto-trigger
 
-- [ ] **8. Sustained EU inflow the org chooses to cultivate** — non-trivial EU traffic/donations that the Foundation _becomes aware of and decides to serve/court_ (vs. organic, unsolicited, unanticipated). Cultivation tips toward targeting.
-- [ ] **9. EU data residency framed as a user-facing feature** — EU hosting alone is NOT targeting (it is a processing/security choice), but pairing it with EU-facing features is corroborative.
+These are consistent with a global audience and are **not** probative on their own. Monitor them; weigh them only in combination with strong signals or evidence of EU-directed intent.
 
-## Action when a Tier-1 trigger fires
+- [ ] **8. Globally-spoken EU-official language** — offering ES, DE, FR, PT (or EN) in the UI/emails. Equivocal: these languages have large non-EU populations. _(This is the current state of the platform and, by itself, is **not** a targeting trigger.)_
+- [ ] **9. EUR within a worldwide multi-currency offering** — EUR available as one of many global currencies (alongside, e.g., GBP, CHF, USD, JPY, INR, NGN). Equivocal: a global donation posture, not EU-directed.
+- [ ] **10. Sustained EU inflow the org chooses to cultivate** — non-trivial EU traffic/donations that the Foundation _becomes aware of and decides to serve/court_ (vs. organic, unsolicited, unanticipated). Cultivation tips toward targeting.
+- [ ] **11. EU data residency framed as a user-facing feature** — EU hosting alone is NOT targeting (it is a processing/security choice), but pairing it with EU-facing features is corroborative.
 
-1. Reassess Art. 3(2) / UK Art. 3(2) applicability.
-2. **Procure EU (and UK) Art. 27 representatives before the triggering feature goes live.**
-3. Re-activate the Data Breach Response Procedure §5 multi-supervisory-authority + representative routing.
-4. Populate the representative disclosure in `Privacy.tsx` (§13/§8) and the RoPA representative field.
+## Action when a STRONG signal fires
+
+1. **STOP** — do not ship/launch the triggering change until assessed.
+2. Reassess Art. 3(2)(a) targeting / Art. 3(2)(b) monitoring and UK GDPR applicability on the full facts (Head of Data + counsel).
+3. If the reassessment concludes Art. 3(2) applies: **procure EU (and UK) Art. 27 representatives before the triggering feature goes live.**
+4. Re-activate the Data Breach Response Procedure §5 multi-supervisory-authority + representative routing.
+5. Populate the representative disclosure in `Privacy.tsx` (§13/§8) and the RoPA representative field.
 
 ## Enforcement points
 
-- **PR-template checkbox** — any PR touching i18n/locales, currency/payments, domains, or charity-onboarding scope must answer the Tier-1 question (see PR template).
-- **Pre-launch gate** — run the Tier-1 checklist before public launch of each property above.
-- **Marketing-approval gate** — every campaign approval confirms no EU geo-targeting (or accepts the trigger).
-- **Quarterly compliance review** — standing re-run of Tier-1 + Tier-2 aggregate.
+- **PR-template checkbox** — any PR touching i18n/locales, currency/payments, domains, or charity-onboarding scope must answer the targeting-trigger question (see PR template).
+- **Pre-launch gate** — run this checklist before public launch of each property above.
+- **Marketing-approval gate** — every campaign approval confirms no EU geo-targeting (or escalates).
+- **Quarterly compliance review** — standing re-run of strong + weak indicators in aggregate.
 
 ---
 
