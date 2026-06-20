@@ -4,7 +4,7 @@
 
 ## Why this exists (legal basis)
 
-GDPR **Art. 3(2)** turns on **targeting** — whether the Foundation *directs* its service at EU data subjects — **not** on the number of EU users or the mere accessibility of the website. The targeting criterion derives from CJEU *Pammer / Hotel Alpenhof* (C-585/08 & C-144/09) as imported into **EDPB Guidelines 3/2018 on territorial scope, §2.1**. Indicative factors: language, currency, EU TLD, EU marketing/outreach, mention of EU users, EU-directed delivery/payment.
+GDPR **Art. 3(2)** turns on **targeting** — whether the Foundation _directs_ its service at EU data subjects — **not** on the number of EU users or the mere accessibility of the website. The targeting criterion derives from CJEU _Pammer / Hotel Alpenhof_ (C-585/08 & C-144/09) as imported into **EDPB Guidelines 3/2018 on territorial scope, §2.1**. Indicative factors: language, currency, EU TLD, EU marketing/outreach, mention of EU users, EU-directed delivery/payment.
 
 If a Tier-1 trigger is met, the service is being directed at EU data subjects → Art. 3(2) applies → an **EU Art. 27 representative** (and a **UK Art. 27 representative** for UK GDPR) must be appointed **before the triggering feature goes live**.
 
@@ -20,7 +20,7 @@ Run the Tier-1 checklist below before any public launch of:
 
 **ANY one of these = Art. 3(2) reassessment + appoint EU/UK Art. 27 reps BEFORE the feature goes live.** These are bright-line and objectively observable — no judgement call required.
 
-- [ ] **1. Language** — the site/app/emails are offered in any **EU-member-state official language other than English** (e.g., DE, FR, ES, IT, NL, PL, PT, …). *(English alone is ambiguous — also US/UK/IE.)*
+- [ ] **1. Language** — the site/app/emails are offered in any **EU-member-state official language other than English** (e.g., DE, FR, ES, IT, NL, PL, PT, …). _(English alone is ambiguous — also US/UK/IE.)_
 - [ ] **2. Currency / payments** — donations accepted or **displayed in EUR** or any other EU currency, or EU payment rails enabled (SEPA, iDEAL, Bancontact, Giropay).
 - [ ] **3. Domain** — acquisition/use of an **EU ccTLD** (`.eu`, `.de`, `.fr`, …) or EU-geotargeted domains.
 - [ ] **4. Marketing** — any paid ads, SEO, social, or email outreach **geo-targeted to EU member states**; EU influencer/partner campaigns.
@@ -30,7 +30,7 @@ Run the Tier-1 checklist below before any public launch of:
 
 ## TIER 2 — Behavioral indicators (monitor; assess in aggregate, not auto-trigger)
 
-- [ ] **8. Sustained EU inflow the org chooses to cultivate** — non-trivial EU traffic/donations that the Foundation *becomes aware of and decides to serve/court* (vs. organic, unsolicited, unanticipated). Cultivation tips toward targeting.
+- [ ] **8. Sustained EU inflow the org chooses to cultivate** — non-trivial EU traffic/donations that the Foundation _becomes aware of and decides to serve/court_ (vs. organic, unsolicited, unanticipated). Cultivation tips toward targeting.
 - [ ] **9. EU data residency framed as a user-facing feature** — EU hosting alone is NOT targeting (it is a processing/security choice), but pairing it with EU-facing features is corroborative.
 
 ## Action when a Tier-1 trigger fires
@@ -48,4 +48,5 @@ Run the Tier-1 checklist below before any public launch of:
 - **Quarterly compliance review** — standing re-run of Tier-1 + Tier-2 aggregate.
 
 ---
-*Standing control owned by the Head of Data. The authoritative trigger list and legal rationale live in the `targeting-trigger-monitor` governance document; this file is the engineering-facing mirror enforced in the repo.*
+
+_Standing control owned by the Head of Data. The authoritative trigger list and legal rationale live in the `targeting-trigger-monitor` governance document; this file is the engineering-facing mirror enforced in the repo._
