@@ -32,9 +32,9 @@ PRs that fail lint or drop coverage will not be merged.
 
 If your PR touches **i18n/locales, currency/payments, domains, or charity-onboarding scope**, you must answer the targeting-trigger question in the [pull request template](.github/PULL_REQUEST_TEMPLATE.md):
 
-> _Does this introduce a Tier-1 Art. 3(2) targeting trigger? If yes → STOP, escalate for Art. 27 reassessment._
+> _Does this introduce a STRONG, EU-specific targeting signal? If yes → STOP, escalate for an Art. 3(2)/Art. 27 reassessment._
 
-A Tier-1 trigger means the platform would be _directing_ its service at EU data subjects (e.g., shipping an EU-member-state official language, displaying EUR, acquiring an EU domain, or onboarding EU charities), which engages the GDPR/UK GDPR Art. 27 representative obligation. The full trigger list, legal rationale, and the pre-launch gate for `giveprotocol.io` / `pacioli.io` / `commonry.app` live in [`docs/PRE_LAUNCH_CHECKLIST.md`](docs/PRE_LAUNCH_CHECKLIST.md). If a trigger fires, do not merge — escalate to the Head of Data and CTO.
+No single factor is dispositive: targeting is judged on the **totality of factors**, and a factor equally explained by a worldwide audience (e.g., a globally-spoken language that is also an EU official language, or EUR offered as one of many world currencies) is **not** probative of EU targeting. **Strong, EU-specific** signals — an EU-only/minority language, an EU-specific payment rail or EUR-default for EU users, an EU ccTLD, EU-geotargeted marketing, or onboarding EU-established charities — point specifically at the EU and require escalation. The full signal list, the weak-vs-strong distinction, the legal rationale, and the pre-launch gate for `giveprotocol.io` / `pacioli.io` / `commonry.app` live in [`docs/PRE_LAUNCH_CHECKLIST.md`](docs/PRE_LAUNCH_CHECKLIST.md). If a strong signal fires, do not merge — escalate to the Head of Data and CTO.
 
 ## Reporting security issues
 
