@@ -333,20 +333,6 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "다음 사항을 이해합니다:",
-    "volunteer.understanding.item1":
-      "저의 개인정보는 자원봉사 지원서 검토, 자원봉사 업무 관리 및 관련 활동 수행을 위해 처리됩니다. 이 처리는 자원봉사 계약 체결 전 저의 요청에 따른 조치를 취하고 계약을 이행하기 위해 필요하며(GDPR 제6조(1)(b)), 저의 동의에 의존하지 않습니다.",
-    "volunteer.understanding.item2":
-      "GIVE PROTOCOL은 신원 정보, 연락처, 경력 정보, 가용성 및 추천인을 포함한 다양한 범주의 개인정보를 수집할 수 있습니다. 자유 입력란에는 건강, 인종·민족적 출신, 종교적·정치적 신념, 노동조합 가입, 성생활 또는 성적 지향에 관한 정보 등 특별 범주의 데이터를 포함해서는 안 됩니다. 이러한 데이터는 지원서 검토에 필요하지 않습니다.",
-    "volunteer.understanding.item3":
-      "저의 개인정보는 자원봉사 기회를 제공하는 자선단체의 권한 있는 직원, 서비스 제공업체 및 개인정보 처리방침에 명시된 제3자와 공유될 수 있습니다.",
-    "volunteer.understanding.item4":
-      "서비스 제공업체가 저의 거주국 외부에 위치한 경우, 개인정보 처리방침에 설명된 적절한 보호 조치(표준 계약 조항 등)에 따라 저의 개인정보가 국제적으로 이전될 수 있습니다. 이러한 이전은 저의 동의에 의존하지 않습니다.",
-    "volunteer.understanding.item5":
-      "저는 위치에 따라 다양한 개인정보 관련 권리(열람, 정정, 삭제, 처리 제한, 데이터 이동성 및 처리 거부 요청권 포함)를 보유합니다.",
-    "volunteer.understanding.item6Before":
-      "저는 처리에 이의를 제기하고(GDPR 제21조), 개인정보 삭제를 요청할 수 있습니다(GDPR 제17조):",
-    "volunteer.understanding.item6After":
-      ". 특정 처리가 저의 동의에 기반한 경우, 저는 언제든지 그 동의를 철회할 수 있으며, 이는 철회 전에 이루어진 처리의 적법성에 영향을 미치지 않습니다. 이의 제기 또는 삭제 요청은 단체가 저의 자원봉사 지원서를 검토하는 데 영향을 줄 수 있습니다.",
     "volunteer.processingAckTitle": "처리 확인",
     "volunteer.processingAckDesc": "계속하기 전에 다음 사항을 확인해 주세요:",
     "volunteer.essentialProcessingTitle": "신청 처리 (확인 필요):",

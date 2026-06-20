@@ -339,20 +339,6 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Tôi hiểu rằng:",
-    "volunteer.understanding.item1":
-      "Thông tin cá nhân của tôi sẽ được xử lý để đánh giá đơn đăng ký tình nguyện, quản lý phân công tình nguyện và thực hiện các hoạt động liên quan. Việc xử lý này là cần thiết để thực hiện các bước theo yêu cầu của tôi trước và để thực hiện bất kỳ thỏa thuận tình nguyện nào (GDPR Điều 6(1)(b)); không dựa trên sự đồng ý của tôi.",
-    "volunteer.understanding.item2":
-      "GIVE PROTOCOL có thể thu thập nhiều loại thông tin cá nhân của tôi, bao gồm thông tin nhận dạng, thông tin liên hệ, thông tin lý lịch, tình trạng sẵn sàng và thông tin người tham chiếu. Tôi không nên đưa các loại dữ liệu đặc biệt (như thông tin về sức khỏe, nguồn gốc chủng tộc hoặc dân tộc, niềm tin tôn giáo hoặc chính trị, tư cách thành viên công đoàn, đời sống tình dục hoặc xu hướng tình dục) vào các trường văn bản tự do, vì những dữ liệu đó không cần thiết để đánh giá đơn của tôi.",
-    "volunteer.understanding.item3":
-      "Thông tin cá nhân của tôi có thể được chia sẻ với nhân viên được ủy quyền trong tổ chức từ thiện cung cấp cơ hội tình nguyện, các nhà cung cấp dịch vụ và các bên thứ ba như được nêu trong Thông báo Quyền riêng tư.",
-    "volunteer.understanding.item4":
-      "Khi nhà cung cấp dịch vụ đặt tại ngoài quốc gia cư trú của tôi, thông tin cá nhân của tôi có thể được chuyển giao quốc tế theo các biện pháp bảo vệ thích hợp (chẳng hạn như Điều khoản hợp đồng tiêu chuẩn) như được mô tả trong Thông báo Quyền riêng tư. Việc chuyển giao này không dựa trên sự đồng ý của tôi.",
-    "volunteer.understanding.item5":
-      "Tôi có một số quyền liên quan đến thông tin cá nhân của mình, tùy thuộc vào vị trí của tôi, bao gồm các quyền truy cập, chỉnh sửa, xóa, hạn chế xử lý, di chuyển dữ liệu và phản đối xử lý.",
-    "volunteer.understanding.item6Before":
-      "Tôi có thể phản đối việc xử lý (GDPR Điều 21) và yêu cầu xóa thông tin cá nhân của mình (GDPR Điều 17) bằng cách liên hệ",
-    "volunteer.understanding.item6After":
-      ". Khi bất kỳ quá trình xử lý cụ thể nào dựa trên sự đồng ý của tôi, tôi có thể rút lại sự đồng ý đó bất cứ lúc nào mà không ảnh hưởng đến tính hợp pháp của việc xử lý đã thực hiện trước khi rút lại. Việc phản đối hoặc yêu cầu xóa có thể ảnh hưởng đến khả năng của tổ chức trong việc xem xét đơn đăng ký tình nguyện của tôi.",
     "volunteer.processingAckTitle": "XÁC NHẬN XỬ LÝ",
     "volunteer.processingAckDesc":
       "Vui lòng xem xét và xác nhận những điều sau trước khi tiếp tục:",

@@ -354,20 +354,6 @@ export default {
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "Entiendo que:",
-    "volunteer.understanding.item1":
-      "Mi información personal será procesada para evaluar mi solicitud de voluntariado, gestionar las asignaciones de voluntarios y llevar a cabo actividades relacionadas. Este procesamiento es necesario para tomar medidas a mi solicitud antes de, y para llevar a cabo, cualquier acuerdo de voluntariado (RGPD Art. 6(1)(b)); no depende de mi consentimiento.",
-    "volunteer.understanding.item2":
-      "GIVE PROTOCOL puede recopilar diversas categorías de mi información personal, incluyendo información de identidad, datos de contacto, información de antecedentes, disponibilidad y referencias. No debo incluir categorías especiales de datos (como información sobre salud, origen racial o étnico, creencias religiosas o políticas, afiliación sindical, vida sexual u orientación sexual) en campos de texto libre, ya que dichos datos no son necesarios para evaluar mi solicitud.",
-    "volunteer.understanding.item3":
-      "Mi información personal puede compartirse con personal autorizado dentro de la organización benéfica que ofrece la oportunidad de voluntariado, proveedores de servicios y terceros según se describe en el Aviso de Privacidad.",
-    "volunteer.understanding.item4":
-      "Cuando un proveedor de servicios se encuentra fuera de mi país de residencia, mi información personal puede transferirse internacionalmente bajo salvaguardas apropiadas (como las Cláusulas Contractuales Estándar) según se describe en el Aviso de Privacidad. Estas transferencias no dependen de mi consentimiento.",
-    "volunteer.understanding.item5":
-      "Tengo ciertos derechos con respecto a mi información personal, que varían según mi ubicación, incluidos los derechos de acceso, rectificación, supresión, limitación del tratamiento, portabilidad de datos y oposición al tratamiento.",
-    "volunteer.understanding.item6Before":
-      "Puedo oponerme al tratamiento (RGPD Art. 21) y solicitar la supresión de mi información personal (RGPD Art. 17) contactando con",
-    "volunteer.understanding.item6After":
-      ". Cuando cualquier tratamiento específico se base en mi consentimiento, puedo retirar ese consentimiento en cualquier momento sin afectar la licitud del tratamiento llevado a cabo antes de la retirada. Oponerse o solicitar la supresión puede afectar la capacidad de la organización para considerar mi solicitud de voluntariado.",
     "volunteer.processingAckTitle": "RECONOCIMIENTO DE PROCESAMIENTO",
     "volunteer.processingAckDesc":
       "Revise y confirme lo siguiente antes de continuar:",

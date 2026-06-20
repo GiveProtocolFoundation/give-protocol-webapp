@@ -167,6 +167,12 @@ const ConsentDialog: React.FC<{
     >
       <ConsentModalHeader />
       <article className="p-8 overflow-y-auto max-h-[calc(90vh-200px)]">
+        <p className="mb-4 text-xs text-gray-500 dark:text-gray-400 italic border border-gray-200 dark:border-gray-600 rounded px-3 py-2">
+          This consent form is provided in English as the operative legal
+          language of this agreement. In the event of any discrepancy between
+          this English text and any translation, the English version shall
+          prevail.
+        </p>
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
           {t("volunteer.consentHeader", "Volunteer Application Consent")}
         </h2>
