@@ -170,6 +170,17 @@ const ConsentDialog: React.FC<{
         <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-4">
           {t("volunteer.consentHeader", "Volunteer Application Consent")}
         </h2>
+        <p className="mb-4 text-sm italic text-gray-500 dark:text-gray-400">
+          These consent terms are provided in English as the operative legal
+          text. If you have questions, contact{" "}
+          <a
+            href="mailto:privacy@giveprotocol.io"
+            className="text-emerald-600 hover:text-emerald-700 dark:text-emerald-400 dark:hover:text-emerald-300"
+          >
+            privacy@giveprotocol.io
+          </a>
+          .
+        </p>
         <p className="mb-6 text-gray-700 dark:text-gray-300 leading-relaxed">
           GIVE PROTOCOL processes the personal information in this application
           to evaluate your volunteer application and, if successful, to manage

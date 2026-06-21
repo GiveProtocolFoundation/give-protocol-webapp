@@ -38,6 +38,19 @@ describe("ConsentForm", () => {
     expect(getCheckbox("privacy-notice")).toBeTruthy();
   });
 
+  it("should render the English-only governing-language notice", () => {
+    renderForm();
+    expect(
+      screen.getByText(/consent terms are provided in English/),
+    ).toBeTruthy();
+    const link = screen.getByText("privacy@giveprotocol.io");
+    expect(link).toBeTruthy();
+    expect(link.closest("a")).toHaveProperty(
+      "href",
+      "mailto:privacy@giveprotocol.io",
+    );
+  });
+
   it("should render accept and decline buttons", () => {
     renderForm();
     expect(screen.getByText("Accept and Continue")).toBeTruthy();
