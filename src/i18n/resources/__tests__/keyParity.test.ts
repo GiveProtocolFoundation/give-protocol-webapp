@@ -29,6 +29,12 @@ const LANGUAGE_CODES = [
  * GIV-279: Platform News admin CRUD keys — translations pending.
  * GIV-286: Charity wallet tier keys — translations pending.
  * GIV-415: Admin audit trail view_pii keys — translations pending.
+ * GIV-495: Volunteer consent legal paragraphs — intentionally English-only per board
+ *   decision 2026-06-20. GDPR Art. 6(1)(b) citations and erasure/objection rights
+ *   require precise legal language; English is the operative legal text for all locales.
+ *   Governing-language notice added to ConsentForm.tsx and VolunteerApplicationForm.tsx.
+ *   If professional legal translations are commissioned, remove from this allowlist and
+ *   add translated strings to each locale file.
  */
 const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.auditTrail.filterByAction",
@@ -173,6 +179,14 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "wallet.setup.walletAdded",
   "wallet.setup.walletDeleted",
   "wallet.setup.walletsTitle",
+  // GIV-495: volunteer consent legal paragraphs — English-only operative text (board-approved 2026-06-20)
+  "volunteer.understanding.item1",
+  "volunteer.understanding.item2",
+  "volunteer.understanding.item3",
+  "volunteer.understanding.item4",
+  "volunteer.understanding.item5",
+  "volunteer.understanding.item6Before",
+  "volunteer.understanding.item6After",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;
