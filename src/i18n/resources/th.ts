@@ -687,6 +687,7 @@ export default {
     "admin.dashboard.title": "แดชบอร์ดผู้ดูแลระบบ",
     "admin.dashboard.alerts": "การแจ้งเตือน",
     "admin.dashboard.alertsPending": "{{count}} รายการที่รอดำเนินการ",
+    "admin.dashboard.alertsView": "ดู",
     "admin.dashboard.recentActivity": "กิจกรรมล่าสุด",
     "admin.dashboard.noRecentActivity": "ไม่มีกิจกรรมล่าสุด",
     "admin.dashboard.quickActions": "การดำเนินการด่วน",

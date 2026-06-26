@@ -691,6 +691,7 @@ export default {
     "admin.dashboard.title": "Bảng điều khiển quản trị",
     "admin.dashboard.alerts": "Cảnh báo",
     "admin.dashboard.alertsPending": "{{count}} đang chờ",
+    "admin.dashboard.alertsView": "Xem",
     "admin.dashboard.recentActivity": "Hoạt động gần đây",
     "admin.dashboard.noRecentActivity": "Không có hoạt động gần đây.",
     "admin.dashboard.quickActions": "Thao tác nhanh",

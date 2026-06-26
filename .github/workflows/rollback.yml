@@ -1,3 +1,24 @@
+# Rollback Workflow — Redeploy from a specific commit SHA
+#
+# Purpose: IRP-001 §7.1 one-command rollback for incident containment.
+# Triggered manually via GitHub Actions UI or `gh workflow run`.
+#
+# Permissions: restricted to repository collaborators with write access.
+# By policy, only IC (CTO) and Engineering Lead may trigger this workflow.
+#
+# Usage:
+#   gh workflow run rollback.yml \
+#     -f commit_sha=abc1234 \
+#     -f environment=production \
+#     -f reason="IRP activation — Class A payment-page tampering"
+#
+# The workflow checks out the specified commit, runs the standard build
+# pipeline, and triggers a Netlify deployment — no out-of-band patches.
+#
+# Required GitHub secrets:
+#   NETLIFY_AUTH_TOKEN — Personal access token from Netlify User Settings
+#   NETLIFY_SITE_ID   — Site API ID from Netlify Site Configuration
+
 name: Rollback Deploy
 
 on:
@@ -38,11 +59,14 @@ jobs:
             exit 1
           fi
 
-      - name: Checkout target commit
+      - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          ref: ${{ inputs.commit_sha }}
           fetch-depth: 0
+
+      - name: Checkout target commit
+        run: |
+          git checkout "${{ inputs.commit_sha }}"
 
       - name: Verify commit and log audit entry
         run: |
@@ -60,7 +84,7 @@ jobs:
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          node-version-file: ".nvmrc"
+          node-version: "20"
           cache: "npm"
 
       - name: Install dependencies

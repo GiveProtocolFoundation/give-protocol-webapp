@@ -8,10 +8,12 @@ import { useTranslation } from "@/hooks/useTranslation";
 import {
   getAdminDashboardStats,
   getAdminRecentActivity,
+  getAdminAlerts,
 } from "@/services/adminDashboardService";
 import type {
   AdminDashboardStats,
   AdminActivityEvent,
+  AdminAlert,
 } from "@/types/adminDashboard";
 
 // ---------------------------------------------------------------------------
@@ -70,6 +72,36 @@ function getActivityMeta(
         label: t("admin.activity.default", "Activity"),
         colourClass: "text-gray-700 bg-gray-100",
       };
+  }
+}
+
+/** Returns the left-border / background class for an alert severity. */
+function getAlertSeverityClass(severity: string): string {
+  switch (severity) {
+    case "critical":
+    case "high":
+      return "border-red-600 bg-red-50";
+    case "medium":
+      return "border-yellow-500 bg-yellow-50";
+    case "low":
+      return "border-blue-500 bg-blue-50";
+    default:
+      return "border-gray-300 bg-gray-50";
+  }
+}
+
+/** Returns the badge class for severity text inside the alert row. */
+function getAlertBadgeClass(severity: string): string {
+  switch (severity) {
+    case "critical":
+    case "high":
+      return "text-red-700 bg-red-100";
+    case "medium":
+      return "text-yellow-700 bg-yellow-100";
+    case "low":
+      return "text-blue-700 bg-blue-100";
+    default:
+      return "text-gray-700 bg-gray-100";
   }
 }
 
@@ -153,6 +185,81 @@ function ActivityItem({
   );
 }
 
+/** Groups alerts by type and returns one summary per group. */
+function groupAlerts(alerts: AdminAlert[]): Array<{
+  alertType: string;
+  severity: string;
+  title: string;
+  count: number;
+  latestCreatedAt: string;
+}> {
+  const map = new Map<
+    string,
+    { severity: string; title: string; count: number; latestCreatedAt: string }
+  >();
+  for (const a of alerts) {
+    const existing = map.get(a.alertType);
+    if (existing !== undefined) {
+      existing.count += 1;
+      if (a.createdAt > existing.latestCreatedAt) {
+        existing.latestCreatedAt = a.createdAt;
+      }
+    } else {
+      map.set(a.alertType, {
+        severity: a.severity,
+        title: a.title,
+        count: 1,
+        latestCreatedAt: a.createdAt,
+      });
+    }
+  }
+  return Array.from(map.entries()).map(([alertType, v]) => ({
+    alertType,
+    ...v,
+  }));
+}
+
+/** Summary row for a group of alerts of the same type. */
+function AlertSummaryRow({
+  severity,
+  title,
+  count,
+  latestCreatedAt,
+  onClick,
+}: {
+  severity: string;
+  title: string;
+  count: number;
+  latestCreatedAt: string;
+  onClick: () => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <button
+      onClick={onClick}
+      className={`flex items-center justify-between w-full p-4 mb-3 border-l-4 rounded-lg text-left hover:opacity-80 ${getAlertSeverityClass(severity)}`}
+    >
+      <div className="flex items-center gap-3 min-w-0">
+        <span
+          className={`text-xs font-semibold uppercase tracking-wide rounded px-2 py-0.5 shrink-0 ${getAlertBadgeClass(severity)}`}
+        >
+          {severity}
+        </span>
+        <span className="text-sm font-semibold text-gray-800 truncate">
+          {title}
+        </span>
+        <span className="text-sm text-gray-500 shrink-0">({count})</span>
+        <span className="text-xs text-gray-400 shrink-0">
+          {formatRelativeTime(latestCreatedAt)}
+        </span>
+      </div>
+      <span className="text-sm font-medium text-blue-600 shrink-0 ml-4">
+        {t("admin.dashboard.alertsView", "View")} →
+      </span>
+    </button>
+  );
+}
+
 /** Quick action button with title and description text. */
 function QuickActionButton({
   title,
@@ -186,6 +293,7 @@ const AdminDashboard: React.FC = () => {
 
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
   const [activity, setActivity] = useState<AdminActivityEvent[]>([]);
+  const [alerts, setAlerts] = useState<AdminAlert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
 
@@ -194,13 +302,15 @@ const AdminDashboard: React.FC = () => {
       setLoading(true);
       setError(null);
 
-      const [statsData, activityData] = await Promise.all([
+      const [statsData, activityData, alertsData] = await Promise.all([
         getAdminDashboardStats(),
         getAdminRecentActivity(1, 10),
+        getAdminAlerts(),
       ]);
 
       setStats(statsData);
       setActivity(activityData.events);
+      setAlerts(alertsData);
     } catch (err) {
       const msg =
         err instanceof Error ? err.message : "Failed to load dashboard data.";
@@ -255,6 +365,16 @@ const AdminDashboard: React.FC = () => {
     navigate("/admin/platform-news");
   }, [navigate]);
 
+  /** Stable map of alertType → navigation handler for alert summary rows. */
+  const alertNavigators: Record<string, () => void> = React.useMemo(
+    () => ({
+      pending_verification: handleNavigateCharities,
+      expired_validation: handleNavigateCharities,
+      removal_request: handleNavigateCharities,
+    }),
+    [handleNavigateCharities],
+  );
+
   if (loading) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -292,6 +412,34 @@ const AdminDashboard: React.FC = () => {
       <h1 className="text-3xl font-bold text-gray-900">
         {t("admin.dashboard.title", "Admin Dashboard")}
       </h1>
+
+      {/* Alerts panel — grouped summary with links to relevant pages */}
+      {alerts.length > 0 && (
+        <Card className="p-6">
+          <h2 className="text-xl font-semibold text-gray-900 mb-4">
+            {t("admin.dashboard.alerts", "Alerts")}{" "}
+            <span className="ml-2 text-sm font-normal text-red-600">
+              (
+              {t("admin.dashboard.alertsPending", "{{count}} pending", {
+                count: alerts.length,
+              })}
+              )
+            </span>
+          </h2>
+          {groupAlerts(alerts).map((group) => (
+            <AlertSummaryRow
+              key={group.alertType}
+              severity={group.severity}
+              title={group.title}
+              count={group.count}
+              latestCreatedAt={group.latestCreatedAt}
+              onClick={
+                alertNavigators[group.alertType] ?? handleNavigateCharities
+              }
+            />
+          ))}
+        </Card>
+      )}
 
       {/* KPI cards */}
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
