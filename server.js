@@ -30,10 +30,15 @@ app.use(limiter);
 const RPC_ENDPOINTS = {
   base: process.env.VITE_BASE_RPC_URL || "https://base.publicnode.com",
   optimism: process.env.VITE_OPTIMISM_RPC_URL || "https://mainnet.optimism.io",
-  moonbeam: process.env.VITE_MOONBEAM_RPC_URL || "https://rpc.api.moonbeam.network",
-  "base-sepolia": process.env.VITE_BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
-  "optimism-sepolia": process.env.VITE_OPTIMISM_SEPOLIA_RPC_URL || "https://sepolia.optimism.io",
-  moonbase: process.env.VITE_MOONBASE_RPC_URL || "https://rpc.api.moonbase.moonbeam.network",
+  moonbeam:
+    process.env.VITE_MOONBEAM_RPC_URL || "https://rpc.api.moonbeam.network",
+  "base-sepolia":
+    process.env.VITE_BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
+  "optimism-sepolia":
+    process.env.VITE_OPTIMISM_SEPOLIA_RPC_URL || "https://sepolia.optimism.io",
+  moonbase:
+    process.env.VITE_MOONBASE_RPC_URL ||
+    "https://rpc.api.moonbase.moonbeam.network",
 };
 
 app.post("/api/rpc/:chain", async (req, res) => {
@@ -49,7 +54,10 @@ app.post("/api/rpc/:chain", async (req, res) => {
       res.status(400).json({
         jsonrpc: "2.0",
         id: null,
-        error: { code: -32600, message: "Invalid Request: empty or malformed JSON-RPC body" },
+        error: {
+          code: -32600,
+          message: "Invalid Request: empty or malformed JSON-RPC body",
+        },
       });
       return;
     }
@@ -65,7 +73,9 @@ app.post("/api/rpc/:chain", async (req, res) => {
       body,
     });
 
-    console.log(`RPC proxy (${safeChain}): upstream responded ${Number(response.status)}`);
+    console.log(
+      `RPC proxy (${safeChain}): upstream responded ${Number(response.status)}`,
+    );
 
     const data = await response.json();
 
@@ -84,13 +94,17 @@ app.post("/api/rpc/:chain", async (req, res) => {
 
     res.json(data);
   } catch (error) {
-    const safeMessage = error instanceof Error ? error.message.slice(0, 200) : "Unknown error";
+    const safeMessage =
+      error instanceof Error ? error.message.slice(0, 200) : "Unknown error";
     console.error(`RPC proxy error (${safeChain}): ${safeMessage}`);
-    res.status(502).set("Content-Type", "application/json").json({
-      jsonrpc: "2.0",
-      id: req.body?.id ?? null,
-      error: { code: -32603, message: `RPC request failed for ${safeChain}` },
-    });
+    res
+      .status(502)
+      .set("Content-Type", "application/json")
+      .json({
+        jsonrpc: "2.0",
+        id: req.body?.id ?? null,
+        error: { code: -32603, message: `RPC request failed for ${safeChain}` },
+      });
   }
 });
 
@@ -189,9 +203,7 @@ app.use("*", async (req, res) => {
   } catch (e) {
     vite?.ssrFixStacktrace(e);
     console.log(e.stack);
-    const errorMessage = isProduction
-      ? "Internal Server Error"
-      : e.stack;
+    const errorMessage = isProduction ? "Internal Server Error" : e.stack;
     res.status(500).set({ "Content-Type": "text/plain" }).end(errorMessage);
   }
 });

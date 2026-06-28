@@ -415,7 +415,9 @@ async function runSeed(): Promise<void> {
     await ensureCharityDetails(profileId, spec);
   }
   console.log("\nSeed complete.");
-  console.log("All seeded charities share a common password (see SEED_CHARITY_PASSWORD env var).");
+  console.log(
+    "All seeded charities share a common password (see SEED_CHARITY_PASSWORD env var).",
+  );
   console.log(
     "Log in via the Charity login with any seeded email above to exercise the authed charity flow.",
   );
