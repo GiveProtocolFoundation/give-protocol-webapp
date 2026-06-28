@@ -76,10 +76,14 @@ export class SafeProvider implements UnifiedWalletProvider {
     const isIframe = window !== window.parent;
 
     // Check for Safe-specific URL parameters
+    const ancestorOrigin = window.location.ancestorOrigins?.[0];
+    const ancestorHostname = ancestorOrigin ? new URL(ancestorOrigin).hostname : "";
     const hasSafeParams =
       window.location.search.includes("safe=") ||
-      window.location.ancestorOrigins?.[0]?.includes("app.safe.global") ||
-      window.location.ancestorOrigins?.[0]?.includes("gnosis-safe.io");
+      ancestorHostname === "app.safe.global" ||
+      ancestorHostname.endsWith(".safe.global") ||
+      ancestorHostname === "gnosis-safe.io" ||
+      ancestorHostname.endsWith(".gnosis-safe.io");
 
     return isIframe && hasSafeParams;
   }
