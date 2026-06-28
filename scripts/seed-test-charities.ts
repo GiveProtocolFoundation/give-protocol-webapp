@@ -430,7 +430,7 @@ async function runTeardown(): Promise<void> {
     console.log(`• ${spec.name}`);
     const user = await findUserByEmail(spec.email);
     if (!user) {
-      console.log(`  no auth user; skipping`);
+      console.log("  no auth user; skipping");
       continue;
     }
     const { data: profile } = await admin
@@ -444,7 +444,7 @@ async function runTeardown(): Promise<void> {
     }
     const { error: deleteError } = await admin.auth.admin.deleteUser(user.id);
     if (deleteError) throw deleteError;
-    console.log(`  removed auth user and rows`);
+    console.log("  removed auth user and rows");
   }
   console.log("\nTeardown complete.");
 }

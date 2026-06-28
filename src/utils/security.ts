@@ -9,6 +9,9 @@ export class SecurityManager {
   private readonly oauthStates: Map<string, number> = new Map();
   private readonly STATE_TIMEOUT = 10 * 60 * 1000; // 10 minutes
 
+  /**
+   * Private constructor that schedules a periodic sweep for expired OAuth state tokens.
+   */
   private constructor() {
     // Clean up expired states periodically
     setInterval(() => this.cleanupExpiredStates(), 60 * 1000);
@@ -36,11 +39,11 @@ export class SecurityManager {
 
     const isValid = Date.now() - timestamp < this.STATE_TIMEOUT;
     this.oauthStates.delete(state);
-    
+
     if (!isValid) {
-      Logger.warn('Invalid or expired OAuth state detected', {
+      Logger.warn("Invalid or expired OAuth state detected", {
         state,
-        timestamp: new Date(timestamp).toISOString()
+        timestamp: new Date(timestamp).toISOString(),
       });
     }
 

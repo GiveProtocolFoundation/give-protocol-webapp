@@ -26,6 +26,7 @@ export const useAuth = jest.fn(() => ({
     }
   }),
   loginWithGoogle: jest.fn(),
+  loginWithApple: jest.fn(),
   logout: jest.fn(),
   resetPassword: jest.fn(),
   refreshSession: jest.fn(),

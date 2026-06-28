@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { ArrowLeft } from "lucide-react";
 import { useAuth } from "@/hooks/useAuth";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { validateEmail } from "@/utils/validation";
@@ -25,15 +26,18 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [error, setError] = useState("");
   const { resetPassword, sendUsernameReminder, loading } = useAuth();
+  const { t } = useTranslation();
 
   const isPassword = type === "password";
-  const title = isPassword ? "Reset Password" : "Forgot Username";
+  const title = isPassword
+    ? t("auth.forgot.resetPassword")
+    : t("auth.forgot.forgotUsername");
   const description = isPassword
-    ? "Enter your email address and we'll send you a link to reset your password."
-    : "Enter your email address and we'll send you your username.";
+    ? t("auth.forgot.passwordDesc")
+    : t("auth.forgot.usernameDesc");
   const successMessage = isPassword
-    ? "Password reset instructions sent to your email"
-    : "Username reminder sent to your email";
+    ? t("auth.forgot.passwordSuccess")
+    : t("auth.forgot.usernameSuccess");
 
   /**
    * Handles form submission for password reset or username reminder
@@ -45,7 +49,7 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
       setError("");
 
       if (!validateEmail(email)) {
-        setError("Please enter a valid email address");
+        setError(t("auth.validation.invalidEmail"));
         return;
       }
 
@@ -57,10 +61,10 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
         }
         setSubmitted(true);
       } catch (_err) {
-        setError("An error occurred. Please try again.");
+        setError(t("auth.forgot.genericError"));
       }
     },
-    [email, isPassword, resetPassword, sendUsernameReminder],
+    [email, isPassword, resetPassword, sendUsernameReminder, t],
   );
 
   /**
@@ -96,12 +100,12 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
           </div>
         </div>
         <h3 className="text-lg font-medium text-gray-900 mb-2">
-          Check your email
+          {t("auth.forgot.checkEmail")}
         </h3>
         <p className="text-sm text-gray-600 mb-6">{successMessage}</p>
         <Button onClick={onBack} variant="ghost" className="w-full">
           <ArrowLeft aria-hidden="true" className="w-4 h-4 mr-2" />
-          Back to Sign In
+          {t("auth.forgot.backToSignIn")}
         </Button>
       </div>
     );
@@ -112,7 +116,7 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
       <div className="mb-6">
         <Button onClick={onBack} variant="ghost" size="sm" className="mb-4">
           <ArrowLeft aria-hidden="true" className="w-4 h-4 mr-2" />
-          Back to Sign In
+          {t("auth.forgot.backToSignIn")}
         </Button>
         <h2 className="text-2xl font-bold text-gray-900">{title}</h2>
         <p className="text-sm text-gray-600 mt-2">{description}</p>
@@ -122,8 +126,8 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
         <div>
           <Input
             type="email"
-            label="Email"
-            placeholder="Enter your email address"
+            label={t("common.email")}
+            placeholder={t("auth.forgot.emailPlaceholder")}
             value={email}
             onChange={handleEmailChange}
             autoComplete="email"
@@ -132,16 +136,23 @@ export const ForgotCredentials: React.FC<ForgotCredentialsProps> = ({
           />
         </div>
 
-        {error && <div role="alert" className="text-sm text-red-600">{error}</div>}
+        {error && (
+          <div role="alert" className="text-sm text-red-600">
+            {error}
+          </div>
+        )}
 
-        <Button type="submit" className="w-full min-h-[48px]" disabled={loading} aria-busy={loading}>
-          {(() => {
-            if (loading) {
-              return "Sending...";
-            }
-            const actionText = isPassword ? "Reset Link" : "Username";
-            return `Send ${actionText}`;
-          })()}
+        <Button
+          type="submit"
+          className="w-full min-h-[48px]"
+          disabled={loading}
+          aria-busy={loading}
+        >
+          {loading
+            ? t("auth.forgot.sending")
+            : isPassword
+              ? t("auth.forgot.sendResetLink")
+              : t("auth.forgot.sendUsername")}
         </Button>
       </form>
     </div>

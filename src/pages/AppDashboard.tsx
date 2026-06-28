@@ -3,29 +3,20 @@ import { Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { DiscoveryShellSkeleton } from "@/components/discovery/DiscoveryShellSkeleton";
 import { PublicDiscoveryView } from "@/components/discovery/PublicDiscoveryView";
-import { DonorHubView } from "@/components/discovery/DonorHubView";
-import { CharityHubView } from "@/components/discovery/CharityHubView";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 const BLOB_DELAY: React.CSSProperties = { animationDelay: "1s" };
 
 /**
- * /browse Discovery Hub. Switches between public, donor, and charity views based on the
- * current auth state. Admins are redirected to /admin.
+ * /browse Discovery Hub. Renders the public discovery view for every visitor;
+ * admins are redirected to /admin.
  */
 const AppDashboard: React.FC = () => {
-  const { user, userType, loading } = useAuth();
+  usePageTitle("Browse");
+  const { userType, loading } = useAuth();
 
-  let content: React.ReactNode;
-  if (loading) {
-    content = <DiscoveryShellSkeleton />;
-  } else if (userType === "admin") {
+  if (userType === "admin") {
     return <Navigate to="/admin" replace />;
-  } else if (!user) {
-    content = <PublicDiscoveryView />;
-  } else if (userType === "charity") {
-    content = <CharityHubView />;
-  } else {
-    content = <DonorHubView />;
   }
 
   return (
@@ -36,7 +27,9 @@ const AppDashboard: React.FC = () => {
         className="absolute -bottom-20 -right-20 w-96 h-96 bg-teal-200/20 dark:bg-teal-500/20 rounded-full blur-3xl animate-pulse pointer-events-none"
         style={BLOB_DELAY}
       />
-      <div className="relative z-10">{content}</div>
+      <div className="relative z-10">
+        {loading ? <DiscoveryShellSkeleton /> : <PublicDiscoveryView />}
+      </div>
     </div>
   );
 };

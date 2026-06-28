@@ -1,4 +1,5 @@
 import React, { Component, ErrorInfo } from "react";
+import i18next from "i18next";
 import { AlertTriangle, RefreshCw, Home } from "lucide-react";
 import { Button } from "./ui/Button";
 import { Logger } from "@/utils/logger";
@@ -28,6 +29,10 @@ export class ErrorBoundary extends Component<Props, State> {
   private cacheOperationsCount = 0;
   private navigationAttempts = 0;
 
+  /**
+   * Initializes the boundary with a clean error state and zero recovery attempts.
+   * @param props - React component props, including the wrapped `children` and optional `onError` callback.
+   */
   constructor(props: Props) {
     super(props);
     this.state = {
@@ -46,6 +51,13 @@ export class ErrorBoundary extends Component<Props, State> {
     };
   }
 
+  /**
+   * React lifecycle hook invoked when a descendant throws. Logs the error, invokes the
+   * optional `onError` prop, stores the error in state, and triggers automatic recovery
+   * for transient failure classes.
+   * @param error - The error thrown by a descendant component.
+   * @param errorInfo - React-supplied diagnostic metadata including the component stack.
+   */
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     // Log detailed error information
     Logger.error("React error boundary caught error", {
@@ -78,6 +90,13 @@ export class ErrorBoundary extends Component<Props, State> {
     }
   }
 
+  /**
+   * Decides whether the boundary should attempt automatic recovery for a given error.
+   * Recoverable errors include chunk-loading, network, and timeout failures up to
+   * {@link MAX_RECOVERY_ATTEMPTS}.
+   * @param error - The error that was caught.
+   * @returns `true` if recovery should be attempted.
+   */
   private canAttemptRecovery(error: Error): boolean {
     // List of errors that we can attempt to recover from
     const recoverableErrors = [
@@ -105,6 +124,11 @@ export class ErrorBoundary extends Component<Props, State> {
     );
   }
 
+  /**
+   * Attempts to recover from a caught error, throttled by {@link RECOVERY_COOLDOWN}.
+   * For chunk-load errors the page is reloaded; otherwise caches are cleared and the
+   * error state is reset so children remount.
+   */
   private readonly attemptRecovery = async () => {
     const now = Date.now();
     if (now - this.lastRecoveryAttempt < RECOVERY_COOLDOWN) {
@@ -159,6 +183,9 @@ export class ErrorBoundary extends Component<Props, State> {
     }
   }
 
+  /**
+   * Resets the boundary back to its initial, error-free state so children remount.
+   */
   private readonly handleReset = () => {
     // Reset state
     this.setState({
@@ -169,6 +196,9 @@ export class ErrorBoundary extends Component<Props, State> {
     });
   };
 
+  /**
+   * Navigates the browser to the application root, used as a last-resort recovery action.
+   */
   private readonly handleNavigateHome = () => {
     this.navigationAttempts++;
     // Navigate to home page
@@ -189,10 +219,10 @@ export class ErrorBoundary extends Component<Props, State> {
               <AlertTriangle className="h-12 w-12 text-red-500" />
             </div>
             <h2 className="text-2xl font-bold text-gray-900 text-center mb-4">
-              Something went wrong
+              {i18next.t("error.somethingWrong")}
             </h2>
             <p className="text-gray-600 mb-6 text-center">
-              {this.state.error?.message || "An unexpected error occurred"}
+              {this.state.error?.message || i18next.t("error.unexpectedError")}
             </p>
             <div className="space-y-3">
               <Button
@@ -203,21 +233,21 @@ export class ErrorBoundary extends Component<Props, State> {
               >
                 <RefreshCw className="h-4 w-4 mr-2" />
                 {this.state.recoveryAttempts >= MAX_RECOVERY_ATTEMPTS
-                  ? "Too many attempts"
-                  : "Try Again"}
+                  ? i18next.t("error.tooManyAttempts")
+                  : i18next.t("error.tryAgain")}
               </Button>
               <Button
                 onClick={this.handleNavigateHome}
                 className="w-full flex items-center justify-center"
               >
                 <Home className="h-4 w-4 mr-2" />
-                Go to Homepage
+                {i18next.t("error.goHome")}
               </Button>
             </div>
             {process.env.NODE_ENV === "development" && this.state.errorInfo && (
               <details className="mt-4 p-4 bg-gray-50 rounded-md">
                 <summary className="text-sm text-gray-700 cursor-pointer">
-                  Error Details
+                  {i18next.t("error.details")}
                 </summary>
                 <pre className="mt-2 text-xs text-gray-600 overflow-auto whitespace-pre-wrap">
                   {this.state.error?.stack}

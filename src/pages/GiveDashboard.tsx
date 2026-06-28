@@ -1,5 +1,5 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Navigate, useNavigate, useLocation } from "react-router-dom";
+import { Navigate, Link, useLocation } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWeb3 } from "@/contexts/Web3Context";
 import {
@@ -20,6 +20,7 @@ import type { Transaction } from "@/types/contribution";
 import { DonationExportModal } from "@/components/contribution/DonationExportModal";
 import { formatDate } from "@/utils/date";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { CurrencyDisplay } from "@/components/CurrencyDisplay";
 import { WalletAliasSettings } from "@/components/settings/WalletAliasSettings";
 import { ScheduledDonations } from "@/components/donor/ScheduledDonations";
@@ -30,6 +31,7 @@ import {
 } from "@/hooks/useContributionStats";
 import type { UnifiedContribution } from "@/services/contributionAggregationService";
 import { useProfile } from "@/hooks/useProfile";
+import { ENV } from "@/config/env";
 
 type View =
   | "select"
@@ -128,7 +130,10 @@ function mapContributionToTransaction(c: UnifiedContribution): Transaction {
     id: c.id,
     amount: 0,
     timestamp: c.date,
-    status: c.status === "completed" || c.status === "validated" ? "completed" : "pending",
+    status:
+      c.status === "completed" || c.status === "validated"
+        ? "completed"
+        : "pending",
     purpose: purposeMap[c.type] || c.type,
     metadata: {
       organization: c.organizationName,
@@ -194,9 +199,7 @@ function ContributionsFilterBar({
           aria-label="Filter by type"
         >
           <option value="all">{t("filter.allTypes", "All Types")}</option>
-          <option value="Donation">
-            {t("filter.donations", "Donations")}
-          </option>
+          <option value="Donation">{t("filter.donations", "Donations")}</option>
           <option value="Fiat Donation">
             {t("filter.fiatDonations", "Fiat Donations")}
           </option>
@@ -233,48 +236,190 @@ function ContributionsTableHeader({
   onSortByType: () => void;
   onSortByOrganization: () => void;
   onSortByStatus: () => void;
-  getSortIcon: (_key: "date" | "type" | "status" | "organization") => React.ReactNode;
+  getSortIcon: (
+    _key: "date" | "type" | "status" | "organization",
+  ) => React.ReactNode;
   t: (_key: string, _fallback?: string) => string;
 }) {
   return (
     <thead>
       <tr>
         <th
-          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none flex items-center gap-1"
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByDate}
         >
-          {t("contributions.date")}
-          {getSortIcon("date")}
+          <span className="flex items-center gap-1">
+            {t("contributions.date")}
+            {getSortIcon("date")}
+          </span>
         </th>
         <th
-          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none flex items-center gap-1"
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByType}
         >
-          {t("contributions.type")}
-          {getSortIcon("type")}
+          <span className="flex items-center gap-1">
+            {t("contributions.type")}
+            {getSortIcon("type")}
+          </span>
         </th>
         <th
-          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none flex items-center gap-1"
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByOrganization}
         >
-          {t("contributions.organization")}
-          {getSortIcon("organization")}
+          <span className="flex items-center gap-1">
+            {t("contributions.organization")}
+            {getSortIcon("organization")}
+          </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
           {t("contributions.details")}
         </th>
         <th
-          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none flex items-center gap-1"
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-50 select-none"
           onClick={onSortByStatus}
         >
-          {t("contributions.status")}
-          {getSortIcon("status")}
+          <span className="flex items-center gap-1">
+            {t("contributions.status")}
+            {getSortIcon("status")}
+          </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
           {t("contributions.verification")}
         </th>
       </tr>
     </thead>
+  );
+}
+
+/** Mission-specific minimal line-art: hand offering a heart-token for the donor empty state. */
+function GivingHeartIllustration(): React.ReactElement {
+  return (
+    <svg
+      width="120"
+      height="96"
+      viewBox="0 0 120 96"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="mx-auto text-emerald-500"
+    >
+      {/* Sparkles around heart */}
+      <path
+        d="M86 16 V20"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.6"
+      />
+      <path
+        d="M96 24 L99 21"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.6"
+      />
+      <path
+        d="M76 24 L73 21"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.6"
+      />
+      {/* Heart outline (recipient) */}
+      <path
+        d="M86 52 L70 38 C64 32 64 22 70 16 C76 10 86 10 86 18 C86 10 96 10 102 16 C108 22 108 32 102 38 Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        fill="none"
+        strokeLinejoin="round"
+      />
+      {/* Open hand offering from below-left */}
+      <path
+        d="M14 78 C14 70 22 64 30 66 L52 70 C56 71 58 74 57 78 L54 86 C53 90 49 92 45 91 L20 86 C16 85 14 82 14 78 Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        fill="none"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M30 66 V58"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M38 68 V60"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M46 70 V63"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      {/* Coin rising from hand toward heart */}
+      <circle
+        cx="62"
+        cy="58"
+        r="5"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        fill="currentColor"
+        fillOpacity="0.15"
+      />
+      <path
+        d="M62 56 V60"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M60 58 H64"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
+/** Empty state for the donor contributions table — invites a first donation. */
+function ContributionsEmptyState({
+  t,
+}: {
+  t: (_key: string, _fallback?: string) => string;
+}): React.ReactElement {
+  return (
+    <div className="py-16 px-6 text-center">
+      <GivingHeartIllustration />
+      <h3 className="text-lg font-semibold text-gray-900 mb-2 mt-6">
+        {t("contributions.emptyTitle", "Your giving journey starts here")}
+      </h3>
+      <p className="text-sm text-gray-500 max-w-sm mx-auto mb-6">
+        {t(
+          "contributions.emptyDescription",
+          "Donations and volunteer hours you log will appear here. Find a cause that matters to you to get started.",
+        )}
+      </p>
+      <Link
+        to="/browse"
+        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-[10px] shadow-cta hover:shadow-[0_4px_18px_rgba(5,150,105,0.5)] transform hover:-translate-y-0.5 transition-all"
+      >
+        {t("contributions.browseCharities", "Browse charities")}
+      </Link>
+    </div>
   );
 }
 
@@ -283,10 +428,10 @@ function ContributionsTableHeader({
  * @returns GiveDashboard page element
  */
 export const GiveDashboard: React.FC = () => {
+  usePageTitle("Dashboard");
   const [_view, _setView] = useState<View>("select"); // Prefixed as unused
   const { user, userType } = useAuth();
   const { isConnected } = useWeb3();
-  const navigate = useNavigate();
   const location = useLocation();
   const [selectedYear, setSelectedYear] = useState<string>("all");
   const [selectedType, setSelectedType] = useState<string>("all");
@@ -302,8 +447,7 @@ export const GiveDashboard: React.FC = () => {
 
   // Real data hooks
   const { profile } = useProfile();
-  const { data: stats, isLoading: statsLoading } =
-    useUserContributionStats();
+  const { data: stats, isLoading: statsLoading } = useUserContributionStats();
   const { data: rawContributions = [], isLoading: contribLoading } =
     useUnifiedContributions({
       userId: profile?.id,
@@ -332,21 +476,6 @@ export const GiveDashboard: React.FC = () => {
     location.pathname === _path
       ? "bg-primary-100 text-primary-900"
       : "text-gray-700 hover:bg-primary-50";
-
-  const handleSkillClick = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const skill = e.currentTarget.dataset.skill;
-      if (!skill) return;
-      navigate("/contributions", {
-        state: {
-          activeTab: "volunteer",
-          section: "endorsements",
-          skill,
-        },
-      });
-    },
-    [navigate],
-  );
 
   const handleYearChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -469,12 +598,17 @@ export const GiveDashboard: React.FC = () => {
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="bg-white p-8 rounded-lg shadow-md text-center">
           <h2 className="text-2xl font-bold text-gray-900 mb-4">
-            Admin Dashboard
+            {t("dashboard.adminTitle", "Admin Dashboard")}
           </h2>
           <p className="text-gray-600 mb-6">
-            Please use the admin panel to manage the platform.
+            {t(
+              "dashboard.adminNote",
+              "Please use the admin panel to manage the platform.",
+            )}
           </p>
-          <Button onClick={handleAdminRedirect}>Go to Admin Panel</Button>
+          <Button onClick={handleAdminRedirect}>
+            {t("dashboard.adminButton", "Go to Admin Panel")}
+          </Button>
         </div>
       </div>
     );
@@ -487,32 +621,38 @@ export const GiveDashboard: React.FC = () => {
           <h1 className="text-3xl font-bold text-gray-900">
             {t("dashboard.title")}
           </h1>
-          <p className="mt-2 text-sm text-gray-600">{t("dashboard.subtitle")}</p>
+          <p className="mt-2 text-sm text-gray-600">
+            {t("dashboard.subtitle")}
+          </p>
         </hgroup>
         <div className="flex space-x-3 flex-shrink-0">
           <Button
-            variant="secondary"
+            variant="primary"
             onClick={toggleVolunteerHours}
             className="flex items-center"
           >
             <ClipboardList className="h-4 w-4 mr-2" />
-            {showVolunteerHours ? "Hide" : "Log"} Volunteer Hours
+            {showVolunteerHours
+              ? t("dashboard.hideVolunteerHours", "Hide Volunteer Hours")
+              : t("dashboard.logVolunteerHours", "Log Volunteer Hours")}
           </Button>
           <Button
-            variant="secondary"
+            variant="ghost"
             onClick={toggleScheduledDonations}
-            className="flex items-center"
+            className="flex items-center border border-gray-200 text-gray-700 hover:bg-gray-50"
           >
             <Calendar className="h-4 w-4 mr-2" />
-            {showScheduledDonations ? "Hide" : "View"} Monthly Donations
+            {showScheduledDonations
+              ? t("dashboard.hideMonthlyDonations", "Hide Monthly Donations")
+              : t("dashboard.viewMonthlyDonations", "View Monthly Donations")}
           </Button>
           <Button
-            variant="secondary"
+            variant="ghost"
             onClick={toggleWalletSettings}
-            className="flex items-center"
+            className="flex items-center border border-gray-200 text-gray-700 hover:bg-gray-50"
           >
             <Settings className="h-4 w-4 mr-2" />
-            Wallet Settings
+            {t("dashboard.walletSettings", "Wallet Settings")}
           </Button>
         </div>
       </header>
@@ -545,7 +685,9 @@ export const GiveDashboard: React.FC = () => {
       ) : (
         <div className="grid gap-6 mb-8 md:grid-cols-3">
           <Card className="p-6 flex items-center">
-            <DollarSign className="h-6 w-6 p-3 rounded-full bg-emerald-100 text-emerald-600 mr-4" />
+            <span className="h-11 w-11 shrink-0 rounded-full flex items-center justify-center bg-gradient-to-br from-emerald-100 to-emerald-200 mr-4">
+              <DollarSign className="h-5 w-5 text-emerald-600" />
+            </span>
             <div>
               <p className="text-sm font-medium text-gray-600">
                 {t("dashboard.totalDonations")}
@@ -561,7 +703,9 @@ export const GiveDashboard: React.FC = () => {
           </Card>
 
           <Card className="p-6 flex items-center">
-            <Clock className="h-6 w-6 p-3 rounded-full bg-green-100 text-green-600 mr-4" />
+            <span className="h-11 w-11 shrink-0 rounded-full flex items-center justify-center bg-gradient-to-br from-green-100 to-green-200 mr-4">
+              <Clock className="h-5 w-5 text-green-600" />
+            </span>
             <div>
               <p className="text-sm font-medium text-gray-600">
                 {t("dashboard.volunteerHours")}
@@ -573,7 +717,9 @@ export const GiveDashboard: React.FC = () => {
           </Card>
 
           <Card className="p-6 flex items-center">
-            <Award className="h-6 w-6 p-3 rounded-full bg-emerald-100 text-emerald-600 mr-4" />
+            <span className="h-11 w-11 shrink-0 rounded-full flex items-center justify-center bg-gradient-to-br from-amber-100 to-amber-200 mr-4">
+              <Award className="h-5 w-5 text-amber-600" />
+            </span>
             <div>
               <p className="text-sm font-medium text-gray-600">
                 {t("dashboard.skillsEndorsed")}
@@ -597,140 +743,158 @@ export const GiveDashboard: React.FC = () => {
           onExport={handleShowExportModal}
           t={t}
         />
-        <table className="min-w-full divide-y divide-gray-200">
-          <ContributionsTableHeader
-            onSortByDate={handleSortByDate}
-            onSortByType={handleSortByType}
-            onSortByOrganization={handleSortByOrganization}
-            onSortByStatus={handleSortByStatus}
-            getSortIcon={getSortIcon}
-            t={t}
-          />
-          <tbody className="divide-y divide-gray-200">
-            {filteredContributions.map((contribution) => (
-              <tr key={contribution.id}>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {formatDate(contribution.timestamp, true)}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {t(
-                    `contribution.type.${contribution.purpose.toLowerCase().replace(" ", "")}`,
-                    contribution.purpose,
-                  )}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {contribution.metadata?.organization ||
-                    t("common.unknown", "Unknown")}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-                  {contribution.purpose === "Fiat Donation" && (
-                    <>
-                      <CurrencyDisplay amount={contribution.amount || 0} />
-                      {contribution.metadata?.disbursementStatus && (
-                        <span className="ml-2 text-xs text-gray-500">
-                          ({contribution.metadata.disbursementStatus})
-                        </span>
-                      )}
-                    </>
-                  )}
-                  {contribution.purpose === "Donation" && (
-                    <>
-                      {contribution.amount} {contribution.cryptoType} (
-                      <CurrencyDisplay amount={contribution.fiatValue || 0} />)
-                    </>
-                  )}
-                  {contribution.purpose === "Volunteer Hours" && (
-                    <>
-                      {contribution.metadata?.hours} {t("volunteer.hours")} -{" "}
-                      {contribution.metadata?.description}
-                    </>
-                  )}
-                  {contribution.purpose !== "Fiat Donation" &&
-                    contribution.purpose !== "Donation" &&
-                    contribution.purpose !== "Volunteer Hours" &&
-                    contribution.metadata?.opportunity}
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap">
-                  <span
-                    className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${{
-                      completed: "bg-green-100 text-green-800",
-                      pending: "bg-yellow-100 text-yellow-800",
-                    }[contribution.status] || "bg-red-100 text-red-800"}`}
-                  >
+        {filteredContributions.length === 0 ? (
+          <ContributionsEmptyState t={t} />
+        ) : (
+          <table className="min-w-full divide-y divide-gray-200">
+            <caption className="sr-only">Contribution history</caption>
+            <ContributionsTableHeader
+              onSortByDate={handleSortByDate}
+              onSortByType={handleSortByType}
+              onSortByOrganization={handleSortByOrganization}
+              onSortByStatus={handleSortByStatus}
+              getSortIcon={getSortIcon}
+              t={t}
+            />
+            <tbody className="divide-y divide-gray-200">
+              {filteredContributions.map((contribution) => (
+                <tr key={contribution.id}>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {formatDate(contribution.timestamp, true)}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
                     {t(
-                      `status.${contribution.status}`,
-                      contribution.status.charAt(0).toUpperCase() +
-                        contribution.status.slice(1),
+                      `contribution.type.${contribution.purpose.toLowerCase().replace(" ", "")}`,
+                      contribution.purpose,
                     )}
-                  </span>
-                </td>
-                <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
-                  {contribution.hash ||
-                  contribution.metadata?.verificationHash ? (
-                    <a
-                      href={`https://moonscan.io/tx/${contribution.hash || contribution.metadata?.verificationHash}`}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      className="text-emerald-600 hover:text-emerald-900 flex items-center truncate max-w-[100px] mr-1"
-                      title={
-                        contribution.hash ||
-                        contribution.metadata?.verificationHash
-                      }
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {contribution.metadata?.organization ||
+                      t("common.unknown", "Unknown")}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
+                    {contribution.purpose === "Fiat Donation" && (
+                      <>
+                        <CurrencyDisplay amount={contribution.amount || 0} />
+                        {contribution.metadata?.disbursementStatus && (
+                          <span className="ml-2 text-xs text-gray-500">
+                            ({contribution.metadata.disbursementStatus})
+                          </span>
+                        )}
+                      </>
+                    )}
+                    {contribution.purpose === "Donation" && (
+                      <>
+                        {contribution.amount} {contribution.cryptoType} (
+                        <CurrencyDisplay amount={contribution.fiatValue || 0} />
+                        )
+                      </>
+                    )}
+                    {contribution.purpose === "Volunteer Hours" && (
+                      <>
+                        {contribution.metadata?.hours} {t("volunteer.hours")} -{" "}
+                        {contribution.metadata?.description}
+                      </>
+                    )}
+                    {contribution.purpose !== "Fiat Donation" &&
+                      contribution.purpose !== "Donation" &&
+                      contribution.purpose !== "Volunteer Hours" &&
+                      contribution.metadata?.opportunity}
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap">
+                    <span
+                      className={`px-2 inline-flex text-xs leading-5 font-semibold rounded-full ${
+                        {
+                          completed: "bg-green-100 text-green-800",
+                          pending: "bg-yellow-100 text-yellow-800",
+                        }[contribution.status] || "bg-red-100 text-red-800"
+                      }`}
                     >
-                      {(
-                        contribution.hash ||
-                        contribution.metadata?.verificationHash ||
-                        ""
-                      ).substring(0, 10)}
-                      ...
-                      <ExternalLink className="h-3 w-3 ml-1" />
-                    </a>
-                  ) : (
-                    t("common.notAvailable", "N/A")
-                  )}
-                  {contribution.metadata?.blockNumber && (
-                    <div className="text-xs text-gray-500 mt-1">
-                      {t("blockchain.block", "Block")} #
-                      {contribution.metadata.blockNumber}
-                    </div>
-                  )}
-                </td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+                      {t(
+                        `status.${contribution.status}`,
+                        contribution.status.charAt(0).toUpperCase() +
+                          contribution.status.slice(1),
+                      )}
+                    </span>
+                  </td>
+                  <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                    {contribution.hash ||
+                    contribution.metadata?.verificationHash ? (
+                      <a
+                        href={`https://moonscan.io/tx/${contribution.hash || contribution.metadata?.verificationHash}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        className="text-emerald-600 hover:text-emerald-900 flex items-center truncate max-w-[100px] mr-1"
+                        title={
+                          contribution.hash ||
+                          contribution.metadata?.verificationHash
+                        }
+                      >
+                        {(
+                          contribution.hash ||
+                          contribution.metadata?.verificationHash ||
+                          ""
+                        ).substring(0, 10)}
+                        ...
+                        <ExternalLink className="h-3 w-3 ml-1" />
+                      </a>
+                    ) : (
+                      t("common.notAvailable", "N/A")
+                    )}
+                    {contribution.metadata?.blockNumber && (
+                      <div className="text-xs text-gray-500 mt-1">
+                        {t("blockchain.block", "Block")} #
+                        {contribution.metadata.blockNumber}
+                      </div>
+                    )}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
       </div>
 
-      {/* Skills & Endorsements - Flattened from 4 to 3 levels */}
-      <div className="bg-white rounded-lg shadow-md">
-        <div className="p-6 border-b border-gray-200">
-          <h2 className="text-xl font-semibold text-gray-900">
-            {t("skills.endorsements", "Skills & Endorsements")}
-          </h2>
+      {/* Skills & Endorsements - placeholder data, gated behind a local-only
+          demo flag so production never shows the hardcoded list. */}
+      {ENV.SHOW_DEMO_SKILLS && (
+        <div className="bg-white rounded-lg shadow-md">
+          <div className="p-6 border-b border-gray-200">
+            <h2 className="text-xl font-semibold text-gray-900">
+              {t("skills.endorsements", "Skills & Endorsements")}
+            </h2>
+          </div>
+          <div className="p-6 grid gap-4 md:grid-cols-2">
+            {[
+              { skill: "Web Development", endorsements: 5 },
+              { skill: "Project Management", endorsements: 3 },
+              { skill: "Event Planning", endorsements: 4 },
+            ].map((item) => (
+              <Link
+                key={item.skill}
+                to="/contributions"
+                state={{
+                  activeTab: "volunteer",
+                  section: "endorsements",
+                  skill: item.skill,
+                }}
+                className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
+              >
+                <div>
+                  <h3 className="text-sm font-medium text-gray-900">
+                    {item.skill}
+                  </h3>
+                  <p className="text-sm text-gray-500">
+                    {item.endorsements}{" "}
+                    {t("skills.endorsements", "endorsements")}
+                  </p>
+                </div>
+                <Award className="h-5 w-5 text-emerald-600" />
+              </Link>
+            ))}
+          </div>
         </div>
-        <div className="p-6 grid gap-4 md:grid-cols-2">
-          {[
-            { skill: "Web Development", endorsements: 5 },
-            { skill: "Project Management", endorsements: 3 },
-            { skill: "Event Planning", endorsements: 4 },
-          ].map((item) => (
-            <button
-              key={item.skill}
-              data-skill={item.skill}
-              onClick={handleSkillClick}
-              className="flex items-center justify-between p-4 bg-gray-50 rounded-lg hover:bg-gray-100 transition-colors"
-            >
-              <div>
-                <h3 className="text-sm font-medium text-gray-900">{item.skill}</h3>
-                <p className="text-sm text-gray-500">
-                  {item.endorsements} {t("skills.endorsements", "endorsements")}
-                </p>
-              </div>
-              <Award className="h-5 w-5 text-emerald-600" />
-            </button>
-          ))}
-        </div>
-      </div>
+      )}
 
       {/* Export Modal */}
       {showExportModal && (

@@ -281,6 +281,13 @@ function EditConfigModal({
 
 // ─── Tab Bar ──────────────────────────────────────────────────────────────────
 
+/**
+ * Renders the tab selector used to switch between admin platform-config screens.
+ * @param props - Component props.
+ * @param props.activeTab - Identifier of the currently active tab.
+ * @param props.onTabChange - Callback invoked with the new tab identifier when a tab is clicked.
+ * @returns The tab bar element.
+ */
 function TabBar({
   activeTab,
   onTabChange,
@@ -346,6 +353,14 @@ function TabBar({
 
 // ─── Platform Config Tab ──────────────────────────────────────────────────────
 
+/**
+ * Renders a grouped section of platform configuration entries with edit controls.
+ * @param props - Component props.
+ * @param props.title - Heading text for the section.
+ * @param props.entries - Configuration entries belonging to this category.
+ * @param props.onEdit - Callback invoked with the entry the user wants to edit.
+ * @returns The category section element.
+ */
 function CategorySection({
   title,
   entries,
@@ -575,20 +590,39 @@ function AuditLogTable({
     );
   }
 
+  const tableHead = (
+    <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+      <tr>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Date
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Admin
+        </th>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Action
+        </th>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Entity Type
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Entity ID
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Old Values
+        </th>
+        <th scope="col" className="px-4 py-3">
+          New Values
+        </th>
+      </tr>
+    </thead>
+  );
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full text-sm">
-        <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
-          <tr>
-            <th className="px-4 py-3 whitespace-nowrap">Date</th>
-            <th className="px-4 py-3">Admin</th>
-            <th className="px-4 py-3 whitespace-nowrap">Action</th>
-            <th className="px-4 py-3 whitespace-nowrap">Entity Type</th>
-            <th className="px-4 py-3">Entity ID</th>
-            <th className="px-4 py-3">Old Values</th>
-            <th className="px-4 py-3">New Values</th>
-          </tr>
-        </thead>
+        <caption className="sr-only">Admin audit log</caption>
+        {tableHead}
         <tbody className="divide-y divide-gray-100">
           {entries.map((row) => (
             <tr key={row.id} className="hover:bg-gray-50">
@@ -755,6 +789,14 @@ function AuditLogTab({
 
 // ─── Token & Network Config Tab ───────────────────────────────────────────────
 
+/**
+ * Renders the token and network configuration tab with editable contract addresses and RPC endpoints.
+ * @param props - Component props.
+ * @param props.configs - Token and network configuration entries to display.
+ * @param props.loading - Whether configuration data is still being fetched.
+ * @param props.onEdit - Callback invoked with the configuration entry the user wants to edit.
+ * @returns The token/network tab element.
+ */
 function TokenNetworkTab({
   configs,
   loading,
@@ -797,6 +839,13 @@ function TokenNetworkTab({
 
 // ─── Admin Users Tab (UR-S7) ──────────────────────────────────────────────────
 
+/**
+ * Renders a table of admin users with their roles and current status.
+ * @param props - Component props.
+ * @param props.users - Admin user records to display.
+ * @param props.loading - Whether user data is still being fetched.
+ * @returns The admin users table element.
+ */
 function AdminUsersTable({
   users,
   loading,
@@ -820,17 +869,30 @@ function AdminUsersTable({
     );
   }
 
+  const tableHead = (
+    <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
+      <tr>
+        <th scope="col" className="px-4 py-3">
+          Display Name
+        </th>
+        <th scope="col" className="px-4 py-3">
+          Email
+        </th>
+        <th scope="col" className="px-4 py-3">
+          User ID
+        </th>
+        <th scope="col" className="px-4 py-3 whitespace-nowrap">
+          Joined
+        </th>
+      </tr>
+    </thead>
+  );
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full text-sm">
-        <thead className="bg-gray-50 text-left text-xs font-semibold text-gray-500 uppercase tracking-wide">
-          <tr>
-            <th className="px-4 py-3">Display Name</th>
-            <th className="px-4 py-3">Email</th>
-            <th className="px-4 py-3">User ID</th>
-            <th className="px-4 py-3 whitespace-nowrap">Joined</th>
-          </tr>
-        </thead>
+        <caption className="sr-only">Platform administrator directory</caption>
+        {tableHead}
         <tbody className="divide-y divide-gray-100">
           {users.map((user) => (
             <tr key={user.userId} className="hover:bg-gray-50">
@@ -882,6 +944,14 @@ function AdminUsersTab(): React.ReactElement {
 
 // ─── System Health Tab (UR-S8) ────────────────────────────────────────────────
 
+/**
+ * Renders a single system-health row with a label, status color, and optional detail string.
+ * @param props - Component props.
+ * @param props.label - Health check name.
+ * @param props.status - Status string (e.g. `"ok"`, `"warn"`, `"error"`) used to color the indicator.
+ * @param props.detail - Optional supporting detail rendered next to the indicator.
+ * @returns The health indicator row element.
+ */
 function HealthIndicator({
   label,
   status,
@@ -1061,7 +1131,9 @@ export default function AdminPlatformConfig(): React.ReactElement {
   );
 
   useEffect(() => {
-    void fetchConfig();
+    fetchConfig().catch(() => {
+      // Error handled internally by hook
+    });
   }, [fetchConfig]);
 
   const handleTabChange = useCallback((tab: SettingsTab) => {

@@ -1,12 +1,12 @@
 import { useEffect, useState, useCallback, useMemo } from "react";
 import { useParams } from "react-router-dom";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   Building2,
   MapPin,
   Share2,
   ChevronDown,
   ChevronUp,
-  Heart,
   Globe,
   Mail,
   CheckCircle,
@@ -14,7 +14,6 @@ import {
   Clock,
 } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { Button } from "@/components/ui/Button";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { CharityHeroBanner } from "@/components/charity/CharityHeroBanner";
 import { UnclaimedProfileBanner } from "@/components/charity/UnclaimedProfileBanner";
@@ -22,7 +21,6 @@ import { OrgDetailsCard } from "@/components/charity/OrgDetailsCard";
 import { PhotosCard } from "@/components/charity/PhotosCard";
 import { DonateWidget } from "@/components/charity/DonateWidget";
 import { RequestCharityWidget } from "@/components/charity/RequestCharityWidget";
-import { DonationModal } from "@/components/web3/donation/DonationModal";
 import { getCharityProfileByEin } from "@/services/charityProfileService";
 import { getCharityRecordByEin } from "@/services/charityDataService";
 import type { CharityRecord } from "@/services/charityDataService";
@@ -71,11 +69,12 @@ function ProfileSkeleton() {
 /* Status pill                                                         */
 /* ------------------------------------------------------------------ */
 function StatusPill({ profile }: { profile: CharityProfile }) {
+  const { t } = useTranslation();
   if (profile.status === "verified") {
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
         <CheckCircle className="h-3.5 w-3.5" />
-        Verified 501(c)(3)
+        {t("charity.profile.verified501c3", "Verified 501(c)(3)")}
       </span>
     );
   }
@@ -83,14 +82,14 @@ function StatusPill({ profile }: { profile: CharityProfile }) {
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-gray-100 text-gray-600">
         <Clock className="h-3.5 w-3.5" />
-        Claimed
+        {t("charity.profile.statusClaimed", "Claimed")}
       </span>
     );
   }
   return (
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
       <AlertTriangle className="h-3.5 w-3.5" />
-      Unclaimed — IRS data only
+      {t("charity.profile.statusUnclaimed", "Unclaimed — IRS data only")}
     </span>
   );
 }
@@ -103,6 +102,7 @@ function RegistryPublicRecord({
 }: {
   charityRecord: CharityRecord;
 }) {
+  const { t } = useTranslation();
   const [open, setOpen] = useState(false);
 
   const handleToggle = useCallback(() => {
@@ -111,39 +111,60 @@ function RegistryPublicRecord({
 
   const rows = useMemo(
     () => [
-      { label: "EIN", value: charityRecord.ein },
-      { label: "Name", value: charityRecord.name },
+      { label: t("charity.profile.rowEin", "EIN"), value: charityRecord.ein },
       {
-        label: "Location",
+        label: t("charity.profile.rowName", "Name"),
+        value: charityRecord.name,
+      },
+      {
+        label: t("charity.profile.rowLocation", "Location"),
         value:
           [charityRecord.city, charityRecord.state, charityRecord.zip]
             .filter(Boolean)
             .join(", ") || "—",
       },
-      { label: "Ruling year", value: formatRulingYear(charityRecord.ruling) },
-      { label: "NTEE code", value: formatNteeCode(charityRecord.ntee_cd) },
       {
-        label: "Deductibility",
+        label: t("charity.profile.rowRulingYear", "Ruling year"),
+        value: formatRulingYear(charityRecord.ruling),
+      },
+      {
+        label: t("charity.profile.rowNteeCode", "NTEE code"),
+        value: formatNteeCode(charityRecord.ntee_cd),
+      },
+      {
+        label: t("charity.profile.rowDeductibility", "Deductibility"),
         value: lookupIrsCode("deductibility", charityRecord.deductibility),
       },
       {
-        label: "Affiliation",
+        label: t("charity.profile.rowAffiliation", "Affiliation"),
         value: lookupIrsCode("affiliation", charityRecord.affiliation),
       },
-      { label: "Classification", value: charityRecord.classification ?? "—" },
       {
-        label: "Foundation type",
+        label: t("charity.profile.rowClassification", "Classification"),
+        value: charityRecord.classification ?? "—",
+      },
+      {
+        label: t("charity.profile.rowFoundation", "Foundation type"),
         value: lookupIrsCode("foundation", charityRecord.foundation),
       },
       {
-        label: "Activity codes",
+        label: t("charity.profile.rowActivityCodes", "Activity codes"),
         value: formatActivityCodes(charityRecord.activity),
       },
-      { label: "Organization type", value: charityRecord.organization ?? "—" },
-      { label: "Subsection", value: charityRecord.subsection ?? "—" },
-      { label: "Status", value: charityRecord.status ?? "—" },
+      {
+        label: t("charity.profile.rowOrgType", "Organization type"),
+        value: charityRecord.organization ?? "—",
+      },
+      {
+        label: t("charity.profile.rowSubsection", "Subsection"),
+        value: charityRecord.subsection ?? "—",
+      },
+      {
+        label: t("charity.profile.rowStatus", "Status"),
+        value: charityRecord.status ?? "—",
+      },
     ],
-    [charityRecord],
+    [charityRecord, t],
   );
 
   return (
@@ -154,7 +175,7 @@ function RegistryPublicRecord({
         className="w-full flex items-center justify-between"
       >
         <h3 className="text-sm font-semibold text-gray-900">
-          Registry Public Record
+          {t("charity.profile.registryRecord", "Registry Public Record")}
         </h3>
         {open ? (
           <ChevronUp className="h-4 w-4 text-gray-400" />
@@ -175,7 +196,10 @@ function RegistryPublicRecord({
             ))}
           </dl>
           <p className="text-xs text-gray-400 mt-3 pt-3 border-t border-gray-100">
-            Data sourced from official charity registry.
+            {t(
+              "charity.profile.registrySource",
+              "Data sourced from official charity registry.",
+            )}
           </p>
         </div>
       )}
@@ -195,7 +219,14 @@ interface ProfileDisplayData {
   isVerified: boolean;
   nteeCategory: string;
   walletAddress: string | null;
+  walletDesignationStatus:
+    | "unset"
+    | "pending_signature_verification"
+    | "pending_email_confirmation"
+    | "active"
+    | null;
   bannerImageUrl: string | null | undefined;
+  logoUrl: string | null | undefined;
   photo1Url: string | null | undefined;
   photo2Url: string | null | undefined;
   description: string | null | undefined;
@@ -223,31 +254,16 @@ function deriveDisplayData(
     isVerified: profile?.status === "verified",
     nteeCategory: getNteeCategory(charityRecord?.ntee_cd ?? profile?.ntee_code),
     walletAddress: profile?.wallet_address ?? null,
-    bannerImageUrl: (profile as Record<string, unknown>)?.banner_image_url as
-      | string
-      | null
-      | undefined,
-    photo1Url: (profile as Record<string, unknown>)?.photo_1_url as
-      | string
-      | null
-      | undefined,
-    photo2Url: (profile as Record<string, unknown>)?.photo_2_url as
-      | string
-      | null
-      | undefined,
-    description: (profile as Record<string, unknown>)?.description as
-      | string
-      | null
-      | undefined,
-    missionStatement: (profile as Record<string, unknown>)
-      ?.mission_statement as string | null | undefined,
-    contactEmail: (profile as Record<string, unknown>)?.contact_email as
-      | string
-      | null
-      | undefined,
+    walletDesignationStatus: profile?.wallet_designation_status ?? null,
+    bannerImageUrl: profile?.banner_image_url,
+    logoUrl: profile?.logo_url,
+    photo1Url: profile?.photo_1_url,
+    photo2Url: profile?.photo_2_url,
+    description: profile?.description,
+    missionStatement: profile?.mission_statement,
+    contactEmail: profile?.contact_email,
     website: profile?.website ?? null,
-    claimedByUserId: (profile as Record<string, unknown>)
-      ?.claimed_by_user_id as string | null | undefined,
+    claimedByUserId: profile?.claimed_by_user_id,
   };
 }
 
@@ -272,6 +288,7 @@ function HeaderInfo({
   profile: CharityProfile | null;
   charityRecord: CharityRecord | null;
 }) {
+  const { t } = useTranslation();
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-3 flex-wrap">
@@ -281,14 +298,22 @@ function HeaderInfo({
         {profile && <StatusPill profile={profile} />}
       </div>
       <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-gray-500">
-        <span>EIN {ein}</span>
+        <span>
+          {t("charity.profile.einDisplay", "EIN")} {ein}
+        </span>
         {location && (
           <span className="flex items-center gap-1">
             <MapPin className="h-3.5 w-3.5" />
             {location}
           </span>
         )}
-        {rulingYear !== "—" && <span>Registered {rulingYear}</span>}
+        {rulingYear !== "—" && (
+          <span>
+            {t("charity.profile.registeredYear", "Registered {{year}}", {
+              year: rulingYear,
+            })}
+          </span>
+        )}
       </div>
       <div className="flex flex-wrap gap-1.5 mt-1">
         <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
@@ -313,10 +338,9 @@ function ProfileHeaderCard({
   nteeCategory,
   profile,
   charityRecord,
-  isUnclaimed,
-  onDonate,
   onShare,
   copied,
+  logoUrl,
 }: {
   orgName: string;
   ein: string;
@@ -325,14 +349,39 @@ function ProfileHeaderCard({
   nteeCategory: string;
   profile: CharityProfile | null;
   charityRecord: CharityRecord | null;
-  isUnclaimed: boolean;
-  onDonate: () => void;
   onShare: () => void;
   copied: boolean;
+  logoUrl: string | null | undefined;
 }) {
+  const { t } = useTranslation();
+  const initials = orgName
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w) => w.charAt(0))
+    .join("")
+    .toUpperCase();
+
   return (
-    <Card hover={false} className="rounded-t-none border-t-0 p-5 md:p-6">
-      <div className="flex flex-col md:flex-row md:items-start md:justify-between gap-4">
+    <Card
+      hover={false}
+      className="relative rounded-t-none border-t-0 p-5 md:p-6"
+    >
+      <div className="absolute -top-8 md:-top-10 left-4 md:left-6">
+        {logoUrl ? (
+          <img
+            src={logoUrl}
+            alt={`${orgName} logo`}
+            className="w-16 h-16 md:w-20 md:h-20 rounded-full object-cover border-2 border-white shadow-sm"
+          />
+        ) : (
+          <div className="w-16 h-16 md:w-20 md:h-20 rounded-full bg-emerald-600 border-2 border-white shadow-sm flex items-center justify-center">
+            <span className="text-white font-serif font-bold text-xl md:text-2xl select-none">
+              {initials}
+            </span>
+          </div>
+        )}
+      </div>
+      <div className="pt-10 md:pt-0 md:pl-28 flex flex-col md:flex-row md:items-start md:justify-between gap-4">
         <HeaderInfo
           orgName={orgName}
           ein={ein}
@@ -343,21 +392,16 @@ function ProfileHeaderCard({
           charityRecord={charityRecord}
         />
         <div className="flex items-center gap-2 shrink-0">
-          {!isUnclaimed && (
-            <Button onClick={onDonate} icon={<Heart className="h-4 w-4" />}>
-              Donate
-            </Button>
-          )}
           <button
             type="button"
             onClick={onShare}
             className="p-2.5 rounded-lg border border-gray-200 text-gray-500 hover:text-gray-700 hover:border-gray-300 transition-colors relative"
-            aria-label="Share"
+            aria-label={t("charity.profile.shareAria", "Share")}
           >
             <Share2 className="h-4 w-4" />
             {copied && (
               <span className="absolute -bottom-7 left-1/2 -translate-x-1/2 text-xs bg-gray-900 text-white px-2 py-0.5 rounded whitespace-nowrap">
-                Copied!
+                {t("charity.profile.copied", "Copied!")}
               </span>
             )}
           </button>
@@ -386,9 +430,12 @@ function AboutCard({
   website: string | null;
   einDigits: string;
 }) {
+  const { t } = useTranslation();
   return (
     <Card hover={false} className="p-5">
-      <h3 className="text-sm font-semibold text-gray-900 mb-2">About</h3>
+      <h3 className="text-sm font-semibold text-gray-900 mb-2">
+        {t("charity.profile.about", "About")}
+      </h3>
       {description || missionStatement || mission ? (
         <p className="text-sm text-gray-600 leading-relaxed">
           {description ?? missionStatement ?? mission}
@@ -398,29 +445,35 @@ function AboutCard({
           {activity && activity !== "000000000" ? (
             <>
               <p>
-                This organization&apos;s activities include: activity codes{" "}
+                {t(
+                  "charity.profile.activityIntro",
+                  "This organization's activities include: activity codes",
+                )}{" "}
                 {formatActivityCodes(activity)}.
               </p>
               <p className="italic text-gray-400 mt-2">
-                This description has not been customized yet.{" "}
+                {t(
+                  "charity.profile.notCustomized",
+                  "This description has not been customized yet.",
+                )}{" "}
                 <a
                   href={`/claim/${einDigits}`}
                   className="text-emerald-600 hover:underline not-italic"
                 >
-                  Claim this profile
+                  {t("charity.profile.claimProfile", "Claim this profile")}
                 </a>
               </p>
             </>
           ) : (
             <p className="italic text-gray-400">
-              No description available.{" "}
+              {t("charity.profile.noDescription", "No description available.")}{" "}
               <a
                 href={`/claim/${einDigits}`}
                 className="text-emerald-600 hover:underline not-italic"
               >
-                Claim this profile
+                {t("charity.profile.claimProfile", "Claim this profile")}
               </a>{" "}
-              to add one.
+              {t("charity.profile.toAddOne", "to add one.")}
             </p>
           )}
           {website && (
@@ -451,9 +504,12 @@ function ContactCard({
   website: string | null;
   contactEmail: string | null | undefined;
 }) {
+  const { t } = useTranslation();
   return (
     <Card hover={false} className="p-5">
-      <h3 className="text-sm font-semibold text-gray-900 mb-3">Contact</h3>
+      <h3 className="text-sm font-semibold text-gray-900 mb-3">
+        {t("charity.profile.contact", "Contact")}
+      </h3>
       <div className="space-y-2 text-sm">
         {website && (
           <a
@@ -491,19 +547,24 @@ function ContactCard({
  */
 function CharityProfilePage() {
   const { ein: rawEin } = useParams<{ ein: string }>();
+  const { t } = useTranslation();
   const [profile, setProfile] = useState<CharityProfile | null>(null);
   const [charityRecord, setCharityRecord] = useState<CharityRecord | null>(
     null,
   );
   const [loading, setLoading] = useState(true);
   const [notFound, setNotFound] = useState(false);
-  const [showDonationModal, setShowDonationModal] = useState(false);
   const [copied, setCopied] = useState(false);
   const ein = rawEin ? normalizeEin(rawEin) : "";
   const einDigits = rawEin?.replace(/\D/g, "") ?? "";
 
   // Fetch both profile and IRS record in parallel
   const fetchData = useCallback(async () => {
+    setLoading(true);
+    setNotFound(false);
+    setProfile(null);
+    setCharityRecord(null);
+
     if (!rawEin) {
       setNotFound(true);
       setLoading(false);
@@ -511,8 +572,8 @@ function CharityProfilePage() {
     }
 
     const [profileResult, irsResult] = await Promise.all([
-      getCharityProfileByEin(einDigits),
-      getCharityRecordByEin(einDigits),
+      getCharityProfileByEin(rawEin ?? ""),
+      getCharityRecordByEin(rawEin ?? ""),
     ]);
 
     if (irsResult) {
@@ -526,7 +587,7 @@ function CharityProfilePage() {
     }
 
     setLoading(false);
-  }, [rawEin, einDigits]);
+  }, [rawEin]);
 
   useEffect(() => {
     fetchData();
@@ -549,14 +610,6 @@ function CharityProfilePage() {
     setTimeout(() => setCopied(false), 2000);
   }, []);
 
-  const handleOpenDonate = useCallback(() => {
-    setShowDonationModal(true);
-  }, []);
-
-  const handleCloseDonate = useCallback(() => {
-    setShowDonationModal(false);
-  }, []);
-
   const handlePhotoUploaded = useCallback(
     (_slot: 1 | 2, _url: string) => {
       fetchData();
@@ -577,7 +630,10 @@ function CharityProfilePage() {
             className="h-10 w-10 text-gray-300 mx-auto mb-4"
           />
           <p className="text-gray-600">
-            We couldn&apos;t find a charity with this EIN.
+            {t(
+              "charity.profile.notFound",
+              "We couldn't find a charity with this EIN.",
+            )}
           </p>
         </Card>
       </div>
@@ -603,10 +659,9 @@ function CharityProfilePage() {
           nteeCategory={display.nteeCategory}
           profile={profile}
           charityRecord={charityRecord}
-          isUnclaimed={display.isUnclaimed}
-          onDonate={handleOpenDonate}
           onShare={handleShare}
           copied={copied}
+          logoUrl={display.logoUrl}
         />
       </div>
 
@@ -645,6 +700,7 @@ function CharityProfilePage() {
               ein={einDigits}
               charityName={display.orgName}
               walletAddress={display.walletAddress}
+              walletDesignationStatus={display.walletDesignationStatus}
               charityId={profile?.id ?? einDigits}
               mode="sidebar"
               isVerified={display.isVerified}
@@ -661,16 +717,6 @@ function CharityProfilePage() {
           )}
         </div>
       </div>
-
-      {showDonationModal && !display.isUnclaimed && (
-        <DonationModal
-          charityName={display.orgName}
-          charityAddress={display.walletAddress ?? ""}
-          charityId={profile?.id ?? einDigits}
-          frequency="once"
-          onClose={handleCloseDonate}
-        />
-      )}
     </div>
   );
 }

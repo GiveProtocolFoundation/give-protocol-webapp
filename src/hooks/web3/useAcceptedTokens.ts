@@ -15,6 +15,7 @@ export function useAcceptedTokens(tokenAddress: string = ZeroAddress) {
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
+    /** Checks whether the given token address is accepted by the contract. */
     const checkToken = async () => {
       if (!contract || !tokenAddress) {
         setIsAccepted(null);

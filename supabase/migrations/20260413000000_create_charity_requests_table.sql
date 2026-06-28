@@ -21,6 +21,7 @@ CREATE INDEX idx_charity_requests_ein ON charity_requests (ein);
 ALTER TABLE charity_requests ENABLE ROW LEVEL SECURITY;
 
 -- Authenticated users can insert their own requests
+DROP POLICY IF EXISTS "Users can insert their own charity requests" ON charity_requests;
 CREATE POLICY "Users can insert their own charity requests"
   ON charity_requests
   FOR INSERT
@@ -28,6 +29,7 @@ CREATE POLICY "Users can insert their own charity requests"
   WITH CHECK (auth.uid() = user_id);
 
 -- Users can read their own requests (to show "Requested" state)
+DROP POLICY IF EXISTS "Users can read their own charity requests" ON charity_requests;
 CREATE POLICY "Users can read their own charity requests"
   ON charity_requests
   FOR SELECT
@@ -35,6 +37,7 @@ CREATE POLICY "Users can read their own charity requests"
   USING (auth.uid() = user_id);
 
 -- Service role has full access (for admin dashboards)
+DROP POLICY IF EXISTS "Service role has full access to charity requests" ON charity_requests;
 CREATE POLICY "Service role has full access to charity requests"
   ON charity_requests
   FOR ALL

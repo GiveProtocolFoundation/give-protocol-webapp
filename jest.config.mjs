@@ -32,6 +32,21 @@ export default {
     ],
   },
   moduleNameMapper: {
+    // Test escape-hatch: importing "@/contexts/<Name>.real" bypasses the
+    // global mock and loads the actual context source. Used by tests in
+    // src/contexts/__tests__/ to exercise context logic directly.
+    "^@/contexts/ToastContext\\.real$":
+      "<rootDir>/src/contexts/ToastContext.tsx",
+    "^@/contexts/SettingsContext\\.real$":
+      "<rootDir>/src/contexts/SettingsContext.tsx",
+    "^@/contexts/MultiChainContext\\.real$":
+      "<rootDir>/src/contexts/MultiChainContext.tsx",
+    "^@/contexts/Web3Context\\.real$": "<rootDir>/src/contexts/Web3Context.tsx",
+    "^@/contexts/CurrencyContext\\.real$":
+      "<rootDir>/src/contexts/CurrencyContext.tsx",
+    "^@/utils/monitoring\\.real$": "<rootDir>/src/utils/monitoring.ts",
+    "^@/utils/leaderboardExport\\.real$":
+      "<rootDir>/src/utils/leaderboardExport.ts",
     // Config and library mocks
     "^@/config/env$": "<rootDir>/src/test-utils/envMock.js",
     "^@/config/docs$": "<rootDir>/src/test-utils/docsMock.js",
@@ -48,6 +63,13 @@ export default {
       "<rootDir>/src/test-utils/useTranslationMock.js",
     "(.*)/hooks/useTranslation(\\.tsx?)?$":
       "<rootDir>/src/test-utils/useTranslationMock.js",
+    "^@/hooks/web3/useDonation$": "<rootDir>/src/test-utils/useDonationMock.js",
+    "(.*)/hooks/web3/useDonation(\\.tsx?)?$":
+      "<rootDir>/src/test-utils/useDonationMock.js",
+    "^@/hooks/web3/useTokenBalance$":
+      "<rootDir>/src/test-utils/useTokenBalanceMock.js",
+    "(.*)/hooks/web3/useTokenBalance(\\.tsx?)?$":
+      "<rootDir>/src/test-utils/useTokenBalanceMock.js",
     "^@/hooks/web3/useScheduledDonation$":
       "<rootDir>/src/test-utils/useScheduledDonationMock.js",
     "(.*)/hooks/web3/useScheduledDonation(\\.tsx?)?$":
@@ -74,6 +96,10 @@ export default {
       "<rootDir>/src/test-utils/safeAutoConnectMock.js",
     "(.*)/hooks/useSafeAutoConnect(\\.tsx?)?$":
       "<rootDir>/src/test-utils/safeAutoConnectMock.js",
+    "^@/hooks/useCharityWallets$":
+      "<rootDir>/src/test-utils/useCharityWalletsMock.js",
+    "(.*)/hooks/useCharityWallets(\\.tsx?)?$":
+      "<rootDir>/src/test-utils/useCharityWalletsMock.js",
     "^@/hooks/useWalletAuthSync$":
       "<rootDir>/src/test-utils/walletAuthSyncMock.js",
     "(.*)/hooks/useWalletAuthSync(\\.tsx?)?$":
@@ -90,11 +116,21 @@ export default {
       "<rootDir>/src/test-utils/multiChainContextMock.js",
     "(.*)/contexts/MultiChainContext(\\.tsx?)?$":
       "<rootDir>/src/test-utils/multiChainContextMock.js",
+    // Web3Context.tsx imports MultiChainContext via "./MultiChainContext"
+    // (no /contexts/ in the specifier). Catch that form so the real
+    // Web3Context source can be tested with a controllable MultiChain mock.
+    "^\\./MultiChainContext(\\.tsx?)?$":
+      "<rootDir>/src/test-utils/multiChainContextMock.js",
     "^@/contexts/Web3Context$": "<rootDir>/src/test-utils/web3ContextMock.js",
     "(.*)/contexts/Web3Context(\\.tsx?)?$":
       "<rootDir>/src/test-utils/web3ContextMock.js",
     "^@/contexts/ChainContext$": "<rootDir>/src/test-utils/chainContextMock.js",
     "(.*)/contexts/ChainContext(\\.tsx?)?$":
+      "<rootDir>/src/test-utils/chainContextMock.js",
+    // Web3Context.tsx imports ChainContext via "./ChainContext"
+    // (no /contexts/ in the specifier). Catch that exact form so the real
+    // Web3Context source loads the mocked ChainContext during tests.
+    "^\\./ChainContext(\\.tsx?)?$":
       "<rootDir>/src/test-utils/chainContextMock.js",
     "^@/contexts/CurrencyContext$":
       "<rootDir>/src/test-utils/currencyContextMock.js",
@@ -178,6 +214,9 @@ export default {
       "<rootDir>/src/test-utils/contractsMock.js",
     "^@/config/chains$": "<rootDir>/src/test-utils/chainsMock.js",
     "(.*)/config/chains(\\.tsx?)?$": "<rootDir>/src/test-utils/chainsMock.js",
+    // WebAuthn library mock
+    "^@simplewebauthn/browser$":
+      "<rootDir>/src/test-utils/simplewebauthnBrowserMock.js",
     // TipTap editor mocks
     "^@tiptap/react$": "<rootDir>/src/test-utils/tiptapReactMock.js",
     "^@tiptap/starter-kit$": "<rootDir>/src/test-utils/tiptapStarterKitMock.js",
@@ -279,6 +318,12 @@ export default {
       "<rootDir>/src/test-utils/walletAliasSettingsComponentMock.js",
     "(.*)/settings/WalletAliasSettings(\\.tsx?)?$":
       "<rootDir>/src/test-utils/walletAliasSettingsComponentMock.js",
+    "^@/components/settings/LinkedAccountsSection$":
+      "<rootDir>/src/test-utils/linkedAccountsSectionMock.js",
+    "^@/components/settings/SetPasswordSettings$":
+      "<rootDir>/src/test-utils/setPasswordSettingsMock.js",
+    "^@/components/settings/PrivacySettings$":
+      "<rootDir>/src/test-utils/privacySettingsMock.js",
     "^@/components/donor/ScheduledDonations$":
       "<rootDir>/src/test-utils/scheduledDonationsComponentMock.js",
     "(.*)/donor/ScheduledDonations(\\.tsx?)?$":
@@ -322,6 +367,8 @@ export default {
       "<rootDir>/src/test-utils/adminDashboardServiceMock.js",
     "^@/services/adminContentModerationService$":
       "<rootDir>/src/test-utils/adminContentModerationServiceMock.js",
+    "^@/services/adminCharityRequestsService$":
+      "<rootDir>/src/test-utils/adminCharityRequestsServiceMock.js",
     "^@/services/adminReportsService$":
       "<rootDir>/src/test-utils/adminReportsServiceMock.js",
     "^@/services/adminDonationService$":
@@ -340,13 +387,11 @@ export default {
       "<rootDir>/src/test-utils/charityProfileServiceMock.js",
     "^@/services/charityVerificationService$":
       "<rootDir>/src/test-utils/charityVerificationServiceMock.js",
+    "^@/services/walletDesignationService$":
+      "<rootDir>/src/test-utils/walletDesignationServiceMock.js",
     // Discovery view component mocks — only @/ alias, so individual component tests
     // using relative imports still get the real implementation.
     "^@/components/discovery/PublicDiscoveryView$":
-      "<rootDir>/src/test-utils/discoveryComponentsMock.js",
-    "^@/components/discovery/DonorHubView$":
-      "<rootDir>/src/test-utils/discoveryComponentsMock.js",
-    "^@/components/discovery/CharityHubView$":
       "<rootDir>/src/test-utils/discoveryComponentsMock.js",
     "^@/components/discovery/DiscoveryShellSkeleton$":
       "<rootDir>/src/test-utils/discoveryComponentsMock.js",
@@ -359,6 +404,10 @@ export default {
       "<rootDir>/src/test-utils/charityPageTemplateMock.js",
     "(.*)/components/charity/CharityPageTemplate(\\.tsx?)?$":
       "<rootDir>/src/test-utils/charityPageTemplateMock.js",
+    "^@/components/charity/CausePageTemplate$":
+      "<rootDir>/src/test-utils/causePageTemplateMock.js",
+    "(.*)/components/charity/CausePageTemplate(\\.tsx?)?$":
+      "<rootDir>/src/test-utils/causePageTemplateMock.js",
     "^@/components/charity/CharityHeroBanner$":
       "<rootDir>/src/test-utils/charityHeroBannerMock.js",
     "(.*)/components/charity/CharityHeroBanner(\\.tsx?)?$":
@@ -428,6 +477,14 @@ export default {
     // tests that use relative imports still get the real implementation.
     "^@/hooks/useFeaturedCharities$":
       "<rootDir>/src/test-utils/useFeaturedCharitiesMock.js",
+    // useFeaturedCauses hook mock — only match @/ alias imports so hook unit
+    // tests that use relative imports still get the real implementation.
+    "^@/hooks/useFeaturedCauses$":
+      "<rootDir>/src/test-utils/useFeaturedCausesMock.js",
+    // useFeaturedPortfolioFunds hook mock — only match @/ alias imports so hook unit
+    // tests that use relative imports still get the real implementation.
+    "^@/hooks/useFeaturedPortfolioFunds$":
+      "<rootDir>/src/test-utils/useFeaturedPortfolioFundsMock.js",
     // FormInput component mock
     "^@/components/ui/FormInput$": "<rootDir>/src/test-utils/formInputMock.js",
     "(.*)/components/ui/FormInput(\\.tsx?)?$":

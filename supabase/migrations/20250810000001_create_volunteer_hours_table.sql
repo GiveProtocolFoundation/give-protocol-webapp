@@ -64,16 +64,19 @@ ALTER TABLE volunteer_applications ENABLE ROW LEVEL SECURITY;
 ALTER TABLE volunteer_verifications ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS policies for volunteer_hours
+DROP POLICY IF EXISTS "Volunteers can insert own volunteer hours" ON volunteer_hours;
 CREATE POLICY "Volunteers can insert own volunteer hours" ON volunteer_hours
   FOR INSERT
   TO authenticated
   WITH CHECK ((SELECT auth.uid()) = volunteer_id);
 
+DROP POLICY IF EXISTS "Volunteers can read own volunteer hours" ON volunteer_hours;
 CREATE POLICY "Volunteers can read own volunteer hours" ON volunteer_hours
   FOR SELECT
   TO authenticated
   USING ((SELECT auth.uid()) = volunteer_id);
 
+DROP POLICY IF EXISTS "Charities can read volunteer hours for their charity" ON volunteer_hours;
 CREATE POLICY "Charities can read volunteer hours for their charity" ON volunteer_hours
   FOR SELECT
   TO authenticated
@@ -81,6 +84,7 @@ CREATE POLICY "Charities can read volunteer hours for their charity" ON voluntee
     SELECT id FROM profiles WHERE user_id = (SELECT auth.uid()) AND type = 'charity'
   ));
 
+DROP POLICY IF EXISTS "Charities can update volunteer hours for their charity" ON volunteer_hours;
 CREATE POLICY "Charities can update volunteer hours for their charity" ON volunteer_hours
   FOR UPDATE
   TO authenticated
@@ -89,16 +93,19 @@ CREATE POLICY "Charities can update volunteer hours for their charity" ON volunt
   ));
 
 -- Create RLS policies for volunteer_applications
+DROP POLICY IF EXISTS "Users can view own applications" ON volunteer_applications;
 CREATE POLICY "Users can view own applications" ON volunteer_applications
   FOR SELECT
   TO authenticated
   USING ((SELECT auth.uid()) = applicant_id);
 
+DROP POLICY IF EXISTS "Users can create applications" ON volunteer_applications;
 CREATE POLICY "Users can create applications" ON volunteer_applications
   FOR INSERT
   TO authenticated
   WITH CHECK ((SELECT auth.uid()) = applicant_id);
 
+DROP POLICY IF EXISTS "Charities can view applications for their opportunities" ON volunteer_applications;
 CREATE POLICY "Charities can view applications for their opportunities" ON volunteer_applications
   FOR SELECT
   TO authenticated
@@ -106,6 +113,7 @@ CREATE POLICY "Charities can view applications for their opportunities" ON volun
     SELECT id FROM profiles WHERE user_id = (SELECT auth.uid()) AND type = 'charity'
   ));
 
+DROP POLICY IF EXISTS "Charities can update applications for their opportunities" ON volunteer_applications;
 CREATE POLICY "Charities can update applications for their opportunities" ON volunteer_applications
   FOR UPDATE
   TO authenticated
@@ -114,11 +122,13 @@ CREATE POLICY "Charities can update applications for their opportunities" ON vol
   ));
 
 -- Create RLS policies for volunteer_verifications
+DROP POLICY IF EXISTS "Volunteers can read own verifications" ON volunteer_verifications;
 CREATE POLICY "Volunteers can read own verifications" ON volunteer_verifications
   FOR SELECT
   TO authenticated
   USING ((SELECT auth.uid()) = volunteer_id);
 
+DROP POLICY IF EXISTS "Charities can create verifications for their volunteers" ON volunteer_verifications;
 CREATE POLICY "Charities can create verifications for their volunteers" ON volunteer_verifications
   FOR INSERT
   TO authenticated
@@ -126,6 +136,7 @@ CREATE POLICY "Charities can create verifications for their volunteers" ON volun
     SELECT id FROM profiles WHERE user_id = (SELECT auth.uid()) AND type = 'charity'
   ));
 
+DROP POLICY IF EXISTS "Charities can read verifications for their volunteers" ON volunteer_verifications;
 CREATE POLICY "Charities can read verifications for their volunteers" ON volunteer_verifications
   FOR SELECT
   TO authenticated

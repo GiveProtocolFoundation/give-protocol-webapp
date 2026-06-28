@@ -4,13 +4,13 @@ import { ArrowLeft, AlertCircle } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { PasswordStrengthBar } from "@/components/auth/PasswordStrengthBar";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useToast } from "@/contexts/ToastContext";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/useToast";
 import {
   validateEmail,
   validatePassword,
   validateName,
-  validatePhoneNumber,
 } from "@/utils/validation";
 import { Logger } from "@/utils/logger";
 import type { CharityOrganization } from "@/types/charityOrganization";
@@ -24,26 +24,36 @@ interface CharityClaimFormProps {
 const RegistryDetailsPanel: React.FC<{
   organization: CharityOrganization;
   registryLocation: string;
-}> = ({ organization, registryLocation }) => (
-  <div className="bg-gray-50 p-4 rounded-lg text-sm space-y-1">
-    <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
-      Organization Details (from Registry)
-    </h3>
-    <p>
-      <span className="font-medium text-gray-700">Name:</span>{" "}
-      {organization.name}
-    </p>
-    <p>
-      <span className="font-medium text-gray-700">EIN:</span> {organization.ein}
-    </p>
-    {registryLocation && (
+}> = ({ organization, registryLocation }) => {
+  const { t } = useTranslation();
+  return (
+    <div className="bg-gray-50 p-4 rounded-lg text-sm space-y-1">
+      <h3 className="text-sm font-medium text-gray-500 uppercase tracking-wide mb-2">
+        {t("charity.claim.orgDetails")}
+      </h3>
       <p>
-        <span className="font-medium text-gray-700">Location:</span>{" "}
-        {registryLocation}
+        <span className="font-medium text-gray-700">
+          {t("charity.claim.orgNameLabel")}:
+        </span>{" "}
+        {organization.name}
       </p>
-    )}
-  </div>
-);
+      <p>
+        <span className="font-medium text-gray-700">
+          {t("charity.claim.einLabel")}:
+        </span>{" "}
+        {organization.ein}
+      </p>
+      {registryLocation && (
+        <p>
+          <span className="font-medium text-gray-700">
+            {t("charity.claim.locationLabel")}:
+          </span>{" "}
+          {registryLocation}
+        </p>
+      )}
+    </div>
+  );
+};
 
 /**
  * Claim registration form for a charity found via IRS search.
@@ -58,6 +68,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
   onBack,
 }) => {
   const navigate = useNavigate();
+  const { t } = useTranslation();
   const { showToast } = useToast();
   const [submitting, setSubmitting] = useState(false);
   const [error, setError] = useState("");
@@ -68,10 +79,11 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
   const [formData, setFormData] = useState({
     contactName: "",
     contactEmail: "",
-    contactPhone: "",
     password: "",
     confirmPassword: "",
+    publicContactEmail: "",
   });
+  const [useSignerAsPublicEmail, setUseSignerAsPublicEmail] = useState(true);
 
   const registryLocation = [
     organization.city,
@@ -97,32 +109,35 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
     [validationErrors],
   );
 
+  const handlePublicEmailToggle = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setUseSignerAsPublicEmail(e.target.checked);
+    },
+    [],
+  );
+
   const validateField = useCallback(
     (name: string, value: string): string => {
       switch (name) {
         case "contactName":
-          return validateName(value)
-            ? ""
-            : "Name must be between 2 and 100 characters";
+          return validateName(value) ? "" : t("charity.claim.validation.name");
         case "contactEmail":
           return validateEmail(value)
             ? ""
-            : "Please enter a valid email address";
-        case "contactPhone":
-          return validatePhoneNumber(value)
-            ? ""
-            : "Please enter a valid phone number";
+            : t("charity.claim.validation.email");
         case "password":
           return validatePassword(value)
             ? ""
-            : "Password must be at least 8 characters long";
+            : t("charity.claim.validation.password");
         case "confirmPassword":
-          return value === formData.password ? "" : "Passwords do not match";
+          return value === formData.password
+            ? ""
+            : t("charity.claim.validation.confirmPassword");
         default:
           return "";
       }
     },
-    [formData.password],
+    [formData.password, t],
   );
 
   const handleSubmit = useCallback(
@@ -135,7 +150,6 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
       const fieldsToValidate = [
         { name: "contactName", value: formData.contactName },
         { name: "contactEmail", value: formData.contactEmail },
-        { name: "contactPhone", value: formData.contactPhone },
         { name: "password", value: formData.password },
         { name: "confirmPassword", value: formData.confirmPassword },
       ];
@@ -149,7 +163,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 
       if (Object.keys(errors).length > 0) {
         setValidationErrors(errors);
-        setError("Please correct the validation errors");
+        setError(t("charity.claim.validation.fix"));
         return;
       }
 
@@ -177,7 +191,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
 
         const userId = signUpData.user?.id;
         if (!userId) {
-          setError("Account creation failed");
+          setError(t("charity.claim.error.creation"));
           return;
         }
 
@@ -205,37 +219,85 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         }
 
         // 4. Claim the charity profile
+        const publicEmail = useSignerAsPublicEmail
+          ? formData.contactEmail
+          : formData.publicContactEmail || null;
         const { error: claimError } = await supabase.rpc(
           "claim_charity_profile",
           {
             p_ein: organization.ein,
             p_signer_name: formData.contactName,
             p_signer_email: formData.contactEmail,
-            p_signer_phone: formData.contactPhone,
+            p_signer_phone: null,
+            p_public_contact_email: publicEmail,
           },
         );
 
         if (claimError) {
-          Logger.error("Failed to claim charity profile", {
+          Logger.error("Failed to claim charity profile via RPC", {
             error: claimError,
           });
+          // Direct-update fallback: link the profile row when the RPC fails
+          // (e.g. due to SQL function parameter issues). Only updates rows
+          // where claimed_by is currently NULL to prevent hijacking.
+          const { error: fallbackError } = await supabase
+            .from("charity_profiles")
+            .update({
+              claimed_by: userId,
+              authorized_signer_name: formData.contactName,
+              authorized_signer_email: formData.contactEmail,
+              status: "claimed-pending",
+            })
+            .eq("ein", organization.ein)
+            .is("claimed_by", null);
+
+          if (fallbackError) {
+            Logger.error("Claim fallback direct update also failed", {
+              error: fallbackError,
+            });
+          } else {
+            Logger.info("Claim fallback succeeded via direct update", {
+              ein: organization.ein,
+            });
+          }
         }
 
-        showToast(
-          "success",
-          "Account Created",
-          "Please check your email to verify your account.",
+        showToast({
+          type: "success",
+          title: t(
+            "charity.toast.verificationEmailSent",
+            "Verification email sent",
+          ),
+          message: t(
+            "charity.toast.verificationEmailMessage",
+            "Check your inbox \u2014 the link expires in 24 hours.",
+          ),
+        });
+        navigate(
+          `/auth/registration-success?type=charity-claim&email=${encodeURIComponent(formData.contactEmail)}`,
         );
-        navigate("/auth");
       } catch (err) {
         const message =
-          err instanceof Error ? err.message : "Failed to create account";
+          err instanceof Error ? err.message : t("charity.claim.error.generic");
+        showToast({
+          type: "error",
+          title: t("charity.toast.submissionFailed", "Submission failed"),
+          message,
+        });
         setError(message);
       } finally {
         setSubmitting(false);
       }
     },
-    [formData, organization, validateField, navigate, showToast],
+    [
+      formData,
+      organization,
+      validateField,
+      navigate,
+      t,
+      showToast,
+      useSignerAsPublicEmail,
+    ],
   );
 
   return (
@@ -246,12 +308,15 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         className="flex items-center text-sm text-gray-600 hover:text-gray-900 mb-4"
       >
         <ArrowLeft aria-hidden="true" className="h-4 w-4 mr-1" />
-        Back to search
+        {t("charity.claim.backToSearch")}
       </button>
 
       <form onSubmit={handleSubmit} className="space-y-6">
         {error && (
-          <div className="p-3 bg-red-50 text-red-600 rounded-md flex items-start">
+          <div
+            className="p-3 bg-red-50 text-red-600 rounded-md flex items-start"
+            role="alert"
+          >
             <AlertCircle className="h-5 w-5 text-red-500 mt-0.5 mr-2 flex-shrink-0" />
             <span>{error}</span>
           </div>
@@ -263,10 +328,10 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
         />
 
         <h3 className="text-lg font-semibold text-gray-900">
-          Contact Information
+          {t("charity.claim.contactInfo")}
         </h3>
         <Input
-          label="Contact Name"
+          label={t("charity.claim.contactName")}
           name="contactName"
           variant="fintech"
           value={formData.contactName}
@@ -275,7 +340,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           error={validationErrors["contactName"]}
         />
         <Input
-          label="Contact Email"
+          label={t("charity.claim.contactEmail")}
           type="email"
           name="contactEmail"
           variant="fintech"
@@ -284,23 +349,50 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           required
           error={validationErrors["contactEmail"]}
         />
-        <Input
-          label="Contact Phone"
-          type="tel"
-          name="contactPhone"
-          variant="fintech"
-          value={formData.contactPhone}
-          onChange={handleChange}
-          required
-          error={validationErrors["contactPhone"]}
-        />
+
+        <div className="space-y-2">
+          <label className="flex items-start gap-2 text-sm cursor-pointer">
+            <input
+              type="checkbox"
+              checked={useSignerAsPublicEmail}
+              onChange={handlePublicEmailToggle}
+              className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+            />
+            <span className="text-gray-700">
+              {t(
+                "charity.claim.useAsPublicEmail",
+                "Use my email as the charity's public contact email",
+              )}
+            </span>
+          </label>
+          {!useSignerAsPublicEmail && (
+            <Input
+              label={t(
+                "charity.claim.publicContactEmail",
+                "Organization public contact email",
+              )}
+              type="email"
+              name="publicContactEmail"
+              variant="fintech"
+              value={formData.publicContactEmail}
+              onChange={handleChange}
+              error={validationErrors["publicContactEmail"]}
+            />
+          )}
+          <p className="text-xs text-gray-500">
+            {t(
+              "charity.claim.privacyNotice",
+              "Your personal signer email/phone is used for verification only and is not visible to other platform users. The public contact email is shown on your charity profile.",
+            )}
+          </p>
+        </div>
 
         <h3 className="text-lg font-semibold text-gray-900">
-          Account Security
+          {t("charity.claim.accountSecurity")}
         </h3>
         <div className="space-y-1">
           <Input
-            label="Password"
+            label={t("charity.claim.password")}
             type="password"
             name="password"
             variant="fintech"
@@ -312,7 +404,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           <PasswordStrengthBar password={formData.password} />
         </div>
         <Input
-          label="Confirm Password"
+          label={t("charity.claim.confirmPassword")}
           type="password"
           name="confirmPassword"
           variant="fintech"
@@ -327,7 +419,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
           disabled={submitting}
         >
-          {submitting ? "Creating Account..." : "Claim Organization"}
+          {submitting ? t("charity.claim.creating") : t("charity.claim.submit")}
         </Button>
       </form>
     </>

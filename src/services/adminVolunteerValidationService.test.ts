@@ -5,13 +5,30 @@ import {
   listValidationRequests,
   overrideValidation,
   getSuspiciousPatterns,
+  notifyVolunteerHoursOverride,
 } from "./adminVolunteerValidationService";
+import type { VolunteerHoursEmailContext } from "@/types/adminVolunteerValidation";
+
+const mockRpc = supabase.rpc as ReturnType<
+  typeof import("@jest/globals").jest.fn
+>;
+const mockInvoke = supabase.functions.invoke as ReturnType<
+  typeof import("@jest/globals").jest.fn
+>;
+
+const baseEmailContext: VolunteerHoursEmailContext = {
+  volunteerId: "vol-uuid-1",
+  volunteerDisplayName: "Alice Smith",
+  orgName: "Soup Kitchen",
+  hoursReported: 4,
+  activityDate: "2026-04-01",
+};
 
 describe("adminVolunteerValidationService", () => {
   beforeEach(() => {
-    (
-      supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
-    ).mockReset();
+    mockRpc.mockReset();
+    mockInvoke.mockReset();
+    mockInvoke.mockResolvedValue({ data: null, error: null });
   });
 
   // ─── getValidationStats ────────────────────────────────────────────────────
@@ -418,13 +435,157 @@ describe("adminVolunteerValidationService", () => {
     });
 
     it("should return empty array when data is null", async () => {
-      (
-        supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
-      ).mockResolvedValue({ data: null, error: null });
+      mockRpc.mockResolvedValue({ data: null, error: null });
 
       const result = await getSuspiciousPatterns();
 
       expect(result).toEqual([]);
+    });
+  });
+
+  // ─── notifyVolunteerHoursOverride ──────────────────────────────────────────
+
+  describe("notifyVolunteerHoursOverride", () => {
+    it("should invoke volunteer-hours-email with correct body for approved status", async () => {
+      await notifyVolunteerHoursOverride(
+        { requestId: "req-1", newStatus: "approved", reason: "Verified" },
+        baseEmailContext,
+      );
+
+      expect(mockInvoke).toHaveBeenCalledWith("volunteer-hours-email", {
+        body: {
+          volunteerId: "vol-uuid-1",
+          volunteerDisplayName: "Alice Smith",
+          orgName: "Soup Kitchen",
+          hoursReported: 4,
+          activityDate: "2026-04-01",
+          newStatus: "approved",
+          reason: "Verified",
+        },
+      });
+    });
+
+    it("should invoke volunteer-hours-email with correct body for rejected status", async () => {
+      await notifyVolunteerHoursOverride(
+        { requestId: "req-2", newStatus: "rejected", reason: "Exceeds limit" },
+        baseEmailContext,
+      );
+
+      expect(mockInvoke).toHaveBeenCalledWith("volunteer-hours-email", {
+        body: {
+          volunteerId: "vol-uuid-1",
+          volunteerDisplayName: "Alice Smith",
+          orgName: "Soup Kitchen",
+          hoursReported: 4,
+          activityDate: "2026-04-01",
+          newStatus: "rejected",
+          reason: "Exceeds limit",
+        },
+      });
+    });
+
+    it("should pass null for missing volunteerDisplayName and orgName", async () => {
+      const contextNoNames: VolunteerHoursEmailContext = {
+        volunteerId: "vol-uuid-2",
+        volunteerDisplayName: null,
+        orgName: null,
+        hoursReported: 2,
+        activityDate: "2026-04-10",
+      };
+
+      await notifyVolunteerHoursOverride(
+        { requestId: "req-3", newStatus: "approved", reason: "OK" },
+        contextNoNames,
+      );
+
+      expect(mockInvoke).toHaveBeenCalledWith("volunteer-hours-email", {
+        body: {
+          volunteerId: "vol-uuid-2",
+          volunteerDisplayName: null,
+          orgName: null,
+          hoursReported: 2,
+          activityDate: "2026-04-10",
+          newStatus: "approved",
+          reason: "OK",
+        },
+      });
+    });
+
+    it("should not throw when edge function returns an error", async () => {
+      mockInvoke.mockResolvedValue({
+        data: null,
+        error: { message: "Function error" },
+      });
+
+      await expect(
+        notifyVolunteerHoursOverride(
+          { requestId: "req-1", newStatus: "approved", reason: "OK" },
+          baseEmailContext,
+        ),
+      ).resolves.toBeUndefined();
+    });
+
+    it("should not throw when invoke rejects", async () => {
+      mockInvoke.mockRejectedValue(new Error("Network timeout"));
+
+      await expect(
+        notifyVolunteerHoursOverride(
+          { requestId: "req-1", newStatus: "rejected", reason: "Bad" },
+          baseEmailContext,
+        ),
+      ).resolves.toBeUndefined();
+    });
+  });
+
+  // ─── overrideValidation (email integration) ────────────────────────────────
+
+  describe("overrideValidation with emailContext", () => {
+    it("should fire notifyVolunteerHoursOverride when emailContext is provided on success", async () => {
+      mockRpc.mockResolvedValue({ data: null, error: null });
+
+      const success = await overrideValidation(
+        { requestId: "req-1", newStatus: "approved", reason: "Verified" },
+        baseEmailContext,
+      );
+
+      expect(success).toBe(true);
+      // Allow the fire-and-forget to run
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(mockInvoke).toHaveBeenCalledWith("volunteer-hours-email", {
+        body: expect.objectContaining({
+          volunteerId: "vol-uuid-1",
+          newStatus: "approved",
+        }),
+      });
+    });
+
+    it("should not call invoke when emailContext is omitted", async () => {
+      mockRpc.mockResolvedValue({ data: null, error: null });
+
+      await overrideValidation({
+        requestId: "req-1",
+        newStatus: "approved",
+        reason: "Verified",
+      });
+
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(mockInvoke).not.toHaveBeenCalled();
+    });
+
+    it("should not call invoke when the RPC fails", async () => {
+      mockRpc.mockResolvedValue({
+        data: null,
+        error: { message: "RPC error" },
+      });
+
+      const success = await overrideValidation(
+        { requestId: "req-1", newStatus: "approved", reason: "Verified" },
+        baseEmailContext,
+      );
+
+      expect(success).toBe(false);
+      await new Promise((resolve) => setTimeout(resolve, 0));
+      expect(mockInvoke).not.toHaveBeenCalled();
     });
   });
 });

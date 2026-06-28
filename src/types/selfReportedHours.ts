@@ -1,98 +1,110 @@
-import { UUID, Timestamp, ISO8601Date } from './common';
+import { UUID, Timestamp, ISO8601Date } from "./common";
 
 /**
  * Activity types for volunteer work categorization
  */
 export enum ActivityType {
-  DIRECT_SERVICE = 'direct_service',
-  ADMINISTRATIVE_SUPPORT = 'administrative_support',
-  PROFESSIONAL_TECHNICAL = 'professional_technical',
-  EVENT_SUPPORT = 'event_support',
-  MENTORING_TEACHING = 'mentoring_teaching',
-  LEADERSHIP_COORDINATION = 'leadership_coordination',
-  GOVERNANCE = 'governance',
-  ADVOCACY_AWARENESS = 'advocacy_awareness',
-  FUNDRAISING = 'fundraising',
-  TRANSPORTATION_DELIVERY = 'transportation_delivery',
-  DIGITAL_VIRTUAL = 'digital_virtual',
-  PHYSICAL_LABOR = 'physical_labor',
-  ENVIRONMENTAL_STEWARDSHIP = 'environmental_stewardship',
-  OTHER = 'other'
+  DIRECT_SERVICE = "direct_service",
+  ADMINISTRATIVE_SUPPORT = "administrative_support",
+  PROFESSIONAL_TECHNICAL = "professional_technical",
+  EVENT_SUPPORT = "event_support",
+  MENTORING_TEACHING = "mentoring_teaching",
+  LEADERSHIP_COORDINATION = "leadership_coordination",
+  GOVERNANCE = "governance",
+  ADVOCACY_AWARENESS = "advocacy_awareness",
+  FUNDRAISING = "fundraising",
+  TRANSPORTATION_DELIVERY = "transportation_delivery",
+  DIGITAL_VIRTUAL = "digital_virtual",
+  PHYSICAL_LABOR = "physical_labor",
+  ENVIRONMENTAL_STEWARDSHIP = "environmental_stewardship",
+  OTHER = "other",
 }
 
 /**
  * Human-readable labels for activity types (short form)
  */
 export const ACTIVITY_TYPE_LABELS: Record<ActivityType, string> = {
-  [ActivityType.DIRECT_SERVICE]: 'Direct Service',
-  [ActivityType.ADMINISTRATIVE_SUPPORT]: 'Administrative Support',
-  [ActivityType.PROFESSIONAL_TECHNICAL]: 'Professional/Technical Skills',
-  [ActivityType.EVENT_SUPPORT]: 'Event Support',
-  [ActivityType.MENTORING_TEACHING]: 'Mentoring/Teaching',
-  [ActivityType.LEADERSHIP_COORDINATION]: 'Leadership/Coordination',
-  [ActivityType.GOVERNANCE]: 'Governance',
-  [ActivityType.ADVOCACY_AWARENESS]: 'Advocacy/Awareness',
-  [ActivityType.FUNDRAISING]: 'Fundraising',
-  [ActivityType.TRANSPORTATION_DELIVERY]: 'Transportation/Delivery',
-  [ActivityType.DIGITAL_VIRTUAL]: 'Digital/Virtual',
-  [ActivityType.PHYSICAL_LABOR]: 'Physical Labor/Construction',
-  [ActivityType.ENVIRONMENTAL_STEWARDSHIP]: 'Environmental Stewardship',
-  [ActivityType.OTHER]: 'Other'
+  [ActivityType.DIRECT_SERVICE]: "Direct Service",
+  [ActivityType.ADMINISTRATIVE_SUPPORT]: "Administrative Support",
+  [ActivityType.PROFESSIONAL_TECHNICAL]: "Professional/Technical Skills",
+  [ActivityType.EVENT_SUPPORT]: "Event Support",
+  [ActivityType.MENTORING_TEACHING]: "Mentoring/Teaching",
+  [ActivityType.LEADERSHIP_COORDINATION]: "Leadership/Coordination",
+  [ActivityType.GOVERNANCE]: "Governance",
+  [ActivityType.ADVOCACY_AWARENESS]: "Advocacy/Awareness",
+  [ActivityType.FUNDRAISING]: "Fundraising",
+  [ActivityType.TRANSPORTATION_DELIVERY]: "Transportation/Delivery",
+  [ActivityType.DIGITAL_VIRTUAL]: "Digital/Virtual",
+  [ActivityType.PHYSICAL_LABOR]: "Physical Labor/Construction",
+  [ActivityType.ENVIRONMENTAL_STEWARDSHIP]: "Environmental Stewardship",
+  [ActivityType.OTHER]: "Other",
 };
 
 /**
  * Descriptions for activity types (for dropdown hints)
  */
 export const ACTIVITY_TYPE_DESCRIPTIONS: Record<ActivityType, string> = {
-  [ActivityType.DIRECT_SERVICE]: 'Hands-on work with beneficiaries (food service, habitat builds)',
-  [ActivityType.ADMINISTRATIVE_SUPPORT]: 'Office work, data entry, filing, phone coverage',
-  [ActivityType.PROFESSIONAL_TECHNICAL]: 'Pro bono professional work (legal, accounting, IT, design)',
-  [ActivityType.EVENT_SUPPORT]: 'Event setup, registration, logistics, cleanup',
-  [ActivityType.MENTORING_TEACHING]: 'Tutoring, coaching, skills training, youth mentorship',
-  [ActivityType.LEADERSHIP_COORDINATION]: 'Volunteer team lead, program coordination, project management',
-  [ActivityType.GOVERNANCE]: 'Board membership, committee service, advisory roles',
-  [ActivityType.ADVOCACY_AWARENESS]: 'Public speaking, outreach campaigns, community education',
-  [ActivityType.FUNDRAISING]: 'Donor outreach, peer-to-peer campaigns, grant writing support',
-  [ActivityType.TRANSPORTATION_DELIVERY]: 'Meal delivery, client transport, supply distribution',
-  [ActivityType.DIGITAL_VIRTUAL]: 'Remote volunteering, translations, online tutoring, virtual assistance',
-  [ActivityType.PHYSICAL_LABOR]: 'Building, renovation, painting, warehouse sorting, facility maintenance',
-  [ActivityType.ENVIRONMENTAL_STEWARDSHIP]: 'Park cleanups, trail maintenance, community gardens, conservation',
-  [ActivityType.OTHER]: 'Describe in the description field'
+  [ActivityType.DIRECT_SERVICE]:
+    "Hands-on work with beneficiaries (food service, habitat builds)",
+  [ActivityType.ADMINISTRATIVE_SUPPORT]:
+    "Office work, data entry, filing, phone coverage",
+  [ActivityType.PROFESSIONAL_TECHNICAL]:
+    "Pro bono professional work (legal, accounting, IT, design)",
+  [ActivityType.EVENT_SUPPORT]: "Event setup, registration, logistics, cleanup",
+  [ActivityType.MENTORING_TEACHING]:
+    "Tutoring, coaching, skills training, youth mentorship",
+  [ActivityType.LEADERSHIP_COORDINATION]:
+    "Volunteer team lead, program coordination, project management",
+  [ActivityType.GOVERNANCE]:
+    "Board membership, committee service, advisory roles",
+  [ActivityType.ADVOCACY_AWARENESS]:
+    "Public speaking, outreach campaigns, community education",
+  [ActivityType.FUNDRAISING]:
+    "Donor outreach, peer-to-peer campaigns, grant writing support",
+  [ActivityType.TRANSPORTATION_DELIVERY]:
+    "Meal delivery, client transport, supply distribution",
+  [ActivityType.DIGITAL_VIRTUAL]:
+    "Remote volunteering, translations, online tutoring, virtual assistance",
+  [ActivityType.PHYSICAL_LABOR]:
+    "Building, renovation, painting, warehouse sorting, facility maintenance",
+  [ActivityType.ENVIRONMENTAL_STEWARDSHIP]:
+    "Park cleanups, trail maintenance, community gardens, conservation",
+  [ActivityType.OTHER]: "Describe in the description field",
 };
 
 /**
  * Validation status for self-reported hours records
  */
 export enum ValidationStatus {
-  PENDING = 'pending',
-  VALIDATED = 'validated',
-  REJECTED = 'rejected',
-  UNVALIDATED = 'unvalidated',
-  EXPIRED = 'expired'
+  PENDING = "pending",
+  VALIDATED = "validated",
+  REJECTED = "rejected",
+  UNVALIDATED = "unvalidated",
+  EXPIRED = "expired",
 }
 
 /**
  * Reasons for rejecting a validation request
  */
 export enum RejectionReason {
-  HOURS_INACCURATE = 'hours_inaccurate',
-  DATE_INCORRECT = 'date_incorrect',
-  ACTIVITY_NOT_RECOGNIZED = 'activity_not_recognized',
-  VOLUNTEER_NOT_RECOGNIZED = 'volunteer_not_recognized',
-  DESCRIPTION_INSUFFICIENT = 'description_insufficient',
-  OTHER = 'other'
+  HOURS_INACCURATE = "hours_inaccurate",
+  DATE_INCORRECT = "date_incorrect",
+  ACTIVITY_NOT_RECOGNIZED = "activity_not_recognized",
+  VOLUNTEER_NOT_RECOGNIZED = "volunteer_not_recognized",
+  DESCRIPTION_INSUFFICIENT = "description_insufficient",
+  OTHER = "other",
 }
 
 /**
  * Human-readable labels for rejection reasons
  */
 export const REJECTION_REASON_LABELS: Record<RejectionReason, string> = {
-  [RejectionReason.HOURS_INACCURATE]: 'Hours claimed are inaccurate',
-  [RejectionReason.DATE_INCORRECT]: 'Activity date is incorrect',
-  [RejectionReason.ACTIVITY_NOT_RECOGNIZED]: 'Activity not recognized',
-  [RejectionReason.VOLUNTEER_NOT_RECOGNIZED]: 'Volunteer not recognized',
-  [RejectionReason.DESCRIPTION_INSUFFICIENT]: 'Description is insufficient',
-  [RejectionReason.OTHER]: 'Other reason'
+  [RejectionReason.HOURS_INACCURATE]: "Hours claimed are inaccurate",
+  [RejectionReason.DATE_INCORRECT]: "Activity date is incorrect",
+  [RejectionReason.ACTIVITY_NOT_RECOGNIZED]: "Activity not recognized",
+  [RejectionReason.VOLUNTEER_NOT_RECOGNIZED]: "Volunteer not recognized",
+  [RejectionReason.DESCRIPTION_INSUFFICIENT]: "Description is insufficient",
+  [RejectionReason.OTHER]: "Other reason",
 };
 
 /**
@@ -142,7 +154,7 @@ export interface ValidationRequest {
   organizationId: UUID;
   volunteerId: UUID;
 
-  status: 'pending' | 'approved' | 'rejected' | 'cancelled' | 'expired';
+  status: "pending" | "approved" | "rejected" | "cancelled" | "expired";
   expiresAt: Timestamp;
 
   respondedAt?: Timestamp;
@@ -195,13 +207,17 @@ export interface SelfReportedHoursDisplay extends SelfReportedHours {
 }
 
 /**
- * Item in the organization's validation queue
+ * Item in the organization's validation queue.
+ *
+ * GDPR Art. 5(1)(c) data minimisation: only the volunteer's display name is
+ * exposed to charity administrators in the validation queue. Email is
+ * intentionally NOT included — it is not required to make an approve/reject
+ * decision. See GIV-406.
  */
 export interface ValidationQueueItem {
   requestId: UUID;
   selfReportedHours: SelfReportedHours;
   volunteerName: string;
-  volunteerEmail: string;
   daysUntilExpiration: number;
   isResubmission: boolean;
 }
@@ -247,16 +263,14 @@ export interface OrganizationSearchResult {
  */
 export const VALIDATION_WINDOW_DAYS = 90;
 
-/**
- * Minimum and maximum hours per record
- */
+/** Minimum hours that can be logged in a single self-reported record. */
 export const MIN_HOURS_PER_RECORD = 0.5;
+/** Maximum hours that can be logged in a single self-reported record. */
 export const MAX_HOURS_PER_RECORD = 24;
 
-/**
- * Description character limits
- */
+/** Minimum character count required for an activity description. */
 export const MIN_DESCRIPTION_LENGTH = 50;
+/** Maximum character count allowed for an activity description. */
 export const MAX_DESCRIPTION_LENGTH = 500;
 
 /**
@@ -264,7 +278,9 @@ export const MAX_DESCRIPTION_LENGTH = 500;
  * @param activityDate - The date of the volunteer activity
  * @returns Number of days remaining, or undefined if already expired
  */
-export function calculateDaysUntilExpiration(activityDate: string): number | undefined {
+export function calculateDaysUntilExpiration(
+  activityDate: string,
+): number | undefined {
   const activity = new Date(activityDate);
   const expirationDate = new Date(activity);
   expirationDate.setDate(expirationDate.getDate() + VALIDATION_WINDOW_DAYS);
@@ -293,9 +309,11 @@ export function isValidationExpired(activityDate: string): boolean {
  * @returns True if the record can be edited
  */
 export function canEditRecord(status: ValidationStatus): boolean {
-  return status === ValidationStatus.UNVALIDATED ||
-         status === ValidationStatus.REJECTED ||
-         status === ValidationStatus.EXPIRED;
+  return (
+    status === ValidationStatus.UNVALIDATED ||
+    status === ValidationStatus.REJECTED ||
+    status === ValidationStatus.EXPIRED
+  );
 }
 
 /**
@@ -317,7 +335,7 @@ export function canDeleteRecord(status: ValidationStatus): boolean {
 export function canRequestValidation(
   status: ValidationStatus,
   activityDate: string,
-  hasVerifiedOrg: boolean
+  hasVerifiedOrg: boolean,
 ): boolean {
   if (!hasVerifiedOrg) return false;
   if (status === ValidationStatus.VALIDATED) return false;

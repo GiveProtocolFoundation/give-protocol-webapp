@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { VolunteerApplicationForm } from "../components/volunteer/VolunteerApplicationForm";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePageTitle } from "@/hooks/usePageTitle";
 import { WorkLanguage } from "@/types/volunteer";
 import { useToast } from "@/contexts/ToastContext";
 import { useAuth } from "@/contexts/AuthContext";
@@ -141,11 +142,11 @@ function WorkTypeToggle({
   onOnsiteClick: () => void;
   onHybridClick: () => void;
 }) {
+  const { t } = useTranslation();
   return (
-    <div
-      className="inline-flex rounded-full bg-gray-100 p-0.5 border border-gray-200 shrink-0"
-      role="group"
-      aria-label="Work type filter"
+    <fieldset
+      className="inline-flex rounded-full bg-gray-100 p-0.5 border border-gray-200 shrink-0 m-0"
+      aria-label={t("volunteer.workTypeFilter", "Work type filter")}
     >
       <button
         type="button"
@@ -157,7 +158,7 @@ function WorkTypeToggle({
             : "text-gray-500 hover:text-gray-700",
         )}
       >
-        Remote
+        {t("volunteer.type.remote", "Remote")}
       </button>
       <button
         type="button"
@@ -169,7 +170,7 @@ function WorkTypeToggle({
             : "text-gray-500 hover:text-gray-700",
         )}
       >
-        On-site
+        {t("volunteer.type.onSite", "On-site")}
       </button>
       <button
         type="button"
@@ -181,9 +182,9 @@ function WorkTypeToggle({
             : "text-gray-500 hover:text-gray-700",
         )}
       >
-        Hybrid
+        {t("volunteer.type.hybrid", "Hybrid")}
       </button>
-    </div>
+    </fieldset>
   );
 }
 
@@ -370,8 +371,8 @@ function OpportunityFilters({
           wrapperClass="relative flex-[2]"
           inputClass="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm"
           type="text"
-          placeholder="City or region..."
-          aria-label="Search location"
+          placeholder={t("volunteer.searchLocation", "City or region...")}
+          aria-label={t("volunteer.searchLocationAria", "Search location")}
           value={locationSearch}
           onChange={onLocationChange}
         />
@@ -430,6 +431,7 @@ function OpportunityFilters({
  * @returns VolunteerOpportunities page element
  */
 const VolunteerOpportunities: React.FC = () => {
+  usePageTitle("Volunteer Opportunities");
   const [searchTerm, setSearchTerm] = useState("");
   const [locationSearch, setLocationSearch] = useState("");
   const [selectedSkill, setSelectedSkill] = useState("");
@@ -481,7 +483,10 @@ const VolunteerOpportunities: React.FC = () => {
       if (!user) {
         showToast(
           "error",
-          "Please sign in to apply for volunteer opportunities",
+          t(
+            "volunteer.signInToApply",
+            "Please sign in to apply for volunteer opportunities",
+          ),
         );
         navigate("/auth");
         return;
@@ -489,7 +494,7 @@ const VolunteerOpportunities: React.FC = () => {
       setSelectedOpportunity(opportunity);
       setShowApplicationForm(true);
     },
-    [user, navigate, showToast],
+    [user, navigate, showToast, t],
   );
 
   const createApplyHandler = useCallback(
@@ -505,10 +510,13 @@ const VolunteerOpportunities: React.FC = () => {
   }, []);
 
   const handleApplicationSuccess = useCallback(() => {
-    showToast("success", "Application submitted successfully!");
+    showToast(
+      "success",
+      t("volunteer.applicationSuccess", "Application submitted successfully!"),
+    );
     setShowApplicationForm(false);
     setSelectedOpportunity(null);
-  }, [showToast]);
+  }, [showToast, t]);
 
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {

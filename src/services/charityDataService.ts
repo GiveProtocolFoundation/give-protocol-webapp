@@ -104,16 +104,44 @@ export async function submitRemovalRequest(
  * Records the user's interest so the platform can prioritize outreach.
  * @param ein - The EIN of the organization
  * @param userId - The authenticated user's ID
+ * @param contactEmail - Optional contact email for follow-up confirmation
  * @returns True if submitted successfully, false on error or duplicate
  */
 export async function submitCharityRequest(
   ein: string,
   userId: string,
+  contactEmail?: string,
 ): Promise<boolean> {
   try {
-    const { error } = await supabase
+    const normalizedEin = ein.replace(/-/g, "");
+
+    // Check for existing row first to prevent duplicate submissions
+    const { data: existing, error: checkError } = await supabase
       .from("charity_requests")
-      .insert({ ein: ein.replace(/-/g, ""), user_id: userId });
+      .select("id")
+      .eq("ein", normalizedEin)
+      .eq("user_id", userId)
+      .limit(1);
+
+    if (checkError) {
+      Logger.error("Error checking existing charity request", {
+        error: checkError,
+        ein,
+      });
+      return false;
+    }
+
+    // Already requested — idempotent success
+    if (Array.isArray(existing) && existing.length > 0) {
+      return true;
+    }
+
+    const row: Record<string, string> = { ein: normalizedEin, user_id: userId };
+    if (contactEmail) {
+      row.contact_email = contactEmail;
+    }
+
+    const { error } = await supabase.from("charity_requests").insert(row);
 
     if (error) {
       Logger.error("Error submitting charity request", { error, ein });

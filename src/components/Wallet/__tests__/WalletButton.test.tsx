@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -184,6 +183,29 @@ describe("WalletButton", () => {
 
       expect(screen.queryByText("Switch Account")).not.toBeInTheDocument();
     });
+
+    it("hides Account Settings and shows Sign In when isGuest is true", () => {
+      renderWalletButton({ isGuest: true });
+
+      fireEvent.click(screen.getByRole("button", { name: "Wallet menu" }));
+
+      expect(screen.queryByText("Account Settings")).not.toBeInTheDocument();
+      expect(screen.getByText("Sign In")).toBeInTheDocument();
+      // Disconnect remains available
+      expect(screen.getByText("Disconnect")).toBeInTheDocument();
+    });
+
+    it("shows 'Guest' label on the wallet button when isGuest is true", () => {
+      renderWalletButton({ isGuest: true });
+      expect(screen.getByText("Guest")).toBeInTheDocument();
+      expect(screen.queryByText("Main Wallet")).not.toBeInTheDocument();
+    });
+
+    it("shows 'Main Wallet' label by default (signed in)", () => {
+      renderWalletButton();
+      expect(screen.getByText("Main Wallet")).toBeInTheDocument();
+      expect(screen.queryByText("Guest")).not.toBeInTheDocument();
+    });
   });
 
   describe("dropdown actions", () => {
@@ -215,7 +237,7 @@ describe("WalletButton", () => {
     it("copies address and shows confirmation", async () => {
       // Mock clipboard API
       const writeText = jest.fn<() => Promise<void>>();
-      writeText.mockResolvedValue(undefined);
+      writeText.mockResolvedValue();
       Object.assign(navigator, {
         clipboard: { writeText },
       });

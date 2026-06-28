@@ -39,14 +39,10 @@ jest.mock("@/utils/logger", () => ({
 
 import { SecurityManager } from "../index";
 
-// SHA-256 hashes of the three inline scripts in index.html (PCI DSS SAQ A-EP requirement 6.4.3)
+// SHA-256 hash of the single consolidated inline script in index.html (PCI DSS SAQ A-EP requirement 6.4.3)
 const INLINE_SCRIPT_HASHES = [
-  // GTM loader script
-  "sha256-3jmXcBtFOTq+jrqutfpt36T0J4Qm1z+aXPli5zNE1Cc=",
-  // gtag consent/config script
-  "sha256-1A5C0PgHbkU0Dcl68Pe/TR1vV/k5AMjAVNdjxLJHUaE=",
-  // Silktide consent manager config script
-  "sha256-sT0ykMJAN6ofGI+ID++kG8erAOJfF/gVN1p9IN2Wc+U=",
+  // Consolidated GTM + gtag + Silktide consent script
+  "sha256-FE0b/aIu3qmhPRVUXn/+TXDCpLi5oRzW6cwcyknX2PU=",
 ];
 
 type SecurityManagerPrivate = {
@@ -85,7 +81,7 @@ describe("SecurityManager CSP (PCI DSS SAQ A-EP Requirement 6.4.3)", () => {
     expect(scriptSrc).not.toContain("'unsafe-eval'");
   });
 
-  it("includes all three inline script SHA-256 hashes in script-src", () => {
+  it("includes the consolidated inline script SHA-256 hash in script-src", () => {
     const manager = SecurityManager.getInstance();
     const csp = (manager as unknown as SecurityManagerPrivate).securityHeaders[
       "Content-Security-Policy"
@@ -122,5 +118,21 @@ describe("SecurityManager CSP (PCI DSS SAQ A-EP Requirement 6.4.3)", () => {
     const instance1 = SecurityManager.getInstance();
     const instance2 = SecurityManager.getInstance();
     expect(instance1).toBe(instance2);
+  });
+
+  it("includes report-uri directive pointing to /api/csp-report", () => {
+    const manager = SecurityManager.getInstance();
+    const csp = (manager as unknown as SecurityManagerPrivate).securityHeaders[
+      "Content-Security-Policy"
+    ];
+    expect(csp).toContain("report-uri /api/csp-report");
+  });
+
+  it("includes report-to directive referencing csp-endpoint group", () => {
+    const manager = SecurityManager.getInstance();
+    const csp = (manager as unknown as SecurityManagerPrivate).securityHeaders[
+      "Content-Security-Policy"
+    ];
+    expect(csp).toContain("report-to csp-endpoint");
   });
 });

@@ -74,6 +74,12 @@ export class PolkadotAdapter {
   private accounts: InjectedAccountWithMeta[] = [];
   private unsubscribe: (() => void) | null = null;
 
+  /**
+   * Wraps a Polkadot wallet extension with adapter state.
+   * @param extension - The injected Polkadot extension to wrap.
+   * @param extensionName - Human-readable extension identifier used in dApp authorization prompts.
+   * @param chain - Initial chain selection (defaults to {@link DEFAULT_POLKADOT_CHAIN}).
+   */
   constructor(
     extension: PolkadotExtension,
     extensionName: string,

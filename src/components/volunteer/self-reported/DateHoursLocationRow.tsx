@@ -6,7 +6,7 @@ import {
 } from "@/types/selfReportedHours";
 
 const INPUT_BASE_CLASSES =
-  "h-11 w-full rounded-lg border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent";
+  "h-11 w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent";
 const INPUT_WITH_ICON_CLASSES = `${INPUT_BASE_CLASSES} pl-10 pr-4`;
 const INPUT_WITH_SUFFIX_CLASSES = `${INPUT_BASE_CLASSES} pl-10 pr-12`;
 
@@ -26,6 +26,7 @@ interface DateHoursLocationRowProps {
   ) => void;
 }
 
+/** Row component for date, hours, and location fields in the self-reported hours form. */
 export const DateHoursLocationRow: React.FC<DateHoursLocationRowProps> = ({
   activityDate,
   hours,

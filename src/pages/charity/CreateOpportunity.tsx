@@ -5,6 +5,10 @@ import { Button } from "@/components/ui/Button";
 import { OpportunityForm } from "@/components/volunteer/OpportunityForm";
 import { useTranslation } from "@/hooks/useTranslation";
 
+/**
+ * Page component for creating a new volunteer opportunity.
+ * @returns React element with the opportunity creation form
+ */
 const CreateOpportunity: React.FC = () => {
   const navigate = useNavigate();
   const { t } = useTranslation();

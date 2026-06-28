@@ -24,14 +24,17 @@ CREATE INDEX IF NOT EXISTS idx_user_identities_wallet
 -- RLS
 ALTER TABLE user_identities ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view own identity" ON user_identities;
 CREATE POLICY "Users can view own identity"
   ON user_identities FOR SELECT
   USING (user_id = (SELECT auth.uid()));
 
+DROP POLICY IF EXISTS "Users can update own identity" ON user_identities;
 CREATE POLICY "Users can update own identity"
   ON user_identities FOR UPDATE
   USING (user_id = (SELECT auth.uid()));
 
+DROP POLICY IF EXISTS "Service role can insert identities" ON user_identities;
 CREATE POLICY "Service role can insert identities"
   ON user_identities FOR INSERT
   WITH CHECK (true);

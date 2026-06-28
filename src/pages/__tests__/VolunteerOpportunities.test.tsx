@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -34,9 +33,7 @@ describe("VolunteerOpportunities", () => {
   describe("Page heading", () => {
     it("renders the page title", () => {
       renderPage();
-      expect(
-        screen.getByText("Volunteer Opportunities"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Volunteer Opportunities")).toBeInTheDocument();
     });
   });
 
@@ -68,9 +65,7 @@ describe("VolunteerOpportunities", () => {
       expect(
         screen.getByText("Global Education Initiative"),
       ).toBeInTheDocument();
-      expect(
-        screen.getByText("EcoWatch Foundation"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("EcoWatch Foundation")).toBeInTheDocument();
     });
 
     it("renders commitment details", () => {
@@ -95,9 +90,7 @@ describe("VolunteerOpportunities", () => {
   describe("Search functionality", () => {
     it("renders the search input", () => {
       renderPage();
-      expect(
-        screen.getByLabelText("Search opportunities"),
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText("Search opportunities")).toBeInTheDocument();
     });
 
     it("filters opportunities by search term", () => {
@@ -130,9 +123,7 @@ describe("VolunteerOpportunities", () => {
   describe("Location filter", () => {
     it("renders the location search input", () => {
       renderPage();
-      expect(
-        screen.getByLabelText("Search location"),
-      ).toBeInTheDocument();
+      expect(screen.getByLabelText("Search location")).toBeInTheDocument();
     });
 
     it("filters opportunities by location", () => {
@@ -258,9 +249,7 @@ describe("VolunteerOpportunities", () => {
         target: { value: "zzzznonexistent" },
       });
       expect(
-        screen.getByText(
-          "No opportunities found matching your criteria.",
-        ),
+        screen.getByText("No opportunities found matching your criteria."),
       ).toBeInTheDocument();
     });
   });
@@ -281,9 +270,7 @@ describe("VolunteerOpportunities", () => {
     });
 
     it("shows error toast and redirects when unauthenticated user clicks Apply", () => {
-      mockUseAuth.mockReturnValue(
-        createMockAuth({ user: null }),
-      );
+      mockUseAuth.mockReturnValue(createMockAuth({ user: null }));
       renderPage();
       const applyButtons = screen.getAllByText("Apply Now");
       fireEvent.click(applyButtons[0]);

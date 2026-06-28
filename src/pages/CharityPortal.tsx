@@ -1,20 +1,8 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
-import { Navigate, Link } from "react-router-dom";
+import { Navigate, Link, useNavigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
-import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useProfile } from "@/hooks/useProfile";
-import {
-  Plus,
-  Receipt,
-  ClipboardList,
-  Briefcase,
-  Heart,
-  RefreshCw,
-  Clock,
-  Settings,
-  Target,
-  Wallet,
-} from "lucide-react";
+import { Plus, Heart, RefreshCw, Wallet, Search } from "lucide-react";
 import {
   ApplicationsTab,
   CausesTab,
@@ -34,10 +22,7 @@ import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { CharityOnboardingChecklist } from "@/components/charity/CharityOnboardingChecklist";
 import { VerificationStatusBanner } from "@/components/charity/VerificationStatusBanner";
-import {
-  getCharityWalletAddress,
-  updateCharityWalletAddress,
-} from "@/services/charityProfileService";
+import { getCharityWalletAddress } from "@/services/charityProfileService";
 
 // Type definitions for Supabase data structures
 interface DonationData {
@@ -148,7 +133,6 @@ interface TabDef {
   key: TabKey;
   labelKey: string;
   labelDefault: string;
-  icon: React.ElementType;
   badge?: number;
 }
 
@@ -178,30 +162,37 @@ function CharityTabNav({
   );
 
   return (
-    <div className="mb-6">
-      <div className="bg-gray-100 dark:bg-gray-800 rounded-xl p-1.5 overflow-x-auto">
-        <nav className="flex gap-1 min-w-max">
-          {tabs.map(({ key, labelKey, labelDefault, icon: Icon, badge }) => (
+    <div className="mb-6 border-b border-line-subtle dark:border-line-subtle/15">
+      <div
+        className="flex gap-1 min-w-max overflow-x-auto -mb-px"
+        role="tablist"
+      >
+        {tabs.map(({ key, labelKey, labelDefault, badge }) => {
+          const isActive = activeTab === key;
+          return (
             <button
               key={key}
               data-tab={key}
               onClick={handleClick}
-              className={`flex items-center gap-2 py-3 px-4 rounded-lg font-medium text-sm transition-all duration-200 relative ${
-                activeTab === key
-                  ? "bg-white dark:bg-gray-700 text-emerald-700 dark:text-emerald-300 shadow-sm"
-                  : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-100 hover:bg-gray-50 dark:hover:bg-gray-700"
+              role="tab"
+              aria-selected={isActive}
+              className={`relative px-4 py-3 text-sm transition-colors duration-200 border-b-[3px] -mb-px whitespace-nowrap ${
+                isActive
+                  ? "border-accent-base text-accent-base font-semibold"
+                  : "border-transparent text-content-secondary font-medium hover:text-content-primary hover:border-line-subtle"
               }`}
             >
-              <Icon className="h-4 w-4" />
-              {t(labelKey, labelDefault)}
-              {badge !== undefined && badge > 0 && (
-                <span className="absolute -top-1 -right-1 h-5 w-5 bg-red-500 text-white text-xs rounded-full flex items-center justify-center">
-                  {badge}
-                </span>
-              )}
+              <span className="inline-flex items-center gap-2">
+                {t(labelKey, labelDefault)}
+                {badge !== undefined && badge > 0 && (
+                  <span className="inline-flex items-center justify-center min-w-[1.25rem] h-5 px-1.5 bg-accent-subtle/60 dark:bg-accent-subtle/30 text-accent-base text-[11px] font-semibold rounded-full border border-line-accent/30">
+                    {badge}
+                  </span>
+                )}
+              </span>
             </button>
-          ))}
-        </nav>
+          );
+        })}
       </div>
     </div>
   );
@@ -210,12 +201,12 @@ function CharityTabNav({
 /** Skeleton placeholder for a single stat card. */
 function SkeletonStatCard() {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-md animate-pulse">
+    <div className="bg-surface-raised rounded-xl p-6 shadow-md animate-pulse">
       <div className="flex items-center">
-        <div className="h-14 w-14 bg-gray-200 rounded-full" />
+        <div className="h-14 w-14 bg-surface-sunken rounded-full" />
         <div className="ml-4 flex-1">
-          <div className="h-4 bg-gray-200 rounded w-24 mb-2" />
-          <div className="h-8 bg-gray-200 rounded w-20" />
+          <div className="h-4 bg-surface-sunken rounded w-24 mb-2" />
+          <div className="h-8 bg-surface-sunken rounded w-20" />
         </div>
       </div>
     </div>
@@ -225,11 +216,11 @@ function SkeletonStatCard() {
 /** Skeleton placeholder for content area. */
 function SkeletonContent() {
   return (
-    <div className="bg-white rounded-xl p-6 shadow-md animate-pulse">
-      <div className="h-6 bg-gray-200 rounded w-48 mb-6" />
+    <div className="bg-surface-raised rounded-xl p-6 shadow-md animate-pulse">
+      <div className="h-6 bg-surface-sunken rounded w-48 mb-6" />
       <div className="space-y-4">
         {[1, 2, 3].map((i) => (
-          <div key={i} className="h-16 bg-gray-100 rounded-lg" />
+          <div key={i} className="h-16 bg-surface-sunken rounded-lg" />
         ))}
       </div>
     </div>
@@ -239,12 +230,12 @@ function SkeletonContent() {
 /** Loading skeleton for the charity portal dashboard. */
 function CharityPortalSkeleton() {
   return (
-    <div className="min-h-screen bg-gray-50">
+    <div className="min-h-screen bg-surface-base">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Skeleton Header */}
         <div className="mb-8 animate-pulse">
-          <div className="h-9 bg-gray-200 rounded w-64 mb-2" />
-          <div className="h-5 bg-gray-200 rounded w-80" />
+          <div className="h-9 bg-surface-sunken rounded w-64 mb-2" />
+          <div className="h-5 bg-surface-sunken rounded w-80" />
         </div>
         {/* Skeleton Stats */}
         <div className="grid gap-6 mb-8 grid-cols-2 lg:grid-cols-4">
@@ -253,16 +244,44 @@ function CharityPortalSkeleton() {
           ))}
         </div>
         {/* Skeleton Tabs */}
-        <div className="bg-gray-100 rounded-xl p-1 mb-6 animate-pulse">
+        <div className="bg-surface-sunken rounded-xl p-1 mb-6 animate-pulse">
           <div className="flex gap-2">
             {[1, 2, 3, 4, 5].map((i) => (
-              <div key={i} className="h-10 bg-gray-200 rounded-lg flex-1" />
+              <div
+                key={i}
+                className="h-10 bg-surface-raised rounded-lg flex-1"
+              />
             ))}
           </div>
         </div>
         {/* Skeleton Content */}
         <SkeletonContent />
       </div>
+    </div>
+  );
+}
+
+/** Global quick-nav search bar shown above the dashboard stats. */
+function DashboardSearch({
+  t,
+}: {
+  t: (_key: string, _fallback?: string) => string;
+}) {
+  return (
+    <div className="relative mb-6">
+      <Search className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-content-muted pointer-events-none" />
+      <input
+        type="search"
+        aria-label={t("dashboard.search", "Search")}
+        placeholder={t(
+          "dashboard.searchPlaceholder",
+          "Search projects, volunteers (Cmd+K)",
+        )}
+        className="w-full pl-10 pr-16 py-2.5 text-sm bg-surface-raised text-content-primary border border-line-subtle dark:border-line-subtle/15 rounded-lg shadow-sm placeholder:text-content-muted focus:outline-none focus:ring-2 focus:ring-accent-base/30 focus:border-accent-base transition"
+      />
+      <kbd className="hidden sm:inline-flex absolute right-3 top-1/2 -translate-y-1/2 items-center gap-1 px-1.5 py-0.5 text-[10px] font-medium text-content-muted bg-surface-sunken border border-line-subtle dark:border-line-subtle/15 rounded">
+        ⌘K
+      </kbd>
     </div>
   );
 }
@@ -279,10 +298,10 @@ function OverviewHeader({
 }) {
   return (
     <div className="flex items-center justify-between mb-4">
-      <h2 className="text-lg font-semibold text-gray-900">
+      <h2 className="text-lg font-semibold text-content-primary">
         {t("dashboard.overview", "Overview")}
       </h2>
-      <div className="flex items-center gap-3 text-sm text-gray-500">
+      <div className="flex items-center gap-3 text-sm text-content-muted">
         {lastUpdatedText && (
           <span>
             {t("dashboard.lastUpdated", "Last updated")}: {lastUpdatedText}
@@ -290,10 +309,11 @@ function OverviewHeader({
         )}
         <button
           onClick={onRefresh}
-          className="p-2 hover:bg-gray-100 rounded-full transition-colors"
+          className="p-2 text-content-secondary hover:bg-surface-sunken rounded-full transition-colors"
           title={t("common.refresh", "Refresh")}
+          aria-label={t("dashboard.refreshData", "Refresh data")}
         >
-          <RefreshCw className="h-4 w-4" />
+          <RefreshCw className="h-4 w-4" aria-hidden="true" />
         </button>
       </div>
     </div>
@@ -303,30 +323,56 @@ function OverviewHeader({
 /** Header for the charity portal with title and action buttons. */
 function CharityPortalHeader({
   displayName,
+  logoUrl,
   t,
 }: {
   displayName?: string;
+  logoUrl?: string | null;
   t: (_key: string, _fallback?: string) => string;
 }) {
+  const name = displayName || t("charity.dashboard", "Charity Dashboard");
+  const initials = name
+    .split(/\s+/)
+    .slice(0, 2)
+    .map((w: string) => w.charAt(0))
+    .join("")
+    .toUpperCase();
+
   return (
     <header className="mb-8 flex flex-col md:flex-row md:items-center md:justify-between">
-      <div>
-        <h1 className="text-3xl font-bold text-gray-900">
-          {displayName || t("charity.dashboard", "Charity Dashboard")}
-        </h1>
-        <p className="mt-1 text-gray-600">
-          {t("charity.subtitle", "Manage your charity dashboard")}
-        </p>
+      <div className="flex items-center gap-3">
+        {logoUrl ? (
+          <img
+            src={logoUrl}
+            alt={`${name} logo`}
+            className="w-10 h-10 rounded-full object-cover border border-white shadow-sm flex-shrink-0"
+          />
+        ) : (
+          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
+            <span className="text-white font-bold text-sm select-none">
+              {initials}
+            </span>
+          </div>
+        )}
+        <div>
+          <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
+          <p className="mt-1 text-gray-600">
+            {t("charity.subtitle", "Manage your charity dashboard")}
+          </p>
+        </div>
       </div>
       <nav className="mt-4 md:mt-0 flex flex-wrap gap-3">
         <Link to="/charity-portal/create-opportunity">
-          <Button variant="secondary" className="flex items-center gap-2">
+          <Button variant="primary" className="flex items-center gap-2">
             <Plus className="h-4 w-4" />
             {t("volunteer.createOpportunity", "Create Opportunity")}
           </Button>
         </Link>
         <Link to="/charity-portal/create-cause">
-          <Button variant="secondary" className="flex items-center gap-2">
+          <Button
+            variant="ghost"
+            className="flex items-center gap-2 border border-line-accent/40 text-accent-base hover:bg-accent-subtle/40 dark:hover:bg-accent-subtle/20"
+          >
             <Heart className="h-4 w-4" />
             {t("cause.createCause", "Create Cause")}
           </Button>
@@ -336,35 +382,98 @@ function CharityPortalHeader({
   );
 }
 
-/** Banner shown when the charity has no receiving wallet configured. */
-function CharityWalletBanner({ onOpen }: { onOpen: () => void }) {
+interface ConfirmDeleteModalProps {
+  type: "cause" | "opportunity";
+  onConfirm: () => void;
+  onCancel: () => void;
+}
+
+/** Modal asking the user to confirm before permanently deleting a cause or opportunity. */
+function ConfirmDeleteModal({
+  type,
+  onConfirm,
+  onCancel,
+}: ConfirmDeleteModalProps) {
+  const { t } = useTranslation();
+  const label = type === "cause" ? "cause" : "opportunity";
   return (
-    <div className="bg-amber-50 border border-amber-200 rounded-xl p-4 mb-6 flex items-center justify-between">
-      <div className="flex items-center gap-3">
-        <Wallet className="h-5 w-5 text-amber-600 shrink-0" />
-        <div>
-          <p className="text-sm font-semibold text-amber-900">
-            Receiving wallet not configured
-          </p>
-          <p className="text-xs text-amber-700">
-            Connect a wallet to receive on-chain donations.
-          </p>
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/50">
+      <div className="bg-surface-overlay rounded-xl shadow-xl p-6 max-w-sm w-full mx-4">
+        <h2 className="text-lg font-semibold text-content-primary mb-2">
+          {t("charity.portal.deleteTitle", { type: label })}
+        </h2>
+        <p className="text-content-secondary text-sm mb-6">
+          {t("charity.portal.deleteDescription", { type: label })}
+        </p>
+        <div className="flex gap-3 justify-end">
+          <Button variant="secondary" onClick={onCancel}>
+            {t("common.cancel")}
+          </Button>
+          <Button variant="danger" onClick={onConfirm}>
+            {t("common.delete")}
+          </Button>
         </div>
       </div>
-      <Button variant="secondary" onClick={onOpen}>
-        Set Up Wallet
-      </Button>
     </div>
   );
+}
+
+/** Integrated notice shown when the charity has no receiving wallet configured. */
+function CharityWalletBanner({ onOpen }: { onOpen: () => void }) {
+  const { t } = useTranslation();
+  return (
+    <div className="bg-accent-subtle/30 dark:bg-accent-subtle/15 border-l-2 border-line-accent border-y border-r border-line-accent/30 rounded-r-md py-2.5 pl-4 pr-3 mb-6 flex items-center justify-between gap-4">
+      <div className="flex items-center gap-3 min-w-0">
+        <Wallet className="h-4 w-4 text-accent-base shrink-0" />
+        <p className="text-sm text-content-secondary truncate">
+          <span className="font-medium text-content-primary">
+            {t("charity.portal.walletNotConfigured")}
+          </span>{" "}
+          <span className="text-content-muted">
+            {t("charity.portal.walletDonationNote")}
+          </span>
+        </p>
+      </div>
+      <button
+        onClick={onOpen}
+        className="text-sm font-medium text-accent-base hover:text-accent-hover hover:underline shrink-0"
+      >
+        {t("charity.portal.setupWallet")}
+      </button>
+    </div>
+  );
+}
+
+/**
+ * Formats a date as a human-readable relative timestamp.
+ * @param date - The date to format
+ * @param t - Translation function
+ * @returns A translated relative time string or a locale time string
+ */
+function formatLastUpdated(
+  date: Date,
+  t: (_key: string, _opts?: string | Record<string, unknown>) => string,
+): string {
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffMins = Math.floor(diffMs / 60000);
+  if (diffMins < 1) return t("timestamp.justNow");
+  if (diffMins === 1) return t("timestamp.oneMinuteAgo");
+  if (diffMins < 60) return t("timestamp.minutesAgo", { count: diffMins });
+  return date.toLocaleTimeString();
 }
 
 /** Charity management dashboard with tabs for transactions, volunteer hours, applications, opportunities, causes, and organization settings. */
 export const CharityPortal: React.FC = () => {
   const { user, userType } = useAuth();
   const userId = user?.id ?? null;
-  const { walletAddress: connectedWalletAddress } = useUnifiedAuth();
   const { profile, loading: profileLoading } = useProfile();
+  const navigate = useNavigate();
   const [activeTab, setActiveTab] = useState<TabKey>("transactions");
+  const [deleteConfirm, setDeleteConfirm] = useState<{
+    type: "cause" | "opportunity";
+    id: string;
+  } | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
   const [charityWalletAddress, setCharityWalletAddress] = useState<
@@ -394,6 +503,11 @@ export const CharityPortal: React.FC = () => {
   const [causes, setCauses] = useState<CharityCause[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [charityLogoUrl, setCharityLogoUrl] = useState<string | null>(null);
+  const [charityBannerImageUrl, setCharityBannerImageUrl] = useState<
+    string | null
+  >(null);
+  const [charityOrgName, setCharityOrgName] = useState<string | null>(null);
   const isMountedRef = useRef(true);
 
   useEffect(() => {
@@ -402,13 +516,33 @@ export const CharityPortal: React.FC = () => {
     };
   }, []);
 
-  // Fetch charity wallet address on mount
+  // Fetch wallet address and charity profile header data whenever the user changes
   useEffect(() => {
     if (!userId) return;
     getCharityWalletAddress(userId).then((addr) => {
       if (isMountedRef.current) setCharityWalletAddress(addr);
     });
+    supabase
+      .from("charity_profiles")
+      .select("name, logo_url, banner_image_url")
+      .eq("claimed_by", userId)
+      .maybeSingle()
+      .then(({ data }) => {
+        if (isMountedRef.current) {
+          setCharityOrgName(data?.name ?? null);
+          setCharityLogoUrl(data?.logo_url ?? null);
+          setCharityBannerImageUrl(data?.banner_image_url ?? null);
+        }
+      });
   }, [userId]);
+
+  const handleLogoUploaded = useCallback((url: string | null) => {
+    setCharityLogoUrl(url);
+  }, []);
+
+  const handleBannerUploaded = useCallback((url: string | null) => {
+    setCharityBannerImageUrl(url);
+  }, []);
 
   // Helper function to fetch basic statistics data
   const fetchBasicStats = useCallback(
@@ -615,7 +749,7 @@ export const CharityPortal: React.FC = () => {
       from: donation?.donor?.id || "",
       to: charityId,
       amount: donation?.amount ? Number(donation.amount) : 0,
-      cryptoType: "GLMR",
+      cryptoType: "ETH",
       fiatValue: donation?.amount ? Number(donation.amount) : 0,
       fee: donation?.amount ? Number(donation.amount) * 0.001 : 0,
       timestamp: donation?.created_at || new Date().toISOString(),
@@ -743,17 +877,36 @@ export const CharityPortal: React.FC = () => {
           errorCode: error.code,
           errorMessage: error.message,
         });
-        return []; // Return empty array instead of throwing
+        return [];
       }
 
       const pendingHoursList = Array.isArray(pendingHoursData)
         ? pendingHoursData
         : [];
 
+      if (pendingHoursList.length === 0) return [];
+
+      // Fetch volunteer display names from profiles via user_id
+      const volunteerIds = [
+        ...new Set(pendingHoursList.map((h) => h.volunteer_id).filter(Boolean)),
+      ];
+      const { data: profilesData } = await supabase
+        .from("profiles")
+        .select("user_id, name")
+        .in("user_id", volunteerIds);
+
+      const profileMap = new Map(
+        (Array.isArray(profilesData) ? profilesData : []).map((p) => [
+          p.user_id,
+          p.name,
+        ]),
+      );
+
       return pendingHoursList.map((hour) => ({
         id: hour?.id || "",
         volunteer_id: hour?.volunteer_id || "",
-        volunteerName: hour?.volunteer_id ? "Volunteer" : "Unknown Volunteer",
+        volunteerName:
+          profileMap.get(hour?.volunteer_id) ?? "Anonymous Volunteer",
         hours: hour?.hours ? Number(hour.hours) : 0,
         date_performed: hour?.date_performed || new Date().toISOString(),
         description: hour?.description || "",
@@ -763,7 +916,7 @@ export const CharityPortal: React.FC = () => {
         error: err,
         charityId,
       });
-      return []; // Return empty array instead of throwing
+      return [];
     }
   }, []);
 
@@ -886,7 +1039,14 @@ export const CharityPortal: React.FC = () => {
     fetchCharityData();
   }, [fetchCharityData]);
 
+  const lastRefreshTime = useRef<number>(0);
+
   const handleRefresh = useCallback(() => {
+    const now = Date.now();
+    if (now - lastRefreshTime.current < 3000) {
+      return;
+    }
+    lastRefreshTime.current = now;
     fetchCharityData();
   }, [fetchCharityData]);
 
@@ -938,17 +1098,13 @@ export const CharityPortal: React.FC = () => {
     [],
   );
 
-  const handleWalletLinked = useCallback(async () => {
-    if (connectedWalletAddress && userId) {
-      const success = await updateCharityWalletAddress(
-        userId,
-        connectedWalletAddress,
-      );
-      if (success) {
-        setCharityWalletAddress(connectedWalletAddress);
-      }
-    }
-  }, [connectedWalletAddress, userId]);
+  // Linking a personal wallet to the user account does NOT automatically set
+  // the charity's official receiving wallet — that flow now requires a signed
+  // attestation + email confirmation. See DesignatedWalletCard on the
+  // Organization tab. The legacy auto-write was a security bug.
+  const handleWalletLinked = useCallback(() => {
+    // intentional no-op
+  }, []);
 
   const handleOnboardingNavigate = useCallback((tab: string) => {
     const validTabs: TabKey[] = [
@@ -962,8 +1118,109 @@ export const CharityPortal: React.FC = () => {
     ];
     if (validTabs.includes(tab as TabKey)) {
       setActiveTab(tab as TabKey);
+      if (tab === "organization") {
+        // Wait for the tab panel to mount before scrolling.
+        requestAnimationFrame(() => {
+          document
+            .getElementById("organization-profile")
+            ?.scrollIntoView({ behavior: "smooth", block: "start" });
+        });
+      }
     }
   }, []);
+
+  // Cause handlers
+  const handleEditCause = useCallback(
+    (causeId: string) => {
+      navigate(`/charity-portal/edit-cause/${causeId}`);
+    },
+    [navigate],
+  );
+
+  const handleRequestDeleteCause = useCallback((causeId: string) => {
+    setDeleteConfirm({ type: "cause", id: causeId });
+  }, []);
+
+  // Opportunity handlers
+  const handleEditOpportunity = useCallback(
+    (opportunityId: string) => {
+      navigate(`/charity-portal/edit-opportunity/${opportunityId}`);
+    },
+    [navigate],
+  );
+
+  const handleRequestDeleteOpportunity = useCallback(
+    (opportunityId: string) => {
+      setDeleteConfirm({ type: "opportunity", id: opportunityId });
+    },
+    [],
+  );
+
+  // Shared delete confirm/cancel
+  const handleConfirmDelete = useCallback(async () => {
+    if (!deleteConfirm) return;
+    if (deleteConfirm.type === "cause") {
+      const { error } = await supabase
+        .from("causes")
+        .delete()
+        .eq("id", deleteConfirm.id);
+      if (!error) {
+        setCauses((prev) => prev.filter((c) => c.id !== deleteConfirm.id));
+      }
+    } else {
+      const { error } = await supabase
+        .from("volunteer_opportunities")
+        .delete()
+        .eq("id", deleteConfirm.id);
+      if (!error) {
+        setOpportunities((prev) =>
+          prev.filter((o) => o.id !== deleteConfirm.id),
+        );
+      }
+    }
+    setDeleteConfirm(null);
+  }, [deleteConfirm]);
+
+  const handleCancelDelete = useCallback(() => {
+    setDeleteConfirm(null);
+  }, []);
+
+  // Hours handlers
+  const handleVerifyHours = useCallback(async (hoursId: string) => {
+    const { error } = await supabase
+      .from("volunteer_hours")
+      .update({ status: "approved" })
+      .eq("id", hoursId);
+    if (!error) {
+      setPendingHours((prev) => prev.filter((h) => h.id !== hoursId));
+    }
+  }, []);
+
+  const handleRejectHours = useCallback(async (hoursId: string) => {
+    const { error } = await supabase
+      .from("volunteer_hours")
+      .update({ status: "rejected" })
+      .eq("id", hoursId);
+    if (!error) {
+      setPendingHours((prev) => prev.filter((h) => h.id !== hoursId));
+    }
+  }, []);
+
+  const handleExportHours = useCallback(() => {
+    const header = "Volunteer,Hours,Date,Description";
+    const rows = pendingHours.map(
+      (h) =>
+        `"${h.volunteerName}",${h.hours},"${h.date_performed}","${h.description.replace(/"/g, '""')}"`,
+    );
+    const csv = [header, ...rows].join("\n");
+    const blob = new Blob([csv], { type: "text/csv" });
+    const blobUrl = URL.createObjectURL(blob);
+    const anchor = document.createElement("a");
+    anchor.href = blobUrl;
+    anchor.download = "volunteer-hours.csv";
+    anchor.click();
+    URL.revokeObjectURL(blobUrl);
+  }, [pendingHours]);
 
   if (!user) {
     return <Navigate to="/login?type=charity" />;
@@ -976,7 +1233,7 @@ export const CharityPortal: React.FC = () => {
   if (error) {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="bg-red-50 p-4 rounded-md text-red-700">
+        <div className="bg-status-danger/10 p-4 rounded-md text-status-danger">
           {error}
           <Button onClick={handleRetry} variant="secondary" className="mt-4">
             Retry
@@ -986,35 +1243,27 @@ export const CharityPortal: React.FC = () => {
     );
   }
 
-  // Redirect donor users to donor portal
+  // Redirect donor users to give dashboard
   if (userType !== "charity") {
-    return <Navigate to="/donor-portal" />;
+    return <Navigate to="/give-dashboard" />;
   }
-
-  // Format last updated time
-  const formatLastUpdated = () => {
-    if (!lastUpdated) return "";
-    const now = new Date();
-    const diffMs = now.getTime() - lastUpdated.getTime();
-    const diffMins = Math.floor(diffMs / 60000);
-    if (diffMins < 1) return "Just now";
-    if (diffMins === 1) return "1 minute ago";
-    if (diffMins < 60) return `${diffMins} minutes ago`;
-    return lastUpdated.toLocaleTimeString();
-  };
 
   // Get pending counts for tab badges
   const pendingApplicationsCount = pendingApplications.length;
   const pendingHoursCount = pendingHours.length;
 
   return (
-    <main className="min-h-screen bg-gray-50">
+    <main className="min-h-screen bg-surface-base">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         {/* Page Header */}
-        <CharityPortalHeader displayName={profile?.display_name} t={t} />
+        <CharityPortalHeader
+          displayName={charityOrgName ?? profile?.display_name}
+          logoUrl={charityLogoUrl}
+          t={t}
+        />
 
         {/* Verification status banner for pending/rejected/suspended charities */}
-        {user?.id && <VerificationStatusBanner userId={user.id} />}
+        <VerificationStatusBanner userId={user.id} />
 
         {/* Wallet setup banner when no receiving wallet is configured */}
         {charityWalletAddress === null && (
@@ -1023,14 +1272,14 @@ export const CharityPortal: React.FC = () => {
 
         {/* Stats Row with Last Updated */}
         <OverviewHeader
-          lastUpdatedText={lastUpdated ? formatLastUpdated() : ""}
+          lastUpdatedText={lastUpdated ? formatLastUpdated(lastUpdated, t) : ""}
           onRefresh={handleRefresh}
           t={t}
         />
 
         {/* Wallet indicator when wallet is configured */}
         {typeof charityWalletAddress === "string" && (
-          <div className="flex items-center gap-2 mb-4 text-xs text-emerald-700">
+          <div className="flex items-center gap-2 mb-4 text-xs text-accent-base">
             <Wallet className="h-3.5 w-3.5" />
             <span>
               Receiving wallet: {charityWalletAddress.slice(0, 6)}&hellip;
@@ -1044,8 +1293,13 @@ export const CharityPortal: React.FC = () => {
           <CharityOnboardingChecklist
             profileId={profile.id}
             onNavigateTab={handleOnboardingNavigate}
+            logoUrl={charityLogoUrl}
+            bannerImageUrl={charityBannerImageUrl}
           />
         )}
+
+        {/* Quick-nav search */}
+        <DashboardSearch t={t} />
 
         {/* Enhanced Metrics Grid */}
         <StatsCards
@@ -1061,45 +1315,38 @@ export const CharityPortal: React.FC = () => {
               key: "transactions",
               labelKey: "charity.transactions",
               labelDefault: "Transactions",
-              icon: Receipt,
             },
             {
               key: "hours",
               labelKey: "volunteer.hoursVerification",
               labelDefault: "Hours",
-              icon: Clock,
               badge: pendingHoursCount,
             },
             {
               key: "applications",
               labelKey: "charity.applications",
               labelDefault: "Applications",
-              icon: ClipboardList,
               badge: pendingApplicationsCount,
             },
             {
               key: "opportunities",
               labelKey: "volunteer.opportunities",
               labelDefault: "Opportunities",
-              icon: Briefcase,
             },
             {
               key: "causes",
               labelKey: "cause.causes",
               labelDefault: "Causes",
-              icon: Heart,
             },
             {
               key: "impact",
               labelKey: "impact.profile",
               labelDefault: "Impact Profile",
-              icon: Target,
             },
             {
               key: "organization",
               labelKey: "organization.settings",
               labelDefault: "Organization",
-              icon: Settings,
             },
           ]}
           activeTab={activeTab}
@@ -1121,6 +1368,9 @@ export const CharityPortal: React.FC = () => {
           <HoursVerificationTab
             pendingHours={pendingHours}
             profileId={profile.id}
+            onVerify={handleVerifyHours}
+            onReject={handleRejectHours}
+            onExport={handleExportHours}
           />
         )}
 
@@ -1131,11 +1381,21 @@ export const CharityPortal: React.FC = () => {
 
         {/* Volunteer Opportunities Management */}
         {activeTab === "opportunities" && (
-          <OpportunitiesTab opportunities={opportunities} />
+          <OpportunitiesTab
+            opportunities={opportunities}
+            onEdit={handleEditOpportunity}
+            onDelete={handleRequestDeleteOpportunity}
+          />
         )}
 
         {/* Causes Tab */}
-        {activeTab === "causes" && <CausesTab causes={causes} />}
+        {activeTab === "causes" && (
+          <CausesTab
+            causes={causes}
+            onEdit={handleEditCause}
+            onDelete={handleRequestDeleteCause}
+          />
+        )}
 
         {/* Impact Profile */}
         {activeTab === "impact" && profile?.id && (
@@ -1144,7 +1404,11 @@ export const CharityPortal: React.FC = () => {
 
         {/* Organization Profile */}
         {activeTab === "organization" && profile?.id && (
-          <OrganizationProfileTab profileId={profile.id} />
+          <OrganizationProfileTab
+            profileId={profile.id}
+            onLogoUploaded={handleLogoUploaded}
+            onBannerUploaded={handleBannerUploaded}
+          />
         )}
 
         {/* Export Modal */}
@@ -1161,6 +1425,15 @@ export const CharityPortal: React.FC = () => {
             isOpen={showWalletModal}
             onClose={handleCloseWalletModal}
             onLinked={handleWalletLinked}
+          />
+        )}
+
+        {/* Delete Confirmation Modal */}
+        {deleteConfirm !== null && (
+          <ConfirmDeleteModal
+            type={deleteConfirm.type}
+            onConfirm={handleConfirmDelete}
+            onCancel={handleCancelDelete}
           />
         )}
       </div>

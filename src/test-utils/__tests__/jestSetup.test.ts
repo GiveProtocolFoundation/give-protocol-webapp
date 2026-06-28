@@ -118,7 +118,8 @@ describe("jestSetup", () => {
       expect(mocks.translation.t("key", "")).toBe("key");
 
       // Test with undefined fallback
-      expect(mocks.translation.t("key", undefined)).toBe("key");
+      const undef = undefined;
+      expect(mocks.translation.t("key", undef)).toBe("key");
     });
   });
 });

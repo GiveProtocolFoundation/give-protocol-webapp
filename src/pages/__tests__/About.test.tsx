@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -28,9 +27,7 @@ describe("About", () => {
     it("renders the subtitle", () => {
       renderAbout();
       expect(
-        screen.getByText(
-          "Removing barriers to sustainable charitable giving.",
-        ),
+        screen.getByText("Removing barriers to sustainable charitable giving."),
       ).toBeInTheDocument();
     });
   });
@@ -58,9 +55,7 @@ describe("About", () => {
     it("renders vision description", () => {
       renderAbout();
       expect(
-        screen.getByText(
-          /A world where charitable giving is borderless/,
-        ),
+        screen.getByText(/A world where charitable giving is borderless/),
       ).toBeInTheDocument();
     });
   });
@@ -68,16 +63,12 @@ describe("About", () => {
   describe("How We Make a Difference section", () => {
     it("renders section heading", () => {
       renderAbout();
-      expect(
-        screen.getByText("How We Make a Difference"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("How We Make a Difference")).toBeInTheDocument();
     });
 
     it("renders Direct & Simple Giving feature", () => {
       renderAbout();
-      expect(
-        screen.getByText("Direct & Simple Giving"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Direct & Simple Giving")).toBeInTheDocument();
     });
 
     it("renders Making Time Count feature", () => {
@@ -87,9 +78,7 @@ describe("About", () => {
 
     it("renders Collective Impact Funds feature", () => {
       renderAbout();
-      expect(
-        screen.getByText("Collective Impact Funds"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Collective Impact Funds")).toBeInTheDocument();
     });
   });
 
@@ -123,9 +112,7 @@ describe("About", () => {
   describe("Join Us section", () => {
     it("renders Join the Future of Giving heading", () => {
       renderAbout();
-      expect(
-        screen.getByText("Join the Future of Giving"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("Join the Future of Giving")).toBeInTheDocument();
     });
 
     it("renders Start Giving button", () => {
@@ -142,9 +129,7 @@ describe("About", () => {
   describe("Layout structure", () => {
     it("renders within the StaticPageLayout", () => {
       renderAbout();
-      expect(
-        screen.getByTestId("static-page-layout"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("static-page-layout")).toBeInTheDocument();
     });
 
     it("renders multiple scroll reveal wrappers", () => {

@@ -1,9 +1,10 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useRef } from "react";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { Button } from "@/components/ui/Button";
 import { validateAmount } from "@/utils/validation";
 import { useDonation, DonationType } from "@/hooks/web3/useDonation";
 import { useTokenBalance } from "@/hooks/web3/useTokenBalance";
+import { useToast } from "@/contexts/ToastContext";
 import { Logger } from "@/utils/logger";
 import { TokenSelector } from "./TokenSelector";
 import { DualAmountInput } from "./DualAmountInput";
@@ -36,10 +37,14 @@ interface DonationFormProps {
  */
 export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
   const [hasMounted, setHasMounted] = useState(false);
-  React.useEffect(() => { setHasMounted(true); }, []);
+  React.useEffect(() => {
+    setHasMounted(true);
+  }, []);
 
   const { isConnected, connect, chainId } = useWeb3();
   const { donate, loading, approving, error: donationError } = useDonation();
+  const { showToast, dismissToast } = useToast();
+  const pendingToastIdRef = useRef<string | null>(null);
 
   // Get ERC20 tokens available for the current chain
   const availableTokens = useMemo(() => {
@@ -103,6 +108,14 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
         return;
       }
 
+      const toastId = showToast({
+        type: "info",
+        title: "Transaction submitted",
+        message: "Waiting for on-chain confirmation\u2026",
+        persistent: true,
+      });
+      pendingToastIdRef.current = toastId;
+
       try {
         // All donations are ERC20 tokens (native tokens not supported by contract)
         await donate({
@@ -110,6 +123,16 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
           amount: amount.toString(),
           type: DonationType._TOKEN,
           _tokenAddress: selectedToken.address,
+        });
+
+        if (pendingToastIdRef.current) {
+          dismissToast(pendingToastIdRef.current);
+          pendingToastIdRef.current = null;
+        }
+        showToast({
+          type: "success",
+          title: "Donation confirmed",
+          message: "Your contribution is recorded on-chain.",
         });
 
         setSuccessMessage(
@@ -128,12 +151,26 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
           token: selectedToken.symbol,
         });
       } catch (err) {
-        setError(
-          err instanceof Error ? err.message : "Failed to process donation",
-        );
+        if (pendingToastIdRef.current) {
+          dismissToast(pendingToastIdRef.current);
+          pendingToastIdRef.current = null;
+        }
+        const errMsg =
+          err instanceof Error ? err.message : "Failed to process donation";
+        showToast({ type: "error", title: "Donation failed", message: errMsg });
+        setError(errMsg);
       }
     },
-    [amount, balance, charityAddress, selectedToken, donate, onSuccess],
+    [
+      amount,
+      balance,
+      charityAddress,
+      selectedToken,
+      donate,
+      onSuccess,
+      showToast,
+      dismissToast,
+    ],
   );
 
   if (!hasMounted) {

@@ -30,6 +30,35 @@ export default {
           primary: "#f1f5f9",
           secondary: "#cbd5e1",
         },
+        surface: {
+          base: "rgb(var(--surface-base) / <alpha-value>)",
+          raised: "rgb(var(--surface-raised) / <alpha-value>)",
+          sunken: "rgb(var(--surface-sunken) / <alpha-value>)",
+          overlay: "rgb(var(--surface-overlay) / <alpha-value>)",
+        },
+        content: {
+          primary: "rgb(var(--content-primary) / <alpha-value>)",
+          secondary: "rgb(var(--content-secondary) / <alpha-value>)",
+          muted: "rgb(var(--content-muted) / <alpha-value>)",
+          inverse: "rgb(var(--content-inverse) / <alpha-value>)",
+        },
+        line: {
+          subtle: "rgb(var(--border-subtle) / <alpha-value>)",
+          strong: "rgb(var(--border-strong) / <alpha-value>)",
+          accent: "rgb(var(--border-accent) / <alpha-value>)",
+        },
+        accent: {
+          base: "rgb(var(--accent-base) / <alpha-value>)",
+          hover: "rgb(var(--accent-hover) / <alpha-value>)",
+          subtle: "rgb(var(--accent-subtle) / <alpha-value>)",
+          on: "rgb(var(--accent-on) / <alpha-value>)",
+        },
+        status: {
+          success: "rgb(var(--status-success) / <alpha-value>)",
+          warning: "rgb(var(--status-warning) / <alpha-value>)",
+          danger: "rgb(var(--status-danger) / <alpha-value>)",
+          info: "rgb(var(--status-info) / <alpha-value>)",
+        },
       },
       boxShadow: {
         card: "0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -2px rgba(0, 0, 0, 0.05)",

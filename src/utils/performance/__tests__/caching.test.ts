@@ -1,4 +1,4 @@
-import { jest } from '@jest/globals';
+import { jest } from "@jest/globals";
 import { CacheManager } from "../caching";
 
 // Mock the logger to avoid test noise
@@ -152,22 +152,22 @@ describe("CacheManager", () => {
     it("cleanup removes only fully expired entries", async () => {
       // Reset cache with shorter TTL for easier testing
       CacheManager.resetInstanceForTesting();
-      cache = CacheManager.getInstance({ 
-        maxSize: 10, 
+      cache = CacheManager.getInstance({
+        maxSize: 10,
         ttl: 5 * 60 * 1000, // 5 minutes
-        staleWhileRevalidate: 5 * 60 * 1000 // 5 minutes
+        staleWhileRevalidate: 5 * 60 * 1000, // 5 minutes
       });
-      
+
       // Set multiple entries at different times
       cache.set("key1", "value1");
-      
+
       // Advance time a bit
       jest.advanceTimersByTime(5 * 60 * 1000);
       cache.set("key2", "value2");
-      
+
       // Advance time so key1 is past TTL+stale but key2 is only past TTL
       jest.advanceTimersByTime(6 * 60 * 1000); // Total: 11 min for key1, 6 min for key2
-      
+
       // Access cleanup method indirectly by waiting for the interval
       jest.advanceTimersByTime(60 * 1000); // Trigger the setInterval cleanup
 
@@ -179,19 +179,23 @@ describe("CacheManager", () => {
     it("cleanup iterates through all cache entries", async () => {
       // Reset and create a new instance to ensure clean state
       CacheManager.resetInstanceForTesting();
-      cache = CacheManager.getInstance({ maxSize: 10, ttl: 1000, staleWhileRevalidate: 1000 });
-      
+      cache = CacheManager.getInstance({
+        maxSize: 10,
+        ttl: 1000,
+        staleWhileRevalidate: 1000,
+      });
+
       // Set multiple entries
       for (let i = 0; i < 5; i++) {
         cache.set(`key${i}`, `value${i}`);
       }
-      
+
       // Advance time past expiration for all entries
       jest.advanceTimersByTime(3000); // Past TTL + staleWhileRevalidate
-      
+
       // Trigger cleanup
       jest.advanceTimersByTime(60 * 1000);
-      
+
       // All entries should be removed
       for (let i = 0; i < 5; i++) {
         expect(await cache.get(`key${i}`)).toBeNull();
@@ -202,31 +206,31 @@ describe("CacheManager", () => {
   describe("resetInstanceForTesting edge cases", () => {
     it("only resets in test or development environment", () => {
       const originalEnv = process.env.NODE_ENV;
-      
+
       // Test in production environment
-      process.env.NODE_ENV = 'production';
+      process.env.NODE_ENV = "production";
       const instanceBefore = CacheManager.getInstance();
       CacheManager.resetInstanceForTesting();
       const instanceAfter = CacheManager.getInstance();
-      
+
       expect(instanceBefore).toBe(instanceAfter); // Should not reset in production
-      
+
       // Restore original environment
       process.env.NODE_ENV = originalEnv;
     });
 
     it("resets in development environment", () => {
       const originalEnv = process.env.NODE_ENV;
-      
+
       // Test in development environment
-      process.env.NODE_ENV = 'development';
+      process.env.NODE_ENV = "development";
       CacheManager.resetInstanceForTesting();
       const instance1 = CacheManager.getInstance();
       CacheManager.resetInstanceForTesting();
       const instance2 = CacheManager.getInstance();
-      
+
       expect(instance1).not.toBe(instance2);
-      
+
       // Restore original environment
       process.env.NODE_ENV = originalEnv;
     });
@@ -237,7 +241,7 @@ describe("CacheManager", () => {
       const instance1 = CacheManager.getInstance();
       CacheManager.resetInstanceForTesting();
       const instance2 = CacheManager.getInstance();
-      
+
       expect(instance1).not.toBe(instance2);
     });
   });
@@ -249,43 +253,44 @@ describe("CacheManager", () => {
       const cacheWithPartialConfig = CacheManager.getInstance(partialConfig);
 
       expect(cacheWithPartialConfig).toBeInstanceOf(CacheManager);
-      
+
       // Test that the partial config is applied by testing capacity
       for (let i = 0; i < 30; i++) {
         cacheWithPartialConfig.set(`key${i}`, `value${i}`);
       }
-      
+
       // Should only keep the last 25 entries due to maxSize: 25
-      expect(await cacheWithPartialConfig.get('key0')).toBeNull();
-      expect(await cacheWithPartialConfig.get('key29')).toBe('value29');
+      expect(await cacheWithPartialConfig.get("key0")).toBeNull();
+      expect(await cacheWithPartialConfig.get("key29")).toBe("value29");
     });
 
     it("ignores config on subsequent getInstance calls", () => {
       CacheManager.resetInstanceForTesting();
       const instance1 = CacheManager.getInstance({ maxSize: 50 });
       const instance2 = CacheManager.getInstance({ maxSize: 200 }); // This should be ignored
-      
+
       expect(instance1).toBe(instance2);
     });
   });
 
   describe("data type handling", () => {
     it("handles various data types correctly", async () => {
-      cache.set('string', 'hello world');
-      cache.set('number', 42);
-      cache.set('boolean', true);
-      cache.set('null', null);
-      cache.set('undefined', undefined);
-      cache.set('object', { nested: { value: 'test' } });
-      cache.set('array', [1, 2, 3, { nested: 'array' }]);
+      cache.set("string", "hello world");
+      cache.set("number", 42);
+      cache.set("boolean", true);
+      cache.set("null", null);
+      const undef = undefined;
+      cache.set("undefined", undef);
+      cache.set("object", { nested: { value: "test" } });
+      cache.set("array", [1, 2, 3, { nested: "array" }]);
 
-      expect(await cache.get('string')).toBe('hello world');
-      expect(await cache.get('number')).toBe(42);
-      expect(await cache.get('boolean')).toBe(true);
-      expect(await cache.get('null')).toBeNull();
-      expect(await cache.get('undefined')).toBeUndefined();
-      expect(await cache.get('object')).toEqual({ nested: { value: 'test' } });
-      expect(await cache.get('array')).toEqual([1, 2, 3, { nested: 'array' }]);
+      expect(await cache.get("string")).toBe("hello world");
+      expect(await cache.get("number")).toBe(42);
+      expect(await cache.get("boolean")).toBe(true);
+      expect(await cache.get("null")).toBeNull();
+      expect(await cache.get("undefined")).toBeUndefined();
+      expect(await cache.get("object")).toEqual({ nested: { value: "test" } });
+      expect(await cache.get("array")).toEqual([1, 2, 3, { nested: "array" }]);
     });
 
     it("handles complex nested objects", async () => {
@@ -294,18 +299,18 @@ describe("CacheManager", () => {
           level2: {
             level3: {
               arrays: [1, 2, [3, 4, [5, 6]]],
-              dates: new Date('2024-01-01'),
+              dates: new Date("2024-01-01"),
               regex: /test/g,
-              map: new Map([['key', 'value']]),
-              set: new Set([1, 2, 3])
-            }
-          }
-        }
+              map: new Map([["key", "value"]]),
+              set: new Set([1, 2, 3]),
+            },
+          },
+        },
       };
 
-      cache.set('complex', complexObject);
-      const result = await cache.get('complex');
-      
+      cache.set("complex", complexObject);
+      const result = await cache.get("complex");
+
       expect(result).toEqual(complexObject);
     });
   });

@@ -1,6 +1,6 @@
-import React from 'react';
-import { X } from 'lucide-react';
-import { Card } from '@/components/ui/Card';
+import React from "react";
+import { X } from "lucide-react";
+import { Card } from "@/components/ui/Card";
 
 interface TransactionModalProps {
   title: string;
@@ -8,10 +8,18 @@ interface TransactionModalProps {
   children: React.ReactNode;
 }
 
+/**
+ * Modal container with a title bar, close button, and content area for Web3 flows.
+ * @param props - Component props.
+ * @param props.title - Heading rendered at the top of the modal.
+ * @param props.onClose - Handler invoked when the close button is clicked.
+ * @param props.children - Modal body content.
+ * @returns The modal element.
+ */
 export const TransactionModal: React.FC<TransactionModalProps> = ({
   title,
   onClose,
-  children
+  children,
 }) => {
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-start justify-center p-4 z-50 animate-fadeIn overflow-y-auto">

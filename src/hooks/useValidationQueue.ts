@@ -176,7 +176,7 @@ export function useValidationQueue(): UseValidationQueueReturn {
 
       setSelectedIds(new Set());
       await fetchQueue();
-    } catch (err) {
+    } catch (_err) {
       showToast("error", "Error", "Batch approval failed");
     }
   }, [profile?.user_id, selectedIds, showToast, fetchQueue]);
@@ -214,7 +214,7 @@ export function useValidationQueue(): UseValidationQueueReturn {
 
         setSelectedIds(new Set());
         await fetchQueue();
-      } catch (err) {
+      } catch (_err) {
         showToast("error", "Error", "Batch rejection failed");
       }
     },

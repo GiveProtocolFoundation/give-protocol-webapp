@@ -6,7 +6,7 @@ import React, {
   useCallback,
   startTransition,
 } from "react";
-import { User, AuthError as _AuthError } from "@supabase/supabase-js";
+import { User, Session, AuthError as _AuthError } from "@supabase/supabase-js";
 import { supabase } from "@/lib/supabase";
 import { useToast } from "./ToastContext";
 import { Logger } from "@/utils/logger";
@@ -27,6 +27,7 @@ interface AuthContextType extends AuthState {
     _accountType: "donor" | "charity",
   ) => Promise<void>;
   loginWithGoogle: () => Promise<void>;
+  loginWithApple: () => Promise<void>;
   logout: () => Promise<void>;
   resetPassword: (_email: string) => Promise<void>;
   refreshSession: () => Promise<void>;
@@ -63,9 +64,7 @@ async function fetchUserTypeFromProfile(userId: string): Promise<UserType> {
 /**
  * Gets user type from metadata or falls back to profile table
  */
-function resolveUserType(
-  user: User | null | undefined,
-): Promise<UserType> {
+function resolveUserType(user: User | null | undefined): Promise<UserType> {
   if (!user) return Promise.resolve(null);
 
   const metadataType = user.user_metadata?.type as UserType;
@@ -75,18 +74,17 @@ function resolveUserType(
 }
 
 /**
- * Updates Sentry user context based on session
+ * Updates Sentry user context based on session.
+ * Phase A: sets opaque user ID only (no email/PII).
+ * Phase B (analytics consented): also pushes email + userType.
  */
 function updateSentryUserContext(
   user: User | null | undefined,
-  userType: UserType,
+  _userType: UserType,
 ): void {
   if (user) {
-    setSentryUser({
-      id: user.id,
-      email: user.email,
-      userType: userType || undefined,
-    });
+    // Opaque ID only — consent copy promises no email/PII is shared (GIV-397)
+    setSentryUser({ id: user.id });
   } else {
     clearSentryUser();
   }
@@ -166,16 +164,49 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     /** Displays a toast and starts/stops session refresh based on the auth event */
     const handleAuthEvent = (
       event: string,
+      session: Session | null,
       startRefresh: () => void,
       stopRefresh: () => void,
     ) => {
       switch (event) {
-        case "SIGNED_IN":
-          showToast("success", "Signed in successfully");
+        case "SIGNED_IN": {
+          const user = session?.user;
+          const walletAddress = user?.user_metadata?.wallet_address as
+            | string
+            | undefined;
+          const authMethod = user?.user_metadata?.auth_method as
+            | string
+            | undefined;
+          if (authMethod === "wallet" || walletAddress) {
+            const addr = walletAddress ?? "";
+            const truncated =
+              addr.length > 10 ? `${addr.slice(0, 6)}…${addr.slice(-4)}` : addr;
+            showToast({
+              type: "success",
+              title: "Wallet connected",
+              message: `Signed in with ${truncated}.`,
+            });
+          } else {
+            const fullName = user?.user_metadata?.full_name as
+              | string
+              | undefined;
+            const firstName =
+              fullName?.split(" ")[0] ?? user?.email?.split("@")[0] ?? "there";
+            showToast({
+              type: "success",
+              title: `Welcome back, ${firstName}`,
+              message: "You’re signed in.",
+            });
+          }
           startRefresh();
           break;
+        }
         case "SIGNED_OUT":
-          showToast("success", "Signed out successfully");
+          showToast({
+            type: "info",
+            title: "Signed out",
+            duration: 3000,
+          });
           stopRefresh();
           break;
         case "USER_UPDATED":
@@ -241,7 +272,12 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
           const userType = await resolveUserType(session?.user);
 
-          handleAuthEvent(event, startRefreshInterval, stopRefreshInterval);
+          handleAuthEvent(
+            event,
+            session,
+            startRefreshInterval,
+            stopRefreshInterval,
+          );
 
           startTransition(() => {
             setState((prev) => ({
@@ -370,7 +406,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to sign in";
-        showToast("error", "Authentication Error", message);
+        showToast({
+          type: "error",
+          title: "Sign-in failed",
+          message,
+        });
         setState((prev) => ({
           ...prev,
           error: err instanceof Error ? err : new Error(message),
@@ -408,7 +448,48 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Failed to sign in with Google";
-      showToast("error", "Authentication Error", message);
+      showToast({
+        type: "error",
+        title: "Sign-in failed",
+        message,
+      });
+      setState((prev) => ({
+        ...prev,
+        error: err instanceof Error ? err : new Error(message),
+      }));
+      throw err;
+    } finally {
+      setState((prev) => ({ ...prev, loading: false }));
+    }
+  }, [showToast]);
+
+  const loginWithApple = useCallback(async () => {
+    try {
+      setState((prev) => ({ ...prev, loading: true, error: null }));
+
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: "apple",
+        options: {
+          redirectTo: `${window.location.origin}/login`,
+          scopes: "name email",
+        },
+      });
+
+      if (error) {
+        Logger.error("Apple login error", {
+          error: error.message,
+          code: error.status,
+        });
+        throw error;
+      }
+    } catch (err) {
+      const message =
+        err instanceof Error ? err.message : "Failed to sign in with Apple";
+      showToast({
+        type: "error",
+        title: "Sign-in failed",
+        message,
+      });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -442,10 +523,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       // Redirect to login page so user must re-authenticate
       window.location.href = `${window.location.origin}/login`;
 
-      showToast("success", "Logged out successfully");
+      // SIGNED_OUT auth event fires the sign-out toast via handleAuthEvent
     } catch (err) {
       const message = err instanceof Error ? err.message : "Failed to log out";
-      showToast("error", "Logout Error", message);
+      showToast({ type: "error", title: "Sign-out failed", message });
       setState((prev) => ({
         ...prev,
         error: err instanceof Error ? err : new Error(message),
@@ -460,7 +541,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       try {
         setState((prev) => ({ ...prev, loading: true, error: null }));
         const { error } = await supabase.auth.resetPasswordForEmail(email, {
-          redirectTo: `${window.location.origin}/reset-password`,
+          redirectTo: `${window.location.origin}/auth/reset-password`,
         });
 
         if (error) {
@@ -501,7 +582,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
         // Attempt to sign up the user
         // If the email is already registered, Supabase will return an error
         // This approach avoids using dummy credentials for checking
-        const { data, error } = await supabase.auth.signUp({
+        const { data: _data, error } = await supabase.auth.signUp({
           email,
           password,
           options: {
@@ -509,7 +590,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
               type,
               ...metadata,
             },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            emailRedirectTo: `${window.location.origin}/auth/callback?email=${encodeURIComponent(email)}`,
           },
         });
 
@@ -534,33 +615,11 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           throw error;
         }
 
-        if (data.user) {
-          const { error: profileError } = await supabase
-            .from("profiles")
-            .insert({
-              user_id: data.user.id,
-              type,
-            });
-
-          if (profileError) {
-            Logger.error("Profile creation error", {
-              error: profileError.message,
-              code: profileError.code,
-              userId: data.user.id,
-              type,
-            });
-            throw profileError;
-          }
-        }
-
         showToast(
           "success",
           "Registration successful",
           "Please check your email to verify your account",
         );
-
-        // Redirect to the appropriate login page
-        window.location.href = `/login?type=${type}`;
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to register";
@@ -578,17 +637,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   const sendUsernameReminder = useCallback(
-    (_email: string): Promise<void> => {
+    async (email: string): Promise<void> => {
       try {
         setState((prev) => ({ ...prev, loading: true, error: null }));
-        // In a real app, this would send an email with the username
-        // For this demo, we'll just show a success message
+        await supabase.functions.invoke("username-reminder", {
+          body: { email },
+        });
+        // Always show success regardless of backend result to prevent email enumeration
         showToast(
           "success",
           "Username reminder sent",
           "If an account exists with this email, a reminder will be sent",
         );
-        return Promise.resolve();
       } catch (err) {
         const message =
           err instanceof Error
@@ -599,7 +659,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
           ...prev,
           error: err instanceof Error ? err : new Error(message),
         }));
-        return Promise.reject(err);
+        throw err;
       } finally {
         setState((prev) => ({ ...prev, loading: false }));
       }
@@ -612,6 +672,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       ...state,
       login,
       loginWithGoogle,
+      loginWithApple,
       logout,
       resetPassword,
       refreshSession,
@@ -622,6 +683,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       state,
       login,
       loginWithGoogle,
+      loginWithApple,
       logout,
       resetPassword,
       refreshSession,

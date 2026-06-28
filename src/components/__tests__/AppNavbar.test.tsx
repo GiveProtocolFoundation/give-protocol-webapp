@@ -1,6 +1,11 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
-import { render, screen, fireEvent, waitFor, act } from "@testing-library/react";
+import {
+  render,
+  screen,
+  fireEvent,
+  waitFor,
+  act,
+} from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWeb3 } from "@/contexts/Web3Context";
@@ -103,22 +108,24 @@ describe("AppNavbar", () => {
   describe("Navigation links (unauthenticated)", () => {
     it("renders Browse link", () => {
       renderNavbar();
-      expect(screen.getByText("nav.browse")).toBeInTheDocument();
+      expect(screen.getByText("Browse Charities")).toBeInTheDocument();
     });
 
     it("renders Opportunities link", () => {
       renderNavbar();
-      expect(screen.getByText("nav.opportunities")).toBeInTheDocument();
+      expect(screen.getByText("Volunteer Opportunities")).toBeInTheDocument();
     });
 
     it("does not render Contributions link when not authenticated", () => {
       renderNavbar();
-      expect(screen.queryByText("nav.contributions")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Contribution Tracker"),
+      ).not.toBeInTheDocument();
     });
 
     it("does not render Dashboard button when not authenticated", () => {
       renderNavbar();
-      expect(screen.queryByText("nav.dashboard")).not.toBeInTheDocument();
+      expect(screen.queryByText("Give Dashboard")).not.toBeInTheDocument();
     });
   });
 
@@ -134,17 +141,17 @@ describe("AppNavbar", () => {
 
     it("renders Contributions link when authenticated", () => {
       renderNavbar();
-      expect(screen.getByText("nav.contributions")).toBeInTheDocument();
+      expect(screen.getByText("Contribution Tracker")).toBeInTheDocument();
     });
 
     it("renders Dashboard button when authenticated", () => {
       renderNavbar();
-      expect(screen.getByText("nav.dashboard")).toBeInTheDocument();
+      expect(screen.getByText("Give Dashboard")).toBeInTheDocument();
     });
 
-    it("renders Monthly Donations link for donor user type", () => {
+    it("does not render Monthly Donations link for donor user type", () => {
       renderNavbar();
-      expect(screen.getByText("Monthly Donations")).toBeInTheDocument();
+      expect(screen.queryByText("Monthly Donations")).not.toBeInTheDocument();
     });
 
     it("does not render Monthly Donations link for charity user type", () => {
@@ -162,15 +169,15 @@ describe("AppNavbar", () => {
   describe("Limited navigation pages", () => {
     it("renders About, Docs, Legal, Privacy links on /about page", () => {
       renderNavbar("/about");
-      expect(screen.getByText("nav.about")).toBeInTheDocument();
-      expect(screen.getByText("nav.docs")).toBeInTheDocument();
-      expect(screen.getByText("nav.legal")).toBeInTheDocument();
+      expect(screen.getByText("About")).toBeInTheDocument();
+      expect(screen.getByText("Documentation")).toBeInTheDocument();
+      expect(screen.getByText("Legal")).toBeInTheDocument();
       expect(screen.getByText("Privacy")).toBeInTheDocument();
     });
 
     it("does not render Browse link on limited navigation pages", () => {
       renderNavbar("/about");
-      expect(screen.queryByText("nav.browse")).not.toBeInTheDocument();
+      expect(screen.queryByText("Browse Charities")).not.toBeInTheDocument();
     });
   });
 
@@ -202,6 +209,19 @@ describe("AppNavbar", () => {
       );
       renderNavbar();
       expect(screen.getByTestId("connect-button")).toBeInTheDocument();
+    });
+  });
+
+  describe("Connect button (guest visitor)", () => {
+    it("renders ConnectButton for unauthenticated visitors so they can donate without signing in", () => {
+      renderNavbar();
+      expect(screen.getByTestId("connect-button")).toBeInTheDocument();
+    });
+
+    it("renders ConnectButton alongside Sign In link for guests", () => {
+      renderNavbar();
+      expect(screen.getByTestId("connect-button")).toBeInTheDocument();
+      expect(screen.getByText("Sign In")).toBeInTheDocument();
     });
   });
 
@@ -301,8 +321,12 @@ describe("AppNavbar", () => {
 
   describe("handleDisconnect", () => {
     it("calls disconnect and logout when disconnect is triggered", async () => {
-      const mockDisconnect = jest.fn<() => Promise<void>>().mockImplementation(() => Promise.resolve());
-      const mockLogout = jest.fn<() => Promise<void>>().mockImplementation(() => Promise.resolve());
+      const mockDisconnect = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
+      const mockLogout = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
 
       mockUseWeb3.mockReturnValue({
         provider: null,
@@ -341,7 +365,9 @@ describe("AppNavbar", () => {
     });
 
     it("calls disconnect without logout when no user is logged in", async () => {
-      const mockDisconnect = jest.fn<() => Promise<void>>().mockImplementation(() => Promise.resolve());
+      const mockDisconnect = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
 
       mockUseWeb3.mockReturnValue({
         provider: null,
@@ -375,7 +401,9 @@ describe("AppNavbar", () => {
 
   describe("handleSignOut", () => {
     it("calls logout when Sign Out is clicked", async () => {
-      const mockLogout = jest.fn<() => Promise<void>>().mockImplementation(() => Promise.resolve());
+      const mockLogout = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
 
       mockUseAuth.mockReturnValue(
         createAuthMock({

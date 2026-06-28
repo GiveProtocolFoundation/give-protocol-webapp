@@ -79,6 +79,15 @@ export interface AdminOverrideValidationInput {
   reason: string;
 }
 
+/** Volunteer context passed to the hours email notification */
+export interface VolunteerHoursEmailContext {
+  volunteerId: string;
+  volunteerDisplayName: string | null;
+  orgName: string | null;
+  hoursReported: number;
+  activityDate: string;
+}
+
 /** A suspicious volunteer pattern row from admin_suspicious_volunteer_patterns RPC */
 export interface AdminSuspiciousVolunteerPattern {
   volunteerId: string;

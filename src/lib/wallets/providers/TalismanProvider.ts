@@ -4,16 +4,15 @@
  */
 
 import { Logger } from "@/utils/logger";
-import type {
-  ChainType,
-  UnifiedAccount,
-  WalletCategory,
-} from "@/types/wallet";
+import type { ChainType, UnifiedAccount, WalletCategory } from "@/types/wallet";
 import {
   PolkadotAdapter,
   enablePolkadotExtension,
 } from "../adapters/PolkadotAdapter";
-import { BaseMultiChainProvider, type SecondaryChainAdapter } from "./BaseMultiChainProvider";
+import {
+  BaseMultiChainProvider,
+  type SecondaryChainAdapter,
+} from "./BaseMultiChainProvider";
 
 const APP_NAME = "Give Protocol";
 
@@ -76,7 +75,9 @@ export class TalismanProvider extends BaseMultiChainProvider {
    */
   hasEVMSupport(): boolean {
     if (!this.supportedChainTypes.includes("evm")) return false;
-    return typeof window !== "undefined" && typeof window.talismanEth !== "undefined";
+    return (
+      typeof window !== "undefined" && typeof window.talismanEth !== "undefined"
+    );
   }
 
   /**
@@ -97,7 +98,9 @@ export class TalismanProvider extends BaseMultiChainProvider {
    * @param chainType - Chain type to connect (defaults to EVM)
    * @returns Array of connected accounts
    */
-  override async connect(chainType: ChainType = "evm"): Promise<UnifiedAccount[]> {
+  override async connect(
+    chainType: ChainType = "evm",
+  ): Promise<UnifiedAccount[]> {
     if (!this.isInstalled()) {
       throw new Error("Talisman wallet is not installed");
     }
@@ -109,7 +112,7 @@ export class TalismanProvider extends BaseMultiChainProvider {
         if (!this.hasEVMSupport()) {
           throw new Error("Talisman EVM provider not available");
         }
-        accounts.push(...await this.connectEVM());
+        accounts.push(...(await this.connectEVM()));
         this.connectedChainType = "evm";
       }
 
@@ -117,7 +120,7 @@ export class TalismanProvider extends BaseMultiChainProvider {
         if (!this.hasPolkadotSupport()) {
           throw new Error("Talisman Polkadot extension not available");
         }
-        accounts.push(...await this.connectSecondary());
+        accounts.push(...(await this.connectSecondary()));
         this.connectedChainType = "polkadot";
       }
 
@@ -132,6 +135,15 @@ export class TalismanProvider extends BaseMultiChainProvider {
 
       return accounts;
     } catch (error) {
+      // Talisman is installed but not onboarded — provide a clear message
+      if (
+        error instanceof Error &&
+        error.message.includes("not been configured yet")
+      ) {
+        throw new Error(
+          "Talisman needs to be set up first. Please complete its onboarding and refresh the page.",
+        );
+      }
       Logger.error("Talisman connection failed", { error, chainType });
       throw error;
     }

@@ -3,6 +3,7 @@ import { useToast } from "../contexts/ToastContext";
 import { supabase } from "../lib/supabase";
 import { useProfile } from "./useProfile";
 
+/** Type of verification document a charity can submit. */
 export type DocumentType = "tax_certificate" | "registration" | "annual_report";
 
 interface VerificationDocument {
@@ -49,6 +50,10 @@ export function useCharityVerification() {
   const { showToast } = useToast();
   const { profile } = useProfile();
 
+  /**
+   * Fetches all verification documents for the current charity profile.
+   * @returns Promise that resolves when documents are loaded into state
+   */
   const fetchDocuments = async () => {
     if (!profile?.id) return;
 
@@ -76,6 +81,12 @@ export function useCharityVerification() {
     }
   };
 
+  /**
+   * Uploads a verification document to Supabase storage.
+   * @param file - File to upload (PDF, JPEG, or PNG; max 5 MB)
+   * @param type - Document type classification
+   * @returns Promise that resolves when the upload is complete
+   */
   const uploadDocument = async (file: File, type: DocumentType) => {
     if (!profile?.id) {
       throw new Error("Profile not found");

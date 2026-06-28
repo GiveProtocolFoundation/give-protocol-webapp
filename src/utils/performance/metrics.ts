@@ -35,6 +35,9 @@ export class PerformanceMetrics {
   private readonly metrics: PerformanceMetric[] = [];
   private readonly MAX_METRICS = 1000;
 
+  /**
+   * Private constructor that wires up the `PerformanceObserver` instances tracked by this service.
+   */
   private constructor() {
     this.initializeObservers();
   }
@@ -99,6 +102,9 @@ export class PerformanceMetrics {
     }
   }
 
+  /**
+   * Registers a `PerformanceObserver` for `longtask` entries when the runtime supports them.
+   */
   private initializeObservers(): void {
     // Performance Observer for long tasks
     if (PerformanceObserver.supportedEntryTypes.includes("longtask")) {

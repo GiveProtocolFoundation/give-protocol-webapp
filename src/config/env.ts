@@ -108,6 +108,7 @@ export function getChainContractAddresses(
 }
 
 // Create and validate environment configuration
+/** Validated environment configuration object built from VITE_* variables at startup. */
 export const ENV = {
   // Required variables
   SUPABASE_URL: getEnv("VITE_SUPABASE_URL"),
@@ -124,6 +125,7 @@ export const ENV = {
   ENABLE_GOOGLE_AUTH: getEnv("VITE_ENABLE_GOOGLE_AUTH") === "true",
   ENABLE_MAGIC_LINKS: getEnv("VITE_ENABLE_MAGIC_LINKS") === "true",
   SHOW_TESTNETS: getEnv("VITE_SHOW_TESTNETS") === "true",
+  SHOW_DEMO_SKILLS: getEnv("VITE_SHOW_DEMO_SKILLS") === "true",
 
   // Security settings
   MAX_LOGIN_ATTEMPTS: Number(getEnv("VITE_MAX_LOGIN_ATTEMPTS") || 5),
@@ -156,4 +158,5 @@ if (!ENV.SUPABASE_URL || !ENV.SUPABASE_ANON_KEY) {
   });
 }
 
+/** Inferred type of the ENV configuration object. */
 export type EnvVars = typeof ENV;

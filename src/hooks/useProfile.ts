@@ -124,6 +124,7 @@ export function useProfile() {
     mountedRef.current = true;
     retryCountRef.current = 0;
 
+    /** Fetches the user profile from Supabase, retrying on transient errors. */
     const fetchProfile = async () => {
       if (!user) {
         if (mountedRef.current) {

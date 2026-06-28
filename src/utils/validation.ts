@@ -92,7 +92,7 @@ export function validateUrl(url: string): boolean {
   try {
     const parsedUrl = new URL(url);
     return parsedUrl.protocol === "https:";
-  } catch (e) {
+  } catch (_e) {
     return false;
   }
 }

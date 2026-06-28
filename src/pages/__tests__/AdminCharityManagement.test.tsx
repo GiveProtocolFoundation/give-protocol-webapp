@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -23,6 +22,12 @@ const mockCharity: AdminCharityListItem = {
   reviewNotes: null,
   reviewedAt: null,
   updatedAt: "2025-01-15T00:00:00Z",
+  ein: "12-3456789",
+  signerName: "Jane Doe",
+  signerEmail: "jane@example.org",
+  signerPhone: null,
+  claimedAt: "2025-01-15T00:00:00Z",
+  charityProfileStatus: "claimed-pending",
 };
 
 const mockVerifiedCharity: AdminCharityListItem = {
@@ -125,10 +130,12 @@ describe("AdminCharityManagement", () => {
     it("renders charity table with data", () => {
       renderComponent();
       expect(screen.getByText("Test Charity")).toBeInTheDocument();
-      expect(screen.getByText("Education")).toBeInTheDocument();
+      expect(screen.getByText("12-3456789")).toBeInTheDocument();
+      expect(screen.getByText("Jane Doe")).toBeInTheDocument();
       expect(screen.getByText("Name")).toBeInTheDocument();
-      expect(screen.getByText("Category")).toBeInTheDocument();
+      expect(screen.getByText("EIN")).toBeInTheDocument();
       expect(screen.getByText("Status")).toBeInTheDocument();
+      expect(screen.getByText("Contact")).toBeInTheDocument();
       expect(screen.getByText("Actions")).toBeInTheDocument();
     });
   });
@@ -184,7 +191,9 @@ describe("AdminCharityManagement", () => {
       await waitFor(() => {
         expect(screen.getByLabelText("Reason")).toBeInTheDocument();
       });
-      expect(screen.getByRole("heading", { name: "Approve Charity" })).toBeInTheDocument();
+      expect(
+        screen.getByRole("heading", { name: "Approve Charity" }),
+      ).toBeInTheDocument();
     });
 
     it("calls approveCharity on confirm", async () => {

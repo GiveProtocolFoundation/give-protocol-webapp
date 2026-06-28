@@ -52,7 +52,7 @@ export function useContract(
 
       try {
         address = getContractAddress(contractName, chainId);
-      } catch (err) {
+      } catch (_err) {
         // Use development address if contract address is not found
         Logger.warn("Using development contract address", { contractType });
         // skipcq: SCT-A000 - These are placeholder development Ethereum addresses, not real secrets
@@ -119,8 +119,7 @@ export function useContract(
         setTimeout(() => {
           const fallbackRPCs = DEFAULT_CONFIG.fallbackRPCs ?? [];
           const fallbackRPC =
-            config.fallbackRPCs?.[retryCount] ||
-            fallbackRPCs[retryCount];
+            config.fallbackRPCs?.[retryCount] || fallbackRPCs[retryCount];
           if (fallbackRPC && provider) {
             // Note: This approach needs to be updated as provider.url is not directly accessible in ethers v6
             // This is a placeholder for the actual implementation

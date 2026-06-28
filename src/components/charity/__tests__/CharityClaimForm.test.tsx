@@ -1,19 +1,16 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
-import { MemoryRouter } from "react-router-dom";
+import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { CharityClaimForm } from "../../auth/CharityClaimForm";
 import { supabase } from "@/lib/supabase";
-import { useToast } from "@/hooks/useToast";
+import { useToast } from "@/contexts/ToastContext";
 import type { CharityOrganization } from "@/types/charityOrganization";
 
 // All mocks handled via moduleNameMapper:
-// supabase, useToast/ToastContext, validation, ui/Button, ui/Input,
-// PasswordStrengthBar, logger
+// supabase, validation, ui/Button, ui/Input, PasswordStrengthBar, logger, ToastContext
 
 const mockSupabase = jest.mocked(supabase);
 const mockUseToast = jest.mocked(useToast);
-const mockShowToast = jest.fn();
 
 const mockOrganization: CharityOrganization = {
   id: "org-1",
@@ -41,20 +38,28 @@ const renderForm = (
   onBack: () => void = mockOnBack,
 ) =>
   render(
-    <MemoryRouter>
-      <CharityClaimForm organization={organization} onBack={onBack} />
+    <MemoryRouter initialEntries={["/claim"]}>
+      <Routes>
+        <Route
+          path="/claim"
+          element={
+            <CharityClaimForm organization={organization} onBack={onBack} />
+          }
+        />
+        <Route
+          path="/auth/registration-success"
+          element={<div>Registration success page</div>}
+        />
+      </Routes>
     </MemoryRouter>,
   );
 
 const fillFormFields = () => {
-  fireEvent.change(screen.getByLabelText(/contact name/i), {
+  fireEvent.change(screen.getByLabelText(/^contact name$/i), {
     target: { name: "contactName", value: "Jane Doe" },
   });
-  fireEvent.change(screen.getByLabelText(/contact email/i), {
+  fireEvent.change(screen.getByLabelText(/^contact email$/i), {
     target: { name: "contactEmail", value: "jane@example.com" },
-  });
-  fireEvent.change(screen.getByLabelText(/contact phone/i), {
-    target: { name: "contactPhone", value: "+15551234567" },
   });
   fireEvent.change(screen.getByLabelText(/^password$/i), {
     target: { name: "password", value: "SecurePass1!" },
@@ -67,7 +72,6 @@ const fillFormFields = () => {
 describe("CharityClaimForm", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseToast.mockReturnValue({ showToast: mockShowToast });
 
     // Add signUp to auth mock since supabaseMock.js doesn't include it
     (mockSupabase.auth as Record<string, unknown>).signUp = jest
@@ -100,9 +104,7 @@ describe("CharityClaimForm", () => {
 
     it("renders location when city, state, and zip are present", () => {
       renderForm();
-      expect(
-        screen.getByText("San Francisco, CA, 94102"),
-      ).toBeInTheDocument();
+      expect(screen.getByText("San Francisco, CA, 94102")).toBeInTheDocument();
     });
 
     it("does not render location when city, state, and zip are all null", () => {
@@ -119,9 +121,9 @@ describe("CharityClaimForm", () => {
     it("renders contact information fields", () => {
       renderForm();
       expect(screen.getByText("Contact Information")).toBeInTheDocument();
-      expect(screen.getByLabelText(/contact name/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/contact email/i)).toBeInTheDocument();
-      expect(screen.getByLabelText(/contact phone/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^contact name$/i)).toBeInTheDocument();
+      expect(screen.getByLabelText(/^contact email$/i)).toBeInTheDocument();
+      expect(screen.queryByLabelText(/contact phone/i)).not.toBeInTheDocument();
     });
 
     it("renders account security fields", () => {
@@ -175,7 +177,7 @@ describe("CharityClaimForm", () => {
       });
 
       // Change a field to clear errors
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane" },
       });
 
@@ -206,10 +208,10 @@ describe("CharityClaimForm", () => {
     it("shows email validation error for invalid email", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "not-an-email" },
       });
 
@@ -229,14 +231,11 @@ describe("CharityClaimForm", () => {
     it("shows password mismatch error", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "jane@example.com" },
-      });
-      fireEvent.change(screen.getByLabelText(/contact phone/i), {
-        target: { name: "contactPhone", value: "+15551234567" },
       });
       fireEvent.change(screen.getByLabelText(/^password$/i), {
         target: { name: "password", value: "SecurePass1!" },
@@ -252,49 +251,18 @@ describe("CharityClaimForm", () => {
       fireEvent.submit(form);
 
       await waitFor(() => {
-        expect(
-          screen.getByText(/passwords do not match/i),
-        ).toBeInTheDocument();
-      });
-    });
-
-    it("shows phone validation error for invalid phone", async () => {
-      renderForm();
-
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
-        target: { name: "contactName", value: "Jane Doe" },
-      });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
-        target: { name: "contactEmail", value: "jane@example.com" },
-      });
-      fireEvent.change(screen.getByLabelText(/contact phone/i), {
-        target: { name: "contactPhone", value: "12" },
-      });
-
-      const form = screen
-        .getByRole("button", { name: /claim organization/i })
-        .closest("form");
-      if (!form) throw new Error("Could not find form element");
-      fireEvent.submit(form);
-
-      await waitFor(() => {
-        expect(
-          screen.getByText(/please enter a valid phone number/i),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/passwords do not match/i)).toBeInTheDocument();
       });
     });
 
     it("shows password length error for short password", async () => {
       renderForm();
 
-      fireEvent.change(screen.getByLabelText(/contact name/i), {
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
         target: { name: "contactName", value: "Jane Doe" },
       });
-      fireEvent.change(screen.getByLabelText(/contact email/i), {
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
         target: { name: "contactEmail", value: "jane@example.com" },
-      });
-      fireEvent.change(screen.getByLabelText(/contact phone/i), {
-        target: { name: "contactPhone", value: "+15551234567" },
       });
       fireEvent.change(screen.getByLabelText(/^password$/i), {
         target: { name: "password", value: "short" },
@@ -355,19 +323,17 @@ describe("CharityClaimForm", () => {
       fireEvent.submit(form);
 
       await waitFor(() => {
-        expect(mockSupabase.rpc).toHaveBeenCalledWith(
-          "claim_charity_profile",
-          {
-            p_ein: "12-3456789",
-            p_signer_name: "Jane Doe",
-            p_signer_email: "jane@example.com",
-            p_signer_phone: "+15551234567",
-          },
-        );
+        expect(mockSupabase.rpc).toHaveBeenCalledWith("claim_charity_profile", {
+          p_ein: "12-3456789",
+          p_signer_name: "Jane Doe",
+          p_signer_email: "jane@example.com",
+          p_signer_phone: null,
+          p_public_contact_email: "jane@example.com",
+        });
       });
     });
 
-    it("shows success toast on successful submission", async () => {
+    it("navigates to registration success page on successful submission", async () => {
       renderForm();
       fillFormFields();
 
@@ -378,11 +344,9 @@ describe("CharityClaimForm", () => {
       fireEvent.submit(form);
 
       await waitFor(() => {
-        expect(mockShowToast).toHaveBeenCalledWith(
-          "success",
-          "Account Created",
-          "Please check your email to verify your account.",
-        );
+        expect(
+          screen.getByText("Registration success page"),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -430,9 +394,7 @@ describe("CharityClaimForm", () => {
       fireEvent.submit(form);
 
       await waitFor(() => {
-        expect(
-          screen.getByText("Account creation failed"),
-        ).toBeInTheDocument();
+        expect(screen.getByText("Account creation failed")).toBeInTheDocument();
       });
     });
 
@@ -526,6 +488,76 @@ describe("CharityClaimForm", () => {
         expect(
           screen.getByRole("button", { name: /creating account/i }),
         ).toBeDisabled();
+      });
+    });
+  });
+
+  describe("GIV-300 toast call sites", () => {
+    let mockShowToast: jest.Mock;
+    let mockDismissToast: jest.Mock;
+
+    beforeEach(() => {
+      mockShowToast = jest.fn(() => "mock-toast-id");
+      mockDismissToast = jest.fn();
+      mockUseToast.mockReturnValue({
+        showToast: mockShowToast,
+        dismissToast: mockDismissToast,
+      });
+    });
+
+    it("shows Verification email sent toast on successful claim submission", async () => {
+      renderForm();
+      fillFormFields();
+
+      const form = screen
+        .getByRole("button", { name: /claim organization/i })
+        .closest("form");
+      if (!form) throw new Error("Could not find form element");
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "success",
+            title: "Verification email sent",
+            message: expect.stringContaining("inbox"),
+          }),
+        );
+      });
+    });
+
+    it("shows Submission failed toast on claim error", async () => {
+      (mockSupabase.auth as Record<string, unknown>).signUp = jest
+        .fn()
+        .mockResolvedValue({
+          data: { user: { id: "user-1" } },
+          error: null,
+        });
+      (mockSupabase as Record<string, unknown>).from = jest
+        .fn()
+        .mockReturnValue({
+          insert: jest.fn().mockResolvedValue({ error: null }),
+        });
+      mockSupabase.rpc
+        .mockResolvedValueOnce({ data: null, error: null })
+        .mockRejectedValueOnce(new Error("RPC failed"));
+
+      renderForm();
+      fillFormFields();
+
+      const form = screen
+        .getByRole("button", { name: /claim organization/i })
+        .closest("form");
+      if (!form) throw new Error("Could not find form element");
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          expect.objectContaining({
+            type: "error",
+            title: "Submission failed",
+          }),
+        );
       });
     });
   });

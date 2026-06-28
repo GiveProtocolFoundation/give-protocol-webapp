@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 /**
  * Mock providers for testing components that require context
  * This file provides lightweight mock implementations of all app contexts
@@ -43,6 +44,7 @@ export const mockAuthContextValue = {
   userType: null,
   login: jest.fn(),
   loginWithGoogle: jest.fn(),
+  loginWithApple: jest.fn(),
   logout: jest.fn(),
   resetPassword: jest.fn(),
   refreshSession: jest.fn(),
@@ -208,7 +210,10 @@ export const AllProviders: React.FC<AllProvidersProps> = ({
     [MockToastContext.Provider as React.Provider<unknown>, toastValue],
     [MockAuthContext.Provider as React.Provider<unknown>, authValue],
     [MockWeb3Context.Provider as React.Provider<unknown>, web3Value],
-    [MockMultiChainContext.Provider as React.Provider<unknown>, multiChainValue],
+    [
+      MockMultiChainContext.Provider as React.Provider<unknown>,
+      multiChainValue,
+    ],
     [MockCurrencyContext.Provider as React.Provider<unknown>, currencyValue],
   ];
 
@@ -229,6 +234,11 @@ export const createMockUseSettings =
     ...overrides,
   });
 
+/**
+ * Creates a mock implementation of the useToast hook for testing
+ * @param overrides - Partial toast context values to override defaults
+ * @returns A mock useToast hook function
+ */
 export const createMockUseToast =
   (overrides = {}) =>
   () => ({
@@ -236,6 +246,11 @@ export const createMockUseToast =
     ...overrides,
   });
 
+/**
+ * Creates a mock implementation of the useAuth hook for testing
+ * @param overrides - Partial auth context values to override defaults
+ * @returns A mock useAuth hook function
+ */
 export const createMockUseAuth =
   (overrides = {}) =>
   () => ({
@@ -243,6 +258,11 @@ export const createMockUseAuth =
     ...overrides,
   });
 
+/**
+ * Creates a mock implementation of the useWeb3 hook for testing
+ * @param overrides - Partial web3 context values to override defaults
+ * @returns A mock useWeb3 hook function
+ */
 export const createMockUseWeb3 =
   (overrides = {}) =>
   () => ({
@@ -250,6 +270,11 @@ export const createMockUseWeb3 =
     ...overrides,
   });
 
+/**
+ * Creates a mock implementation of the useMultiChain hook for testing
+ * @param overrides - Partial multi-chain context values to override defaults
+ * @returns A mock useMultiChain hook function
+ */
 export const createMockUseMultiChain =
   (overrides = {}) =>
   () => ({
@@ -257,6 +282,11 @@ export const createMockUseMultiChain =
     ...overrides,
   });
 
+/**
+ * Creates a mock implementation of the useCurrency hook for testing
+ * @param overrides - Partial currency context values to override defaults
+ * @returns A mock useCurrency hook function
+ */
 export const createMockUseCurrency =
   (overrides = {}) =>
   () => ({

@@ -10,6 +10,7 @@ import {
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Plus, X, Info } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface SelfReportedHoursDashboardProps {
   collapsed?: boolean;
@@ -45,6 +46,7 @@ export const SelfReportedHoursDashboard: React.FC<
   const [isFormLoading, setIsFormLoading] = useState(false);
   const [deleteConfirm, setDeleteConfirm] = useState<string | null>(null);
   const [showInfo, setShowInfo] = useState(false);
+  const { t } = useTranslation();
 
   const toggleInfo = useCallback(() => {
     setShowInfo((prev) => !prev);
@@ -128,7 +130,7 @@ export const SelfReportedHoursDashboard: React.FC<
 
   if (loading && !hours.length) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
         <div className="flex justify-center py-12">
           <LoadingSpinner size="lg" />
         </div>
@@ -138,8 +140,8 @@ export const SelfReportedHoursDashboard: React.FC<
 
   if (error) {
     return (
-      <div className="bg-white rounded-lg shadow-md p-6">
-        <div className="bg-red-50 border border-red-200 rounded-lg p-4 text-red-700">
+      <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md p-6">
+        <div className="bg-red-50 dark:bg-red-900/30 border border-red-200 dark:border-red-800 rounded-lg p-4 text-red-700 dark:text-red-300">
           {error}
         </div>
       </div>
@@ -147,33 +149,33 @@ export const SelfReportedHoursDashboard: React.FC<
   }
 
   return (
-    <div className="bg-white rounded-lg shadow-md">
+    <div className="bg-white dark:bg-gray-900 rounded-lg shadow-md">
       {/* Header */}
       <div className="p-6 border-b border-gray-200 flex items-center justify-between">
         <div className="flex items-center gap-2">
           <h2 className="text-xl font-semibold text-gray-900">
-            Volunteer Hours
+            {t("volunteer.volunteerHoursTitle", "Volunteer Hours")}
           </h2>
           <button
             type="button"
             onClick={toggleInfo}
             className={`p-1 rounded-full transition-colors ${
               showInfo
-                ? "bg-blue-100 text-blue-600"
-                : "text-gray-400 hover:text-gray-600 hover:bg-gray-100"
+                ? "bg-blue-100 dark:bg-blue-900/40 text-blue-600 dark:text-blue-400"
+                : "text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 hover:bg-gray-100 dark:hover:bg-gray-800"
             }`}
-            title="About Self-Reported Hours"
+            title={t(
+              "volunteer.aboutSelfReported",
+              "About Self-Reported Hours",
+            )}
           >
             <Info className="h-5 w-5" />
           </button>
         </div>
         <div className="flex items-center gap-3">
           {viewMode === "list" && (
-            <Button
-              onClick={handleCreate}
-              icon={<Plus className="h-4 w-4" />}
-            >
-              Log Hours
+            <Button onClick={handleCreate} icon={<Plus className="h-4 w-4" />}>
+              {t("volunteer.logHoursButton", "Log Hours")}
             </Button>
           )}
           {onToggle && (
@@ -182,23 +184,28 @@ export const SelfReportedHoursDashboard: React.FC<
               onClick={onToggle}
               icon={<X className="h-4 w-4" />}
             >
-              Close
+              {t("common.close", "Close")}
             </Button>
           )}
         </div>
 
         {/* Info banner - toggled by (i) button */}
         {showInfo && (
-          <div className="mt-4 p-4 bg-blue-50 border border-blue-200 rounded-lg">
+          <div className="mt-4 p-4 bg-blue-50 dark:bg-blue-900/30 border border-blue-200 dark:border-blue-800 rounded-lg">
             <div className="flex items-start gap-3">
               <Info className="h-5 w-5 text-blue-500 flex-shrink-0 mt-0.5" />
               <div className="text-sm text-blue-800">
-                <p className="font-medium">About Self-Reported Hours</p>
+                <p className="font-medium">
+                  {t(
+                    "volunteer.aboutSelfReported",
+                    "About Self-Reported Hours",
+                  )}
+                </p>
                 <p className="mt-1">
-                  Only hours validated by verified organizations count toward
-                  the Global Impact Rankings. Hours for organizations not on our
-                  platform can be tracked but will be marked as
-                  &ldquo;Unvalidated&rdquo; until validation is received.
+                  {t(
+                    "volunteer.selfReportedInfo",
+                    "Only hours validated by verified organizations count toward the Global Impact Rankings. Hours for organizations not on our platform can be tracked but will be marked as \u201cUnvalidated\u201d until validation is received.",
+                  )}
                 </p>
               </div>
               <button
@@ -240,7 +247,9 @@ export const SelfReportedHoursDashboard: React.FC<
         {(viewMode === "create" || viewMode === "edit") && (
           <div>
             <h3 className="text-lg font-medium text-gray-900 mb-4">
-              {viewMode === "create" ? "Log Volunteer Hours" : "Edit Record"}
+              {viewMode === "create"
+                ? t("volunteer.logVolunteerHours", "Log Volunteer Hours")
+                : t("volunteer.editRecord", "Edit Record")}
             </h3>
             <SelfReportedHoursForm
               initialData={
@@ -270,15 +279,15 @@ export const SelfReportedHoursDashboard: React.FC<
           <div>
             <div className="flex items-center justify-between mb-4">
               <h3 className="text-lg font-medium text-gray-900">
-                Record Details
+                {t("volunteer.recordDetails", "Record Details")}
               </h3>
               <Button variant="ghost" onClick={handleCancel}>
-                Back to List
+                {t("volunteer.backToList", "Back to List")}
               </Button>
             </div>
             {/* View details - simplified for now */}
             <div className="space-y-4">
-              <pre className="bg-gray-50 p-4 rounded-lg text-sm overflow-auto">
+              <pre className="bg-gray-50 dark:bg-gray-800 p-4 rounded-lg text-sm overflow-auto text-gray-900 dark:text-gray-100">
                 {JSON.stringify(selectedRecord, null, 2)}
               </pre>
             </div>
@@ -289,20 +298,22 @@ export const SelfReportedHoursDashboard: React.FC<
       {/* Delete confirmation modal */}
       {deleteConfirm && (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
-          <div className="bg-white rounded-lg p-6 max-w-md w-full mx-4">
+          <div className="bg-white dark:bg-gray-900 rounded-lg p-6 max-w-md w-full mx-4">
             <h3 className="text-lg font-medium text-gray-900 mb-2">
-              Delete Record?
+              {t("volunteer.deleteRecord", "Delete Record?")}
             </h3>
             <p className="text-sm text-gray-600 mb-4">
-              Are you sure you want to delete this volunteer hours record? This
-              action cannot be undone.
+              {t(
+                "volunteer.deleteConfirmation",
+                "Are you sure you want to delete this volunteer hours record? This action cannot be undone.",
+              )}
             </p>
             <div className="flex justify-end gap-3">
               <Button variant="secondary" onClick={cancelDelete}>
-                Cancel
+                {t("common.cancel", "Cancel")}
               </Button>
               <Button variant="danger" onClick={confirmDelete}>
-                Delete
+                {t("common.delete", "Delete")}
               </Button>
             </div>
           </div>

@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -171,13 +170,6 @@ describe("CharityProfilePage", () => {
       });
     });
 
-    it("renders the Donate button for claimed profiles", async () => {
-      renderWithRoute();
-      await waitFor(() => {
-        expect(screen.getByText("Donate")).toBeInTheDocument();
-      });
-    });
-
     it("renders the donate widget for claimed profiles", async () => {
       renderWithRoute();
       await waitFor(() => {
@@ -253,13 +245,13 @@ describe("CharityProfilePage", () => {
       expect(screen.queryByTestId("donate-widget")).not.toBeInTheDocument();
     });
 
-    it("does not render Donate button for unclaimed profiles", async () => {
+    it("does not render the donate widget for unclaimed profiles", async () => {
       renderWithRoute();
       await waitFor(() => {
         const matches = screen.getAllByText("Test Charity Foundation");
         expect(matches.length).toBeGreaterThanOrEqual(1);
       });
-      expect(screen.queryByText("Donate")).not.toBeInTheDocument();
+      expect(screen.queryByTestId("donate-widget")).not.toBeInTheDocument();
     });
   });
 
@@ -381,19 +373,6 @@ describe("CharityProfilePage", () => {
     });
   });
 
-  describe("Donate button interaction", () => {
-    it("opens donation modal when Donate header button is clicked", async () => {
-      renderWithRoute();
-      await waitFor(() => {
-        expect(screen.getByText("Donate")).toBeInTheDocument();
-      });
-      fireEvent.click(screen.getByText("Donate"));
-      await waitFor(() => {
-        expect(screen.getByTestId("donation-modal")).toBeInTheDocument();
-      });
-    });
-  });
-
   describe("Share button", () => {
     it("renders the share button", async () => {
       renderWithRoute();
@@ -446,6 +425,64 @@ describe("CharityProfilePage", () => {
       renderWithRoute();
       await waitFor(() => {
         expect(screen.getByText(/Registered/)).toBeInTheDocument();
+      });
+    });
+  });
+
+  describe("EIN format handling", () => {
+    it("passes raw EIN to service functions without stripping hyphens", async () => {
+      const hyphenatedEin = "99-1230001";
+      render(
+        <MemoryRouter initialEntries={[`/charity/${hyphenatedEin}`]}>
+          <Routes>
+            <Route path="/charity/:ein" element={<CharityProfilePage />} />
+          </Routes>
+        </MemoryRouter>,
+      );
+      await waitFor(() => {
+        expect(mockGetProfile).toHaveBeenCalledWith("99-1230001");
+        expect(mockGetRecord).toHaveBeenCalledWith("99-1230001");
+      });
+    });
+
+    it("loads the profile for an EIN stored with hyphens", async () => {
+      const hyphenatedEin = "99-1230001";
+      render(
+        <MemoryRouter initialEntries={[`/charity/${hyphenatedEin}`]}>
+          <Routes>
+            <Route path="/charity/:ein" element={<CharityProfilePage />} />
+          </Routes>
+        </MemoryRouter>,
+      );
+      await waitFor(() => {
+        const matches = screen.getAllByText("Test Charity Foundation");
+        expect(matches.length).toBeGreaterThanOrEqual(1);
+      });
+      expect(
+        screen.queryByText(/couldn.t find a charity with this EIN/i),
+      ).not.toBeInTheDocument();
+    });
+  });
+
+  describe("Logo avatar", () => {
+    it("renders logo image when logo_url is provided", async () => {
+      const profileWithLogo: CharityProfile = {
+        ...mockProfile,
+        logo_url: "https://example.com/logo.png",
+      };
+      mockGetProfile.mockResolvedValue(profileWithLogo);
+      renderWithRoute();
+      await waitFor(() => {
+        const logo = screen.getByAltText("Test Charity Foundation logo");
+        expect(logo).toBeInTheDocument();
+        expect(logo).toHaveAttribute("src", "https://example.com/logo.png");
+      });
+    });
+
+    it("renders initials avatar when logo_url is null", async () => {
+      renderWithRoute();
+      await waitFor(() => {
+        expect(screen.getByText("TC")).toBeInTheDocument();
       });
     });
   });

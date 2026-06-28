@@ -1,4 +1,5 @@
 import React, { useCallback, useState } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 import { DiscoveryShell } from "./DiscoveryShell";
 import { DiscoveryFilters } from "./DiscoveryFilters";
 import {
@@ -9,16 +10,21 @@ import { ProjectCard } from "./ProjectCard";
 import { WhyGiveProtocolRail } from "./WhyGiveProtocolRail";
 import { NewsUpdatesCard } from "./NewsUpdatesCard";
 import { FeaturedCharitiesCarousel } from "./FeaturedCharitiesCarousel";
+import { FeaturedCausesCarousel } from "./FeaturedCausesCarousel";
+import { FeaturedPortfolioFundsCarousel } from "./FeaturedPortfolioFundsCarousel";
+import { DiscoveryTabs, useDiscoveryTab } from "./DiscoveryTabs";
 import { useCharityOrganizationSearch } from "@/hooks/useCharityOrganizationSearch";
 import { useGeographicFilterParams } from "@/hooks/useGeographicFilterParams";
 import { Skeleton } from "@/components/ui/Skeleton";
 
 /**
  * Unauthenticated /browse landing. A split hero with a headline sits above the
- * filter block and a responsive discovery grid.
+ * tab bar, filter block, and a responsive discovery grid.
  * The right rail carries a "Why Give Protocol" explainer plus platform news.
  */
 export const PublicDiscoveryView: React.FC = () => {
+  const { t } = useTranslation();
+  const [activeTab, setActiveTab] = useDiscoveryTab();
   const [filters, setFilters] = useState<DiscoveryFiltersState>(
     emptyDiscoveryFilters,
   );
@@ -55,11 +61,13 @@ export const PublicDiscoveryView: React.FC = () => {
           Give Protocol
         </p>
         <h1 className="mt-2 text-4xl md:text-5xl font-semibold text-gray-900 dark:text-gray-100 tracking-tight leading-[1.1]">
-          Giving, verified on-chain.
+          {t("browse.hero.title", "Giving, verified on-chain.")}
         </h1>
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-xl">
-          Discover verified nonprofits, donate with crypto or card, and trace
-          your impact from wallet to cause.
+          {t(
+            "browse.hero.subtitle",
+            "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
+          )}
         </p>
       </div>
 
@@ -67,7 +75,7 @@ export const PublicDiscoveryView: React.FC = () => {
         <dl className="grid grid-cols-2 gap-6">
           <div>
             <dt className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-              Networks supported
+              {t("browse.stats.networks", "Networks supported")}
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">
               3+
@@ -75,7 +83,7 @@ export const PublicDiscoveryView: React.FC = () => {
           </div>
           <div>
             <dt className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-              Charitable sectors
+              {t("browse.stats.sectors", "Charitable sectors")}
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">
               7
@@ -83,18 +91,18 @@ export const PublicDiscoveryView: React.FC = () => {
           </div>
           <div>
             <dt className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-              Verified organizations
+              {t("browse.stats.verifiedOrgs", "Verified organizations")}
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">
-              On-chain
+              {t("browse.stats.onChain", "On-chain")}
             </dd>
           </div>
           <div>
             <dt className="text-xs font-medium uppercase tracking-wider text-gray-500 dark:text-gray-400">
-              Volunteer hours
+              {t("browse.stats.volunteerHours", "Volunteer hours")}
             </dt>
             <dd className="mt-1 text-3xl font-semibold text-gray-900 dark:text-gray-100">
-              Verified
+              {t("browse.verified", "Verified")}
             </dd>
           </div>
         </dl>
@@ -102,18 +110,22 @@ export const PublicDiscoveryView: React.FC = () => {
     </div>
   );
 
-  const main = (
+  const charitiesContent = (
     <>
       <section
         id="discover"
-        aria-label="Filter charities"
+        aria-label={t("browse.filter.ariaLabel", "Filter charities")}
         className="scroll-mt-8"
       >
-        <DiscoveryFilters value={filters} onChange={handleFiltersChange} />
+        <DiscoveryFilters
+          value={filters}
+          onChange={handleFiltersChange}
+          showViewToggle={false}
+        />
       </section>
 
       {hasActiveFilter ? (
-        <section aria-label="Charity results">
+        <section aria-label={t("browse.results.ariaLabel", "Charity results")}>
           <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
             {loading && organizations.length === 0 ? (
               <Skeleton className="h-72" count={6} />
@@ -125,14 +137,26 @@ export const PublicDiscoveryView: React.FC = () => {
           </div>
           {!loading && organizations.length === 0 && (
             <div className="text-center py-16 text-gray-500 dark:text-gray-400">
-              No organizations match that search yet. Try a different keyword or
-              add a location filter.
+              {t(
+                "browse.results.empty",
+                "No organizations match that search yet. Try a different keyword or add a location filter.",
+              )}
             </div>
           )}
         </section>
       ) : (
         <FeaturedCharitiesCarousel />
       )}
+    </>
+  );
+
+  const main = (
+    <>
+      <DiscoveryTabs activeTab={activeTab} onTabChange={setActiveTab} />
+
+      {activeTab === "charities" && charitiesContent}
+      {activeTab === "causes" && <FeaturedCausesCarousel />}
+      {activeTab === "funds" && <FeaturedPortfolioFundsCarousel />}
     </>
   );
 

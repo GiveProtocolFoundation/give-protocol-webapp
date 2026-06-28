@@ -34,7 +34,7 @@ export function getAddressGradient(address: string): string {
 /**
  * Format address for display with truncation
  * @param address - The wallet address to format
- * @param variant - 'short' (6...4) or 'medium' (8...6)
+ * @param variant - 'short' (6...4) or 'medium' (8...6); ignored for addresses 12 chars or shorter
  * @returns Formatted address string
  */
 export function formatAddress(
@@ -42,7 +42,7 @@ export function formatAddress(
   variant: "short" | "medium" = "short",
 ): string {
   if (!address) return "";
-  if (address.length < 12) return address;
+  if (address.length <= 12) return address;
 
   if (variant === "short") {
     return `${address.slice(0, 6)}...${address.slice(-4)}`;

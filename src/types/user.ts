@@ -1,18 +1,21 @@
-import { UUID, Timestamp } from './common';
+import { UUID, Timestamp } from "./common";
 
+/** Base profile shared by all user types (donor, charity, admin). */
 export interface UserProfile {
   id: UUID;
   userId: UUID;
-  type: 'donor' | 'charity' | 'admin';
+  type: "donor" | "charity" | "admin";
   createdAt: Timestamp;
 }
 
+/** Extended profile for donor accounts, including giving preferences and totals. */
 export interface DonorProfile extends UserProfile {
   preferredCategories?: UUID[];
-  donationFrequency?: 'one-time' | 'monthly' | 'quarterly' | 'yearly';
+  donationFrequency?: "one-time" | "monthly" | "quarterly" | "yearly";
   totalDonated: number;
 }
 
+/** Extended profile for charity accounts, including description and balance information. */
 export interface CharityProfile extends UserProfile {
   name: string;
   description: string;
@@ -22,6 +25,7 @@ export interface CharityProfile extends UserProfile {
   availableBalance: number;
 }
 
+/** Per-user notification and privacy preferences. */
 export interface UserPreferences {
   id: UUID;
   userId: UUID;
@@ -41,6 +45,7 @@ export interface UserPreferences {
   };
 }
 
+/** A human-readable alias linked to a wallet address for a given user. */
 export interface WalletAlias {
   id: UUID;
   userId: UUID;

@@ -2,7 +2,6 @@
  * Tests for AppNavbar WCAG 2.4.3 focus management (GIV-109)
  * Verifies that keyboard focus moves correctly when the mobile menu opens/closes.
  */
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -36,7 +35,7 @@ describe("AppNavbar mobile menu focus management (WCAG 2.4.3 — GIV-109)", () =
       renderNavbar();
 
       const menuButton = screen.getByRole("button", { name: /open menu/i });
-      await act(async () => {
+      await act(() => {
         fireEvent.click(menuButton);
       });
 
@@ -55,11 +54,11 @@ describe("AppNavbar mobile menu focus management (WCAG 2.4.3 — GIV-109)", () =
 
       const menuButton = screen.getByRole("button", { name: /open menu/i });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.click(menuButton);
       });
 
-      await act(async () => {
+      await act(() => {
         fireEvent.keyDown(document, { key: "Escape" });
       });
 
@@ -75,7 +74,7 @@ describe("AppNavbar mobile menu focus management (WCAG 2.4.3 — GIV-109)", () =
       renderNavbar();
 
       const menuButton = screen.getByRole("button", { name: /open menu/i });
-      await act(async () => {
+      await act(() => {
         fireEvent.click(menuButton);
       });
 

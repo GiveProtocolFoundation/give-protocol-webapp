@@ -1,7 +1,12 @@
-import React from 'react';
-import { Clock, CheckCircle, XCircle, AlertTriangle } from 'lucide-react';
+import React from "react";
+import { Clock, CheckCircle, XCircle, AlertTriangle } from "lucide-react";
 
-type ValidationRequestStatus = 'pending' | 'approved' | 'rejected' | 'cancelled' | 'expired';
+type ValidationRequestStatus =
+  | "pending"
+  | "approved"
+  | "rejected"
+  | "cancelled"
+  | "expired";
 
 interface ValidationStatusBadgeProps {
   status: ValidationRequestStatus;
@@ -17,47 +22,54 @@ export const ValidationStatusBadge: React.FC<ValidationStatusBadgeProps> = ({
   status,
   daysRemaining,
 }) => {
+  /**
+   * Resolves the styling, icon, and label for the current validation status.
+   * @returns Badge presentation properties for the current status
+   */
   const getBadgeStyles = () => {
     switch (status) {
-      case 'pending':
+      case "pending":
         return {
-          bg: 'bg-amber-100',
-          text: 'text-amber-700',
+          bg: "bg-amber-100",
+          text: "text-amber-700",
           icon: <Clock className="h-3.5 w-3.5" />,
-          label: daysRemaining !== undefined ? `Pending (${daysRemaining}d left)` : 'Pending',
+          label:
+            daysRemaining !== undefined
+              ? `Pending (${daysRemaining}d left)`
+              : "Pending",
         };
-      case 'approved':
+      case "approved":
         return {
-          bg: 'bg-emerald-100',
-          text: 'text-emerald-700',
+          bg: "bg-emerald-100",
+          text: "text-emerald-700",
           icon: <CheckCircle className="h-3.5 w-3.5" />,
-          label: 'Approved',
+          label: "Approved",
         };
-      case 'rejected':
+      case "rejected":
         return {
-          bg: 'bg-red-100',
-          text: 'text-red-700',
+          bg: "bg-red-100",
+          text: "text-red-700",
           icon: <XCircle className="h-3.5 w-3.5" />,
-          label: 'Rejected',
+          label: "Rejected",
         };
-      case 'cancelled':
+      case "cancelled":
         return {
-          bg: 'bg-gray-100',
-          text: 'text-gray-600',
+          bg: "bg-gray-100",
+          text: "text-gray-600",
           icon: <XCircle className="h-3.5 w-3.5" />,
-          label: 'Cancelled',
+          label: "Cancelled",
         };
-      case 'expired':
+      case "expired":
         return {
-          bg: 'bg-gray-100',
-          text: 'text-gray-500',
+          bg: "bg-gray-100",
+          text: "text-gray-500",
           icon: <AlertTriangle className="h-3.5 w-3.5" />,
-          label: 'Expired',
+          label: "Expired",
         };
       default:
         return {
-          bg: 'bg-gray-100',
-          text: 'text-gray-600',
+          bg: "bg-gray-100",
+          text: "text-gray-600",
           icon: null,
           label: status,
         };

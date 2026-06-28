@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -113,7 +112,7 @@ describe("VerificationStatusBanner", () => {
         expect(link).toBeInTheDocument();
         expect(link.closest("a")).toHaveAttribute(
           "href",
-          "mailto:support@giveprotocol.org",
+          "mailto:support@giveprotocol.io",
         );
       });
     });
@@ -168,7 +167,7 @@ describe("VerificationStatusBanner", () => {
         expect(link).toBeInTheDocument();
         expect(link.closest("a")).toHaveAttribute(
           "href",
-          "mailto:support@giveprotocol.org",
+          "mailto:support@giveprotocol.io",
         );
       });
     });

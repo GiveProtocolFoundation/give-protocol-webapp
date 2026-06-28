@@ -3,7 +3,7 @@
  * Use these as starting points when creating new test utilities
  */
 
-import type { ReactNode } from 'react';
+import type { ReactNode } from "react";
 
 // Template for component mock props
 export interface MockComponentTemplate {
@@ -27,6 +27,10 @@ export interface MockOverridesTemplate {
   [methodName: string]: jest.Mock | Record<string, unknown>;
 }
 
+/**
+ * Reference snippet of example usages for {@link MockComponentTemplate},
+ * {@link MockDataTemplate}, and the mock factory pattern. Imported by docs/tests as needed.
+ */
 // Example usage documentation
 export const MOCK_TEMPLATE_EXAMPLES = `
 // Example 1: Creating a typed mock component

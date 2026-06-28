@@ -141,7 +141,12 @@ const AccountDropdown: React.FC<AccountDropdownProps> = ({
   );
 };
 
-// Helper function to check if chain ID is supported (kept for potential future use)
+/**
+ * Reports whether the given chain ID is in the application's supported chain list.
+ * Currently unused, but retained for upcoming UI gating around unsupported networks.
+ * @param chainId - The numeric or hex chain ID to check.
+ * @returns `true` if the chain ID maps to a value in {@link CHAIN_IDS}.
+ */
 function _isSupportedChainId(chainId: number | string): boolean {
   return Object.values(CHAIN_IDS).includes(Number(chainId));
 }

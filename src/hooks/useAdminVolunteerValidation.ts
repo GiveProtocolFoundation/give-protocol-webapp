@@ -12,6 +12,7 @@ import type {
   AdminValidationRequestFilters,
   AdminValidationRequestResult,
   AdminValidationStats,
+  VolunteerHoursEmailContext,
 } from "../types/adminVolunteerValidation";
 
 const INITIAL_RESULT: AdminValidationRequestResult = {
@@ -89,10 +90,11 @@ export function useAdminVolunteerValidation() {
     async (
       input: AdminOverrideValidationInput,
       currentFilters: AdminValidationRequestFilters = {},
+      emailContext?: VolunteerHoursEmailContext,
     ) => {
       try {
         setOverriding(true);
-        const success = await overrideValidation(input);
+        const success = await overrideValidation(input, emailContext);
         if (!success) {
           showToast(
             "error",

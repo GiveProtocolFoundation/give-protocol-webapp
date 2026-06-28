@@ -19,7 +19,10 @@ import type { UnifiedAccount, UnifiedTransactionRequest } from "@/types/wallet";
 interface EIP1193Provider {
   request: (_args: { method: string; params?: unknown[] }) => Promise<unknown>;
   on?: (_event: string, _handler: (..._args: unknown[]) => void) => void;
-  removeListener?: (_event: string, _handler: (..._args: unknown[]) => void) => void;
+  removeListener?: (
+    _event: string,
+    _handler: (..._args: unknown[]) => void,
+  ) => void;
 }
 
 /**
@@ -36,7 +39,9 @@ export const EVM_ERROR_CODES = {
  * @param provider - Provider to check
  * @returns True if provider is EIP-1193 compliant
  */
-export function isEIP1193Provider(provider: unknown): provider is EIP1193Provider {
+export function isEIP1193Provider(
+  provider: unknown,
+): provider is EIP1193Provider {
   return (
     typeof provider === "object" &&
     provider !== null &&
@@ -69,6 +74,10 @@ export class EVMAdapter {
   private currentChainId: number | null = null;
   private connectedAddress: string | null = null;
 
+  /**
+   * Wraps a raw EIP-1193 provider; ethers wrappers are created lazily on connect.
+   * @param provider - The injected EIP-1193 provider to adapt.
+   */
   constructor(provider: EIP1193Provider) {
     this.rawProvider = provider;
   }
@@ -115,7 +124,7 @@ export class EVMAdapter {
 
       // Create ethers provider
       this.ethersProvider = new ethers.BrowserProvider(
-        this.rawProvider as ethers.Eip1193Provider
+        this.rawProvider as ethers.Eip1193Provider,
       );
 
       // Get current network
@@ -127,7 +136,7 @@ export class EVMAdapter {
         await this.switchChain(targetChainId);
         // Recreate provider after chain switch
         this.ethersProvider = new ethers.BrowserProvider(
-          this.rawProvider as ethers.Eip1193Provider
+          this.rawProvider as ethers.Eip1193Provider,
         );
         const newNetwork = await this.ethersProvider.getNetwork();
         this.currentChainId = Number(newNetwork.chainId);
@@ -153,12 +162,13 @@ export class EVMAdapter {
   /**
    * Disconnect from the provider
    */
-  async disconnect(): Promise<void> {
+  disconnect(): Promise<void> {
     this.ethersProvider = null;
     this.ethersSigner = null;
     this.currentChainId = null;
     this.connectedAddress = null;
     Logger.info("EVM adapter disconnected");
+    return Promise.resolve();
   }
 
   /**
@@ -213,7 +223,9 @@ export class EVMAdapter {
       // User rejected
       if (hasErrorCode(error, EVM_ERROR_CODES.USER_REJECTED)) {
         const config = getEVMChainConfig(chainId);
-        throw new Error(`Please switch to ${config?.name || "the selected network"}`);
+        throw new Error(
+          `Please switch to ${config?.name || "the selected network"}`,
+        );
       }
 
       throw error;
@@ -257,7 +269,8 @@ export class EVMAdapter {
       throw new Error("EVM signer not available");
     }
 
-    const messageStr = typeof message === "string" ? message : ethers.hexlify(message);
+    const messageStr =
+      typeof message === "string" ? message : ethers.hexlify(message);
     const signature = await this.ethersSigner.signMessage(messageStr);
     Logger.info("EVM message signed");
     return signature;
@@ -273,7 +286,7 @@ export class EVMAdapter {
   setupEventListeners(
     onAccountsChanged: (_accounts: string[]) => void,
     onChainChanged: (_chainId: string) => void,
-    onDisconnect: () => void
+    onDisconnect: () => void,
   ): () => void {
     if (!this.rawProvider.on) {
       return () => {

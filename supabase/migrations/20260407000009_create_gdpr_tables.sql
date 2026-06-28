@@ -34,6 +34,7 @@ CREATE INDEX IF NOT EXISTS idx_deletion_audit_log_user_id
 
 ALTER TABLE deletion_audit_log ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "service_role_only" ON deletion_audit_log;
 CREATE POLICY "service_role_only" ON deletion_audit_log
   USING (auth.role() = 'service_role');
 
@@ -71,13 +72,16 @@ CREATE INDEX IF NOT EXISTS idx_export_requests_status
 -- RLS: Users can only see and manage their own export requests.
 ALTER TABLE export_requests ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view own export requests" ON export_requests;
 CREATE POLICY "Users can view own export requests" ON export_requests
   FOR SELECT USING (user_id = (SELECT auth.uid()));
 
+DROP POLICY IF EXISTS "Users can insert own export requests" ON export_requests;
 CREATE POLICY "Users can insert own export requests" ON export_requests
   FOR INSERT WITH CHECK (user_id = (SELECT auth.uid()));
 
 -- Service role can update status/path during async processing
+DROP POLICY IF EXISTS "Service role full access" ON export_requests;
 CREATE POLICY "Service role full access" ON export_requests
   USING (auth.role() = 'service_role')
   WITH CHECK (auth.role() = 'service_role');
@@ -113,16 +117,20 @@ CREATE INDEX IF NOT EXISTS idx_erasure_requests_pending_deletion
 
 ALTER TABLE erasure_requests ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "Users can view own erasure requests" ON erasure_requests;
 CREATE POLICY "Users can view own erasure requests" ON erasure_requests
   FOR SELECT USING (user_id = (SELECT auth.uid()));
 
+DROP POLICY IF EXISTS "Users can insert own erasure requests" ON erasure_requests;
 CREATE POLICY "Users can insert own erasure requests" ON erasure_requests
   FOR INSERT WITH CHECK (user_id = (SELECT auth.uid()));
 
+DROP POLICY IF EXISTS "Users can cancel own erasure requests" ON erasure_requests;
 CREATE POLICY "Users can cancel own erasure requests" ON erasure_requests
   FOR UPDATE USING (user_id = (SELECT auth.uid()))
   WITH CHECK (status = 'cancelled');
 
+DROP POLICY IF EXISTS "Service role full access on erasure_requests" ON erasure_requests;
 CREATE POLICY "Service role full access on erasure_requests" ON erasure_requests
   USING (auth.role() = 'service_role')
   WITH CHECK (auth.role() = 'service_role');

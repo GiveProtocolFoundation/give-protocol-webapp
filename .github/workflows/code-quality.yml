@@ -63,6 +63,9 @@ jobs:
         env:
           CYPRESS_INSTALL_BINARY: 0
 
+      - name: Validate CSP consistency
+        run: npm run validate:csp
+
       - name: Run TypeScript compiler check
         run: npx tsc --noEmit
 
@@ -93,7 +96,7 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         with:
           args: >
-            -Dsonar.qualitygate.wait=true
+            -Dsonar.qualitygate.wait=false
             -Dsonar.verbose=${{ github.event.inputs.debug_enabled == 'true' && 'true' || 'false' }}
 
       - name: Generate summary

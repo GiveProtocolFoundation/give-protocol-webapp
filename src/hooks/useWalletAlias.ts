@@ -220,6 +220,11 @@ export function useWalletAlias() {
     }
   }, [user, fetchUserAliases]);
 
+  /**
+   * Sets or updates the alias for the connected wallet address.
+   * @param newAlias - Desired alias string
+   * @returns True on success, false if validation fails or alias is taken
+   */
   const setWalletAlias = async (newAlias: string) => {
     if (!user) {
       setError("Please sign in to set a wallet alias");
@@ -283,6 +288,11 @@ export function useWalletAlias() {
     }
   };
 
+  /**
+   * Deletes a wallet alias by its ID.
+   * @param aliasId - ID of the alias record to delete
+   * @returns True on success, false if the user is not authenticated
+   */
   const deleteWalletAlias = async (aliasId: string) => {
     if (!user) {
       setError("User not connected");

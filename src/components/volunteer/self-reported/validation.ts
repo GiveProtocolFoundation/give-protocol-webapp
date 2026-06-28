@@ -8,6 +8,7 @@ import {
 
 type OrgMode = "verified" | "other";
 
+/** Field-level validation errors for the self-reported hours form. */
 export interface ValidationErrors {
   activityDate?: string;
   hours?: string;

@@ -135,17 +135,17 @@ export const WalletAliasSettings: React.FC = () => {
           <Wallet className="h-5 w-5 text-gray-500 mr-2" />
           <h2 className="text-xl font-semibold text-gray-900">Wallet Alias</h2>
         </div>
-        <div className="bg-blue-50 border border-blue-200 rounded-md p-4 mb-4 flex items-start">
-          <AlertCircle className="h-5 w-5 text-blue-500 mt-0.5 mr-2 flex-shrink-0" />
-          <div>
-            <p className="text-sm font-medium text-blue-900">
-              Wallet Not Connected
-            </p>
-            <p className="text-sm text-blue-700 mt-1">
+        <div className="bg-emerald-50/40 border-l-2 border-emerald-500 border-y border-r border-emerald-100 rounded-r-md py-2.5 pl-4 pr-3 flex items-center gap-3">
+          <Wallet className="h-4 w-4 text-emerald-700 shrink-0" />
+          <p className="text-sm text-gray-700">
+            <span className="font-medium text-gray-900">
+              Wallet not connected.
+            </span>{" "}
+            <span className="text-gray-500">
               Connect your wallet to set a public alias that will be displayed
               on the contribution tracker.
-            </p>
-          </div>
+            </span>
+          </p>
         </div>
       </Card>
     );

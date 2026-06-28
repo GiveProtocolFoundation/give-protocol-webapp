@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -367,11 +366,16 @@ describe("AdminReports", () => {
     await waitFor(() => {
       expect(screen.getByText("Action")).toBeInTheDocument();
     });
-    expect(screen.getByText("Entity")).toBeInTheDocument();
+    expect(screen.getByText("Details")).toBeInTheDocument();
     expect(screen.getByText("Entity ID")).toBeInTheDocument();
     expect(screen.getByText("Admin")).toBeInTheDocument();
-    expect(screen.getByText("charity status change")).toBeInTheDocument();
-    expect(screen.getByText("user status change")).toBeInTheDocument();
+    // Action text appears both in filter dropdown options and table rows
+    expect(
+      screen.getAllByText("charity status change").length,
+    ).toBeGreaterThanOrEqual(1);
+    expect(
+      screen.getAllByText("user status change").length,
+    ).toBeGreaterThanOrEqual(1);
   });
 
   it("audit trail tab shows pagination when multiple pages", async () => {
@@ -476,6 +480,76 @@ describe("AdminReports", () => {
       "audit-csv",
       expect.stringContaining("audit-trail-"),
     );
+  });
+
+  it("audit trail tab filtering by view_pii passes actionType to getAdminAuditLog", async () => {
+    mockGetAdminAuditLog.mockResolvedValue({
+      entries: [
+        {
+          id: "audit-pii-00000001-0000-0000-0000-000000000001",
+          actionType: "view_pii" as const,
+          entityType: "user" as const,
+          entityId: "user-0000001-0000-0000-0000-000000000001",
+          adminUserId: "admin-00000001-0000-0000-0000-000000000001",
+          oldValues: null,
+          newValues: null,
+          ipAddress: null,
+          createdAt: "2025-03-17T09:00:00Z",
+        },
+      ],
+      totalCount: 1,
+      page: 1,
+      limit: 50,
+      totalPages: 1,
+    });
+    renderReports();
+    await waitFor(() => {
+      expect(screen.getByText("Audit Trail")).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText("Audit Trail"));
+    await waitFor(() => {
+      expect(screen.getByLabelText("Filter by action")).toBeInTheDocument();
+    });
+    fireEvent.change(screen.getByLabelText("Filter by action"), {
+      target: { value: "view_pii" },
+    });
+    await waitFor(() => {
+      expect(mockGetAdminAuditLog).toHaveBeenCalledWith(
+        expect.objectContaining({ actionType: "view_pii" }),
+      );
+    });
+  });
+
+  it("audit trail tab renders view_pii_list row with filter-keys metadata", async () => {
+    mockGetAdminAuditLog.mockResolvedValue({
+      entries: [
+        {
+          id: "audit-pii-list-0000001-0000-0000-0000-000000000001",
+          actionType: "view_pii_list" as const,
+          entityType: "user" as const,
+          entityId: "",
+          adminUserId: "admin-00000001-0000-0000-0000-000000000001",
+          oldValues: null,
+          newValues: { page: 2, filter_keys: ["status", "role"] },
+          ipAddress: null,
+          createdAt: "2025-03-17T10:00:00Z",
+        },
+      ],
+      totalCount: 1,
+      page: 1,
+      limit: 50,
+      totalPages: 1,
+    });
+    renderReports();
+    await waitFor(() => {
+      expect(screen.getByText("Audit Trail")).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText("Audit Trail"));
+    await waitFor(() => {
+      expect(
+        screen.getByText(/viewed user list.*page 2.*filters: status, role/),
+      ).toBeInTheDocument();
+    });
   });
 
   // ─── Platform Health Tab ──────────────────────────────────────────────────

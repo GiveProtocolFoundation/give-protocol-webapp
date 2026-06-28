@@ -10,7 +10,9 @@ import Register from "@/pages/Register";
 import Auth from "@/pages/Auth";
 
 // Lazy load unified auth routes
-const AuthSignup = lazy(() => import("@/pages/AuthSignup"));
+const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
+const RegistrationSuccess = lazy(() => import("@/pages/RegistrationSuccess"));
+const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
 
 // Lazy load other routes
 const Home = lazy(() => import("@/pages/Home"));
@@ -49,6 +51,12 @@ const CreateOpportunity = lazy(
   () => import("@/pages/charity/CreateOpportunity"),
 );
 const CreateCause = lazy(() => import("@/pages/charity/CreateCause"));
+const ConfirmWalletDesignation = lazy(
+  () => import("@/pages/charity/ConfirmWalletDesignation"),
+);
+const CancelWalletChange = lazy(
+  () => import("@/pages/charity/CancelWalletChange"),
+);
 const NotFound = lazy(() => import("@/pages/NotFound"));
 const VerifyContribution = lazy(
   () => import("@/pages/volunteer/VerifyContribution"),
@@ -91,6 +99,13 @@ const AdminContentModeration = lazy(
   () => import("@/pages/admin/AdminContentModeration"),
 );
 const AdminReports = lazy(() => import("@/pages/admin/AdminReports"));
+const AdminPortfolioFunds = lazy(
+  () => import("@/pages/admin/AdminPortfolioFunds"),
+);
+const AdminPlatformNews = lazy(() => import("@/pages/admin/AdminPlatformNews"));
+const AdminCharityRequests = lazy(
+  () => import("@/pages/admin/AdminCharityRequests"),
+);
 const _SimpleTokenCheck = lazy(() => import("@/pages/admin/SimpleTokenCheck"));
 
 // Lazy load cause pages
@@ -103,6 +118,7 @@ const EducationAccessProgram = lazy(
 const ReforestationProject = lazy(
   () => import("@/pages/causes/ReforestationProject"),
 );
+const CauseDetail = lazy(() => import("@/pages/causes/CauseDetail"));
 
 /** Full-screen centered loading spinner used as a Suspense fallback. */
 const LoadingFallback = () => (
@@ -184,6 +200,18 @@ export function AppRoutes() {
               <RouteTransition>
                 <Suspense fallback={<LoadingFallback />}>
                   <AdminCharityManagement />
+                </Suspense>
+              </RouteTransition>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/charity-requests"
+          element={
+            <ProtectedRoute requiredRoles={["admin"]}>
+              <RouteTransition>
+                <Suspense fallback={<LoadingFallback />}>
+                  <AdminCharityRequests />
                 </Suspense>
               </RouteTransition>
             </ProtectedRoute>
@@ -274,6 +302,30 @@ export function AppRoutes() {
           }
         />
         <Route
+          path="/admin/portfolio-funds"
+          element={
+            <ProtectedRoute requiredRoles={["admin"]}>
+              <RouteTransition>
+                <Suspense fallback={<LoadingFallback />}>
+                  <AdminPortfolioFunds />
+                </Suspense>
+              </RouteTransition>
+            </ProtectedRoute>
+          }
+        />
+        <Route
+          path="/admin/platform-news"
+          element={
+            <ProtectedRoute requiredRoles={["admin"]}>
+              <RouteTransition>
+                <Suspense fallback={<LoadingFallback />}>
+                  <AdminPlatformNews />
+                </Suspense>
+              </RouteTransition>
+            </ProtectedRoute>
+          }
+        />
+        <Route
           path="/admin/*"
           element={
             <ProtectedRoute requiredRoles={["admin"]}>
@@ -313,6 +365,16 @@ export function AppRoutes() {
             <RouteTransition>
               <Suspense fallback={<LoadingFallback />}>
                 <ReforestationProject />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        <Route
+          path="/causes/:id"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <CauseDetail />
               </Suspense>
             </RouteTransition>
           }
@@ -448,6 +510,31 @@ export function AppRoutes() {
                 </Suspense>
               </RouteTransition>
             </ProtectedRoute>
+          }
+        />
+        {/*
+          Public route (no auth) — landing page for the wallet-designation
+          confirmation magic-link emailed to the charity's authorized signer.
+        */}
+        <Route
+          path="/charity-portal/confirm-wallet"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <ConfirmWalletDesignation />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        {/* Public route — landing page for the cancel-pending-change magic link. */}
+        <Route
+          path="/charity-portal/cancel-wallet-change"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <CancelWalletChange />
+              </Suspense>
+            </RouteTransition>
           }
         />
 
@@ -619,17 +706,41 @@ export function AppRoutes() {
         />
         {/* Unified auth routes */}
         <Route path="/auth" element={<Auth />} />
+        <Route path="/auth/signup" element={<Register />} />
         <Route
-          path="/auth/signup"
+          path="/auth/callback"
           element={
             <RouteTransition>
               <Suspense fallback={<LoadingFallback />}>
-                <AuthSignup />
+                <AuthCallback />
               </Suspense>
             </RouteTransition>
           }
         />
-        <Route path="/auth/charity" element={<Register />} />
+        <Route
+          path="/auth/registration-success"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <RegistrationSuccess />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        <Route
+          path="/auth/reset-password"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <ResetPassword />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        <Route
+          path="/auth/charity"
+          element={<Navigate to="/auth/signup?type=charity" replace />}
+        />
 
         {/* Legacy auth redirects */}
         <Route path="/login" element={<Navigate to="/auth" replace />} />

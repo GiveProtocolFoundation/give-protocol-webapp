@@ -55,6 +55,10 @@ export class SecurityManager {
   private readonly highRiskPatterns: string[];
   private domainInitializationCount = 0;
 
+  /**
+   * Private constructor that wires up the CSRF, sanitizer, and rate-limiter helpers and
+   * preloads the trusted-domain list, security headers, and high-risk pattern catalog.
+   */
   private constructor() {
     this.csrf = CSRFProtection.getInstance();
     this.sanitizer = InputSanitizer.getInstance();
@@ -83,7 +87,7 @@ export class SecurityManager {
     return [
       ENV.APP_DOMAIN,
       `app.${ENV.APP_DOMAIN}`,
-      "etqbojasfmpieigeefdj.supabase.co",
+      "lhbyfidtlhojnrewpstp.supabase.co",
       "westend-rpc.polkadot.io",
       "api.giveprotocol.io",
       "images.unsplash.com",
@@ -101,22 +105,54 @@ export class SecurityManager {
     ];
   }
 
-  /** Constructs the Content-Security-Policy and other security headers */
+  /**
+   * Constructs the Content-Security-Policy and other security headers.
+   * This MUST mirror the canonical CSP in index.html. Validated by scripts/validate-csp.mjs.
+   */
   private initializeSecurityHeaders(): SecurityHeaders {
-    const trustedDomainsList = this.trustedDomains.join(" ");
+    const scriptSrcDomains = [
+      "https://lhbyfidtlhojnrewpstp.supabase.co",
+      "https://*.sentry.io",
+      "https://translate.google.com",
+      "https://translate.googleapis.com",
+      "https://www.googletagmanager.com",
+      "https://www.google-analytics.com",
+      "https://secure.helcim.app",
+      "https://api.helcim.com",
+      "https://www.paypal.com",
+      "https://www.paypalobjects.com",
+    ].join(" ");
+
+    const connectSrcDomains = this.trustedDomains
+      .map((d) => `https://${d}`)
+      .concat([
+        "ws://localhost:*",
+        "wss://*.supabase.co",
+        "https://*.sentry.io",
+        "https://translate.googleapis.com",
+        "https://www.google-analytics.com",
+        "https://analytics.google.com",
+        "https://www.paypal.com",
+        "https://api-m.paypal.com",
+        "https://api-m.sandbox.paypal.com",
+      ])
+      .join(" ");
 
     return {
       "Content-Security-Policy": `
         default-src 'self';
-        script-src 'self' 'wasm-unsafe-eval' 'sha256-3jmXcBtFOTq+jrqutfpt36T0J4Qm1z+aXPli5zNE1Cc=' 'sha256-1A5C0PgHbkU0Dcl68Pe/TR1vV/k5AMjAVNdjxLJHUaE=' 'sha256-sT0ykMJAN6ofGI+ID++kG8erAOJfF/gVN1p9IN2Wc+U=' ${trustedDomainsList};
-        style-src 'self' 'unsafe-inline';
+        script-src 'self' 'wasm-unsafe-eval' 'sha256-FE0b/aIu3qmhPRVUXn/+TXDCpLi5oRzW6cwcyknX2PU=' ${scriptSrcDomains};
+        style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://fonts.googleapis.com;
         img-src 'self' data: https: blob:;
-        font-src 'self';
-        connect-src 'self' ${trustedDomainsList};
-        frame-ancestors 'none';
-        form-action 'self';
+        font-src 'self' https://fonts.gstatic.com;
+        connect-src 'self' ${connectSrcDomains};
+        frame-src 'self' https://translate.google.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://www.sandbox.paypal.com;
+        object-src 'none';
         base-uri 'self';
+        form-action 'self';
         upgrade-insecure-requests;
+        report-uri /api/csp-report;
+        report-to csp-endpoint;
       `
         .replaceAll(/\s+/g, " ")
         .trim(),
@@ -161,6 +197,11 @@ export class SecurityManager {
     this.monitorNetworkRequests();
   }
 
+  /**
+   * Inspects a window-level error event for suspicious payloads (XSS markers, `javascript:` URLs,
+   * inline `<script>` references) and escalates matches via {@link SecurityManager.handleSuspiciousActivity}.
+   * @param event - The error event captured from the global error listener.
+   */
   private handleError(event: ErrorEvent): void {
     // Using encoded strings to avoid triggering security scanners
     const suspiciousPatterns = [
@@ -306,9 +347,9 @@ export class SecurityManager {
    * @param req - The HTTP request to validate
    * @returns Promise that resolves to true if the request passes all security checks
    */
-  public async validateRequest(req: Request): Promise<boolean> {
+  public validateRequest(req: Request): boolean {
     return (
-      (await this.csrf.validate(req.headers.get("X-CSRF-Token") || "")) &&
+      this.csrf.validate(req.headers.get("X-CSRF-Token") || "") &&
       !this.rateLimiter.isRateLimited(
         req.headers.get("X-Forwarded-For") || "unknown",
       ) &&

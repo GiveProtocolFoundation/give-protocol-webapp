@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -317,9 +316,7 @@ describe("AdminDonorManagement", () => {
         target: { value: "Suspicious behavior" },
       });
 
-      fireEvent.click(
-        screen.getByRole("button", { name: "Suspend Donor" }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: "Suspend Donor" }));
       await waitFor(() => {
         expect(mockSuspendDonor).toHaveBeenCalledWith(
           "donor-1",
@@ -353,9 +350,7 @@ describe("AdminDonorManagement", () => {
         ).toBeInTheDocument();
       });
 
-      fireEvent.click(
-        screen.getByRole("button", { name: "Reinstate Donor" }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: "Reinstate Donor" }));
       await waitFor(() => {
         expect(mockReinstateDonor).toHaveBeenCalledWith(
           "donor-2",
@@ -385,9 +380,7 @@ describe("AdminDonorManagement", () => {
         target: { value: "Fraud detected" },
       });
 
-      fireEvent.click(
-        screen.getByRole("button", { name: "Ban Donor" }),
-      );
+      fireEvent.click(screen.getByRole("button", { name: "Ban Donor" }));
       await waitFor(() => {
         expect(mockBanDonor).toHaveBeenCalledWith(
           "donor-1",

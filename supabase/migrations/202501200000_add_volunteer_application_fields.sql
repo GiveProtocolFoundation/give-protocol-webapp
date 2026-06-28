@@ -1,13 +1,19 @@
 -- Add missing fields to volunteer_applications table to match form requirements
 -- This migration adds fields for skills, commitment type, experience, and other application data
 
--- Rename phone to phone_number for consistency
-ALTER TABLE volunteer_applications
-RENAME COLUMN phone TO phone_number;
+-- Rename phone to phone_number for consistency (idempotent)
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'volunteer_applications' AND column_name = 'phone') THEN
+    ALTER TABLE volunteer_applications RENAME COLUMN phone TO phone_number;
+  END IF;
+END $$;
 
--- Rename message to experience for clarity
-ALTER TABLE volunteer_applications
-RENAME COLUMN message TO experience;
+-- Rename message to experience for clarity (idempotent)
+DO $$ BEGIN
+  IF EXISTS (SELECT 1 FROM information_schema.columns WHERE table_name = 'volunteer_applications' AND column_name = 'message') THEN
+    ALTER TABLE volunteer_applications RENAME COLUMN message TO experience;
+  END IF;
+END $$;
 
 -- Add new columns for structured application data
 ALTER TABLE volunteer_applications

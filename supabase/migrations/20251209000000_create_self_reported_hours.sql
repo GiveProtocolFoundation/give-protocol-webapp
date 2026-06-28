@@ -143,18 +143,21 @@ ALTER TABLE validation_requests ENABLE ROW LEVEL SECURITY;
 -- RLS Policies for self_reported_hours
 
 -- Volunteers can insert their own records
+DROP POLICY IF EXISTS "Volunteers can insert own self-reported hours" ON self_reported_hours;
 CREATE POLICY "Volunteers can insert own self-reported hours" ON self_reported_hours
   FOR INSERT
   TO authenticated
   WITH CHECK ((SELECT auth.uid()) = volunteer_id);
 
 -- Volunteers can read their own records
+DROP POLICY IF EXISTS "Volunteers can read own self-reported hours" ON self_reported_hours;
 CREATE POLICY "Volunteers can read own self-reported hours" ON self_reported_hours
   FOR SELECT
   TO authenticated
   USING ((SELECT auth.uid()) = volunteer_id);
 
 -- Volunteers can update their own unvalidated records
+DROP POLICY IF EXISTS "Volunteers can update own unvalidated records" ON self_reported_hours;
 CREATE POLICY "Volunteers can update own unvalidated records" ON self_reported_hours
   FOR UPDATE
   TO authenticated
@@ -164,6 +167,7 @@ CREATE POLICY "Volunteers can update own unvalidated records" ON self_reported_h
   );
 
 -- Volunteers can delete their own non-validated records
+DROP POLICY IF EXISTS "Volunteers can delete own non-validated records" ON self_reported_hours;
 CREATE POLICY "Volunteers can delete own non-validated records" ON self_reported_hours
   FOR DELETE
   TO authenticated
@@ -173,6 +177,7 @@ CREATE POLICY "Volunteers can delete own non-validated records" ON self_reported
   );
 
 -- Organizations can read records requesting their validation
+DROP POLICY IF EXISTS "Organizations can read records for validation" ON self_reported_hours;
 CREATE POLICY "Organizations can read records for validation" ON self_reported_hours
   FOR SELECT
   TO authenticated
@@ -183,6 +188,7 @@ CREATE POLICY "Organizations can read records for validation" ON self_reported_h
   );
 
 -- Organizations can update validation status of their records
+DROP POLICY IF EXISTS "Organizations can update validation status" ON self_reported_hours;
 CREATE POLICY "Organizations can update validation status" ON self_reported_hours
   FOR UPDATE
   TO authenticated
@@ -195,12 +201,14 @@ CREATE POLICY "Organizations can update validation status" ON self_reported_hour
 -- RLS Policies for validation_requests
 
 -- Volunteers can read their own validation requests
+DROP POLICY IF EXISTS "Volunteers can read own validation requests" ON validation_requests;
 CREATE POLICY "Volunteers can read own validation requests" ON validation_requests
   FOR SELECT
   TO authenticated
   USING ((SELECT auth.uid()) = volunteer_id);
 
 -- Volunteers can cancel their own pending requests
+DROP POLICY IF EXISTS "Volunteers can update own pending requests" ON validation_requests;
 CREATE POLICY "Volunteers can update own pending requests" ON validation_requests
   FOR UPDATE
   TO authenticated
@@ -210,6 +218,7 @@ CREATE POLICY "Volunteers can update own pending requests" ON validation_request
   );
 
 -- Organizations can read validation requests for their org
+DROP POLICY IF EXISTS "Organizations can read validation requests" ON validation_requests;
 CREATE POLICY "Organizations can read validation requests" ON validation_requests
   FOR SELECT
   TO authenticated
@@ -220,6 +229,7 @@ CREATE POLICY "Organizations can read validation requests" ON validation_request
   );
 
 -- Organizations can update validation requests for their org
+DROP POLICY IF EXISTS "Organizations can respond to validation requests" ON validation_requests;
 CREATE POLICY "Organizations can respond to validation requests" ON validation_requests
   FOR UPDATE
   TO authenticated
@@ -230,6 +240,7 @@ CREATE POLICY "Organizations can respond to validation requests" ON validation_r
   );
 
 -- System can insert validation requests (via service)
+DROP POLICY IF EXISTS "Authenticated users can insert validation requests" ON validation_requests;
 CREATE POLICY "Authenticated users can insert validation requests" ON validation_requests
   FOR INSERT
   TO authenticated

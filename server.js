@@ -14,8 +14,84 @@ const app = express();
 // Parse cookies
 app.use(cookieParser());
 
-// Parse JSON bodies for RPC proxy
-app.use(express.json());
+// Parse JSON bodies for RPC proxy and CSP reports
+app.use(
+  express.json({
+    type: [
+      "application/json",
+      "application/csp-report",
+      "application/reports+json",
+    ],
+  }),
+);
+
+// --- CSP violation report collector (TT-F1 / GIV-328) ---
+const CSP_HIGH_RISK_DIRECTIVES = new Set([
+  "script-src",
+  "script-src-elem",
+  "script-src-attr",
+  "frame-src",
+  "object-src",
+  "base-uri",
+]);
+const CSP_EXTENSION_RE = /^(chrome|moz|safari|ms-browser)-extension:\/\//;
+
+app.post("/api/csp-report", (req, res) => {
+  const raw = req.body;
+  // Normalise legacy report-uri and Reporting API v1 formats
+  const legacy = raw?.["csp-report"];
+  const modern = raw?.type === "csp-violation" ? raw.body : null;
+  const report = legacy
+    ? {
+        documentUri: legacy["document-uri"] ?? "",
+        directive:
+          legacy["effective-directive"] ?? legacy["violated-directive"] ?? "",
+        blockedUri: legacy["blocked-uri"] ?? "",
+        sourceFile: legacy["source-file"] ?? "",
+      }
+    : modern
+      ? {
+          documentUri: modern.documentURL ?? raw.url ?? "",
+          directive:
+            modern.effectiveDirective ?? modern.violatedDirective ?? "",
+          blockedUri: modern.blockedURL ?? "",
+          sourceFile: modern.sourceFile ?? "",
+        }
+      : null;
+
+  if (!report) {
+    res.status(204).end();
+    return;
+  }
+
+  // Drop browser-extension noise
+  if (
+    CSP_EXTENSION_RE.test(report.blockedUri) ||
+    CSP_EXTENSION_RE.test(report.sourceFile)
+  ) {
+    res.status(204).end();
+    return;
+  }
+
+  const isHighRisk = CSP_HIGH_RISK_DIRECTIVES.has(report.directive);
+  const entry = {
+    event: "csp_violation",
+    ts: new Date().toISOString(),
+    ...report,
+    highRisk: isHighRisk,
+  };
+
+  if (isHighRisk) {
+    console.error(
+      `[CSP-ALERT] ${report.directive} blocked ${report.blockedUri} on ${report.documentUri}`,
+    );
+    console.error(JSON.stringify(entry));
+  } else {
+    console.log(JSON.stringify(entry));
+  }
+
+  res.status(204).end();
+});
 
 // Rate limiting for all routes
 const limiter = rateLimit({

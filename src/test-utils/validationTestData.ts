@@ -163,12 +163,16 @@ export const testInvalidCases = (
   });
 };
 
+/** Valid email samples kept for backward compatibility with older test files. */
 // Legacy exports for backward compatibility
 export const validEmailCases = validationTestCases.email.valid;
+/** Invalid email samples kept for backward compatibility, flattened to plain string values. */
 export const invalidEmailCases = validationTestCases.email.invalid.map(
   (item) => (typeof item === "object" ? item.value : item),
 );
+/** Valid password samples kept for backward compatibility with older test files. */
 export const validPasswordCases = validationTestCases.password.valid;
+/** Invalid password samples kept for backward compatibility, flattened to plain string values. */
 export const invalidPasswordCases = validationTestCases.password.invalid.map(
   (item) => (typeof item === "object" ? item.value : item),
 );

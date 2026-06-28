@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 import { Button } from "@/components/ui/Button";
 import { RejectionReasonSelect } from "./RejectionReasonSelect";
 import {
@@ -59,6 +60,7 @@ function ActivityDetailField({
 export const ValidationResponseModal: React.FC<
   ValidationResponseModalProps
 > = ({ item, isOpen, onClose, onApprove, onReject }) => {
+  const { t } = useTranslation();
   const [mode, setMode] = useState<"view" | "reject">("view");
   const [rejectionReason, setRejectionReason] = useState<RejectionReason | "">(
     "",
@@ -93,7 +95,7 @@ export const ValidationResponseModal: React.FC<
 
   const handleConfirmReject = useCallback(async () => {
     if (!rejectionReason) {
-      setError("Please select a rejection reason");
+      setError(t("modal.validation.selectReasonError"));
       return;
     }
 
@@ -110,7 +112,7 @@ export const ValidationResponseModal: React.FC<
     } finally {
       setProcessing(false);
     }
-  }, [item.id, rejectionReason, rejectionNotes, onReject, onClose]);
+  }, [item.id, rejectionReason, rejectionNotes, onReject, onClose, t]);
 
   const handleReasonChange = useCallback((reason: RejectionReason | "") => {
     setRejectionReason(reason);
@@ -146,6 +148,7 @@ export const ValidationResponseModal: React.FC<
 
   return (
     <div
+      role="presentation"
       className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 p-4"
       onClick={handleOverlayClick}
       onKeyDown={handleKeyDown}
@@ -163,8 +166,8 @@ export const ValidationResponseModal: React.FC<
             className="text-xl font-semibold text-gray-900"
           >
             {mode === "reject"
-              ? "Reject Validation Request"
-              : "Review Validation Request"}
+              ? t("modal.validation.rejectTitle")
+              : t("modal.validation.reviewTitle")}
           </h2>
           <button
             type="button"
@@ -181,7 +184,7 @@ export const ValidationResponseModal: React.FC<
             <>
               {/* Volunteer Info */}
               <h3 className="text-sm font-medium text-gray-500 mb-2">
-                Volunteer
+                {t("modal.validation.volunteer")}
               </h3>
               <div className="flex items-center gap-3 mb-6">
                 <div className="h-10 w-10 bg-emerald-100 rounded-full flex items-center justify-center">
@@ -191,39 +194,34 @@ export const ValidationResponseModal: React.FC<
                   <p className="font-medium text-gray-900">
                     {item.volunteerName}
                   </p>
-                  {item.volunteerEmail && (
-                    <p className="text-sm text-gray-500">
-                      {item.volunteerEmail}
-                    </p>
-                  )}
                 </div>
               </div>
 
               {/* Activity Details */}
               <div className="bg-gray-50 rounded-lg p-4 mb-6">
                 <h3 className="text-sm font-medium text-gray-500 mb-3">
-                  Activity Details
+                  {t("modal.validation.activityDetails")}
                 </h3>
                 <div className="grid grid-cols-2 gap-4">
                   <ActivityDetailField
                     icon={Calendar}
-                    label="Date"
+                    label={t("modal.validation.date")}
                     value={formatDate(item.activityDate, false)}
                   />
                   <ActivityDetailField
                     icon={Clock}
-                    label="Hours"
-                    value={`${item.hours} ${item.hours === 1 ? "hour" : "hours"}`}
+                    label={t("modal.validation.hours")}
+                    value={`${item.hours} ${item.hours === 1 ? t("modal.validation.hour") : t("modal.validation.hours")}`}
                   />
                   <ActivityDetailField
                     icon={FileText}
-                    label="Activity Type"
+                    label={t("modal.validation.activityType")}
                     value={activityTypeLabel}
                   />
                   {item.location && (
                     <ActivityDetailField
                       icon={MapPin}
-                      label="Location"
+                      label={t("modal.validation.location")}
                       value={item.location}
                     />
                   )}
@@ -233,7 +231,7 @@ export const ValidationResponseModal: React.FC<
               {/* Description */}
               <div className="mb-6">
                 <h3 className="text-sm font-medium text-gray-500 mb-2">
-                  Description
+                  {t("modal.validation.description")}
                 </h3>
                 <p className="text-gray-700 bg-gray-50 rounded-lg p-4">
                   {item.description}
@@ -243,17 +241,19 @@ export const ValidationResponseModal: React.FC<
               {/* Request Info */}
               <div className="text-sm text-gray-500 mb-6">
                 <p>
-                  Submitted: {formatDate(item.createdAt, true)}
+                  {t("modal.validation.submitted")}{" "}
+                  {formatDate(item.createdAt, true)}
                   {item.daysRemaining !== undefined && (
                     <span className="ml-2 text-amber-600">
-                      ({item.daysRemaining} days remaining to validate)
+                      {t("modal.validation.daysRemaining", {
+                        count: item.daysRemaining,
+                      })}
                     </span>
                   )}
                 </p>
                 {item.isResubmission && (
                   <p className="mt-1 text-amber-600 font-medium">
-                    This is an appeal/resubmission of a previously rejected
-                    request
+                    {t("modal.validation.appealNote")}
                   </p>
                 )}
               </div>
@@ -262,8 +262,7 @@ export const ValidationResponseModal: React.FC<
             /* Rejection Form */
             <div className="mb-6">
               <p className="text-gray-600 mb-4">
-                Please select a reason for rejecting this validation request.
-                The volunteer will be notified.
+                {t("modal.validation.rejectPrompt")}
               </p>
               <RejectionReasonSelect
                 value={rejectionReason}
@@ -286,14 +285,16 @@ export const ValidationResponseModal: React.FC<
                 disabled={processing}
                 icon={<XCircle className="h-4 w-4" />}
               >
-                Reject
+                {t("modal.validation.reject")}
               </Button>
               <Button
                 onClick={handleApprove}
                 disabled={processing}
                 icon={<CheckCircle className="h-4 w-4" />}
               >
-                {processing ? "Processing..." : "Approve"}
+                {processing
+                  ? t("modal.validation.processing")
+                  : t("modal.validation.approve")}
               </Button>
             </>
           ) : (
@@ -303,14 +304,16 @@ export const ValidationResponseModal: React.FC<
                 onClick={handleCancelReject}
                 disabled={processing}
               >
-                Back
+                {t("modal.validation.back")}
               </Button>
               <Button
                 variant="danger"
                 onClick={handleConfirmReject}
                 disabled={processing || !rejectionReason}
               >
-                {processing ? "Processing..." : "Confirm Rejection"}
+                {processing
+                  ? t("modal.validation.processing")
+                  : t("modal.validation.confirmRejection")}
               </Button>
             </>
           )}

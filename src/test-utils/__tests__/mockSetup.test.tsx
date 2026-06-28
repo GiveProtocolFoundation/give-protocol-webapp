@@ -1,4 +1,3 @@
-import React from "react"; // eslint-disable-line no-unused-vars
 import { jest } from "@jest/globals";
 import { render } from "@testing-library/react";
 import {

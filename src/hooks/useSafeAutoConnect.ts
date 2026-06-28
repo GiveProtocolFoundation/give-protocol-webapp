@@ -15,7 +15,9 @@ import { createSafeProvider, isInSafeAppContext } from "@/lib/wallets";
 function handleConnectResult(promise: Promise<void>): void {
   promise
     .then(() => Logger.info("Successfully auto-connected to Safe"))
-    .catch((err: unknown) => Logger.error("Failed to auto-connect to Safe", { error: err }));
+    .catch((err: unknown) =>
+      Logger.error("Failed to auto-connect to Safe", { error: err }),
+    );
 }
 
 /**
@@ -44,13 +46,16 @@ export function useSafeAutoConnect() {
 
     hasAttemptedRef.current = true;
 
-    const autoConnect = async () => {
+    /** Attempts to auto-connect using the Gnosis Safe provider if available. */
+    const autoConnect = () => {
       try {
         Logger.info("Safe App context detected, auto-connecting...");
 
         const safeProvider = createSafeProvider();
         if (!safeProvider) {
-          Logger.warn("Could not create Safe provider despite being in Safe context");
+          Logger.warn(
+            "Could not create Safe provider despite being in Safe context",
+          );
           return;
         }
 

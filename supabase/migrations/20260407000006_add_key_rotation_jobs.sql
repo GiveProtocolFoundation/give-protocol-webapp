@@ -45,5 +45,6 @@ CREATE TRIGGER trg_key_rotation_jobs_updated_at
 -- RLS: Only service-role can read/write key rotation jobs
 ALTER TABLE key_rotation_jobs ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "service_role_only" ON key_rotation_jobs;
 CREATE POLICY "service_role_only" ON key_rotation_jobs
   USING (auth.role() = 'service_role');

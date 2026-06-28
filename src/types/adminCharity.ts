@@ -27,6 +27,18 @@ export interface AdminCharityListItem {
   walletAddress: string | null;
   createdAt: string;
   updatedAt: string;
+  /** EIN from charity_profiles (GIV-372) */
+  ein: string | null;
+  /** Authorized signer name from charity_profiles (GIV-372) */
+  signerName: string | null;
+  /** Authorized signer email from charity_profiles (GIV-372) */
+  signerEmail: string | null;
+  /** Authorized signer phone from charity_profiles (GIV-372) */
+  signerPhone: string | null;
+  /** When the charity was claimed (GIV-372) */
+  claimedAt: string | null;
+  /** Status from charity_profiles table (GIV-372) */
+  charityProfileStatus: string | null;
 }
 
 /** Filters for admin_list_charities RPC */
@@ -70,4 +82,11 @@ export interface AdminCharityListRow {
   created_at: string;
   updated_at: string;
   total_count: number;
+  /** GIV-372 new columns */
+  ein: string | null;
+  signer_name: string | null;
+  signer_email: string | null;
+  signer_phone: string | null;
+  claimed_at: string | null;
+  charity_profile_status: string | null;
 }

@@ -10,6 +10,7 @@ import type {
   AdminValidationStats,
   AdminValidationStatsRow,
   ValidationRequestStatus,
+  VolunteerHoursEmailContext,
 } from "@/types/adminVolunteerValidation";
 import { Logger } from "@/utils/logger";
 
@@ -156,13 +157,49 @@ export async function listValidationRequests(
 }
 
 /**
+ * Invokes the volunteer-hours-email edge function to notify a volunteer of their
+ * hours approval or rejection. Called fire-and-forget after a successful override.
+ * Errors are logged but never propagated to the caller.
+ * @param input - requestId, newStatus, and reason
+ * @param context - volunteer and submission details for the email body
+ */
+export async function notifyVolunteerHoursOverride(
+  input: AdminOverrideValidationInput,
+  context: VolunteerHoursEmailContext,
+): Promise<void> {
+  try {
+    const { error } = await supabase.functions.invoke("volunteer-hours-email", {
+      body: {
+        volunteerId: context.volunteerId,
+        volunteerDisplayName: context.volunteerDisplayName ?? null,
+        orgName: context.orgName ?? null,
+        hoursReported: context.hoursReported,
+        activityDate: context.activityDate,
+        newStatus: input.newStatus,
+        reason: input.reason ?? null,
+      },
+    });
+    if (error) {
+      Logger.error("volunteer-hours-email edge function error", { error });
+    }
+  } catch (error) {
+    Logger.error("notifyVolunteerHoursOverride failed", {
+      error: error instanceof Error ? error.message : String(error),
+    });
+  }
+}
+
+/**
  * Overrides the status of a validation request via admin_override_validation RPC.
  * Creates an entry in validation_overrides and admin_audit_log. Requires admin JWT claims.
+ * Fires a volunteer email notification fire-and-forget when emailContext is provided.
  * @param input - requestId, newStatus, and reason
+ * @param emailContext - optional volunteer context for email notification
  * @returns true on success, false on failure
  */
 export async function overrideValidation(
   input: AdminOverrideValidationInput,
+  emailContext?: VolunteerHoursEmailContext,
 ): Promise<boolean> {
   try {
     const { error } = await supabase.rpc("admin_override_validation", {
@@ -174,6 +211,13 @@ export async function overrideValidation(
     if (error) {
       Logger.error("Error overriding validation request", { error, input });
       return false;
+    }
+
+    // Fire-and-forget: notify the volunteer by email. Failure must not block the override.
+    if (emailContext) {
+      notifyVolunteerHoursOverride(input, emailContext).catch(() => {
+        // Errors are already logged inside notifyVolunteerHoursOverride
+      });
     }
 
     return true;

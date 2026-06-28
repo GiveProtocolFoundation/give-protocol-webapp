@@ -1,7 +1,8 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { useTranslation } from "@/hooks/useTranslation";
 import { getDonationSummary } from "@/services/adminDonationService";
 import { getAdminAuditLog } from "@/services/adminAuditService";
 import {
@@ -24,6 +25,7 @@ import type {
   PlatformHealthRow,
 } from "@/types/adminReports";
 import type {
+  AdminAuditActionType,
   AdminAuditLogEntry,
   AdminAuditLogFilters,
 } from "@/types/adminAudit";
@@ -49,7 +51,7 @@ interface DateRange {
   dateTo: string;
 }
 
-interface TabProps extends DateRange {
+interface PresetProps {
   preset: DatePreset;
 }
 
@@ -99,9 +101,9 @@ function fmtDate(iso: string): string {
 /** Simple inline SVG bar chart for trend visualization. */
 function MiniBarChart({
   data,
-}: {
+}: Readonly<{
   data: { label: string; value: number }[];
-}): React.ReactElement {
+}>): React.ReactElement {
   if (data.length === 0) return null;
   const max = Math.max(...data.map((d) => d.value), 1);
   const barW = 36;
@@ -161,10 +163,10 @@ const TAB_LABELS: { id: ReportTab; label: string }[] = [
 function TabBar({
   active,
   onSelect,
-}: {
+}: Readonly<{
   active: ReportTab;
   onSelect: (_tab: ReportTab) => void;
-}): React.ReactElement {
+}>): React.ReactElement {
   const handleTabClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const tab = e.currentTarget.dataset.tab as ReportTab;
@@ -210,14 +212,14 @@ function DateRangeSelector({
   onPreset,
   onCustomFrom,
   onCustomTo,
-}: {
+}: Readonly<{
   preset: DatePreset;
   customFrom: string;
   customTo: string;
   onPreset: (_p: DatePreset) => void;
   onCustomFrom: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onCustomTo: (_e: React.ChangeEvent<HTMLInputElement>) => void;
-}): React.ReactElement {
+}>): React.ReactElement {
   const handlePresetClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const preset = e.currentTarget.dataset.preset as DatePreset;
@@ -267,7 +269,15 @@ function DateRangeSelector({
 
 // ─── Shared: EmptyState + Pagination ─────────────────────────────────────────
 
-function EmptyState({ message }: { message: string }): React.ReactElement {
+/**
+ * Renders a centered placeholder message for empty report tables.
+ * @param props - Component props.
+ * @param props.message - Message text to display.
+ * @returns The placeholder paragraph element.
+ */
+function EmptyState({
+  message,
+}: Readonly<{ message: string }>): React.ReactElement {
   return <p className="text-center py-8 text-gray-500 text-sm">{message}</p>;
 }
 
@@ -277,12 +287,12 @@ function ReportPagination({
   totalPages,
   onPrev,
   onNext,
-}: {
+}: Readonly<{
   page: number;
   totalPages: number;
   onPrev: () => void;
   onNext: () => void;
-}): React.ReactElement {
+}>): React.ReactElement {
   if (totalPages <= 1) return null;
   return (
     <div className="flex items-center justify-between mt-4">
@@ -311,7 +321,17 @@ function ReportPagination({
 
 // ─── Donations Tab ────────────────────────────────────────────────────────────
 
-function DonationsTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
+/**
+ * Renders the donations report tab with grouping controls (day/week/month) and a paginated table.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The donations tab element.
+ */
+function DonationsTab({
+  dateFrom,
+  dateTo,
+}: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<AdminDonationSummaryRow[]>([]);
   const [loading, setLoading] = useState(false);
   const [groupBy, setGroupBy] = useState<DonationSummaryGroupBy>("month");
@@ -346,26 +366,29 @@ function DonationsTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
   return (
     <div className="space-y-4">
-      <div className="flex flex-wrap items-center justify-between gap-3">
-        <div className="flex items-center gap-2">
-          <label htmlFor="group-by-select" className="text-sm text-gray-600">
-            Group by:
-          </label>
-          <select
-            id="group-by-select"
-            className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            value={groupBy}
-            onChange={handleGroupByChange}
-          >
-            <option value="day">Day</option>
-            <option value="week">Week</option>
-            <option value="month">Month</option>
-            <option value="charity">Charity</option>
-            <option value="payment_method">Payment Method</option>
-          </select>
-        </div>
+      <div className="flex flex-wrap items-center gap-3">
+        <label htmlFor="group-by-select" className="text-sm text-gray-600">
+          Group by:
+        </label>
+        <select
+          id="group-by-select"
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          value={groupBy}
+          onChange={handleGroupByChange}
+        >
+          <option value="day">Day</option>
+          <option value="week">Week</option>
+          <option value="month">Month</option>
+          <option value="charity">Charity</option>
+          <option value="payment_method">Payment Method</option>
+        </select>
         {rows.length > 0 && (
-          <Button variant="secondary" size="sm" onClick={handleExport}>
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-auto"
+            onClick={handleExport}
+          >
             Export CSV
           </Button>
         )}
@@ -388,21 +411,37 @@ function DonationsTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Donation summary report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Group
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Method
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Total (USD)
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Count
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Charity
               </th>
             </tr>
@@ -433,7 +472,17 @@ function DonationsTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
 // ─── Charity Growth Tab ───────────────────────────────────────────────────────
 
-function CharityGrowthTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
+/**
+ * Renders the charity growth report tab summarizing new charity onboarding over time.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The charity growth tab element.
+ */
+function CharityGrowthTab({
+  dateFrom,
+  dateTo,
+}: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<CharityGrowthRow[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -485,24 +534,43 @@ function CharityGrowthTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Charity growth report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Period
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 New
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Approved
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Rejected
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Active
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Suspended
               </th>
             </tr>
@@ -530,7 +598,17 @@ function CharityGrowthTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
 // ─── Donor Activity Tab ───────────────────────────────────────────────────────
 
-function DonorActivityTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
+/**
+ * Renders the donor activity report tab summarizing donor engagement metrics over time.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The donor activity tab element.
+ */
+function DonorActivityTab({
+  dateFrom,
+  dateTo,
+}: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<DonorActivityRow[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -582,24 +660,43 @@ function DonorActivityTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Donor activity report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Period
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 New Donors
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Active
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Dormant
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Avg Donation
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Repeat Rate
               </th>
             </tr>
@@ -629,7 +726,17 @@ function DonorActivityTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
 // ─── Volunteer Hours Tab ──────────────────────────────────────────────────────
 
-function VolunteerHoursTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
+/**
+ * Renders the volunteer hours report tab summarizing validated and pending hours over time.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The volunteer hours tab element.
+ */
+function VolunteerHoursTab({
+  dateFrom,
+  dateTo,
+}: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<VolunteerReportRow[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -681,24 +788,43 @@ function VolunteerHoursTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
       {!loading && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Volunteer hours report</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Period
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Submitted
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Validated
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Rejected
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Rejection Rate
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Avg. Days
               </th>
             </tr>
@@ -732,44 +858,175 @@ function VolunteerHoursTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
 // ─── Audit Trail Tab ──────────────────────────────────────────────────────────
 
-function AuditTrailTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
+/** All action types available for filtering in the audit trail */
+const ACTION_TYPE_OPTIONS: { value: AdminAuditActionType; i18nKey: string }[] =
+  [
+    {
+      value: "charity_status_change",
+      i18nKey: "admin.auditTrail.action.charityStatusChange",
+    },
+    {
+      value: "user_status_change",
+      i18nKey: "admin.auditTrail.action.userStatusChange",
+    },
+    { value: "donation_flag", i18nKey: "admin.auditTrail.action.donationFlag" },
+    {
+      value: "donation_flag_resolve",
+      i18nKey: "admin.auditTrail.action.donationFlagResolve",
+    },
+    {
+      value: "validation_override",
+      i18nKey: "admin.auditTrail.action.validationOverride",
+    },
+    { value: "config_change", i18nKey: "admin.auditTrail.action.configChange" },
+    {
+      value: "verification_approve",
+      i18nKey: "admin.auditTrail.action.verificationApprove",
+    },
+    {
+      value: "verification_reject",
+      i18nKey: "admin.auditTrail.action.verificationReject",
+    },
+    {
+      value: "charity_suspend",
+      i18nKey: "admin.auditTrail.action.charitySuspend",
+    },
+    {
+      value: "charity_reinstate",
+      i18nKey: "admin.auditTrail.action.charityReinstate",
+    },
+    { value: "user_suspend", i18nKey: "admin.auditTrail.action.userSuspend" },
+    {
+      value: "user_reinstate",
+      i18nKey: "admin.auditTrail.action.userReinstate",
+    },
+    { value: "user_ban", i18nKey: "admin.auditTrail.action.userBan" },
+    { value: "view_pii", i18nKey: "admin.auditTrail.action.viewPii" },
+    { value: "view_pii_list", i18nKey: "admin.auditTrail.action.viewPiiList" },
+  ];
+
+/**
+ * Builds a human-readable summary for a view_pii or view_pii_list audit entry.
+ * @param entry - The audit log entry
+ * @param t - Translation function
+ * @returns Translated summary string
+ */
+function formatPiiSummary(
+  entry: AdminAuditLogEntry,
+  t: (key: string, fallback: string, opts?: Record<string, string>) => string,
+): string {
+  const adminId = entry.adminUserId.slice(0, 8);
+  const entityType = entry.entityType.replaceAll("_", " ");
+
+  if (entry.actionType === "view_pii") {
+    return t(
+      "admin.auditTrail.viewedEntity",
+      "Admin {{adminId}} viewed {{entityType}} {{entityId}}",
+      {
+        adminId,
+        entityType,
+        entityId: entry.entityId.slice(0, 8),
+      },
+    );
+  }
+
+  // view_pii_list
+  const context = entry.newValues;
+  const rawPage = context?.page;
+  const page =
+    typeof rawPage === "number" || typeof rawPage === "string"
+      ? String(rawPage)
+      : "1";
+  const filterKeys = context?.filter_keys as string[] | undefined;
+
+  if (filterKeys && filterKeys.length > 0) {
+    return t(
+      "admin.auditTrail.viewedList",
+      "Admin {{adminId}} viewed {{entityType}} list (page {{page}}, filters: {{filters}})",
+      {
+        adminId,
+        entityType,
+        page,
+        filters: filterKeys.join(", "),
+      },
+    );
+  }
+
+  return t(
+    "admin.auditTrail.viewedListNoFilters",
+    "Admin {{adminId}} viewed {{entityType}} list (page {{page}})",
+    {
+      adminId,
+      entityType,
+      page,
+    },
+  );
+}
+
+/**
+ * Renders the audit trail report tab listing administrative actions within the date range.
+ * Supports filtering by action type including view_pii and view_pii_list entries.
+ * @param props - Date range bounds for the report.
+ * @param props.dateFrom - ISO date string lower bound.
+ * @param props.dateTo - ISO date string upper bound.
+ * @returns The audit trail tab element.
+ */
+function AuditTrailTab({
+  dateFrom,
+  dateTo,
+}: Readonly<DateRange>): React.ReactElement {
+  const { t } = useTranslation();
   const [entries, setEntries] = useState<AdminAuditLogEntry[]>([]);
   const [loading, setLoading] = useState(false);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
+  const [actionFilter, setActionFilter] = useState<AdminAuditActionType | "">(
+    "",
+  );
 
-  const fetchPage = useCallback((p: number, from: string, to: string) => {
-    if (!from || !to) return;
-    setLoading(true);
-    const filters: AdminAuditLogFilters = {
-      dateFrom: from,
-      dateTo: to,
-      page: p,
-      limit: 50,
-    };
-    getAdminAuditLog(filters).then((result) => {
-      setEntries(result.entries);
-      setTotalPages(result.totalPages);
-      setLoading(false);
-    });
-  }, []);
+  const fetchPage = useCallback(
+    (
+      p: number,
+      from: string,
+      to: string,
+      action: AdminAuditActionType | "",
+    ) => {
+      if (!from || !to) return;
+      setLoading(true);
+      const filters: AdminAuditLogFilters = {
+        dateFrom: from,
+        dateTo: to,
+        page: p,
+        limit: 50,
+      };
+      if (action) {
+        filters.actionType = action;
+      }
+      getAdminAuditLog(filters).then((result) => {
+        setEntries(result.entries);
+        setTotalPages(result.totalPages);
+        setLoading(false);
+      });
+    },
+    [],
+  );
 
   useEffect(() => {
     setPage(1);
-    fetchPage(1, dateFrom, dateTo);
-  }, [dateFrom, dateTo, fetchPage]);
+    fetchPage(1, dateFrom, dateTo, actionFilter);
+  }, [dateFrom, dateTo, actionFilter, fetchPage]);
 
   const handlePrev = useCallback(() => {
     const next = Math.max(1, page - 1);
     setPage(next);
-    fetchPage(next, dateFrom, dateTo);
-  }, [page, dateFrom, dateTo, fetchPage]);
+    fetchPage(next, dateFrom, dateTo, actionFilter);
+  }, [page, dateFrom, dateTo, actionFilter, fetchPage]);
 
   const handleNext = useCallback(() => {
     const next = page + 1;
     setPage(next);
-    fetchPage(next, dateFrom, dateTo);
-  }, [page, dateFrom, dateTo, fetchPage]);
+    fetchPage(next, dateFrom, dateTo, actionFilter);
+  }, [page, dateFrom, dateTo, actionFilter, fetchPage]);
 
   const handleExport = useCallback(() => {
     downloadReport(
@@ -778,15 +1035,54 @@ function AuditTrailTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
     );
   }, [entries, dateFrom, dateTo]);
 
+  const handleActionFilterChange = useCallback(
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
+      setActionFilter(e.target.value as AdminAuditActionType | "");
+    },
+    [],
+  );
+
+  const actionOptions = useMemo(
+    () =>
+      ACTION_TYPE_OPTIONS.map((opt) => ({
+        value: opt.value,
+        label: t(opt.i18nKey, opt.value.replaceAll("_", " ")),
+      })),
+    [t],
+  );
+
   return (
     <div className="space-y-4">
-      {entries.length > 0 && (
-        <div className="flex justify-end">
-          <Button variant="secondary" size="sm" onClick={handleExport}>
+      <div className="flex flex-wrap items-center gap-3">
+        <label htmlFor="audit-action-filter" className="text-sm text-gray-600">
+          {t("admin.auditTrail.filterByAction", "Filter by action")}
+        </label>
+        <select
+          id="audit-action-filter"
+          className="border border-gray-300 rounded-lg px-3 py-1.5 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+          value={actionFilter}
+          onChange={handleActionFilterChange}
+        >
+          <option value="">
+            {t("admin.auditTrail.allActions", "All actions")}
+          </option>
+          {actionOptions.map((opt) => (
+            <option key={opt.value} value={opt.value}>
+              {opt.label}
+            </option>
+          ))}
+        </select>
+        {entries.length > 0 && (
+          <Button
+            variant="secondary"
+            size="sm"
+            className="ml-auto"
+            onClick={handleExport}
+          >
             Export CSV
           </Button>
-        </div>
-      )}
+        )}
+      </div>
 
       {loading && (
         <div className="flex justify-center py-8">
@@ -799,50 +1095,80 @@ function AuditTrailTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
       {!loading && entries.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
+          <caption className="sr-only">Audit trail entries</caption>
           <thead className="bg-gray-50">
             <tr>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Date
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Action
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
-                Entity
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
+                Details
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Entity ID
               </th>
-              <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+              <th
+                scope="col"
+                className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+              >
                 Admin
               </th>
             </tr>
           </thead>
           <tbody>
-            {entries.map((entry) => (
-              <tr
-                key={entry.id}
-                className="border-t border-gray-100 hover:bg-gray-50"
-              >
-                <td className="px-4 py-2 text-xs text-gray-500 whitespace-nowrap">
-                  {fmtDate(entry.createdAt)}
-                </td>
-                <td className="px-4 py-2">
-                  <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-blue-100 text-blue-800">
-                    {entry.actionType.replaceAll("_", " ")}
-                  </span>
-                </td>
-                <td className="px-4 py-2 text-gray-600 capitalize">
-                  {entry.entityType.replaceAll("_", " ")}
-                </td>
-                <td className="px-4 py-2 font-mono text-xs text-gray-500">
-                  {entry.entityId.slice(0, 8)}…
-                </td>
-                <td className="px-4 py-2 font-mono text-xs text-gray-500">
-                  {entry.adminUserId.slice(0, 8)}…
-                </td>
-              </tr>
-            ))}
+            {entries.map((entry) => {
+              const isPiiAction =
+                entry.actionType === "view_pii" ||
+                entry.actionType === "view_pii_list";
+
+              return (
+                <tr
+                  key={entry.id}
+                  className="border-t border-gray-100 hover:bg-gray-50"
+                >
+                  <td className="px-4 py-2 text-xs text-gray-500 whitespace-nowrap">
+                    {fmtDate(entry.createdAt)}
+                  </td>
+                  <td className="px-4 py-2">
+                    <span
+                      className={`inline-block px-2 py-0.5 text-xs font-medium rounded-full ${
+                        isPiiAction
+                          ? "bg-amber-100 text-amber-800"
+                          : "bg-blue-100 text-blue-800"
+                      }`}
+                    >
+                      {entry.actionType.replaceAll("_", " ")}
+                    </span>
+                  </td>
+                  <td className="px-4 py-2 text-gray-600 text-xs">
+                    {isPiiAction
+                      ? formatPiiSummary(entry, t)
+                      : entry.entityType.replaceAll("_", " ")}
+                  </td>
+                  <td className="px-4 py-2 font-mono text-xs text-gray-500">
+                    {entry.entityId ? `${entry.entityId.slice(0, 8)}…` : "—"}
+                  </td>
+                  <td className="px-4 py-2 font-mono text-xs text-gray-500">
+                    {entry.adminUserId.slice(0, 8)}…
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       )}
@@ -859,7 +1185,15 @@ function AuditTrailTab({ dateFrom, dateTo }: TabProps): React.ReactElement {
 
 // ─── Platform Health Tab ──────────────────────────────────────────────────────
 
-function PlatformHealthTab({ preset }: TabProps): React.ReactElement {
+/**
+ * Renders the platform health report tab summarizing system-level metrics.
+ * @param props - Component props.
+ * @param props.preset - Active time-range preset that scopes the report query.
+ * @returns The platform health tab element.
+ */
+function PlatformHealthTab({
+  preset,
+}: Readonly<PresetProps>): React.ReactElement {
   const [rows, setRows] = useState<PlatformHealthRow[]>([]);
   const [loading, setLoading] = useState(false);
 
@@ -979,7 +1313,7 @@ const AdminReports: React.FC = () => {
     [],
   );
 
-  const tabProps: TabProps = { dateFrom, dateTo, preset: datePreset };
+  const dateRange: DateRange = { dateFrom, dateTo };
 
   return (
     <div className="container mx-auto p-6 space-y-6">
@@ -1004,12 +1338,16 @@ const AdminReports: React.FC = () => {
 
         <TabBar active={activeTab} onSelect={handleTabSelect} />
 
-        {activeTab === "donations" && <DonationsTab {...tabProps} />}
-        {activeTab === "charity-growth" && <CharityGrowthTab {...tabProps} />}
-        {activeTab === "donor-activity" && <DonorActivityTab {...tabProps} />}
-        {activeTab === "volunteer-hours" && <VolunteerHoursTab {...tabProps} />}
-        {activeTab === "audit-trail" && <AuditTrailTab {...tabProps} />}
-        {activeTab === "platform-health" && <PlatformHealthTab {...tabProps} />}
+        {activeTab === "donations" && <DonationsTab {...dateRange} />}
+        {activeTab === "charity-growth" && <CharityGrowthTab {...dateRange} />}
+        {activeTab === "donor-activity" && <DonorActivityTab {...dateRange} />}
+        {activeTab === "volunteer-hours" && (
+          <VolunteerHoursTab {...dateRange} />
+        )}
+        {activeTab === "audit-trail" && <AuditTrailTab {...dateRange} />}
+        {activeTab === "platform-health" && (
+          <PlatformHealthTab preset={datePreset} />
+        )}
       </Card>
     </div>
   );

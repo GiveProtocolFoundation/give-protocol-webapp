@@ -2,6 +2,7 @@ import { Transaction } from "@/types/contribution";
 import { formatDate } from "./date";
 import { convertToCSV, downloadCSV } from "./csvHelpers";
 
+/** Row data shape for donation CSV exports. */
 export interface DonationExportData {
   date: string;
   type: string;

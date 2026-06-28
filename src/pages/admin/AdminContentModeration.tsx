@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
@@ -8,6 +8,7 @@ import {
   listCauses,
   moderateContent,
 } from "@/services/adminContentModerationService";
+import { logRead } from "@/services/adminAuditService";
 import { useToast } from "@/contexts/ToastContext";
 import type {
   AdminOpportunityListItem,
@@ -301,24 +302,43 @@ function OpportunitiesTable({
 }): React.ReactElement {
   return (
     <table className="w-full text-left">
+      <caption className="sr-only">Volunteer opportunities moderation</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Name
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Status
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Visibility
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Last Modified
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Actions
           </th>
         </tr>
@@ -397,24 +417,43 @@ function CausesTable({
 }): React.ReactElement {
   return (
     <table className="w-full text-left">
+      <caption className="sr-only">Causes moderation</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Name
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Status
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Visibility
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Last Modified
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Actions
           </th>
         </tr>
@@ -585,6 +624,19 @@ const AdminContentModeration: React.FC = () => {
   );
   const [reason, setReason] = useState("");
 
+  // Audit: active filter keys for PII access logging
+  const serializedFilterKeys = useMemo(() => {
+    const keys = Object.keys(filters)
+      .filter(
+        (k) =>
+          k !== "page" &&
+          k !== "limit" &&
+          filters[k as keyof AdminContentModerationFilters] !== undefined,
+      )
+      .sort((a, b) => a.localeCompare(b));
+    return JSON.stringify(keys);
+  }, [filters]);
+
   const fetchOpportunities = useCallback(
     async (f: AdminContentModerationFilters) => {
       setLoading(true);
@@ -616,6 +668,17 @@ const AdminContentModeration: React.FC = () => {
     }
   }, [activeTab, filters, fetchOpportunities, fetchCauses]);
 
+  // Audit: log list view on page/filter change
+  useEffect(() => {
+    const filterKeys = JSON.parse(serializedFilterKeys) as string[];
+    logRead("content", null, {
+      page: filters.page,
+      limit: filters.limit,
+      filterKeys: filterKeys.length > 0 ? filterKeys : undefined,
+      source: activeTab,
+    });
+  }, [filters.page, filters.limit, serializedFilterKeys, activeTab]);
+
   const handleTabOpportunities = useCallback(() => {
     setActiveTab("opportunities");
     setFilters({ page: 1, limit: 50 });
@@ -635,6 +698,7 @@ const AdminContentModeration: React.FC = () => {
         action,
       });
       setReason("");
+      logRead("content", item.id);
     },
     [],
   );
@@ -648,6 +712,7 @@ const AdminContentModeration: React.FC = () => {
         action,
       });
       setReason("");
+      logRead("content", item.id);
     },
     [],
   );

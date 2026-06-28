@@ -1,5 +1,4 @@
 import { jest } from "@jest/globals";
-import React from "react";
 import { render, screen, fireEvent } from "@testing-library/react";
 import type { DiscoveryFiltersState } from "./discoveryFiltersState";
 import { emptyDiscoveryFilters } from "./discoveryFiltersState";

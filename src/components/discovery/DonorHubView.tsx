@@ -9,6 +9,9 @@ import {
 import { ProjectCard } from "./ProjectCard";
 import { DailyWisdomCard } from "./DailyWisdomCard";
 import { NewsUpdatesCard } from "./NewsUpdatesCard";
+import { FeaturedCausesCarousel } from "./FeaturedCausesCarousel";
+import { FeaturedPortfolioFundsCarousel } from "./FeaturedPortfolioFundsCarousel";
+import { DiscoveryTabs, useDiscoveryTab } from "./DiscoveryTabs";
 import { Skeleton } from "@/components/ui/Skeleton";
 import { useDonorData } from "@/hooks/useDonorData";
 import { useGivingStreak } from "@/hooks/useGivingStreak";
@@ -18,13 +21,14 @@ import { useGeographicFilterParams } from "@/hooks/useGeographicFilterParams";
 
 /**
  * Authenticated donor/volunteer landing for /browse. Personal impact stats sit
- * atop the filter block and a "Personalized for You" grid.
+ * atop the tab bar, filter block, and a "Personalized for You" grid.
  * The right rail carries the Daily Wisdom card and platform news.
  */
 export const DonorHubView: React.FC = () => {
   const { data } = useDonorData();
   const { count: activeRecurringGrants } = useScheduledDonations();
   const streak = useGivingStreak(data?.donations);
+  const [activeTab, setActiveTab] = useDiscoveryTab();
 
   const initialFilters = useMemo<DiscoveryFiltersState>(() => {
     const firstCharity = data?.donations?.[0]?.charity;
@@ -58,7 +62,7 @@ export const DonorHubView: React.FC = () => {
 
   const hasHistoryHint = Boolean(initialFilters.searchTerm);
 
-  const main = (
+  const charitiesContent = (
     <>
       <section aria-label="Filter charities">
         <div className="flex items-baseline justify-between mb-3">
@@ -71,7 +75,11 @@ export const DonorHubView: React.FC = () => {
               : "Trending on the platform"}
           </p>
         </div>
-        <DiscoveryFilters value={filters} onChange={handleFiltersChange} />
+        <DiscoveryFilters
+          value={filters}
+          onChange={handleFiltersChange}
+          showViewToggle={false}
+        />
       </section>
 
       <section aria-label="Charity results">
@@ -91,6 +99,16 @@ export const DonorHubView: React.FC = () => {
           </div>
         )}
       </section>
+    </>
+  );
+
+  const main = (
+    <>
+      <DiscoveryTabs activeTab={activeTab} onTabChange={setActiveTab} />
+
+      {activeTab === "charities" && charitiesContent}
+      {activeTab === "causes" && <FeaturedCausesCarousel />}
+      {activeTab === "funds" && <FeaturedPortfolioFundsCarousel />}
     </>
   );
 

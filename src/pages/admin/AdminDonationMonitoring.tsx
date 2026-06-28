@@ -1,9 +1,10 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useAdminDonations } from "@/hooks/useAdminDonations";
+import { logRead } from "@/services/adminAuditService";
 import type {
   AdminDonationListFilters,
   AdminDonationListItem,
@@ -311,21 +312,37 @@ function SummaryTable({
 }): React.ReactElement {
   return (
     <table className="w-full text-left text-sm">
+      <caption className="sr-only">Donation summary by group</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Group
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Method
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Total (USD)
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Count
           </th>
-          <th className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-2 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
         </tr>
@@ -364,30 +381,55 @@ function DonationListTable({
 }): React.ReactElement {
   return (
     <table className="w-full text-left">
+      <caption className="sr-only">Donation monitoring list</caption>
       <thead>
         <tr className="bg-gray-50">
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Method
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Amount (USD)
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Donor
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Charity
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Tx / ID
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Date
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Flag
           </th>
-          <th className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide">
+          <th
+            scope="col"
+            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
+          >
             Actions
           </th>
         </tr>
@@ -441,9 +483,32 @@ const AdminDonationMonitoring: React.FC = () => {
   const [reportDateFrom, setReportDateFrom] = useState("");
   const [reportDateTo, setReportDateTo] = useState("");
 
+  // Audit: active filter keys for PII access logging
+  const serializedFilterKeys = useMemo(() => {
+    const keys = Object.keys(filters)
+      .filter(
+        (k) =>
+          k !== "page" &&
+          k !== "limit" &&
+          filters[k as keyof AdminDonationListFilters] !== undefined,
+      )
+      .sort((a, b) => a.localeCompare(b));
+    return JSON.stringify(keys);
+  }, [filters]);
+
   useEffect(() => {
     fetchDonations(filters);
   }, [fetchDonations, filters]);
+
+  // Audit: log list view on page/filter change
+  useEffect(() => {
+    const filterKeys = JSON.parse(serializedFilterKeys) as string[];
+    logRead("donation", null, {
+      page: filters.page,
+      limit: filters.limit,
+      filterKeys: filterKeys.length > 0 ? filterKeys : undefined,
+    });
+  }, [filters.page, filters.limit, serializedFilterKeys]);
 
   const handlePaymentMethodChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
@@ -504,6 +569,7 @@ const AdminDonationMonitoring: React.FC = () => {
   const handleOpenFlag = useCallback((donation: AdminDonationListItem) => {
     setFlagTarget(donation);
     setFlagReason("");
+    logRead("donation", donation.id);
   }, []);
 
   const handleCloseFlagModal = useCallback(() => {

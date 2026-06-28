@@ -18,9 +18,9 @@ import type { UnifiedAccount, UnifiedTransactionRequest } from "@/types/wallet";
 interface SolanaProvider {
   publicKey: { toBase58(): string } | null;
   isConnected: boolean;
-  connect: (
-    _opts?: { onlyIfTrusted?: boolean }
-  ) => Promise<{ publicKey: { toBase58(): string } }>;
+  connect: (_opts?: {
+    onlyIfTrusted?: boolean;
+  }) => Promise<{ publicKey: { toBase58(): string } }>;
   disconnect: () => Promise<void>;
   signTransaction: (_transaction: unknown) => Promise<unknown>;
   signAllTransactions: (_transactions: unknown[]) => Promise<unknown[]>;
@@ -34,7 +34,9 @@ interface SolanaProvider {
  * @param provider - Provider to check
  * @returns True if provider has Solana wallet interface
  */
-export function isSolanaProvider(provider: unknown): provider is SolanaProvider {
+export function isSolanaProvider(
+  provider: unknown,
+): provider is SolanaProvider {
   return (
     typeof provider === "object" &&
     provider !== null &&
@@ -52,7 +54,15 @@ export class SolanaAdapter {
   private currentCluster: SolanaClusterId;
   private connectedAddress: string | null = null;
 
-  constructor(provider: SolanaProvider, cluster: SolanaClusterId = DEFAULT_SOLANA_CLUSTER) {
+  /**
+   * Wraps a Solana wallet provider with adapter state.
+   * @param provider - The Solana wallet provider to wrap.
+   * @param cluster - Initial Solana cluster (defaults to {@link DEFAULT_SOLANA_CLUSTER}).
+   */
+  constructor(
+    provider: SolanaProvider,
+    cluster: SolanaClusterId = DEFAULT_SOLANA_CLUSTER,
+  ) {
     this.provider = provider;
     this.currentCluster = cluster;
   }
@@ -212,7 +222,7 @@ export class SolanaAdapter {
   setupEventListeners(
     onConnect: (_publicKey: string) => void,
     onDisconnect: () => void,
-    onAccountChange: (_publicKey: string | null) => void
+    onAccountChange: (_publicKey: string | null) => void,
   ): () => void {
     /** Forwards connect event with base58 public key */
     const handleConnect = (publicKey: { toBase58(): string }) => {
@@ -261,7 +271,8 @@ export class SolanaAdapter {
    * @returns Base58 encoded string
    */
   private static bytesToBase58(bytes: Uint8Array): string {
-    const ALPHABET = "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
+    const ALPHABET =
+      "123456789ABCDEFGHJKLMNPQRSTUVWXYZabcdefghijkmnopqrstuvwxyz";
     let result = "";
     let num = BigInt(0);
 
@@ -295,7 +306,7 @@ export class SolanaAdapter {
  */
 export function createSolanaAdapter(
   provider: unknown,
-  cluster?: SolanaClusterId
+  cluster?: SolanaClusterId,
 ): SolanaAdapter | null {
   if (!isSolanaProvider(provider)) {
     return null;

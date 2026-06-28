@@ -67,16 +67,24 @@ export function useAuthActions() {
 
       if (error) throw error;
 
-      showToast("success", "Login successful", "Welcome back!");
+      const firstName =
+        data.user?.user_metadata?.full_name?.split(" ")[0] ??
+        data.user?.email ??
+        "there";
+      showToast({
+        type: "success",
+        title: `Welcome back, ${firstName}`,
+        message: "You're signed in.",
+      });
       navigate(
         data.user?.user_metadata?.type === "charity"
           ? "/charity-portal"
-          : "/donor-portal",
+          : "/give-dashboard",
       );
     } catch (error) {
       const message =
         error instanceof Error ? error.message : "Failed to sign in";
-      showToast("error", "Authentication Error", message);
+      showToast("error", "Sign-in failed", message);
       throw error;
     } finally {
       setLoading(false);
@@ -102,6 +110,7 @@ export function useAuthActions() {
             type,
             ...metadata,
           },
+          emailRedirectTo: `${window.location.origin}/auth/callback`,
         },
       });
 

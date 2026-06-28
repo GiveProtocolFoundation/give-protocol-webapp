@@ -1,6 +1,7 @@
 import React, { useState, useCallback } from "react";
 import { ChevronDown } from "lucide-react";
 import { StaticPageLayout } from "@/components/layout/StaticPageLayout";
+import { usePageTitle } from "@/hooks/usePageTitle";
 
 interface FAQEntry {
   id: string;
@@ -321,7 +322,8 @@ const FAQ_SECTIONS: FAQSectionData[] = [
             >
               Give Protocol Opportunities
             </a>
-            . You can filter by cause, location, required skills, and time
+            {". "}
+            You can filter by cause, location, required skills, and time
             commitment. Registered organizations can also post new opportunities
             directly from their charity portal.
           </p>
@@ -339,12 +341,13 @@ const FAQ_SECTIONS: FAQSectionData[] = [
           <p>
             Organizations can register at{" "}
             <a
-              href="/auth/charity"
+              href="/auth/signup?type=charity"
               className="text-emerald-600 underline hover:text-emerald-700"
             >
               the charity registration page
             </a>
-            . You will need to provide basic organizational details and a wallet
+            {". "}
+            You will need to provide basic organizational details and a wallet
             address for receiving donations. After registration, you can apply
             for Verified status by submitting your official non-profit
             credentials.
@@ -447,6 +450,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
 
 /** Frequently Asked Questions page covering Give Protocol basics, crypto donations, and trust. */
 const FAQ: React.FC = () => {
+  usePageTitle("FAQ");
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
 
   const handleToggle = useCallback((id: string) => {

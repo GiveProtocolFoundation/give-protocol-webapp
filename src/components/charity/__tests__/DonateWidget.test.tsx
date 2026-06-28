@@ -1,13 +1,9 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { useWeb3 } from "@/contexts/Web3Context";
 import { DonateWidget } from "../DonateWidget";
 
-// Card, Button, DonationModal, and Web3Context are mocked via moduleNameMapper
-
-const mockUseWeb3 = jest.mocked(useWeb3);
+// Card, Button, DonationModal, and all contexts are mocked via moduleNameMapper
 
 const defaultProps = {
   ein: "12-3456789",
@@ -28,18 +24,6 @@ const renderWidget = (props = defaultProps) =>
 describe("DonateWidget", () => {
   beforeEach(() => {
     jest.clearAllMocks();
-    mockUseWeb3.mockReturnValue({
-      provider: null,
-      signer: null,
-      address: null,
-      chainId: 1287,
-      isConnected: false,
-      isConnecting: false,
-      error: null,
-      connect: jest.fn(),
-      disconnect: jest.fn(),
-      switchChain: jest.fn(),
-    });
   });
 
   describe("Sidebar mode rendering", () => {
@@ -53,25 +37,12 @@ describe("DonateWidget", () => {
       expect(screen.getByTestId("card")).toBeInTheDocument();
     });
 
-    it("renders preset amount buttons", () => {
+    it("renders a single Donate button", () => {
       renderWidget();
-      expect(screen.getByText("$25")).toBeInTheDocument();
-      expect(screen.getByText("$50")).toBeInTheDocument();
-      expect(screen.getByText("$100")).toBeInTheDocument();
-      expect(screen.getByText("$250")).toBeInTheDocument();
+      expect(screen.getByText("Donate")).toBeInTheDocument();
     });
 
-    it("renders custom amount input", () => {
-      renderWidget();
-      expect(screen.getByPlaceholderText("Custom amount")).toBeInTheDocument();
-    });
-
-    it("renders the donate button", () => {
-      renderWidget();
-      expect(screen.getByText("Connect wallet")).toBeInTheDocument();
-    });
-
-    it("renders fee disclosure text for crypto tab", () => {
+    it("renders fee disclosure text", () => {
       renderWidget();
       expect(
         screen.getByText(/0% platform fee on direct donations/),
@@ -91,164 +62,84 @@ describe("DonateWidget", () => {
         screen.queryByText("Support Test Charity"),
       ).not.toBeInTheDocument();
     });
-  });
 
-  describe("Payment tab toggle", () => {
-    it("renders Crypto and Fiat tab buttons when not verified", () => {
-      renderWidget();
-      expect(screen.getByText("Crypto")).toBeInTheDocument();
-      expect(screen.getByText("Fiat (USD)")).toBeInTheDocument();
-    });
-
-    it("hides the tab toggle when isVerified is true", () => {
-      renderWidget({ ...defaultProps, isVerified: true });
-      expect(screen.queryByText("Crypto")).not.toBeInTheDocument();
-      expect(screen.queryByText("Fiat (USD)")).not.toBeInTheDocument();
-    });
-
-    it("shows fiat fee disclosure after switching to fiat tab", () => {
-      renderWidget();
-      fireEvent.click(screen.getByText("Fiat (USD)"));
-      expect(
-        screen.getByText(/Secure checkout/),
-      ).toBeInTheDocument();
-    });
-
-    it("shows Donate with card button after switching to fiat tab", () => {
-      renderWidget();
-      fireEvent.click(screen.getByText("Fiat (USD)"));
-      expect(screen.getByText("Donate with card")).toBeInTheDocument();
-    });
-  });
-
-  describe("Amount selection", () => {
-    it("selects a preset amount on click", () => {
-      renderWidget();
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: "0xabc",
-        chainId: 1287,
-        isConnected: true,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
-      renderWidget();
-      fireEvent.click(screen.getAllByText("$50")[0]);
-      expect(screen.getAllByText(/Donate \$50/)[0]).toBeInTheDocument();
-    });
-
-    it("accepts custom amount input", () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: "0xabc",
-        chainId: 1287,
-        isConnected: true,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
-      renderWidget();
-      const input = screen.getByPlaceholderText("Custom amount");
-      fireEvent.change(input, { target: { value: "75" } });
-      expect(screen.getByText(/Donate \$75/)).toBeInTheDocument();
-    });
-
-    it("disables donate button when amount is zero", () => {
-      renderWidget();
-      const button = screen.getByText("Connect wallet");
-      expect(button).toBeDisabled();
+    it("still renders the Donate button in modal mode", () => {
+      renderWidget({ ...defaultProps, mode: "modal" });
+      expect(screen.getByText("Donate")).toBeInTheDocument();
     });
   });
 
   describe("Wallet warning", () => {
-    it("shows wallet warning when charity has no wallet", () => {
+    it("shows setup warning when charity has no wallet and no designation status", () => {
       renderWidget({ ...defaultProps, walletAddress: null });
       expect(
-        screen.getByText(/hasn.t set up a wallet yet/),
+        screen.getByText(/hasn.t set up an official receiving wallet/),
       ).toBeInTheDocument();
     });
 
-    it("does not show wallet warning when charity has a wallet", () => {
+    it("does not show warning when charity has a legacy wallet (grandfathered)", () => {
+      // walletDesignationStatus not provided — treated as legacy: donations allowed, no banner
       renderWidget();
       expect(
-        screen.queryByText(/hasn.t set up a wallet yet/),
+        screen.queryByText(/hasn.t set up an official receiving wallet/),
       ).not.toBeInTheDocument();
     });
 
-    it("does not show wallet warning on fiat tab even without wallet", () => {
-      renderWidget({ ...defaultProps, walletAddress: null });
-      fireEvent.click(screen.getByText("Fiat (USD)"));
+    it("shows pending warning when designation is mid-flight", () => {
+      renderWidget({
+        ...defaultProps,
+        walletAddress: null,
+        walletDesignationStatus: "pending_email_confirmation",
+      });
+      expect(screen.getByText(/finishing wallet setup/)).toBeInTheDocument();
+    });
+
+    it("shows legacy banner when wallet present but status is 'unset' (post-migration grandfather)", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "unset",
+      });
       expect(
-        screen.queryByText(/hasn.t set up a wallet yet/),
-      ).not.toBeInTheDocument();
+        screen.getByText(/using a legacy wallet address/),
+      ).toBeInTheDocument();
     });
   });
 
-  describe("Connect wallet flow", () => {
-    it("shows Connect wallet text when not connected on crypto tab", () => {
-      renderWidget();
-      fireEvent.click(screen.getByText("$100"));
-      expect(screen.getByText("Connect wallet")).toBeInTheDocument();
+  describe("Donate button gating", () => {
+    it("enables Donate when status is 'active'", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "active",
+      });
+      expect(screen.getByText("Donate").closest("button")).not.toBeDisabled();
     });
 
-    it("calls connect when clicking donate while not connected on crypto tab", () => {
-      const mockConnect = jest.fn();
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: null,
-        chainId: 1287,
-        isConnected: false,
-        isConnecting: false,
-        error: null,
-        connect: mockConnect,
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
+    it("disables Donate when status is pending", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "pending_email_confirmation",
       });
-      renderWidget();
-      fireEvent.click(screen.getByText("$100"));
-      fireEvent.click(screen.getByText("Connect wallet"));
-      expect(mockConnect).toHaveBeenCalled();
+      expect(screen.getByText("Donate").closest("button")).toBeDisabled();
+    });
+
+    it("disables Donate when no wallet and no status", () => {
+      renderWidget({ ...defaultProps, walletAddress: null });
+      expect(screen.getByText("Donate").closest("button")).toBeDisabled();
     });
   });
 
   describe("Donation modal", () => {
-    it("shows donation modal when connected user clicks donate", async () => {
-      mockUseWeb3.mockReturnValue({
-        provider: null,
-        signer: null,
-        address: "0xabc",
-        chainId: 1287,
-        isConnected: true,
-        isConnecting: false,
-        error: null,
-        connect: jest.fn(),
-        disconnect: jest.fn(),
-        switchChain: jest.fn(),
-      });
-      renderWidget();
-      fireEvent.click(screen.getByText("$50"));
-      fireEvent.click(screen.getByText(/Donate \$/));
+    it("opens the donation modal when the user clicks Donate", async () => {
+      renderWidget({ ...defaultProps, walletDesignationStatus: "active" });
+      fireEvent.click(screen.getByText("Donate"));
       await waitFor(() => {
         expect(screen.getByTestId("donation-modal")).toBeInTheDocument();
       });
     });
 
-    it("shows donation modal when clicking donate on fiat tab", async () => {
+    it("does not show the donation modal before the Donate button is clicked", () => {
       renderWidget();
-      fireEvent.click(screen.getByText("Fiat (USD)"));
-      fireEvent.click(screen.getByText("$50"));
-      fireEvent.click(screen.getByText("Donate with card"));
-      await waitFor(() => {
-        expect(screen.getByTestId("donation-modal")).toBeInTheDocument();
-      });
+      expect(screen.queryByTestId("donation-modal")).not.toBeInTheDocument();
     });
   });
 });

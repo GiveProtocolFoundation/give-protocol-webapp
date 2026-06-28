@@ -1,11 +1,6 @@
 import React, { useCallback, useMemo } from "react";
-import {
-  Download,
-  ExternalLink,
-  ChevronUp,
-  ChevronDown,
-  FileText,
-} from "lucide-react";
+import { Download, ExternalLink, ChevronUp, ChevronDown } from "lucide-react";
+import { Link } from "react-router-dom";
 import { Button } from "@/components/ui/Button";
 import { Transaction } from "@/types/contribution";
 import { formatDate } from "@/utils/date";
@@ -31,6 +26,109 @@ const STATUS_CLASSES: Record<string, string> = {
   pending: "bg-yellow-100 text-yellow-800",
 };
 
+/** Mission-specific minimal line-art: two hands sharing a token. */
+function SharedTokenIllustration(): React.ReactElement {
+  return (
+    <svg
+      width="120"
+      height="96"
+      viewBox="0 0 120 96"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      aria-hidden="true"
+      className="mx-auto text-emerald-500"
+    >
+      {/* Token (circle with heart inside) */}
+      <circle
+        cx="60"
+        cy="38"
+        r="14"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        fill="none"
+      />
+      <path
+        d="M60 44.5 L54.5 39.5 C53 38 53 35.7 54.5 34.2 C56 32.7 58.3 32.7 59.8 34.2 L60 34.4 L60.2 34.2 C61.7 32.7 64 32.7 65.5 34.2 C67 35.7 67 38 65.5 39.5 Z"
+        fill="currentColor"
+        opacity="0.85"
+      />
+      {/* Sparkle ticks above the token */}
+      <path
+        d="M60 18 V22"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+      />
+      <path
+        d="M48 22 L50 25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.6"
+      />
+      <path
+        d="M72 22 L70 25"
+        stroke="currentColor"
+        strokeWidth="1.5"
+        strokeLinecap="round"
+        opacity="0.6"
+      />
+      {/* Left hand - cupped */}
+      <path
+        d="M14 70 C14 62 22 56 30 58 L46 62 C50 63 52 66 51 70 L48 80 C47 84 43 86 39 85 L20 81 C16 80 14 76 14 72 Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        fill="none"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M30 58 V52"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M36 60 V53"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M42 61 V55"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      {/* Right hand - cupped (mirrored) */}
+      <path
+        d="M106 70 C106 62 98 56 90 58 L74 62 C70 63 68 66 69 70 L72 80 C73 84 77 86 81 85 L100 81 C104 80 106 76 106 72 Z"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        fill="none"
+        strokeLinejoin="round"
+      />
+      <path
+        d="M90 58 V52"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M84 60 V53"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+      <path
+        d="M78 61 V55"
+        stroke="currentColor"
+        strokeWidth="1.75"
+        strokeLinecap="round"
+      />
+    </svg>
+  );
+}
+
 /** Sortable column headers for the transactions table. */
 function TransactionTableHeader({
   getSortIcon,
@@ -51,6 +149,7 @@ function TransactionTableHeader({
     <thead className="bg-gray-50">
       <tr>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortDate}
         >
@@ -60,6 +159,7 @@ function TransactionTableHeader({
           </span>
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortType}
         >
@@ -69,6 +169,7 @@ function TransactionTableHeader({
           </span>
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortOrganization}
         >
@@ -77,10 +178,14 @@ function TransactionTableHeader({
             {getSortIcon("organization")}
           </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
           {t("contributions.details")}
         </th>
         <th
+          scope="col"
           className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider cursor-pointer hover:bg-gray-100 select-none"
           onClick={onSortStatus}
         >
@@ -89,7 +194,10 @@ function TransactionTableHeader({
             {getSortIcon("status")}
           </span>
         </th>
-        <th className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider">
+        <th
+          scope="col"
+          className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+        >
           {t("contributions.verification")}
         </th>
       </tr>
@@ -322,18 +430,25 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
           </Button>
         </div>
         <div className="py-16 px-6 text-center">
-          <div className="mx-auto w-16 h-16 bg-gray-100 rounded-full flex items-center justify-center mb-4">
-            <FileText className="h-8 w-8 text-gray-400" />
-          </div>
-          <h3 className="text-lg font-medium text-gray-900 mb-2">
-            {t("transactions.noTransactionsYet", "No transactions yet")}
+          <SharedTokenIllustration />
+          <h3 className="text-lg font-semibold text-gray-900 mb-2 mt-6">
+            {t(
+              "transactions.noTransactionsYet",
+              "Ready to receive your first gift",
+            )}
           </h3>
-          <p className="text-gray-500 max-w-sm mx-auto">
+          <p className="text-sm text-gray-500 max-w-sm mx-auto mb-6">
             {t(
               "transactions.noTransactionsDescription",
-              "Your donation history will appear here once you receive contributions.",
+              "Create your first campaign to see donations arrive here.",
             )}
           </p>
+          <Link
+            to="/charity-portal/create-cause"
+            className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 rounded-[10px] shadow-cta hover:shadow-[0_4px_18px_rgba(5,150,105,0.5)] transform hover:-translate-y-0.5 transition-all"
+          >
+            {t("transactions.createCampaign", "Create your first campaign")}
+          </Link>
         </div>
       </div>
     );
@@ -356,6 +471,7 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
       </div>
       <div className="hidden sm:block overflow-x-auto">
         <table className="min-w-full divide-y divide-gray-200">
+          <caption className="sr-only">Transaction history</caption>
           <TransactionTableHeader
             getSortIcon={getSortIcon}
             onSortDate={handleSortByDate}

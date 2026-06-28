@@ -68,12 +68,6 @@
   background-color: rgb(55 65 81);
 }
 
-/* Fix for Silktide consent manager backdrop-filter Safari compatibility */
-#silktide-backdrop,
-#silktide-backdrop-global {
-  -webkit-backdrop-filter: blur(var(--backdropBackgroundBlur));
-}
-
 @layer utilities {
   .scrollbar-styled {
     scrollbar-width: thin;
@@ -257,6 +251,59 @@
   --accent-amber: #f59e0b;
   /* Frame animation system — use .frame-reveal + .visible for staggered page loads */
   --frame-animation: fadeInUp;
+
+  /* Semantic theme tokens (light). RGB triplets so Tailwind's <alpha-value> works. */
+  --surface-base: 249 250 251; /* gray-50 */
+  --surface-raised: 255 255 255; /* white */
+  --surface-sunken: 243 244 246; /* gray-100 */
+  --surface-overlay: 255 255 255;
+
+  --content-primary: 17 24 39; /* gray-900 */
+  --content-secondary: 55 65 81; /* gray-700 */
+  --content-muted: 107 114 128; /* gray-500 */
+  --content-inverse: 255 255 255;
+
+  --border-subtle: 229 231 235; /* gray-200 */
+  --border-strong: 209 213 219; /* gray-300 */
+  --border-accent: 16 185 129; /* emerald-500 */
+
+  --accent-base: 5 150 105; /* emerald-600 */
+  --accent-hover: 4 120 87; /* emerald-700 */
+  --accent-subtle: 236 253 245; /* emerald-50 */
+  --accent-on: 255 255 255;
+
+  --status-success: 5 150 105; /* emerald-600 */
+  --status-warning: 217 119 6; /* amber-600 */
+  --status-danger: 220 38 38; /* red-600 */
+  --status-info: 2 132 199; /* sky-600 */
+}
+
+.dark {
+  /* Semantic theme tokens (dark). Surfaces map to existing --bg-deep / --bg-surface. */
+  --surface-base: 5 10 9; /* matches --bg-deep */
+  --surface-raised: 14 21 20; /* matches --bg-surface */
+  --surface-sunken: 10 16 15;
+  --surface-overlay: 24 32 31;
+
+  --content-primary: 241 245 249; /* slate-100 */
+  --content-secondary: 203 213 225; /* slate-300 */
+  --content-muted: 148 163 184; /* slate-400 — passes WCAG AA on raised */
+  --content-inverse: 17 24 39;
+
+  /* Borders use white with low alpha at the call-site (e.g. border-line-subtle/10). */
+  --border-subtle: 255 255 255;
+  --border-strong: 255 255 255;
+  --border-accent: 52 211 153; /* emerald-400 */
+
+  --accent-base: 52 211 153; /* emerald-400 — brighter for dark surfaces */
+  --accent-hover: 110 231 183; /* emerald-300 */
+  --accent-subtle: 6 78 59; /* emerald-800 — deep tint, not white-green */
+  --accent-on: 6 11 10;
+
+  --status-success: 52 211 153; /* emerald-400 */
+  --status-warning: 251 191 36; /* amber-400 */
+  --status-danger: 248 113 113; /* red-400 */
+  --status-info: 56 189 248; /* sky-400 */
 }
 
 .frame-reveal {
@@ -388,4 +435,46 @@
 
 .dark .border-gray-300 {
   border-color: rgba(255, 255, 255, 0.1) !important;
+}
+
+/* RTL layout support — Arabic is the only RTL language in the 12-language set */
+
+/* Mirror horizontal scroll-reveal animations for RTL */
+[dir="rtl"] .scroll-reveal-left {
+  transform: translateX(30px);
+}
+
+[dir="rtl"] .scroll-reveal-right {
+  transform: translateX(-30px);
+}
+
+/* RTL keyframe mirrors for fadeInLeft / fadeInRight */
+@keyframes fadeInLeftRTL {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+@keyframes fadeInRightRTL {
+  from {
+    opacity: 0;
+    transform: translateX(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+[dir="rtl"] .animate-fade-in-left {
+  animation-name: fadeInLeftRTL;
+}
+
+[dir="rtl"] .animate-fade-in-right {
+  animation-name: fadeInRightRTL;
 }

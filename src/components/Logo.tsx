@@ -4,6 +4,12 @@ interface LogoProps {
   className?: string;
 }
 
+/**
+ * Renders the Give Protocol brand logo, falling back to a "GP" text mark when the SVG fails to load.
+ * @param props - Component props.
+ * @param props.className - Optional class names applied to the rendered element.
+ * @returns The logo image, or a text fallback if the asset cannot be loaded.
+ */
 export const Logo: React.FC<LogoProps> = ({ className }) => {
   const [error, setError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
@@ -12,6 +18,7 @@ export const Logo: React.FC<LogoProps> = ({ className }) => {
     const img = imgRef.current;
     if (!img) return undefined;
 
+    /** Marks the logo as failed so the text fallback is rendered. */
     const handleError = () => setError(true);
     img.addEventListener("error", handleError);
 

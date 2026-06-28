@@ -34,10 +34,12 @@ describe("useFeaturedCharities", () => {
     resetMockState();
   });
 
-  it("returns loading: true on initial mount", () => {
+  it("returns loading: true on initial mount", async () => {
     // Default mock returns empty data so the hook starts loading.
     const { result } = renderHook(() => useFeaturedCharities());
     expect(result.current.loading).toBe(true);
+    // Let the effect resolve so the post-test setState doesn't trigger an act warning.
+    await waitFor(() => expect(result.current.loading).toBe(false));
   });
 
   it("returns charities and loading: false after successful fetch", async () => {

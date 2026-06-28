@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 import {
   Plus,
@@ -28,10 +28,15 @@ interface CharityOpportunity {
 
 interface OpportunitiesTabProps {
   opportunities: CharityOpportunity[];
+  onEdit: (_opportunityId: string) => void;
+  onDelete: (_opportunityId: string) => void;
 }
 
 /** Header with title and create button for the opportunities section. */
-const OpportunitiesHeader: React.FC<{ activeCount: number; disabled?: boolean }> = ({ activeCount, disabled }) => {
+const OpportunitiesHeader: React.FC<{
+  activeCount: number;
+  disabled?: boolean;
+}> = ({ activeCount, disabled }) => {
   const { t } = useTranslation();
   return (
     <>
@@ -56,9 +61,27 @@ const OpportunitiesHeader: React.FC<{ activeCount: number; disabled?: boolean }>
 /** Tab panel listing the charity's volunteer opportunities with create/edit actions. */
 export const OpportunitiesTab: React.FC<OpportunitiesTabProps> = ({
   opportunities,
+  onEdit,
+  onDelete,
 }) => {
   const { t } = useTranslation();
   const activeCount = opportunities.filter((o) => o.status === "active").length;
+
+  const handleEdit = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const opportunityId = e.currentTarget.dataset.id;
+      if (opportunityId) onEdit(opportunityId);
+    },
+    [onEdit],
+  );
+
+  const handleDelete = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const opportunityId = e.currentTarget.dataset.id;
+      if (opportunityId) onDelete(opportunityId);
+    },
+    [onDelete],
+  );
 
   if (opportunities.length === 0) {
     return (
@@ -88,7 +111,10 @@ export const OpportunitiesTab: React.FC<OpportunitiesTabProps> = ({
 
   return (
     <div className="mb-8">
-      <OpportunitiesHeader activeCount={activeCount} disabled={activeCount >= MAX_OPPORTUNITIES_PER_CHARITY} />
+      <OpportunitiesHeader
+        activeCount={activeCount}
+        disabled={activeCount >= MAX_OPPORTUNITIES_PER_CHARITY}
+      />
 
       <div className="space-y-4">
         {opportunities.map((opportunity) => (
@@ -102,10 +128,12 @@ export const OpportunitiesTab: React.FC<OpportunitiesTabProps> = ({
                   {opportunity.title}
                 </h3>
                 <span
-                  className={`px-2.5 py-1 text-xs font-medium rounded-full ${{
-                    active: "bg-green-100 text-green-800",
-                    filled: "bg-blue-100 text-blue-800",
-                  }[opportunity.status] || "bg-gray-100 text-gray-800"}`}
+                  className={`px-2.5 py-1 text-xs font-medium rounded-full ${
+                    {
+                      active: "bg-green-100 text-green-800",
+                      filled: "bg-blue-100 text-blue-800",
+                    }[opportunity.status] || "bg-gray-100 text-gray-800"
+                  }`}
                 >
                   {opportunity.status.charAt(0).toUpperCase() +
                     opportunity.status.slice(1)}
@@ -116,6 +144,8 @@ export const OpportunitiesTab: React.FC<OpportunitiesTabProps> = ({
                   variant="ghost"
                   className="p-2 hover:bg-gray-100 rounded-lg"
                   title="Edit"
+                  data-id={opportunity.id}
+                  onClick={handleEdit}
                 >
                   <Edit className="h-4 w-4 text-gray-500" />
                 </Button>
@@ -123,6 +153,8 @@ export const OpportunitiesTab: React.FC<OpportunitiesTabProps> = ({
                   variant="ghost"
                   className="p-2 hover:bg-red-50 rounded-lg"
                   title="Delete"
+                  data-id={opportunity.id}
+                  onClick={handleDelete}
                 >
                   <Trash2 className="h-4 w-4 text-red-500" />
                 </Button>

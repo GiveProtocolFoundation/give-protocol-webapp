@@ -2,9 +2,10 @@ import "@testing-library/jest-dom";
 import { jest } from "@jest/globals";
 import type React from "react";
 
-// Mock MultiChainContext to prevent errors in tests
+// Mock MultiChainContext to prevent errors in tests. Use jest.fn() so tests
+// can override the return value with mockReturnValue.
 jest.mock("@/contexts/MultiChainContext", () => ({
-  useMultiChainContext: () => ({
+  useMultiChainContext: jest.fn(() => ({
     wallet: null,
     accounts: [],
     activeAccount: null,
@@ -18,19 +19,19 @@ jest.mock("@/contexts/MultiChainContext", () => ({
     switchChainType: jest.fn(),
     switchChain: jest.fn(),
     clearError: jest.fn(),
-  }),
+  })),
   MultiChainProvider: ({ children }: { children: React.ReactNode }) => children,
 }));
 
-// Mock useUnifiedWallets hook
+// Mock useUnifiedWallets hook. Use jest.fn() so tests can override per-test.
 jest.mock("@/hooks/useWallet", () => {
   const originalModule = jest.requireActual("@/hooks/useWallet");
   return {
     ...originalModule,
-    useUnifiedWallets: () => ({
+    useUnifiedWallets: jest.fn(() => ({
       wallets: [],
       isLoading: false,
-    }),
+    })),
   };
 });
 

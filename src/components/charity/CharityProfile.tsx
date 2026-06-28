@@ -4,6 +4,10 @@ import { Button } from "@/components/ui/Button";
 import { Editor } from "@/components/ui/Editor";
 import { useCharityProfile } from "@/hooks/useCharityProfile";
 
+/**
+ * Form for editing the current charity's profile details.
+ * @returns The rendered charity profile editor
+ */
 export const CharityProfile: React.FC = () => {
   const { profile, updateProfile, loading, error } = useCharityProfile();
   const [name, setName] = useState(profile?.name || "");

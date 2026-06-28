@@ -9,7 +9,7 @@ export const Input = ({ label, error, id, ...props }) => {
   // This mirrors the real component's useId() behaviour.
   const inputId =
     id ||
-    `input-mock-${label ? label.toLowerCase().replace(/\s+/g, "-") : ++_inputCounter}`;
+    `input-mock-${label ? label.toLowerCase().replaceAll(/\s+/g, "-") : ++_inputCounter}`;
   return (
     <div>
       {label && <label htmlFor={inputId}>{label}</label>}

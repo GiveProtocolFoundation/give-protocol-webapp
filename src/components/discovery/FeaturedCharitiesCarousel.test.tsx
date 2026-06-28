@@ -1,5 +1,4 @@
 import { jest } from "@jest/globals";
-import React from "react";
 import { render, screen, fireEvent, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { useFeaturedCharities } from "@/hooks/useFeaturedCharities";
@@ -373,6 +372,22 @@ describe("FeaturedCharitiesCarousel", () => {
       .getByLabelText("Featured organizations")
       .querySelectorAll("[data-index]");
     expect(dots).toHaveLength(2);
+  });
+
+  it("renders slide ARIA attributes on each card wrapper", () => {
+    const charities = [makeCharity("c1"), makeCharity("c2"), makeCharity("c3")];
+    mockUseFeaturedCharities.mockReturnValue({
+      charities: charities as never,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    const slides = screen.getAllByRole("group");
+    expect(slides).toHaveLength(3);
+    expect(slides[0]).toHaveAttribute("aria-roledescription", "slide");
+    expect(slides[0]).toHaveAttribute("aria-label", "Slide 1 of 3");
+    expect(slides[1]).toHaveAttribute("aria-label", "Slide 2 of 3");
+    expect(slides[2]).toHaveAttribute("aria-label", "Slide 3 of 3");
   });
 
   it("navigates when a dot is clicked", () => {

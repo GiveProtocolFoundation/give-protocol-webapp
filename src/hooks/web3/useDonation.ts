@@ -1,6 +1,7 @@
 import { useState } from "react";
 import { useContract } from "./useContract";
 import { useWeb3 } from "@/contexts/Web3Context";
+import { useToast } from "@/contexts/ToastContext";
 import {
   parseEther,
   getAddress,
@@ -87,10 +88,16 @@ interface DonationParams {
 export function useDonation() {
   const { contract } = useContract("donation");
   const { address, signer, chainId } = useWeb3();
+  const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [approving, setApproving] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
+  /**
+   * Submits a donation to the specified charity via smart contract.
+   * @param params - Donation parameters including charity address, amount, and type
+   * @returns Promise that resolves when the donation transaction is confirmed
+   */
   const donate = async ({
     charityAddress,
     amount,
@@ -230,6 +237,7 @@ export function useDonation() {
       const message =
         err instanceof Error ? err.message : "Failed to process donation";
       setError(message);
+      showToast({ type: "error", title: "Donation failed", message });
       Logger.error("Donation failed", {
         error: err,
         amount,
@@ -246,6 +254,11 @@ export function useDonation() {
     }
   };
 
+  /**
+   * Withdraws funds from the donation contract.
+   * @param amount - Amount to withdraw as a string
+   * @returns Promise that resolves when the withdrawal transaction is confirmed
+   */
   const withdraw = async (amount: string) => {
     if (!contract || !address) {
       throw new Error("Contract or wallet not connected");

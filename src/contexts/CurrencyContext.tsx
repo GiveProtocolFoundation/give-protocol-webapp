@@ -24,9 +24,7 @@ interface CurrencyContextType {
   convertFromFiat: (_fiatAmount: number, _tokenCoingeckoId: string) => number;
 }
 
-const CurrencyContext = createContext<CurrencyContextType | undefined>(
-  undefined,
-);
+const CurrencyContext = createContext<CurrencyContextType | undefined>();
 
 interface CurrencyProviderProps {
   children: React.ReactNode;
@@ -218,6 +216,7 @@ export function CurrencyProvider({
  * }
  * ```
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function useCurrencyContext(): CurrencyContextType {
   const context = useContext(CurrencyContext);
   if (!context) {

@@ -1,5 +1,4 @@
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
-import React from "react";
 import { screen, fireEvent, waitFor, render } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { ConnectButton } from "../ConnectButton";

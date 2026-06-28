@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -98,7 +97,7 @@ describe("SettingsMenu", () => {
     it("shows the settings title when menu is opened", () => {
       renderSettingsMenu();
       fireEvent.click(screen.getByRole("button", { name: "Settings" }));
-      expect(screen.getByText("settings.title")).toBeInTheDocument();
+      expect(screen.getByText("Settings")).toBeInTheDocument();
     });
 
     it("sets aria-expanded to true when menu is open", () => {
@@ -110,7 +109,7 @@ describe("SettingsMenu", () => {
 
     it("does not show the dropdown when menu is closed", () => {
       renderSettingsMenu();
-      expect(screen.queryByText("settings.title")).not.toBeInTheDocument();
+      expect(screen.queryByText("Settings")).not.toBeInTheDocument();
     });
   });
 
@@ -161,7 +160,7 @@ describe("SettingsMenu", () => {
     it("renders the language section title", () => {
       renderSettingsMenu();
       fireEvent.click(screen.getByRole("button", { name: "Settings" }));
-      expect(screen.getByText("settings.language")).toBeInTheDocument();
+      expect(screen.getByText("Language")).toBeInTheDocument();
     });
 
     it("renders all language options", () => {
@@ -191,7 +190,7 @@ describe("SettingsMenu", () => {
     it("renders the currency section title", () => {
       renderSettingsMenu();
       fireEvent.click(screen.getByRole("button", { name: "Settings" }));
-      expect(screen.getByText("settings.currency")).toBeInTheDocument();
+      expect(screen.getByText("Currency")).toBeInTheDocument();
     });
 
     it("renders all currency options with symbols", () => {
@@ -227,28 +226,28 @@ describe("SettingsMenu", () => {
       const button = screen.getByRole("button", { name: "Settings" });
 
       fireEvent.click(button);
-      expect(screen.getByText("settings.title")).toBeInTheDocument();
+      expect(screen.getByText("Settings")).toBeInTheDocument();
 
       fireEvent.click(button);
-      expect(screen.queryByText("settings.title")).not.toBeInTheDocument();
+      expect(screen.queryByText("Settings")).not.toBeInTheDocument();
     });
 
     it("closes the menu when clicking outside", () => {
       renderSettingsMenu();
       fireEvent.click(screen.getByRole("button", { name: "Settings" }));
-      expect(screen.getByText("settings.title")).toBeInTheDocument();
+      expect(screen.getByText("Settings")).toBeInTheDocument();
 
       fireEvent.mouseDown(document.body);
-      expect(screen.queryByText("settings.title")).not.toBeInTheDocument();
+      expect(screen.queryByText("Settings")).not.toBeInTheDocument();
     });
 
     it("closes the menu when pressing Escape", () => {
       renderSettingsMenu();
       fireEvent.click(screen.getByRole("button", { name: "Settings" }));
-      expect(screen.getByText("settings.title")).toBeInTheDocument();
+      expect(screen.getByText("Settings")).toBeInTheDocument();
 
       fireEvent.keyDown(document, { key: "Escape" });
-      expect(screen.queryByText("settings.title")).not.toBeInTheDocument();
+      expect(screen.queryByText("Settings")).not.toBeInTheDocument();
     });
   });
 

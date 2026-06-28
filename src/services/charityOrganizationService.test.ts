@@ -236,7 +236,7 @@ describe("charityOrganizationService", () => {
       expect(result.organizations).toHaveLength(20);
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should throw on RPC error so the caller can surface it to the user", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({
@@ -244,33 +244,33 @@ describe("charityOrganizationService", () => {
         error: { message: "RPC failed" },
       });
 
-      const result = await searchCharityOrganizations({
-        search_query: "test",
-        filter_state: null,
-        filter_ntee: null,
-        filter_country: null,
-        result_limit: 20,
-        result_offset: 0,
-      });
-
-      expect(result).toEqual({ organizations: [], hasMore: false });
+      await expect(
+        searchCharityOrganizations({
+          search_query: "test",
+          filter_state: null,
+          filter_ntee: null,
+          filter_country: null,
+          result_limit: 20,
+          result_offset: 0,
+        }),
+      ).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result on thrown exception", async () => {
+    it("should propagate network errors to the caller", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network error"));
 
-      const result = await searchCharityOrganizations({
-        search_query: "test",
-        filter_state: null,
-        filter_ntee: null,
-        filter_country: null,
-        result_limit: 20,
-        result_offset: 0,
-      });
-
-      expect(result).toEqual({ organizations: [], hasMore: false });
+      await expect(
+        searchCharityOrganizations({
+          search_query: "test",
+          filter_state: null,
+          filter_ntee: null,
+          filter_country: null,
+          result_limit: 20,
+          result_offset: 0,
+        }),
+      ).rejects.toThrow("Network error");
     });
 
     it("should handle null data gracefully", async () => {

@@ -7,13 +7,13 @@ import type {
 
 describe("discoveryFiltersState", () => {
   it("exports emptyDiscoveryFilters with correct defaults", () => {
-    const f: DiscoveryFiltersState = emptyDiscoveryFilters;
-    expect(f.viewMode).toBe("charities");
-    expect(f.searchTerm).toBe("");
-    expect(f.activeCategory).toBe("hq");
-    expect(f.impactLocations).toEqual([]);
-    expect(f.hqLocations).toEqual([]);
-    expect(f.onPlatformOnly).toBe(false);
+    const filters: DiscoveryFiltersState = emptyDiscoveryFilters;
+    expect(filters.viewMode).toBe("charities");
+    expect(filters.searchTerm).toBe("");
+    expect(filters.activeCategory).toBe("hq");
+    expect(filters.impactLocations).toEqual([]);
+    expect(filters.hqLocations).toEqual([]);
+    expect(filters.onPlatformOnly).toBe(false);
   });
 
   it("DiscoveryViewMode accepts valid values", () => {

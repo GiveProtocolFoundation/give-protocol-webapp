@@ -36,6 +36,28 @@ function jsonResponse(body: Record<string, unknown>, status: number): Response {
   );
 }
 
+/**
+ * Attempt to decrypt a volunteer_applications PII ciphertext via the pii-crypto edge function.
+ * Returns the plaintext on success, `null` on failure (logged, never throws).
+ */
+async function tryDecryptPII(
+  supabase: SupabaseClient,
+  ciphertext: string | null | undefined,
+  field: string,
+): Promise<string | null> {
+  if (!ciphertext) return null;
+  try {
+    const { data, error } = await supabase.functions.invoke<{ plaintext: string }>(
+      'pii-crypto',
+      { body: { operation: 'decrypt', value: ciphertext, field } },
+    );
+    if (error || !data?.plaintext) return null;
+    return data.plaintext;
+  } catch {
+    return null;
+  }
+}
+
 /** Assemble the full data export package for the authenticated user. */
 async function assembleExportPackage(
   userId: string,
@@ -44,6 +66,14 @@ async function assembleExportPackage(
   const now = new Date().toISOString();
 
   // Fetch all user data in parallel
+  // First, fetch charity profile IDs to query charity_wallets
+  const { data: charityProfiles } = await supabase
+    .from('charity_profiles')
+    .select('id, ein, name, authorized_signer_name, authorized_signer_email, authorized_signer_phone, status, claimed_by')
+    .eq('claimed_by', userId);
+
+  const charityProfileIds = (charityProfiles ?? []).map((p) => p.id);
+
   const [
     authUserResult,
     profileResult,
@@ -55,6 +85,8 @@ async function assembleExportPackage(
     selfReportedResult,
     volunteerVerifResult,
     fiatDonationsResult,
+    charityWalletsResult,
+    passkeysResult,
   ] = await Promise.all([
     supabase.auth.admin.getUserById(userId),
     supabase.from('profiles').select('*').eq('user_id', userId).single(),
@@ -62,7 +94,9 @@ async function assembleExportPackage(
     supabase.from('user_identities').select('primary_auth_method, wallet_linked_at, created_at').eq('user_id', userId).single(),
     supabase.from('user_preferences').select('privacy_settings, notification_preferences').eq('user_id', userId).single(),
     supabase.from('volunteer_applications').select(
-      'opportunity_id, status, applied_at, consent_given, international_transfers_consent, timezone'
+      'opportunity_id, status, applied_at, consent_given, international_transfers_consent, timezone, ' +
+      'full_name, email, phone, message, location, age_range, ' +
+      'full_name_encrypted, email_encrypted, phone_encrypted'
     ).eq('applicant_id', userId),
     supabase.from('volunteer_hours').select(
       'hours, date_performed, description, status'
@@ -74,13 +108,41 @@ async function assembleExportPackage(
       'verified_at, blockchain_tx_hash, nft_token_id, verification_hash'
     ).eq('volunteer_id', userId),
     supabase.from('fiat_donations').select(
-      'charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
+      'donor_name, donor_email, charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
     ).eq('donor_id', userId),
+    charityProfileIds.length > 0
+      ? supabase
+          .from('charity_wallets')
+          .select(
+            'wallet_address, wallet_type, chain_id, is_primary, signer_count, signer_threshold, ' +
+            'custodian_name, custodian_attestation_doc_url, proof_of_control_verified_at, ' +
+            'risk_acknowledgment_at, created_at'
+          )
+          .in('charity_profile_id', charityProfileIds)
+      : Promise.resolve({ data: [], error: null }),
+    supabase
+      .from('user_passkeys')
+      .select('device_name, transports, created_at, last_used_at')
+      .eq('user_id', userId),
   ]);
 
   const authUser = authUserResult.data?.user;
   const profile = profileResult.data;
   const identity = userIdentityResult.data;
+
+  // Legacy donations table — helcim-payment writes here without donor_id.
+  // Look up by donor_email (subject's auth email).
+  let legacyDonationsResult: { data: Array<Record<string, unknown>> | null } = { data: [] };
+  if (authUser?.email) {
+    legacyDonationsResult = await supabase
+      .from('donations')
+      .select(
+        'charity_id, donor_name, donor_email, amount_cents, currency, ' +
+        'payment_method, transaction_id, card_type, card_last_four, ' +
+        'fee_covered, status, created_at'
+      )
+      .eq('donor_email', authUser.email);
+  }
 
   return {
     export_generated_at: now,
@@ -90,6 +152,7 @@ async function assembleExportPackage(
       created_at: authUser?.created_at ?? null,
       auth_method: identity?.primary_auth_method ?? 'email',
       wallet_linked_at: identity?.wallet_linked_at ?? null,
+      phone: authUser?.user_metadata?.phone ?? null,
     },
     profile: profile
       ? {
@@ -109,14 +172,35 @@ async function assembleExportPackage(
           notification_preferences: userPrefsResult.data.notification_preferences,
         }
       : null,
-    volunteer_applications: (volunteerAppsResult.data ?? []).map((a) => ({
-      opportunity_id: a.opportunity_id,
-      status: a.status,
-      applied_at: a.applied_at,
-      consent_given: a.consent_given,
-      international_transfers_consent: a.international_transfers_consent,
-      timezone: a.timezone,
-    })),
+    volunteer_applications: await Promise.all(
+      (volunteerAppsResult.data ?? []).map(async (a) => {
+        const isAnonymized = (v: unknown) => v === '[deleted]' || v === null || v === undefined;
+        const resolve = async (
+          plaintext: string | null | undefined,
+          ciphertext: string | null | undefined,
+          field: string,
+        ): Promise<string | null> => {
+          if (!isAnonymized(plaintext)) return plaintext as string;
+          const decrypted = await tryDecryptPII(supabase, ciphertext, field);
+          if (decrypted !== null) return decrypted;
+          return ciphertext ? '[encrypted — decryption unavailable]' : null;
+        };
+        return {
+          opportunity_id: a.opportunity_id,
+          status: a.status,
+          applied_at: a.applied_at,
+          consent_given: a.consent_given,
+          international_transfers_consent: a.international_transfers_consent,
+          timezone: a.timezone,
+          full_name: await resolve(a.full_name, a.full_name_encrypted, 'full_name'),
+          email: await resolve(a.email, a.email_encrypted, 'email'),
+          phone: await resolve(a.phone, a.phone_encrypted, 'phone'),
+          message: a.message ?? null,
+          location: a.location ?? null,
+          age_range: a.age_range ?? null,
+        };
+      }),
+    ),
     volunteer_hours: (volunteerHoursResult.data ?? []).map((h) => ({
       hours: h.hours,
       date_performed: h.date_performed,
@@ -138,6 +222,8 @@ async function assembleExportPackage(
       nft_token_id: v.nft_token_id,
     })),
     fiat_donations: (fiatDonationsResult.data ?? []).map((d) => ({
+      donor_name: d.donor_name,
+      donor_email: d.donor_email,
       charity_id: d.charity_id,
       amount_cents: d.amount_cents,
       currency: d.currency,
@@ -147,6 +233,47 @@ async function assembleExportPackage(
       cause_name: d.cause_name,
       fund_name: d.fund_name,
       created_at: d.created_at,
+    })),
+    legacy_fiat_donations: (legacyDonationsResult.data ?? []).map((d) => ({
+      type: 'fiat_legacy',
+      charity_id: d.charity_id,
+      donor_name: d.donor_name,
+      donor_email: d.donor_email,
+      amount_cents: d.amount_cents,
+      currency: d.currency,
+      payment_method: d.payment_method,
+      transaction_id: d.transaction_id,
+      card_type: d.card_type,
+      card_last_four: d.card_last_four,
+      fee_covered: d.fee_covered,
+      status: d.status,
+      created_at: d.created_at,
+    })),
+    charity_representative: (charityProfiles ?? []).map((p) => ({
+      charity_ein: p.ein,
+      charity_name: p.name,
+      authorized_signer_name: p.authorized_signer_name ?? null,
+      authorized_signer_email: p.authorized_signer_email ?? null,
+      authorized_signer_phone: p.authorized_signer_phone ?? null,
+      status: p.status,
+    })),
+    charity_wallets: (charityWalletsResult.data ?? []).map((w) => ({
+      wallet_address: w.wallet_address,
+      wallet_type: w.wallet_type,
+      chain_id: w.chain_id,
+      is_primary: w.is_primary,
+      signer_count: w.signer_count ?? null,
+      signer_threshold: w.signer_threshold ?? null,
+      custodian_name: w.custodian_name ?? null,
+      proof_of_control_verified_at: w.proof_of_control_verified_at ?? null,
+      risk_acknowledgment_at: w.risk_acknowledgment_at ?? null,
+      created_at: w.created_at,
+    })),
+    passkeys: (passkeysResult.data ?? []).map((p) => ({
+      device_name: p.device_name,
+      transports: p.transports,
+      created_at: p.created_at,
+      last_used_at: p.last_used_at,
     })),
   };
 }

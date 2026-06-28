@@ -37,14 +37,22 @@ const NETWORK_CONFIG: Record<
   base: { symbol: "ETH", chainId: CHAIN_IDS.BASE, decimals: 18 },
   optimism: { symbol: "ETH", chainId: CHAIN_IDS.OPTIMISM, decimals: 18 },
   moonbeam: { symbol: "GLMR", chainId: CHAIN_IDS.MOONBEAM, decimals: 18 },
-  "base-sepolia": { symbol: "ETH", chainId: CHAIN_IDS.BASE_SEPOLIA, decimals: 18 },
-  "optimism-sepolia": { symbol: "ETH", chainId: CHAIN_IDS.OPTIMISM_SEPOLIA, decimals: 18 },
+  "base-sepolia": {
+    symbol: "ETH",
+    chainId: CHAIN_IDS.BASE_SEPOLIA,
+    decimals: 18,
+  },
+  "optimism-sepolia": {
+    symbol: "ETH",
+    chainId: CHAIN_IDS.OPTIMISM_SEPOLIA,
+    decimals: 18,
+  },
   moonbase: { symbol: "DEV", chainId: CHAIN_IDS.MOONBASE, decimals: 18 },
 };
 
 /** Cache for token prices */
 const priceCache: Record<string, { price: number; timestamp: number }> = {};
-const PRICE_CACHE_TTL = 30000; // 30 second cache (Chainlink is fast, no rate limits)
+const PRICE_CACHE_TTL = 60000; // 60 second cache
 
 /**
  * Fetch token price from Chainlink (primary) or cache
@@ -52,7 +60,10 @@ const PRICE_CACHE_TTL = 30000; // 30 second cache (Chainlink is fast, no rate li
  * @param chainId - Chain ID for the price feed
  * @returns USD price or null if fetch fails
  */
-async function fetchTokenPrice(symbol: string, chainId: number): Promise<number | null> {
+async function fetchTokenPrice(
+  symbol: string,
+  chainId: number,
+): Promise<number | null> {
   const cacheKey = `${chainId}_${symbol}`;
 
   // Check cache first
@@ -72,7 +83,11 @@ async function fetchTokenPrice(symbol: string, chainId: number): Promise<number 
 
     return null;
   } catch (error) {
-    Logger.warn("Failed to fetch token price from Chainlink", { symbol, chainId, error });
+    Logger.warn("Failed to fetch token price from Chainlink", {
+      symbol,
+      chainId,
+      error,
+    });
     return null;
   }
 }
@@ -87,7 +102,8 @@ function formatBalance(balance: number): string {
   if (balance < 0.0001) return "< 0.0001";
   if (balance < 1) return balance.toFixed(4);
   if (balance < 1000) return balance.toFixed(4);
-  if (balance < 1000000) return balance.toLocaleString(undefined, { maximumFractionDigits: 2 });
+  if (balance < 1000000)
+    return balance.toLocaleString(undefined, { maximumFractionDigits: 2 });
   return balance.toLocaleString(undefined, { maximumFractionDigits: 0 });
 }
 
@@ -140,7 +156,7 @@ export function useWalletBalance(network: NetworkType): WalletBalanceResult {
       // Fetch native balance
       const balanceWei = await provider.getBalance(address);
       const balanceFormatted = Number.parseFloat(
-        ethers.formatUnits(balanceWei, config.decimals)
+        ethers.formatUnits(balanceWei, config.decimals),
       );
 
       if (!isMountedRef.current) return;
@@ -182,7 +198,15 @@ export function useWalletBalance(network: NetworkType): WalletBalanceResult {
         setIsLoading(false);
       }
     }
-  }, [provider, address, isConnected, network, config.decimals, config.symbol, config.chainId]);
+  }, [
+    provider,
+    address,
+    isConnected,
+    network,
+    config.decimals,
+    config.symbol,
+    config.chainId,
+  ]);
 
   // Fetch balance on mount and when dependencies change
   useEffect(() => {
@@ -213,15 +237,15 @@ export function useWalletBalance(network: NetworkType): WalletBalanceResult {
   }, [isConnected, fetchBalance]);
 
   // Listen for block updates to refresh balance after transactions
+  // Debounce to avoid hammering RPC on every block (~2s on Base/Optimism)
   useEffect(() => {
     if (!provider || !isConnected) return undefined;
 
+    /** Refetches the wallet balance on each new block event. */
     const handleBlock = () => {
-      // Debounce block updates - only fetch every few blocks
       fetchBalance();
     };
 
-    // Subscribe to new blocks
     provider.on("block", handleBlock);
 
     return () => {

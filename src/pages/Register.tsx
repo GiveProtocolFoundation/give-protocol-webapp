@@ -172,7 +172,7 @@ const RegisterWalletNotice: React.FC<{ truncatedAddress: string }> = ({
         }}
       >
         Wallet detected: {truncatedAddress}
-      </strong>
+      </strong>{" "}
       Create an account to link this wallet and access your donation history,
       CEF portfolio, and SBT credentials across sessions.
       <a
@@ -457,7 +457,7 @@ const WalletLinkToggle: React.FC<{
           }}
         >
           Link wallet {truncatedAddress}
-        </strong>
+        </strong>{" "}
         Auto-link your connected wallet to this account
       </div>
     </div>
@@ -508,35 +508,42 @@ const WalletDisconnectedNotice: React.FC = () => (
 
 /** Notice about charity wallet setup during charity registration. */
 const CharityWalletNotice: React.FC = () => (
-  <div
-    className="rounded-[10px] p-4 mb-6 dark:bg-transparent dark:border-[#F59E0B] flex items-start gap-3"
-    style={{
-      background: "rgba(254,243,199,0.6)",
-      border: "1.5px solid rgba(234,179,8,0.35)",
-    }}
-  >
-    <LinkIcon
-      className="h-4 w-4 shrink-0 p-1 box-content"
+  <div className="rounded-[10px] p-4 mb-6 bg-slate-50 dark:bg-slate-800/50 border border-slate-200 dark:border-slate-700 border-l-[3px] border-l-emerald-600 flex items-start gap-3.5">
+    <div
+      className="shrink-0 flex items-center justify-center bg-emerald-50 dark:bg-emerald-900/30"
       style={{
-        color: "#92400e",
+        width: 28,
+        height: 28,
         borderRadius: 8,
-        background: "rgba(234,179,8,0.12)",
       }}
-    />
+    >
+      <ShieldCheck className="h-4 w-4 text-emerald-700 dark:text-emerald-400" />
+    </div>
     <div>
       <p
-        className="dark:text-[#F59E0B]"
-        style={{ fontWeight: 600, fontSize: "0.9rem", color: "#92400e" }}
+        className="text-slate-500 dark:text-slate-400"
+        style={{
+          fontSize: "0.65rem",
+          fontWeight: 600,
+          letterSpacing: "0.08em",
+          textTransform: "uppercase",
+        }}
+      >
+        Post-signup step
+      </p>
+      <p
+        className="text-slate-900 dark:text-slate-100 mt-0.5"
+        style={{ fontWeight: 600, fontSize: "0.9rem" }}
       >
         Organization wallet setup
       </p>
       <p
-        className="text-slate-600 dark:text-[#D1D5DB] mt-1"
-        style={{ fontSize: "0.8rem", lineHeight: 1.5 }}
+        className="text-slate-600 dark:text-slate-300 mt-1"
+        style={{ fontSize: "0.8rem", lineHeight: 1.55 }}
       >
-        Charity digital asset wallets are configured after account creation by
-        an authorized admin using your organization&apos;s dedicated wallet —
-        kept separate from any personal wallets.
+        Your charity&apos;s digital asset wallet is configured after account
+        creation by an authorized admin, using your organization&apos;s
+        dedicated wallet — kept separate from any personal wallets.
       </p>
     </div>
   </div>

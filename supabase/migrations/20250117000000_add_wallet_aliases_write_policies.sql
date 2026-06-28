@@ -2,12 +2,14 @@
 -- Users were unable to set wallet aliases due to missing RLS policies
 
 -- Policy for INSERT: Users can insert their own wallet aliases
+DROP POLICY IF EXISTS "Users can insert their own wallet aliases" ON wallet_aliases;
 CREATE POLICY "Users can insert their own wallet aliases" ON wallet_aliases
   FOR INSERT
   TO authenticated
   WITH CHECK (user_id = auth.uid());
 
 -- Policy for UPDATE: Users can update their own wallet aliases
+DROP POLICY IF EXISTS "Users can update their own wallet aliases" ON wallet_aliases;
 CREATE POLICY "Users can update their own wallet aliases" ON wallet_aliases
   FOR UPDATE
   TO authenticated
@@ -15,6 +17,7 @@ CREATE POLICY "Users can update their own wallet aliases" ON wallet_aliases
   WITH CHECK (user_id = auth.uid());
 
 -- Policy for DELETE: Users can delete their own wallet aliases
+DROP POLICY IF EXISTS "Users can delete their own wallet aliases" ON wallet_aliases;
 CREATE POLICY "Users can delete their own wallet aliases" ON wallet_aliases
   FOR DELETE
   TO authenticated

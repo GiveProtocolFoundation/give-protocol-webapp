@@ -80,7 +80,7 @@ export function useMultiTokenBalance(tokens: TokenConfig[]) {
             ethers.formatUnits(balanceRaw, token.decimals),
           );
           return { symbol: token.symbol, balance: balanceFormatted };
-        } catch (tokenError) {
+        } catch (_tokenError) {
           Logger.warn("Failed to fetch balance for token", {
             token: token.symbol,
             address: token.address,

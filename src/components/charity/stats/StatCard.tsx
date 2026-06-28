@@ -1,6 +1,6 @@
-import React from 'react';
-import { DivideIcon as LucideIcon } from 'lucide-react';
-import { CurrencyDisplay } from '@/components/CurrencyDisplay';
+import React from "react";
+import { DivideIcon as LucideIcon } from "lucide-react";
+import { CurrencyDisplay } from "@/components/CurrencyDisplay";
 
 interface StatCardProps {
   icon: LucideIcon;
@@ -10,6 +10,11 @@ interface StatCardProps {
   iconBgColor: string;
 }
 
+/**
+ * Dashboard card displaying a labeled statistic with an icon and currency value.
+ * @param props - Component props
+ * @returns The rendered stat card
+ */
 export const StatCard: React.FC<StatCardProps> = ({
   icon: Icon,
   label,

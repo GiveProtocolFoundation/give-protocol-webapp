@@ -19,7 +19,7 @@ const corsHeaders = {
 };
 
 const SUPPORT_EMAIL = "support@giveprotocol.io";
-const PORTAL_URL = "https://app.giveprotocol.io/charity";
+const PORTAL_URL = "https://giveprotocol.io/charity-portal";
 
 interface StatusEmailRequest {
   charityId: string;
@@ -70,27 +70,13 @@ function buildEmailContent(
         <p><a href="${PORTAL_URL}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">Go to Charity Portal</a></p>
       `,
     },
-    approved: {
-      subject: `Congratulations! Your charity has been approved — ${safeName}`,
-      heading: "Your Charity Has Been Approved",
-      bodyHtml: `
-        <p>Great news! <strong>${safeName}</strong> has been approved on Give Protocol.</p>
-        <p>You can now:</p>
-        <ul>
-          <li>Create and publish donation campaigns</li>
-          <li>Receive donations from supporters on our platform</li>
-          <li>Access all charity dashboard features</li>
-        </ul>
-        <p><a href="${PORTAL_URL}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">Go to Charity Portal</a></p>
-      `,
-    },
     rejected: {
       subject: `Update on your Give Protocol application — ${safeName}`,
       heading: "Update on Your Charity Application",
       bodyHtml: `
         <p>Thank you for applying to Give Protocol. After careful review, we were unable to approve <strong>${safeName}</strong> at this time.</p>
-        ${safeReason ? `<p><strong>Reason for rejection:</strong> ${safeReason}</p>` : ""}
-        <p>You are welcome to reapply after addressing the issues noted above. Please ensure your documentation meets our <a href="https://docs.giveprotocol.io/verification">verification requirements</a>.</p>
+        ${safeReason ? `<p><strong>Reason for rejection:</strong> ${safeReason}</p><p>You are welcome to reapply after addressing the issues noted above.</p>` : ""}
+        <p>Please ensure your documentation meets our <a href="https://docs.giveprotocol.io/verification">verification requirements</a>.</p>
         <p>If you believe this decision was made in error, please contact us at <a href="mailto:${SUPPORT_EMAIL}">${SUPPORT_EMAIL}</a>.</p>
       `,
     },
@@ -106,7 +92,10 @@ function buildEmailContent(
     },
   };
 
-  const template = statusTemplates[newStatus] ?? {
+  // Normalize "approved" to "verified" — both use the same approval template
+  const templateKey = newStatus === "approved" ? "verified" : newStatus;
+
+  const template = statusTemplates[templateKey] ?? {
     subject: `Your Give Protocol charity status has been updated — ${safeName}`,
     heading: "Your Charity Status Has Been Updated",
     bodyHtml: `<p>The status of <strong>${safeName}</strong> on Give Protocol has been updated to <strong>${escapeHtml(newStatus)}</strong>.</p>`,

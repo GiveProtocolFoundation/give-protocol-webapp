@@ -4,6 +4,10 @@ import ProfileForm from "./ProfileForm";
 import CharityProfileCard from "./CharityProfileCard";
 import { Button } from "@/components/ui/Button";
 
+/**
+ * Section that displays the charity profile and toggles between view and edit modes.
+ * @returns The rendered charity profile section
+ */
 const CharityProfileSection: React.FC = () => {
   const { profile, updateProfile, loading, error } = useCharityProfile();
   const [isEditing, setIsEditing] = useState(false);

@@ -65,7 +65,8 @@ export const ImpactProfileForm: React.FC<ImpactProfileFormProps> = ({
     };
   }, [initialData]);
 
-  const [formData, setFormData] = useState<ImpactProfileFormData>(initialFormData);
+  const [formData, setFormData] =
+    useState<ImpactProfileFormData>(initialFormData);
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const handleStatLabelChange = useCallback(
@@ -197,7 +198,10 @@ export const ImpactProfileForm: React.FC<ImpactProfileFormProps> = ({
         </p>
         <div className="space-y-4">
           {formData.stats.map((stat, index) => (
-            <div key={`stat-${String(index)}`} className="grid grid-cols-1 md:grid-cols-2 gap-4">
+            <div
+              key={`stat-${String(index)}`}
+              className="grid grid-cols-1 md:grid-cols-2 gap-4"
+            >
               <Input
                 variant="enhanced"
                 label={`${t("impact.statLabel", "Label")} ${String(index + 1)}`}
@@ -237,11 +241,9 @@ export const ImpactProfileForm: React.FC<ImpactProfileFormProps> = ({
             className="w-full rounded-lg border border-gray-300 px-4 py-3 text-sm focus:border-emerald-500 focus:ring-1 focus:ring-emerald-500 resize-vertical min-h-[120px]"
             value={formData.missionStatement}
             onChange={handleMissionChange}
-            placeholder={t(
-              "impact.missionPlaceholder",
-              "Our mission is to...",
-            )}
+            placeholder={t("impact.missionPlaceholder", "Our mission is to...")}
             maxLength={MISSION_MAX_LENGTH}
+            aria-label={t("impact.missionStatement", "Mission Statement")}
           />
           <p className="text-xs text-gray-400 mt-1 text-right">
             {formData.missionStatement.length}/{MISSION_MAX_LENGTH}
@@ -263,13 +265,17 @@ export const ImpactProfileForm: React.FC<ImpactProfileFormProps> = ({
         </p>
         <div className="space-y-3">
           {formData.highlights.map((highlight, index) => (
-            <div key={`highlight-${String(index)}`} className="flex items-center gap-2">
+            <div
+              key={`highlight-${String(index)}`}
+              className="flex items-center gap-2"
+            >
               <div className="flex-1">
                 <Input
                   variant="enhanced"
                   value={highlight}
                   onChange={handleHighlightChange}
                   data-index={index}
+                  aria-label={`${t("impact.highlight", "Impact highlight")} ${String(index + 1)}`}
                   placeholder={t(
                     "impact.highlightPlaceholder",
                     "e.g., Built 50 homes for families in need",

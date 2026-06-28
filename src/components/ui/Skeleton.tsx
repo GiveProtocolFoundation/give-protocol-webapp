@@ -8,6 +8,16 @@ interface SkeletonProps extends React.HTMLAttributes<HTMLDivElement> {
   count?: number;
 }
 
+/**
+ * Renders one or more placeholder blocks used while content is loading.
+ * @param props - Component props.
+ * @param props.animation - Animation style: `pulse`, `wave`, or `none`. Defaults to `pulse`.
+ * @param props.width - Optional explicit width applied via inline style.
+ * @param props.height - Optional explicit height applied via inline style.
+ * @param props.count - Number of placeholder blocks to render. Defaults to `1`.
+ * @param props.className - Additional class names applied to each placeholder.
+ * @returns A fragment containing the placeholder elements.
+ */
 export const Skeleton: React.FC<SkeletonProps> = ({
   animation = "pulse",
   width,
@@ -18,6 +28,7 @@ export const Skeleton: React.FC<SkeletonProps> = ({
 }) => {
   const items = Array.from({ length: count }, (_, i) => `skeleton-${i}`);
 
+  /** Returns the Tailwind animation class for the selected `animation` variant. */
   const getAnimationClass = () => {
     switch (animation) {
       case "pulse":

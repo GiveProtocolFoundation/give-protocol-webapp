@@ -39,5 +39,6 @@ CREATE INDEX IF NOT EXISTS idx_sbt_audit_log_deleted_user_id
 -- Users must NOT be able to view their own entry (would expose other users' audit data).
 ALTER TABLE sbt_audit_log ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "service_role_only" ON sbt_audit_log;
 CREATE POLICY "service_role_only" ON sbt_audit_log
   USING (auth.role() = 'service_role');

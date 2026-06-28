@@ -11,7 +11,11 @@ export type ChainType = "evm" | "solana" | "polkadot";
 /**
  * Wallet category for UI grouping
  */
-export type WalletCategory = "browser" | "multichain" | "hardware" | "institutional";
+export type WalletCategory =
+  | "browser"
+  | "multichain"
+  | "hardware"
+  | "institutional";
 
 /**
  * Unified account representation across all chain types
@@ -87,7 +91,7 @@ export interface UnifiedWalletProvider {
    * @param chainType - Optional chain type to connect (defaults to primary)
    * @returns Array of connected accounts
    */
-  connect(chainType?: ChainType): Promise<UnifiedAccount[]>;
+  connect(_chainType?: ChainType): Promise<UnifiedAccount[]>;
 
   /**
    * Disconnect from the wallet
@@ -121,7 +125,10 @@ export interface UnifiedWalletProvider {
    * @param _chainType - Chain type for signing
    * @returns Signature
    */
-  signMessage(_message: string | Uint8Array, _chainType: ChainType): Promise<string>;
+  signMessage(
+    _message: string | Uint8Array,
+    _chainType: ChainType,
+  ): Promise<string>;
 }
 
 /**
@@ -149,15 +156,21 @@ export interface WalletConnectionState {
  */
 export interface MultiChainActions {
   /** Connect to a wallet */
-  connect: (wallet: UnifiedWalletProvider, chainType?: ChainType) => Promise<void>;
+  connect: (
+    _wallet: UnifiedWalletProvider,
+    _chainType?: ChainType,
+  ) => Promise<void>;
   /** Disconnect from current wallet */
   disconnect: () => Promise<void>;
   /** Switch active account */
-  switchAccount: (account: UnifiedAccount) => void;
+  switchAccount: (_account: UnifiedAccount) => void;
   /** Switch chain type */
-  switchChainType: (chainType: ChainType) => void;
+  switchChainType: (_chainType: ChainType) => void;
   /** Switch to specific chain */
-  switchChain: (chainId: number | string, chainType: ChainType) => Promise<void>;
+  switchChain: (
+    _chainId: number | string,
+    _chainType: ChainType,
+  ) => Promise<void>;
   /** Clear error state */
   clearError: () => void;
 }

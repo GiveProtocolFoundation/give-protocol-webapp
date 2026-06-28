@@ -18,6 +18,11 @@ const renderForm = () =>
     </MemoryRouter>,
   );
 
+/** Check the age-affirmation checkbox so gated actions are enabled. */
+const checkAgeAffirmation = () => {
+  fireEvent.click(screen.getByRole("checkbox", { name: /16 years/i }));
+};
+
 describe("CharityVettingForm", () => {
   beforeEach(() => {
     jest.clearAllMocks();
@@ -36,6 +41,20 @@ describe("CharityVettingForm", () => {
     });
   });
 
+  it("renders privacy policy and terms of service links", () => {
+    renderForm();
+    // Age-affirmation label + GDPR notice both link to /privacy, so multiple links exist
+    const privacyLinks = screen.getAllByRole("link", {
+      name: /privacy policy/i,
+    });
+    expect(privacyLinks.length).toBeGreaterThan(0);
+    privacyLinks.forEach((link) =>
+      expect(link).toHaveAttribute("href", "/privacy"),
+    );
+    const termsLink = screen.getByRole("link", { name: /terms of service/i });
+    expect(termsLink).toHaveAttribute("href", "/terms");
+  });
+
   it("renders all form fields", () => {
     renderForm();
     expect(screen.getByLabelText(/organization name/i)).toBeInTheDocument();
@@ -51,7 +70,6 @@ describe("CharityVettingForm", () => {
     ).toBeInTheDocument();
     expect(screen.getByLabelText(/contact name/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/contact email/i)).toBeInTheDocument();
-    expect(screen.getByLabelText(/contact phone/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
   });
@@ -92,15 +110,15 @@ describe("CharityVettingForm", () => {
     fireEvent.change(screen.getByLabelText(/contact email/i), {
       target: { value: "john@test.com" },
     });
-    fireEvent.change(screen.getByLabelText(/contact phone/i), {
-      target: { value: "+1234567890" },
-    });
     fireEvent.change(screen.getByLabelText(/^password$/i), {
       target: { value: "Test1234!" },
     });
     fireEvent.change(screen.getByLabelText(/confirm password/i), {
       target: { value: "Test1234!" },
     });
+
+    // Age-affirmation must be confirmed before submission (GIV-454)
+    checkAgeAffirmation();
 
     fireEvent.click(screen.getByRole("button", { name: /submit/i }));
 
@@ -119,6 +137,7 @@ describe("CharityVettingForm", () => {
 
   it("validates required fields", async () => {
     renderForm();
+    checkAgeAffirmation();
     const form = screen
       .getByRole("button", { name: /submit/i })
       .closest("form");
@@ -137,6 +156,7 @@ describe("CharityVettingForm", () => {
     const emailInput = screen.getByLabelText(/contact email/i);
 
     fireEvent.change(emailInput, { target: { value: "invalid-email" } });
+    checkAgeAffirmation();
     const form = screen
       .getByRole("button", { name: /submit/i })
       .closest("form");
@@ -159,6 +179,7 @@ describe("CharityVettingForm", () => {
     fireEvent.change(screen.getByLabelText(/confirm password/i), {
       target: { value: "Different123!" },
     });
+    checkAgeAffirmation();
     const form = screen
       .getByRole("button", { name: /submit/i })
       .closest("form");
@@ -201,15 +222,14 @@ describe("CharityVettingForm", () => {
     fireEvent.change(screen.getByLabelText(/contact email/i), {
       target: { value: "test@test.com" },
     });
-    fireEvent.change(screen.getByLabelText(/contact phone/i), {
-      target: { value: "+1234567890" },
-    });
     fireEvent.change(screen.getByLabelText(/^password$/i), {
       target: { value: "Test1234!" },
     });
     fireEvent.change(screen.getByLabelText(/confirm password/i), {
       target: { value: "Test1234!" },
     });
+
+    checkAgeAffirmation();
 
     const form = screen
       .getByRole("button", { name: /submit/i })
@@ -227,5 +247,32 @@ describe("CharityVettingForm", () => {
     expect(
       screen.getByRole("button", { name: /submit charity application/i }),
     ).toBeInTheDocument();
+  });
+
+  // --- Negative path: age-affirmation gate (GIV-454) ---
+
+  it("submit button is disabled until age-affirmation is checked", () => {
+    renderForm();
+    const submitBtn = screen.getByRole("button", {
+      name: /submit charity application/i,
+    });
+    expect(submitBtn).toBeDisabled();
+    checkAgeAffirmation();
+    expect(submitBtn).not.toBeDisabled();
+  });
+
+  it("clears all form fields when age-affirmation is unchecked", () => {
+    renderForm();
+    fireEvent.change(screen.getByLabelText(/organization name/i), {
+      target: { value: "Test Charity" },
+    });
+    fireEvent.change(screen.getByLabelText(/contact email/i), {
+      target: { value: "john@test.com" },
+    });
+    // Check then uncheck — PII should be cleared on decline
+    checkAgeAffirmation();
+    checkAgeAffirmation();
+    expect(screen.getByLabelText(/organization name/i)).toHaveValue("");
+    expect(screen.getByLabelText(/contact email/i)).toHaveValue("");
   });
 });

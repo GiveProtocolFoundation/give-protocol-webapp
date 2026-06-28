@@ -4,7 +4,12 @@
 
 // Simple mock functions - tests can spy on these using jest.spyOn
 const createMockFn = () => {
-  const fn = function(...args) {
+  /**
+   * Mock function that records call arguments and returns a configured value
+   * @param {...unknown} args - Arguments passed to the mock function
+   * @returns {unknown} The configured return value
+   */
+  const fn = function (...args) {
     fn.calls.push(args);
     fn.callCount++;
     return fn.returnValue;
@@ -29,6 +34,7 @@ export const mockRegister = createMockFn();
 export const mockResetPassword = createMockFn();
 export const mockSendUsernameReminder = createMockFn();
 export const mockLoginWithGoogle = createMockFn();
+export const mockLoginWithApple = createMockFn();
 export const mockRefreshSession = createMockFn();
 
 // Default mock state
@@ -52,6 +58,7 @@ export const resetAuthMocks = () => {
   mockResetPassword.mockClear();
   mockSendUsernameReminder.mockClear();
   mockLoginWithGoogle.mockClear();
+  mockLoginWithApple.mockClear();
   mockRefreshSession.mockClear();
   mockState = {
     user: null,
@@ -61,6 +68,10 @@ export const resetAuthMocks = () => {
   };
 };
 
+/**
+ * Mock useAuth hook that returns the current mock state and mock auth functions
+ * @returns {object} The mock auth state combined with mock auth action functions
+ */
 export const useAuth = () => ({
   ...mockState,
   login: mockLogin,
@@ -69,5 +80,6 @@ export const useAuth = () => ({
   resetPassword: mockResetPassword,
   sendUsernameReminder: mockSendUsernameReminder,
   loginWithGoogle: mockLoginWithGoogle,
+  loginWithApple: mockLoginWithApple,
   refreshSession: mockRefreshSession,
 });

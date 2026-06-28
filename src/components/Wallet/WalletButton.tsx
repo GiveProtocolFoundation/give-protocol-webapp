@@ -108,6 +108,7 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
   balances: externalBalances,
   className = "",
   hasMultipleAccounts = false,
+  isGuest = false,
 }) => {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const [copied, setCopied] = useState(false);
@@ -229,6 +230,11 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
     navigate("/give-dashboard", { state: { showWalletSettings: true } });
   }, [navigate]);
 
+  const handleSignIn = useCallback(() => {
+    setIsDropdownOpen(false);
+    navigate("/auth");
+  }, [navigate]);
+
   return (
     <div ref={containerRef} className={`relative ${className}`}>
       {/* Main Wallet Button */}
@@ -257,7 +263,9 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
 
         {/* Wallet Info */}
         <div className="hidden sm:flex flex-col items-start">
-          <span className="text-xs text-gray-500 font-medium">Main Wallet</span>
+          <span className="text-xs text-gray-500 font-medium">
+            {isGuest ? "Guest" : "Main Wallet"}
+          </span>
           <span className="text-sm font-mono text-gray-900">
             {formatAddress(address, "short")}
           </span>
@@ -292,6 +300,8 @@ export const WalletButton: React.FC<WalletButtonProps> = ({
           onSwitchAccount={handleSwitchAccount}
           onSettings={handleSettings}
           hasMultipleAccounts={hasMultipleAccounts}
+          isGuest={isGuest}
+          onSignIn={handleSignIn}
           anchorRef={buttonRef}
         />
       )}

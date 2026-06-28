@@ -1,7 +1,11 @@
 import { useMemo } from "react";
 import { Logger } from "@/utils/logger";
 import { CHAIN_IDS } from "@/config/contracts";
-import type { UnifiedWalletProvider, WalletCategory, ChainType } from "@/types/wallet";
+import type {
+  UnifiedWalletProvider,
+  WalletCategory,
+  ChainType,
+} from "@/types/wallet";
 import {
   MetaMaskProvider,
   RabbyProvider,
@@ -13,6 +17,7 @@ import {
   createSafeProvider,
 } from "@/lib/wallets";
 
+/** Normalized interface for interacting with a connected wallet provider. */
 export interface WalletProvider {
   name: string;
   icon: string;
@@ -46,6 +51,12 @@ class EVMWalletBase implements WalletProvider {
   private disconnectionAttempts = 0;
   private chainParams: Record<number, unknown> | null = null;
 
+  /**
+   * Captures the wallet display metadata and the underlying EIP-1193 provider reference.
+   * @param name - Human-readable wallet name (e.g. "MetaMask").
+   * @param icon - Identifier used to look up the wallet's icon asset.
+   * @param provider - The injected provider object exposed by the wallet, or `null` if absent.
+   */
   constructor(name: string, icon: string, provider: unknown) {
     this.name = name;
     this.icon = icon;
@@ -128,11 +139,21 @@ class EVMWalletBase implements WalletProvider {
     const chainParams = this.getChainParams(chainId);
     if (!chainParams) throw new Error("Unsupported chain");
 
-    if (!this.provider || typeof (this.provider as { request?: unknown }).request !== "function") {
+    if (
+      !this.provider ||
+      typeof (this.provider as { request?: unknown }).request !== "function"
+    ) {
       throw new Error(`${this.name} provider not found`);
     }
 
-    await (this.provider as { request: (_args: { method: string; params?: unknown[] }) => Promise<unknown> }).request({
+    await (
+      this.provider as {
+        request: (_args: {
+          method: string;
+          params?: unknown[];
+        }) => Promise<unknown>;
+      }
+    ).request({
       method: "wallet_addEthereumChain",
       params: [chainParams],
     });
@@ -236,6 +257,9 @@ class EVMWalletBase implements WalletProvider {
 class MetaMaskWallet extends EVMWalletBase {
   private installationChecks = 0;
 
+  /**
+   * Initializes the wallet with the MetaMask-injected `window.ethereum` provider when available.
+   */
   constructor() {
     super(
       "MetaMask",
@@ -273,6 +297,10 @@ class WalletConnect implements WalletProvider {
   readonly provider: unknown = null;
   private connectionAttempts = 0;
 
+  /**
+   * Reports installation status; WalletConnect is protocol-based and always considered available.
+   * @returns Always `true` for WalletConnect.
+   */
   isInstalled(): boolean {
     // WalletConnect is always available as it doesn't require installation
     // Using readonly property to satisfy 'this' requirement
@@ -293,6 +321,9 @@ class WalletConnect implements WalletProvider {
     return Promise.reject(new Error("WalletConnect integration pending"));
   }
 
+  /**
+   * Terminates the WalletConnect session. Currently a stub that resolves immediately.
+   */
   disconnect(): Promise<void> {
     // WalletConnect disconnect would be implemented here
     this.connectionAttempts++;
@@ -328,6 +359,9 @@ class WalletConnect implements WalletProvider {
 class NovaWallet extends EVMWalletBase {
   private installationChecks = 0;
 
+  /**
+   * Initializes the wallet with the Nova Wallet-injected `window.nova` provider when available.
+   */
   constructor() {
     super(
       "Nova Wallet",
@@ -362,6 +396,9 @@ class NovaWallet extends EVMWalletBase {
 class SubWallet extends EVMWalletBase {
   private installationChecks = 0;
 
+  /**
+   * Initializes the wallet with the SubWallet-injected `window.SubWallet` provider when available.
+   */
   constructor() {
     super(
       "SubWallet",
@@ -398,6 +435,9 @@ class SubWallet extends EVMWalletBase {
 class TalismanWallet extends EVMWalletBase {
   private installationChecks = 0;
 
+  /**
+   * Initializes the wallet with the Talisman-injected `window.talismanEth` provider when available.
+   */
   constructor() {
     super(
       "Talisman",
@@ -434,12 +474,19 @@ class TalismanWallet extends EVMWalletBase {
 class CoinbaseWallet extends EVMWalletBase {
   private installationChecks = 0;
 
+  /**
+   * Initializes the wallet by selecting the Coinbase Wallet provider exposed at
+   * `window.coinbaseWalletExtension` or as `window.ethereum` with the `isCoinbaseWallet` flag.
+   */
   constructor() {
     // Coinbase Wallet injects as window.ethereum with isCoinbaseWallet flag
     // or as window.coinbaseWalletExtension
     const isClient = typeof window !== "undefined";
-    const coinbaseEthereum = isClient && window.ethereum?.isCoinbaseWallet ? window.ethereum : null;
-    const provider = isClient ? (window.coinbaseWalletExtension || coinbaseEthereum) : null;
+    const coinbaseEthereum =
+      isClient && window.ethereum?.isCoinbaseWallet ? window.ethereum : null;
+    const provider = isClient
+      ? window.coinbaseWalletExtension || coinbaseEthereum
+      : null;
 
     super("Coinbase Wallet", "coinbase", provider);
   }
@@ -548,7 +595,9 @@ export function useUnifiedWallets() {
    * @param category - Wallet category to filter by
    * @returns Array of wallets in the category
    */
-  const getWalletsByCategory = (category: WalletCategory): UnifiedWalletProvider[] => {
+  const getWalletsByCategory = (
+    category: WalletCategory,
+  ): UnifiedWalletProvider[] => {
     return unifiedWallets.filter((w) => w.category === category);
   };
 
@@ -557,8 +606,12 @@ export function useUnifiedWallets() {
    * @param chainType - Chain type to filter by
    * @returns Array of wallets supporting the chain type
    */
-  const getWalletsByChainType = (chainType: ChainType): UnifiedWalletProvider[] => {
-    return unifiedWallets.filter((w) => w.supportedChainTypes.includes(chainType));
+  const getWalletsByChainType = (
+    chainType: ChainType,
+  ): UnifiedWalletProvider[] => {
+    return unifiedWallets.filter((w) =>
+      w.supportedChainTypes.includes(chainType),
+    );
   };
 
   /**

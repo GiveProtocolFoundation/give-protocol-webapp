@@ -21,6 +21,7 @@ import type { CharityOrganization } from "@/types/charityOrganization";
 import { DateHoursLocationRow } from "./DateHoursLocationRow";
 import { validateSelfReportedHoursForm, isFormValid } from "./validation";
 import { AlertTriangle, Building2, ChevronDown, Check } from "lucide-react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface SelfReportedHoursFormProps {
   initialData?: Partial<SelfReportedHoursInput>;
@@ -34,7 +35,7 @@ type OrgMode = "verified" | "other";
 
 // Common input classes for consistency
 const INPUT_BASE_CLASSES =
-  "h-11 w-full rounded-lg border border-gray-200 bg-white text-sm text-gray-900 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent";
+  "h-11 w-full rounded-lg border border-gray-200 dark:border-gray-600 bg-white dark:bg-gray-800 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent";
 const INPUT_WITH_ICON_CLASSES = `${INPUT_BASE_CLASSES} pl-10 pr-4`;
 
 /**
@@ -58,6 +59,7 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
   onSelect,
   dropdownRef,
 }) => {
+  const { t } = useTranslation();
   const handleOptionClick = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
       const type = e.currentTarget.dataset.type as ActivityType;
@@ -72,7 +74,8 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
         htmlFor="activityTypeButton"
         className="block text-sm font-medium text-gray-700 mb-2"
       >
-        Activity Type <span className="text-red-500">*</span>
+        {t("volunteer.activityType", "Activity Type")}{" "}
+        <span className="text-red-500">*</span>
       </label>
       <button
         id="activityTypeButton"
@@ -80,7 +83,7 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
         aria-expanded={isOpen}
         aria-haspopup="true"
         onClick={onToggle}
-        className="w-full h-auto min-h-[2.75rem] flex items-center justify-between px-4 py-3 text-left rounded-lg bg-gray-50 hover:bg-gray-100 border border-gray-200 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent"
+        className="w-full h-auto min-h-[2.75rem] flex items-center justify-between px-4 py-3 text-left rounded-lg bg-gray-50 dark:bg-gray-800 hover:bg-gray-100 dark:hover:bg-gray-700 border border-gray-200 dark:border-gray-600 transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent"
       >
         <div className="min-w-0 flex-1">
           <span className="block text-sm font-medium text-gray-900">
@@ -98,7 +101,7 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
       {isOpen && (
         <ul
           aria-labelledby="activityTypeButton"
-          className="absolute z-20 w-full mt-2 bg-white rounded-xl shadow-xl shadow-gray-200/50 border border-gray-100 max-h-72 overflow-auto list-none m-0 p-0"
+          className="absolute z-20 w-full mt-2 bg-white dark:bg-gray-800 rounded-xl shadow-xl shadow-gray-200/50 dark:shadow-black/30 border border-gray-100 dark:border-gray-700 max-h-72 overflow-auto list-none m-0 p-0"
         >
           {Object.values(ActivityType).map((type) => (
             <li key={type}>
@@ -108,7 +111,9 @@ const ActivityTypeDropdown: React.FC<ActivityTypeDropdownProps> = ({
                 data-type={type}
                 onClick={handleOptionClick}
                 className={`w-full px-4 py-3 text-left transition-colors flex items-start gap-3 first:rounded-t-xl last:rounded-b-xl ${
-                  value === type ? "bg-emerald-50" : "hover:bg-gray-50"
+                  value === type
+                    ? "bg-emerald-50 dark:bg-emerald-900/30"
+                    : "hover:bg-gray-50 dark:hover:bg-gray-700"
                 }`}
               >
                 <div className="flex-1 min-w-0">
@@ -156,6 +161,7 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
   onOrgSelect,
   onInputChange,
 }) => {
+  const { t } = useTranslation();
   const handleVerifiedClick = useCallback(() => {
     onModeChange("verified");
   }, [onModeChange]);
@@ -169,19 +175,18 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
       <legend className="block text-sm font-medium text-gray-700 mb-3">
         <span className="flex items-center gap-2">
           <Building2 className="w-4 h-4 text-gray-400" />
-          Organization <span className="text-red-500">*</span>
+          {t("volunteer.organization", "Organization")}{" "}
+          <span className="text-red-500">*</span>
         </span>
       </legend>
 
       {/* Segmented Control */}
-      <div
-        className="inline-flex rounded-lg bg-gray-100 p-1 mb-4"
-      >
+      <div className="inline-flex rounded-lg bg-gray-100 dark:bg-gray-800 p-1 mb-4">
         <label
           className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer ${
             orgMode === "verified"
-              ? "bg-white text-gray-900 shadow-sm"
-              : "text-gray-600 hover:text-gray-900"
+              ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm"
+              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
           }`}
         >
           <input
@@ -191,13 +196,14 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
             checked={orgMode === "verified"}
             onChange={handleVerifiedClick}
             className="sr-only"
-          /><span>Search Registry</span>
+          />
+          <span>{t("volunteer.searchRegistry", "Search Registry")}</span>
         </label>
         <label
           className={`px-4 py-2 text-sm font-medium rounded-md transition-all duration-200 cursor-pointer ${
             orgMode === "other"
-              ? "bg-white text-gray-900 shadow-sm"
-              : "text-gray-600 hover:text-gray-900"
+              ? "bg-white dark:bg-gray-700 text-gray-900 dark:text-gray-100 shadow-sm"
+              : "text-gray-600 dark:text-gray-400 hover:text-gray-900 dark:hover:text-gray-200"
           }`}
         >
           <input
@@ -207,7 +213,8 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
             checked={orgMode === "other"}
             onChange={handleOtherClick}
             className="sr-only"
-          /><span>Not Listed</span>
+          />
+          <span>{t("volunteer.notListed", "Not Listed")}</span>
         </label>
       </div>
 
@@ -223,7 +230,8 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
               htmlFor="organizationName"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Organization Name <span className="text-red-500">*</span>
+              {t("volunteer.organizationName", "Organization Name")}{" "}
+              <span className="text-red-500">*</span>
             </label>
             <div className="relative">
               <Building2 className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400 pointer-events-none" />
@@ -232,7 +240,10 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
                 name="organizationName"
                 value={organizationName}
                 onChange={onInputChange}
-                placeholder="Enter organization name"
+                placeholder={t(
+                  "volunteer.enterOrgName",
+                  "Enter organization name",
+                )}
                 required
                 className={`${INPUT_WITH_ICON_CLASSES} ${errors.organizationName ? "border-red-300 focus:ring-red-500" : ""}`}
               />
@@ -248,8 +259,10 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
               htmlFor="organizationContactEmail"
               className="block text-sm font-medium text-gray-700 mb-2"
             >
-              Contact Email{" "}
-              <span className="text-gray-400 font-normal">(optional)</span>
+              {t("volunteer.contactEmail", "Contact Email")}{" "}
+              <span className="text-gray-400 font-normal">
+                {t("volunteer.contactEmailOptional", "(optional)")}
+              </span>
             </label>
             <input
               id="organizationContactEmail"
@@ -261,7 +274,10 @@ const OrganizationSelector: React.FC<OrganizationSelectorProps> = ({
               className={INPUT_BASE_CLASSES}
             />
             <p className="mt-2 text-xs text-gray-500">
-              We may reach out to help onboard this organization
+              {t(
+                "volunteer.onboardHelp",
+                "We may reach out to help onboard this organization",
+              )}
             </p>
           </div>
         </div>
@@ -289,30 +305,46 @@ const ValidationPreview: React.FC<ValidationPreviewProps> = ({
   selectedOrgName,
   isExpired,
 }) => {
+  const { t } = useTranslation();
+
   if (orgMode === "verified" && hasOrganization && !isExpired) {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-600 bg-amber-50 rounded-lg px-4 py-3">
+      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-amber-50 dark:bg-amber-900/30 rounded-lg px-4 py-3">
         <span className="w-2 h-2 bg-amber-400 rounded-full flex-shrink-0" />
-        This record will be submitted for validation
-        {selectedOrgName ? ` to ${selectedOrgName}` : ""}
+        {selectedOrgName
+          ? t(
+              "volunteer.submittedForValidationTo",
+              "This record will be submitted for validation to {{org}}",
+              { org: selectedOrgName },
+            )
+          : t(
+              "volunteer.submittedForValidation",
+              "This record will be submitted for validation",
+            )}
       </div>
     );
   }
 
   if (orgMode === "verified" && isExpired) {
     return (
-      <div className="flex items-center gap-2 text-sm text-red-600 bg-red-50 rounded-lg px-4 py-3">
+      <div className="flex items-center gap-2 text-sm text-red-600 dark:text-red-400 bg-red-50 dark:bg-red-900/30 rounded-lg px-4 py-3">
         <AlertTriangle className="w-4 h-4 flex-shrink-0" />
-        Validation period has expired for this date
+        {t(
+          "volunteer.validationExpired",
+          "Validation period has expired for this date",
+        )}
       </div>
     );
   }
 
   if (orgMode === "other") {
     return (
-      <div className="flex items-center gap-2 text-sm text-gray-600 bg-gray-50 rounded-lg px-4 py-3">
-        <span className="w-2 h-2 bg-gray-400 rounded-full flex-shrink-0" /> This
-        record will be saved as unvalidated
+      <div className="flex items-center gap-2 text-sm text-gray-600 dark:text-gray-300 bg-gray-50 dark:bg-gray-800 rounded-lg px-4 py-3">
+        <span className="w-2 h-2 bg-gray-400 rounded-full flex-shrink-0" />{" "}
+        {t(
+          "volunteer.savedAsUnvalidated",
+          "This record will be saved as unvalidated",
+        )}
       </div>
     );
   }
@@ -332,6 +364,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
   isEdit = false,
   isLoading = false,
 }) => {
+  const { t } = useTranslation();
   const [formData, setFormData] = useState<SelfReportedHoursInput>({
     activityDate: initialData?.activityDate || "",
     hours: initialData?.hours || 1,
@@ -345,7 +378,9 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
   });
 
   const [orgMode, setOrgMode] = useState<OrgMode>(
-    (initialData?.organizationId || initialData?.charityOrgId) ? "verified" : "other",
+    initialData?.organizationId || initialData?.charityOrgId
+      ? "verified"
+      : "other",
   );
   const [errors, setErrors] = useState<Record<string, string>>({});
   const [submitting, setSubmitting] = useState(false);
@@ -421,12 +456,14 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
           // When the registry org is also a platform account, use its profile UUID
           // for the validation flow; organizationName must be null per DB constraint.
           // When not on platform, store the display name in organizationName.
-          organizationId: org.is_on_platform && org.platform_charity_id
-            ? org.platform_charity_id
-            : undefined,
-          organizationName: org.is_on_platform && org.platform_charity_id
-            ? undefined
-            : org.name,
+          organizationId:
+            org.is_on_platform && org.platform_charity_id
+              ? org.platform_charity_id
+              : undefined,
+          organizationName:
+            org.is_on_platform && org.platform_charity_id
+              ? undefined
+              : org.name,
           organizationContactEmail: undefined,
         }));
         setSelectedOrgName(org.name);
@@ -500,7 +537,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
   return (
     <form
       onSubmit={handleSubmit}
-      className="bg-white rounded-2xl shadow-lg shadow-gray-200/50 overflow-hidden p-8 space-y-8"
+      className="bg-white dark:bg-gray-900 rounded-2xl shadow-lg shadow-gray-200/50 dark:shadow-black/30 overflow-hidden p-8 space-y-8"
     >
       {/* Date, Hours, Location Row */}
       <DateHoursLocationRow
@@ -530,7 +567,8 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
           htmlFor="description"
           className="block text-sm font-medium text-gray-700 mb-2"
         >
-          Description <span className="text-red-500">*</span>
+          {t("volunteer.description", "Description")}{" "}
+          <span className="text-red-500">*</span>
         </label>
         <div className="relative">
           <textarea
@@ -539,7 +577,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
             value={formData.description}
             onChange={handleInputChange}
             rows={4}
-            className={`w-full rounded-lg border bg-white px-4 py-3 text-sm text-gray-900 placeholder-gray-400 resize-none transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent ${
+            className={`w-full rounded-lg border bg-white dark:bg-gray-800 px-4 py-3 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400 resize-none transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 focus:border-transparent ${
               errors.description !== undefined
                 ? "border-red-300"
                 : "border-gray-200"
@@ -547,7 +585,10 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
             required
             minLength={MIN_DESCRIPTION_LENGTH}
             maxLength={MAX_DESCRIPTION_LENGTH}
-            placeholder="Describe the activities you performed..."
+            placeholder={t(
+              "volunteer.describeActivities",
+              "Describe the activities you performed...",
+            )}
           />
           {/* Character counter inside textarea */}
           <span
@@ -561,7 +602,11 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
         )}
         {charCount < MIN_DESCRIPTION_LENGTH && charCount > 0 && (
           <p className="mt-1.5 text-xs text-gray-500">
-            {MIN_DESCRIPTION_LENGTH - charCount} more characters needed
+            {t(
+              "volunteer.moreCharsNeeded",
+              "{{count}} more characters needed",
+              { count: MIN_DESCRIPTION_LENGTH - charCount },
+            )}
           </p>
         )}
       </div>
@@ -590,14 +635,14 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
       </div>
 
       {/* Form Actions */}
-      <div className="flex items-center justify-end gap-4 px-8 py-5 bg-gray-50/50 border-t border-gray-100">
+      <div className="flex items-center justify-end gap-4 px-8 py-5 bg-gray-50/50 dark:bg-gray-800/50 border-t border-gray-100 dark:border-gray-700">
         <button
           type="button"
           onClick={onCancel}
           disabled={submitting || isLoading}
           className="px-5 py-2.5 text-sm font-medium text-gray-600 hover:text-gray-900 transition-colors disabled:opacity-50"
         >
-          Cancel
+          {t("common.cancel", "Cancel")}
         </button>
         <Button
           type="submit"
@@ -609,28 +654,33 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
           className="px-6 py-2.5 bg-emerald-600 hover:bg-emerald-700 text-white font-medium rounded-lg shadow-sm transition-all duration-200 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           {(() => {
-            if (submitting || isLoading) return (
-              <span className="flex items-center gap-2">
-                <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
-                  <circle
-                    className="opacity-25"
-                    cx="12"
-                    cy="12"
-                    r="10"
-                    stroke="currentColor"
-                    strokeWidth="4"
-                    fill="none"
-                  />
-                  <path
-                    className="opacity-75"
-                    fill="currentColor"
-                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
-                  />
-                </svg>
-                {isEdit ? "Updating..." : "Logging..."}
-              </span>
-            );
-            return isEdit ? "Update Hours" : "Log Hours";
+            if (submitting || isLoading)
+              return (
+                <span className="flex items-center gap-2">
+                  <svg className="animate-spin h-4 w-4" viewBox="0 0 24 24">
+                    <circle
+                      className="opacity-25"
+                      cx="12"
+                      cy="12"
+                      r="10"
+                      stroke="currentColor"
+                      strokeWidth="4"
+                      fill="none"
+                    />
+                    <path
+                      className="opacity-75"
+                      fill="currentColor"
+                      d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4z"
+                    />
+                  </svg>
+                  {isEdit
+                    ? t("volunteer.updating", "Updating...")
+                    : t("volunteer.logging", "Logging...")}
+                </span>
+              );
+            return isEdit
+              ? t("volunteer.updateHours", "Update Hours")
+              : t("volunteer.logHoursButton", "Log Hours");
           })()}
         </Button>
       </div>

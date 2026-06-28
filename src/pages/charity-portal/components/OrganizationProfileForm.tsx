@@ -2,6 +2,7 @@ import React, { useState, useCallback, useMemo } from "react";
 import { Input } from "@/components/ui/Input";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
+import { useCountries } from "@/hooks/useCountries";
 import { Calendar, MapPin, Phone, Globe } from "lucide-react";
 import type {
   OrganizationProfile,
@@ -13,6 +14,46 @@ interface OrganizationProfileFormProps {
   onSave: (_data: OrganizationProfile) => Promise<void>;
   loading: boolean;
 }
+
+interface CountrySelectProps {
+  label: string;
+  value: string;
+  onChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
+  countries: { code: string; name: string }[];
+}
+
+/** Country dropdown styled to match the Input "enhanced" variant. */
+const CountrySelect: React.FC<CountrySelectProps> = ({
+  label,
+  value,
+  onChange,
+  countries,
+}) => {
+  const id = React.useId();
+  return (
+    <div className="space-y-1">
+      <label
+        htmlFor={id}
+        className="block text-[0.8rem] font-semibold text-slate-700 dark:text-gray-100 tracking-[0.01em]"
+      >
+        {label}
+      </label>
+      <select
+        id={id}
+        value={value}
+        onChange={onChange}
+        className="block w-full font-sans text-[0.9rem] shadow-sm transition-all duration-200 focus:outline-none text-gray-900 dark:text-gray-100 border-[1.5px] border-slate-300 dark:border-white/10 rounded-[10px] px-[0.9rem] py-[0.7rem] bg-white dark:bg-[#0E1514] focus:border-emerald-500 dark:focus:border-emerald-400 focus:shadow-[0_0_0_3px_rgba(16,185,129,0.12)]"
+      >
+        <option value="">Select country</option>
+        {countries.map((country) => (
+          <option key={country.code} value={country.code}>
+            {country.name}
+          </option>
+        ))}
+      </select>
+    </div>
+  );
+};
 
 /**
  * Validates a URL string
@@ -73,10 +114,19 @@ function validateYear(year: string): boolean {
   return yearNum >= 1800 && yearNum <= currentYear;
 }
 
+/**
+ * Editable form for the charity's public organization profile (year founded,
+ * address, contact info, social links).
+ * @param props.initialData - Existing profile values to seed the form, or null
+ * @param props.onSave - Called with the validated profile when the user submits
+ * @param props.loading - When true, disables the submit button and shows a saving state
+ * @returns The organization profile form
+ */
 export const OrganizationProfileForm: React.FC<
   OrganizationProfileFormProps
 > = ({ initialData, onSave, loading }) => {
   const { t } = useTranslation();
+  const { countries } = useCountries();
 
   const initialFormData = useMemo(
     (): OrganizationProfileFormData => ({
@@ -147,7 +197,7 @@ export const OrganizationProfileForm: React.FC<
   );
 
   const handleCountryChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
+    (e: React.ChangeEvent<HTMLSelectElement>) => {
       handleFieldChange("country", e.target.value);
     },
     [handleFieldChange],
@@ -358,12 +408,11 @@ export const OrganizationProfileForm: React.FC<
             onChange={handlePostalCodeChange}
             placeholder="94102"
           />
-          <Input
-            variant="enhanced"
+          <CountrySelect
             label={t("organization.country", "Country")}
             value={formData.country}
             onChange={handleCountryChange}
-            placeholder="United States"
+            countries={countries}
           />
         </div>
       </section>
@@ -416,35 +465,41 @@ export const OrganizationProfileForm: React.FC<
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
           <Input
             variant="enhanced"
-            label={t("organization.twitter", "Twitter/X")}
+            label={t("organization.publicFeed", "Public Feed")}
             value={formData.twitter}
             onChange={handleTwitterChange}
             error={errors.twitter}
-            placeholder="https://twitter.com/organization"
+            placeholder="https://x.com/org, https://bsky.app/profile/org, or Mastodon URL..."
           />
           <Input
             variant="enhanced"
-            label={t("organization.facebook", "Facebook")}
-            value={formData.facebook}
-            onChange={handleFacebookChange}
-            error={errors.facebook}
-            placeholder="https://facebook.com/organization"
-          />
-          <Input
-            variant="enhanced"
-            label={t("organization.linkedin", "LinkedIn")}
+            label={t(
+              "organization.professionalNetwork",
+              "Professional Network",
+            )}
             value={formData.linkedin}
             onChange={handleLinkedinChange}
             error={errors.linkedin}
-            placeholder="https://linkedin.com/company/organization"
+            placeholder="https://linkedin.com/company/organization-name..."
           />
           <Input
             variant="enhanced"
-            label={t("organization.instagram", "Instagram")}
+            label={t("organization.communityMedia", "Community & Media")}
+            value={formData.facebook}
+            onChange={handleFacebookChange}
+            error={errors.facebook}
+            placeholder="https://instagram.com/org, facebook.com/org, or youtube.com/..."
+          />
+          <Input
+            variant="enhanced"
+            label={t(
+              "organization.alternativeRegional",
+              "Alternative & Regional",
+            )}
             value={formData.instagram}
             onChange={handleInstagramChange}
             error={errors.instagram}
-            placeholder="https://instagram.com/organization"
+            placeholder="e.g., Sina Weibo, Discord, GitHub, Linktree, or Blog URL..."
           />
         </div>
       </section>

@@ -66,6 +66,7 @@ CREATE INDEX IF NOT EXISTS idx_admin_audit_log_created
 -- RLS: admin users can read audit log; only service_role or admin can insert
 ALTER TABLE admin_audit_log ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "admin_read_audit_log" ON admin_audit_log;
 CREATE POLICY "admin_read_audit_log" ON admin_audit_log
   FOR SELECT
   USING (
@@ -73,6 +74,7 @@ CREATE POLICY "admin_read_audit_log" ON admin_audit_log
     OR auth.role() = 'service_role'
   );
 
+DROP POLICY IF EXISTS "admin_insert_audit_log" ON admin_audit_log;
 CREATE POLICY "admin_insert_audit_log" ON admin_audit_log
   FOR INSERT
   WITH CHECK (
@@ -103,6 +105,7 @@ CREATE INDEX IF NOT EXISTS idx_charity_status_audit_admin
 
 ALTER TABLE charity_status_audit ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "admin_read_charity_status_audit" ON charity_status_audit;
 CREATE POLICY "admin_read_charity_status_audit" ON charity_status_audit
   FOR SELECT
   USING (
@@ -110,6 +113,7 @@ CREATE POLICY "admin_read_charity_status_audit" ON charity_status_audit
     OR auth.role() = 'service_role'
   );
 
+DROP POLICY IF EXISTS "admin_insert_charity_status_audit" ON charity_status_audit;
 CREATE POLICY "admin_insert_charity_status_audit" ON charity_status_audit
   FOR INSERT
   WITH CHECK (
@@ -140,6 +144,7 @@ CREATE INDEX IF NOT EXISTS idx_user_status_audit_admin
 
 ALTER TABLE user_status_audit ENABLE ROW LEVEL SECURITY;
 
+DROP POLICY IF EXISTS "admin_read_user_status_audit" ON user_status_audit;
 CREATE POLICY "admin_read_user_status_audit" ON user_status_audit
   FOR SELECT
   USING (
@@ -147,6 +152,7 @@ CREATE POLICY "admin_read_user_status_audit" ON user_status_audit
     OR auth.role() = 'service_role'
   );
 
+DROP POLICY IF EXISTS "admin_insert_user_status_audit" ON user_status_audit;
 CREATE POLICY "admin_insert_user_status_audit" ON user_status_audit
   FOR INSERT
   WITH CHECK (

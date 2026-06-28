@@ -6,7 +6,10 @@
 import { supabase } from "@/lib/supabase";
 import { ENV } from "@/config/env";
 
-// Edge function base URL derived from SUPABASE_URL
+/**
+ * Returns the base URL for invoking Supabase Edge Functions, derived from `SUPABASE_URL`.
+ * @returns The functions root URL (e.g. `https://<project>.supabase.co/functions/v1`).
+ */
 function getFunctionsBaseUrl(): string {
   const supabaseUrl = ENV.SUPABASE_URL ?? "";
   return `${supabaseUrl}/functions/v1`;
@@ -49,6 +52,7 @@ async function callEdgeFunction(
   });
 }
 
+/** Result returned after submitting a GDPR data export request. */
 export interface ExportRequestResult {
   request_id: string;
   status: "pending" | "processing" | "ready" | "expired" | "failed";
@@ -59,6 +63,7 @@ export interface ExportRequestResult {
   existing_request_id?: string;
 }
 
+/** Result returned after submitting a GDPR right-to-erasure request. */
 export interface ErasureRequestResult {
   request_id: string;
   status: "pending" | "cancelled" | "processing" | "completed" | "failed";
@@ -68,6 +73,7 @@ export interface ErasureRequestResult {
   existing_request_id?: string;
 }
 
+/** Result returned when checking the status of a pending data export request. */
 export interface ExportStatusResult {
   request_id: string;
   status: "pending" | "processing" | "ready" | "expired" | "failed";

@@ -1,0 +1,136 @@
+# Rollback Workflow — Redeploy from a specific commit SHA
+#
+# Purpose: IRP-001 §7.1 one-command rollback for incident containment.
+# Triggered manually via GitHub Actions UI or `gh workflow run`.
+#
+# Permissions: restricted to repository collaborators with write access.
+# By policy, only IC (CTO) and Engineering Lead may trigger this workflow.
+#
+# Usage:
+#   gh workflow run rollback.yml \
+#     -f commit_sha=abc1234 \
+#     -f environment=production \
+#     -f reason="IRP activation — Class A payment-page tampering"
+#
+# The workflow checks out the specified commit, runs the standard build
+# pipeline, and triggers a Netlify deployment — no out-of-band patches.
+#
+# Required GitHub secrets:
+#   NETLIFY_AUTH_TOKEN — Personal access token from Netlify User Settings
+#   NETLIFY_SITE_ID   — Site API ID from Netlify Site Configuration
+
+name: Rollback Deploy
+
+on:
+  workflow_dispatch:
+    inputs:
+      commit_sha:
+        description: "Commit SHA to roll back to (full 40-char or 7-char prefix)"
+        required: true
+        type: string
+      environment:
+        description: "Target environment"
+        required: true
+        type: choice
+        options:
+          - production
+          - staging
+        default: production
+      reason:
+        description: "Reason for rollback (logged for audit trail)"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+  deployments: write
+
+jobs:
+  rollback:
+    name: Rollback to ${{ inputs.commit_sha }}
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+    steps:
+      - name: Validate inputs
+        run: |
+          SHA="${{ inputs.commit_sha }}"
+          if [[ ! "$SHA" =~ ^[0-9a-f]{7,40}$ ]]; then
+            echo "::error::Invalid commit SHA: $SHA"
+            exit 1
+          fi
+
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Checkout target commit
+        run: |
+          git checkout "${{ inputs.commit_sha }}"
+
+      - name: Verify commit and log audit entry
+        run: |
+          SHA=$(git rev-parse HEAD)
+          echo "RESOLVED_SHA=$SHA" >> $GITHUB_ENV
+          echo "=== ROLLBACK AUDIT ==="
+          echo "Timestamp:    $(date -u +%Y-%m-%dT%H:%M:%SZ)"
+          echo "Triggered by: ${{ github.actor }}"
+          echo "Target SHA:   $SHA"
+          echo "Environment:  ${{ inputs.environment }}"
+          echo "Reason:       ${{ inputs.reason }}"
+          echo "Run ID:       ${{ github.run_id }}"
+          git log -1 --format="Commit:       %H%nMessage:      %s%nAuthor:       %an <%ae>%nDate:         %ai" HEAD
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: "20"
+          cache: "npm"
+
+      - name: Install dependencies
+        run: npm ci
+
+      - name: Build from target commit
+        run: npm run build
+        env:
+          NODE_ENV: production
+
+      - name: Install Netlify CLI
+        run: npm install -g netlify-cli
+
+      - name: Deploy to Netlify
+        run: |
+          if [[ "${{ inputs.environment }}" == "production" ]]; then
+            netlify deploy --prod --dir=dist \
+              --message "ROLLBACK to ${{ env.RESOLVED_SHA }} — ${{ inputs.reason }}"
+          else
+            netlify deploy --dir=dist \
+              --message "ROLLBACK (staging) to ${{ env.RESOLVED_SHA }} — ${{ inputs.reason }}"
+          fi
+        env:
+          NETLIFY_AUTH_TOKEN: ${{ secrets.NETLIFY_AUTH_TOKEN }}
+          NETLIFY_SITE_ID: ${{ secrets.NETLIFY_SITE_ID }}
+
+      - name: Verify deployment
+        run: |
+          sleep 30
+          SITE_URL="${{ vars.SITE_URL }}"
+          if [[ -n "$SITE_URL" ]]; then
+            HTTP_STATUS=$(curl -s -o /dev/null -w "%{http_code}" "$SITE_URL")
+            echo "Site responded with HTTP $HTTP_STATUS"
+            [[ "$HTTP_STATUS" == "200" ]] || echo "::warning::Site returned $HTTP_STATUS — verify manually"
+          else
+            echo "SITE_URL not configured — skipping automated check"
+          fi
+
+      - name: Job summary
+        run: |
+          {
+            echo "### Rollback complete"
+            echo "| Field | Value |"
+            echo "|---|---|"
+            echo "| SHA | \`${{ env.RESOLVED_SHA }}\` |"
+            echo "| Environment | ${{ inputs.environment }} |"
+            echo "| Triggered by | ${{ github.actor }} |"
+            echo "| Reason | ${{ inputs.reason }} |"
+          } >> $GITHUB_STEP_SUMMARY

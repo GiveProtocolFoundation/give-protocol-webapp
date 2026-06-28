@@ -17,6 +17,9 @@ interface VolunteerHours {
 interface HoursVerificationTabProps {
   pendingHours: VolunteerHours[];
   profileId: string;
+  onVerify: (_hoursId: string) => void;
+  onReject: (_hoursId: string) => void;
+  onExport: () => void;
 }
 
 type ViewMode = "all" | "formal" | "self-reported";
@@ -26,6 +29,8 @@ interface VolunteerHourCardProps {
   hoursLabel: string;
   verifyLabel: string;
   rejectLabel: string;
+  onVerify: (_hoursId: string) => void;
+  onReject: (_hoursId: string) => void;
 }
 
 /**
@@ -36,38 +41,67 @@ const VolunteerHourCard: React.FC<VolunteerHourCardProps> = ({
   hoursLabel,
   verifyLabel,
   rejectLabel,
-}) => (
-  <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl p-5 flex justify-between items-start hover:shadow-sm transition-shadow">
-    <div className="flex-grow pr-4">
-      <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100">
-        {hours.volunteerName}
-      </h4>
-      <p className="text-sm text-gray-600 dark:text-gray-300 mb-2 flex items-center gap-2">
-        <Clock className="h-4 w-4 text-emerald-500" aria-hidden="true" />
-        <span className="font-medium">
-          {hours.hours} {hoursLabel}
-        </span>
-        <span className="text-gray-400">|</span>
-        {formatDate(hours.date_performed)}
-      </p>
-      {Boolean(hours.description) && (
-        <p className="text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-600 rounded-lg p-3 mt-2">
-          {hours.description}
+  onVerify,
+  onReject,
+}) => {
+  const handleVerify = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const hoursId = e.currentTarget.dataset.id;
+      if (hoursId) onVerify(hoursId);
+    },
+    [onVerify],
+  );
+
+  const handleReject = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const hoursId = e.currentTarget.dataset.id;
+      if (hoursId) onReject(hoursId);
+    },
+    [onReject],
+  );
+
+  return (
+    <div className="bg-gray-50 dark:bg-gray-700 border border-gray-200 dark:border-gray-600 rounded-xl p-5 flex justify-between items-start hover:shadow-sm transition-shadow">
+      <div className="flex-grow pr-4">
+        <h4 className="text-lg font-medium text-gray-900 dark:text-gray-100">
+          {hours.volunteerName}
+        </h4>
+        <p className="text-sm text-gray-600 dark:text-gray-300 mb-2 flex items-center gap-2">
+          <Clock className="h-4 w-4 text-emerald-500" aria-hidden="true" />
+          <span className="font-medium">
+            {hours.hours} {hoursLabel}
+          </span>
+          <span className="text-gray-400">|</span>
+          {formatDate(hours.date_performed)}
         </p>
-      )}
+        {Boolean(hours.description) && (
+          <p className="text-sm text-gray-600 dark:text-gray-300 bg-white dark:bg-gray-600 rounded-lg p-3 mt-2">
+            {hours.description}
+          </p>
+        )}
+      </div>
+      <div className="flex gap-2">
+        <Button
+          className="flex items-center gap-2"
+          data-id={hours.id}
+          onClick={handleVerify}
+        >
+          <CheckCircle className="h-4 w-4" aria-hidden="true" />
+          {verifyLabel}
+        </Button>
+        <Button
+          variant="secondary"
+          className="flex items-center gap-2"
+          data-id={hours.id}
+          onClick={handleReject}
+        >
+          <X className="h-4 w-4" aria-hidden="true" />
+          {rejectLabel}
+        </Button>
+      </div>
     </div>
-    <div className="flex gap-2">
-      <Button className="flex items-center gap-2">
-        <CheckCircle className="h-4 w-4" aria-hidden="true" />
-        {verifyLabel}
-      </Button>
-      <Button variant="secondary" className="flex items-center gap-2">
-        <X className="h-4 w-4" aria-hidden="true" />
-        {rejectLabel}
-      </Button>
-    </div>
-  </div>
-);
+  );
+};
 
 /**
  * Unified tab for verifying both formal volunteer hours and self-reported hours
@@ -75,6 +109,9 @@ const VolunteerHourCard: React.FC<VolunteerHourCardProps> = ({
 export const HoursVerificationTab: React.FC<HoursVerificationTabProps> = ({
   pendingHours,
   profileId,
+  onVerify,
+  onReject,
+  onExport,
 }) => {
   const { t } = useTranslation();
   const [viewMode, setViewMode] = useState<ViewMode>("all");
@@ -166,6 +203,7 @@ export const HoursVerificationTab: React.FC<HoursVerificationTabProps> = ({
               <Button
                 variant="secondary"
                 className="flex items-center gap-2 border border-gray-300 hover:bg-gray-50 transition-all"
+                onClick={onExport}
               >
                 <Download className="h-4 w-4 text-emerald-600" />
                 {t("contributions.export", "Export")}
@@ -180,6 +218,8 @@ export const HoursVerificationTab: React.FC<HoursVerificationTabProps> = ({
                     hoursLabel={t("volunteer.hours", "hours")}
                     verifyLabel={t("volunteer.verify", "Verify")}
                     rejectLabel={t("volunteer.reject", "Reject")}
+                    onVerify={onVerify}
+                    onReject={onReject}
                   />
                 ))
               ) : (

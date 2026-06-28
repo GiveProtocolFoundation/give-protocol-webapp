@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useCallback } from "react";
 import { Link } from "react-router-dom";
 import { Plus, MapPin, Clock, Trash2, Edit, Heart, Target } from "lucide-react";
 import { Button } from "@/components/ui/Button";
@@ -22,10 +22,15 @@ interface CharityCause {
 
 interface CausesTabProps {
   causes: CharityCause[];
+  onEdit: (_causeId: string) => void;
+  onDelete: (_causeId: string) => void;
 }
 
 /** Header with title and create button for the causes section. */
-const CausesHeader: React.FC<{ activeCount: number; disabled?: boolean }> = ({ activeCount, disabled }) => {
+const CausesHeader: React.FC<{ activeCount: number; disabled?: boolean }> = ({
+  activeCount,
+  disabled,
+}) => {
   const { t } = useTranslation();
   return (
     <>
@@ -48,9 +53,29 @@ const CausesHeader: React.FC<{ activeCount: number; disabled?: boolean }> = ({ a
 };
 
 /** Tab panel listing the charity's fundraising causes with progress and management actions. */
-export const CausesTab: React.FC<CausesTabProps> = ({ causes }) => {
+export const CausesTab: React.FC<CausesTabProps> = ({
+  causes,
+  onEdit,
+  onDelete,
+}) => {
   const { t } = useTranslation();
   const activeCount = causes.filter((c) => c.status === "active").length;
+
+  const handleEdit = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const causeId = e.currentTarget.dataset.id;
+      if (causeId) onEdit(causeId);
+    },
+    [onEdit],
+  );
+
+  const handleDelete = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const causeId = e.currentTarget.dataset.id;
+      if (causeId) onDelete(causeId);
+    },
+    [onDelete],
+  );
 
   if (causes.length === 0) {
     return (
@@ -80,7 +105,10 @@ export const CausesTab: React.FC<CausesTabProps> = ({ causes }) => {
 
   return (
     <div className="mb-8">
-      <CausesHeader activeCount={activeCount} disabled={activeCount >= MAX_CAUSES_PER_CHARITY} />
+      <CausesHeader
+        activeCount={activeCount}
+        disabled={activeCount >= MAX_CAUSES_PER_CHARITY}
+      />
 
       <div className="space-y-4">
         {causes.map((cause) => (
@@ -94,10 +122,12 @@ export const CausesTab: React.FC<CausesTabProps> = ({ causes }) => {
                   {cause.name}
                 </h3>
                 <span
-                  className={`px-2.5 py-1 text-xs font-medium rounded-full ${{
-                    active: "bg-green-100 text-green-800",
-                    completed: "bg-blue-100 text-blue-800",
-                  }[cause.status] || "bg-gray-100 text-gray-800"}`}
+                  className={`px-2.5 py-1 text-xs font-medium rounded-full ${
+                    {
+                      active: "bg-green-100 text-green-800",
+                      completed: "bg-blue-100 text-blue-800",
+                    }[cause.status] || "bg-gray-100 text-gray-800"
+                  }`}
                 >
                   {cause.status.charAt(0).toUpperCase() + cause.status.slice(1)}
                 </span>
@@ -107,6 +137,8 @@ export const CausesTab: React.FC<CausesTabProps> = ({ causes }) => {
                   variant="ghost"
                   className="p-2 hover:bg-gray-100 rounded-lg"
                   title="Edit"
+                  data-id={cause.id}
+                  onClick={handleEdit}
                 >
                   <Edit className="h-4 w-4 text-gray-500" />
                 </Button>
@@ -114,6 +146,8 @@ export const CausesTab: React.FC<CausesTabProps> = ({ causes }) => {
                   variant="ghost"
                   className="p-2 hover:bg-red-50 rounded-lg"
                   title="Delete"
+                  data-id={cause.id}
+                  onClick={handleDelete}
                 >
                   <Trash2 className="h-4 w-4 text-red-500" />
                 </Button>

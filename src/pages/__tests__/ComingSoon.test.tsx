@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -127,9 +126,7 @@ describe("ComingSoon", () => {
       fireEvent.click(screen.getByText("Join Waitlist"));
 
       await waitFor(() => {
-        expect(
-          screen.getByText(/Thanks for joining/),
-        ).toBeInTheDocument();
+        expect(screen.getByText(/Thanks for joining/)).toBeInTheDocument();
       });
     });
 

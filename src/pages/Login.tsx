@@ -15,6 +15,7 @@ import { Button } from "../components/ui/Button";
 import { Logo } from "../components/Logo";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWeb3 } from "@/contexts/Web3Context";
+import { useTranslation } from "@/hooks/useTranslation";
 
 type View =
   | "select"
@@ -24,34 +25,37 @@ type View =
   | "forgotUsername";
 
 /** Tray below the nonprofit login form linking to charity registration. */
-const NonprofitOnboardingTray: React.FC = () => (
-  <div className="mt-8 rounded-xl bg-emerald-50/60 border border-emerald-100 px-5 py-6">
-    <div className="flex items-center gap-3 mb-4">
-      <div className="flex-1 h-px bg-emerald-200" />
-      <span className="text-sm font-semibold text-gray-700 whitespace-nowrap">
-        New to Give Protocol?
-      </span>
-      <div className="flex-1 h-px bg-emerald-200" />
-    </div>
+function NonprofitOnboardingTray() {
+  const { t } = useTranslation();
+  return (
+    <div className="mt-8 rounded-xl bg-emerald-50/60 border border-emerald-100 px-5 py-6">
+      <div className="flex items-center gap-3 mb-4">
+        <div className="flex-1 h-px bg-emerald-200" />
+        <span className="text-sm font-semibold text-gray-700 whitespace-nowrap">
+          {t("auth.login.nonprofitTrayTitle")}
+        </span>
+        <div className="flex-1 h-px bg-emerald-200" />
+      </div>
 
-    <Link
-      to="/register?type=charity"
-      className="flex items-center gap-3 rounded-xl bg-white border border-emerald-200 p-4 hover:border-emerald-400 hover:shadow-md transition-all duration-200 group"
-    >
-      <div className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 group-hover:bg-emerald-200 transition-colors flex-shrink-0">
-        <Plus className="h-5 w-5 text-emerald-700" />
-      </div>
-      <div>
-        <span className="text-sm font-bold text-gray-900 block">
-          Create a Nonprofit Account
-        </span>
-        <span className="text-xs text-emerald-700">
-          Register your organization on Give Protocol
-        </span>
-      </div>
-    </Link>
-  </div>
-);
+      <Link
+        to="/register?type=charity"
+        className="flex items-center gap-3 rounded-xl bg-white border border-emerald-200 p-4 hover:border-emerald-400 hover:shadow-md transition-all duration-200 group"
+      >
+        <div className="flex items-center justify-center w-10 h-10 rounded-full bg-emerald-100 group-hover:bg-emerald-200 transition-colors flex-shrink-0">
+          <Plus className="h-5 w-5 text-emerald-700" />
+        </div>
+        <div>
+          <span className="text-sm font-bold text-gray-900 block">
+            {t("auth.login.createNonprofitAccount")}
+          </span>
+          <span className="text-xs text-emerald-700">
+            {t("auth.login.registerOrg")}
+          </span>
+        </div>
+      </Link>
+    </div>
+  );
+}
 
 interface LoginHelpersProps {
   onForgotUsername: () => void;
@@ -59,40 +63,45 @@ interface LoginHelpersProps {
 }
 
 /** Help links below the login form for recovering username or password */
-const LoginHelpers: React.FC<LoginHelpersProps> = ({
+function LoginHelpers({
   onForgotUsername,
   onForgotPassword,
-}) => (
-  <nav className="mt-6 space-y-4" aria-label="Login help options">
-    <div className="relative">
-      <div className="absolute inset-0 flex items-center">
-        <div className="w-full border-t border-gray-300" />
+}: LoginHelpersProps) {
+  const { t } = useTranslation();
+  return (
+    <nav className="mt-6 space-y-4" aria-label="Login help options">
+      <div className="relative">
+        <div className="absolute inset-0 flex items-center">
+          <div className="w-full border-t border-gray-300" />
+        </div>
+        <div className="relative flex justify-center text-base">
+          <span className="px-2 bg-white text-gray-700">
+            {t("auth.login.needHelp")}
+          </span>
+        </div>
       </div>
-      <div className="relative flex justify-center text-base">
-        <span className="px-2 bg-white text-gray-700">Need help?</span>
-      </div>
-    </div>
 
-    <div className="grid grid-cols-2 gap-4">
-      <button
-        type="button"
-        onClick={onForgotUsername}
-        className="text-base text-emerald-700 hover:text-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-md px-3 py-2 min-h-[48px] transition-colors duration-200"
-        aria-label="Recover forgotten username"
-      >
-        Forgot username?
-      </button>
-      <button
-        type="button"
-        onClick={onForgotPassword}
-        className="text-base text-emerald-700 hover:text-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-md px-3 py-2 min-h-[48px] transition-colors duration-200"
-        aria-label="Recover forgotten password"
-      >
-        Forgot password?
-      </button>
-    </div>
-  </nav>
-);
+      <div className="grid grid-cols-2 gap-4">
+        <button
+          type="button"
+          onClick={onForgotUsername}
+          className="text-base text-emerald-700 hover:text-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-md px-3 py-2 min-h-[48px] transition-colors duration-200"
+          aria-label="Recover forgotten username"
+        >
+          {t("auth.login.forgotUsernameBtn")}
+        </button>
+        <button
+          type="button"
+          onClick={onForgotPassword}
+          className="text-base text-emerald-700 hover:text-emerald-900 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-md px-3 py-2 min-h-[48px] transition-colors duration-200"
+          aria-label="Recover forgotten password"
+        >
+          {t("auth.login.forgotPasswordBtn")}
+        </button>
+      </div>
+    </nav>
+  );
+}
 
 /** Login page component that handles account type selection, donor/charity login, and password recovery flows. */
 const Login: React.FC = () => {
@@ -105,6 +114,7 @@ const Login: React.FC = () => {
   const { connect, isConnecting, address: _address } = useWeb3();
   const _navigate = useNavigate();
   const location = useLocation();
+  const { t } = useTranslation();
 
   // Trigger .visible class after mount for staggered entrance animation
   const [visible, setVisible] = useState(false);
@@ -170,7 +180,7 @@ const Login: React.FC = () => {
               size="lg"
               className="font-semibold"
             >
-              Continue as Donor
+              {t("auth.login.continueDonor")}
             </Button>
 
             {/* Secondary CTA — wallet connect */}
@@ -183,19 +193,21 @@ const Login: React.FC = () => {
               disabled={isConnecting}
               className="font-semibold"
             >
-              {isConnecting ? "Connecting\u2026" : "Connect Wallet & Sign In"}
+              {isConnecting
+                ? t("auth.login.connecting")
+                : t("auth.login.connectWalletSignIn")}
             </Button>
 
             {/* Sign up prompt */}
             <div className="text-center space-y-1 pt-2">
               <p className="text-sm text-gray-500">
-                New to Give Protocol?
+                {t("auth.login.newToPlatform")}
               </p>
               <Link
                 to="/register"
                 className="inline-block text-sm text-emerald-700 hover:text-emerald-800 font-semibold hover:underline decoration-emerald-500 decoration-2 underline-offset-4 transition-all duration-200 py-1 px-2 rounded-md focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2"
               >
-                New Donor Sign Up
+                {t("auth.login.newDonorSignUp")}
               </Link>
             </div>
 
@@ -208,7 +220,7 @@ const Login: React.FC = () => {
               >
                 <Building2 className="h-4 w-4 text-gray-400 group-hover:text-gray-600" />
                 <span className="text-sm font-medium text-gray-600 group-hover:text-gray-800">
-                  I manage a Nonprofit Profile
+                  {t("auth.login.manageNonprofit")}
                 </span>
               </button>
             </div>
@@ -223,17 +235,20 @@ const Login: React.FC = () => {
                 className="text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-md px-2 py-2 min-h-[44px] transition-colors duration-200"
                 aria-label="Go back to sign in options"
               >
-                &larr; Back
+                {t("auth.login.back")}
               </button>
               <h2 className="mt-3 text-xl font-semibold text-center text-gray-900">
-                Donor Sign In
+                {t("auth.login.donorTitle")}
               </h2>
               <p className="text-center text-sm text-gray-500 mt-1">
-                Sign in to access your giving dashboard
+                {t("auth.login.donorSubtitle")}
               </p>
             </div>
             <DonorLogin />
-            <LoginHelpers onForgotUsername={handleForgotUsername} onForgotPassword={handleForgotPassword} />
+            <LoginHelpers
+              onForgotUsername={handleForgotUsername}
+              onForgotPassword={handleForgotPassword}
+            />
           </>
         );
       case "forgotPassword":
@@ -249,17 +264,20 @@ const Login: React.FC = () => {
                 className="text-sm text-gray-500 hover:text-gray-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 focus-visible:ring-offset-2 rounded-md px-2 py-2 min-h-[44px] transition-colors duration-200"
                 aria-label="Go back to sign in options"
               >
-                &larr; Back
+                {t("auth.login.back")}
               </button>
               <h2 className="mt-3 text-xl font-semibold text-center text-gray-900">
-                Nonprofit Portal
+                {t("auth.login.charityTitle")}
               </h2>
               <p className="text-center text-sm text-gray-500 mt-1">
-                Manage your organization profile and donations
+                {t("auth.login.charitySubtitle")}
               </p>
             </div>
             <CharityLogin />
-            <LoginHelpers onForgotUsername={handleForgotUsername} onForgotPassword={handleForgotPassword} />
+            <LoginHelpers
+              onForgotUsername={handleForgotUsername}
+              onForgotPassword={handleForgotPassword}
+            />
             <NonprofitOnboardingTray />
           </>
         );
@@ -275,7 +293,7 @@ const Login: React.FC = () => {
         href="#login-content"
         className="sr-only focus:not-sr-only focus:absolute focus:top-4 focus:left-4 focus:z-50 focus:bg-white focus:px-4 focus:py-2 focus:rounded-md focus:shadow-lg focus:text-emerald-700 focus:ring-2 focus:ring-emerald-500"
       >
-        Skip to login content
+        {t("auth.login.skipToContent")}
       </a>
 
       {/* Page heading */}
@@ -283,7 +301,7 @@ const Login: React.FC = () => {
         className={`frame-reveal ${visibleClass} text-3xl sm:text-4xl font-bold text-gray-900 text-center mb-8 tracking-tight`}
         style={{ "--reveal-delay": "0.03s" } as React.CSSProperties}
       >
-        Welcome to Give Protocol
+        {t("auth.login.welcomeHeading")}
       </h1>
 
       <section
@@ -296,11 +314,15 @@ const Login: React.FC = () => {
           className={`frame-reveal ${visibleClass} flex flex-col items-center mb-6`}
           style={{ "--reveal-delay": "0.05s" } as React.CSSProperties}
         >
-          <Link to="/" className="flex items-center mb-4" aria-label="Go to homepage">
+          <Link
+            to="/"
+            className="flex items-center mb-4"
+            aria-label="Go to homepage"
+          >
             <Logo className="h-12 w-12" />
           </Link>
           <h2 className="text-xl font-semibold text-gray-900">
-            Sign In or Connect
+            {t("auth.login.signInOrConnect")}
           </h2>
         </div>
 

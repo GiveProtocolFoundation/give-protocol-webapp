@@ -1,12 +1,11 @@
 import { jest } from "@jest/globals";
-import React from "react";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Routes, Route } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 
-// The four view/skeleton components are mocked via moduleNameMapper in jest.config.mjs
-// (discoveryComponentsMock.js), which provides data-testid stubs so the test focuses
-// purely on the auth-branching logic inside AppDashboard.
+// The discovery view/skeleton components are mocked via moduleNameMapper in
+// jest.config.mjs (discoveryComponentsMock.js), which provides data-testid
+// stubs so the test focuses purely on the routing logic inside AppDashboard.
 
 import AppDashboard from "./AppDashboard";
 
@@ -49,7 +48,7 @@ function renderWithRoutes(initialRoute = "/browse") {
   );
 }
 
-describe("AppDashboard auth branching", () => {
+describe("AppDashboard", () => {
   beforeEach(() => {
     mockUseAuth.mockReset();
   });
@@ -60,28 +59,28 @@ describe("AppDashboard auth branching", () => {
     expect(screen.getByTestId("shell-skeleton")).toBeInTheDocument();
   });
 
-  it("renders the public view when there is no user", () => {
+  it("renders the public view for unauthenticated visitors", () => {
     setAuth({ user: null });
     renderWithRoutes();
     expect(screen.getByTestId("public-view")).toBeInTheDocument();
   });
 
-  it("renders the donor view for a donor user", () => {
+  it("renders the public view for signed-in donors", () => {
     setAuth({ user: { id: "u1" }, userType: "donor" });
     renderWithRoutes();
-    expect(screen.getByTestId("donor-view")).toBeInTheDocument();
+    expect(screen.getByTestId("public-view")).toBeInTheDocument();
   });
 
-  it("renders the charity view for a charity user", () => {
+  it("renders the public view for signed-in charities", () => {
     setAuth({ user: { id: "u2" }, userType: "charity" });
     renderWithRoutes();
-    expect(screen.getByTestId("charity-view")).toBeInTheDocument();
+    expect(screen.getByTestId("public-view")).toBeInTheDocument();
   });
 
   it("redirects admin users to /admin", () => {
     setAuth({ user: { id: "u3" }, userType: "admin" });
     renderWithRoutes();
     expect(screen.getByTestId("admin-page")).toBeInTheDocument();
-    expect(screen.queryByTestId("donor-view")).not.toBeInTheDocument();
+    expect(screen.queryByTestId("public-view")).not.toBeInTheDocument();
   });
 });

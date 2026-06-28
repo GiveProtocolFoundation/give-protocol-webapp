@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen } from "@testing-library/react";
 import { MemoryRouter, Route, Routes } from "react-router-dom";
@@ -26,9 +25,7 @@ describe("CharityDetail", () => {
 
     it("renders the charity page template", () => {
       renderComponent();
-      expect(
-        screen.getByTestId("charity-page-template"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("charity-page-template")).toBeInTheDocument();
     });
 
     it("renders the charity name", () => {
@@ -58,9 +55,7 @@ describe("CharityDetail", () => {
       renderComponent("my-charity-id");
       // The component uses the id param for the data object but the template
       // always shows the hardcoded sample name
-      expect(
-        screen.getByTestId("charity-page-template"),
-      ).toBeInTheDocument();
+      expect(screen.getByTestId("charity-page-template")).toBeInTheDocument();
     });
   });
 });

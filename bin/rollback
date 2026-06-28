@@ -1,0 +1,85 @@
+#!/usr/bin/env bash
+# bin/rollback — Roll back the webapp to an arbitrary commit SHA
+# Usage: bin/rollback <commit-sha> [environment] [reason]
+#
+# Permissions: only IC and Engineering Lead may trigger production rollbacks.
+set -euo pipefail
+
+SHA="${1:-}"
+ENVIRONMENT="${2:-production}"
+REASON="${3:-}"
+
+REPO="GiveProtocolFoundation/give-protocol-webapp"  # update to your repo
+
+# ── Validation ────────────────────────────────────────────────────────────────
+if [[ -z "$SHA" ]]; then
+  echo "Usage: bin/rollback <commit-sha> [environment] [reason]"
+  echo ""
+  echo "  environment  production (default) | staging"
+  echo "  reason       Description for audit trail (required for production)"
+  exit 1
+fi
+
+if [[ ! "$SHA" =~ ^[0-9a-f]{7,40}$ ]]; then
+  echo "Error: '$SHA' is not a valid commit SHA." >&2
+  exit 1
+fi
+
+if [[ "$ENVIRONMENT" != "production" && "$ENVIRONMENT" != "staging" ]]; then
+  echo "Error: environment must be 'production' or 'staging'" >&2
+  exit 1
+fi
+
+# ── Resolve and display commit info ──────────────────────────────────────────
+echo "Resolving $SHA in $REPO..."
+COMMIT_JSON=$(gh api "repos/$REPO/commits/$SHA" 2>/dev/null) || {
+  echo "Error: commit '$SHA' not found in $REPO." >&2
+  exit 1
+}
+
+FULL_SHA=$(echo "$COMMIT_JSON" | jq -r .sha)
+COMMIT_MSG=$(echo "$COMMIT_JSON" | jq -r .commit.message | head -1)
+COMMIT_AUTHOR=$(echo "$COMMIT_JSON" | jq -r .commit.author.name)
+COMMIT_DATE=$(echo "$COMMIT_JSON" | jq -r .commit.author.date)
+
+echo ""
+echo "Target commit:"
+echo "  SHA:     $FULL_SHA"
+echo "  Message: $COMMIT_MSG"
+echo "  Author:  $COMMIT_AUTHOR"
+echo "  Date:    $COMMIT_DATE"
+echo ""
+
+# ── Production confirmation ───────────────────────────────────────────────────
+if [[ "$ENVIRONMENT" == "production" ]]; then
+  if [[ -z "$REASON" ]]; then
+    read -rp "Rollback reason (required for production): " REASON
+    [[ -z "$REASON" ]] && { echo "Aborted: reason required."; exit 1; }
+  fi
+  echo "WARNING: This will redeploy PRODUCTION from the commit above."
+  read -rp "Type 'yes' to continue: " CONFIRM
+  [[ "$CONFIRM" != "yes" ]] && { echo "Aborted."; exit 0; }
+fi
+
+# ── Trigger rollback workflow ─────────────────────────────────────────────────
+echo ""
+echo "Triggering rollback workflow on $REPO..."
+gh workflow run rollback.yml \
+  --repo "$REPO" \
+  -f commit_sha="$FULL_SHA" \
+  -f environment="$ENVIRONMENT" \
+  -f reason="${REASON:-Triggered via bin/rollback}"
+
+sleep 3
+RUN_URL=$(gh run list --repo "$REPO" --workflow=rollback.yml --limit=1 \
+  --json url --jq ".[0].url" 2>/dev/null || true)
+
+echo ""
+echo "Rollback workflow triggered."
+[[ -n "$RUN_URL" ]] && echo "Monitor: $RUN_URL"
+
+echo ""
+echo "Manual Netlify fallback (if workflow is unavailable):"
+echo "  1. Go to app.netlify.com → your site → Deploys"
+echo "  2. Find the deploy for SHA $FULL_SHA"
+echo "  3. Click 'Publish deploy'"

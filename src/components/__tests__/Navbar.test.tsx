@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -36,9 +35,9 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
-    expect(screen.getByText("nav.about")).toBeInTheDocument();
-    expect(screen.getByText("nav.docs")).toBeInTheDocument();
-    expect(screen.getByText("nav.legal")).toBeInTheDocument();
+    expect(screen.getByText("About")).toBeInTheDocument();
+    expect(screen.getByText("Documentation")).toBeInTheDocument();
+    expect(screen.getByText("Legal")).toBeInTheDocument();
   });
 
   it('renders the "Launch App" link', () => {
@@ -47,7 +46,7 @@ describe("Navbar", () => {
         <Navbar />
       </MemoryRouter>,
     );
-    expect(screen.getByText("nav.launchApp")).toBeInTheDocument();
+    expect(screen.getByText("Launch App")).toBeInTheDocument();
   });
 
   it("renders a mobile menu button", () => {
@@ -68,7 +67,7 @@ describe("Navbar", () => {
     );
     const menuButton = screen.getByRole("button");
 
-    expect(screen.queryByText("nav.launchApp")).toBeInTheDocument();
+    expect(screen.queryByText("Launch App")).toBeInTheDocument();
 
     fireEvent.click(menuButton);
 

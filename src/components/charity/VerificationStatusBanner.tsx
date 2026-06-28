@@ -22,38 +22,38 @@ function getBannerConfig(
   switch (status) {
     case "pending":
       return {
-        bg: "bg-blue-50",
-        border: "border-blue-200",
+        bg: "bg-status-info/10",
+        border: "border-status-info/30",
         Icon: Clock,
-        iconColor: "text-blue-600",
+        iconColor: "text-status-info",
         title: "Application Under Review",
         body: "Your charity application is being reviewed by our team. This typically takes 3–5 business days. We will email you when a decision is made.",
       };
     case "rejected":
       return {
-        bg: "bg-red-50",
-        border: "border-red-200",
+        bg: "bg-status-danger/10",
+        border: "border-status-danger/30",
         Icon: XCircle,
-        iconColor: "text-red-600",
+        iconColor: "text-status-danger",
         title: "Application Not Approved",
         body: reviewNotes
           ? `Reason: ${reviewNotes}`
           : "Your application was not approved at this time.",
         actionLabel: "Contact Support",
-        actionHref: "mailto:support@giveprotocol.org",
+        actionHref: "mailto:support@giveprotocol.io",
       };
     case "suspended":
       return {
-        bg: "bg-amber-50",
-        border: "border-amber-200",
+        bg: "bg-status-warning/10",
+        border: "border-status-warning/30",
         Icon: AlertTriangle,
-        iconColor: "text-amber-600",
+        iconColor: "text-status-warning",
         title: "Account Suspended",
         body: reviewNotes
           ? `Reason: ${reviewNotes}`
           : "Your charity account has been suspended.",
         actionLabel: "Appeal Suspension",
-        actionHref: "mailto:support@giveprotocol.org",
+        actionHref: "mailto:support@giveprotocol.io",
       };
     case "approved":
     case "verified":
@@ -113,12 +113,12 @@ export const VerificationStatusBanner: React.FC<
     >
       <Icon className={`h-5 w-5 mt-0.5 flex-shrink-0 ${iconColor}`} />
       <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-gray-900">{title}</p>
-        <p className="text-sm text-gray-700 mt-0.5">{body}</p>
+        <p className="text-sm font-semibold text-content-primary">{title}</p>
+        <p className="text-sm text-content-secondary mt-0.5">{body}</p>
         {actionLabel && actionHref && (
           <a
             href={actionHref}
-            className="mt-2 inline-block text-sm font-medium underline text-gray-700 hover:text-gray-900"
+            className="mt-2 inline-block text-sm font-medium underline text-content-secondary hover:text-content-primary"
           >
             {actionLabel}
           </a>
@@ -131,14 +131,16 @@ export const VerificationStatusBanner: React.FC<
 /** Shown when the charity is fully verified — success confirmation banner. */
 export const VerificationSuccessBanner: React.FC = () => (
   <div
-    className="bg-emerald-50 border border-emerald-200 rounded-xl p-4 mb-6 flex gap-3"
+    className="bg-status-success/10 border border-status-success/30 rounded-xl p-4 mb-6 flex gap-3"
     role="status"
     aria-live="polite"
   >
-    <CheckCircle className="h-5 w-5 mt-0.5 flex-shrink-0 text-emerald-600" />
+    <CheckCircle className="h-5 w-5 mt-0.5 flex-shrink-0 text-status-success" />
     <div>
-      <p className="text-sm font-semibold text-gray-900">Charity Verified</p>
-      <p className="text-sm text-gray-700 mt-0.5">
+      <p className="text-sm font-semibold text-content-primary">
+        Charity Verified
+      </p>
+      <p className="text-sm text-content-secondary mt-0.5">
         Your organization is verified and donors can now support your causes.
       </p>
     </div>

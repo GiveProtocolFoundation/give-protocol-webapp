@@ -39,13 +39,12 @@ export function useTokenBalance(
     setError(null);
 
     try {
+      let fetchedBalance: number;
       if (token.isNative) {
         // Fetch native token (GLMR/DEV) balance
         const balanceWei = await provider.getBalance(address);
-        const balanceFormatted = Number.parseFloat(
-          ethers.formatEther(balanceWei),
-        );
-        setBalance(balanceFormatted);
+        fetchedBalance = Number.parseFloat(ethers.formatEther(balanceWei));
+        setBalance(fetchedBalance);
       } else {
         // Fetch ERC20 token balance and decimals in parallel
         const contract = new ethers.Contract(
@@ -57,16 +56,16 @@ export function useTokenBalance(
           contract.balanceOf(address),
           contract.decimals(),
         ]);
-        const balanceFormatted = Number.parseFloat(
+        fetchedBalance = Number.parseFloat(
           ethers.formatUnits(balanceRaw, decimals),
         );
-        setBalance(balanceFormatted);
+        setBalance(fetchedBalance);
       }
 
       Logger.info("Token balance fetched", {
         token: token.symbol,
         address,
-        balance,
+        balance: fetchedBalance,
       });
     } catch (err) {
       const errorMessage =

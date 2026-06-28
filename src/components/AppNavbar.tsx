@@ -12,7 +12,12 @@ import { ClientOnly } from "./ClientOnly";
 import { SettingsMenu } from "./SettingsMenu";
 import { WalletButton, NetworkSelector } from "./Wallet";
 import type { NetworkType, WalletProviderType } from "./Wallet";
-import { Menu, X, Calendar, LogOut } from "lucide-react";
+import {
+  switchEvmNetwork,
+  switchSolanaNetwork,
+  switchPolkadotNetwork,
+} from "./appNavbarHelpers";
+import { Menu, X, LogOut } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/contexts/AuthContext";
 import { useWeb3 } from "@/contexts/Web3Context";
@@ -20,18 +25,19 @@ import { useMultiChainContext } from "@/contexts/MultiChainContext";
 import { DOCS_CONFIG } from "@/config/docs";
 import { NETWORKS } from "./Wallet/types";
 
+const NAV_LINK_BASE =
+  "flex items-center whitespace-nowrap px-3 h-[60px] text-sm font-medium tracking-wide transition-colors duration-200 border-b-2";
+
 // Desktop navigation links component
 const DesktopNavLinks: React.FC<{
   isLimitedNavPage: boolean;
   isActive: (_path: string) => string;
-  userType: string | null;
   isAuthenticated: boolean;
   handleDashboardClick: () => void;
   t: (_key: string) => string;
 }> = ({
   isLimitedNavPage,
   isActive,
-  userType,
   isAuthenticated,
   handleDashboardClick,
   t,
@@ -39,29 +45,23 @@ const DesktopNavLinks: React.FC<{
   if (isLimitedNavPage) {
     return (
       <>
-        <Link
-          to="/about"
-          className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/about")}`}
-        >
+        <Link to="/about" className={`${NAV_LINK_BASE} ${isActive("/about")}`}>
           {t("nav.about")}
         </Link>
         <a
           href={DOCS_CONFIG.url}
-          className="flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 text-[rgba(255,255,255,0.75)] hover:text-emerald-300"
+          className={`${NAV_LINK_BASE} border-transparent text-[rgba(255,255,255,0.75)] hover:text-emerald-300`}
         >
           {t("nav.docs")}
         </a>
-        <Link
-          to="/legal"
-          className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/legal")}`}
-        >
+        <Link to="/legal" className={`${NAV_LINK_BASE} ${isActive("/legal")}`}>
           {t("nav.legal")}
         </Link>
         <Link
           to="/privacy"
-          className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/privacy")}`}
+          className={`${NAV_LINK_BASE} ${isActive("/privacy")}`}
         >
-          Privacy
+          {t("nav.privacy")}
         </Link>
       </>
     );
@@ -69,15 +69,12 @@ const DesktopNavLinks: React.FC<{
 
   return (
     <>
-      <Link
-        to="/browse"
-        className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/browse")}`}
-      >
+      <Link to="/browse" className={`${NAV_LINK_BASE} ${isActive("/browse")}`}>
         {t("nav.browse")}
       </Link>
       <Link
         to="/opportunities"
-        className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/opportunities")}`}
+        className={`${NAV_LINK_BASE} ${isActive("/opportunities")}`}
       >
         {t("nav.opportunities")}
       </Link>
@@ -85,26 +82,16 @@ const DesktopNavLinks: React.FC<{
         <>
           <Link
             to="/contributions"
-            className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/contributions")}`}
+            className={`${NAV_LINK_BASE} ${isActive("/contributions")}`}
           >
             {t("nav.contributions")}
           </Link>
           <button
             onClick={handleDashboardClick}
-            className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${
-              isActive("/give-dashboard") || isActive("/charity-portal")
-            }`}
+            className="inline-flex items-center whitespace-nowrap px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-colors duration-200"
           >
             {t("nav.dashboard")}
           </button>
-          {userType === "donor" && (
-            <Link
-              to="/scheduled-donations"
-              className={`flex items-center justify-center px-3 py-2 rounded-md text-[0.82rem] font-medium transition-colors duration-200 ${isActive("/scheduled-donations")}`}
-            >
-              Monthly Donations
-            </Link>
-          )}
         </>
       )}
     </>
@@ -115,7 +102,6 @@ const DesktopNavLinks: React.FC<{
 const MobileNavLinks: React.FC<{
   isLimitedNavPage: boolean;
   isActive: (_path: string) => string;
-  userType: string | null;
   isAuthenticated: boolean;
   handleDashboardClick: () => void;
   handleLinkClick: () => void;
@@ -123,7 +109,6 @@ const MobileNavLinks: React.FC<{
 }> = ({
   isLimitedNavPage,
   isActive,
-  userType,
   isAuthenticated,
   handleDashboardClick,
   handleLinkClick,
@@ -163,7 +148,7 @@ const MobileNavLinks: React.FC<{
           className={`block px-3 py-3 rounded-md text-[0.82rem] font-medium ${isActive("/privacy")}`}
           onClick={handleLinkClick}
         >
-          Privacy
+          {t("nav.privacy")}
         </Link>
       </>
     );
@@ -202,16 +187,6 @@ const MobileNavLinks: React.FC<{
           >
             {t("nav.dashboard")}
           </button>
-          {userType === "donor" && (
-            <Link
-              to="/scheduled-donations"
-              className={`flex items-center px-3 py-3 rounded-md text-[0.82rem] font-medium ${isActive("/scheduled-donations")}`}
-              onClick={handleLinkClick}
-            >
-              <Calendar className="h-4 w-4 mr-1" />
-              <span>Monthly Donations</span>
-            </Link>
-          )}
         </>
       )}
     </>
@@ -267,10 +242,10 @@ const NavHeader: React.FC = () => (
     className="flex items-center gap-2.5"
     aria-label="Give Protocol home"
   >
-    <Logo className="h-7 w-7" />
+    <Logo className="h-8 w-8" />
     <span
-      className="font-inter text-white"
-      style={{ fontSize: "1.1rem", letterSpacing: "-0.01em" }}
+      className="font-inter font-semibold text-white whitespace-nowrap"
+      style={{ fontSize: "1.15rem", letterSpacing: "-0.01em" }}
     >
       Give Protocol
     </span>
@@ -303,12 +278,16 @@ const NavActions: React.FC<{
   onDisconnect,
   onSignOut,
 }) => {
-  // Determine wallet provider from window.ethereum
+  const { t } = useTranslation();
+
+  // Determine wallet provider from globalThis.ethereum
   const getWalletProvider = useCallback((): WalletProviderType => {
-    if (typeof window === "undefined" || !window.ethereum) return "metamask";
-    if (window.ethereum.isMetaMask) return "metamask";
-    if (window.ethereum.isTalisman) return "talisman";
-    if (window.ethereum.isSubWallet) return "subwallet";
+    const browserGlobal = globalThis as typeof globalThis & Window;
+    if (typeof browserGlobal.window === "undefined" || !browserGlobal.ethereum)
+      return "metamask";
+    if (browserGlobal.ethereum.isMetaMask) return "metamask";
+    if (browserGlobal.ethereum.isTalisman) return "talisman";
+    if (browserGlobal.ethereum.isSubWallet) return "subwallet";
     return "metamask";
   }, []);
 
@@ -335,16 +314,20 @@ const NavActions: React.FC<{
               onDisconnect={onDisconnect}
               onSwitchAccount={handleSwitchAccount}
               onNetworkChange={onNetworkChange}
+              isGuest={!isAuthenticated}
             />
           </>
         )}
         {!isConnected && !isAuthenticated && (
-          <Link
-            to="/auth"
-            className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors duration-200"
-          >
-            Sign In
-          </Link>
+          <>
+            <ConnectButton />
+            <Link
+              to="/auth"
+              className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors duration-200"
+            >
+              {t("nav.signIn")}
+            </Link>
+          </>
         )}
         {!isConnected && isAuthenticated && (
           <>
@@ -355,7 +338,7 @@ const NavActions: React.FC<{
               aria-label="Sign out"
             >
               <LogOut className="h-4 w-4" />
-              <span className="hidden md:inline">Sign Out</span>
+              <span className="hidden md:inline">{t("nav.signOut")}</span>
             </button>
           </>
         )}
@@ -458,43 +441,19 @@ export const AppNavbar: React.FC = () => {
         setNetwork(_network);
         return;
       }
-
+      const deps = {
+        evmChainIds,
+        isConnected,
+        setNetwork,
+        switchChain,
+        multiChain,
+      };
       if (networkConfig.chainType === "evm") {
-        // EVM switching via Web3Context
-        const targetChainId = evmChainIds[_network];
-        if (targetChainId && isConnected) {
-          try {
-            // Ensure multiChain is on EVM chain type
-            if (multiChain.activeChainType !== "evm") {
-              multiChain.switchChainType("evm");
-            }
-            await switchChain(targetChainId);
-            setNetwork(_network);
-          } catch (err) {
-            console.error("Failed to switch network:", err);
-          }
-        } else {
-          setNetwork(_network);
-        }
+        await switchEvmNetwork(_network, deps);
       } else if (networkConfig.chainType === "solana") {
-        // Solana switching via MultiChainContext
-        try {
-          multiChain.switchChainType("solana");
-          setNetwork(_network);
-        } catch (err) {
-          console.error("Failed to switch to Solana:", err);
-        }
+        switchSolanaNetwork(_network, deps);
       } else if (networkConfig.chainType === "polkadot") {
-        // Polkadot/Kusama switching via MultiChainContext
-        try {
-          multiChain.switchChainType("polkadot");
-          if (multiChain.wallet) {
-            await multiChain.switchChain(_network, "polkadot");
-          }
-          setNetwork(_network);
-        } catch (err) {
-          console.error("Failed to switch to Polkadot network:", err);
-        }
+        await switchPolkadotNetwork(_network, deps);
       }
     },
     [isConnected, switchChain, multiChain, evmChainIds],
@@ -526,8 +485,8 @@ export const AppNavbar: React.FC = () => {
     } catch (err) {
       console.warn("Logout failed:", err);
     }
-    window.location.href = `${window.location.origin}/auth`;
-  }, [logout]);
+    navigate("/auth");
+  }, [logout, navigate]);
 
   // Check if current page should only show limited navigation
   const isLimitedNavPage = useMemo(
@@ -538,8 +497,8 @@ export const AppNavbar: React.FC = () => {
   const isActive = useCallback(
     (path: string) =>
       location.pathname === path
-        ? "bg-white/15 text-white font-semibold"
-        : "text-[rgba(255,255,255,0.75)] hover:text-emerald-300",
+        ? "border-emerald-300 text-white"
+        : "border-transparent text-[rgba(255,255,255,0.75)] hover:text-emerald-300",
     [location.pathname],
   );
 
@@ -602,13 +561,12 @@ export const AppNavbar: React.FC = () => {
       aria-label="Application navigation"
     >
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-[60px]">
-        <div className="flex items-center">
+        <div className="flex items-center h-full">
           <NavHeader />
-          <div className="hidden md:ml-6 md:flex md:gap-6">
+          <div className="hidden md:ml-8 md:flex md:items-center md:gap-1 h-full">
             <DesktopNavLinks
               isLimitedNavPage={isLimitedNavPage}
               isActive={isActive}
-              userType={userType}
               isAuthenticated={Boolean(user)}
               handleDashboardClick={handleDashboardClick}
               t={t}
@@ -635,7 +593,6 @@ export const AppNavbar: React.FC = () => {
         <MobileNavLinks
           isLimitedNavPage={isLimitedNavPage}
           isActive={isActive}
-          userType={userType}
           isAuthenticated={Boolean(user)}
           handleDashboardClick={handleDashboardClick}
           handleLinkClick={handleLinkClick}
@@ -647,7 +604,7 @@ export const AppNavbar: React.FC = () => {
             className="flex items-center gap-2 w-full px-3 py-3 rounded-md text-[0.82rem] font-medium text-[rgba(255,255,255,0.75)] hover:text-emerald-300"
           >
             <LogOut className="h-4 w-4" />
-            Sign Out
+            {t("nav.signOut")}
           </button>
         )}
       </MobileMenu>

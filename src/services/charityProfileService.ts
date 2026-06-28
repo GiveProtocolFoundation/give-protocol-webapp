@@ -61,7 +61,7 @@ export async function getCharityWalletAddress(
       .from("charity_profiles")
       .select("wallet_address")
       .eq("claimed_by", userId)
-      .single();
+      .maybeSingle();
 
     if (error || !data) {
       return null;
@@ -74,37 +74,6 @@ export async function getCharityWalletAddress(
       userId,
     });
     return null;
-  }
-}
-
-/**
- * Stores a receiving wallet address on the charity profile for a given user.
- * Updates the charity_profiles row where claimed_by matches the user ID.
- * @param userId - The authenticated user's ID (matched via claimed_by)
- * @param walletAddress - The blockchain wallet address to persist
- * @returns True if the update succeeded, false otherwise
- */
-export async function updateCharityWalletAddress(
-  userId: string,
-  walletAddress: string,
-): Promise<boolean> {
-  try {
-    const { error } = await supabase
-      .from("charity_profiles")
-      .update({ wallet_address: walletAddress })
-      .eq("claimed_by", userId);
-
-    if (error) {
-      Logger.error("Error updating charity wallet address", { error, userId });
-      return false;
-    }
-    return true;
-  } catch (err) {
-    Logger.error("Charity wallet update failed", {
-      error: err instanceof Error ? err.message : String(err),
-      userId,
-    });
-    return false;
   }
 }
 
@@ -143,5 +112,236 @@ export async function getCharityProfileByEin(
       ein: trimmed,
     });
     return null;
+  }
+}
+
+/**
+ * Public-facing asset record for the claimed charity profile of a given user.
+ * `bannerImageUrl` is null when the column has not yet been deployed in the
+ * underlying database, allowing callers to render without error.
+ */
+export interface CharityProfileAssets {
+  id: string;
+  name: string;
+  ein: string;
+  logoUrl: string | null;
+  bannerImageUrl: string | null;
+  claimedByUserId: string | null;
+}
+
+interface AssetRow {
+  id: string;
+  name: string;
+  ein: string;
+  logo_url: string | null;
+  banner_image_url?: string | null;
+  claimed_by: string | null;
+}
+
+/** Returns true when a PostgREST error indicates an unknown column. */
+function isUndefinedColumnError(err: unknown): boolean {
+  if (typeof err !== "object" || err === null) return false;
+  const errorObj = err as { code?: string; message?: string };
+  if (errorObj.code === "42703") return true;
+  return Boolean(errorObj.message?.includes("banner_image_url"));
+}
+
+/** Maps a charity_profiles DB row into the public CharityProfileAssets shape. */
+function toAssets(row: AssetRow): CharityProfileAssets {
+  return {
+    id: row.id,
+    name: row.name,
+    ein: row.ein,
+    logoUrl: row.logo_url ?? null,
+    bannerImageUrl: row.banner_image_url ?? null,
+    claimedByUserId: row.claimed_by ?? null,
+  };
+}
+
+/**
+ * Runs a tolerant select on charity_profiles that handles missing
+ * `banner_image_url` column by falling back to a narrower select.
+ * @param filterColumn - Column to filter by ('claimed_by' or 'ein')
+ * @param filterValue - Value to match
+ * @returns The asset record, or null when no row exists or on error
+ */
+async function fetchAssetsByColumn(
+  filterColumn: "claimed_by" | "ein" | "name",
+  filterValue: string,
+): Promise<CharityProfileAssets | null> {
+  const full = await supabase
+    .from("charity_profiles")
+    .select("id, name, ein, logo_url, banner_image_url, claimed_by")
+    .eq(filterColumn, filterValue)
+    .maybeSingle();
+
+  if (!full.error) {
+    return full.data ? toAssets(full.data as AssetRow) : null;
+  }
+
+  if (!isUndefinedColumnError(full.error)) {
+    Logger.error("Charity profile assets fetch failed", {
+      error: full.error,
+      filterColumn,
+      filterValue,
+    });
+    return null;
+  }
+
+  Logger.warn(
+    "charity_profiles.banner_image_url missing; falling back to logo-only select",
+    { filterColumn, filterValue },
+  );
+
+  const fallback = await supabase
+    .from("charity_profiles")
+    .select("id, name, ein, logo_url, claimed_by")
+    .eq(filterColumn, filterValue)
+    .maybeSingle();
+
+  if (fallback.error) {
+    Logger.error("Charity profile assets fallback fetch failed", {
+      error: fallback.error,
+      filterColumn,
+      filterValue,
+    });
+    return null;
+  }
+
+  return fallback.data ? toAssets(fallback.data as AssetRow) : null;
+}
+
+/**
+ * Fetches the logo, banner and identity metadata for the charity profile claimed
+ * by the given user. Tolerates a missing `banner_image_url` column in production
+ * (when the column-add migration has not been deployed) by retrying the query
+ * with a narrower column list and returning `bannerImageUrl: null`.
+ * @param userId - The authenticated user's id, matched against claimed_by
+ * @returns The asset record, or null when no charity_profiles row exists
+ */
+export async function fetchCharityProfileAssets(
+  userId: string,
+): Promise<CharityProfileAssets | null> {
+  if (!userId) return null;
+
+  try {
+    return await fetchAssetsByColumn("claimed_by", userId);
+  } catch (err) {
+    Logger.error("Charity profile assets fetch threw", {
+      error: err instanceof Error ? err.message : String(err),
+      userId,
+    });
+    return null;
+  }
+}
+
+/**
+ * Fetches charity profile assets by EIN. Used as a fallback when the
+ * `claimed_by` lookup returns nothing (e.g. claim RPC failed).
+ * @param ein - The charity EIN to look up
+ * @returns The asset record, or null when no row exists
+ */
+export async function fetchCharityProfileAssetsByEin(
+  ein: string,
+): Promise<CharityProfileAssets | null> {
+  const trimmed = ein?.trim();
+  if (!trimmed) return null;
+
+  try {
+    return await fetchAssetsByColumn("ein", trimmed);
+  } catch (err) {
+    Logger.error("Charity profile assets by EIN fetch threw", {
+      error: err instanceof Error ? err.message : String(err),
+      ein: trimmed,
+    });
+    return null;
+  }
+}
+
+/**
+ * Claims the charity profile matching the current user's auth email via
+ * a SECURITY DEFINER RPC. Used as Fallback 2 when both claimed_by and EIN
+ * lookups fail. The RPC reads auth.email() server-side (no client parameter)
+ * and sets claimed_by = auth.uid() if the profile is unclaimed.
+ * @returns The claimed asset record, or null when no matching unclaimed profile exists
+ */
+export async function claimCharityProfileBySignerEmail(): Promise<CharityProfileAssets | null> {
+  try {
+    const { data, error } = await supabase.rpc(
+      "claim_charity_profile_by_signer_email",
+    );
+
+    if (error) {
+      Logger.error("claim_charity_profile_by_signer_email RPC failed", {
+        error,
+      });
+      return null;
+    }
+
+    const rows = (data || []) as AssetRow[];
+    if (rows.length === 0) return null;
+    return toAssets(rows[0]);
+  } catch (err) {
+    Logger.error("claim_charity_profile_by_signer_email threw", {
+      error: err instanceof Error ? err.message : String(err),
+    });
+    return null;
+  }
+}
+
+/**
+ * Fetches charity profile assets by organization name. Used as a final
+ * fallback when claimed_by, EIN, and signer email all fail.
+ * @param name - The organization name to match
+ * @returns The asset record, or null when no row exists
+ */
+export async function fetchCharityProfileByName(
+  name: string,
+): Promise<CharityProfileAssets | null> {
+  const trimmed = name?.trim();
+  if (!trimmed) return null;
+
+  try {
+    return await fetchAssetsByColumn("name", trimmed);
+  } catch (err) {
+    Logger.error("Charity profile assets by name fetch threw", {
+      error: err instanceof Error ? err.message : String(err),
+      name: trimmed,
+    });
+    return null;
+  }
+}
+
+/**
+ * Self-repair: sets claimed_by and authorized_signer_email on a charity
+ * profile that was left unlinked (e.g. because the claim RPC failed during
+ * onboarding). Only updates rows where claimed_by is currently NULL.
+ * @param ein - The charity EIN identifying the row to repair
+ * @param userId - The auth user ID to set as claimed_by
+ * @param email - The user email to set as authorized_signer_email
+ */
+export async function repairClaimedBy(
+  ein: string,
+  userId: string,
+  email?: string | null,
+): Promise<void> {
+  try {
+    const { error } = await supabase.rpc("repair_claimed_by", {
+      p_ein: ein,
+      p_user: userId,
+      p_email: email ?? null,
+    });
+
+    if (error) {
+      Logger.warn("Self-repair claimed_by failed", { error, ein, userId });
+    } else {
+      Logger.info("Self-repair: linked charity profile", { ein, userId });
+    }
+  } catch (err) {
+    Logger.warn("Self-repair claimed_by threw", {
+      error: err instanceof Error ? err.message : String(err),
+      ein,
+      userId,
+    });
   }
 }

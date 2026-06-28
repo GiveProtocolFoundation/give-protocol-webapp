@@ -73,15 +73,29 @@ function withWrapped(
 
 const STABLECOIN_HEARTBEAT = 86400; // 24 hours
 
+/**
+ * Builds a `PriceFeedConfig` entry for a USD-pegged stablecoin using the standard 24-hour heartbeat.
+ * @param address - On-chain Chainlink aggregator address for the feed.
+ * @param symbol - Token symbol used in the feed description (e.g. `USDC`).
+ * @returns The price feed configuration.
+ */
 function stablecoinFeed(address: string, symbol: string): PriceFeedConfig {
-  return { address, description: `${symbol} / USD`, decimals: 8, heartbeat: STABLECOIN_HEARTBEAT };
+  return {
+    address,
+    description: `${symbol} / USD`,
+    decimals: 8,
+    heartbeat: STABLECOIN_HEARTBEAT,
+  };
 }
 
 /**
  * Chainlink price feed addresses by chain
  * Maps token symbols to their USD price feed addresses
  */
-export const CHAINLINK_FEEDS: Record<ChainId, Record<string, PriceFeedConfig>> = {
+export const CHAINLINK_FEEDS: Record<
+  ChainId,
+  Record<string, PriceFeedConfig>
+> = {
   // Base Mainnet
   [CHAIN_IDS.BASE]: {
     ...withWrapped("ETH", "WETH", {
@@ -185,7 +199,7 @@ export const COINGECKO_TO_SYMBOL: Record<string, string> = {
  */
 export function getChainlinkFeed(
   chainId: ChainId | number,
-  tokenSymbol: string
+  tokenSymbol: string,
 ): PriceFeedConfig | undefined {
   const chainFeeds = CHAINLINK_FEEDS[chainId as ChainId];
   if (!chainFeeds) return undefined;
@@ -206,6 +220,8 @@ export function hasSequencerFeed(chainId: ChainId | number): boolean {
  * @param chainId - Chain ID
  * @returns Feed address or undefined
  */
-export function getSequencerFeed(chainId: ChainId | number): string | undefined {
+export function getSequencerFeed(
+  chainId: ChainId | number,
+): string | undefined {
   return SEQUENCER_UPTIME_FEEDS[chainId as ChainId];
 }

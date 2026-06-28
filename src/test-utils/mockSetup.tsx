@@ -1,8 +1,12 @@
 /* eslint-disable react-refresh/only-export-components */
-import { jest } from '@jest/globals';
+import { jest } from "@jest/globals";
 // Shared mock configurations for tests
-import React from 'react'; // eslint-disable-line no-unused-vars
-import { MockButtonProps, MockInputProps, MockCardProps, MockUIComponentProps } from './types';
+import {
+  MockButtonProps,
+  MockInputProps,
+  MockCardProps,
+  MockUIComponentProps,
+} from "./types";
 
 /**
  * Creates a mock Web3 context object for testing
@@ -102,8 +106,8 @@ export const mockFormatDate = jest.fn((date: string) => `Formatted: ${date}`);
 /**
  * Mock address shortening function for testing
  */
-export const mockShortenAddress = jest.fn((address: string) => 
-  `${address.slice(0, 6)}...${address.slice(-4)}`
+export const mockShortenAddress = jest.fn(
+  (address: string) => `${address.slice(0, 6)}...${address.slice(-4)}`,
 );
 
 // Mock React components using shared types
@@ -115,7 +119,9 @@ export const mockShortenAddress = jest.fn((address: string) =>
  * @returns Mock button element
  */
 export const MockButton = (props: MockButtonProps) => (
-  <button {...props} data-variant={props.variant}>{props.children}</button>
+  <button {...props} data-variant={props.variant}>
+    {props.children}
+  </button>
 );
 
 /**
@@ -133,7 +139,9 @@ export const MockInput = (props: MockInputProps) => (
  * @returns Mock card element
  */
 export const MockCard = (props: MockCardProps) => (
-  <div {...props} data-testid="card">{props.children}</div>
+  <div {...props} data-testid="card">
+    {props.children}
+  </div>
 );
 
 // Common test data
@@ -141,27 +149,26 @@ export const MockCard = (props: MockCardProps) => (
  * Common test wallet addresses
  */
 export const testAddresses = {
-  mainWallet: '0x1234567890123456789012345678901234567890',
-  shortAddress: '0x1234...7890',
+  mainWallet: "0x1234567890123456789012345678901234567890",
+  shortAddress: "0x1234...7890",
 };
-
 
 /**
  * Default props for test components
  */
 export const testPropsDefaults = {
   applicationAcceptance: {
-    applicationId: 'app-123',
-    applicantName: 'John Doe',
-    opportunityTitle: 'Beach Cleanup Volunteer',
+    applicationId: "app-123",
+    applicantName: "John Doe",
+    opportunityTitle: "Beach Cleanup Volunteer",
   },
   volunteerHours: {
-    hoursId: 'hours-123',
-    volunteerId: 'volunteer-456',
-    volunteerName: 'Jane Smith',
+    hoursId: "hours-123",
+    volunteerId: "volunteer-456",
+    volunteerName: "Jane Smith",
     hours: 8,
-    datePerformed: '2024-01-15',
-    description: 'Helped with beach cleanup and waste sorting',
+    datePerformed: "2024-01-15",
+    description: "Helped with beach cleanup and waste sorting",
   },
 };
 
@@ -171,14 +178,14 @@ export const testPropsDefaults = {
  */
 export const setupCommonMocks = () => {
   // Mock date utilities
-  jest.mock('@/utils/date', () => ({
-    formatDate: jest.fn((date: string, includeTime?: boolean) => 
-      includeTime ? `${date} 10:00 AM` : date
+  jest.mock("@/utils/date", () => ({
+    formatDate: jest.fn((date: string, includeTime?: boolean) =>
+      includeTime ? `${date} 10:00 AM` : date,
     ),
   }));
 
   // Mock logger
-  jest.mock('@/utils/logger', () => ({
+  jest.mock("@/utils/logger", () => ({
     Logger: {
       error: jest.fn(),
       info: jest.fn(),
@@ -188,18 +195,27 @@ export const setupCommonMocks = () => {
   }));
 
   // Mock common UI components
-  jest.mock('@/components/ui/LoadingSpinner', () => ({
+  jest.mock("@/components/ui/LoadingSpinner", () => ({
     LoadingSpinner: ({ size }: { size?: string }) => (
-      <div data-testid="loading-spinner" data-size={size}>Loading...</div>
+      <div data-testid="loading-spinner" data-size={size}>
+        Loading...
+      </div>
     ),
   }));
 
-  jest.mock('@/components/ui/Button', () => ({
-    Button: ({ children, onClick, variant, disabled, className, ...props }: MockUIComponentProps) => (
-      <button 
+  jest.mock("@/components/ui/Button", () => ({
+    Button: ({
+      children,
+      onClick,
+      variant,
+      disabled,
+      className,
+      ...props
+    }: MockUIComponentProps) => (
+      <button
         onClick={onClick}
         disabled={disabled}
-        data-variant={variant} 
+        data-variant={variant}
         className={className}
         {...props}
       >
@@ -208,13 +224,20 @@ export const setupCommonMocks = () => {
     ),
   }));
 
-  jest.mock('@/components/ui/Card', () => ({
-    Card: ({ children, className, ...props }: MockUIComponentProps) => (
-      <div className={className} {...props}>{children}</div>
+  jest.mock("@/components/ui/Card", () => ({
+    Card: ({
+      children,
+      className,
+      hover: _hover,
+      ...props
+    }: MockUIComponentProps & { hover?: boolean }) => (
+      <div className={className} data-testid="card" {...props}>
+        {children}
+      </div>
     ),
   }));
 
-  jest.mock('@/components/CurrencyDisplay', () => ({
+  jest.mock("@/components/CurrencyDisplay", () => ({
     CurrencyDisplay: ({ amount }: { amount: number }) => (
       <span data-testid="currency-display">${amount}</span>
     ),
@@ -230,7 +253,7 @@ export const createMockSupabase = (customResponses = {}) => ({
   from: jest.fn((table: string) => {
     const defaultResponse = { data: [], error: null };
     const customResponse = customResponses[table] || defaultResponse;
-    
+
     return {
       select: jest.fn(() => ({
         eq: jest.fn(() => ({

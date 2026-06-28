@@ -1,3 +1,4 @@
+/** JSON-serializable value type used throughout Supabase-generated types. */
 export type Json =
   | string
   | number
@@ -6,6 +7,7 @@ export type Json =
   | { [key: string]: Json | undefined }
   | Json[];
 
+/** Auto-generated Supabase database schema type. */
 export interface Database {
   public: {
     Tables: {
@@ -42,6 +44,8 @@ export interface Database {
           };
           /** AES-256-GCM encrypted JSON blob: {contact:{email,phone},address:{...}} */
           pii_encrypted?: string;
+          /** UTC timestamp when user affirmed age >= 16 (GDPR Art. 8). NULL = not yet affirmed. */
+          age_affirmed_at?: string;
           created_at: string;
         };
         Insert: {
@@ -77,6 +81,8 @@ export interface Database {
           };
           /** AES-256-GCM encrypted JSON blob: {contact:{email,phone},address:{...}} */
           pii_encrypted?: string;
+          /** UTC timestamp when user affirmed age >= 16 (GDPR Art. 8). NULL = not yet affirmed. */
+          age_affirmed_at?: string;
           created_at?: string;
         };
         Update: {
@@ -111,6 +117,8 @@ export interface Database {
           };
           /** AES-256-GCM encrypted JSON blob: {contact:{email,phone},address:{...}} */
           pii_encrypted?: string;
+          /** UTC timestamp when user affirmed age >= 16 (GDPR Art. 8). NULL = not yet affirmed. */
+          age_affirmed_at?: string;
           created_at?: string;
         };
       };
@@ -222,6 +230,12 @@ export interface Database {
           applied_at: string;
           reviewed_at?: string;
           reviewed_by?: string;
+          consent_given?: boolean;
+          international_transfers_consent?: boolean;
+          age_confirmation?: boolean;
+          privacy_notice_acknowledged?: boolean;
+          consent_given_at?: string;
+          consent_version?: string;
           opportunity?: {
             id: string;
             title: string;
@@ -247,6 +261,12 @@ export interface Database {
           applied_at?: string;
           reviewed_at?: string;
           reviewed_by?: string;
+          consent_given?: boolean;
+          international_transfers_consent?: boolean;
+          age_confirmation?: boolean;
+          privacy_notice_acknowledged?: boolean;
+          consent_given_at?: string;
+          consent_version?: string;
         };
         Update: {
           id?: string;
@@ -268,6 +288,12 @@ export interface Database {
           applied_at?: string;
           reviewed_at?: string;
           reviewed_by?: string;
+          consent_given?: boolean;
+          international_transfers_consent?: boolean;
+          age_confirmation?: boolean;
+          privacy_notice_acknowledged?: boolean;
+          consent_given_at?: string;
+          consent_version?: string;
         };
       };
       key_rotation_jobs: {

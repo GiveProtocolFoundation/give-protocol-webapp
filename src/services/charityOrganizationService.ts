@@ -56,33 +56,25 @@ export async function searchCharityOrganizations(
     return EMPTY_RESULT;
   }
 
-  try {
-    const fetchLimit = params.result_limit + 1;
+  const fetchLimit = params.result_limit + 1;
 
-    const { data, error } = await supabase.rpc("search_charity_organizations", {
-      search_query: hasQuery ? query : null,
-      filter_state: params.filter_state || null,
-      filter_ntee: params.filter_ntee || null,
-      filter_country: params.filter_country || null,
-      result_limit: fetchLimit,
-      result_offset: params.result_offset,
-    });
+  const { data, error } = await supabase.rpc("search_charity_organizations", {
+    search_query: hasQuery ? query : null,
+    filter_state: params.filter_state || null,
+    filter_ntee: params.filter_ntee || null,
+    filter_country: params.filter_country || null,
+    result_limit: fetchLimit,
+    result_offset: params.result_offset,
+  });
 
-    if (error) {
-      Logger.error("Error searching charity organizations", { error, params });
-      return EMPTY_RESULT;
-    }
-
-    const rows = (data || []) as CharityOrganization[];
-    const hasMore = rows.length > params.result_limit;
-    const organizations = hasMore ? rows.slice(0, params.result_limit) : rows;
-
-    return { organizations, hasMore };
-  } catch (error) {
-    Logger.error("Charity organization search failed", {
-      error: error instanceof Error ? error.message : String(error),
-      params,
-    });
-    return EMPTY_RESULT;
+  if (error) {
+    Logger.error("Error searching charity organizations", { error, params });
+    throw new Error(error.message ?? "Search RPC failed");
   }
+
+  const rows = (data || []) as CharityOrganization[];
+  const hasMore = rows.length > params.result_limit;
+  const organizations = hasMore ? rows.slice(0, params.result_limit) : rows;
+
+  return { organizations, hasMore };
 }

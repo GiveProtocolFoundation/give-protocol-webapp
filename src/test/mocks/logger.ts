@@ -55,7 +55,7 @@ export const Logger = {
    * Submit logs to Sentry (no-op for tests)
    * @returns Promise that resolves immediately
    */
-  async submitToSentry() {
-    // No-op for tests
+  submitToSentry(): Promise<void> {
+    return Promise.resolve();
   },
 };

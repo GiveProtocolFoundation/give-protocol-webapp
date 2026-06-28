@@ -1,4 +1,3 @@
-import React from "react";
 import { jest } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
@@ -60,10 +59,12 @@ const mockPattern: AdminSuspiciousVolunteerPattern = {
   totalRequests: 12,
 };
 
-const mockFetchStats = jest.fn();
-const mockFetchRequests = jest.fn();
+const mockFetchStats = jest.fn().mockReturnValue(Promise.resolve());
+const mockFetchRequests = jest.fn().mockReturnValue(Promise.resolve());
 const mockSubmitOverride = jest.fn();
-const mockFetchSuspiciousPatterns = jest.fn();
+const mockFetchSuspiciousPatterns = jest
+  .fn()
+  .mockReturnValue(Promise.resolve());
 
 const createHookReturn = (overrides = {}) => ({
   stats: mockStats,
@@ -228,7 +229,9 @@ describe("AdminVolunteerValidation", () => {
         createHookReturn({ suspiciousPatterns: [mockPattern] }),
       );
       renderComponent();
-      fireEvent.click(screen.getByText("Suspicious Patterns", { exact: false }));
+      fireEvent.click(
+        screen.getByText("Suspicious Patterns", { exact: false }),
+      );
       expect(
         screen.getByText(/Volunteers flagged for reporting/),
       ).toBeInTheDocument();
@@ -249,7 +252,9 @@ describe("AdminVolunteerValidation", () => {
         createHookReturn({ suspiciousPatterns: [mockPattern] }),
       );
       renderComponent();
-      fireEvent.click(screen.getByText("Suspicious Patterns", { exact: false }));
+      fireEvent.click(
+        screen.getByText("Suspicious Patterns", { exact: false }),
+      );
       expect(screen.getByText("Bob Jones")).toBeInTheDocument();
       expect(screen.getByText("City Shelter")).toBeInTheDocument();
       expect(screen.getByText("45")).toBeInTheDocument();
@@ -292,9 +297,7 @@ describe("AdminVolunteerValidation", () => {
         createHookReturn({ stats: null }),
       );
       renderComponent();
-      expect(
-        screen.getByText("No statistics available."),
-      ).toBeInTheDocument();
+      expect(screen.getByText("No statistics available.")).toBeInTheDocument();
     });
   });
 
@@ -402,6 +405,13 @@ describe("AdminVolunteerValidation", () => {
             reason: "Hours look inflated",
           },
           expect.objectContaining({ page: 1, limit: 50 }),
+          {
+            volunteerId: "vol-1",
+            volunteerDisplayName: "Alice Smith",
+            orgName: "Local Food Bank",
+            hoursReported: 8,
+            activityDate: "2025-03-15",
+          },
         );
       });
     });

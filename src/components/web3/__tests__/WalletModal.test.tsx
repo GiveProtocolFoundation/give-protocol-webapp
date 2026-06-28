@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { WalletModal } from "../WalletModal";
@@ -8,7 +7,9 @@ import type { UnifiedWalletProvider } from "@/types/wallet";
 // Portal renders into document.body in jsdom
 
 const mockOnClose = jest.fn();
-const mockOnConnect = jest.fn<() => Promise<void>>().mockResolvedValue(undefined); // skipcq: JS-W1042 — mockResolvedValue requires an argument
+const mockOnConnect = jest
+  .fn<() => Promise<void>>()
+  .mockResolvedValue(undefined); // skipcq: JS-W1042 — mockResolvedValue requires an argument
 
 const mockWallets: UnifiedWalletProvider[] = [
   {
@@ -58,20 +59,28 @@ describe("WalletModal", () => {
     it("shows mainnet chain options", () => {
       renderModal();
       expect(screen.getByRole("button", { name: /Base/i })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: /Optimism/i })).toBeInTheDocument();
-      expect(screen.getByRole("button", { name: /Moonbeam/i })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Optimism/i }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Moonbeam/i }),
+      ).toBeInTheDocument();
     });
 
     it("disables Continue button when no network is selected", () => {
       renderModal();
-      const continueBtn = screen.getByRole("button", { name: /Next Step: Connect Wallet/i });
+      const continueBtn = screen.getByRole("button", {
+        name: /Next Step: Connect Wallet/i,
+      });
       expect(continueBtn).toBeDisabled();
     });
 
     it("enables Continue button after selecting a network", () => {
       renderModal();
       fireEvent.click(screen.getByRole("button", { name: /Base/i }));
-      const continueBtn = screen.getByRole("button", { name: /Next Step: Connect Wallet/i });
+      const continueBtn = screen.getByRole("button", {
+        name: /Next Step: Connect Wallet/i,
+      });
       expect(continueBtn).not.toBeDisabled();
     });
 
@@ -100,7 +109,9 @@ describe("WalletModal", () => {
     it("transitions to Step 2 when Continue is clicked after selecting a network", async () => {
       renderModal();
       fireEvent.click(screen.getByRole("button", { name: /Base/i }));
-      fireEvent.click(screen.getByRole("button", { name: /Next Step: Connect Wallet/i }));
+      fireEvent.click(
+        screen.getByRole("button", { name: /Next Step: Connect Wallet/i }),
+      );
 
       await waitFor(() => {
         expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
@@ -110,19 +121,27 @@ describe("WalletModal", () => {
     it("shows chain type tabs in Step 2", async () => {
       renderModal();
       fireEvent.click(screen.getByRole("button", { name: /Base/i }));
-      fireEvent.click(screen.getByRole("button", { name: /Next Step: Connect Wallet/i }));
+      fireEvent.click(
+        screen.getByRole("button", { name: /Next Step: Connect Wallet/i }),
+      );
 
       await waitFor(() => {
         expect(screen.getByRole("tab", { name: /EVM/i })).toBeInTheDocument();
-        expect(screen.getByRole("tab", { name: /Solana/i })).toBeInTheDocument();
-        expect(screen.getByRole("tab", { name: /Polkadot/i })).toBeInTheDocument();
+        expect(
+          screen.getByRole("tab", { name: /Solana/i }),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByRole("tab", { name: /Polkadot/i }),
+        ).toBeInTheDocument();
       });
     });
 
     it("shows available wallets in Step 2", async () => {
       renderModal();
       fireEvent.click(screen.getByRole("button", { name: /Base/i }));
-      fireEvent.click(screen.getByRole("button", { name: /Next Step: Connect Wallet/i }));
+      fireEvent.click(
+        screen.getByRole("button", { name: /Next Step: Connect Wallet/i }),
+      );
 
       await waitFor(() => {
         expect(screen.getByText("MetaMask")).toBeInTheDocument();
@@ -134,7 +153,9 @@ describe("WalletModal", () => {
     const goToStep2 = async () => {
       renderModal();
       fireEvent.click(screen.getByRole("button", { name: /Base/i }));
-      fireEvent.click(screen.getByRole("button", { name: /Next Step: Connect Wallet/i }));
+      fireEvent.click(
+        screen.getByRole("button", { name: /Next Step: Connect Wallet/i }),
+      );
       await waitFor(() => {
         expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
       });
@@ -142,7 +163,9 @@ describe("WalletModal", () => {
 
     it("shows a back button in Step 2", async () => {
       await goToStep2();
-      expect(screen.getByLabelText("Back to network selection")).toBeInTheDocument();
+      expect(
+        screen.getByLabelText("Back to network selection"),
+      ).toBeInTheDocument();
     });
 
     it("returns to Step 1 when back button is clicked", async () => {
@@ -160,7 +183,9 @@ describe("WalletModal", () => {
 
       // Go to Step 2
       fireEvent.click(screen.getByRole("button", { name: /Base/i }));
-      fireEvent.click(screen.getByRole("button", { name: /Next Step: Connect Wallet/i }));
+      fireEvent.click(
+        screen.getByRole("button", { name: /Next Step: Connect Wallet/i }),
+      );
       await waitFor(() => {
         expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
       });
@@ -176,7 +201,7 @@ describe("WalletModal", () => {
       );
       rerender(
         <WalletModal
-          isOpen={true}
+          isOpen
           onClose={mockOnClose}
           wallets={mockWallets}
           onConnect={mockOnConnect}
@@ -197,7 +222,9 @@ describe("WalletModal", () => {
     it("dismisses on Escape key when on Step 2", async () => {
       renderModal();
       fireEvent.click(screen.getByRole("button", { name: /Base/i }));
-      fireEvent.click(screen.getByRole("button", { name: /Next Step: Connect Wallet/i }));
+      fireEvent.click(
+        screen.getByRole("button", { name: /Next Step: Connect Wallet/i }),
+      );
       await waitFor(() => {
         expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
       });

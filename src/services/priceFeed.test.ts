@@ -14,8 +14,14 @@ jest.mock("@/utils/logger", () => ({
 
 // Spy on the real chainlinkPriceFeedService singleton (avoids ESM module mock issues)
 const mockGetPrice = jest.spyOn(chainlinkPriceFeedService, "getPrice");
-const mockGetPricesByCoingeckoIds = jest.spyOn(chainlinkPriceFeedService, "getPricesByCoingeckoIds");
-const mockChainlinkClearCache = jest.spyOn(chainlinkPriceFeedService, "clearCache");
+const mockGetPricesByCoingeckoIds = jest.spyOn(
+  chainlinkPriceFeedService,
+  "getPricesByCoingeckoIds",
+);
+const mockChainlinkClearCache = jest.spyOn(
+  chainlinkPriceFeedService,
+  "clearCache",
+);
 
 // Mock global fetch
 global.fetch = jest.fn() as jest.Mock;
@@ -43,7 +49,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const prices = await service.getTokenPrices(
@@ -67,7 +73,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       // First call - should fetch
@@ -87,7 +93,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse1,
+        json: () => Promise.resolve(mockResponse1),
       } as Response);
 
       // First call - cache moonbeam
@@ -101,7 +107,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse2,
+        json: () => Promise.resolve(mockResponse2),
       } as Response);
 
       // Second call - request both tokens, polkadot not in cache
@@ -119,7 +125,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse1,
+        json: () => Promise.resolve(mockResponse1),
       } as Response);
 
       // First call
@@ -130,7 +136,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse2,
+        json: () => Promise.resolve(mockResponse2),
       } as Response);
 
       // Second call - should fetch again
@@ -145,7 +151,7 @@ describe("PriceFeedService", () => {
       // First successful fetch
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await service.getTokenPrices(["moonbeam"], "usd");
@@ -196,7 +202,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const prices = await service.getTokenPrices(
@@ -213,7 +219,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await service.getTokenPrices(["moonbeam"]);
@@ -231,7 +237,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const price = await service.getTokenPrice("moonbeam", "usd");
@@ -245,7 +251,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => mockResponse,
       } as Response);
 
       const price = await service.getTokenPrice("moonbeam", "eur");
@@ -260,7 +266,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await expect(service.getTokenPrice("nonexistent", "usd")).rejects.toThrow(
@@ -275,7 +281,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       await service.getTokenPrices(["moonbeam"], "usd");
@@ -297,7 +303,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => mockResponse,
+        json: () => Promise.resolve(mockResponse),
       } as Response);
 
       const beforeTime = Date.now();
@@ -327,7 +333,12 @@ describe("PriceFeedService", () => {
 
   describe("getChainlinkUsdPrice", () => {
     it("should return price from Chainlink for a known token", async () => {
-      mockGetPrice.mockResolvedValueOnce({ price: 2500, symbol: "ETH", updatedAt: 0, isValid: true });
+      mockGetPrice.mockResolvedValueOnce({
+        price: 2500,
+        symbol: "ETH",
+        updatedAt: 0,
+        isValid: true,
+      });
 
       const price = await service.getChainlinkUsdPrice("ETH");
 
@@ -359,7 +370,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ "some-defi-token": { usd: 42 } }),
+        json: () => Promise.resolve({ "some-defi-token": { usd: 42 } }),
       } as Response);
 
       const prices = await service.getTokenPrices(
@@ -373,7 +384,7 @@ describe("PriceFeedService", () => {
     it("should use CoinGecko for non-USD currencies", async () => {
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ ethereum: { eur: 2300 } }),
+        json: () => Promise.resolve({ ethereum: { eur: 2300 } }),
       } as Response);
 
       const prices = await service.getTokenPrices(["ethereum"], "eur");
@@ -388,7 +399,7 @@ describe("PriceFeedService", () => {
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
-        json: async () => ({ ethereum: { usd: 2500 } }),
+        json: () => Promise.resolve({ ethereum: { usd: 2500 } }),
       } as Response);
 
       const prices = await service.getTokenPrices(["ethereum"], "usd");

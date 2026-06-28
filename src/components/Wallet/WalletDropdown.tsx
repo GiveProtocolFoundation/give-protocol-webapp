@@ -7,6 +7,7 @@ import {
   Users,
   LogOut,
   Wallet,
+  LogIn,
 } from "lucide-react";
 import { Portal } from "@/components/ui/Portal";
 import type { WalletDropdownProps } from "./types";
@@ -112,6 +113,8 @@ export const WalletDropdown: React.FC<WalletDropdownProps> = ({
   onSwitchAccount,
   onSettings,
   hasMultipleAccounts = false,
+  isGuest = false,
+  onSignIn,
   anchorRef,
 }) => {
   const tokenSymbol = NETWORK_TOKENS[network] || "DEV";
@@ -273,11 +276,21 @@ export const WalletDropdown: React.FC<WalletDropdownProps> = ({
 
       {/* Wallet Management Section */}
       <div className="p-2">
-        <MenuItem
-          icon={<Settings className="h-4 w-4" />}
-          label="Account Settings"
-          onClick={onSettings}
-        />
+        {isGuest ? (
+          onSignIn && (
+            <MenuItem
+              icon={<LogIn className="h-4 w-4" />}
+              label="Sign In"
+              onClick={onSignIn}
+            />
+          )
+        ) : (
+          <MenuItem
+            icon={<Settings className="h-4 w-4" />}
+            label="Account Settings"
+            onClick={onSettings}
+          />
+        )}
         {hasMultipleAccounts && (
           <MenuItem
             icon={<Users className="h-4 w-4" />}

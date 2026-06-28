@@ -1,4 +1,3 @@
-import React from "react";
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import {
   render,
@@ -58,9 +57,7 @@ describe("Auth", () => {
 
     it("renders protocol status banner with Genesis Phase text", () => {
       renderAuth();
-      expect(
-        screen.getByText(/Protocol Status/),
-      ).toBeInTheDocument();
+      expect(screen.getByText(/Protocol Status/)).toBeInTheDocument();
     });
 
     it("renders Runs On trust tags", () => {
@@ -74,7 +71,7 @@ describe("Auth", () => {
 
     it("renders the transparent impact tagline", () => {
       renderAuth();
-      expect(screen.getByText("transparent")).toBeInTheDocument();
+      expect(screen.getByText(/transparent impact/)).toBeInTheDocument();
       expect(screen.getByText(/impact/)).toBeInTheDocument();
     });
   });
@@ -113,7 +110,9 @@ describe("Auth", () => {
     });
 
     it("calls signInWithEmail on form submit", async () => {
-      const mockSignIn = jest.fn<() => Promise<void>>().mockImplementation(() => Promise.resolve());
+      const mockSignIn = jest
+        .fn<() => Promise<void>>()
+        .mockImplementation(() => Promise.resolve());
       mockUseUnifiedAuth.mockReturnValue({
         ...defaultAuthState,
         signInWithEmail: mockSignIn,
@@ -134,9 +133,9 @@ describe("Auth", () => {
     });
 
     it("shows error message when sign-in fails", async () => {
-      const mockSignIn = jest.fn<() => Promise<void>>().mockRejectedValue(
-        new Error("Invalid credentials"),
-      );
+      const mockSignIn = jest
+        .fn<() => Promise<void>>()
+        .mockRejectedValue(new Error("Invalid credentials"));
       mockUseUnifiedAuth.mockReturnValue({
         ...defaultAuthState,
         signInWithEmail: mockSignIn,
@@ -158,7 +157,9 @@ describe("Auth", () => {
     });
 
     it("shows generic error when sign-in throws non-Error", async () => {
-      const mockSignIn = jest.fn<() => Promise<void>>().mockRejectedValue("unknown");
+      const mockSignIn = jest
+        .fn<() => Promise<void>>()
+        .mockRejectedValue("unknown");
       mockUseUnifiedAuth.mockReturnValue({
         ...defaultAuthState,
         signInWithEmail: mockSignIn,
@@ -368,15 +369,6 @@ describe("Auth", () => {
       const signUpLink = screen.getByText(/Create an account/);
       expect(signUpLink).toBeInTheDocument();
       expect(signUpLink.closest("a")).toHaveAttribute("href", "/auth/signup");
-    });
-
-    it("renders nonprofit profile link", () => {
-      renderAuth();
-      const nonprofitLink = screen.getByText("I manage a Nonprofit Profile");
-      expect(nonprofitLink.closest("a")).toHaveAttribute(
-        "href",
-        "/auth/charity",
-      );
     });
 
     it("renders Terms link", () => {

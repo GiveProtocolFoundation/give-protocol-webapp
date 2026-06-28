@@ -8,145 +8,17 @@ import React, {
 } from "react";
 import { ethers } from "ethers";
 import { Logger } from "@/utils/logger";
-import { CHAIN_CONFIGS, type ChainId } from "@/config/contracts";
+import { type ChainId } from "@/config/contracts";
 import { useChain } from "./ChainContext";
 import { useMultiChainContext } from "./MultiChainContext";
+import {
+  isEIP1193Provider,
+  hasErrorCode,
+  hasErrorMessage,
+  isEventObject,
+  switchToChain,
+} from "./web3ContextHelpers";
 import type { UnifiedWalletProvider } from "@/types/wallet";
-
-// EIP-1193 Provider interface
-interface EIP1193Provider {
-  request: (_args: { method: string; params?: unknown[] }) => Promise<unknown>;
-  on?: (_event: string, _handler: (..._args: unknown[]) => void) => void;
-  removeListener?: (
-    _event: string,
-    _handler: (..._args: unknown[]) => void,
-  ) => void;
-  disconnect?: () => Promise<void>;
-}
-
-/**
- * Type guard to check if a provider is EIP-1193 compliant
- * @param provider - The provider to check
- * @returns True if the provider has a request method
- */
-function isEIP1193Provider(provider: unknown): provider is EIP1193Provider {
-  return (
-    typeof provider === "object" &&
-    provider !== null &&
-    typeof (provider as EIP1193Provider).request === "function"
-  );
-}
-
-// Error type guards for Web3 errors
-interface WalletError {
-  code?: number;
-  message?: string;
-}
-
-/**
- * Type guard to check if an error is a wallet error with code and message properties
- * @param error - The error object to check
- * @returns True if the error is a wallet error, false otherwise
- */
-function isWalletError(error: unknown): error is WalletError {
-  return typeof error === "object" && error !== null;
-}
-
-/**
- * Checks if an error has a specific error code
- * @param error - The error object to check
- * @param code - The error code to match
- * @returns True if the error has the specified code, false otherwise
- */
-function hasErrorCode(error: unknown, code: number): boolean {
-  return isWalletError(error) && error.code === code;
-}
-
-/**
- * Checks if an error message contains a specific substring
- * @param error - The error object to check
- * @param message - The message substring to search for
- * @returns True if the error message contains the substring, false otherwise
- */
-function hasErrorMessage(error: unknown, message: string): boolean {
-  return (
-    isWalletError(error) &&
-    typeof error.message === "string" &&
-    error.message.includes(message)
-  );
-}
-
-/**
- * Checks if a value is a browser event (e.g., from onClick={connect})
- * @param value - The value to check
- * @returns True if the value is an event object
- */
-function isEventObject(value: unknown): boolean {
-  if (value instanceof Event) return true;
-  return typeof value === "object" && value !== null && "nativeEvent" in value;
-}
-
-/**
- * Builds wallet_addEthereumChain params from chain config
- * @param chainId - The chain ID to get params for
- * @returns Chain params for wallet_addEthereumChain or null if unsupported
- */
-function getChainParams(chainId: ChainId) {
-  const config = CHAIN_CONFIGS[chainId];
-  if (!config) return null;
-
-  return {
-    chainId: `0x${chainId.toString(16)}`,
-    chainName: config.name,
-    nativeCurrency: config.nativeCurrency,
-    rpcUrls: config.rpcUrls,
-    blockExplorerUrls: config.blockExplorerUrls,
-  };
-}
-
-/**
- * Attempts to switch to a specified network
- * @param walletProvider - The EIP-1193 wallet provider
- * @param chainId - The target chain ID
- * @throws Error if user rejects or switch fails
- */
-async function switchToChain(
-  walletProvider: EIP1193Provider,
-  chainId: ChainId,
-): Promise<void> {
-  const chainParams = getChainParams(chainId);
-  if (!chainParams) {
-    throw new Error(`Unsupported chain: ${chainId}`);
-  }
-
-  try {
-    await walletProvider.request({
-      method: "wallet_switchEthereumChain",
-      params: [{ chainId: chainParams.chainId }],
-    });
-    Logger.info("Switched network", { chainId });
-  } catch (switchError: unknown) {
-    // Chain not added - try to add it
-    if (hasErrorCode(switchError, 4902)) {
-      await walletProvider.request({
-        method: "wallet_addEthereumChain",
-        params: [chainParams],
-      });
-      Logger.info("Added network", { chainId, name: chainParams.chainName });
-      return;
-    }
-    // User rejected
-    if (hasErrorCode(switchError, 4001)) {
-      const config = CHAIN_CONFIGS[chainId];
-      throw new Error(
-        `Please switch to ${config?.name || "the selected network"}`,
-      );
-    }
-    // Other errors
-    Logger.error("Failed to switch network", { error: switchError, chainId });
-    throw new Error("Failed to switch network. Please try again.");
-  }
-}
 
 interface Web3ContextType {
   provider: ethers.Provider | null;
@@ -213,36 +85,49 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
   }, []);
 
   // Handle chain changes — refresh provider/signer instead of reloading page
+  // Debounced to prevent MetaMask's rapid chainChanged event spam from
+  // creating multiple providers and triggering cascading RPC calls
+  const chainChangeTimerRef = React.useRef<ReturnType<
+    typeof setTimeout
+  > | null>(null);
   const handleChainChanged = useCallback(
-    async (chainIdHex: string) => {
+    (chainIdHex: string) => {
       const newChainId = Number.parseInt(chainIdHex, 16);
       setChainId(newChainId);
-      Logger.info("Chain changed", { chainId: newChainId });
 
-      // Rebuild ethers provider and signer for the new chain
-      const walletProvider =
-        currentWalletProvider ||
-        (typeof window !== "undefined" ? window.ethereum : null);
-
-      if (walletProvider && isEIP1193Provider(walletProvider)) {
-        try {
-          const newProvider = new ethers.BrowserProvider(
-            walletProvider as ethers.Eip1193Provider,
-          );
-          const newSigner = await newProvider.getSigner();
-          startTransition(() => {
-            setProvider(newProvider);
-            setSigner(newSigner);
-          });
-          Logger.info("Provider refreshed after chain change", {
-            chainId: newChainId,
-          });
-        } catch (err) {
-          Logger.error("Failed to refresh provider after chain change", {
-            error: err,
-          });
-        }
+      // Debounce provider rebuild — MetaMask fires chainChanged multiple times
+      if (chainChangeTimerRef.current) {
+        clearTimeout(chainChangeTimerRef.current);
       }
+      chainChangeTimerRef.current = setTimeout(async () => {
+        chainChangeTimerRef.current = null;
+        Logger.info("Chain changed", { chainId: newChainId });
+
+        // Rebuild ethers provider and signer for the new chain
+        const walletProvider =
+          currentWalletProvider ||
+          (typeof window !== "undefined" ? window.ethereum : null);
+
+        if (walletProvider && isEIP1193Provider(walletProvider)) {
+          try {
+            const newProvider = new ethers.BrowserProvider(
+              walletProvider as ethers.Eip1193Provider,
+            );
+            const newSigner = await newProvider.getSigner();
+            startTransition(() => {
+              setProvider(newProvider);
+              setSigner(newSigner);
+            });
+            Logger.info("Provider refreshed after chain change", {
+              chainId: newChainId,
+            });
+          } catch (err) {
+            Logger.error("Failed to refresh provider after chain change", {
+              error: err,
+            });
+          }
+        }
+      }, 500);
     },
     [currentWalletProvider],
   );
@@ -255,6 +140,22 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       try {
         if (
           localStorage.getItem("giveprotocol_wallet_disconnected") === "true"
+        ) {
+          return;
+        }
+      } catch {
+        // Ignore storage errors
+      }
+
+      // Only auto-restore if the user has previously connected a wallet.
+      // Calling eth_accounts on some wallets (e.g. MetaMask in Comet browser)
+      // triggers a connection popup even though the method is documented as
+      // passive. Guard with an explicit "has connected before" flag so first-
+      // time visitors never see an unsolicited wallet prompt.
+      try {
+        if (
+          localStorage.getItem("giveprotocol_wallet_previously_connected") !==
+          "true"
         ) {
           return;
         }
@@ -277,7 +178,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
             isPhantom?: boolean;
             isMetaMask?: boolean;
             providers?: ProviderLike[];
-            request: (args: {
+            request: (_args: {
               method: string;
               params?: unknown[];
             }) => Promise<unknown>;
@@ -318,6 +219,10 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
               setSigner(newSigner);
               setAddress(accounts[0]);
               setChainId(Number(network.chainId));
+              // Store the safe provider so event listeners use it instead of
+              // falling back to the raw window.ethereum (which can be Phantom or
+              // another injected provider that triggers unwanted UI in some browsers).
+              setCurrentWalletProvider(safeProvider);
             });
             Logger.info("Restored existing connection", {
               address: accounts[0],
@@ -428,9 +333,28 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
   // Set up event listeners
   useEffect(() => {
+    // Only fall back to window.ethereum when the user has previously connected.
+    // In some browsers (e.g. Comet) even subscribing to accountsChanged on
+    // window.ethereum triggers a wallet connection popup. First-time visitors
+    // have no prior connection state, so we skip event listeners entirely for
+    // them — they'll get listeners registered once they explicitly connect and
+    // currentWalletProvider is set.
+    const hasPreviouslyConnected = (() => {
+      try {
+        return (
+          localStorage.getItem("giveprotocol_wallet_previously_connected") ===
+          "true"
+        );
+      } catch {
+        return false;
+      }
+    })();
+
     const walletProvider =
       currentWalletProvider ||
-      (typeof window !== "undefined" ? window.ethereum : null);
+      (hasPreviouslyConnected && typeof window !== "undefined"
+        ? window.ethereum
+        : null);
     if (!walletProvider || typeof walletProvider.on !== "function") return;
 
     /** Clear all connection state when wallet fires disconnect event */
@@ -520,6 +444,11 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
 
   const connect = useCallback(
     async (_walletProvider?: unknown) => {
+      if (isConnectingRef.current) {
+        Logger.warn("Wallet connection already in progress, skipping");
+        return;
+      }
+
       // Resolve wallet provider (ignore events from onClick={connect})
       const defaultProvider =
         typeof window !== "undefined" ? window.ethereum : null;
@@ -553,9 +482,13 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
         isConnectingRef.current = true;
         setError(null);
 
-        // Clear disconnect flag since user is explicitly connecting
+        // Clear disconnect flag and record that user has connected at least once
         try {
           localStorage.removeItem("giveprotocol_wallet_disconnected");
+          localStorage.setItem(
+            "giveprotocol_wallet_previously_connected",
+            "true",
+          );
         } catch {
           // Ignore storage errors
         }
@@ -611,6 +544,15 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
           throw error;
         }
 
+        // Handle "already pending" request (-32002)
+        if (hasErrorCode(err, -32002)) {
+          const error = new Error(
+            "A wallet connection request is already pending. Please check your wallet extension and approve or reject it first.",
+          );
+          setError(error);
+          throw error;
+        }
+
         // Handle other errors
         const message =
           err instanceof Error ? err.message : "Failed to connect wallet";
@@ -631,6 +573,7 @@ export function Web3Provider({ children }: { children: React.ReactNode }) {
       // Mark explicit disconnect to prevent auto-reconnect on page reload
       try {
         localStorage.setItem("giveprotocol_wallet_disconnected", "true");
+        localStorage.removeItem("giveprotocol_wallet_previously_connected");
       } catch {
         // Ignore storage errors
       }

@@ -30,6 +30,10 @@ const charityData: CharityProfileData = {
   ],
 };
 
+/**
+ * Static charity page for Global Water Foundation.
+ * @returns React element rendering the charity profile template
+ */
 const GlobalWaterFoundation: React.FC = () => {
   return <CharityPageTemplate charity={charityData} />;
 };
