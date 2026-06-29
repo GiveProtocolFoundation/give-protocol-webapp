@@ -32,6 +32,8 @@ async function renderCard(limit?: number) {
         <NewsUpdatesCard items={MOCK_ITEMS} limit={limit} />
       </MemoryRouter>,
     );
+    // Yield so usePlatformNews's microtask-resolved fetch settles inside act().
+    await Promise.resolve();
   });
 }
 
