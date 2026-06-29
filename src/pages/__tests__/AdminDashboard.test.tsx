@@ -96,10 +96,12 @@ describe("AdminDashboard", () => {
   });
 
   describe("Data display", () => {
-    it("renders Admin Dashboard title after loading", async () => {
+    it("renders the dashboard content after loading", async () => {
+      // The page title now lives in the shell top bar; the page itself renders
+      // the KPI + activity sections.
       renderDashboard();
       await waitFor(() => {
-        expect(screen.getByText("Admin Dashboard")).toBeInTheDocument();
+        expect(screen.getByText("Recent Activity")).toBeInTheDocument();
       });
     });
 
@@ -150,17 +152,19 @@ describe("AdminDashboard", () => {
       });
     });
 
-    it("renders Donation activity badge", async () => {
+    it("renders multiple activity descriptions", async () => {
       renderDashboard();
       await waitFor(() => {
-        expect(screen.getByText("Donation")).toBeInTheDocument();
+        expect(screen.getByText("New user registered")).toBeInTheDocument();
       });
     });
 
-    it("renders Registration activity badge", async () => {
+    it("renders the activity feed subtitle", async () => {
       renderDashboard();
       await waitFor(() => {
-        expect(screen.getByText("Registration")).toBeInTheDocument();
+        expect(
+          screen.getByText("Platform events as they happen"),
+        ).toBeInTheDocument();
       });
     });
   });
