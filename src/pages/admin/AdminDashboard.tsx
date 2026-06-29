@@ -250,6 +250,13 @@ function VolumeEmptyChart(): React.ReactElement {
   );
 }
 
+/** Maps an alert type to the route its "Review" button should open. */
+const ALERT_ROUTES: Record<string, string> = {
+  pending_verification: "/admin/charities",
+  expired_validation: "/admin/charities",
+  removal_request: "/admin/charities",
+};
+
 /** One priority alert banner for a grouped alert. */
 function AlertBanner({
   group,
@@ -582,13 +589,6 @@ function QuickActionCard({
     </Link>
   );
 }
-
-/** Maps an alert type to the route its "Review" button should open. */
-const ALERT_ROUTES: Record<string, string> = {
-  pending_verification: "/admin/charities",
-  expired_validation: "/admin/charities",
-  removal_request: "/admin/charities",
-};
 
 // ---------------------------------------------------------------------------
 // Main page
