@@ -89,7 +89,7 @@ This check runs in the **Code Quality** CI workflow on every push and PR.
 
 ### How to Report Safely
 
-**Email:** security@giveprotocol.io
+**Email:** privacy@giveprotocol.io
 
 **Include in your report:**
 
@@ -255,5 +255,4 @@ Both live as Paperclip documents on the originating governance issue.
 ### Contact
 
 - Internal escalation for suspected data breach: page CEO (DBO) and CTO via the on-call rotation
-- Privacy / data-subject inquiries: `privacy@giveprotocol.io`
-- External researcher vulnerability disclosure (separate process, see above): `security@giveprotocol.io`
+- Privacy, data-subject inquiries, and external vulnerability disclosure: `privacy@giveprotocol.io`
