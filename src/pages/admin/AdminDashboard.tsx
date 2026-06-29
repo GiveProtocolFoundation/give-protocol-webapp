@@ -94,15 +94,31 @@ function getActivityVisual(type: string): { tile: string; icon: LucideIcon } {
 }
 
 /** Maps an alert severity to its banner chip tone and label. */
-function getSeverityChip(severity: string): { tone: ChipTone; key: string; fallback: string } {
+function getSeverityChip(severity: string): {
+  tone: ChipTone;
+  key: string;
+  fallback: string;
+} {
   switch (severity) {
     case "critical":
     case "high":
-      return { tone: "danger", key: "admin.dashboard.severityHigh", fallback: "High Priority" };
+      return {
+        tone: "danger",
+        key: "admin.dashboard.severityHigh",
+        fallback: "High Priority",
+      };
     case "medium":
-      return { tone: "warning", key: "admin.dashboard.severityMedium", fallback: "Needs Attention" };
+      return {
+        tone: "warning",
+        key: "admin.dashboard.severityMedium",
+        fallback: "Needs Attention",
+      };
     default:
-      return { tone: "info", key: "admin.dashboard.severityLow", fallback: "For Review" };
+      return {
+        tone: "info",
+        key: "admin.dashboard.severityLow",
+        fallback: "For Review",
+      };
   }
 }
 
@@ -134,7 +150,10 @@ function groupAlerts(alerts: AdminAlert[]): Array<{
       });
     }
   }
-  return Array.from(map.entries()).map(([alertType, v]) => ({ alertType, ...v }));
+  return Array.from(map.entries()).map(([alertType, v]) => ({
+    alertType,
+    ...v,
+  }));
 }
 
 // ---------------------------------------------------------------------------
@@ -160,7 +179,9 @@ function KpiCard({
   return (
     <div className="rounded-[14px] border border-[#e4e8e6] bg-white px-[18px] pb-[15px] pt-[17px] shadow-[0_1px_2px_#0b1f1a07]">
       <div className="flex items-center justify-between">
-        <span className="text-[12.5px] font-medium text-[#6b7873]">{label}</span>
+        <span className="text-[12.5px] font-medium text-[#6b7873]">
+          {label}
+        </span>
         <span className="flex h-[30px] w-[30px] items-center justify-center rounded-lg bg-[#eef4f1]">
           <Icon size={15} strokeWidth={1.9} className="text-[#1b8a6b]" />
         </span>
@@ -243,15 +264,78 @@ interface QuickAction {
 }
 
 const QUICK_ACTIONS: QuickAction[] = [
-  { to: "/admin/reports", titleKey: "admin.actions.viewReports", titleFallback: "View Reports", descKey: "admin.actions.viewReportsDesc", descFallback: "Generate detailed analytics", icon: BarChart3 },
-  { to: "/admin/charities", titleKey: "admin.actions.manageCharities", titleFallback: "Manage Charities", descKey: "admin.actions.manageCharitiesDesc", descFallback: "Review and approve organizations", icon: Landmark },
-  { to: "/admin/donations", titleKey: "admin.actions.donationMonitoring", titleFallback: "Donation Monitoring", descKey: "admin.actions.donationMonitoringDesc", descFallback: "Monitor, flag, and report on donations", icon: DollarSign },
-  { to: "/admin/impact-metrics", titleKey: "admin.actions.manageImpactMetrics", titleFallback: "Manage Impact Metrics", descKey: "admin.actions.manageImpactMetricsDesc", descFallback: "Configure impact calculator data", icon: Activity },
-  { to: "/admin/portfolio-funds", titleKey: "admin.actions.portfolioFunds", titleFallback: "Portfolio Funds", descKey: "admin.actions.portfolioFundsDesc", descFallback: "Create and manage curated giving portfolios", icon: Wallet },
-  { to: "/admin/content-moderation", titleKey: "admin.actions.contentModeration", titleFallback: "Content Moderation", descKey: "admin.actions.contentModerationDesc", descFallback: "Hide, flag, and review opportunities and causes", icon: ShieldCheck },
-  { to: "/admin/charity-requests", titleKey: "admin.actions.charityRequests", titleFallback: "Charity Requests", descKey: "admin.actions.charityRequestsDesc", descFallback: "Review donor requests for unclaimed charities", icon: FileSearch },
-  { to: "/admin/settings", titleKey: "admin.actions.systemSettings", titleFallback: "System Settings", descKey: "admin.actions.systemSettingsDesc", descFallback: "Configure platform parameters", icon: SlidersHorizontal },
-  { to: "/admin/platform-news", titleKey: "admin.actions.platformNews", titleFallback: "Platform News", descKey: "admin.actions.platformNewsDesc", descFallback: "Manage news items on the browse page", icon: Newspaper },
+  {
+    to: "/admin/reports",
+    titleKey: "admin.actions.viewReports",
+    titleFallback: "View Reports",
+    descKey: "admin.actions.viewReportsDesc",
+    descFallback: "Generate detailed analytics",
+    icon: BarChart3,
+  },
+  {
+    to: "/admin/charities",
+    titleKey: "admin.actions.manageCharities",
+    titleFallback: "Manage Charities",
+    descKey: "admin.actions.manageCharitiesDesc",
+    descFallback: "Review and approve organizations",
+    icon: Landmark,
+  },
+  {
+    to: "/admin/donations",
+    titleKey: "admin.actions.donationMonitoring",
+    titleFallback: "Donation Monitoring",
+    descKey: "admin.actions.donationMonitoringDesc",
+    descFallback: "Monitor, flag, and report on donations",
+    icon: DollarSign,
+  },
+  {
+    to: "/admin/impact-metrics",
+    titleKey: "admin.actions.manageImpactMetrics",
+    titleFallback: "Manage Impact Metrics",
+    descKey: "admin.actions.manageImpactMetricsDesc",
+    descFallback: "Configure impact calculator data",
+    icon: Activity,
+  },
+  {
+    to: "/admin/portfolio-funds",
+    titleKey: "admin.actions.portfolioFunds",
+    titleFallback: "Portfolio Funds",
+    descKey: "admin.actions.portfolioFundsDesc",
+    descFallback: "Create and manage curated giving portfolios",
+    icon: Wallet,
+  },
+  {
+    to: "/admin/content-moderation",
+    titleKey: "admin.actions.contentModeration",
+    titleFallback: "Content Moderation",
+    descKey: "admin.actions.contentModerationDesc",
+    descFallback: "Hide, flag, and review opportunities and causes",
+    icon: ShieldCheck,
+  },
+  {
+    to: "/admin/charity-requests",
+    titleKey: "admin.actions.charityRequests",
+    titleFallback: "Charity Requests",
+    descKey: "admin.actions.charityRequestsDesc",
+    descFallback: "Review donor requests for unclaimed charities",
+    icon: FileSearch,
+  },
+  {
+    to: "/admin/settings",
+    titleKey: "admin.actions.systemSettings",
+    titleFallback: "System Settings",
+    descKey: "admin.actions.systemSettingsDesc",
+    descFallback: "Configure platform parameters",
+    icon: SlidersHorizontal,
+  },
+  {
+    to: "/admin/platform-news",
+    titleKey: "admin.actions.platformNews",
+    titleFallback: "Platform News",
+    descKey: "admin.actions.platformNewsDesc",
+    descFallback: "Manage news items on the browse page",
+    icon: Newspaper,
+  },
 ];
 
 /** Maps an alert type to the route its "Review" button should open. */
@@ -306,10 +390,13 @@ const AdminDashboard: React.FC = () => {
     trackEvent("admin_dashboard_viewed", { userId: user?.id });
   }, [user?.id, fetchAll]);
 
-  const handleRangeChange = useCallback((e: React.MouseEvent<HTMLButtonElement>) => {
-    const value = e.currentTarget.dataset.range as "30D" | "90D" | "YTD";
-    if (value) setRange(value);
-  }, []);
+  const handleRangeChange = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const value = e.currentTarget.dataset.range as "30D" | "90D" | "YTD";
+      if (value) setRange(value);
+    },
+    [],
+  );
 
   if (loading) {
     return (
@@ -367,7 +454,11 @@ const AdminDashboard: React.FC = () => {
             className="flex items-center gap-4 rounded-[13px] border border-[#e4e8e6] border-l-[3px] border-l-[#e0533d] bg-white px-[18px] py-[15px] shadow-[0_1px_2px_#0b1f1a07]"
           >
             <div className="flex h-[38px] w-[38px] flex-none items-center justify-center rounded-[10px] bg-[#fbeae6]">
-              <AlertTriangle size={19} strokeWidth={2} className="text-[#c8412b]" />
+              <AlertTriangle
+                size={19}
+                strokeWidth={2}
+                className="text-[#c8412b]"
+              />
             </div>
             <div className="flex-1">
               <div className="flex flex-wrap items-center gap-[9px]">
@@ -386,7 +477,10 @@ const AdminDashboard: React.FC = () => {
               >
                 {t("admin.dashboard.alertOldest", "Oldest request submitted")}{" "}
                 {formatRelativeTime(group.latestCreatedAt)} ·{" "}
-                {t("admin.dashboard.alertReviewHint", "review to keep onboarding moving")}
+                {t(
+                  "admin.dashboard.alertReviewHint",
+                  "review to keep onboarding moving",
+                )}
               </div>
             </div>
             <Link
@@ -407,9 +501,13 @@ const AdminDashboard: React.FC = () => {
           icon={Users}
           delta={newDonors > 0 ? `+${newDonors}` : "—"}
           deltaTone={newDonors > 0 ? "success" : "neutral"}
-          sub={t("admin.dashboard.kpiDonorsSub", "{{count}} new in last 30 days", {
-            count: newDonors,
-          })}
+          sub={t(
+            "admin.dashboard.kpiDonorsSub",
+            "{{count}} new in last 30 days",
+            {
+              count: newDonors,
+            },
+          )}
         />
         <KpiCard
           label={t("admin.stats.charities", "Charities")}
@@ -419,7 +517,10 @@ const AdminDashboard: React.FC = () => {
             count: stats.pendingCharities,
           })}
           deltaTone={stats.pendingCharities > 0 ? "warning" : "neutral"}
-          sub={t("admin.dashboard.awaitingVerification", "Awaiting verification")}
+          sub={t(
+            "admin.dashboard.awaitingVerification",
+            "Awaiting verification",
+          )}
         />
         <KpiCard
           label={t("admin.stats.verifiedCharities", "Verified Charities")}
@@ -427,9 +528,13 @@ const AdminDashboard: React.FC = () => {
           icon={CheckCircle2}
           delta={`${verifiedPct}%`}
           deltaTone={verifiedPct > 0 ? "success" : "neutral"}
-          sub={t("admin.dashboard.kpiVerifiedSub", "of {{total}} total approved", {
-            total: stats.totalCharities,
-          })}
+          sub={t(
+            "admin.dashboard.kpiVerifiedSub",
+            "of {{total}} total approved",
+            {
+              total: stats.totalCharities,
+            },
+          )}
         />
         <KpiCard
           label={t("admin.stats.activeVolunteers", "Active Volunteers")}
@@ -455,9 +560,13 @@ const AdminDashboard: React.FC = () => {
                 {t("admin.dashboard.donationVolume", "Donation Volume")}
               </div>
               <div className="mt-0.5 text-[12px] text-[#8a948f]">
-                {t("admin.dashboard.donationVolumeSub", "{{range}} · crypto + fiat combined", {
-                  range: rangeLabel,
-                })}
+                {t(
+                  "admin.dashboard.donationVolumeSub",
+                  "{{range}} · crypto + fiat combined",
+                  {
+                    range: rangeLabel,
+                  },
+                )}
               </div>
             </div>
             <div className="flex gap-1.5">
@@ -521,7 +630,10 @@ const AdminDashboard: React.FC = () => {
             {t("admin.dashboard.recentActivity", "Recent Activity")}
           </div>
           <div className="mb-[14px] text-[12px] text-[#8a948f]">
-            {t("admin.dashboard.activitySubtitle", "Platform events as they happen")}
+            {t(
+              "admin.dashboard.activitySubtitle",
+              "Platform events as they happen",
+            )}
           </div>
           {activity.length === 0 ? (
             <div className="flex flex-1 items-center justify-center py-8 text-center text-[12.5px] text-[#9aa5a0]">
@@ -544,7 +656,9 @@ const AdminDashboard: React.FC = () => {
                   <div className="flex-1 leading-[1.35]">
                     <div className="text-[12.5px] text-[#2c3833]">
                       {evt.actorName !== null && evt.actorName !== "" && (
-                        <strong className="font-semibold">{evt.actorName} </strong>
+                        <strong className="font-semibold">
+                          {evt.actorName}{" "}
+                        </strong>
                       )}
                       {evt.description}
                     </div>
@@ -583,7 +697,11 @@ const AdminDashboard: React.FC = () => {
                 className="flex flex-col gap-[11px] rounded-[13px] border border-[#e4e8e6] bg-white p-4 text-inherit no-underline shadow-[0_1px_2px_#0b1f1a07] transition-colors hover:border-[#1fae7f]"
               >
                 <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#eef4f1]">
-                  <Icon size={17} strokeWidth={1.9} className="text-[#1b8a6b]" />
+                  <Icon
+                    size={17}
+                    strokeWidth={1.9}
+                    className="text-[#1b8a6b]"
+                  />
                 </span>
                 <div>
                   <div className="text-[13.5px] font-semibold text-[#16201c]">

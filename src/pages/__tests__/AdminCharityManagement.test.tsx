@@ -128,9 +128,7 @@ describe("AdminCharityManagement", () => {
   describe("Status tabs", () => {
     it("renders the status filter tabs", () => {
       renderComponent();
-      expect(
-        screen.getByRole("button", { name: /All/ }),
-      ).toBeInTheDocument();
+      expect(screen.getByRole("button", { name: /All/ })).toBeInTheDocument();
       expect(
         screen.getByRole("button", { name: /Pending/ }),
       ).toBeInTheDocument();

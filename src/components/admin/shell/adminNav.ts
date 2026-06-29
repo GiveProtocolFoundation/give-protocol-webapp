@@ -207,9 +207,7 @@ export function resolveAdminPageMeta(pathname: string): AdminPageMeta {
   return {
     titleKey: title.key,
     titleFallback: title.fallback,
-    breadcrumbKey: isOperations
-      ? "admin.nav.operations"
-      : "admin.nav.overview",
+    breadcrumbKey: isOperations ? "admin.nav.operations" : "admin.nav.overview",
     breadcrumbFallback: isOperations ? "Operations" : "Overview",
   };
 }

@@ -164,9 +164,11 @@ function StatusTabs({
 // ─── Review modal ─────────────────────────────────────────────────────────────
 
 /** Action descriptors available for a given charity status. */
-function actionsForStatus(
-  status: AdminCharityVerificationStatus,
-): Array<{ action: string; tone: "primary" | "danger"; requiresReason: boolean }> {
+function actionsForStatus(status: AdminCharityVerificationStatus): Array<{
+  action: string;
+  tone: "primary" | "danger";
+  requiresReason: boolean;
+}> {
   switch (status) {
     case "pending":
       return [
@@ -368,7 +370,10 @@ function CharityRow({
       </span>
       <span
         className="text-right font-mono-data text-[13px] text-[#9aa5a0]"
-        title={t("admin.charity.raisedUnavailable", "No donation total available")}
+        title={t(
+          "admin.charity.raisedUnavailable",
+          "No donation total available",
+        )}
       >
         —
       </span>
@@ -478,7 +483,10 @@ const AdminCharityManagement: React.FC = () => {
   );
 
   const handlePrevPage = useCallback(() => {
-    setFilters((prev) => ({ ...prev, page: Math.max(1, (prev.page ?? 1) - 1) }));
+    setFilters((prev) => ({
+      ...prev,
+      page: Math.max(1, (prev.page ?? 1) - 1),
+    }));
   }, []);
 
   const handleNextPage = useCallback(() => {
@@ -506,7 +514,9 @@ const AdminCharityManagement: React.FC = () => {
           success = Boolean(await approveCharity(id, trimmed, filters));
           break;
         case "reject":
-          success = Boolean(await rejectCharity(id, reasonText.trim(), filters));
+          success = Boolean(
+            await rejectCharity(id, reasonText.trim(), filters),
+          );
           break;
         case "suspend":
           success = Boolean(

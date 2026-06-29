@@ -148,7 +148,9 @@ export function AdminSidebar(): React.ReactElement {
           </div>
           <div className="min-w-0 flex-1 leading-[1.2]">
             <div className="truncate text-[13px] font-semibold text-white">
-              {email !== "" ? email.split("@")[0] : t("admin.shell.adminLabel", "admin")}
+              {email !== ""
+                ? email.split("@")[0]
+                : t("admin.shell.adminLabel", "admin")}
             </div>
             <div className="text-[11px] text-[#5fae93]">
               {t("admin.shell.superAdmin", "Super Admin")}
