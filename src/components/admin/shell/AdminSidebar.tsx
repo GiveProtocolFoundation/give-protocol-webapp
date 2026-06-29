@@ -73,6 +73,46 @@ function SectionLabel({
   );
 }
 
+/** Sidebar footer: signed-in user chip with a sign-out control. */
+function UserFooter({
+  email,
+  onSignOut,
+}: {
+  email: string;
+  onSignOut: () => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  const initials = (email.slice(0, 2) || "AD").toUpperCase();
+  const label =
+    email !== "" ? email.split("@")[0] : t("admin.shell.adminLabel", "admin");
+
+  return (
+    <div className="border-t border-white/[0.08] p-3">
+      <div className="flex items-center gap-2.5 rounded-[10px] bg-white/[0.04] px-2.5 py-[9px]">
+        <div className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-[#1fae7f] text-[13px] font-bold text-[#04231a]">
+          {initials}
+        </div>
+        <div className="min-w-0 flex-1 leading-[1.2]">
+          <div className="truncate text-[13px] font-semibold text-white">
+            {label}
+          </div>
+          <div className="text-[11px] text-[#5fae93]">
+            {t("admin.shell.superAdmin", "Super Admin")}
+          </div>
+        </div>
+        <button
+          type="button"
+          onClick={onSignOut}
+          aria-label={t("admin.shell.signOut", "Sign out")}
+          className="flex flex-none items-center justify-center text-[#5fae93] transition-colors hover:text-white"
+        >
+          <LogOut size={15} strokeWidth={2} />
+        </button>
+      </div>
+    </div>
+  );
+}
+
 /**
  * Persistent admin console sidebar: brand header, route-bound navigation, and a
  * user/sign-out footer. The active item derives from the current route.
@@ -100,9 +140,6 @@ export function AdminSidebar(): React.ReactElement {
       fallback: "Operations",
     },
   ];
-
-  const email = user?.email ?? "";
-  const initials = (email.slice(0, 2) || "AD").toUpperCase();
 
   return (
     <aside className="relative flex w-[248px] flex-none flex-col bg-[#0e352c] text-[#cfe0d9]">
@@ -141,31 +178,7 @@ export function AdminSidebar(): React.ReactElement {
       </nav>
 
       {/* User footer */}
-      <div className="border-t border-white/[0.08] p-3">
-        <div className="flex items-center gap-2.5 rounded-[10px] bg-white/[0.04] px-2.5 py-[9px]">
-          <div className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-[#1fae7f] text-[13px] font-bold text-[#04231a]">
-            {initials}
-          </div>
-          <div className="min-w-0 flex-1 leading-[1.2]">
-            <div className="truncate text-[13px] font-semibold text-white">
-              {email !== ""
-                ? email.split("@")[0]
-                : t("admin.shell.adminLabel", "admin")}
-            </div>
-            <div className="text-[11px] text-[#5fae93]">
-              {t("admin.shell.superAdmin", "Super Admin")}
-            </div>
-          </div>
-          <button
-            type="button"
-            onClick={handleSignOut}
-            aria-label={t("admin.shell.signOut", "Sign out")}
-            className="flex flex-none items-center justify-center text-[#5fae93] transition-colors hover:text-white"
-          >
-            <LogOut size={15} strokeWidth={2} />
-          </button>
-        </div>
-      </div>
+      <UserFooter email={user?.email ?? ""} onSignOut={handleSignOut} />
     </aside>
   );
 }

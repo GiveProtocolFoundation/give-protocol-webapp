@@ -2,7 +2,15 @@ import {
   ADMIN_NAV_ITEMS,
   isAdminNavItemActive,
   resolveAdminPageMeta,
+  type AdminNavItem,
 } from "./adminNav";
+
+/** Looks up a nav item by id, throwing if absent (keeps tests strict, no `!`). */
+function getNavItem(id: string): AdminNavItem {
+  const item = ADMIN_NAV_ITEMS.find((i) => i.id === id);
+  if (!item) throw new Error(`Unknown admin nav item: ${id}`);
+  return item;
+}
 
 describe("ADMIN_NAV_ITEMS", () => {
   it("defines an entry for every admin route group", () => {
@@ -24,8 +32,8 @@ describe("ADMIN_NAV_ITEMS", () => {
 });
 
 describe("isAdminNavItemActive", () => {
-  const dashboard = ADMIN_NAV_ITEMS.find((i) => i.id === "dashboard")!;
-  const charities = ADMIN_NAV_ITEMS.find((i) => i.id === "charities")!;
+  const dashboard = getNavItem("dashboard");
+  const charities = getNavItem("charities");
 
   it("matches the dashboard only on an exact path", () => {
     expect(isAdminNavItemActive(dashboard, "/admin")).toBe(true);

@@ -250,6 +250,223 @@ function VolumeEmptyChart(): React.ReactElement {
   );
 }
 
+/** One priority alert banner for a grouped alert. */
+function AlertBanner({
+  group,
+}: {
+  group: {
+    alertType: string;
+    severity: string;
+    title: string;
+    latestCreatedAt: string;
+  };
+}): React.ReactElement {
+  const { t } = useTranslation();
+  const chip = getSeverityChip(group.severity);
+  return (
+    <div className="flex items-center gap-4 rounded-[13px] border border-[#e4e8e6] border-l-[3px] border-l-[#e0533d] bg-white px-[18px] py-[15px] shadow-[0_1px_2px_#0b1f1a07]">
+      <div className="flex h-[38px] w-[38px] flex-none items-center justify-center rounded-[10px] bg-[#fbeae6]">
+        <AlertTriangle size={19} strokeWidth={2} className="text-[#c8412b]" />
+      </div>
+      <div className="flex-1">
+        <div className="flex flex-wrap items-center gap-[9px]">
+          <span
+            className={`rounded-[5px] px-[7px] py-0.5 text-[9.5px] font-extrabold uppercase tracking-[0.06em] ${CHIP_TONES[chip.tone]}`}
+          >
+            {t(chip.key, chip.fallback)}
+          </span>
+          <span className="text-[14px] font-semibold text-[#16201c]">
+            {group.title}
+          </span>
+        </div>
+        <div
+          className="mt-[3px] text-[12.5px] text-[#7c8884]"
+          title={formatAbsoluteTime(group.latestCreatedAt)}
+        >
+          {t("admin.dashboard.alertOldest", "Oldest request submitted")}{" "}
+          {formatRelativeTime(group.latestCreatedAt)} ·{" "}
+          {t(
+            "admin.dashboard.alertReviewHint",
+            "review to keep onboarding moving",
+          )}
+        </div>
+      </div>
+      <Link
+        to={ALERT_ROUTES[group.alertType] ?? "/admin/charities"}
+        className="flex h-[34px] flex-none items-center rounded-[9px] bg-[#0e352c] px-[15px] text-[12.5px] font-semibold text-white no-underline"
+      >
+        {t("admin.dashboard.reviewQueue", "Review queue")}
+      </Link>
+    </div>
+  );
+}
+
+/** A single figure in the donation-volume legend. */
+function LegendItem({
+  label,
+  value,
+  valueClassName,
+  dotClass,
+}: {
+  label: string;
+  value: string;
+  valueClassName: string;
+  dotClass?: string;
+}): React.ReactElement {
+  return (
+    <div className="flex items-center gap-[7px]">
+      {dotClass !== undefined && (
+        <span className={`h-[9px] w-[9px] rounded-sm ${dotClass}`} />
+      )}
+      <div>
+        <div className="text-[11.5px] text-[#8a948f]">{label}</div>
+        <div className={`font-mono-data font-semibold ${valueClassName}`}>
+          {value}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Donation-volume panel with range toggle and an empty-state chart. */
+function DonationVolumePanel({
+  stats,
+  range,
+  rangeLabel,
+  onRangeChange,
+}: {
+  stats: AdminDashboardStats;
+  range: "30D" | "90D" | "YTD";
+  rangeLabel: string;
+  onRangeChange: (_e: React.MouseEvent<HTMLButtonElement>) => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div className="rounded-[14px] border border-[#e4e8e6] bg-white p-5 shadow-[0_1px_2px_#0b1f1a07]">
+      <div className="mb-1.5 flex items-start justify-between">
+        <div>
+          <div className="text-[14px] font-bold text-[#16201c]">
+            {t("admin.dashboard.donationVolume", "Donation Volume")}
+          </div>
+          <div className="mt-0.5 text-[12px] text-[#8a948f]">
+            {t(
+              "admin.dashboard.donationVolumeSub",
+              "{{range}} · crypto + fiat combined",
+              { range: rangeLabel },
+            )}
+          </div>
+        </div>
+        <div className="flex gap-1.5">
+          {(["30D", "90D", "YTD"] as const).map((r) => (
+            <button
+              key={r}
+              type="button"
+              data-range={r}
+              onClick={onRangeChange}
+              className={
+                range === r
+                  ? "rounded-lg bg-[#0e352c] px-[11px] py-[5px] text-[11.5px] font-semibold text-white"
+                  : "rounded-lg border border-[#e4e8e6] px-[11px] py-[5px] text-[11.5px] font-semibold text-[#6b7873]"
+              }
+            >
+              {r}
+            </button>
+          ))}
+        </div>
+      </div>
+
+      <VolumeEmptyChart />
+
+      <div className="mt-[14px] flex gap-6 border-t border-[#eef0ef] pt-[14px]">
+        <LegendItem
+          label={t("admin.dashboard.totalVolume", "Total volume")}
+          value={formatCurrency(stats.totalVolumeUsd)}
+          valueClassName="mt-[3px] text-[18px]"
+        />
+        <LegendItem
+          label={t("admin.dashboard.crypto", "Crypto")}
+          value={formatCurrency(stats.cryptoVolumeUsd)}
+          valueClassName="mt-0.5 text-[15px]"
+          dotClass="bg-[#1fae7f]"
+        />
+        <LegendItem
+          label={t("admin.dashboard.fiat", "Fiat")}
+          value={formatCurrency(stats.fiatVolumeUsd)}
+          valueClassName="mt-0.5 text-[15px]"
+          dotClass="bg-[#9fd9c4]"
+        />
+      </div>
+    </div>
+  );
+}
+
+/** A single recent-activity row. */
+function ActivityRow({ evt }: { evt: AdminActivityEvent }): React.ReactElement {
+  const visual = getActivityVisual(evt.eventType);
+  const Icon = visual.icon;
+  const hasActor = evt.actorName !== null && evt.actorName !== "";
+  return (
+    <div className="flex gap-[11px] border-b border-[#f1f3f2] py-[9px]">
+      <span
+        className={`flex h-[30px] w-[30px] flex-none items-center justify-center rounded-lg ${visual.tile}`}
+      >
+        <Icon size={14} strokeWidth={1.9} />
+      </span>
+      <div className="flex-1 leading-[1.35]">
+        <div className="text-[12.5px] text-[#2c3833]">
+          {hasActor && (
+            <strong className="font-semibold">{evt.actorName} </strong>
+          )}
+          {evt.description}
+        </div>
+        <div
+          className="mt-0.5 text-[11px] text-[#9aa5a0]"
+          title={formatAbsoluteTime(evt.eventTime)}
+        >
+          {formatRelativeTime(evt.eventTime)}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+/** Recent-activity panel with up to five events and a footer link. */
+function RecentActivityPanel({
+  activity,
+}: {
+  activity: AdminActivityEvent[];
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div className="flex flex-col rounded-[14px] border border-[#e4e8e6] bg-white p-5 shadow-[0_1px_2px_#0b1f1a07]">
+      <div className="mb-1 text-[14px] font-bold text-[#16201c]">
+        {t("admin.dashboard.recentActivity", "Recent Activity")}
+      </div>
+      <div className="mb-[14px] text-[12px] text-[#8a948f]">
+        {t(
+          "admin.dashboard.activitySubtitle",
+          "Platform events as they happen",
+        )}
+      </div>
+      {activity.length === 0 ? (
+        <div className="flex flex-1 items-center justify-center py-8 text-center text-[12.5px] text-[#9aa5a0]">
+          {t("admin.dashboard.noRecentActivity", "No recent activity.")}
+        </div>
+      ) : (
+        activity
+          .slice(0, 5)
+          .map((evt) => <ActivityRow key={evt.id} evt={evt} />)
+      )}
+      <Link
+        to="/admin/reports"
+        className="mt-[13px] text-center text-[12.5px] font-semibold text-[#1b8a6b] no-underline"
+      >
+        {t("admin.dashboard.viewAllActivity", "View all activity")} →
+      </Link>
+    </div>
+  );
+}
+
 // ---------------------------------------------------------------------------
 // Quick actions
 // ---------------------------------------------------------------------------
@@ -337,6 +554,34 @@ const QUICK_ACTIONS: QuickAction[] = [
     icon: Newspaper,
   },
 ];
+
+/** A single quick-action shortcut card. */
+function QuickActionCard({
+  action,
+}: {
+  action: QuickAction;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  const Icon = action.icon;
+  return (
+    <Link
+      to={action.to}
+      className="flex flex-col gap-[11px] rounded-[13px] border border-[#e4e8e6] bg-white p-4 text-inherit no-underline shadow-[0_1px_2px_#0b1f1a07] transition-colors hover:border-[#1fae7f]"
+    >
+      <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#eef4f1]">
+        <Icon size={17} strokeWidth={1.9} className="text-[#1b8a6b]" />
+      </span>
+      <div>
+        <div className="text-[13.5px] font-semibold text-[#16201c]">
+          {t(action.titleKey, action.titleFallback)}
+        </div>
+        <div className="mt-[3px] text-[11.5px] leading-[1.35] text-[#8a948f]">
+          {t(action.descKey, action.descFallback)}
+        </div>
+      </div>
+    </Link>
+  );
+}
 
 /** Maps an alert type to the route its "Review" button should open. */
 const ALERT_ROUTES: Record<string, string> = {
@@ -446,52 +691,9 @@ const AdminDashboard: React.FC = () => {
   return (
     <div className="flex w-full max-w-[1240px] flex-col gap-[22px] px-8 pb-12 pt-[26px]">
       {/* Priority alert banners — one per alert group, only when present */}
-      {alertGroups.map((group) => {
-        const chip = getSeverityChip(group.severity);
-        return (
-          <div
-            key={group.alertType}
-            className="flex items-center gap-4 rounded-[13px] border border-[#e4e8e6] border-l-[3px] border-l-[#e0533d] bg-white px-[18px] py-[15px] shadow-[0_1px_2px_#0b1f1a07]"
-          >
-            <div className="flex h-[38px] w-[38px] flex-none items-center justify-center rounded-[10px] bg-[#fbeae6]">
-              <AlertTriangle
-                size={19}
-                strokeWidth={2}
-                className="text-[#c8412b]"
-              />
-            </div>
-            <div className="flex-1">
-              <div className="flex flex-wrap items-center gap-[9px]">
-                <span
-                  className={`rounded-[5px] px-[7px] py-0.5 text-[9.5px] font-extrabold uppercase tracking-[0.06em] ${CHIP_TONES[chip.tone]}`}
-                >
-                  {t(chip.key, chip.fallback)}
-                </span>
-                <span className="text-[14px] font-semibold text-[#16201c]">
-                  {group.title}
-                </span>
-              </div>
-              <div
-                className="mt-[3px] text-[12.5px] text-[#7c8884]"
-                title={formatAbsoluteTime(group.latestCreatedAt)}
-              >
-                {t("admin.dashboard.alertOldest", "Oldest request submitted")}{" "}
-                {formatRelativeTime(group.latestCreatedAt)} ·{" "}
-                {t(
-                  "admin.dashboard.alertReviewHint",
-                  "review to keep onboarding moving",
-                )}
-              </div>
-            </div>
-            <Link
-              to={ALERT_ROUTES[group.alertType] ?? "/admin/charities"}
-              className="flex h-[34px] flex-none items-center rounded-[9px] bg-[#0e352c] px-[15px] text-[12.5px] font-semibold text-white no-underline"
-            >
-              {t("admin.dashboard.reviewQueue", "Review queue")}
-            </Link>
-          </div>
-        );
-      })}
+      {alertGroups.map((group) => (
+        <AlertBanner key={group.alertType} group={group} />
+      ))}
 
       {/* KPI row */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -552,134 +754,13 @@ const AdminDashboard: React.FC = () => {
 
       {/* Donation volume + recent activity */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.55fr_1fr]">
-        {/* Volume panel */}
-        <div className="rounded-[14px] border border-[#e4e8e6] bg-white p-5 shadow-[0_1px_2px_#0b1f1a07]">
-          <div className="mb-1.5 flex items-start justify-between">
-            <div>
-              <div className="text-[14px] font-bold text-[#16201c]">
-                {t("admin.dashboard.donationVolume", "Donation Volume")}
-              </div>
-              <div className="mt-0.5 text-[12px] text-[#8a948f]">
-                {t(
-                  "admin.dashboard.donationVolumeSub",
-                  "{{range}} · crypto + fiat combined",
-                  {
-                    range: rangeLabel,
-                  },
-                )}
-              </div>
-            </div>
-            <div className="flex gap-1.5">
-              {(["30D", "90D", "YTD"] as const).map((r) => (
-                <button
-                  key={r}
-                  type="button"
-                  data-range={r}
-                  onClick={handleRangeChange}
-                  className={
-                    range === r
-                      ? "rounded-lg bg-[#0e352c] px-[11px] py-[5px] text-[11.5px] font-semibold text-white"
-                      : "rounded-lg border border-[#e4e8e6] px-[11px] py-[5px] text-[11.5px] font-semibold text-[#6b7873]"
-                  }
-                >
-                  {r}
-                </button>
-              ))}
-            </div>
-          </div>
-
-          <VolumeEmptyChart />
-
-          <div className="mt-[14px] flex gap-6 border-t border-[#eef0ef] pt-[14px]">
-            <div>
-              <div className="text-[11.5px] text-[#8a948f]">
-                {t("admin.dashboard.totalVolume", "Total volume")}
-              </div>
-              <div className="mt-[3px] font-mono-data text-[18px] font-semibold">
-                {formatCurrency(stats.totalVolumeUsd)}
-              </div>
-            </div>
-            <div className="flex items-center gap-[7px]">
-              <span className="h-[9px] w-[9px] rounded-sm bg-[#1fae7f]" />
-              <div>
-                <div className="text-[11.5px] text-[#8a948f]">
-                  {t("admin.dashboard.crypto", "Crypto")}
-                </div>
-                <div className="mt-0.5 font-mono-data text-[15px] font-semibold">
-                  {formatCurrency(stats.cryptoVolumeUsd)}
-                </div>
-              </div>
-            </div>
-            <div className="flex items-center gap-[7px]">
-              <span className="h-[9px] w-[9px] rounded-sm bg-[#9fd9c4]" />
-              <div>
-                <div className="text-[11.5px] text-[#8a948f]">
-                  {t("admin.dashboard.fiat", "Fiat")}
-                </div>
-                <div className="mt-0.5 font-mono-data text-[15px] font-semibold">
-                  {formatCurrency(stats.fiatVolumeUsd)}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-
-        {/* Recent activity */}
-        <div className="flex flex-col rounded-[14px] border border-[#e4e8e6] bg-white p-5 shadow-[0_1px_2px_#0b1f1a07]">
-          <div className="mb-1 text-[14px] font-bold text-[#16201c]">
-            {t("admin.dashboard.recentActivity", "Recent Activity")}
-          </div>
-          <div className="mb-[14px] text-[12px] text-[#8a948f]">
-            {t(
-              "admin.dashboard.activitySubtitle",
-              "Platform events as they happen",
-            )}
-          </div>
-          {activity.length === 0 ? (
-            <div className="flex flex-1 items-center justify-center py-8 text-center text-[12.5px] text-[#9aa5a0]">
-              {t("admin.dashboard.noRecentActivity", "No recent activity.")}
-            </div>
-          ) : (
-            activity.slice(0, 5).map((evt) => {
-              const visual = getActivityVisual(evt.eventType);
-              const Icon = visual.icon;
-              return (
-                <div
-                  key={evt.id}
-                  className="flex gap-[11px] border-b border-[#f1f3f2] py-[9px]"
-                >
-                  <span
-                    className={`flex h-[30px] w-[30px] flex-none items-center justify-center rounded-lg ${visual.tile}`}
-                  >
-                    <Icon size={14} strokeWidth={1.9} />
-                  </span>
-                  <div className="flex-1 leading-[1.35]">
-                    <div className="text-[12.5px] text-[#2c3833]">
-                      {evt.actorName !== null && evt.actorName !== "" && (
-                        <strong className="font-semibold">
-                          {evt.actorName}{" "}
-                        </strong>
-                      )}
-                      {evt.description}
-                    </div>
-                    <div
-                      className="mt-0.5 text-[11px] text-[#9aa5a0]"
-                      title={formatAbsoluteTime(evt.eventTime)}
-                    >
-                      {formatRelativeTime(evt.eventTime)}
-                    </div>
-                  </div>
-                </div>
-              );
-            })
-          )}
-          <Link
-            to="/admin/reports"
-            className="mt-[13px] text-center text-[12.5px] font-semibold text-[#1b8a6b] no-underline"
-          >
-            {t("admin.dashboard.viewAllActivity", "View all activity")} →
-          </Link>
-        </div>
+        <DonationVolumePanel
+          stats={stats}
+          range={range}
+          rangeLabel={rangeLabel}
+          onRangeChange={handleRangeChange}
+        />
+        <RecentActivityPanel activity={activity} />
       </div>
 
       {/* Quick actions */}
@@ -688,32 +769,12 @@ const AdminDashboard: React.FC = () => {
           {t("admin.dashboard.quickActions", "Quick Actions")}
         </div>
         <div className="grid grid-cols-1 gap-3.5 sm:grid-cols-2 lg:grid-cols-4">
-          {QUICK_ACTIONS.map((action) => {
-            const Icon = action.icon;
-            return (
-              <Link
-                key={action.to + action.titleKey}
-                to={action.to}
-                className="flex flex-col gap-[11px] rounded-[13px] border border-[#e4e8e6] bg-white p-4 text-inherit no-underline shadow-[0_1px_2px_#0b1f1a07] transition-colors hover:border-[#1fae7f]"
-              >
-                <span className="flex h-9 w-9 items-center justify-center rounded-[10px] bg-[#eef4f1]">
-                  <Icon
-                    size={17}
-                    strokeWidth={1.9}
-                    className="text-[#1b8a6b]"
-                  />
-                </span>
-                <div>
-                  <div className="text-[13.5px] font-semibold text-[#16201c]">
-                    {t(action.titleKey, action.titleFallback)}
-                  </div>
-                  <div className="mt-[3px] text-[11.5px] leading-[1.35] text-[#8a948f]">
-                    {t(action.descKey, action.descFallback)}
-                  </div>
-                </div>
-              </Link>
-            );
-          })}
+          {QUICK_ACTIONS.map((action) => (
+            <QuickActionCard
+              key={action.to + action.titleKey}
+              action={action}
+            />
+          ))}
         </div>
       </div>
     </div>
