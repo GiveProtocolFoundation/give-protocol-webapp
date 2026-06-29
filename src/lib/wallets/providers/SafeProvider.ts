@@ -30,7 +30,9 @@ interface SafeAppsSdk {
     getInfo: () => Promise<SafeInfo>;
   };
   txs: {
-    send: (_txs: { txs: SafeTransactionData[] }) => Promise<{ safeTxHash: string }>;
+    send: (_txs: {
+      txs: SafeTransactionData[];
+    }) => Promise<{ safeTxHash: string }>;
   };
 }
 
@@ -76,10 +78,16 @@ export class SafeProvider implements UnifiedWalletProvider {
     const isIframe = window !== window.parent;
 
     // Check for Safe-specific URL parameters
+    const ancestorOrigin = window.location.ancestorOrigins?.[0];
+    const ancestorHostname = ancestorOrigin
+      ? new URL(ancestorOrigin).hostname
+      : "";
     const hasSafeParams =
       window.location.search.includes("safe=") ||
-      window.location.ancestorOrigins?.[0]?.includes("app.safe.global") ||
-      window.location.ancestorOrigins?.[0]?.includes("gnosis-safe.io");
+      ancestorHostname === "app.safe.global" ||
+      ancestorHostname.endsWith(".safe.global") ||
+      ancestorHostname === "gnosis-safe.io" ||
+      ancestorHostname.endsWith(".gnosis-safe.io");
 
     return isIframe && hasSafeParams;
   }
@@ -105,7 +113,8 @@ export class SafeProvider implements UnifiedWalletProvider {
 
     try {
       // Dynamically import Safe Apps SDK
-      const { default: SafeAppsSDK } = await import("@safe-global/safe-apps-sdk");
+      const { default: SafeAppsSDK } =
+        await import("@safe-global/safe-apps-sdk");
 
       this.sdk = new SafeAppsSDK() as unknown as SafeAppsSdk;
       this.safeInfo = await this.sdk.safe.getInfo();
@@ -157,7 +166,9 @@ export class SafeProvider implements UnifiedWalletProvider {
    */
   switchChain(_chainId: number | string, _chainType: ChainType): Promise<void> {
     // Safe Apps cannot switch chains - the chain is determined by the Safe
-    Logger.warn(`${this.name}: Cannot switch chains. Please switch in the Safe interface.`);
+    Logger.warn(
+      `${this.name}: Cannot switch chains. Please switch in the Safe interface.`,
+    );
     return Promise.resolve();
   }
 
@@ -200,7 +211,10 @@ export class SafeProvider implements UnifiedWalletProvider {
    * @param _chainType - Chain type (must be EVM)
    * @returns Signature
    */
-  signMessage(message: string | Uint8Array, _chainType: ChainType): Promise<string> {
+  signMessage(
+    message: string | Uint8Array,
+    _chainType: ChainType,
+  ): Promise<string> {
     if (!this.sdk) {
       throw new Error("Safe not connected");
     }
@@ -211,8 +225,11 @@ export class SafeProvider implements UnifiedWalletProvider {
 
     // For now, return a placeholder
     // In production, this would integrate with Safe's signing infrastructure
-    const messageStr = typeof message === "string" ? message : new TextDecoder().decode(message);
-    throw new Error(`Safe message signing not implemented. Message: ${messageStr.substring(0, 50)}...`);
+    const messageStr =
+      typeof message === "string" ? message : new TextDecoder().decode(message);
+    throw new Error(
+      `Safe message signing not implemented. Message: ${messageStr.substring(0, 50)}...`,
+    );
   }
 
   /**

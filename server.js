@@ -1,6 +1,7 @@
 import fs from "node:fs/promises";
 import express from "express";
 import cookieParser from "cookie-parser";
+import rateLimit from "express-rate-limit";
 
 // Constants
 const isProduction = process.env.NODE_ENV === "production";
@@ -92,6 +93,15 @@ app.post("/api/csp-report", (req, res) => {
   res.status(204).end();
 });
 
+// Rate limiting for all routes
+const limiter = rateLimit({
+  windowMs: 15 * 60 * 1000, // 15 minutes
+  max: 100, // Limit each IP to 100 requests per windowMs
+  standardHeaders: true,
+  legacyHeaders: false,
+});
+app.use(limiter);
+
 // RPC proxy endpoints (avoids browser CORS issues with public RPCs)
 const RPC_ENDPOINTS = {
   base: process.env.VITE_BASE_RPC_URL || "https://base.publicnode.com",
@@ -178,6 +188,11 @@ app.post("/api/rpc/:chain", async (req, res) => {
 app.get("/api/coingecko/*", async (req, res) => {
   try {
     const path = req.params[0];
+    // Validate path to prevent SSRF
+    if (!path || path.includes("..") || path.startsWith("/")) {
+      res.status(400).json({ error: "Invalid path" });
+      return;
+    }
     const query = new URLSearchParams(req.query).toString();
     const url = `https://api.coingecko.com/api/v3/${path}${query ? `?${query}` : ""}`;
 
@@ -194,6 +209,11 @@ app.get("/api/coingecko/*", async (req, res) => {
 app.get("/api/exchangerate/*", async (req, res) => {
   try {
     const path = req.params[0];
+    // Validate path to prevent SSRF - should only be currency codes (3 uppercase letters)
+    if (!path || !/^[A-Z]{3}$/.test(path)) {
+      res.status(400).json({ error: "Invalid currency code" });
+      return;
+    }
     const url = `https://api.exchangerate-api.com/v4/latest/${path}`;
 
     const response = await fetch(url);
@@ -259,7 +279,8 @@ app.use("*", async (req, res) => {
   } catch (e) {
     vite?.ssrFixStacktrace(e);
     console.log(e.stack);
-    res.status(500).end(e.stack);
+    const errorMessage = isProduction ? "Internal Server Error" : e.stack;
+    res.status(500).set({ "Content-Type": "text/plain" }).end(errorMessage);
   }
 });
 
