@@ -19,10 +19,12 @@ describe("useAuthState", () => {
     });
   });
 
-  it("should start with loading true", () => {
+  it("should start with loading true", async () => {
     const { result } = renderHook(() => useAuthState());
     expect(result.current.loading).toBe(true);
     expect(result.current.user).toBeNull();
+    // Flush the pending getSession state update so it lands inside act().
+    await waitFor(() => expect(result.current.loading).toBe(false));
   });
 
   it("should set user to null when no session", async () => {
@@ -47,8 +49,10 @@ describe("useAuthState", () => {
     expect(result.current.user).toEqual(mockUser);
   });
 
-  it("should subscribe to auth state changes", () => {
-    renderHook(() => useAuthState());
+  it("should subscribe to auth state changes", async () => {
+    const { result } = renderHook(() => useAuthState());
     expect(mockOnAuthStateChange).toHaveBeenCalled();
+    // Flush the pending getSession state update so it lands inside act().
+    await waitFor(() => expect(result.current.loading).toBe(false));
   });
 });
