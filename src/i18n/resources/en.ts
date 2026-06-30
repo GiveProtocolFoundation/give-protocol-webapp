@@ -883,6 +883,8 @@ export default {
     "admin.shell.adminLabel": "admin",
     "admin.shell.superAdmin": "Super Admin",
     "admin.shell.signOut": "Sign out",
+    "admin.shell.backToPublicSite": "Back to public site",
+    "admin.shell.homeLink": "Give Protocol home",
 
     // Admin console redesign — Dashboard
     "admin.dashboard.severityHigh": "High Priority",

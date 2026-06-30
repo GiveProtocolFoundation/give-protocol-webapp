@@ -198,6 +198,8 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.shell.adminLabel",
   "admin.shell.superAdmin",
   "admin.shell.signOut",
+  "admin.shell.backToPublicSite",
+  "admin.shell.homeLink",
   "admin.dashboard.severityHigh",
   "admin.dashboard.severityMedium",
   "admin.dashboard.severityLow",
