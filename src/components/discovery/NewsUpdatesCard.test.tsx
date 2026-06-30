@@ -1,4 +1,4 @@
-import { render, screen } from "@testing-library/react";
+import { render, screen, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { NewsUpdatesCard } from "./NewsUpdatesCard";
 
@@ -19,42 +19,44 @@ const MOCK_ITEMS = [
   },
 ];
 
-describe("NewsUpdatesCard", () => {
-  it("renders the Platform News heading", () => {
+/**
+ * Renders the card inside a router and flushes the async state update from
+ * the internal usePlatformNews hook, so its post-mount setState lands inside
+ * act() (avoids "not wrapped in act(...)" warnings). Items are still passed as
+ * a prop, so the rendered output is driven by MOCK_ITEMS, not the hook.
+ */
+async function renderCard(limit?: number) {
+  await act(async () => {
     render(
       <MemoryRouter>
-        <NewsUpdatesCard items={MOCK_ITEMS} />
+        <NewsUpdatesCard items={MOCK_ITEMS} limit={limit} />
       </MemoryRouter>,
     );
+    // Yield so usePlatformNews's microtask-resolved fetch settles inside act().
+    await Promise.resolve();
+  });
+}
+
+describe("NewsUpdatesCard", () => {
+  it("renders the Platform News heading", async () => {
+    await renderCard();
     expect(screen.getByText("Platform News")).toBeInTheDocument();
   });
 
-  it("renders item titles", () => {
-    render(
-      <MemoryRouter>
-        <NewsUpdatesCard items={MOCK_ITEMS} />
-      </MemoryRouter>,
-    );
+  it("renders item titles", async () => {
+    await renderCard();
     expect(screen.getByText("Test update one")).toBeInTheDocument();
     expect(screen.getByText("Test update two")).toBeInTheDocument();
   });
 
-  it("respects the limit prop", () => {
-    render(
-      <MemoryRouter>
-        <NewsUpdatesCard items={MOCK_ITEMS} limit={1} />
-      </MemoryRouter>,
-    );
+  it("respects the limit prop", async () => {
+    await renderCard(1);
     expect(screen.getByText("Test update one")).toBeInTheDocument();
     expect(screen.queryByText("Test update two")).not.toBeInTheDocument();
   });
 
-  it("renders links with correct hrefs", () => {
-    render(
-      <MemoryRouter>
-        <NewsUpdatesCard items={MOCK_ITEMS} />
-      </MemoryRouter>,
-    );
+  it("renders links with correct hrefs", async () => {
+    await renderCard();
     const link = screen.getByText("Test update one").closest("a");
     expect(link).toHaveAttribute("href", "/news/one");
   });
