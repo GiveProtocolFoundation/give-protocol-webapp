@@ -1,6 +1,6 @@
 import React, { useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { LogOut } from "lucide-react";
+import { ArrowLeft, LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/utils/cn";
@@ -74,7 +74,34 @@ function SectionLabel({
   );
 }
 
-/** Sidebar footer: signed-in user chip with a sign-out control. */
+/** Brand header: logo + wordmark, linking back to the public home page. */
+function BrandHeader(): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div className="border-b border-white/[0.08] px-5 pb-[18px] pt-[22px]">
+      <Link
+        to="/"
+        aria-label={t("admin.shell.homeLink", "Give Protocol home")}
+        className="flex items-center gap-[11px] no-underline"
+      >
+        <Logo className="h-[34px] w-[34px] flex-none" />
+        <div className="leading-[1.05]">
+          <div className="text-[15px] font-bold tracking-[-0.01em] text-white">
+            Give Protocol
+          </div>
+          <div className="mt-0.5 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[#5fae93]">
+            {t("admin.nav.consoleLabel", "Admin Console")}
+          </div>
+        </div>
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * Sidebar footer: a "Back to public site" link (so admins are never trapped in
+ * the console) above the signed-in user chip with a sign-out control.
+ */
 function UserFooter({
   email,
   onSignOut,
@@ -89,6 +116,15 @@ function UserFooter({
 
   return (
     <div className="border-t border-white/[0.08] p-3">
+      <Link
+        to="/"
+        className="mb-2 flex items-center gap-[11px] rounded-[9px] px-3 py-[9px] text-[13.5px] font-medium text-[#bcd4ca] no-underline transition-colors duration-150 hover:bg-white/5"
+      >
+        <ArrowLeft size={17} strokeWidth={1.9} className="text-[#7fbfa6]" />
+        <span className="flex-1">
+          {t("admin.shell.backToPublicSite", "Back to public site")}
+        </span>
+      </Link>
       <div className="flex items-center gap-2.5 rounded-[10px] bg-white/[0.04] px-2.5 py-[9px]">
         <div className="flex h-8 w-8 flex-none items-center justify-center rounded-lg bg-[#1fae7f] text-[13px] font-bold text-[#04231a]">
           {initials}
@@ -145,17 +181,7 @@ export function AdminSidebar(): React.ReactElement {
   return (
     <aside className="relative flex w-[248px] flex-none flex-col bg-[#0e352c] text-[#cfe0d9]">
       {/* Brand header */}
-      <div className="flex items-center gap-[11px] border-b border-white/[0.08] px-5 pb-[18px] pt-[22px]">
-        <Logo className="h-[34px] w-[34px] flex-none" />
-        <div className="leading-[1.05]">
-          <div className="text-[15px] font-bold tracking-[-0.01em] text-white">
-            Give Protocol
-          </div>
-          <div className="mt-0.5 text-[10.5px] font-semibold uppercase tracking-[0.12em] text-[#5fae93]">
-            {t("admin.nav.consoleLabel", "Admin Console")}
-          </div>
-        </div>
-      </div>
+      <BrandHeader />
 
       {/* Navigation */}
       <nav className="flex flex-1 flex-col gap-0.5 overflow-y-auto p-3">
