@@ -1,9 +1,10 @@
 import React, { useCallback } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
-import { Heart, LogOut } from "lucide-react";
+import { LogOut } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { cn } from "@/utils/cn";
+import { Logo } from "@/components/Logo";
 import {
   ADMIN_NAV_ITEMS,
   isAdminNavItemActive,
@@ -145,9 +146,7 @@ export function AdminSidebar(): React.ReactElement {
     <aside className="relative flex w-[248px] flex-none flex-col bg-[#0e352c] text-[#cfe0d9]">
       {/* Brand header */}
       <div className="flex items-center gap-[11px] border-b border-white/[0.08] px-5 pb-[18px] pt-[22px]">
-        <div className="flex h-[34px] w-[34px] flex-none items-center justify-center rounded-[9px] bg-gradient-to-br from-[#1fae7f] to-[#0e352c] shadow-[inset_0_0_0_1px_#ffffff1f]">
-          <Heart size={18} className="fill-[#eafff7] text-[#eafff7]" />
-        </div>
+        <Logo className="h-[34px] w-[34px] flex-none" />
         <div className="leading-[1.05]">
           <div className="text-[15px] font-bold tracking-[-0.01em] text-white">
             Give Protocol
