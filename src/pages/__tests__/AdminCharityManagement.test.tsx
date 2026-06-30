@@ -1,6 +1,7 @@
 import { jest } from "@jest/globals";
 import { render, screen, waitFor, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { useAdminCharities } from "@/hooks/useAdminCharities";
 import AdminCharityManagement from "../admin/AdminCharityManagement";
 import type { AdminCharityListItem } from "@/types/adminCharity";
@@ -44,13 +45,6 @@ const mockSuspendedCharity: AdminCharityListItem = {
   verificationStatus: "suspended" as const,
 };
 
-const _mockRejectedCharity: AdminCharityListItem = {
-  ...mockCharity,
-  id: "ch-4",
-  name: "Rejected Charity",
-  verificationStatus: "rejected" as const,
-};
-
 const mockFetchCharities = jest.fn();
 const mockApproveCharity = jest.fn();
 const mockRejectCharity = jest.fn();
@@ -75,12 +69,18 @@ const createHookReturn = (overrides = {}) => ({
   ...overrides,
 });
 
-const renderComponent = () =>
-  render(
-    <MemoryRouter>
-      <AdminCharityManagement />
-    </MemoryRouter>,
+const renderComponent = () => {
+  const queryClient = new QueryClient({
+    defaultOptions: { queries: { retry: false } },
+  });
+  return render(
+    <QueryClientProvider client={queryClient}>
+      <MemoryRouter>
+        <AdminCharityManagement />
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
+};
 
 describe("AdminCharityManagement", () => {
   beforeEach(() => {
@@ -107,49 +107,81 @@ describe("AdminCharityManagement", () => {
     });
   });
 
-  describe("Title and total count", () => {
-    it("renders Charity Management title and total count after data loads", () => {
-      mockUseAdminCharities.mockReturnValue(
-        createHookReturn({
-          result: {
-            charities: [mockCharity, mockVerifiedCharity],
-            totalCount: 2,
-            page: 1,
-            limit: 50,
-            totalPages: 1,
-          },
-        }),
-      );
+  describe("Data table", () => {
+    it("renders the table column headers", () => {
       renderComponent();
-      expect(screen.getByText("Charity Management")).toBeInTheDocument();
-      expect(screen.getByText("2 total")).toBeInTheDocument();
-    });
-  });
-
-  describe("Charity table", () => {
-    it("renders charity table with data", () => {
-      renderComponent();
-      expect(screen.getByText("Test Charity")).toBeInTheDocument();
-      expect(screen.getByText("12-3456789")).toBeInTheDocument();
-      expect(screen.getByText("Jane Doe")).toBeInTheDocument();
-      expect(screen.getByText("Name")).toBeInTheDocument();
-      expect(screen.getByText("EIN")).toBeInTheDocument();
+      expect(screen.getByText("Organization")).toBeInTheDocument();
       expect(screen.getByText("Status")).toBeInTheDocument();
-      expect(screen.getByText("Contact")).toBeInTheDocument();
+      expect(screen.getByText("Raised")).toBeInTheDocument();
+      expect(screen.getByText("Submitted")).toBeInTheDocument();
       expect(screen.getByText("Actions")).toBeInTheDocument();
     });
-  });
 
-  describe("Action buttons for pending charities", () => {
-    it("shows Approve and Reject buttons for pending charities", () => {
+    it("renders charity rows with name, EIN, and a Review action", () => {
       renderComponent();
-      expect(screen.getByText("Approve")).toBeInTheDocument();
-      expect(screen.getByText("Reject")).toBeInTheDocument();
+      expect(screen.getByText("Test Charity")).toBeInTheDocument();
+      expect(screen.getByText("EIN 12-3456789")).toBeInTheDocument();
+      expect(screen.getByText("Review")).toBeInTheDocument();
     });
   });
 
-  describe("Action buttons for verified charities", () => {
-    it("shows Suspend button for verified charities", () => {
+  describe("Status tabs", () => {
+    it("renders the status filter tabs", () => {
+      renderComponent();
+      expect(screen.getByRole("button", { name: /All/ })).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: /Pending/ }),
+      ).toBeInTheDocument();
+    });
+
+    it("refetches with a status filter when a tab is selected", async () => {
+      renderComponent();
+      mockFetchCharities.mockClear();
+      fireEvent.click(screen.getByRole("button", { name: /Pending/ }));
+      await waitFor(() => {
+        expect(mockFetchCharities).toHaveBeenCalledWith(
+          expect.objectContaining({ status: "pending" }),
+        );
+      });
+    });
+  });
+
+  describe("Review modal", () => {
+    it("opens the review modal with contextual actions for a pending charity", async () => {
+      renderComponent();
+      fireEvent.click(screen.getByText("Review"));
+      await waitFor(() => {
+        expect(screen.getByLabelText("Reason")).toBeInTheDocument();
+      });
+      expect(
+        screen.getByRole("heading", { name: /Review Test Charity/ }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Approve" }),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByRole("button", { name: "Reject" }),
+      ).toBeInTheDocument();
+    });
+
+    it("calls approveCharity on approve", async () => {
+      mockApproveCharity.mockResolvedValue(true);
+      renderComponent();
+      fireEvent.click(screen.getByText("Review"));
+      await waitFor(() => {
+        expect(screen.getByLabelText("Reason")).toBeInTheDocument();
+      });
+      fireEvent.click(screen.getByRole("button", { name: "Approve" }));
+      await waitFor(() => {
+        expect(mockApproveCharity).toHaveBeenCalledWith(
+          "ch-1",
+          undefined,
+          expect.objectContaining({ page: 1, limit: 50 }),
+        );
+      });
+    });
+
+    it("shows a Suspend action for verified charities", async () => {
       mockUseAdminCharities.mockReturnValue(
         createHookReturn({
           result: {
@@ -162,12 +194,15 @@ describe("AdminCharityManagement", () => {
         }),
       );
       renderComponent();
-      expect(screen.getByText("Suspend")).toBeInTheDocument();
+      fireEvent.click(screen.getByText("Review"));
+      await waitFor(() => {
+        expect(
+          screen.getByRole("button", { name: "Suspend" }),
+        ).toBeInTheDocument();
+      });
     });
-  });
 
-  describe("Action buttons for suspended charities", () => {
-    it("shows Reinstate button for suspended charities", () => {
+    it("shows a Reinstate action for suspended charities", async () => {
       mockUseAdminCharities.mockReturnValue(
         createHookReturn({
           result: {
@@ -180,41 +215,11 @@ describe("AdminCharityManagement", () => {
         }),
       );
       renderComponent();
-      expect(screen.getByText("Reinstate")).toBeInTheDocument();
-    });
-  });
-
-  describe("Action modal", () => {
-    it("opens modal when Approve is clicked", async () => {
-      renderComponent();
-      fireEvent.click(screen.getByText("Approve"));
+      fireEvent.click(screen.getByText("Review"));
       await waitFor(() => {
-        expect(screen.getByLabelText("Reason")).toBeInTheDocument();
-      });
-      expect(
-        screen.getByRole("heading", { name: "Approve Charity" }),
-      ).toBeInTheDocument();
-    });
-
-    it("calls approveCharity on confirm", async () => {
-      mockApproveCharity.mockResolvedValue(true);
-      renderComponent();
-      fireEvent.click(screen.getByText("Approve"));
-      await waitFor(() => {
-        expect(screen.getByLabelText("Reason")).toBeInTheDocument();
-      });
-      const confirmButtons = screen.getAllByText("Approve Charity");
-      const confirmButton = confirmButtons.find(
-        (el) => el.tagName === "BUTTON",
-      );
-      expect(confirmButton).toBeDefined();
-      fireEvent.click(confirmButton as HTMLElement);
-      await waitFor(() => {
-        expect(mockApproveCharity).toHaveBeenCalledWith(
-          "ch-1",
-          undefined,
-          expect.objectContaining({ page: 1, limit: 50 }),
-        );
+        expect(
+          screen.getByRole("button", { name: "Reinstate" }),
+        ).toBeInTheDocument();
       });
     });
   });
@@ -236,21 +241,6 @@ describe("AdminCharityManagement", () => {
       expect(
         screen.getByText("No charities found matching your filters."),
       ).toBeInTheDocument();
-    });
-  });
-
-  describe("Filter by status", () => {
-    it("renders the status filter dropdown", () => {
-      renderComponent();
-      const statusSelect = screen.getByLabelText("Filter by status");
-      expect(statusSelect).toBeInTheDocument();
-    });
-
-    it("calls fetchCharities when status filter changes", () => {
-      renderComponent();
-      const statusSelect = screen.getByLabelText("Filter by status");
-      fireEvent.change(statusSelect, { target: { value: "pending" } });
-      expect(mockFetchCharities).toHaveBeenCalled();
     });
   });
 });

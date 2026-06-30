@@ -2,6 +2,7 @@ import React from "react";
 import { useLocation } from "react-router-dom";
 import { AppNavbar } from "@/components/AppNavbar";
 import { Footer } from "@/components/Footer";
+import { AdminShell } from "@/components/admin/shell";
 import { useTranslation } from "@/hooks/useTranslation";
 
 interface LayoutProps {
@@ -11,15 +12,24 @@ interface LayoutProps {
 /**
  * App shell that wraps routed pages with the navbar, main content area, and footer.
  * The home route ("/") opts out of the shell because it ships its own full-page layout.
+ * Admin routes ("/admin/*") use the dedicated operations shell (sidebar + top bar)
+ * instead of the public marketing chrome.
  */
 export const Layout: React.FC<LayoutProps> = ({ children }) => {
   const location = useLocation();
   const { t } = useTranslation();
   const isHomePage = location.pathname === "/";
+  const isAdminRoute =
+    location.pathname === "/admin" || location.pathname.startsWith("/admin/");
 
   // Landing page has its own navigation and footer, so render without layout wrapper
   if (isHomePage) {
     return children;
+  }
+
+  // Admin console uses the operations shell; auth guards live in the routes.
+  if (isAdminRoute) {
+    return <AdminShell>{children}</AdminShell>;
   }
 
   return (

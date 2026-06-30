@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Card } from "@/components/ui/Card";
+import { Search } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminCharities } from "@/hooks/useAdminCharities";
+import { useAdminStats } from "@/components/admin/shell";
 import { logRead } from "@/services/adminAuditService";
 import type {
   AdminCharityListItem,
@@ -12,22 +13,88 @@ import type {
   AdminCharityVerificationStatus,
 } from "@/types/adminCharity";
 
-// ─── Sub-components ───────────────────────────────────────────────────────────
+// ─── Visual helpers ───────────────────────────────────────────────────────────
 
-/** Status badge pill for a charity's verification status */
+type ChipTone = "success" | "warning" | "neutral" | "danger";
+
+const CHIP_TONES: Record<ChipTone, string> = {
+  success: "text-[#1b8a6b] bg-[#e6f4ef]",
+  warning: "text-[#b06a12] bg-[#fbf0df]",
+  neutral: "text-[#8a948f] bg-[#f1f3f2]",
+  danger: "text-[#c8412b] bg-[#fbeae6]",
+};
+
+/** Per-org avatar tints, selected deterministically from the org name. */
+const AVATAR_TINTS = [
+  { bg: "bg-[#e6f4ef]", fg: "text-[#1b8a6b]" },
+  { bg: "bg-[#eaf0fb]", fg: "text-[#3a6bd0]" },
+  { bg: "bg-[#f3eafb]", fg: "text-[#8a4bd0]" },
+  { bg: "bg-[#fbeae6]", fg: "text-[#c8412b]" },
+  { bg: "bg-[#fbf4df]", fg: "text-[#b06a12]" },
+];
+
+/** Returns a stable tint index for a name (simple character-sum hash). */
+function tintForName(name: string): { bg: string; fg: string } {
+  let sum = 0;
+  for (let i = 0; i < name.length; i += 1) sum += name.charCodeAt(i);
+  return AVATAR_TINTS[sum % AVATAR_TINTS.length];
+}
+
+/** Returns up to two uppercase initials for an org name. */
+function initialsForName(name: string): string {
+  const words = name.trim().split(/\s+/).filter(Boolean);
+  if (words.length === 0) return "?";
+  if (words.length === 1) return words[0].slice(0, 2).toUpperCase();
+  return (words[0][0] + words[1][0]).toUpperCase();
+}
+
+/** Maps a verification status to its chip tone. */
+function toneForStatus(status: AdminCharityVerificationStatus): ChipTone {
+  switch (status) {
+    case "verified":
+    case "approved":
+      return "success";
+    case "pending":
+      return "warning";
+    case "rejected":
+      return "danger";
+    default:
+      return "neutral";
+  }
+}
+
+/** Converts an ISO timestamp to a human-readable relative time string. */
+function formatRelativeTime(timestamp: string): string {
+  const date = new Date(timestamp);
+  const now = new Date();
+  const diffMs = now.getTime() - date.getTime();
+  const diffDay = Math.floor(diffMs / (1000 * 60 * 60 * 24));
+  if (diffDay < 1) return "Today";
+  if (diffDay === 1) return "Yesterday";
+  if (diffDay < 30) return `${diffDay} days ago`;
+  const diffMonth = Math.floor(diffDay / 30);
+  if (diffMonth < 12) return `${diffMonth} mo ago`;
+  return `${Math.floor(diffMonth / 12)}y ago`;
+}
+
+/** Returns the absolute, localized date string for timestamp hover titles. */
+function formatAbsoluteTime(timestamp: string): string {
+  return new Date(timestamp).toLocaleDateString("en-US", {
+    year: "numeric",
+    month: "short",
+    day: "numeric",
+  });
+}
+
+// ─── Status badge ─────────────────────────────────────────────────────────────
+
+/** Status badge pill for a charity's verification status. */
 function StatusBadge({
   status,
 }: {
   status: AdminCharityVerificationStatus;
 }): React.ReactElement {
   const { t } = useTranslation();
-  const styles: Record<string, string> = {
-    pending: "bg-yellow-100 text-yellow-800",
-    verified: "bg-green-100 text-green-800",
-    approved: "bg-green-100 text-green-800",
-    rejected: "bg-red-100 text-red-800",
-    suspended: "bg-gray-100 text-gray-700",
-  };
   const labels: Record<string, string> = {
     pending: t("admin.charity.statusPending", "Pending"),
     verified: t("admin.charity.statusVerified", "Verified"),
@@ -37,461 +104,303 @@ function StatusBadge({
   };
   return (
     <span
-      className={`inline-block px-2 py-0.5 text-xs font-semibold rounded-full ${styles[status] ?? "bg-gray-100 text-gray-600"}`}
+      className={`inline-block rounded-md px-2 py-0.5 text-[11.5px] font-semibold ${CHIP_TONES[toneForStatus(status)]}`}
     >
       {labels[status] ?? status}
     </span>
   );
 }
 
-/** Action buttons row for a single charity row */
-function CharityActions({
+// ─── Status tabs ──────────────────────────────────────────────────────────────
+
+type TabValue = "all" | "pending" | "verified" | "rejected";
+
+/** Filter tab bar with mono counts; active tab is the dark pill. */
+function StatusTabs({
+  active,
+  counts,
+  onChange,
+}: {
+  active: TabValue;
+  counts: Record<TabValue, number | undefined>;
+  onChange: (_e: React.MouseEvent<HTMLButtonElement>) => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  const tabs: { value: TabValue; label: string }[] = [
+    { value: "all", label: t("admin.charity.tabAll", "All") },
+    { value: "pending", label: t("admin.charity.statusPending", "Pending") },
+    { value: "verified", label: t("admin.charity.statusVerified", "Verified") },
+    { value: "rejected", label: t("admin.charity.statusRejected", "Rejected") },
+  ];
+  return (
+    <>
+      {tabs.map((tab) => {
+        const isActive = active === tab.value;
+        const count = counts[tab.value];
+        return (
+          <button
+            key={tab.value}
+            type="button"
+            data-status={tab.value}
+            onClick={onChange}
+            aria-pressed={isActive}
+            className={
+              isActive
+                ? "flex items-center gap-[7px] rounded-[9px] bg-[#0e352c] px-[14px] py-2 text-[12.5px] font-semibold text-white"
+                : "flex items-center gap-[7px] rounded-[9px] border border-[#e4e8e6] bg-white px-[14px] py-2 text-[12.5px] font-semibold text-[#445]"
+            }
+          >
+            {tab.label}
+            {count !== undefined && (
+              <span className="font-mono-data opacity-60">{count}</span>
+            )}
+          </button>
+        );
+      })}
+    </>
+  );
+}
+
+// ─── Review modal ─────────────────────────────────────────────────────────────
+
+/** Action descriptors available for a given charity status. */
+function actionsForStatus(status: AdminCharityVerificationStatus): Array<{
+  action: string;
+  tone: "primary" | "danger";
+  requiresReason: boolean;
+}> {
+  switch (status) {
+    case "pending":
+      return [
+        { action: "approve", tone: "primary", requiresReason: false },
+        { action: "reject", tone: "danger", requiresReason: true },
+      ];
+    case "verified":
+    case "approved":
+      return [{ action: "suspend", tone: "danger", requiresReason: true }];
+    case "suspended":
+      return [{ action: "reinstate", tone: "primary", requiresReason: false }];
+    case "rejected":
+      return [{ action: "approve", tone: "primary", requiresReason: false }];
+    default:
+      return [];
+  }
+}
+
+/** Review dialog: charity metadata + contextual approve/reject/suspend actions. */
+function ReviewModal({
   charity,
   onAction,
-  disabled,
-}: {
-  charity: AdminCharityListItem;
-  onAction: (_charity: AdminCharityListItem, _action: string) => void;
-  disabled: boolean;
-}): React.ReactElement {
-  const { t } = useTranslation();
-  const { verificationStatus: s } = charity;
-
-  const handleApprove = useCallback(
-    () => onAction(charity, "approve"),
-    [charity, onAction],
-  );
-  const handleReject = useCallback(
-    () => onAction(charity, "reject"),
-    [charity, onAction],
-  );
-  const handleSuspend = useCallback(
-    () => onAction(charity, "suspend"),
-    [charity, onAction],
-  );
-  const handleReinstate = useCallback(
-    () => onAction(charity, "reinstate"),
-    [charity, onAction],
-  );
-
-  return (
-    <div className="flex gap-2 flex-wrap">
-      {s === "pending" && (
-        <>
-          <Button
-            size="sm"
-            variant="primary"
-            onClick={handleApprove}
-            disabled={disabled}
-          >
-            {t("admin.charity.approve", "Approve")}
-          </Button>
-          <Button
-            size="sm"
-            variant="danger"
-            onClick={handleReject}
-            disabled={disabled}
-          >
-            {t("admin.charity.reject", "Reject")}
-          </Button>
-        </>
-      )}
-      {(s === "verified" || s === "approved") && (
-        <Button
-          size="sm"
-          variant="secondary"
-          onClick={handleSuspend}
-          disabled={disabled}
-        >
-          {t("admin.charity.suspend", "Suspend")}
-        </Button>
-      )}
-      {s === "suspended" && (
-        <Button
-          size="sm"
-          variant="primary"
-          onClick={handleReinstate}
-          disabled={disabled}
-        >
-          {t("admin.charity.reinstate", "Reinstate")}
-        </Button>
-      )}
-      {s === "rejected" && (
-        <Button
-          size="sm"
-          variant="primary"
-          onClick={handleApprove}
-          disabled={disabled}
-        >
-          {t("admin.charity.approve", "Approve")}
-        </Button>
-      )}
-    </div>
-  );
-}
-
-/** Filter bar: status dropdown + search input */
-function FilterBar({
-  filters,
-  onStatusChange,
-  onSearchChange,
-}: {
-  filters: AdminCharityListFilters;
-  onStatusChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
-  onSearchChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
-}): React.ReactElement {
-  const { t } = useTranslation();
-  return (
-    <div className="flex flex-wrap gap-4 mb-6">
-      <select
-        className="border border-gray-300 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
-        value={filters.status ?? ""}
-        onChange={onStatusChange}
-        aria-label="Filter by status"
-      >
-        <option value="">
-          {t("admin.charity.allStatuses", "All statuses")}
-        </option>
-        <option value="pending">
-          {t("admin.charity.statusPending", "Pending")}
-        </option>
-        <option value="verified">
-          {t("admin.charity.statusVerified", "Verified")}
-        </option>
-        <option value="rejected">
-          {t("admin.charity.statusRejected", "Rejected")}
-        </option>
-        <option value="suspended">
-          {t("admin.charity.statusSuspended", "Suspended")}
-        </option>
-      </select>
-      <input
-        type="text"
-        placeholder={t(
-          "admin.charity.searchPlaceholder",
-          "Search by name\u2026",
-        )}
-        className="border border-gray-300 rounded-lg px-3 py-2 text-sm flex-1 min-w-[200px] focus:outline-none focus:ring-2 focus:ring-emerald-500"
-        value={filters.search ?? ""}
-        onChange={onSearchChange}
-        aria-label="Search charities"
-      />
-    </div>
-  );
-}
-
-/** Pagination controls */
-function Pagination({
-  page,
-  totalPages,
-  onPrev,
-  onNext,
-}: {
-  page: number;
-  totalPages: number;
-  onPrev: () => void;
-  onNext: () => void;
-}): React.ReactElement | null {
-  const { t } = useTranslation();
-  if (totalPages <= 1) return null;
-  return (
-    <div className="flex items-center justify-between mt-6">
-      <Button
-        size="sm"
-        variant="secondary"
-        onClick={onPrev}
-        disabled={page <= 1}
-      >
-        {t("common.previous", "Previous")}
-      </Button>
-      <span className="text-sm text-gray-600">
-        {t("common.pageOfTotal", "Page {{page}} of {{total}}", {
-          page,
-          total: totalPages,
-        })}
-      </span>
-      <Button
-        size="sm"
-        variant="secondary"
-        onClick={onNext}
-        disabled={page >= totalPages}
-      >
-        {t("common.next", "Next")}
-      </Button>
-    </div>
-  );
-}
-
-/** Confirmation modal body for approve/reject/suspend/reinstate */
-function ActionModal({
-  isOpen,
-  charity,
-  action,
-  reason,
-  onReasonChange,
-  onConfirm,
   onClose,
-  confirming,
+  working,
 }: {
-  isOpen: boolean;
   charity: AdminCharityListItem | null;
-  action: string;
-  reason: string;
-  onReasonChange: (_e: React.ChangeEvent<HTMLTextAreaElement>) => void;
-  onConfirm: () => void;
+  onAction: (_action: string, _reason: string) => void;
   onClose: () => void;
-  confirming: boolean;
+  working: boolean;
 }): React.ReactElement | null {
   const { t } = useTranslation();
+  const [reason, setReason] = useState("");
+
+  const handleReasonChange = useCallback(
+    (e: React.ChangeEvent<HTMLTextAreaElement>) => setReason(e.target.value),
+    [],
+  );
+
+  // Reset the reason whenever a different charity opens the modal.
+  useEffect(() => {
+    setReason("");
+  }, [charity?.id]);
+
+  const handleActionClick = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const action = e.currentTarget.dataset.action;
+      if (action) onAction(action, reason);
+    },
+    [onAction, reason],
+  );
+
   if (!charity) return null;
 
   const ACTION_LABELS: Record<string, string> = {
-    approve: t("admin.charity.approveTitle", "Approve Charity"),
-    reject: t("admin.charity.rejectTitle", "Reject Charity"),
-    suspend: t("admin.charity.suspendTitle", "Suspend Charity"),
-    reinstate: t("admin.charity.reinstateTitle", "Reinstate Charity"),
+    approve: t("admin.charity.approve", "Approve"),
+    reject: t("admin.charity.reject", "Reject"),
+    suspend: t("admin.charity.suspend", "Suspend"),
+    reinstate: t("admin.charity.reinstate", "Reinstate"),
   };
-
-  const REASON_REQUIRED = action === "reject" || action === "suspend";
+  const actions = actionsForStatus(charity.verificationStatus);
 
   return (
     <Modal
-      isOpen={isOpen}
+      isOpen={charity !== null}
       onClose={onClose}
-      title={
-        ACTION_LABELS[action] ??
-        t("admin.charity.confirmAction", "Confirm Action")
-      }
+      title={t("admin.charity.reviewTitle", "Review {{name}}", {
+        name: charity.name,
+      })}
       size="md"
     >
-      <p className="text-sm text-gray-600 mb-4">
-        {action === "approve" && (
-          <>
-            Are you sure you want to <strong>approve</strong>{" "}
-            <em>{charity.name}</em>?
-          </>
-        )}
-        {action === "reject" && (
-          <>
-            Are you sure you want to <strong>reject</strong>{" "}
-            <em>{charity.name}</em>? Provide a reason below.
-          </>
-        )}
-        {action === "suspend" && (
-          <>
-            Are you sure you want to <strong>suspend</strong>{" "}
-            <em>{charity.name}</em>? Provide a reason below.
-          </>
-        )}
-        {action === "reinstate" && (
-          <>
-            Are you sure you want to <strong>reinstate</strong>{" "}
-            <em>{charity.name}</em>?
-          </>
-        )}
-      </p>
+      <div className="mb-4 flex items-center gap-3">
+        <StatusBadge status={charity.verificationStatus} />
+        <span
+          className="text-sm text-gray-500"
+          title={formatAbsoluteTime(charity.createdAt)}
+        >
+          {t("admin.charity.submittedRelative", "Submitted {{when}}", {
+            when: formatRelativeTime(charity.createdAt),
+          })}
+        </span>
+      </div>
+
       {(charity.ein !== null || charity.signerName !== null) && (
-        <div className="bg-gray-50 rounded-lg p-3 mb-4 text-sm space-y-1">
+        <div className="mb-4 space-y-1 rounded-lg bg-gray-50 p-3 text-sm">
           {charity.ein !== null && (
             <p>
-              <span className="font-medium text-gray-700">EIN:</span>{" "}
-              <span className="font-mono">{charity.ein}</span>
+              <span className="font-medium text-gray-700">
+                {t("admin.charity.colEin", "EIN")}:
+              </span>{" "}
+              <span className="font-mono-data">{charity.ein}</span>
             </p>
           )}
           {charity.signerName !== null && (
             <p>
-              <span className="font-medium text-gray-700">Contact:</span>{" "}
+              <span className="font-medium text-gray-700">
+                {t("admin.charity.colSigner", "Contact")}:
+              </span>{" "}
               {charity.signerName}
             </p>
           )}
           {charity.signerEmail !== null && (
             <p>
-              <span className="font-medium text-gray-700">Email:</span>{" "}
+              <span className="font-medium text-gray-700">
+                {t("admin.charity.contactEmail", "Email")}:
+              </span>{" "}
               {charity.signerEmail}
             </p>
           )}
           {charity.signerPhone !== null && (
             <p>
-              <span className="font-medium text-gray-700">Phone:</span>{" "}
+              <span className="font-medium text-gray-700">
+                {t("admin.charity.contactPhone", "Phone")}:
+              </span>{" "}
               {charity.signerPhone}
             </p>
           )}
         </div>
       )}
+
       <textarea
-        className="w-full border border-gray-300 rounded-lg px-3 py-2 text-sm mb-4 focus:outline-none focus:ring-2 focus:ring-emerald-500 resize-y min-h-[80px]"
-        placeholder={
-          REASON_REQUIRED
-            ? t("admin.charity.reasonRequired", "Reason (required)")
-            : t("admin.charity.reasonOptional", "Reason (optional)")
-        }
+        className="mb-4 min-h-[80px] w-full resize-y rounded-lg border border-gray-300 px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-emerald-500"
+        placeholder={t("admin.charity.reasonOptional", "Reason (optional)")}
         value={reason}
-        onChange={onReasonChange}
+        onChange={handleReasonChange}
         aria-label="Reason"
       />
-      <div className="flex gap-3 justify-end">
+
+      <div className="flex flex-wrap justify-end gap-3">
         <Button
           variant="secondary"
           size="sm"
           onClick={onClose}
-          disabled={confirming}
+          disabled={working}
         >
           {t("common.cancel", "Cancel")}
         </Button>
-        <Button
-          variant={
-            action === "reject" || action === "suspend" ? "danger" : "primary"
-          }
-          size="sm"
-          onClick={onConfirm}
-          disabled={
-            confirming || (REASON_REQUIRED && reason.trim().length === 0)
-          }
-        >
-          {confirming
-            ? t("admin.charity.saving", "Saving\u2026")
-            : (ACTION_LABELS[action] ?? t("admin.charity.confirm", "Confirm"))}
-        </Button>
+        {actions.map((a) => {
+          const disabled =
+            working || (a.requiresReason && reason.trim().length === 0);
+          return (
+            <button
+              key={a.action}
+              type="button"
+              data-action={a.action}
+              onClick={handleActionClick}
+              disabled={disabled}
+              className={`rounded-[10px] px-4 py-1.5 text-sm font-semibold text-white transition-colors ${
+                a.tone === "danger"
+                  ? "bg-[#c8412b] hover:bg-[#b0381f]"
+                  : "bg-[#0e352c] hover:bg-[#0a2a22]"
+              } ${disabled ? "cursor-not-allowed opacity-60" : ""}`}
+            >
+              {ACTION_LABELS[a.action] ?? a.action}
+            </button>
+          );
+        })}
       </div>
     </Modal>
   );
 }
 
-// ─── Charity table ────────────────────────────────────────────────────────────
-
-/** Charity list table with header and rows */
-function CharityTable({
-  charities,
-  onAction,
-  updating,
-}: {
-  charities: AdminCharityListItem[];
-  onAction: (_charity: AdminCharityListItem, _action: string) => void;
-  updating: boolean;
-}): React.ReactElement {
-  const { t } = useTranslation();
-  return (
-    <table className="w-full text-left overflow-x-auto">
-      <caption className="sr-only">Charity management list</caption>
-      <thead>
-        <tr className="bg-gray-50">
-          <th
-            scope="col"
-            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-          >
-            {t("admin.charity.colName", "Name")}
-          </th>
-          <th
-            scope="col"
-            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-          >
-            {t("admin.charity.colEin", "EIN")}
-          </th>
-          <th
-            scope="col"
-            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-          >
-            {t("admin.charity.colStatus", "Status")}
-          </th>
-          <th
-            scope="col"
-            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-          >
-            {t("admin.charity.colSigner", "Contact")}
-          </th>
-          <th
-            scope="col"
-            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-          >
-            {t("admin.charity.colJoined", "Joined")}
-          </th>
-          <th
-            scope="col"
-            className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase tracking-wide"
-          >
-            {t("admin.charity.colActions", "Actions")}
-          </th>
-        </tr>
-      </thead>
-      <tbody>
-        {charities.map((charity) => (
-          <CharityRow
-            key={charity.id}
-            charity={charity}
-            onAction={onAction}
-            updating={updating}
-          />
-        ))}
-      </tbody>
-    </table>
-  );
-}
-
 // ─── Charity row ──────────────────────────────────────────────────────────────
 
-/**
- * Renders a single charity row in the admin charity management table with action buttons.
- * @param props - Component props.
- * @param props.charity - The charity record being displayed.
- * @param props.onAction - Callback invoked with the charity and the requested action identifier.
- * @param props.updating - When `true`, disables action buttons while a mutation is in flight.
- * @returns The charity row element.
- */
+/** A single charity row in the data table. */
 function CharityRow({
   charity,
-  onAction,
-  updating,
+  onReview,
 }: {
   charity: AdminCharityListItem;
-  onAction: (_charity: AdminCharityListItem, _action: string) => void;
-  updating: boolean;
+  onReview: (_charity: AdminCharityListItem) => void;
 }): React.ReactElement {
-  const formattedDate = new Date(charity.createdAt).toLocaleDateString(
-    "en-US",
-    {
-      year: "numeric",
-      month: "short",
-      day: "numeric",
-    },
+  const { t } = useTranslation();
+  const tint = tintForName(charity.name);
+
+  const handleReview = useCallback(
+    () => onReview(charity),
+    [charity, onReview],
   );
 
   return (
-    <tr className="border-t border-gray-100 hover:bg-gray-50">
-      <td className="px-4 py-3 text-sm font-medium text-gray-900">
-        {charity.name}
-      </td>
-      <td className="px-4 py-3 text-sm text-gray-500 font-mono">
-        {charity.ein ?? "—"}
-      </td>
-      <td className="px-4 py-3">
+    <div className="grid grid-cols-[2.4fr_1fr_1.1fr_1fr_90px] items-center gap-3 border-b border-[#f1f3f2] px-5 py-3.5">
+      <div className="flex items-center gap-3">
+        <span
+          className={`flex h-[34px] w-[34px] flex-none items-center justify-center rounded-[9px] text-[13px] font-bold ${tint.bg} ${tint.fg}`}
+        >
+          {initialsForName(charity.name)}
+        </span>
+        <div className="min-w-0 leading-[1.3]">
+          <div className="truncate text-[13px] font-semibold text-[#16201c]">
+            {charity.name}
+          </div>
+          <div className="font-mono-data text-[11px] text-[#9aa5a0]">
+            {charity.ein !== null ? `EIN ${charity.ein}` : "—"}
+          </div>
+        </div>
+      </div>
+      <span>
         <StatusBadge status={charity.verificationStatus} />
-      </td>
-      <td className="px-4 py-3 text-sm text-gray-500">
-        {charity.signerName ? (
-          <span title={charity.signerEmail ?? undefined}>
-            {charity.signerName}
-          </span>
-        ) : (
-          "—"
+      </span>
+      <span
+        className="text-right font-mono-data text-[13px] text-[#9aa5a0]"
+        title={t(
+          "admin.charity.raisedUnavailable",
+          "No donation total available",
         )}
-      </td>
-      <td className="px-4 py-3 text-sm text-gray-500">{formattedDate}</td>
-      <td className="px-4 py-3">
-        <CharityActions
-          charity={charity}
-          onAction={onAction}
-          disabled={updating}
-        />
-      </td>
-    </tr>
+      >
+        —
+      </span>
+      <span
+        className="text-[12.5px] text-[#7c8884]"
+        title={formatAbsoluteTime(charity.createdAt)}
+      >
+        {formatRelativeTime(charity.createdAt)}
+      </span>
+      <span className="text-right">
+        <button
+          type="button"
+          onClick={handleReview}
+          className="rounded-lg border border-[#e4e8e6] bg-white px-3 py-1.5 text-[12px] font-semibold text-[#1b8a6b] transition-colors hover:border-[#1fae7f]"
+        >
+          {t("admin.charity.review", "Review")}
+        </button>
+      </span>
+    </div>
   );
 }
 
 // ─── Main page ────────────────────────────────────────────────────────────────
 
 /**
- * Admin charity management page: list all charities with filters, pagination,
- * and approve/reject/suspend/reinstate actions backed by the admin audit trail.
+ * Admin charity management: a filterable, restyled data-table of organizations
+ * with a review dialog backing the approve/reject/suspend/reinstate workflow.
  */
 const AdminCharityManagement: React.FC = () => {
   const { t } = useTranslation();
@@ -505,16 +414,16 @@ const AdminCharityManagement: React.FC = () => {
     suspendCharity,
     reinstateCharity,
   } = useAdminCharities();
+  const { data: stats } = useAdminStats();
+
   const [filters, setFilters] = useState<AdminCharityListFilters>({
     page: 1,
     limit: 50,
   });
-
-  // Modal state
-  const [actionCharity, setActionCharity] =
+  const [activeTab, setActiveTab] = useState<TabValue>("all");
+  const [searchInput, setSearchInput] = useState("");
+  const [reviewCharity, setReviewCharity] =
     useState<AdminCharityListItem | null>(null);
-  const [currentAction, setCurrentAction] = useState("");
-  const [reason, setReason] = useState("");
 
   // Audit: active filter keys for PII access logging
   const serializedFilterKeys = useMemo(() => {
@@ -543,37 +452,18 @@ const AdminCharityManagement: React.FC = () => {
     });
   }, [filters.page, filters.limit, serializedFilterKeys]);
 
-  const handleAction = useCallback(
-    (charity: AdminCharityListItem, action: string) => {
-      setActionCharity(charity);
-      setCurrentAction(action);
-      setReason("");
-      logRead("charity", charity.id);
-    },
-    [],
-  );
-
-  const handleCloseModal = useCallback(() => {
-    setActionCharity(null);
-    setCurrentAction("");
-    setReason("");
-  }, []);
-
-  const handleReasonChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setReason(e.target.value);
-    },
-    [],
-  );
-
-  const handleStatusChange = useCallback(
-    (e: React.ChangeEvent<HTMLSelectElement>) => {
-      const value = e.target.value;
+  const handleTabChange = useCallback(
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const value = e.currentTarget.dataset.status as TabValue;
+      if (!value) return;
+      setActiveTab(value);
       setFilters((prev) => ({
         ...prev,
         page: 1,
         status:
-          value !== "" ? (value as AdminCharityVerificationStatus) : undefined,
+          value === "all"
+            ? undefined
+            : (value as AdminCharityVerificationStatus),
       }));
     },
     [],
@@ -582,6 +472,7 @@ const AdminCharityManagement: React.FC = () => {
   const handleSearchChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const value = e.target.value;
+      setSearchInput(value);
       setFilters((prev) => ({
         ...prev,
         page: 1,
@@ -602,71 +493,108 @@ const AdminCharityManagement: React.FC = () => {
     setFilters((prev) => ({ ...prev, page: (prev.page ?? 1) + 1 }));
   }, []);
 
-  const handleConfirm = useCallback(async () => {
-    if (!actionCharity) return;
-    const id = actionCharity.id;
-    const trimmedReason = reason.trim() !== "" ? reason.trim() : undefined;
+  const handleReview = useCallback((charity: AdminCharityListItem) => {
+    setReviewCharity(charity);
+    logRead("charity", charity.id);
+  }, []);
 
-    let success = false;
-    switch (currentAction) {
-      case "approve":
-        success = Boolean(await approveCharity(id, trimmedReason, filters));
-        break;
-      case "reject":
-        success = Boolean(await rejectCharity(id, reason.trim(), filters));
-        break;
-      case "suspend":
-        success = Boolean(await suspendCharity(id, reason.trim(), filters));
-        break;
-      case "reinstate":
-        success = Boolean(await reinstateCharity(id, trimmedReason, filters));
-        break;
-      default:
-        break;
-    }
+  const handleCloseReview = useCallback(() => {
+    setReviewCharity(null);
+  }, []);
 
-    if (success) {
-      handleCloseModal();
-    }
-  }, [
-    actionCharity,
-    currentAction,
-    reason,
-    filters,
-    approveCharity,
-    rejectCharity,
-    suspendCharity,
-    reinstateCharity,
-    handleCloseModal,
-  ]);
+  const handleModalAction = useCallback(
+    async (action: string, reasonText: string) => {
+      if (!reviewCharity) return;
+      const id = reviewCharity.id;
+      const trimmed = reasonText.trim() !== "" ? reasonText.trim() : undefined;
+
+      let success = false;
+      switch (action) {
+        case "approve":
+          success = Boolean(await approveCharity(id, trimmed, filters));
+          break;
+        case "reject":
+          success = Boolean(
+            await rejectCharity(id, reasonText.trim(), filters),
+          );
+          break;
+        case "suspend":
+          success = Boolean(
+            await suspendCharity(id, reasonText.trim(), filters),
+          );
+          break;
+        case "reinstate":
+          success = Boolean(await reinstateCharity(id, trimmed, filters));
+          break;
+        default:
+          break;
+      }
+      if (success) setReviewCharity(null);
+    },
+    [
+      reviewCharity,
+      filters,
+      approveCharity,
+      rejectCharity,
+      suspendCharity,
+      reinstateCharity,
+    ],
+  );
+
+  const tabCounts: Record<TabValue, number | undefined> = {
+    all: stats?.totalCharities ?? result.totalCount,
+    pending: stats?.pendingCharities,
+    verified: stats?.verifiedCharities,
+    rejected: undefined,
+  };
 
   if (loading && result.charities.length === 0) {
     return (
-      <div className="flex min-h-screen items-center justify-center">
+      <div className="flex flex-1 items-center justify-center px-8 py-12">
         <LoadingSpinner size="lg" />
       </div>
     );
   }
 
   return (
-    <div className="container mx-auto p-6 space-y-6">
-      <div className="flex items-center justify-between">
-        <h1 className="text-3xl font-bold text-gray-900">
-          {t("admin.charity.title", "Charity Management")}
-        </h1>
-        <span className="text-sm text-gray-500">
-          {t("admin.charity.totalCount", "{{count}} total", {
-            count: result.totalCount,
-          })}
-        </span>
+    <div className="flex w-full max-w-[1240px] flex-col gap-[18px] px-8 pb-12 pt-[26px]">
+      {/* Filter bar */}
+      <div className="flex flex-wrap items-center gap-3">
+        <StatusTabs
+          active={activeTab}
+          counts={tabCounts}
+          onChange={handleTabChange}
+        />
+        <div className="flex-1" />
+        <div className="flex h-[38px] w-[260px] items-center gap-[9px] rounded-[10px] border border-[#e4e8e6] bg-white px-[13px]">
+          <Search size={15} strokeWidth={2} className="text-[#9aa5a0]" />
+          <input
+            type="search"
+            placeholder={t(
+              "admin.charity.searchByNameEin",
+              "Search by name or EIN…",
+            )}
+            value={searchInput}
+            onChange={handleSearchChange}
+            aria-label={t("admin.charity.searchAria", "Search charities")}
+            className="w-full border-0 bg-transparent text-[13px] outline-none placeholder:text-[#9aa5a0]"
+          />
+        </div>
       </div>
 
-      <Card className="p-6">
-        <FilterBar
-          filters={filters}
-          onStatusChange={handleStatusChange}
-          onSearchChange={handleSearchChange}
-        />
+      {/* Table card */}
+      <div className="overflow-hidden rounded-[14px] border border-[#e4e8e6] bg-white shadow-[0_1px_2px_#0b1f1a07]">
+        <div className="grid grid-cols-[2.4fr_1fr_1.1fr_1fr_90px] gap-3 border-b border-[#eef0ef] bg-[#f8faf9] px-5 py-3 text-[11px] font-bold uppercase tracking-[0.04em] text-[#8a948f]">
+          <span>{t("admin.charity.colOrganization", "Organization")}</span>
+          <span>{t("admin.charity.colStatus", "Status")}</span>
+          <span className="text-right">
+            {t("admin.charity.colRaised", "Raised")}
+          </span>
+          <span>{t("admin.charity.colSubmitted", "Submitted")}</span>
+          <span className="text-right">
+            {t("admin.charity.colActions", "Actions")}
+          </span>
+        </div>
 
         {loading && (
           <div className="flex justify-center py-8">
@@ -675,39 +603,59 @@ const AdminCharityManagement: React.FC = () => {
         )}
 
         {!loading && result.charities.length === 0 && (
-          <p className="text-center py-8 text-gray-500">
-            {t(
-              "admin.charity.noResults",
-              "No charities found matching your filters.",
-            )}
-          </p>
+          <div className="px-5 py-12 text-center">
+            <p className="text-[13px] text-[#8a948f]">
+              {t(
+                "admin.charity.noResults",
+                "No charities found matching your filters.",
+              )}
+            </p>
+          </div>
         )}
 
-        {!loading && result.charities.length > 0 && (
-          <CharityTable
-            charities={result.charities}
-            onAction={handleAction}
-            updating={updating}
-          />
-        )}
+        {!loading &&
+          result.charities.map((charity) => (
+            <CharityRow
+              key={charity.id}
+              charity={charity}
+              onReview={handleReview}
+            />
+          ))}
+      </div>
 
-        <Pagination
-          page={result.page}
-          totalPages={result.totalPages}
-          onPrev={handlePrevPage}
-          onNext={handleNextPage}
-        />
-      </Card>
+      {/* Pagination */}
+      {result.totalPages > 1 && (
+        <div className="flex items-center justify-between">
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={handlePrevPage}
+            disabled={result.page <= 1}
+          >
+            {t("common.previous", "Previous")}
+          </Button>
+          <span className="text-sm text-[#7c8884]">
+            {t("common.pageOfTotal", "Page {{page}} of {{total}}", {
+              page: result.page,
+              total: result.totalPages,
+            })}
+          </span>
+          <Button
+            size="sm"
+            variant="secondary"
+            onClick={handleNextPage}
+            disabled={result.page >= result.totalPages}
+          >
+            {t("common.next", "Next")}
+          </Button>
+        </div>
+      )}
 
-      <ActionModal
-        isOpen={actionCharity !== null}
-        charity={actionCharity}
-        action={currentAction}
-        reason={reason}
-        onReasonChange={handleReasonChange}
-        onConfirm={handleConfirm}
-        onClose={handleCloseModal}
-        confirming={updating}
+      <ReviewModal
+        charity={reviewCharity}
+        onAction={handleModalAction}
+        onClose={handleCloseReview}
+        working={updating}
       />
     </div>
   );

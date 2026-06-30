@@ -8,6 +8,9 @@ export default {
         serif: ['"DM Serif Display"', "Georgia", "serif"],
         sans: ['"DM Sans"', "system-ui", "sans-serif"],
         inter: ["Inter", "system-ui", "sans-serif"],
+        // Admin console (operations shell) — UI display + monospace data figures
+        display: ['"Hanken Grotesk"', "system-ui", "sans-serif"],
+        "mono-data": ['"IBM Plex Mono"', "ui-monospace", "monospace"],
       },
       colors: {
         primary: {
