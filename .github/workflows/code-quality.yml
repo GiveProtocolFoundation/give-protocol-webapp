@@ -88,17 +88,6 @@ jobs:
             eslint-report.json
           retention-days: 7
 
-      - name: SonarCloud Scan
-        if: env.SONAR_TOKEN != ''
-        uses: SonarSource/sonarcloud-github-action@v3.0.0
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
-        with:
-          args: >
-            -Dsonar.qualitygate.wait=false
-            -Dsonar.verbose=${{ github.event.inputs.debug_enabled == 'true' && 'true' || 'false' }}
-
       - name: Generate summary
         if: always()
         run: |
@@ -116,9 +105,6 @@ jobs:
           else
             echo "Tests: Passed" >> $GITHUB_STEP_SUMMARY
           fi
-
-          echo "" >> $GITHUB_STEP_SUMMARY
-          echo "[View full analysis on SonarCloud](https://sonarcloud.io/summary/new_code?id=GiveProtocol_give-protocol-webapp)" >> $GITHUB_STEP_SUMMARY
 
   security-scan:
     name: Security Scan
