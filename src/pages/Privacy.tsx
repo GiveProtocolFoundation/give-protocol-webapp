@@ -780,12 +780,39 @@ const SectionContactUs: React.FC = () => (
     </p>
     <p>
       Because we have no establishment in the European Union or the United
-      Kingdom, we are designating a representative in the European Union and a
-      representative in the United Kingdom under Article 27 of the EU GDPR and
-      the UK GDPR respectively. Once appointed, their names and contact details
-      will be published here, and you may contact them on any matter relating to
-      our processing of your personal data. Until then, please direct all
-      requests and questions to{" "}
+      Kingdom, we have appointed a representative in each under Article 27 of
+      the EU GDPR and the UK GDPR respectively. Our appointed representative is{" "}
+      <strong>DataRep</strong> (Data Protection Representative Limited, a
+      company incorporated in Ireland under registration number 616588). You may
+      contact DataRep on any matter relating to our processing of your personal
+      data. When contacting them, please address your correspondence to{" "}
+      &ldquo;DataRep&rdquo; and reference &ldquo;Give Protocol Foundation&rdquo;
+      so that your request reaches us; correspondence sent to us directly at
+      these locations may not be received.
+    </p>
+    <p className="mt-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+      <strong>Representative in the EU / EEA (Art. 27 EU GDPR):</strong>
+      <br />
+      DataRep, The Cube, Monahan Road, Cork, T12 H1XY, Republic of Ireland
+      <br />
+      DataRep also maintains a postal contact address in each EU and EEA member
+      state; the full list of national contact locations is available at{" "}
+      <a
+        href="https://www.datarep.com"
+        target="_blank"
+        rel="noopener noreferrer"
+      >
+        www.datarep.com
+      </a>
+      .
+      <br />
+      <br />
+      <strong>Representative in the United Kingdom (Art. 27 UK GDPR):</strong>
+      <br />
+      DataRep, 107-111 Fleet Street, London, EC4A 2AB, United Kingdom
+    </p>
+    <p>
+      You may also continue to contact us directly about your personal data at{" "}
       <a href="mailto:privacy@giveprotocol.io">privacy@giveprotocol.io</a>.
     </p>
   </section>
