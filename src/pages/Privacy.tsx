@@ -780,12 +780,12 @@ const SectionContactUs: React.FC = () => (
     </p>
     <p>
       Because we have no establishment in the European Union or the United
-      Kingdom, we have appointed a representative in each under Article 27 of the
-      EU GDPR and the UK GDPR respectively. Our appointed representative is{" "}
-      <strong>DataRep</strong> (Data Protection Representative Limited, a company
-      incorporated in Ireland under registration number 616588). You may contact
-      DataRep on any matter relating to our processing of your personal data.
-      When contacting them, please address your correspondence to{" "}
+      Kingdom, we have appointed a representative in each under Article 27 of
+      the EU GDPR and the UK GDPR respectively. Our appointed representative is{" "}
+      <strong>DataRep</strong> (Data Protection Representative Limited, a
+      company incorporated in Ireland under registration number 616588). You may
+      contact DataRep on any matter relating to our processing of your personal
+      data. When contacting them, please address your correspondence to{" "}
       &ldquo;DataRep&rdquo; and reference &ldquo;Give Protocol Foundation&rdquo;
       so that your request reaches us; correspondence sent to us directly at
       these locations may not be received.
