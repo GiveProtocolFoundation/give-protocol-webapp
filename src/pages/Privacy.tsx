@@ -791,6 +791,17 @@ const SectionContactUs: React.FC = () => (
       these locations may not be received.
     </p>
     <p className="mt-2 p-4 bg-gray-50 dark:bg-gray-800 rounded-lg">
+      <strong>Our appointed representative:</strong>
+      <br />
+      Data Protection Representative Limited (trading as DataRep), incorporated
+      in Ireland with company registration number 616588
+      <br />
+      Email:{" "}
+      <a href="mailto:digitalrequest@datarep.com">digitalrequest@datarep.com</a>
+      <br />
+      Telephone: +353 (1) 919 8899
+      <br />
+      <br />
       <strong>Representative in the EU / EEA (Art. 27 EU GDPR):</strong>
       <br />
       DataRep, The Cube, Monahan Road, Cork, T12 H1XY, Republic of Ireland
