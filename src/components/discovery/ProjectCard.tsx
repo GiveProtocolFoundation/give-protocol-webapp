@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import { Building2, MapPin, ShieldCheck } from "lucide-react";
 import type { CharityOrganization } from "@/types/charityOrganization";
 import { Card } from "@/components/ui/Card";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface ProjectCardProps {
   organization: CharityOrganization;
@@ -13,6 +14,7 @@ interface ProjectCardProps {
  * primary Donate action stays distinct from the organization name link.
  */
 export const ProjectCard: React.FC<ProjectCardProps> = ({ organization }) => {
+  const { t } = useTranslation();
   const location = [organization.city, organization.state, organization.zip]
     .filter(Boolean)
     .join(", ");
@@ -47,7 +49,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ organization }) => {
       <div className="mt-3 space-y-1.5 text-sm text-gray-600 dark:text-gray-400">
         <div className="flex items-center gap-1.5">
           <Building2 aria-hidden="true" className="h-4 w-4 text-gray-400" />
-          <span>EIN: {organization.ein}</span>
+          <span>
+            {t("browse.charity.einDisplay", "Tax ID: {{value}}", {
+              value: organization.ein,
+            })}
+          </span>
         </div>
         {location && (
           <div className="flex items-center gap-1.5">

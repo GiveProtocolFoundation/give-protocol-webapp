@@ -222,6 +222,9 @@ export default {
     "volunteer.activityType": "Activity Type",
     "volunteer.organization": "Organization",
     "volunteer.searchRegistry": "Search Registry",
+    "volunteer.searchRegistryPlaceholder":
+      "Search charity registry by name or tax ID\u2026",
+    "volunteer.registryTaxId": "Tax ID {{value}}",
     "volunteer.notListed": "Not Listed",
     "volunteer.organizationName": "Organization Name",
     "volunteer.enterOrgName": "Enter organization name",
@@ -919,7 +922,7 @@ export default {
     "admin.charity.colOrganization": "Organization",
     "admin.charity.colRaised": "Raised",
     "admin.charity.colSubmitted": "Submitted",
-    "admin.charity.searchByNameEin": "Search by name or EIN…",
+    "admin.charity.searchByNameEin": "Search by name or tax ID…",
     "admin.charity.searchAria": "Search charities",
     "admin.charity.reviewTitle": "Review {{name}}",
     "admin.charity.submittedRelative": "Submitted {{when}}",
@@ -1004,7 +1007,8 @@ export default {
     "admin.charity.allStatuses": "All statuses",
     "admin.charity.searchPlaceholder": "Search by name\u2026",
     "admin.charity.colName": "Name",
-    "admin.charity.colEin": "EIN",
+    "admin.charity.colEin": "Tax ID",
+    "admin.charity.taxIdDisplay": "Tax ID {{value}}",
     "admin.charity.colCategory": "Category",
     "admin.charity.colStatus": "Status",
     "admin.charity.colSigner": "Contact",
@@ -1035,8 +1039,8 @@ export default {
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "Charity Requests",
     "admin.charityRequests.subtitle":
-      "Donor-submitted requests for unclaimed charities, grouped by EIN. Highest-interest organizations should be prioritized for outreach.",
-    "admin.charityRequests.ein": "EIN",
+      "Donor-submitted requests for unclaimed charities, grouped by organization. Highest-interest organizations should be prioritized for outreach.",
+    "admin.charityRequests.ein": "Tax ID",
     "admin.charityRequests.requests": "Requests",
     "admin.charityRequests.latestRequester": "Latest Requester",
     "admin.charityRequests.latestRequest": "Latest Request",
@@ -1045,7 +1049,7 @@ export default {
       "No charity requests have been submitted yet.",
     "admin.charityRequests.errorTitle": "Error Loading Charity Requests",
     "admin.charityRequests.showing":
-      "Showing {{shown}} of {{total}} unique EINs.",
+      "Showing {{shown}} of {{total}} unique organizations.",
 
     // Admin - Volunteer Validation page (GIV-256)
     "admin.validation.title": "Volunteer Validation Oversight",
@@ -1316,7 +1320,7 @@ export default {
     // Charity claim form
     "charity.claim.orgDetails": "Organization Details (from Registry)",
     "charity.claim.orgNameLabel": "Name",
-    "charity.claim.einLabel": "EIN",
+    "charity.claim.einLabel": "Tax ID",
     "charity.claim.locationLabel": "Location",
     "charity.claim.contactInfo": "Contact Information",
     "charity.claim.contactName": "Contact Name",
@@ -1487,8 +1491,9 @@ export default {
     "browse.funds.charities": "charities",
     "browse.funds.donateCta": "Donate to Fund",
     "browse.funds.nextAria": "Next portfolio funds",
-    "browse.charity.einLabel": "EIN",
-    "browse.charity.nteeLabel": "NTEE Code",
+    "browse.charity.einLabel": "Tax ID",
+    "browse.charity.einDisplay": "Tax ID: {{value}}",
+    "browse.charity.nteeLabel": "Sector Code",
     "browse.charity.deductibilityLabel": "Deductibility",
     "browse.charity.onPlatform": "On Platform",
     "browse.charity.loading": "Loading\u2026",
@@ -1576,14 +1581,17 @@ export default {
     "contributions.browseCharities": "Browse charities",
 
     // Charity Profile Page (GIV-264)
-    "charity.profile.verified501c3": "Verified 501(c)(3)",
+    "charity.profile.verified501c3": "Verified nonprofit",
+    "charity.profile.verified501c3Tooltip":
+      "Registered 501(c)(3) \u2014 donations may be tax-deductible in the United States",
     "charity.profile.statusClaimed": "Claimed",
-    "charity.profile.statusUnclaimed": "Unclaimed \u2014 IRS data only",
-    "charity.profile.rowEin": "EIN",
+    "charity.profile.statusUnclaimed":
+      "Unclaimed \u2014 public registry data only",
+    "charity.profile.rowEin": "Tax ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Location",
-    "charity.profile.rowRulingYear": "Ruling year",
-    "charity.profile.rowNteeCode": "NTEE code",
+    "charity.profile.rowRulingYear": "Registration year",
+    "charity.profile.rowNteeCode": "Sector code",
     "charity.profile.rowDeductibility": "Deductibility",
     "charity.profile.rowAffiliation": "Affiliation",
     "charity.profile.rowClassification": "Classification",
@@ -1593,7 +1601,10 @@ export default {
     "charity.profile.rowSubsection": "Subsection",
     "charity.profile.rowStatus": "Status",
     "charity.profile.registryRecord": "Registry Public Record",
-    "charity.profile.einDisplay": "EIN",
+    "charity.profile.einDisplay": "Tax ID",
+    "charity.profile.charityNotFoundByTaxId":
+      "We couldn't find a charity with this tax ID.",
+    "charity.profile.registeredNonprofit": "Registered nonprofit",
     "charity.profile.registeredYear": "Registered {{year}}",
     "charity.profile.shareAria": "Share",
     "charity.profile.copied": "Copied!",

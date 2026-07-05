@@ -74,7 +74,7 @@ function StatusPill({ profile }: { profile: CharityProfile }) {
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
         <CheckCircle className="h-3.5 w-3.5" />
-        {t("charity.profile.verified501c3", "Verified 501(c)(3)")}
+        {t("charity.profile.verified501c3", "Verified nonprofit")}
       </span>
     );
   }
@@ -89,7 +89,10 @@ function StatusPill({ profile }: { profile: CharityProfile }) {
   return (
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
       <AlertTriangle className="h-3.5 w-3.5" />
-      {t("charity.profile.statusUnclaimed", "Unclaimed — IRS data only")}
+      {t(
+        "charity.profile.statusUnclaimed",
+        "Unclaimed \u2014 public registry data only",
+      )}
     </span>
   );
 }
@@ -111,7 +114,10 @@ function RegistryPublicRecord({
 
   const rows = useMemo(
     () => [
-      { label: t("charity.profile.rowEin", "EIN"), value: charityRecord.ein },
+      {
+        label: t("charity.profile.rowEin", "Tax ID"),
+        value: charityRecord.ein,
+      },
       {
         label: t("charity.profile.rowName", "Name"),
         value: charityRecord.name,
@@ -124,11 +130,11 @@ function RegistryPublicRecord({
             .join(", ") || "—",
       },
       {
-        label: t("charity.profile.rowRulingYear", "Ruling year"),
+        label: t("charity.profile.rowRulingYear", "Registration year"),
         value: formatRulingYear(charityRecord.ruling),
       },
       {
-        label: t("charity.profile.rowNteeCode", "NTEE code"),
+        label: t("charity.profile.rowNteeCode", "Sector code"),
         value: formatNteeCode(charityRecord.ntee_cd),
       },
       {
@@ -299,7 +305,7 @@ function HeaderInfo({
       </div>
       <div className="flex flex-wrap gap-x-3 gap-y-1 text-sm text-gray-500">
         <span>
-          {t("charity.profile.einDisplay", "EIN")} {ein}
+          {t("charity.profile.einDisplay", "Tax ID")} {ein}
         </span>
         {location && (
           <span className="flex items-center gap-1">
@@ -321,7 +327,7 @@ function HeaderInfo({
         </span>
         {charityRecord?.subsection === "03" && (
           <span className="inline-flex items-center px-2 py-0.5 rounded-full text-xs font-medium bg-blue-50 text-blue-700 border border-blue-200">
-            501(c)(3)
+            {t("charity.profile.registeredNonprofit", "Registered nonprofit")}
           </span>
         )}
       </div>
@@ -631,8 +637,8 @@ function CharityProfilePage() {
           />
           <p className="text-gray-600">
             {t(
-              "charity.profile.notFound",
-              "We couldn't find a charity with this EIN.",
+              "charity.profile.charityNotFoundByTaxId",
+              "We couldn't find a charity with this tax ID.",
             )}
           </p>
         </Card>

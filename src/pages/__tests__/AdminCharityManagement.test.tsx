@@ -117,10 +117,10 @@ describe("AdminCharityManagement", () => {
       expect(screen.getByText("Actions")).toBeInTheDocument();
     });
 
-    it("renders charity rows with name, EIN, and a Review action", () => {
+    it("renders charity rows with name, Tax ID, and a Review action", () => {
       renderComponent();
       expect(screen.getByText("Test Charity")).toBeInTheDocument();
-      expect(screen.getByText("EIN 12-3456789")).toBeInTheDocument();
+      expect(screen.getByText("Tax ID 12-3456789")).toBeInTheDocument();
       expect(screen.getByText("Review")).toBeInTheDocument();
     });
   });

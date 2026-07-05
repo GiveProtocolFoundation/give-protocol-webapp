@@ -111,7 +111,7 @@ describe("CharityProfilePage", () => {
       renderWithRoute();
       await waitFor(() => {
         expect(
-          screen.getByText(/couldn.t find a charity with this EIN/i),
+          screen.getByText(/couldn.t find a charity with this tax ID/i),
         ).toBeInTheDocument();
       });
     });
@@ -126,10 +126,10 @@ describe("CharityProfilePage", () => {
       });
     });
 
-    it("renders the EIN", async () => {
+    it("renders the Tax ID", async () => {
       renderWithRoute();
       await waitFor(() => {
-        expect(screen.getByText(/EIN 12-3456789/)).toBeInTheDocument();
+        expect(screen.getByText(/Tax ID 12-3456789/)).toBeInTheDocument();
       });
     });
 
@@ -163,10 +163,10 @@ describe("CharityProfilePage", () => {
   });
 
   describe("Verified profile", () => {
-    it("shows Verified 501(c)(3) status pill for verified profiles", async () => {
+    it("shows Verified nonprofit status pill for verified profiles", async () => {
       renderWithRoute();
       await waitFor(() => {
-        expect(screen.getByText(/Verified 501\(c\)\(3\)/)).toBeInTheDocument();
+        expect(screen.getByText(/Verified nonprofit/)).toBeInTheDocument();
       });
     });
 
@@ -221,7 +221,7 @@ describe("CharityProfilePage", () => {
       renderWithRoute();
       await waitFor(() => {
         expect(
-          screen.getByText(/Unclaimed — IRS data only/u),
+          screen.getByText(/Unclaimed \u2014 public registry data only/u),
         ).toBeInTheDocument();
       });
     });
@@ -271,12 +271,12 @@ describe("CharityProfilePage", () => {
     });
   });
 
-  describe("IRS record only (no profile)", () => {
+  describe("Public registry record only (no profile)", () => {
     beforeEach(() => {
       mockGetProfile.mockResolvedValue(null);
     });
 
-    it("renders charity name from IRS record when no profile exists", async () => {
+    it("renders charity name from registry record when no profile exists", async () => {
       renderWithRoute();
       await waitFor(() => {
         const matches = screen.getAllByText("Test Charity Foundation");
@@ -284,14 +284,14 @@ describe("CharityProfilePage", () => {
       });
     });
 
-    it("derives location from IRS record fields", async () => {
+    it("derives location from registry record fields", async () => {
       renderWithRoute();
       await waitFor(() => {
         expect(screen.getByText("New York, NY")).toBeInTheDocument();
       });
     });
 
-    it("renders unclaimed profile banner when only IRS record exists", async () => {
+    it("renders unclaimed profile banner when only registry record exists", async () => {
       renderWithRoute();
       await waitFor(() => {
         expect(
@@ -301,15 +301,15 @@ describe("CharityProfilePage", () => {
     });
   });
 
-  describe("501(c)(3) badge", () => {
-    it("renders 501(c)(3) badge when subsection is 03", async () => {
+  describe("Registered nonprofit badge", () => {
+    it("renders nonprofit badge when subsection is 03", async () => {
       renderWithRoute();
       await waitFor(() => {
-        expect(screen.getByText("501(c)(3)")).toBeInTheDocument();
+        expect(screen.getByText("Registered nonprofit")).toBeInTheDocument();
       });
     });
 
-    it("does not render 501(c)(3) badge when subsection is not 03", async () => {
+    it("does not render nonprofit badge when subsection is not 03", async () => {
       const modifiedRecord = { ...mockCharityRecord, subsection: "05" };
       mockGetRecord.mockResolvedValue(modifiedRecord);
       renderWithRoute();
@@ -317,7 +317,9 @@ describe("CharityProfilePage", () => {
         const matches = screen.getAllByText("Test Charity Foundation");
         expect(matches.length).toBeGreaterThanOrEqual(1);
       });
-      expect(screen.queryByText("501(c)(3)")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Registered nonprofit"),
+      ).not.toBeInTheDocument();
     });
   });
 
@@ -342,14 +344,14 @@ describe("CharityProfilePage", () => {
       });
     });
 
-    it("shows EIN in expanded registry record", async () => {
+    it("shows Tax ID in expanded registry record", async () => {
       renderWithRoute();
       await waitFor(() => {
         expect(screen.getByText("Registry Public Record")).toBeInTheDocument();
       });
       fireEvent.click(screen.getByText("Registry Public Record"));
       await waitFor(() => {
-        expect(screen.getByText("EIN")).toBeInTheDocument();
+        expect(screen.getByText("Tax ID")).toBeInTheDocument();
       });
     });
 
@@ -382,8 +384,8 @@ describe("CharityProfilePage", () => {
     });
   });
 
-  describe("NTEE category", () => {
-    it("renders the NTEE category tag", async () => {
+  describe("Sector category", () => {
+    it("renders the sector category tag", async () => {
       renderWithRoute();
       await waitFor(() => {
         expect(screen.getByText("Education")).toBeInTheDocument();
@@ -420,17 +422,17 @@ describe("CharityProfilePage", () => {
     });
   });
 
-  describe("Ruling year display", () => {
-    it("renders the ruling year when available", async () => {
+  describe("Registration year display", () => {
+    it("renders the registration year when available", async () => {
       renderWithRoute();
       await waitFor(() => {
-        expect(screen.getByText(/Registered/)).toBeInTheDocument();
+        expect(screen.getByText(/Registered \d{4}/)).toBeInTheDocument();
       });
     });
   });
 
-  describe("EIN format handling", () => {
-    it("passes raw EIN to service functions without stripping hyphens", async () => {
+  describe("Tax ID format handling", () => {
+    it("passes raw tax ID to service functions without stripping hyphens", async () => {
       const hyphenatedEin = "99-1230001";
       render(
         <MemoryRouter initialEntries={[`/charity/${hyphenatedEin}`]}>
@@ -445,7 +447,7 @@ describe("CharityProfilePage", () => {
       });
     });
 
-    it("loads the profile for an EIN stored with hyphens", async () => {
+    it("loads the profile for a tax ID stored with hyphens", async () => {
       const hyphenatedEin = "99-1230001";
       render(
         <MemoryRouter initialEntries={[`/charity/${hyphenatedEin}`]}>
@@ -459,7 +461,7 @@ describe("CharityProfilePage", () => {
         expect(matches.length).toBeGreaterThanOrEqual(1);
       });
       expect(
-        screen.queryByText(/couldn.t find a charity with this EIN/i),
+        screen.queryByText(/couldn.t find a charity with this tax ID/i),
       ).not.toBeInTheDocument();
     });
   });
