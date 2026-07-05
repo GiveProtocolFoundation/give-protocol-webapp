@@ -83,6 +83,6 @@ describe("AdminCharityRequests", () => {
     await waitFor(() => {
       expect(screen.getByText("12-3456789")).toBeInTheDocument();
     });
-    expect(screen.getByText(/showing 1 of 5 unique eins/i)).toBeInTheDocument();
+    expect(screen.getByText(/showing 1 of 5 unique organizations/i)).toBeInTheDocument();
   });
 });

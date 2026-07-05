@@ -133,7 +133,7 @@ const AdminCharityRequests: React.FC = () => {
         <p className="text-sm text-gray-600 mt-1">
           {t(
             "admin.charityRequests.subtitle",
-            "Donor-submitted requests for unclaimed charities, grouped by EIN. Highest-interest organizations should be prioritized for outreach.",
+            "Donor-submitted requests for unclaimed charities, grouped by organization. Highest-interest organizations should be prioritized for outreach.",
           )}
         </p>
       </div>
@@ -148,14 +148,14 @@ const AdminCharityRequests: React.FC = () => {
           </p>
         ) : (
           <table className="min-w-full divide-y divide-gray-200">
-            <caption className="sr-only">Charity requests by EIN</caption>
+            <caption className="sr-only">Charity requests by organization</caption>
             <thead className="bg-gray-50">
               <tr>
                 <th
                   scope="col"
                   className="px-4 py-3 text-left text-xs font-semibold uppercase tracking-wide text-gray-500"
                 >
-                  {t("admin.charityRequests.ein", "EIN")}
+                  {t("admin.charityRequests.ein", "Tax ID")}
                 </th>
                 <th
                   scope="col"
@@ -199,7 +199,7 @@ const AdminCharityRequests: React.FC = () => {
         <p className="text-xs text-gray-500">
           {t(
             "admin.charityRequests.showing",
-            "Showing {{shown}} of {{total}} unique EINs.",
+            "Showing {{shown}} of {{total}} unique organizations.",
             {
               shown: requests.length,
               total: totalCount,

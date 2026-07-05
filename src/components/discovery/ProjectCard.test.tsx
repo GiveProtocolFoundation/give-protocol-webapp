@@ -23,13 +23,13 @@ describe("ProjectCard", () => {
     expect(link.closest("a")).toHaveAttribute("href", "/charity/12-3456789");
   });
 
-  it("renders the EIN", () => {
+  it("renders the Tax ID", () => {
     render(
       <MemoryRouter>
         <ProjectCard organization={BASE_ORG} />
       </MemoryRouter>,
     );
-    expect(screen.getByText("EIN: 12-3456789")).toBeInTheDocument();
+    expect(screen.getByText("Tax ID: 12-3456789")).toBeInTheDocument();
   });
 
   it("renders the location", () => {

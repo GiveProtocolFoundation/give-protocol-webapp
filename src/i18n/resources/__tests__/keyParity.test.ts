@@ -236,6 +236,14 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.charity.contactEmail",
   "admin.charity.contactPhone",
   "admin.charity.raisedUnavailable",
+  // GIV-520: country-agnostic copy — new keys pending translation regen
+  "admin.charity.taxIdDisplay",
+  "browse.charity.einDisplay",
+  "charity.profile.charityNotFoundByTaxId",
+  "charity.profile.registeredNonprofit",
+  "charity.profile.verified501c3Tooltip",
+  "volunteer.registryTaxId",
+  "volunteer.searchRegistryPlaceholder",
   // GIV-495: volunteer consent legal paragraphs — English-only operative text (board-approved 2026-06-20)
   "volunteer.understanding.item1",
   "volunteer.understanding.item2",

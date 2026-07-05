@@ -104,10 +104,10 @@ describe("ClaimCharity", () => {
       });
     });
 
-    it("renders the EIN when profile loads", async () => {
+    it("renders the Tax ID when profile loads", async () => {
       renderClaimCharity();
       await waitFor(() => {
-        expect(screen.getByText(/EIN 12-3456789/)).toBeInTheDocument();
+        expect(screen.getByText(/Tax ID 12-3456789/)).toBeInTheDocument();
       });
     });
   });

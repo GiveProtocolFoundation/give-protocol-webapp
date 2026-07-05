@@ -6,6 +6,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { getCharityProfileByEin } from "@/services/charityProfileService";
 import { submitCharityRequest } from "@/services/charityDataService";
 import { useAuth } from "@/contexts/AuthContext";
+import { useTranslation } from "@/hooks/useTranslation";
 import type { CharityProfile } from "@/types/charityProfile";
 
 const STEPS = [
@@ -143,6 +144,7 @@ const VerifyIdentityStep: React.FC<{
  * @returns The rendered claim page
  */
 function ClaimCharity() {
+  const { t } = useTranslation();
   const { ein } = useParams<{ ein: string }>();
   const { user } = useAuth();
   const navigate = useNavigate();
@@ -229,7 +231,7 @@ function ClaimCharity() {
       </h1>
       {profile && (
         <p className="-mt-4 text-sm text-gray-500">
-          {profile.name} · EIN {ein}
+          {profile.name} · {t("charity.claim.einLabel", "Tax ID")} {ein}
         </p>
       )}
 
