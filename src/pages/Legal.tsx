@@ -116,7 +116,10 @@ export const Legal: React.FC = () => {
         <p>To use the Services, you must:</p>
 
         <ul>
-          <li>- Be at least 18 years of age</li>
+          <li>
+            - Be at least 16 years of age and affirm your age via the
+            age-affirmation gate at registration
+          </li>
           <li>- Have the capacity to form a legally binding contract</li>
           <li>
             - Not be prohibited from using the Services under applicable laws
@@ -160,17 +163,29 @@ export const Legal: React.FC = () => {
           bind them to these Terms.
         </p>
 
-        <h3>4.4 Children&apos;s Privacy</h3>
+        <h3>4.4 Minimum Age and Children&apos;s Privacy</h3>
+
+        <p>
+          The Services are intended for individuals who are at least 16 years of
+          age. By completing registration via the age-affirmation gate, you
+          affirm that you meet this minimum-age requirement.
+        </p>
 
         <p>
           We do not knowingly collect or solicit personally identifiable
-          information from children under 18 years of age. If you are a child
-          under 18 years of age, please do not attempt to register for or
-          otherwise use the Services or send us any personal information. If we
-          learn we have collected personal information from a child under 18
-          years of age, we will delete that information as quickly as possible.
-          If you believe that a child under 18 years of age may have provided us
-          personal information, please contact us at privacy@giveprotocol.io.
+          information from individuals under 16 years of age. If you are under
+          16, please do not attempt to register for or use the Services or send
+          us any personal information. If we learn that we have collected
+          personal information from a user under 16, we will delete that account
+          and all associated personal data as quickly as possible. No parental
+          or guardian consent pathway is provided; the only remediation is
+          erasure.
+        </p>
+
+        <p>
+          If you believe a user under 16 years of age may have provided us with
+          personal information, please contact us at{" "}
+          <a href="mailto:privacy@giveprotocol.io">privacy@giveprotocol.io</a>.
         </p>
       </section>
 
