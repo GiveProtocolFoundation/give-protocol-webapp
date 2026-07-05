@@ -89,7 +89,10 @@ function StatusPill({ profile }: { profile: CharityProfile }) {
   return (
     <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-amber-100 text-amber-700">
       <AlertTriangle className="h-3.5 w-3.5" />
-      {t("charity.profile.statusUnclaimed", "Unclaimed \u2014 public registry data only")}
+      {t(
+        "charity.profile.statusUnclaimed",
+        "Unclaimed \u2014 public registry data only",
+      )}
     </span>
   );
 }
@@ -111,7 +114,10 @@ function RegistryPublicRecord({
 
   const rows = useMemo(
     () => [
-      { label: t("charity.profile.rowEin", "Tax ID"), value: charityRecord.ein },
+      {
+        label: t("charity.profile.rowEin", "Tax ID"),
+        value: charityRecord.ein,
+      },
       {
         label: t("charity.profile.rowName", "Name"),
         value: charityRecord.name,

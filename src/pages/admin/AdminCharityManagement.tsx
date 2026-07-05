@@ -361,7 +361,11 @@ function CharityRow({
             {charity.name}
           </div>
           <div className="font-mono-data text-[11px] text-[#9aa5a0]">
-            {charity.ein !== null ? t("admin.charity.taxIdDisplay", "Tax ID {{value}}", { value: charity.ein }) : "—"}
+            {charity.ein !== null
+              ? t("admin.charity.taxIdDisplay", "Tax ID {{value}}", {
+                  value: charity.ein,
+                })
+              : "—"}
           </div>
         </div>
       </div>

@@ -148,7 +148,9 @@ const AdminCharityRequests: React.FC = () => {
           </p>
         ) : (
           <table className="min-w-full divide-y divide-gray-200">
-            <caption className="sr-only">Charity requests by organization</caption>
+            <caption className="sr-only">
+              Charity requests by organization
+            </caption>
             <thead className="bg-gray-50">
               <tr>
                 <th

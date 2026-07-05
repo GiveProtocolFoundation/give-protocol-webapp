@@ -49,7 +49,11 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ organization }) => {
       <div className="mt-3 space-y-1.5 text-sm text-gray-600 dark:text-gray-400">
         <div className="flex items-center gap-1.5">
           <Building2 aria-hidden="true" className="h-4 w-4 text-gray-400" />
-          <span>{t("browse.charity.einDisplay", "Tax ID: {{value}}", { value: organization.ein })}</span>
+          <span>
+            {t("browse.charity.einDisplay", "Tax ID: {{value}}", {
+              value: organization.ein,
+            })}
+          </span>
         </div>
         {location && (
           <div className="flex items-center gap-1.5">

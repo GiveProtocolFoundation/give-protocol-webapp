@@ -127,7 +127,10 @@ export const CharityOrgAutocomplete: React.FC<CharityOrgAutocompleteProps> = ({
           onChange={handleInputChange}
           onFocus={handleFocus}
           onKeyDown={handleKeyDown}
-          placeholder={t("volunteer.searchRegistryPlaceholder", "Search charity registry by name or tax ID\u2026")}
+          placeholder={t(
+            "volunteer.searchRegistryPlaceholder",
+            "Search charity registry by name or tax ID\u2026",
+          )}
           disabled={disabled}
           className={`block w-full pl-10 pr-10 py-3 border rounded-lg text-gray-900 dark:text-gray-100 focus:ring-2 focus:ring-emerald-500 focus:border-emerald-500 ${
             error ? "border-red-300" : "border-gray-300 dark:border-gray-600"
@@ -156,7 +159,9 @@ export const CharityOrgAutocomplete: React.FC<CharityOrgAutocompleteProps> = ({
             {locationLabel(selectedOrg) && (
               <p className="text-xs text-emerald-600 dark:text-emerald-400 truncate">
                 {locationLabel(selectedOrg)}
-                {selectedOrg.ein ? ` · ${t("volunteer.registryTaxId", "Tax ID {{value}}", { value: selectedOrg.ein })}` : ""}
+                {selectedOrg.ein
+                  ? ` · ${t("volunteer.registryTaxId", "Tax ID {{value}}", { value: selectedOrg.ein })}`
+                  : ""}
               </p>
             )}
           </div>
@@ -187,7 +192,9 @@ export const CharityOrgAutocomplete: React.FC<CharityOrgAutocompleteProps> = ({
                   {locationLabel(org) && (
                     <p className="text-xs text-gray-500 truncate">
                       {locationLabel(org)}
-                      {org.ein ? ` · ${t("volunteer.registryTaxId", "Tax ID {{value}}", { value: org.ein })}` : ""}
+                      {org.ein
+                        ? ` · ${t("volunteer.registryTaxId", "Tax ID {{value}}", { value: org.ein })}`
+                        : ""}
                     </p>
                   )}
                 </div>

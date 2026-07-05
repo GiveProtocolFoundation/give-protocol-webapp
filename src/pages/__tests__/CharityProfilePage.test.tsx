@@ -317,7 +317,9 @@ describe("CharityProfilePage", () => {
         const matches = screen.getAllByText("Test Charity Foundation");
         expect(matches.length).toBeGreaterThanOrEqual(1);
       });
-      expect(screen.queryByText("Registered nonprofit")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("Registered nonprofit"),
+      ).not.toBeInTheDocument();
     });
   });
 

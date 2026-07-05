@@ -1585,7 +1585,8 @@ export default {
     "charity.profile.verified501c3Tooltip":
       "Registered 501(c)(3) \u2014 donations may be tax-deductible in the United States",
     "charity.profile.statusClaimed": "Claimed",
-    "charity.profile.statusUnclaimed": "Unclaimed \u2014 public registry data only",
+    "charity.profile.statusUnclaimed":
+      "Unclaimed \u2014 public registry data only",
     "charity.profile.rowEin": "Tax ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Location",
