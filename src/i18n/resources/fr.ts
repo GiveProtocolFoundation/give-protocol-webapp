@@ -228,6 +228,9 @@ export default {
     "volunteer.activityType": "Type d'Activité",
     "volunteer.organization": "Organisation",
     "volunteer.searchRegistry": "Rechercher dans le Registre",
+    "volunteer.searchRegistryPlaceholder":
+      "Rechercher dans le registre des organismes par nom ou ID fiscal…",
+    "volunteer.registryTaxId": "ID fiscal {{value}}",
     "volunteer.notListed": "Non Répertoriée",
     "volunteer.organizationName": "Nom de l'Organisation",
     "volunteer.enterOrgName": "Entrez le nom de l'organisation",
@@ -815,7 +818,9 @@ export default {
     "admin.charity.allStatuses": "Tous les statuts",
     "admin.charity.searchPlaceholder": "Rechercher par nom\u2026",
     "admin.charity.colName": "Nom",
-    "admin.charity.colEin": "EIN",
+    "admin.charity.colEin": "ID fiscal",
+    "admin.charity.taxIdDisplay": "ID fiscal {{value}}",
+    "admin.charity.searchByNameEin": "Rechercher par nom ou ID fiscal…",
     "admin.charity.colCategory": "Catégorie",
     "admin.charity.colStatus": "Statut",
     "admin.charity.colSigner": "Contact",
@@ -847,8 +852,8 @@ export default {
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "Demandes d'Organisations",
     "admin.charityRequests.subtitle":
-      "Demandes de donateurs pour des organisations non inscrites, groupées par EIN. Les organisations les plus demandées doivent être contactées en priorité.",
-    "admin.charityRequests.ein": "EIN",
+      "Demandes de donateurs pour des organisations non inscrites, groupées par organisation. Les organisations les plus demandées doivent être contactées en priorité.",
+    "admin.charityRequests.ein": "ID fiscal",
     "admin.charityRequests.requests": "Demandes",
     "admin.charityRequests.latestRequester": "Dernier Demandeur",
     "admin.charityRequests.latestRequest": "Dernière Demande",
@@ -857,7 +862,7 @@ export default {
       "Aucune demande d'organisation n'a été soumise.",
     "admin.charityRequests.errorTitle": "Erreur de Chargement des Demandes",
     "admin.charityRequests.showing":
-      "Affichage de {{shown}} sur {{total}} EINs uniques.",
+      "Affichage de {{shown}} sur {{total}} organisations uniques.",
 
     // Admin - Volunteer Validation page (GIV-256)
     "admin.validation.title": "Supervision de la Validation Bénévole",
@@ -1098,7 +1103,7 @@ export default {
     "charity.claim.orgDetails":
       "Détails de l'Organisation (depuis le registre)",
     "charity.claim.orgNameLabel": "Nom",
-    "charity.claim.einLabel": "EIN",
+    "charity.claim.einLabel": "ID fiscal",
     "charity.claim.locationLabel": "Localisation",
     "charity.claim.contactInfo": "Informations de Contact",
     "charity.claim.contactName": "Nom du Contact",
@@ -1263,8 +1268,9 @@ export default {
     "browse.funds.charities": "organisations",
     "browse.funds.donateCta": "Donner au Fonds",
     "browse.funds.nextAria": "Fonds de portefeuille suivants",
-    "browse.charity.einLabel": "EIN",
-    "browse.charity.nteeLabel": "Code NTEE",
+    "browse.charity.einLabel": "ID fiscal",
+    "browse.charity.einDisplay": "ID fiscal : {{value}}",
+    "browse.charity.nteeLabel": "Code de secteur",
     "browse.charity.deductibilityLabel": "Déductibilité",
     "browse.charity.onPlatform": "Sur la Plateforme",
     "browse.charity.loading": "Chargement…",
@@ -1339,15 +1345,17 @@ export default {
     "transactions.createCampaign": "Créer votre première campagne",
     "contributions.emptyTitle": "Votre parcours de générosité commence ici",
     "contributions.browseCharities": "Parcourir les organisations",
-    "charity.profile.verified501c3": "501(c)(3) Vérifié",
+    "charity.profile.verified501c3": "Organisme à but non lucratif vérifié",
+    "charity.profile.verified501c3Tooltip":
+      "Organisation 501(c)(3) enregistrée — les dons peuvent être déductibles des impôts aux États-Unis",
     "charity.profile.statusClaimed": "Revendiqué",
     "charity.profile.statusUnclaimed":
-      "Non revendiqué — données IRS uniquement",
-    "charity.profile.rowEin": "EIN",
+      "Non revendiqué — données du registre public uniquement",
+    "charity.profile.rowEin": "ID fiscal",
     "charity.profile.rowName": "Nom",
     "charity.profile.rowLocation": "Localisation",
-    "charity.profile.rowRulingYear": "Année de décision",
-    "charity.profile.rowNteeCode": "Code NTEE",
+    "charity.profile.rowRulingYear": "Année d'enregistrement",
+    "charity.profile.rowNteeCode": "Code de secteur",
     "charity.profile.rowDeductibility": "Déductibilité",
     "charity.profile.rowAffiliation": "Affiliation",
     "charity.profile.rowClassification": "Classification",
@@ -1357,7 +1365,11 @@ export default {
     "charity.profile.rowSubsection": "Sous-section",
     "charity.profile.rowStatus": "Statut",
     "charity.profile.registryRecord": "Registre Public",
-    "charity.profile.einDisplay": "EIN",
+    "charity.profile.einDisplay": "ID fiscal",
+    "charity.profile.charityNotFoundByTaxId":
+      "Nous n'avons pas trouvé d'organisme avec cet ID fiscal.",
+    "charity.profile.registeredNonprofit":
+      "Organisme à but non lucratif enregistré",
     "charity.profile.registeredYear": "Enregistré en {{year}}",
     "charity.profile.shareAria": "Partager",
     "charity.profile.copied": "Copié !",

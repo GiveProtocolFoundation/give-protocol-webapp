@@ -227,6 +227,9 @@ export default {
     "volunteer.activityType": "Aktivitätstyp",
     "volunteer.organization": "Organisation",
     "volunteer.searchRegistry": "Register durchsuchen",
+    "volunteer.searchRegistryPlaceholder":
+      "Im Register nach Name oder Steuer-ID suchen…",
+    "volunteer.registryTaxId": "Steuer-ID {{value}}",
     "volunteer.notListed": "Nicht aufgeführt",
     "volunteer.organizationName": "Organisationsname",
     "volunteer.enterOrgName": "Organisationsname eingeben",
@@ -815,7 +818,9 @@ export default {
     "admin.charity.allStatuses": "Alle Status",
     "admin.charity.searchPlaceholder": "Nach Name suchen\u2026",
     "admin.charity.colName": "Name",
-    "admin.charity.colEin": "EIN",
+    "admin.charity.colEin": "Steuer-ID",
+    "admin.charity.taxIdDisplay": "Steuer-ID {{value}}",
+    "admin.charity.searchByNameEin": "Nach Name oder Steuer-ID suchen…",
     "admin.charity.colCategory": "Kategorie",
     "admin.charity.colStatus": "Status",
     "admin.charity.colSigner": "Kontakt",
@@ -847,8 +852,8 @@ export default {
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "Organisationsanfragen",
     "admin.charityRequests.subtitle":
-      "Von Spendern eingereichte Anfragen für nicht beanspruchte Organisationen, gruppiert nach EIN. Organisationen mit dem höchsten Interesse sollten vorrangig kontaktiert werden.",
-    "admin.charityRequests.ein": "EIN",
+      "Von Spendern eingereichte Anfragen für nicht beanspruchte Organisationen, gruppiert nach Organisation. Organisationen mit dem höchsten Interesse sollten vorrangig kontaktiert werden.",
+    "admin.charityRequests.ein": "Steuer-ID",
     "admin.charityRequests.requests": "Anfragen",
     "admin.charityRequests.latestRequester": "Letzter Antragsteller",
     "admin.charityRequests.latestRequest": "Letzte Anfrage",
@@ -858,7 +863,7 @@ export default {
     "admin.charityRequests.errorTitle":
       "Fehler beim Laden der Organisationsanfragen",
     "admin.charityRequests.showing":
-      "{{shown}} von {{total}} eindeutigen EINs werden angezeigt.",
+      "{{shown}} von {{total}} eindeutigen Organisationen werden angezeigt.",
 
     // Admin - Volunteer Validation page (GIV-256)
     "admin.validation.title": "Aufsicht über Freiwilligenbestätigung",
@@ -1093,7 +1098,7 @@ export default {
     "auth.orgSearch.registerManually": "Manuell registrieren",
     "charity.claim.orgDetails": "Organisationsdetails (aus dem Register)",
     "charity.claim.orgNameLabel": "Name",
-    "charity.claim.einLabel": "EIN",
+    "charity.claim.einLabel": "Steuer-ID",
     "charity.claim.locationLabel": "Standort",
     "charity.claim.contactInfo": "Kontaktinformationen",
     "charity.claim.contactName": "Kontaktname",
@@ -1260,8 +1265,9 @@ export default {
     "browse.funds.charities": "Organisationen",
     "browse.funds.donateCta": "An Fonds spenden",
     "browse.funds.nextAria": "Nächste Portfolio-Fonds",
-    "browse.charity.einLabel": "EIN",
-    "browse.charity.nteeLabel": "NTEE-Code",
+    "browse.charity.einLabel": "Steuer-ID",
+    "browse.charity.einDisplay": "Steuer-ID: {{value}}",
+    "browse.charity.nteeLabel": "Sektorcode",
     "browse.charity.deductibilityLabel": "Absetzbarkeit",
     "browse.charity.onPlatform": "Auf der Plattform",
     "browse.charity.loading": "Wird geladen…",
@@ -1336,14 +1342,17 @@ export default {
     "transactions.createCampaign": "Erstellen Sie Ihre erste Kampagne",
     "contributions.emptyTitle": "Ihre Spendenreise beginnt hier",
     "contributions.browseCharities": "Organisationen durchsuchen",
-    "charity.profile.verified501c3": "Verifizierte 501(c)(3)",
+    "charity.profile.verified501c3": "Verifizierte gemeinnützige Organisation",
+    "charity.profile.verified501c3Tooltip":
+      "Registrierte 501(c)(3) — Spenden können in den USA steuerlich absetzbar sein",
     "charity.profile.statusClaimed": "Beansprucht",
-    "charity.profile.statusUnclaimed": "Nicht beansprucht — nur IRS-Daten",
-    "charity.profile.rowEin": "EIN",
+    "charity.profile.statusUnclaimed":
+      "Nicht beansprucht — nur öffentliche Registerdaten",
+    "charity.profile.rowEin": "Steuer-ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Standort",
-    "charity.profile.rowRulingYear": "Anerkennungsjahr",
-    "charity.profile.rowNteeCode": "NTEE-Code",
+    "charity.profile.rowRulingYear": "Registrierungsjahr",
+    "charity.profile.rowNteeCode": "Sektorcode",
     "charity.profile.rowDeductibility": "Absetzbarkeit",
     "charity.profile.rowAffiliation": "Zugehörigkeit",
     "charity.profile.rowClassification": "Klassifizierung",
@@ -1353,7 +1362,11 @@ export default {
     "charity.profile.rowSubsection": "Unterabschnitt",
     "charity.profile.rowStatus": "Status",
     "charity.profile.registryRecord": "Öffentlicher Registereintrag",
-    "charity.profile.einDisplay": "EIN",
+    "charity.profile.einDisplay": "Steuer-ID",
+    "charity.profile.charityNotFoundByTaxId":
+      "Wir konnten keine Organisation mit dieser Steuer-ID finden.",
+    "charity.profile.registeredNonprofit":
+      "Registrierte gemeinnützige Organisation",
     "charity.profile.registeredYear": "Registriert {{year}}",
     "charity.profile.shareAria": "Teilen",
     "charity.profile.copied": "Kopiert!",
