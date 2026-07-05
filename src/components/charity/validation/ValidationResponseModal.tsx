@@ -124,8 +124,8 @@ export const ValidationResponseModal: React.FC<
   }, []);
 
   const handleOverlayClick = useCallback(
-    (e: React.MouseEvent<HTMLDivElement>) => {
-      if (e.target === e.currentTarget) {
+    (event: React.MouseEvent<HTMLDivElement>) => {
+      if (event.target === event.currentTarget) {
         onClose();
       }
     },
@@ -133,8 +133,8 @@ export const ValidationResponseModal: React.FC<
   );
 
   const handleKeyDown = useCallback(
-    (e: React.KeyboardEvent<HTMLDivElement>) => {
-      if (e.key === "Escape") {
+    (event: React.KeyboardEvent<HTMLDivElement>) => {
+      if (event.key === "Escape") {
         onClose();
       }
     },
@@ -187,14 +187,10 @@ export const ValidationResponseModal: React.FC<
                 {t("modal.validation.volunteer")}
               </h3>
               <div className="flex items-center gap-3 mb-6">
-                <div className="h-10 w-10 bg-emerald-100 rounded-full flex items-center justify-center">
-                  <User className="h-5 w-5 text-emerald-600" />
-                </div>
-                <div>
-                  <p className="font-medium text-gray-900">
-                    {item.volunteerName}
-                  </p>
-                </div>
+                <User className="h-10 w-10 p-2.5 bg-emerald-100 rounded-full text-emerald-600" />
+                <p className="font-medium text-gray-900">
+                  {item.volunteerName}
+                </p>
               </div>
 
               {/* Activity Details */}

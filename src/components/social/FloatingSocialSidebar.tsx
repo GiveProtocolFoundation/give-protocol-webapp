@@ -5,7 +5,11 @@ import { useToast } from "@/hooks/useToast";
 import { SOCIAL_PLATFORMS } from "./platforms";
 import type { SocialPlatform } from "./platforms";
 
-/** Single social share icon button. */
+/**
+ * Single social share icon button.
+ * @param props - Platform descriptor and click handler
+ * @returns Rendered icon button
+ */
 function SocialButton({
   platform,
   onClick,
@@ -27,7 +31,11 @@ function SocialButton({
   );
 }
 
-/** Copy link button with check icon feedback. */
+/**
+ * Copy link button with check icon feedback.
+ * @param props - Copied state flag and click handler
+ * @returns Rendered copy button
+ */
 function CopyLinkButton({
   copied,
   onClick,
@@ -77,8 +85,8 @@ export const FloatingSocialSidebar: React.FC<FloatingSocialSidebarProps> = ({
   const getShareMessage = useCallback(() => title ?? document.title, [title]);
 
   const handleShare = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const platformId = e.currentTarget.dataset.platform;
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const platformId = event.currentTarget.dataset.platform;
       const platform = SOCIAL_PLATFORMS.find((p) => p.id === platformId);
       if (!platform) return;
 

@@ -12,7 +12,11 @@ interface PostDonationShareProps {
   charityUrl?: string;
 }
 
-/** Single social share icon button styled for card context. */
+/**
+ * Single social share icon button styled for card context.
+ * @param props - Platform descriptor and click handler
+ * @returns Rendered share button
+ */
 function ShareButton({
   platform,
   onClick,
@@ -34,7 +38,11 @@ function ShareButton({
   );
 }
 
-/** Copy link button that shows "Copy Link" or "Copied!" text. */
+/**
+ * Copy link button that shows "Copy Link" or "Copied!" text.
+ * @param props - Copied state flag and click handler
+ * @returns Rendered copy button
+ */
 function CopyButton({
   copied,
   onClick,
@@ -82,8 +90,8 @@ export const PostDonationShare: React.FC<PostDonationShareProps> = ({
   );
 
   const handleShare = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      const platformId = e.currentTarget.dataset.platform;
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      const platformId = event.currentTarget.dataset.platform;
       const platform = SOCIAL_PLATFORMS.find((p) => p.id === platformId);
       if (!platform) return;
 
@@ -107,8 +115,8 @@ export const PostDonationShare: React.FC<PostDonationShareProps> = ({
   }, [getUrl, showToast]);
 
   const handleMessageChange = useCallback(
-    (e: React.ChangeEvent<HTMLTextAreaElement>) => {
-      setMessage(e.target.value);
+    (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+      setMessage(event.target.value);
     },
     [],
   );
