@@ -1217,7 +1217,8 @@ export default {
     "contributions.emptyTitle": "您的捐赠旅程从这里开始",
     "contributions.browseCharities": "浏览慈善机构",
     "charity.profile.verified501c3": "已认证非营利组织",
-    "charity.profile.verified501c3Tooltip": "已注册 501(c)(3) — 在美国捐款可能可以抵扣税款",
+    "charity.profile.verified501c3Tooltip":
+      "已注册 501(c)(3) — 在美国捐款可能可以抵扣税款",
     "charity.profile.statusClaimed": "已认领",
     "charity.profile.statusUnclaimed": "未认领 — 仅含公共登记数据",
     "charity.profile.rowEin": "税务编号",
@@ -1235,7 +1236,8 @@ export default {
     "charity.profile.rowStatus": "状态",
     "charity.profile.registryRecord": "注册公开记录",
     "charity.profile.einDisplay": "税务编号",
-    "charity.profile.charityNotFoundByTaxId": "我们未找到使用此税务编号的慈善机构。",
+    "charity.profile.charityNotFoundByTaxId":
+      "我们未找到使用此税务编号的慈善机构。",
     "charity.profile.registeredNonprofit": "已注册非营利组织",
     "charity.profile.registeredYear": "注册于 {{year}} 年",
     "charity.profile.shareAria": "分享",

@@ -227,7 +227,8 @@ export default {
     "volunteer.activityType": "Aktivitätstyp",
     "volunteer.organization": "Organisation",
     "volunteer.searchRegistry": "Register durchsuchen",
-    "volunteer.searchRegistryPlaceholder": "Im Register nach Name oder Steuer-ID suchen…",
+    "volunteer.searchRegistryPlaceholder":
+      "Im Register nach Name oder Steuer-ID suchen…",
     "volunteer.registryTaxId": "Steuer-ID {{value}}",
     "volunteer.notListed": "Nicht aufgeführt",
     "volunteer.organizationName": "Organisationsname",
@@ -1342,9 +1343,11 @@ export default {
     "contributions.emptyTitle": "Ihre Spendenreise beginnt hier",
     "contributions.browseCharities": "Organisationen durchsuchen",
     "charity.profile.verified501c3": "Verifizierte gemeinnützige Organisation",
-    "charity.profile.verified501c3Tooltip": "Registrierte 501(c)(3) — Spenden können in den USA steuerlich absetzbar sein",
+    "charity.profile.verified501c3Tooltip":
+      "Registrierte 501(c)(3) — Spenden können in den USA steuerlich absetzbar sein",
     "charity.profile.statusClaimed": "Beansprucht",
-    "charity.profile.statusUnclaimed": "Nicht beansprucht — nur öffentliche Registerdaten",
+    "charity.profile.statusUnclaimed":
+      "Nicht beansprucht — nur öffentliche Registerdaten",
     "charity.profile.rowEin": "Steuer-ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Standort",
@@ -1360,8 +1363,10 @@ export default {
     "charity.profile.rowStatus": "Status",
     "charity.profile.registryRecord": "Öffentlicher Registereintrag",
     "charity.profile.einDisplay": "Steuer-ID",
-    "charity.profile.charityNotFoundByTaxId": "Wir konnten keine Organisation mit dieser Steuer-ID finden.",
-    "charity.profile.registeredNonprofit": "Registrierte gemeinnützige Organisation",
+    "charity.profile.charityNotFoundByTaxId":
+      "Wir konnten keine Organisation mit dieser Steuer-ID finden.",
+    "charity.profile.registeredNonprofit":
+      "Registrierte gemeinnützige Organisation",
     "charity.profile.registeredYear": "Registriert {{year}}",
     "charity.profile.shareAria": "Teilen",
     "charity.profile.copied": "Kopiert!",

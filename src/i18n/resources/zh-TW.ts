@@ -1218,7 +1218,8 @@ export default {
     "contributions.emptyTitle": "您的捐贈之旅從這裡開始",
     "contributions.browseCharities": "瀏覽慈善機構",
     "charity.profile.verified501c3": "已驗證非營利組織",
-    "charity.profile.verified501c3Tooltip": "已註冊 501(c)(3) — 在美國捐款可能可以抵扣稅款",
+    "charity.profile.verified501c3Tooltip":
+      "已註冊 501(c)(3) — 在美國捐款可能可以抵扣稅款",
     "charity.profile.statusClaimed": "已認領",
     "charity.profile.statusUnclaimed": "未認領 — 僅有公共登記資料",
     "charity.profile.rowEin": "稅務編號",
@@ -1236,7 +1237,8 @@ export default {
     "charity.profile.rowStatus": "狀態",
     "charity.profile.registryRecord": "登記處公開記錄",
     "charity.profile.einDisplay": "稅務編號",
-    "charity.profile.charityNotFoundByTaxId": "我們找不到使用此稅務編號的慈善機構。",
+    "charity.profile.charityNotFoundByTaxId":
+      "我們找不到使用此稅務編號的慈善機構。",
     "charity.profile.registeredNonprofit": "已註冊非營利組織",
     "charity.profile.registeredYear": "{{year}} 年登記",
     "charity.profile.shareAria": "分享",

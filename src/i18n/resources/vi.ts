@@ -221,7 +221,8 @@ export default {
     "volunteer.activityType": "Loại hoạt động",
     "volunteer.organization": "Tổ chức",
     "volunteer.searchRegistry": "Tìm trong danh bạ",
-    "volunteer.searchRegistryPlaceholder": "Tìm trong sổ đăng ký tổ chức từ thiện theo tên hoặc mã số thuế…",
+    "volunteer.searchRegistryPlaceholder":
+      "Tìm trong sổ đăng ký tổ chức từ thiện theo tên hoặc mã số thuế…",
     "volunteer.registryTaxId": "Mã số thuế {{value}}",
     "volunteer.notListed": "Không có trong danh sách",
     "volunteer.organizationName": "Tên tổ chức",
@@ -1282,9 +1283,11 @@ export default {
     "contributions.emptyTitle": "Hành trình quyên góp của bạn bắt đầu từ đây",
     "contributions.browseCharities": "Duyệt tổ chức từ thiện",
     "charity.profile.verified501c3": "Tổ chức phi lợi nhuận đã xác minh",
-    "charity.profile.verified501c3Tooltip": "Tổ chức 501(c)(3) đã đăng ký — các khoản quyên góp có thể được khấu trừ thuế tại Hoa Kỳ",
+    "charity.profile.verified501c3Tooltip":
+      "Tổ chức 501(c)(3) đã đăng ký — các khoản quyên góp có thể được khấu trừ thuế tại Hoa Kỳ",
     "charity.profile.statusClaimed": "Đã được nhận",
-    "charity.profile.statusUnclaimed": "Chưa được nhận — chỉ có dữ liệu đăng ký công khai",
+    "charity.profile.statusUnclaimed":
+      "Chưa được nhận — chỉ có dữ liệu đăng ký công khai",
     "charity.profile.rowEin": "Mã số thuế",
     "charity.profile.rowName": "Tên",
     "charity.profile.rowLocation": "Địa điểm",
@@ -1300,7 +1303,8 @@ export default {
     "charity.profile.rowStatus": "Trạng thái",
     "charity.profile.registryRecord": "Hồ sơ công khai đăng ký",
     "charity.profile.einDisplay": "Mã số thuế",
-    "charity.profile.charityNotFoundByTaxId": "Chúng tôi không tìm thấy tổ chức từ thiện nào có mã số thuế này.",
+    "charity.profile.charityNotFoundByTaxId":
+      "Chúng tôi không tìm thấy tổ chức từ thiện nào có mã số thuế này.",
     "charity.profile.registeredNonprofit": "Tổ chức phi lợi nhuận đã đăng ký",
     "charity.profile.registeredYear": "Đăng ký năm {{year}}",
     "charity.profile.shareAria": "Chia sẻ",

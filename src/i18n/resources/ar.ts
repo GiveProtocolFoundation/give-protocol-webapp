@@ -216,7 +216,8 @@ export default {
     "volunteer.activityType": "نوع النشاط",
     "volunteer.organization": "المؤسسة",
     "volunteer.searchRegistry": "البحث في السجل",
-    "volunteer.searchRegistryPlaceholder": "البحث في سجل المؤسسات الخيرية بالاسم أو الرقم الضريبي…",
+    "volunteer.searchRegistryPlaceholder":
+      "البحث في سجل المؤسسات الخيرية بالاسم أو الرقم الضريبي…",
     "volunteer.registryTaxId": "الرقم الضريبي {{value}}",
     "volunteer.notListed": "غير مدرجة",
     "volunteer.organizationName": "اسم المؤسسة",
@@ -1250,9 +1251,11 @@ export default {
     "contributions.emptyTitle": "رحلة عطائك تبدأ من هنا",
     "contributions.browseCharities": "تصفح الجمعيات الخيرية",
     "charity.profile.verified501c3": "مؤسسة غير ربحية معتمدة",
-    "charity.profile.verified501c3Tooltip": "منظمة 501(c)(3) مسجّلة — قد تكون التبرعات قابلة للخصم الضريبي في الولايات المتحدة",
+    "charity.profile.verified501c3Tooltip":
+      "منظمة 501(c)(3) مسجّلة — قد تكون التبرعات قابلة للخصم الضريبي في الولايات المتحدة",
     "charity.profile.statusClaimed": "مُطالَب بها",
-    "charity.profile.statusUnclaimed": "غير مُطالَب بها — بيانات السجل العام فقط",
+    "charity.profile.statusUnclaimed":
+      "غير مُطالَب بها — بيانات السجل العام فقط",
     "charity.profile.rowEin": "الرقم الضريبي",
     "charity.profile.rowName": "الاسم",
     "charity.profile.rowLocation": "الموقع",
@@ -1268,7 +1271,8 @@ export default {
     "charity.profile.rowStatus": "الحالة",
     "charity.profile.registryRecord": "السجل العام للمنظمة",
     "charity.profile.einDisplay": "الرقم الضريبي",
-    "charity.profile.charityNotFoundByTaxId": "لم نتمكن من العثور على مؤسسة خيرية بهذا الرقم الضريبي.",
+    "charity.profile.charityNotFoundByTaxId":
+      "لم نتمكن من العثور على مؤسسة خيرية بهذا الرقم الضريبي.",
     "charity.profile.registeredNonprofit": "مؤسسة غير ربحية مسجّلة",
     "charity.profile.registeredYear": "مسجلة {{year}}",
     "charity.profile.shareAria": "مشاركة",

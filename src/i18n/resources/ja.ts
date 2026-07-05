@@ -221,7 +221,8 @@ export default {
     "volunteer.activityType": "活動タイプ",
     "volunteer.organization": "団体",
     "volunteer.searchRegistry": "レジストリを検索",
-    "volunteer.searchRegistryPlaceholder": "名前または納税者番号でチャリティ登録簿を検索…",
+    "volunteer.searchRegistryPlaceholder":
+      "名前または納税者番号でチャリティ登録簿を検索…",
     "volunteer.registryTaxId": "納税者番号 {{value}}",
     "volunteer.notListed": "一覧にない",
     "volunteer.organizationName": "団体名",
@@ -1286,7 +1287,8 @@ export default {
     "contributions.emptyTitle": "あなたの寄付の旅はここから始まります",
     "contributions.browseCharities": "チャリティを探す",
     "charity.profile.verified501c3": "認証済み非営利団体",
-    "charity.profile.verified501c3Tooltip": "登録済み501(c)(3) — 米国では寄付が税控除の対象となる場合があります",
+    "charity.profile.verified501c3Tooltip":
+      "登録済み501(c)(3) — 米国では寄付が税控除の対象となる場合があります",
     "charity.profile.statusClaimed": "申請済み",
     "charity.profile.statusUnclaimed": "未申請 — 公的登録データのみ",
     "charity.profile.rowEin": "納税者番号",
@@ -1304,7 +1306,8 @@ export default {
     "charity.profile.rowStatus": "ステータス",
     "charity.profile.registryRecord": "登録簿の公開記録",
     "charity.profile.einDisplay": "納税者番号",
-    "charity.profile.charityNotFoundByTaxId": "この納税者番号のチャリティが見つかりませんでした。",
+    "charity.profile.charityNotFoundByTaxId":
+      "この納税者番号のチャリティが見つかりませんでした。",
     "charity.profile.registeredNonprofit": "登録済み非営利団体",
     "charity.profile.registeredYear": "{{year}}年登録",
     "charity.profile.shareAria": "共有",

@@ -228,7 +228,8 @@ export default {
     "volunteer.activityType": "Tipo de Actividad",
     "volunteer.organization": "Organización",
     "volunteer.searchRegistry": "Buscar en el Registro",
-    "volunteer.searchRegistryPlaceholder": "Buscar en el registro de organizaciones por nombre o ID fiscal…",
+    "volunteer.searchRegistryPlaceholder":
+      "Buscar en el registro de organizaciones por nombre o ID fiscal…",
     "volunteer.registryTaxId": "ID fiscal {{value}}",
     "volunteer.notListed": "No Listada",
     "volunteer.organizationName": "Nombre de la Organización",
@@ -1322,10 +1323,13 @@ export default {
     "transactions.createCampaign": "Cree su primera campaña",
     "contributions.emptyTitle": "Su camino de donaciones comienza aquí",
     "contributions.browseCharities": "Explorar organizaciones",
-    "charity.profile.verified501c3": "Organización sin fines de lucro verificada",
-    "charity.profile.verified501c3Tooltip": "Organización 501(c)(3) registrada — las donaciones pueden ser deducibles de impuestos en los Estados Unidos",
+    "charity.profile.verified501c3":
+      "Organización sin fines de lucro verificada",
+    "charity.profile.verified501c3Tooltip":
+      "Organización 501(c)(3) registrada — las donaciones pueden ser deducibles de impuestos en los Estados Unidos",
     "charity.profile.statusClaimed": "Reclamada",
-    "charity.profile.statusUnclaimed": "No reclamada — solo datos del registro público",
+    "charity.profile.statusUnclaimed":
+      "No reclamada — solo datos del registro público",
     "charity.profile.rowEin": "ID fiscal",
     "charity.profile.rowName": "Nombre",
     "charity.profile.rowLocation": "Ubicación",
@@ -1341,8 +1345,10 @@ export default {
     "charity.profile.rowStatus": "Estado",
     "charity.profile.registryRecord": "Registro Público",
     "charity.profile.einDisplay": "ID fiscal",
-    "charity.profile.charityNotFoundByTaxId": "No pudimos encontrar una organización benéfica con este ID fiscal.",
-    "charity.profile.registeredNonprofit": "Organización sin fines de lucro registrada",
+    "charity.profile.charityNotFoundByTaxId":
+      "No pudimos encontrar una organización benéfica con este ID fiscal.",
+    "charity.profile.registeredNonprofit":
+      "Organización sin fines de lucro registrada",
     "charity.profile.registeredYear": "Registrada en {{year}}",
     "charity.profile.shareAria": "Compartir",
     "charity.profile.copied": "¡Copiado!",

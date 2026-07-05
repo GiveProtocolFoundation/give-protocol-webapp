@@ -218,7 +218,8 @@ export default {
     "volunteer.activityType": "ประเภทกิจกรรม",
     "volunteer.organization": "องค์กร",
     "volunteer.searchRegistry": "ค้นหาทะเบียน",
-    "volunteer.searchRegistryPlaceholder": "ค้นหาทะเบียนองค์กรการกุศลตามชื่อหรือเลขประจำตัวผู้เสียภาษี…",
+    "volunteer.searchRegistryPlaceholder":
+      "ค้นหาทะเบียนองค์กรการกุศลตามชื่อหรือเลขประจำตัวผู้เสียภาษี…",
     "volunteer.registryTaxId": "เลขประจำตัวผู้เสียภาษี {{value}}",
     "volunteer.notListed": "ไม่อยู่ในรายการ",
     "volunteer.organizationName": "ชื่อองค์กร",
@@ -1273,9 +1274,11 @@ export default {
     "contributions.emptyTitle": "การเดินทางแห่งการให้ของคุณเริ่มต้นที่นี่",
     "contributions.browseCharities": "เรียกดูองค์กรการกุศล",
     "charity.profile.verified501c3": "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบ",
-    "charity.profile.verified501c3Tooltip": "องค์กร 501(c)(3) ที่จดทะเบียน — การบริจาคอาจหักลดหย่อนภาษีได้ในสหรัฐอเมริกา",
+    "charity.profile.verified501c3Tooltip":
+      "องค์กร 501(c)(3) ที่จดทะเบียน — การบริจาคอาจหักลดหย่อนภาษีได้ในสหรัฐอเมริกา",
     "charity.profile.statusClaimed": "อ้างสิทธิ์แล้ว",
-    "charity.profile.statusUnclaimed": "ยังไม่อ้างสิทธิ์ — ข้อมูลจากทะเบียนสาธารณะเท่านั้น",
+    "charity.profile.statusUnclaimed":
+      "ยังไม่อ้างสิทธิ์ — ข้อมูลจากทะเบียนสาธารณะเท่านั้น",
     "charity.profile.rowEin": "เลขประจำตัวผู้เสียภาษี",
     "charity.profile.rowName": "ชื่อ",
     "charity.profile.rowLocation": "ที่ตั้ง",
@@ -1291,7 +1294,8 @@ export default {
     "charity.profile.rowStatus": "สถานะ",
     "charity.profile.registryRecord": "บันทึกสาธารณะจากทะเบียน",
     "charity.profile.einDisplay": "เลขประจำตัวผู้เสียภาษี",
-    "charity.profile.charityNotFoundByTaxId": "ไม่พบองค์กรการกุศลที่มีเลขประจำตัวผู้เสียภาษีนี้",
+    "charity.profile.charityNotFoundByTaxId":
+      "ไม่พบองค์กรการกุศลที่มีเลขประจำตัวผู้เสียภาษีนี้",
     "charity.profile.registeredNonprofit": "องค์กรไม่แสวงหาผลกำไรที่จดทะเบียน",
     "charity.profile.registeredYear": "จดทะเบียน {{year}}",
     "charity.profile.shareAria": "แชร์",

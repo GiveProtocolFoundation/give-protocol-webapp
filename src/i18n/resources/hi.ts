@@ -223,7 +223,8 @@ export default {
     "volunteer.activityType": "गतिविधि प्रकार",
     "volunteer.organization": "संगठन",
     "volunteer.searchRegistry": "रजिस्ट्री खोजें",
-    "volunteer.searchRegistryPlaceholder": "नाम या कर पहचान संख्या से चैरिटी रजिस्ट्री खोजें…",
+    "volunteer.searchRegistryPlaceholder":
+      "नाम या कर पहचान संख्या से चैरिटी रजिस्ट्री खोजें…",
     "volunteer.registryTaxId": "कर पहचान संख्या {{value}}",
     "volunteer.notListed": "सूचीबद्ध नहीं",
     "volunteer.organizationName": "संगठन का नाम",
@@ -1291,9 +1292,11 @@ export default {
     "contributions.emptyTitle": "आपकी दान यात्रा यहाँ से शुरू होती है",
     "contributions.browseCharities": "संस्थाएँ देखें",
     "charity.profile.verified501c3": "सत्यापित गैर-लाभकारी संगठन",
-    "charity.profile.verified501c3Tooltip": "पंजीकृत 501(c)(3) — संयुक्त राज्य अमेरिका में दान कर-कटौती योग्य हो सकता है",
+    "charity.profile.verified501c3Tooltip":
+      "पंजीकृत 501(c)(3) — संयुक्त राज्य अमेरिका में दान कर-कटौती योग्य हो सकता है",
     "charity.profile.statusClaimed": "दावा किया गया",
-    "charity.profile.statusUnclaimed": "दावा नहीं किया गया — केवल सार्वजनिक रजिस्ट्री डेटा",
+    "charity.profile.statusUnclaimed":
+      "दावा नहीं किया गया — केवल सार्वजनिक रजिस्ट्री डेटा",
     "charity.profile.rowEin": "कर पहचान संख्या",
     "charity.profile.rowName": "नाम",
     "charity.profile.rowLocation": "स्थान",
@@ -1309,7 +1312,8 @@ export default {
     "charity.profile.rowStatus": "स्थिति",
     "charity.profile.registryRecord": "रजिस्ट्री सार्वजनिक रिकॉर्ड",
     "charity.profile.einDisplay": "कर पहचान संख्या",
-    "charity.profile.charityNotFoundByTaxId": "हमें इस कर पहचान संख्या वाला कोई चैरिटी नहीं मिला।",
+    "charity.profile.charityNotFoundByTaxId":
+      "हमें इस कर पहचान संख्या वाला कोई चैरिटी नहीं मिला।",
     "charity.profile.registeredNonprofit": "पंजीकृत गैर-लाभकारी संगठन",
     "charity.profile.registeredYear": "पंजीकृत {{year}}",
     "charity.profile.shareAria": "साझा करें",

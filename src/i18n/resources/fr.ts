@@ -228,7 +228,8 @@ export default {
     "volunteer.activityType": "Type d'Activité",
     "volunteer.organization": "Organisation",
     "volunteer.searchRegistry": "Rechercher dans le Registre",
-    "volunteer.searchRegistryPlaceholder": "Rechercher dans le registre des organismes par nom ou ID fiscal…",
+    "volunteer.searchRegistryPlaceholder":
+      "Rechercher dans le registre des organismes par nom ou ID fiscal…",
     "volunteer.registryTaxId": "ID fiscal {{value}}",
     "volunteer.notListed": "Non Répertoriée",
     "volunteer.organizationName": "Nom de l'Organisation",
@@ -1345,7 +1346,8 @@ export default {
     "contributions.emptyTitle": "Votre parcours de générosité commence ici",
     "contributions.browseCharities": "Parcourir les organisations",
     "charity.profile.verified501c3": "Organisme à but non lucratif vérifié",
-    "charity.profile.verified501c3Tooltip": "Organisation 501(c)(3) enregistrée — les dons peuvent être déductibles des impôts aux États-Unis",
+    "charity.profile.verified501c3Tooltip":
+      "Organisation 501(c)(3) enregistrée — les dons peuvent être déductibles des impôts aux États-Unis",
     "charity.profile.statusClaimed": "Revendiqué",
     "charity.profile.statusUnclaimed":
       "Non revendiqué — données du registre public uniquement",
@@ -1364,8 +1366,10 @@ export default {
     "charity.profile.rowStatus": "Statut",
     "charity.profile.registryRecord": "Registre Public",
     "charity.profile.einDisplay": "ID fiscal",
-    "charity.profile.charityNotFoundByTaxId": "Nous n'avons pas trouvé d'organisme avec cet ID fiscal.",
-    "charity.profile.registeredNonprofit": "Organisme à but non lucratif enregistré",
+    "charity.profile.charityNotFoundByTaxId":
+      "Nous n'avons pas trouvé d'organisme avec cet ID fiscal.",
+    "charity.profile.registeredNonprofit":
+      "Organisme à but non lucratif enregistré",
     "charity.profile.registeredYear": "Enregistré en {{year}}",
     "charity.profile.shareAria": "Partager",
     "charity.profile.copied": "Copié !",

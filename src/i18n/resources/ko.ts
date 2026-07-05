@@ -219,7 +219,8 @@ export default {
     "volunteer.activityType": "활동 유형",
     "volunteer.organization": "단체",
     "volunteer.searchRegistry": "등록부 검색",
-    "volunteer.searchRegistryPlaceholder": "이름 또는 납세자 번호로 자선단체 등록부 검색…",
+    "volunteer.searchRegistryPlaceholder":
+      "이름 또는 납세자 번호로 자선단체 등록부 검색…",
     "volunteer.registryTaxId": "납세자 번호 {{value}}",
     "volunteer.notListed": "목록에 없음",
     "volunteer.organizationName": "단체명",
@@ -1256,7 +1257,8 @@ export default {
     "contributions.emptyTitle": "나눔의 여정은 여기서 시작됩니다",
     "contributions.browseCharities": "자선단체 찾기",
     "charity.profile.verified501c3": "인증된 비영리단체",
-    "charity.profile.verified501c3Tooltip": "등록된 501(c)(3) — 미국에서 기부금이 세금 공제 대상이 될 수 있습니다",
+    "charity.profile.verified501c3Tooltip":
+      "등록된 501(c)(3) — 미국에서 기부금이 세금 공제 대상이 될 수 있습니다",
     "charity.profile.statusClaimed": "인수됨",
     "charity.profile.statusUnclaimed": "미인수 — 공공 등록 데이터만 제공",
     "charity.profile.rowEin": "납세자 번호",
@@ -1274,7 +1276,8 @@ export default {
     "charity.profile.rowStatus": "상태",
     "charity.profile.registryRecord": "등록 공개 기록",
     "charity.profile.einDisplay": "납세자 번호",
-    "charity.profile.charityNotFoundByTaxId": "이 납세자 번호로 등록된 자선단체를 찾을 수 없습니다.",
+    "charity.profile.charityNotFoundByTaxId":
+      "이 납세자 번호로 등록된 자선단체를 찾을 수 없습니다.",
     "charity.profile.registeredNonprofit": "등록된 비영리단체",
     "charity.profile.registeredYear": "{{year}}년 등록",
     "charity.profile.shareAria": "공유",
