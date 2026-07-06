@@ -383,8 +383,8 @@ function ChecklistRow({
   }, [item.id, onToggle]);
 
   const handleAction = useCallback(
-    (e: React.MouseEvent<HTMLButtonElement>) => {
-      e.stopPropagation();
+    (event: React.MouseEvent<HTMLButtonElement>) => {
+      event.stopPropagation();
       if (item.actionTab && onNavigateTab) {
         onNavigateTab(item.actionTab);
       }
