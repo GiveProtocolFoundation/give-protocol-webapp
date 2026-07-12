@@ -91,16 +91,16 @@
 >
 > **Official Donation Receipt**
 >
-> | Field | Detail |
-> | --- | --- |
-> | Donor | {{donorName}} |
-> | Charity | {{charityLegalName}} |
-> | Charity Tax ID (EIN) | {{charityEin}} |
-> | Date of donation | {{donationDate}} |
-> | Amount | ${{amountFormatted}} {{currencyCode}} |
-> | Payment method | {{cardBrand}} ending in {{cardLast4}} |
-> | Transaction ID | {{transactionId}} |
-> | Processor | Helcim |
+> | Field                | Detail                                |
+> | -------------------- | ------------------------------------- |
+> | Donor                | {{donorName}}                         |
+> | Charity              | {{charityLegalName}}                  |
+> | Charity Tax ID (EIN) | {{charityEin}}                        |
+> | Date of donation     | {{donationDate}}                      |
+> | Amount               | ${{amountFormatted}} {{currencyCode}} |
+> | Payment method       | {{cardBrand}} ending in {{cardLast4}} |
+> | Transaction ID       | {{transactionId}}                     |
+> | Processor            | Helcim                                |
 >
 > **{{charityLegalName}}** is a registered 501(c)(3) tax-exempt organization in the United States. No goods or services were provided in exchange for this contribution. Your donation may be tax-deductible to the fullest extent permitted by law. Please consult your tax advisor. Retain this receipt for your records.
 >
@@ -130,16 +130,16 @@
 >
 > **Official Donation Receipt**
 >
-> | Field | Detail |
-> | --- | --- |
-> | Donor | {{donorName}} |
-> | Charity | {{charityLegalName}} |
-> | Charity Tax ID (EIN) | {{charityEin}} |
-> | Date of donation | {{donationDate}} |
-> | Amount | ${{amountFormatted}} {{currencyCode}} |
-> | Payment method | PayPal ({{paypalEmail}}) |
-> | Transaction ID | {{transactionId}} |
-> | Processor | PayPal |
+> | Field                | Detail                                |
+> | -------------------- | ------------------------------------- |
+> | Donor                | {{donorName}}                         |
+> | Charity              | {{charityLegalName}}                  |
+> | Charity Tax ID (EIN) | {{charityEin}}                        |
+> | Date of donation     | {{donationDate}}                      |
+> | Amount               | ${{amountFormatted}} {{currencyCode}} |
+> | Payment method       | PayPal ({{paypalEmail}})              |
+> | Transaction ID       | {{transactionId}}                     |
+> | Processor            | PayPal                                |
 >
 > **{{charityLegalName}}** is a registered 501(c)(3) tax-exempt organization in the United States. No goods or services were provided in exchange for this contribution. Your donation may be tax-deductible to the fullest extent permitted by law. Please consult your tax advisor. Retain this receipt for your records.
 >
