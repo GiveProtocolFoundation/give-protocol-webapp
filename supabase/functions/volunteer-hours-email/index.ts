@@ -5,12 +5,17 @@
  * approves or rejects their volunteer hours submission.
  * Called fire-and-forget from adminVolunteerValidationService after a successful
  * admin_override_validation RPC call.
- * @version 2 — GIV-638: updated to CMO-approved template copy (GIV-634);
- *   added activityDescription, serviceDates, approver fields, profile/dashboard URLs.
+ * @version 3 — GIV-639: locale-aware copy via shared email-i18n module.
+ *   Pass optional `locale` (BCP 47) in request payload; defaults to "en".
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  fill,
+  getEmailStrings,
+  resolveLocale,
+} from "../_shared/email-i18n.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -60,6 +65,8 @@ interface VolunteerHoursEmailRequest {
   volunteerProfileUrl?: string | null;
   /** URL to the volunteer's submission dashboard */
   volunteerDashboardUrl?: string | null;
+  /** BCP 47 locale of the volunteer. Defaults to "en". */
+  locale?: string | null;
 }
 
 interface EmailContent {
@@ -74,9 +81,10 @@ function escapeHtml(text: string): string {
 }
 
 /** Wrap content in the shared Give Protocol email shell */
-function wrapHtml(title: string, bodyHtml: string): string {
+function wrapHtml(title: string, bodyHtml: string, locale?: string): string {
+  const t = getEmailStrings(resolveLocale(locale));
   return `<!DOCTYPE html>
-<html>
+<html lang="${t.lang}" dir="${t.dir}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -95,7 +103,17 @@ function wrapHtml(title: string, bodyHtml: string): string {
 }
 
 /** Build the email subject, HTML body, and plaintext for an approval or rejection */
-function buildEmailContent(req: VolunteerHoursEmailRequest, volunteerName: string, orgName: string): EmailContent {
+function buildEmailContent(
+  req: VolunteerHoursEmailRequest,
+  volunteerName: string,
+  orgName: string,
+  locale?: string | null,
+): EmailContent {
+  const resolved = resolveLocale(locale);
+  const t = getEmailStrings(resolved);
+  const va = t.volunteerApproval;
+  const vr = t.volunteerRejection;
+
   const safeName = escapeHtml(volunteerName);
   const safeOrg = escapeHtml(orgName);
   const safeReason = req.reason ? escapeHtml(req.reason) : null;
@@ -105,6 +123,7 @@ function buildEmailContent(req: VolunteerHoursEmailRequest, volunteerName: strin
   const safeDates = req.serviceDates
     ? escapeHtml(req.serviceDates)
     : escapeHtml(req.activityDate);
+  const greeting = escapeHtml(fill(t.greeting, { name: volunteerName }));
 
   if (req.newStatus === "approved") {
     const hoursApproved = req.hoursApproved ?? req.hoursReported;
@@ -113,55 +132,56 @@ function buildEmailContent(req: VolunteerHoursEmailRequest, volunteerName: strin
     const verificationDate = req.verificationDate ?? new Date().toLocaleDateString("en-US", { year: "numeric", month: "long", day: "numeric" });
     const profileUrl = req.volunteerProfileUrl ?? VOLUNTEER_PORTAL_URL;
 
-    const subject = `Your volunteer hours were approved by ${orgName}`;
-    const preheaderText = `${hoursApproved} hours logged and verified. Nice work.`;
+    const subject = fill(va.subject, { charityName: orgName });
+    const preheaderText = fill(va.preheader, { hours: String(hoursApproved) });
 
+    const safeApprovedBy = escapeHtml(va.fieldApprovedBy);
     const approverLine = approverName
-      ? `\n      <tr>\n        <td style="padding:8px 12px;font-weight:600;color:#374151;">Approved by</td>\n        <td style="padding:8px 12px;color:#111827;">${escapeHtml(approverName)}${approverTitle ? `, ${escapeHtml(approverTitle)}` : ""}</td>\n      </tr>`
+      ? `\n      <tr>\n        <td style="padding:8px 12px;font-weight:600;color:#374151;">${safeApprovedBy}</td>\n        <td style="padding:8px 12px;color:#111827;">${escapeHtml(approverName)}${approverTitle ? `, ${escapeHtml(approverTitle)}` : ""}</td>\n      </tr>`
       : "";
 
     const bodyHtml = `
-      <p>Hi ${safeName},</p>
-      <p>Great news &mdash; <strong>${safeOrg}</strong> has approved your volunteer hours.</p>
-      <p><strong>Approved contribution:</strong></p>
+      <p>${greeting}</p>
+      <p>${escapeHtml(fill(va.opening, { charityName: orgName }))}</p>
+      <p><strong>${escapeHtml(va.contributionHeader)}</strong></p>
       <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;">
         ${safeActivity ? `<tr style="background:#f9fafb;">
-          <td style="padding:8px 12px;font-weight:600;color:#374151;">Role / activity</td>
+          <td style="padding:8px 12px;font-weight:600;color:#374151;">${escapeHtml(va.fieldActivity)}</td>
           <td style="padding:8px 12px;color:#111827;">${safeActivity}</td>
         </tr>` : ""}
         <tr>
-          <td style="padding:8px 12px;font-weight:600;color:#374151;">Date(s) served</td>
+          <td style="padding:8px 12px;font-weight:600;color:#374151;">${escapeHtml(va.fieldDates)}</td>
           <td style="padding:8px 12px;color:#111827;">${safeDates}</td>
         </tr>
         <tr style="background:#f9fafb;">
-          <td style="padding:8px 12px;font-weight:600;color:#374151;">Hours approved</td>
+          <td style="padding:8px 12px;font-weight:600;color:#374151;">${escapeHtml(va.fieldHoursApproved)}</td>
           <td style="padding:8px 12px;color:#111827;">${hoursApproved}</td>
         </tr>${approverLine}
         <tr style="background:#f9fafb;">
-          <td style="padding:8px 12px;font-weight:600;color:#374151;">Verification date</td>
+          <td style="padding:8px 12px;font-weight:600;color:#374151;">${escapeHtml(va.fieldVerificationDate)}</td>
           <td style="padding:8px 12px;color:#111827;">${escapeHtml(verificationDate)}</td>
         </tr>
       </table>
-      <p>Your service now appears on your verified volunteer record. Employers, schools, and communities can trust these hours because they're confirmed by the organization you served &mdash; not self-reported.</p>
+      <p>${escapeHtml(va.verifiedNote)}</p>
       <p>
-        <a href="${escapeHtml(profileUrl)}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">View your volunteer record &rarr;</a>
+        <a href="${escapeHtml(profileUrl)}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">${escapeHtml(va.ctaText)}</a>
       </p>
-      <p>Thank you for showing up. This is the work that moves the world forward.</p>
-      <p>&mdash; The Give Protocol Team</p>
+      <p>${escapeHtml(va.closing)}</p>
+      <p>${escapeHtml(t.signoff)}</p>
     `;
 
     const approverTextLine = approverName
-      ? `\n- Approved by: ${approverName}${approverTitle ? `, ${approverTitle}` : ""}`
+      ? `\n- ${va.fieldApprovedBy}: ${approverName}${approverTitle ? `, ${approverTitle}` : ""}`
       : "";
     const activityTextLine = req.activityDescription
-      ? `\n- Role / activity: ${req.activityDescription}`
+      ? `\n- ${va.fieldActivity}: ${req.activityDescription}`
       : "";
 
-    const bodyText = `Hi ${volunteerName},\n\nGreat news — ${orgName} has approved your volunteer hours.\n\nApproved contribution:${activityTextLine}\n- Date(s) served: ${req.serviceDates ?? req.activityDate}\n- Hours approved: ${hoursApproved}${approverTextLine}\n- Verification date: ${verificationDate}\n\nYour service now appears on your verified volunteer record. Employers, schools, and communities can trust these hours because they're confirmed by the organization you served — not self-reported.\n\nView your volunteer record: ${profileUrl}\n\nThank you for showing up. This is the work that moves the world forward.\n\n— The Give Protocol Team`;
+    const bodyText = `${fill(t.greeting, { name: volunteerName })}\n\n${fill(va.opening, { charityName: orgName })}\n\n${va.contributionHeader}${activityTextLine}\n- ${va.fieldDates}: ${req.serviceDates ?? req.activityDate}\n- ${va.fieldHoursApproved}: ${hoursApproved}${approverTextLine}\n- ${va.fieldVerificationDate}: ${verificationDate}\n\n${va.verifiedNote}\n\n${va.ctaText}: ${profileUrl}\n\n${va.closing}\n\n${t.signoff}`;
 
     return {
       subject,
-      html: wrapHtml(`${preheaderText} — Give Protocol`, bodyHtml),
+      html: wrapHtml(`${preheaderText} — Give Protocol`, bodyHtml, resolved),
       text: `${bodyText}${LEGAL_FOOTER_TEXT}`,
     };
   }
@@ -170,49 +190,49 @@ function buildEmailContent(req: VolunteerHoursEmailRequest, volunteerName: strin
     const hoursSubmitted = req.hoursSubmitted ?? req.hoursReported;
     const dashboardUrl = req.volunteerDashboardUrl ?? VOLUNTEER_PORTAL_URL;
 
-    const subject = "Update on your volunteer hours submission";
+    const subject = vr.subject;
 
     const bodyHtml = `
-      <p>Hi ${safeName},</p>
-      <p><strong>${safeOrg}</strong> has reviewed your submitted volunteer hours and was unable to approve them at this time.</p>
-      <p><strong>Submission details:</strong></p>
+      <p>${greeting}</p>
+      <p>${escapeHtml(fill(vr.opening, { charityName: orgName }))}</p>
+      <p><strong>${escapeHtml(vr.submissionHeader)}</strong></p>
       <table style="width:100%;border-collapse:collapse;margin:16px 0;font-size:14px;">
         ${safeActivity ? `<tr style="background:#f9fafb;">
-          <td style="padding:8px 12px;font-weight:600;color:#374151;">Activity</td>
+          <td style="padding:8px 12px;font-weight:600;color:#374151;">${escapeHtml(vr.fieldActivity)}</td>
           <td style="padding:8px 12px;color:#111827;">${safeActivity}</td>
         </tr>` : ""}
         <tr>
-          <td style="padding:8px 12px;font-weight:600;color:#374151;">Date(s)</td>
+          <td style="padding:8px 12px;font-weight:600;color:#374151;">${escapeHtml(vr.fieldDates)}</td>
           <td style="padding:8px 12px;color:#111827;">${safeDates}</td>
         </tr>
         <tr style="background:#f9fafb;">
-          <td style="padding:8px 12px;font-weight:600;color:#374151;">Hours submitted</td>
+          <td style="padding:8px 12px;font-weight:600;color:#374151;">${escapeHtml(vr.fieldHoursSubmitted)}</td>
           <td style="padding:8px 12px;color:#111827;">${hoursSubmitted}</td>
         </tr>
       </table>
-      ${safeReason ? `<p><strong>Reason from the organization:</strong></p><blockquote style="border-left:3px solid #e5e7eb;margin:16px 0;padding:8px 16px;color:#374151;">${safeReason}</blockquote>` : ""}
-      <p>This isn't a reflection of your commitment to service. Often it's a matter of a missing detail, an activity that falls outside the scope the organization tracks, or a date that needs correction.</p>
-      <p><strong>What you can do next:</strong></p>
+      ${safeReason ? `<p><strong>${escapeHtml(vr.reasonHeader)}</strong></p><blockquote style="border-left:3px solid #e5e7eb;margin:16px 0;padding:8px 16px;color:#374151;">${safeReason}</blockquote>` : ""}
+      <p>${escapeHtml(vr.notAReflection)}</p>
+      <p><strong>${escapeHtml(vr.whatNextHeader)}</strong></p>
       <ul>
-        <li>Reach out to ${safeOrg} directly to clarify or resubmit with corrected details.</li>
-        <li>Log new hours at any time from your volunteer dashboard.</li>
+        <li>${escapeHtml(fill(vr.step1, { charityName: orgName }))}</li>
+        <li>${escapeHtml(vr.step2)}</li>
       </ul>
       <p>
-        <a href="${escapeHtml(dashboardUrl)}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">Go to your volunteer dashboard &rarr;</a>
+        <a href="${escapeHtml(dashboardUrl)}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">${escapeHtml(vr.ctaText)}</a>
       </p>
-      <p>Thank you for the time you give. Keep going.</p>
-      <p>&mdash; The Give Protocol Team</p>
+      <p>${escapeHtml(vr.closing)}</p>
+      <p>${escapeHtml(t.signoff)}</p>
     `;
 
     const activityTextLine = req.activityDescription
-      ? `\n- Activity: ${req.activityDescription}`
+      ? `\n- ${vr.fieldActivity}: ${req.activityDescription}`
       : "";
 
-    const bodyText = `Hi ${volunteerName},\n\n${orgName} has reviewed your submitted volunteer hours and was unable to approve them at this time.\n\nSubmission details:${activityTextLine}\n- Date(s): ${req.serviceDates ?? req.activityDate}\n- Hours submitted: ${hoursSubmitted}\n\n${req.reason ? `Reason from the organization:\n${req.reason}\n\n` : ""}This isn't a reflection of your commitment to service. Often it's a matter of a missing detail, an activity that falls outside the scope the organization tracks, or a date that needs correction.\n\nWhat you can do next:\n- Reach out to ${orgName} directly to clarify or resubmit with corrected details.\n- Log new hours at any time from your volunteer dashboard.\n\nGo to your volunteer dashboard: ${dashboardUrl}\n\nThank you for the time you give. Keep going.\n\n— The Give Protocol Team`;
+    const bodyText = `${fill(t.greeting, { name: volunteerName })}\n\n${fill(vr.opening, { charityName: orgName })}\n\n${vr.submissionHeader}${activityTextLine}\n- ${vr.fieldDates}: ${req.serviceDates ?? req.activityDate}\n- ${vr.fieldHoursSubmitted}: ${hoursSubmitted}\n\n${req.reason ? `${vr.reasonHeader}\n${req.reason}\n\n` : ""}${vr.notAReflection}\n\n${vr.whatNextHeader}\n- ${fill(vr.step1, { charityName: orgName })}\n- ${vr.step2}\n\n${vr.ctaText}: ${dashboardUrl}\n\n${vr.closing}\n\n${t.signoff}`;
 
     return {
       subject,
-      html: wrapHtml(subject, bodyHtml),
+      html: wrapHtml(subject, bodyHtml, resolved),
       text: `${bodyText}${LEGAL_FOOTER_TEXT}`,
     };
   }
@@ -220,15 +240,15 @@ function buildEmailContent(req: VolunteerHoursEmailRequest, volunteerName: strin
   // Fallback for unexpected status values
   const subject = `Your volunteer hours submission has been updated — ${orgName}`;
   const bodyHtml = `
-    <p>Hi ${safeName},</p>
+    <p>${greeting}</p>
     <p>The status of your volunteer hours submission for <strong>${safeOrg}</strong> has been updated to <strong>${escapeHtml(req.newStatus)}</strong>.</p>
-    <p>&mdash; The Give Protocol Team</p>
+    <p>${escapeHtml(t.signoff)}</p>
   `;
-  const bodyText = `Hi ${volunteerName},\n\nThe status of your volunteer hours submission for ${orgName} has been updated to ${req.newStatus}.\n\n— The Give Protocol Team`;
+  const bodyText = `${fill(t.greeting, { name: volunteerName })}\n\nThe status of your volunteer hours submission for ${orgName} has been updated to ${req.newStatus}.\n\n${t.signoff}`;
 
   return {
     subject,
-    html: wrapHtml(subject, bodyHtml),
+    html: wrapHtml(subject, bodyHtml, resolved),
     text: `${bodyText}${LEGAL_FOOTER_TEXT}`,
   };
 }
@@ -337,6 +357,7 @@ serve(async (req: Request) => {
       typeof reqObj.volunteerDashboardUrl === "string"
         ? reqObj.volunteerDashboardUrl
         : null,
+    locale: typeof reqObj.locale === "string" ? reqObj.locale : null,
   };
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey, {
@@ -390,7 +411,7 @@ serve(async (req: Request) => {
     request.volunteerDisplayName ?? volunteerEmail.split("@")[0];
   const orgName = request.orgName ?? "the organisation";
 
-  const { subject, html, text } = buildEmailContent(request, volunteerName, orgName);
+  const { subject, html, text } = buildEmailContent(request, volunteerName, orgName, request.locale);
 
   // Send via Resend
   const sendResponse = await fetch("https://api.resend.com/emails", {
