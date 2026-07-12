@@ -7,11 +7,19 @@
  * Called fire-and-forget from helcim-validate (primary live path),
  * helcim-payment (legacy direct API), and paypal-capture-order after the
  * donation is persisted.
- * @version 2 — GIV-638: CMO-approved template copy (GIV-634); Helcim/PayPal
- *   split; IRS Pub. 1771 fields; country-gated 501(c)(3) language (GIV-520).
+ * @version 3 — GIV-639: locale-aware copy via shared email-i18n module.
+ *   Pass optional `locale` (BCP 47) in request payload; defaults to "en".
+ *   US 501(c)(3)/IRS legal text stays verbatim English (IRS Pub. 1771).
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import {
+  fill,
+  formatAmountLocale,
+  formatDateLocale,
+  getEmailStrings,
+  resolveLocale,
+} from "../_shared/email-i18n.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -59,6 +67,8 @@ interface DonationReceiptRequest {
   paypalEmail?: string | null;
   /** URL for the donor to view this donation in their account. */
   donationDetailUrl?: string | null;
+  /** BCP 47 locale of the donor. Defaults to "en". */
+  locale?: string | null;
 }
 
 /** Escape HTML special characters to prevent XSS in email bodies */
@@ -90,37 +100,20 @@ const ZERO_DECIMAL_CURRENCIES = [
 ];
 
 /** Format cents as a localised currency string e.g. "$50.00" */
-function formatAmount(cents: number, currency: string): string {
-  const major = ZERO_DECIMAL_CURRENCIES.includes(currency.toUpperCase())
-    ? cents
-    : cents / 100;
-  try {
-    return new Intl.NumberFormat("en-US", {
-      style: "currency",
-      currency: currency.toUpperCase(),
-    }).format(major);
-  } catch {
-    return `${currency.toUpperCase()} ${major.toFixed(2)}`;
-  }
+function formatAmount(cents: number, currency: string, locale = "en"): string {
+  return formatAmountLocale(cents, currency, resolveLocale(locale), ZERO_DECIMAL_CURRENCIES);
 }
 
 /** Format an ISO date string as a human-readable date */
-function formatDate(isoDate: string): string {
-  try {
-    return new Date(isoDate).toLocaleDateString("en-US", {
-      year: "numeric",
-      month: "long",
-      day: "numeric",
-    });
-  } catch {
-    return isoDate;
-  }
+function formatDate(isoDate: string, locale = "en"): string {
+  return formatDateLocale(isoDate, resolveLocale(locale));
 }
 
 /** Wrap content in the shared Give Protocol email shell */
-function wrapHtml(title: string, bodyHtml: string): string {
+function wrapHtml(title: string, bodyHtml: string, locale?: string): string {
+  const t = getEmailStrings(resolveLocale(locale));
   return `<!DOCTYPE html>
-<html>
+<html lang="${t.lang}" dir="${t.dir}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -139,13 +132,15 @@ function wrapHtml(title: string, bodyHtml: string): string {
 }
 
 /**
- * Build the US 501(c)(3) tax paragraph (IRS Pub. 1771).
- * Do not edit without CFO / legal review.
+ * Build the tax paragraph HTML.
+ * US: verbatim English IRS Pub. 1771 text — do NOT translate.
+ * Non-US: locale-aware "verified nonprofit in {{charityCountry}}" text.
  */
 function buildTaxParagraphHtml(
   charityLegalName: string,
   isUS: boolean,
   charityCountry: string,
+  locale?: string,
 ): string {
   if (isUS) {
     return `<div style="background:#f0fdf4;border:1px solid #86efac;border-radius:6px;padding:16px;margin:16px 0;">
@@ -154,10 +149,10 @@ function buildTaxParagraphHtml(
       </p>
     </div>`;
   }
+  const t = getEmailStrings(resolveLocale(locale));
+  const note = escapeHtml(fill(t.donationReceipt.nonUsTaxNote, { charityName: charityLegalName, charityCountry }));
   return `<div style="background:#f9fafb;border:1px solid #e5e7eb;border-radius:6px;padding:16px;margin:16px 0;">
-    <p style="margin:0;font-size:13px;color:#374151;">
-      <strong>${charityLegalName}</strong> is a verified nonprofit in ${charityCountry}. Consult your local tax advisor to determine deductibility.
-    </p>
+    <p style="margin:0;font-size:13px;color:#374151;">${note}</p>
   </div>`;
 }
 
@@ -165,21 +160,27 @@ function buildTaxParagraphText(
   charityLegalName: string,
   isUS: boolean,
   charityCountry: string,
+  locale?: string,
 ): string {
   if (isUS) {
     return `${charityLegalName} is a registered 501(c)(3) tax-exempt organization in the United States. No goods or services were provided in exchange for this contribution. Your donation may be tax-deductible to the fullest extent permitted by law. Please consult your tax advisor. Retain this receipt for your records.`;
   }
-  return `${charityLegalName} is a verified nonprofit in ${charityCountry}. Consult your local tax advisor to determine deductibility.`;
+  const t = getEmailStrings(resolveLocale(locale));
+  return fill(t.donationReceipt.nonUsTaxNote, { charityName: charityLegalName, charityCountry });
 }
 
 /** Build the donation receipt HTML and plaintext */
 function buildReceiptEmail(
   req: DonationReceiptRequest,
 ): { html: string; text: string; subject: string } {
+  const locale = req.locale ?? "en";
+  const t = getEmailStrings(resolveLocale(locale));
+  const dr = t.donationReceipt;
+
   const donorName = req.donorName ?? "Donor";
   const charityName = req.charityName ?? "Give Protocol";
-  const formattedAmount = formatAmount(req.amountCents, req.currency);
-  const formattedDate = formatDate(req.donationDate);
+  const formattedAmount = formatAmount(req.amountCents, req.currency, locale);
+  const formattedDate = formatDate(req.donationDate, locale);
   const isUS = (req.charityCountryCode ?? "").toUpperCase() === "US";
   const charityCountry = req.charityCountry ?? "your country";
   const donationDetailUrl =
@@ -212,12 +213,12 @@ function buildReceiptEmail(
     processorLabel = "Helcim";
   }
 
-  const subject = `Your donation receipt from ${charityName} — ${formattedAmount}`;
+  const subject = fill(dr.subject, { charityName, amount: formattedAmount });
 
   // Receipt table rows (IRS Pub. 1771 fields)
   const einRow = safeEin
     ? `<tr style="background:#f9fafb;">
-        <td style="padding:10px 12px;font-weight:600;color:#374151;">Charity Tax ID</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;">${escapeHtml(dr.fieldTaxId)}</td>
         <td style="padding:10px 12px;color:#111827;">${safeEin}</td>
       </tr>`
     : "";
@@ -225,63 +226,63 @@ function buildReceiptEmail(
   const receiptTableHtml = `
     <table style="width:100%;border-collapse:collapse;margin:0 0 16px;font-size:14px;">
       <tr style="background:#f9fafb;">
-        <td style="padding:10px 12px;font-weight:600;color:#374151;width:45%;">Donor</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;width:45%;">${escapeHtml(dr.fieldDonor)}</td>
         <td style="padding:10px 12px;color:#111827;">${safeDonorName}</td>
       </tr>
       <tr>
-        <td style="padding:10px 12px;font-weight:600;color:#374151;">Charity</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;">${escapeHtml(dr.fieldCharity)}</td>
         <td style="padding:10px 12px;color:#111827;">${safeCharity}</td>
       </tr>
       ${einRow}
       <tr>
-        <td style="padding:10px 12px;font-weight:600;color:#374151;">Date of donation</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;">${escapeHtml(dr.fieldDate)}</td>
         <td style="padding:10px 12px;color:#111827;">${safeDate}</td>
       </tr>
       <tr style="background:#f9fafb;">
-        <td style="padding:10px 12px;font-weight:600;color:#374151;">Amount</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;">${escapeHtml(dr.fieldAmount)}</td>
         <td style="padding:10px 12px;color:#111827;font-size:16px;font-weight:700;">${safeAmount}</td>
       </tr>
       <tr>
-        <td style="padding:10px 12px;font-weight:600;color:#374151;">Payment method</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;">${escapeHtml(dr.fieldPaymentMethod)}</td>
         <td style="padding:10px 12px;color:#111827;">${paymentMethodDisplay}</td>
       </tr>
       <tr style="background:#f9fafb;">
-        <td style="padding:10px 12px;font-weight:600;color:#374151;">Transaction ID</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;">${escapeHtml(dr.fieldTransactionId)}</td>
         <td style="padding:10px 12px;color:#111827;font-size:12px;word-break:break-all;">${safeTxId}</td>
       </tr>
       <tr>
-        <td style="padding:10px 12px;font-weight:600;color:#374151;">Processor</td>
+        <td style="padding:10px 12px;font-weight:600;color:#374151;">${escapeHtml(dr.fieldProcessor)}</td>
         <td style="padding:10px 12px;color:#111827;">${escapeHtml(processorLabel)}</td>
       </tr>
     </table>
   `;
 
-  const taxParagraphHtml = buildTaxParagraphHtml(
-    safeCharity,
-    isUS,
-    escapeHtml(charityCountry),
-  );
-  const taxParagraphText = buildTaxParagraphText(charityName, isUS, charityCountry);
+  const taxParagraphHtml = buildTaxParagraphHtml(safeCharity, isUS, escapeHtml(charityCountry), locale);
+  const taxParagraphText = buildTaxParagraphText(charityName, isUS, charityCountry, locale);
+
+  const greeting = escapeHtml(fill(t.greeting, { name: donorName }));
+  const opening = escapeHtml(fill(dr.opening, { charityName }));
+  const ctaText = escapeHtml(dr.ctaText);
 
   const bodyHtml = `
-    <p>Hi ${safeDonorName},</p>
-    <p>Thank you for your generosity. Your donation has been processed and delivered to <strong>${safeCharity}</strong>.</p>
-    <h2 style="color:#111827;font-size:16px;margin-top:24px;">Official Donation Receipt</h2>
+    <p>${greeting}</p>
+    <p>${opening}</p>
+    <h2 style="color:#111827;font-size:16px;margin-top:24px;">${escapeHtml(dr.receiptHeader)}</h2>
     ${receiptTableHtml}
     ${taxParagraphHtml}
-    <p>Every dollar you give reaches the causes you care about &mdash; transparently, and on-chain when applicable. That's the whole point.</p>
+    <p>${escapeHtml(dr.closing)}</p>
     <p>
-      <a href="${safeDonationUrl}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">View this donation in your account &rarr;</a>
+      <a href="${safeDonationUrl}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">${ctaText}</a>
     </p>
-    <p>With gratitude,<br>The Give Protocol Team</p>
+    <p>${escapeHtml(dr.signoff)}<br>${escapeHtml(t.signoff.replace("— ", ""))}</p>
   `;
 
-  const einLine = req.charityEin ? `\nCharity Tax ID: ${req.charityEin}` : "";
-  const bodyText = `Hi ${donorName},\n\nThank you for your generosity. Your donation has been processed and delivered to ${charityName}.\n\nOfficial Donation Receipt\n\nDonor: ${donorName}\nCharity: ${charityName}${einLine}\nDate of donation: ${formattedDate}\nAmount: ${formattedAmount}\nPayment method: ${isPayPal ? `PayPal (${req.paypalEmail ?? ""})` : (req.cardBrand && req.cardLast4 ? `${req.cardBrand} ending in ${req.cardLast4}` : req.paymentMethod)}\nTransaction ID: ${req.transactionId}\nProcessor: ${processorLabel}\n\n${taxParagraphText}\n\nEvery dollar you give reaches the causes you care about — transparently, and on-chain when applicable. That's the whole point.\n\nView this donation in your account: ${donationDetailUrl}\n\nWith gratitude,\nThe Give Protocol Team`;
+  const einLine = req.charityEin ? `\n${dr.fieldTaxId}: ${req.charityEin}` : "";
+  const bodyText = `${fill(t.greeting, { name: donorName })}\n\n${fill(dr.opening, { charityName })}\n\n${dr.receiptHeader}\n\n${dr.fieldDonor}: ${donorName}\n${dr.fieldCharity}: ${charityName}${einLine}\n${dr.fieldDate}: ${formattedDate}\n${dr.fieldAmount}: ${formattedAmount}\n${dr.fieldPaymentMethod}: ${isPayPal ? `PayPal (${req.paypalEmail ?? ""})` : (req.cardBrand && req.cardLast4 ? `${req.cardBrand} ending in ${req.cardLast4}` : req.paymentMethod)}\n${dr.fieldTransactionId}: ${req.transactionId}\n${dr.fieldProcessor}: ${processorLabel}\n\n${taxParagraphText}\n\n${dr.closing}\n\n${dr.ctaText}: ${donationDetailUrl}\n\n${dr.signoff}\n${t.signoff}`;
 
   return {
     subject,
-    html: wrapHtml(subject, bodyHtml),
+    html: wrapHtml(subject, bodyHtml, locale),
     text: `${bodyText}${LEGAL_FOOTER_TEXT}`,
   };
 }
@@ -383,6 +384,7 @@ serve(async (req: Request) => {
       typeof reqObj.donationDetailUrl === "string"
         ? reqObj.donationDetailUrl
         : null,
+    locale: typeof reqObj.locale === "string" ? reqObj.locale : null,
   };
 
   const { subject, html, text } = buildReceiptEmail(request);

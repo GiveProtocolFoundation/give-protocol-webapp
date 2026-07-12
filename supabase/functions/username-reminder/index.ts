@@ -5,11 +5,16 @@
  * username reminder via Resend. This is a public endpoint (no auth required)
  * analogous to Supabase's resetPasswordForEmail. It always returns 200
  * regardless of whether the email is found, to prevent email enumeration.
- * @version 2 — GIV-638: updated to CMO-approved template copy (GIV-634)
+ * @version 3 — GIV-639: locale-aware copy via shared email-i18n module.
+ *   Pass optional `locale` (BCP 47) in request payload; defaults to "en".
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  getEmailStrings,
+  resolveLocale,
+} from "../_shared/email-i18n.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -51,9 +56,10 @@ function escapeHtml(text: string): string {
 }
 
 /** Wrap content in the shared Give Protocol email shell */
-function wrapHtml(title: string, bodyHtml: string): string {
+function wrapHtml(title: string, bodyHtml: string, locale?: string): string {
+  const t = getEmailStrings(resolveLocale(locale));
   return `<!DOCTYPE html>
-<html>
+<html lang="${t.lang}" dir="${t.dir}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -75,25 +81,29 @@ function wrapHtml(title: string, bodyHtml: string): string {
 function buildEmailContent(
   username: string,
   signInUrl: string,
-): { html: string; text: string } {
+  locale?: string | null,
+): { html: string; text: string; subject: string } {
+  const t = getEmailStrings(resolveLocale(locale));
+  const ur = t.usernameReminder;
   const safeUsername = escapeHtml(username);
   const safeSignInUrl = escapeHtml(signInUrl);
 
   const bodyHtml = `
-    <p>Hi there,</p>
-    <p>Someone requested a username reminder for the Give Protocol account tied to this email address.</p>
-    <p><strong>Your username:</strong> <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace;">${safeUsername}</code></p>
+    <p>${escapeHtml(t.hiThere)}</p>
+    <p>${escapeHtml(ur.body)}</p>
+    <p><strong>${escapeHtml(ur.yourUsernameLabel)}</strong> <code style="background:#f3f4f6;padding:2px 6px;border-radius:4px;font-family:monospace;">${safeUsername}</code></p>
     <p>
-      <a href="${safeSignInUrl}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">Sign in &rarr;</a>
+      <a href="${safeSignInUrl}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">${escapeHtml(ur.signInCta)}</a>
     </p>
-    <p>If you didn't request this, you can safely ignore this email &mdash; no changes have been made to your account. If you're seeing repeated reminders you didn't ask for, reply to this email and we'll investigate.</p>
-    <p>&mdash; The Give Protocol Team</p>
+    <p>${escapeHtml(ur.didntRequest)}</p>
+    <p>${escapeHtml(t.signoff)}</p>
   `;
 
-  const bodyText = `Hi there,\n\nSomeone requested a username reminder for the Give Protocol account tied to this email address.\n\nYour username: ${username}\n\nSign in: ${signInUrl}\n\nIf you didn't request this, you can safely ignore this email — no changes have been made to your account. If you're seeing repeated reminders you didn't ask for, reply to this email and we'll investigate.\n\n— The Give Protocol Team`;
+  const bodyText = `${t.hiThere}\n\n${ur.body}\n\n${ur.yourUsernameLabel} ${username}\n\n${ur.signInCta}: ${signInUrl}\n\n${ur.didntRequest}\n\n${t.signoff}`;
 
   return {
-    html: wrapHtml("Your Give Protocol username", bodyHtml),
+    subject: ur.subject,
+    html: wrapHtml(ur.subject, bodyHtml, locale ?? "en"),
     text: `${bodyText}${LEGAL_FOOTER_TEXT}`,
   };
 }
@@ -198,8 +208,9 @@ serve(async (req: Request) => {
 
   // The username in Give Protocol is the email address
   const username = email;
+  const locale = typeof reqObj.locale === "string" ? reqObj.locale : null;
 
-  const { html, text } = buildEmailContent(username, signInUrl);
+  const { subject, html, text } = buildEmailContent(username, signInUrl, locale);
 
   const sendResponse = await fetch("https://api.resend.com/emails", {
     method: "POST",
@@ -211,7 +222,7 @@ serve(async (req: Request) => {
       from: FROM_ADDRESS,
       reply_to: REPLY_TO,
       to: [email],
-      subject: "Your Give Protocol username",
+      subject,
       html,
       text,
     }),
