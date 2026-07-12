@@ -90,7 +90,8 @@ function isDonationPage(documentUri: string | undefined): boolean {
   try {
     const url = new URL(documentUri);
     return (
-      url.hostname.endsWith("giveprotocol.io") ||
+      url.hostname === "giveprotocol.io" ||
+      url.hostname.endsWith(".giveprotocol.io") ||
       url.hostname === "localhost" ||
       url.hostname === "127.0.0.1"
     );
