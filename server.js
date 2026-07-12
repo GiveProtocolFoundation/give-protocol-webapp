@@ -237,7 +237,10 @@ app.get("/api/exchangerate/*", async (req, res) => {
       res.status(400).json({ error: "Invalid currency code" });
       return;
     }
-    const targetUrl = new URL(`/v4/latest/${path}`, "https://api.exchangerate-api.com");
+    const targetUrl = new URL(
+      `/v4/latest/${path}`,
+      "https://api.exchangerate-api.com",
+    );
     // Final hostname check to guard against any URL parsing quirks
     if (targetUrl.hostname !== "api.exchangerate-api.com") {
       res.status(400).json({ error: "Invalid target host" });
