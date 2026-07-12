@@ -182,7 +182,9 @@ function injectSession(session: Session): void {
     token_type: session.token_type,
     user: session.user,
   };
-  window.localStorage.setItem(key, JSON.stringify(payload));
+  // lgtm[js/clear-text-storage-of-sensitive-data] — Intentional: Supabase SDK
+  // stores sessions in localStorage by design; this mirrors that for e2e tests.
+  window.localStorage.setItem(key, JSON.stringify(payload)); // CodeQL [js/clear-text-storage-of-sensitive-data] Test-only: mirrors Supabase SDK session storage
 }
 
 /* ---------- Cypress commands ---------- */

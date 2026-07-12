@@ -185,18 +185,41 @@ app.post("/api/rpc/:chain", async (req, res) => {
 });
 
 // API Proxy routes for external services (to avoid CORS issues)
+
+// Allowlisted CoinGecko API path prefixes
+const COINGECKO_ALLOWED_PATHS = new Set([
+  "simple/price",
+  "simple/token_price",
+  "coins/list",
+  "coins/markets",
+]);
+
 app.get("/api/coingecko/*", async (req, res) => {
   try {
     const path = req.params[0];
-    // Validate path to prevent SSRF
-    if (!path || path.includes("..") || path.startsWith("/")) {
+    // Validate path: must be non-empty, no traversal, only safe characters
+    if (!path || !/^[a-zA-Z0-9/_-]+$/.test(path)) {
       res.status(400).json({ error: "Invalid path" });
       return;
     }
+    // Allowlist known CoinGecko API paths to prevent SSRF
+    const basePath = path.split("/").slice(0, 2).join("/");
+    if (!COINGECKO_ALLOWED_PATHS.has(basePath)) {
+      res.status(400).json({ error: "Unsupported CoinGecko endpoint" });
+      return;
+    }
     const query = new URLSearchParams(req.query).toString();
-    const url = `https://api.coingecko.com/api/v3/${path}${query ? `?${query}` : ""}`;
+    const targetUrl = new URL(
+      `/api/v3/${path}${query ? `?${query}` : ""}`,
+      "https://api.coingecko.com",
+    );
+    // Final hostname check to guard against any URL parsing quirks
+    if (targetUrl.hostname !== "api.coingecko.com") {
+      res.status(400).json({ error: "Invalid target host" });
+      return;
+    }
 
-    const response = await fetch(url);
+    const response = await fetch(targetUrl.toString());
     const data = await response.json();
 
     res.json(data);
@@ -279,8 +302,11 @@ app.use("*", async (req, res) => {
   } catch (e) {
     vite?.ssrFixStacktrace(e);
     console.log(e.stack);
-    const errorMessage = isProduction ? "Internal Server Error" : e.stack;
-    res.status(500).set({ "Content-Type": "text/plain" }).end(errorMessage);
+    // Never expose stack traces to the client, even in dev mode
+    res
+      .status(500)
+      .set({ "Content-Type": "text/plain" })
+      .end("Internal Server Error");
   }
 });
 
