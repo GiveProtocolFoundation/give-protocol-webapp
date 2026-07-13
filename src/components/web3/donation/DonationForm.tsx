@@ -42,7 +42,11 @@ interface DonationFormProps {
  * />
  * ```
  */
-export function DonationForm({ charityAddress, charityName, onSuccess }: DonationFormProps) {
+export function DonationForm({
+  charityAddress,
+  charityName,
+  onSuccess,
+}: DonationFormProps) {
   const [hasMounted, setHasMounted] = useState(false);
   React.useEffect(() => {
     setHasMounted(true);
@@ -288,9 +292,13 @@ export function DonationForm({ charityAddress, charityName, onSuccess }: Donatio
           aria-required="true"
         />
         <span className="text-sm text-gray-700 dark:text-gray-300">
-          {t("donation.art9Consent.statement", ART9_DONATION_CONSENT.statement, {
-            charity: charityName,
-          })}
+          {t(
+            "donation.art9Consent.statement",
+            ART9_DONATION_CONSENT.statement,
+            {
+              charity: charityName,
+            },
+          )}
         </span>
       </label>
 

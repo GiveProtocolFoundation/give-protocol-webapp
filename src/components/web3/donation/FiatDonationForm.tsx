@@ -598,9 +598,13 @@ export function FiatDonationForm({
           aria-required="true"
         />
         <span className="text-sm text-gray-700 dark:text-gray-300">
-          {t("donation.art9Consent.statement", ART9_DONATION_CONSENT.statement, {
-            charity: charityName,
-          })}
+          {t(
+            "donation.art9Consent.statement",
+            ART9_DONATION_CONSENT.statement,
+            {
+              charity: charityName,
+            },
+          )}
         </span>
       </label>
 
@@ -643,7 +647,9 @@ export function FiatDonationForm({
       {/* Submit button */}
       <Button
         type="submit"
-        disabled={isBusy || !isReady || amount <= 0 || !ageAffirmed || !art9Consented}
+        disabled={
+          isBusy || !isReady || amount <= 0 || !ageAffirmed || !art9Consented
+        }
         fullWidth
         size="lg"
         icon={

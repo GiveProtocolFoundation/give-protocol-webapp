@@ -73,7 +73,9 @@ describe("DonationForm GIV-300 toast call sites", () => {
       () => new Promise((resolve) => setTimeout(resolve, 10)),
     );
 
-    render(<DonationForm charityAddress="0xCharity" charityName="Test Charity" />);
+    render(
+      <DonationForm charityAddress="0xCharity" charityName="Test Charity" />,
+    );
 
     // Tick Art. 9(2)(a) consent checkbox (GIV-655)
     const consentCheckbox = screen.getByRole("checkbox");
@@ -112,7 +114,9 @@ describe("DonationForm GIV-300 toast call sites", () => {
   it("dismisses pending toast and shows error toast on donation failure", async () => {
     mockDonate.mockRejectedValue(new Error("Insufficient funds"));
 
-    render(<DonationForm charityAddress="0xCharity" charityName="Test Charity" />);
+    render(
+      <DonationForm charityAddress="0xCharity" charityName="Test Charity" />,
+    );
 
     // Tick Art. 9(2)(a) consent checkbox (GIV-655)
     const consentCheckbox = screen.getByRole("checkbox");
