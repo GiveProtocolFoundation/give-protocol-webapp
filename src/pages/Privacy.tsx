@@ -575,6 +575,19 @@ const SectionInternationalTransfers: React.FC = () => (
     </p>
     <ul>
       <li>
+        <strong>Platform hosting and support (Supabase)</strong>: our primary
+        database, authentication, and storage are operated on Supabase&apos;s
+        managed infrastructure within the EEA (Ireland, eu-west-1). Supabase,
+        Inc. is incorporated in the United States, and its personnel may access
+        the EU-hosted data remotely for platform administration, support, and
+        incident response. Following EDPB guidance, such remote access from a
+        third country is treated as a transfer for GDPR purposes even though the
+        data remains stored in the EEA. This access-based transfer is covered by
+        the European Commission&apos;s Standard Contractual Clauses (Module Two,
+        controller-to-processor) incorporated into our Data Processing Agreement
+        with Supabase (Art. 46(2)(c) GDPR).
+      </li>
+      <li>
         <strong>Payment processing (Helcim)</strong>: where you make a fiat
         (card) donation, the donor name, email address, payment amount, and
         client IP address are transmitted to Helcim Inc. in Canada to authorise
