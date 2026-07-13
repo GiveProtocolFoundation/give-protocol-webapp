@@ -574,6 +574,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
           {state.paymentMethod === "crypto" && state.frequency === "once" && (
             <DonationForm
               charityAddress={charityAddress}
+              charityName={charityName}
               onSuccess={handleCryptoSuccess}
             />
           )}

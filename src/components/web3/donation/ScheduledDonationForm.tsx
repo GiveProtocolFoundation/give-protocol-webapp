@@ -20,6 +20,10 @@ import {
   AlertTriangle,
 } from "lucide-react";
 import CharityScheduledDistributionABI from "@/contracts/CharityScheduledDistribution.sol/CharityScheduledDistribution.json";
+import { ART9_DONATION_CONSENT } from "@/constants/donationConsent";
+import { useTranslation } from "@/hooks/useTranslation";
+import { useAuth } from "@/contexts/AuthContext";
+import { supabase } from "@/lib/supabase";
 
 // Error type guards for transaction errors
 interface TransactionError {
@@ -482,6 +486,9 @@ export function ScheduledDonationForm({
   const { provider, address, isConnected, connect, chainId } = useWeb3();
   const { showToast, dismissToast } = useToast();
   const { convertToFiat: _convertToFiat, tokenPrices } = useCurrencyContext();
+  const { user } = useAuth();
+  const { t, language } = useTranslation();
+  const [art9Consented, setArt9Consented] = useState(false);
 
   // Get ERC20 tokens available for the current chain
   const availableTokens = useMemo(() => {
@@ -535,10 +542,28 @@ export function ScheduledDonationForm({
     [],
   );
 
+  const handleArt9ConsentChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setArt9Consented(e.target.checked);
+    },
+    [],
+  );
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
       setError(null);
+
+      // Art. 9(2)(a) explicit consent gate (GIV-655)
+      if (!art9Consented) {
+        setError(
+          t(
+            "donation.art9Consent.required",
+            "You must consent to donation data processing to proceed.",
+          ),
+        );
+        return;
+      }
 
       // Validate form inputs
       const validationError = validateFormInputs(
@@ -638,6 +663,25 @@ export function ScheduledDonationForm({
         });
         setTransactionHash(receipt.hash);
 
+        // Art. 9(2)(a) consent record — RLS-guarded authenticated insert (GIV-655)
+        if (user?.id) {
+          const { error: consentErr } = await supabase
+            .from("donation_consents")
+            .insert({
+              user_id: user.id,
+              charity_wallet_address: charityAddress,
+              donation_type: "crypto",
+              donation_ref: receipt.hash,
+              consent_text_version: ART9_DONATION_CONSENT.version,
+              locale: language,
+            });
+          if (consentErr) {
+            Logger.error("Failed to write Art.9 donation consent", {
+              error: consentErr,
+            });
+          }
+        }
+
         // Calculate transaction fee
         const gasUsed = receipt.gasUsed;
         const gasPrice = receipt.gasPrice || receipt.effectiveGasPrice;
@@ -664,6 +708,8 @@ export function ScheduledDonationForm({
     },
     [
       amount,
+      art9Consented,
+      t,
       charityAddress,
       isConnected,
       provider,
@@ -675,6 +721,8 @@ export function ScheduledDonationForm({
       numberOfMonths,
       showToast,
       dismissToast,
+      user,
+      language,
     ],
   );
 
@@ -772,11 +820,29 @@ export function ScheduledDonationForm({
         </div>
       )}
 
+      {/* Art. 9(2)(a) donation consent gate (GIV-655) */}
+      <label className="flex items-start gap-3 cursor-pointer select-none">
+        <input
+          id="art9-consent"
+          type="checkbox"
+          checked={art9Consented}
+          onChange={handleArt9ConsentChange}
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          aria-required="true"
+        />
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {t("donation.art9Consent.statement", ART9_DONATION_CONSENT.statement, {
+            charity: charityName,
+          })}
+        </span>
+      </label>
+
       <Button
         type="submit"
         disabled={
           loading ||
           !amount ||
+          !art9Consented ||
           isLoadingBalance ||
           (balance !== null && amount > balance)
         }

@@ -717,5 +717,30 @@ describe("helcimService", () => {
         "Payment validation failed",
       );
     });
+
+    it("should pass art9Consent through to the edge function (GIV-655)", async () => {
+      const dataWithConsent = {
+        ...mockValidateData,
+        art9Consent: { version: "art9-donation-v1", locale: "en" },
+      };
+
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: true,
+        json: () =>
+          Promise.resolve({
+            success: true,
+            transactionId: "txn-999",
+          }),
+      } as Response);
+
+      await validateHelcimPayment(dataWithConsent);
+
+      const fetchCall = (global.fetch as jest.Mock).mock.calls[0];
+      const body = JSON.parse(fetchCall[1].body);
+      expect(body.art9Consent).toEqual({
+        version: "art9-donation-v1",
+        locale: "en",
+      });
+    });
   });
 });

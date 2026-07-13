@@ -5,6 +5,7 @@ import { validateAmount } from "@/utils/validation";
 import { useDonation, DonationType } from "@/hooks/web3/useDonation";
 import { useTokenBalance } from "@/hooks/web3/useTokenBalance";
 import { useToast } from "@/contexts/ToastContext";
+import { useAuth } from "@/contexts/AuthContext";
 import { Logger } from "@/utils/logger";
 import { TokenSelector } from "./TokenSelector";
 import { DualAmountInput } from "./DualAmountInput";
@@ -12,9 +13,13 @@ import { FiatPresets } from "./FiatPresets";
 import { getERC20TokensForChain, type TokenConfig } from "@/config/tokens";
 import { CHAIN_IDS } from "@/config/contracts";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { ART9_DONATION_CONSENT } from "@/constants/donationConsent";
+import { useTranslation } from "@/hooks/useTranslation";
+import { supabase } from "@/lib/supabase";
 
 interface DonationFormProps {
   charityAddress: string;
+  charityName: string;
   onSuccess?: () => void;
 }
 
@@ -25,17 +30,19 @@ interface DonationFormProps {
  * Includes wallet connection check, donation type selection, amount validation, and transaction processing.
  * @param {Object} props - Component props
  * @param {string} props.charityAddress - The blockchain address of the charity to receive the donation
+ * @param {string} props.charityName - Display name of the charity (used in consent statement)
  * @param {function} [props.onSuccess] - Optional callback function called after successful donation submission
  * @returns {React.ReactElement} Complete donation form with type selection, amount input, and submit functionality
  * @example
  * ```tsx
  * <DonationForm
  *   charityAddress="0x1234...abcd"
+ *   charityName="Example Charity"
  *   onSuccess={() => refreshDonationList()}
  * />
  * ```
  */
-export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
+export function DonationForm({ charityAddress, charityName, onSuccess }: DonationFormProps) {
   const [hasMounted, setHasMounted] = useState(false);
   React.useEffect(() => {
     setHasMounted(true);
@@ -44,7 +51,10 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
   const { isConnected, connect, chainId } = useWeb3();
   const { donate, loading, approving, error: donationError } = useDonation();
   const { showToast, dismissToast } = useToast();
+  const { user } = useAuth();
+  const { t, language } = useTranslation();
   const pendingToastIdRef = useRef<string | null>(null);
+  const [art9Consented, setArt9Consented] = useState(false);
 
   // Get ERC20 tokens available for the current chain
   const availableTokens = useMemo(() => {
@@ -80,6 +90,13 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
     setAmount(0); // Reset amount when token changes
   }, []);
 
+  const handleArt9ConsentChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setArt9Consented(e.target.checked);
+    },
+    [],
+  );
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -97,6 +114,17 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
 
       if (amount <= 0) {
         setError("Please enter an amount greater than 0");
+        return;
+      }
+
+      // Art. 9(2)(a) explicit consent gate (GIV-655)
+      if (!art9Consented) {
+        setError(
+          t(
+            "donation.art9Consent.required",
+            "You must consent to donation data processing to proceed.",
+          ),
+        );
         return;
       }
 
@@ -124,6 +152,24 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
           type: DonationType._TOKEN,
           _tokenAddress: selectedToken.address,
         });
+
+        // Art. 9(2)(a) consent record — RLS-guarded authenticated insert (GIV-655)
+        if (user?.id) {
+          const { error: consentErr } = await supabase
+            .from("donation_consents")
+            .insert({
+              user_id: user.id,
+              charity_wallet_address: charityAddress,
+              donation_type: "crypto",
+              consent_text_version: ART9_DONATION_CONSENT.version,
+              locale: language,
+            });
+          if (consentErr) {
+            Logger.error("Failed to write Art.9 donation consent", {
+              error: consentErr,
+            });
+          }
+        }
 
         if (pendingToastIdRef.current) {
           dismissToast(pendingToastIdRef.current);
@@ -163,6 +209,8 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
     },
     [
       amount,
+      art9Consented,
+      t,
       balance,
       charityAddress,
       selectedToken,
@@ -170,6 +218,8 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
       onSuccess,
       showToast,
       dismissToast,
+      user,
+      language,
     ],
   );
 
@@ -227,12 +277,30 @@ export function DonationForm({ charityAddress, onSuccess }: DonationFormProps) {
         maxBalance={balance ?? undefined}
       />
 
+      {/* Art. 9(2)(a) donation consent gate (GIV-655) */}
+      <label className="flex items-start gap-3 cursor-pointer select-none">
+        <input
+          id="art9-consent"
+          type="checkbox"
+          checked={art9Consented}
+          onChange={handleArt9ConsentChange}
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          aria-required="true"
+        />
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {t("donation.art9Consent.statement", ART9_DONATION_CONSENT.statement, {
+            charity: charityName,
+          })}
+        </span>
+      </label>
+
       <Button
         type="submit"
         disabled={
           loading ||
           approving ||
           amount <= 0 ||
+          !art9Consented ||
           isLoadingBalance ||
           (balance !== null && amount > balance)
         }

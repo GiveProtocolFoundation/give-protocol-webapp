@@ -41,6 +41,8 @@ export interface FiatPaymentInput {
   causeId?: string;
   /** Fund ID (if donating to a CEF/CIF) */
   fundId?: string;
+  /** Art. 9(2)(a) explicit consent metadata (GIV-655) */
+  art9Consent?: { version: string; locale: string };
 }
 
 /** Return type for the useFiatDonation hook */
@@ -176,6 +178,7 @@ export function useFiatDonation(): UseFiatDonationReturn {
               coverFees: data.coverFees,
               donorId: data.donorId,
               donorAddress: data.donorAddress,
+              art9Consent: data.art9Consent,
             });
           } catch (validationErr) {
             Logger.error('Server-side payment validation failed (non-blocking)', {

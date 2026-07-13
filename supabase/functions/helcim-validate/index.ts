@@ -69,6 +69,8 @@ interface ValidateRequest {
   donorId: string;
   /** Optional connected wallet address for dashboard association */
   donorAddress?: string;
+  /** Art. 9(2)(a) explicit consent metadata (GIV-655) */
+  art9Consent?: { version: string; locale: string };
 }
 
 /** Row from the checkout_sessions table */
@@ -259,6 +261,24 @@ async function logFiatPayment(
   if (error) {
     console.error("Failed to log fiat payment:", error);
     throw new Error("Payment validated but failed to record donation");
+  }
+
+  // Art. 9(2)(a) consent record — server-side write (GIV-655)
+  if (request.art9Consent) {
+    const { error: consentErr } = await supabase
+      .from("donation_consents")
+      .insert({
+        user_id: request.donorId,
+        charity_id: session.charity_id ?? request.charityId,
+        donation_type: "fiat",
+        donation_ref: txData.transactionId || "",
+        consent_text_version: request.art9Consent.version,
+        locale: request.art9Consent.locale,
+      });
+    if (consentErr) {
+      console.error("Failed to log Art.9 donation consent:", consentErr);
+      // Non-blocking: payment was already recorded; consent failure is logged
+    }
   }
 
   return data.id;

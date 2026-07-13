@@ -1653,6 +1653,13 @@ export default {
       "Your contribution is recorded on-chain.",
     "donation.toast.failed": "Donation failed",
 
+    // Art. 9(2)(a) donation consent (GIV-655)
+    "donation.art9Consent.statement":
+      "I understand my donation record links me to {{charity}}. Where that could indicate a religious, political, or philosophical affiliation, I explicitly consent to Give Protocol processing this record to complete and administer my donation.",
+    "donation.art9Consent.label": "Donation data consent",
+    "donation.art9Consent.required":
+      "You must consent to donation data processing to proceed.",
+
     // Charity claim toast notifications (GIV-300)
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
