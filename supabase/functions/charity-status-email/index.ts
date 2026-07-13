@@ -5,11 +5,18 @@
  * their verification status (approve, reject, suspend, reinstate).
  * Called fire-and-forget from adminCharityService after a successful
  * admin_update_charity_status RPC call.
- * @version 2 — GIV-638: updated to CMO-approved template copy (GIV-634)
+ * @version 3 — GIV-639: locale-aware email copy via shared email-i18n module.
+ *   Pass optional `locale` (BCP 47) in the request payload to send in the
+ *   charity contact's preferred language. Defaults to "en".
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import {
+  fill,
+  getEmailStrings,
+  resolveLocale,
+} from "../_shared/email-i18n.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -37,6 +44,8 @@ interface StatusEmailRequest {
   charityId: string;
   newStatus: string;
   reason?: string | null;
+  /** BCP 47 locale of the charity contact. Defaults to "en". */
+  locale?: string | null;
 }
 
 interface CharityProfile {
@@ -56,9 +65,10 @@ function escapeHtml(text: string): string {
 }
 
 /** Wrap content in the shared Give Protocol email shell */
-function wrapHtml(title: string, bodyHtml: string): string {
+function wrapHtml(title: string, bodyHtml: string, locale?: string): string {
+  const t = getEmailStrings(resolveLocale(locale));
   return `<!DOCTYPE html>
-<html>
+<html lang="${t.lang}" dir="${t.dir}">
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -82,85 +92,84 @@ function buildEmailContent(
   charityLegalName: string,
   newStatus: string,
   reason: string | null | undefined,
+  locale: string | null | undefined,
 ): EmailContent {
+  const resolved = resolveLocale(locale);
+  const t = getEmailStrings(resolved);
   const safeName = escapeHtml(charityLegalName);
   const safeContact = escapeHtml(charityContactName);
   const safeReason = reason ? escapeHtml(reason) : null;
 
-  const statusTemplates: Record<
-    string,
-    { subject: string; preheader: string; bodyHtml: string; bodyText: string }
-  > = {
-    verified: {
-      subject: "You're approved — welcome to Give Protocol",
-      preheader: "Your charity is verified and live. Here's your portal.",
-      bodyHtml: `
-        <p>Hi ${safeContact},</p>
-        <p>Congratulations &mdash; <strong>${safeName}</strong> is now a verified charity on Give Protocol.</p>
-        <p>Your profile is live. Donors can find you, give directly, and see the impact you create. No middlemen. No delays. Just support that arrives where it matters.</p>
-        <p><strong>What to do next:</strong></p>
-        <ol>
-          <li>Sign in to your portal</li>
-          <li>Finish your public profile (mission, photos, wallets)</li>
-          <li>Share your Give Protocol link with your community</li>
-        </ol>
-        <p>
-          <a href="${PORTAL_URL}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">Open your charity portal &rarr;</a>
-        </p>
-        <p>We built Give Protocol so causes like yours can spend less time on fees and paperwork, and more time on the mission. Welcome aboard. We're glad you're here.</p>
-        <p>&mdash; The Give Protocol Team</p>
-      `,
-      bodyText: `Hi ${charityContactName},\n\nCongratulations — ${charityLegalName} is now a verified charity on Give Protocol.\n\nYour profile is live. Donors can find you, give directly, and see the impact you create. No middlemen. No delays. Just support that arrives where it matters.\n\nWhat to do next:\n1. Sign in to your portal\n2. Finish your public profile (mission, photos, wallets)\n3. Share your Give Protocol link with your community\n\nOpen your charity portal: ${PORTAL_URL}\n\nWe built Give Protocol so causes like yours can spend less time on fees and paperwork, and more time on the mission. Welcome aboard. We're glad you're here.\n\n— The Give Protocol Team`,
-    },
-    rejected: {
-      subject: "Update on your Give Protocol application",
-      preheader: "We reviewed your submission — here's where we landed.",
-      bodyHtml: `
-        <p>Hi ${safeContact},</p>
-        <p>Thank you for applying to Give Protocol on behalf of <strong>${safeName}</strong>.</p>
-        <p>After careful review, we're unable to approve this application at this time. The reason:</p>
-        ${safeReason ? `<blockquote style="border-left:3px solid #e5e7eb;margin:16px 0;padding:8px 16px;color:#374151;">${safeReason}</blockquote>` : ""}
-        <p>This decision isn't a judgment of your mission. Our verification standards protect donors and every charity on the platform, and sometimes an application needs additional documentation or a change in eligibility status before we can move forward.</p>
-        <p><strong>What you can do:</strong></p>
-        <ul>
-          <li>Review the reason above and gather any missing documentation.</li>
-          <li>Reapply once the underlying items are resolved &mdash; most applicants who address the feedback are approved on their next submission.</li>
-          <li>Reply to this email if you'd like to discuss the decision or need clarification.</li>
-        </ul>
-        <p>We appreciate the work you do and hope to welcome you to Give Protocol in the future.</p>
-        <p>&mdash; The Give Protocol Trust &amp; Safety Team</p>
-      `,
-      bodyText: `Hi ${charityContactName},\n\nThank you for applying to Give Protocol on behalf of ${charityLegalName}.\n\nAfter careful review, we're unable to approve this application at this time. The reason:\n\n${reason ?? "(no reason provided)"}\n\nThis decision isn't a judgment of your mission. Our verification standards protect donors and every charity on the platform, and sometimes an application needs additional documentation or a change in eligibility status before we can move forward.\n\nWhat you can do:\n- Review the reason above and gather any missing documentation.\n- Reapply once the underlying items are resolved — most applicants who address the feedback are approved on their next submission.\n- Reply to this email if you'd like to discuss the decision or need clarification.\n\nWe appreciate the work you do and hope to welcome you to Give Protocol in the future.\n\n— The Give Protocol Trust & Safety Team`,
-    },
-    suspended: {
-      subject: `Your Give Protocol charity account has been suspended — ${safeName}`,
-      preheader: "Your charity account has been temporarily suspended.",
-      bodyHtml: `
-        <p>Hi ${safeContact},</p>
-        <p>Your charity account for <strong>${safeName}</strong> on Give Protocol has been temporarily suspended.</p>
-        ${safeReason ? `<p><strong>Reason for suspension:</strong> ${safeReason}</p>` : ""}
-        <p>During suspension, your charity will not be visible to donors and you will not be able to receive new donations.</p>
-        <p>To appeal this decision or learn more about reinstatement, please reply to this email.</p>
-        <p>&mdash; The Give Protocol Team</p>
-      `,
-      bodyText: `Hi ${charityContactName},\n\nYour charity account for ${charityLegalName} on Give Protocol has been temporarily suspended.\n\n${reason ? `Reason for suspension: ${reason}\n\n` : ""}During suspension, your charity will not be visible to donors and you will not be able to receive new donations.\n\nTo appeal this decision or learn more about reinstatement, please reply to this email.\n\n— The Give Protocol Team`,
-    },
-  };
-
   // Normalize "approved" → "verified"
   const templateKey = newStatus === "approved" ? "verified" : newStatus;
 
-  const template = statusTemplates[templateKey] ?? {
-    subject: `Your Give Protocol charity status has been updated — ${safeName}`,
-    preheader: "Your charity status has been updated.",
-    bodyHtml: `<p>Hi ${safeContact},</p><p>The status of <strong>${safeName}</strong> on Give Protocol has been updated to <strong>${escapeHtml(newStatus)}</strong>.</p><p>&mdash; The Give Protocol Team</p>`,
-    bodyText: `Hi ${charityContactName},\n\nThe status of ${charityLegalName} on Give Protocol has been updated to ${newStatus}.\n\n— The Give Protocol Team`,
-  };
+  if (templateKey === "verified") {
+    const a = t.charityApproval;
+    const subject = a.subject;
+    const congrats = escapeHtml(fill(a.congrats, { charityName: charityLegalName }));
+    const ctaText = escapeHtml(a.ctaText);
+    const bodyHtml = `
+      <p>${escapeHtml(fill(t.greeting, { name: charityContactName }))}</p>
+      <p>${congrats}</p>
+      <p>${escapeHtml(a.profileLive)}</p>
+      <p><strong>${escapeHtml(a.nextStepsHeader)}</strong></p>
+      <ol>
+        <li>${escapeHtml(a.step1)}</li>
+        <li>${escapeHtml(a.step2)}</li>
+        <li>${escapeHtml(a.step3)}</li>
+      </ol>
+      <p>
+        <a href="${PORTAL_URL}" style="background:#10b981;color:white;padding:10px 20px;border-radius:6px;text-decoration:none;display:inline-block;margin-top:8px;">${ctaText}</a>
+      </p>
+      <p>${escapeHtml(a.closing)}</p>
+      <p>${escapeHtml(t.signoff)}</p>
+    `;
+    const bodyText = `${fill(t.greeting, { name: charityContactName })}\n\n${fill(a.congrats, { charityName: charityLegalName })}\n\n${a.profileLive}\n\n${a.nextStepsHeader}\n1. ${a.step1}\n2. ${a.step2}\n3. ${a.step3}\n\n${a.ctaText}: ${PORTAL_URL}\n\n${a.closing}\n\n${t.signoff}`;
+    return { subject, html: wrapHtml(subject, bodyHtml, resolved), text: `${bodyText}${LEGAL_FOOTER_TEXT}` };
+  }
 
-  const html = wrapHtml(template.subject, template.bodyHtml);
-  const text = `${template.bodyText}${LEGAL_FOOTER_TEXT}`;
+  if (templateKey === "rejected") {
+    const r = t.charityRejection;
+    const subject = r.subject;
+    const bodyHtml = `
+      <p>${escapeHtml(fill(t.greeting, { name: charityContactName }))}</p>
+      <p>${escapeHtml(fill(r.thanks, { charityName: charityLegalName }))}</p>
+      <p>${escapeHtml(r.unableToApprove)}</p>
+      ${safeReason ? `<blockquote style="border-left:3px solid #e5e7eb;margin:16px 0;padding:8px 16px;color:#374151;">${safeReason}</blockquote>` : ""}
+      <p>${escapeHtml(r.notJudgment)}</p>
+      <p><strong>${escapeHtml(r.whatYouCanDoHeader)}</strong></p>
+      <ul>
+        <li>${escapeHtml(r.step1)}</li>
+        <li>${escapeHtml(r.step2)}</li>
+        <li>${escapeHtml(r.step3)}</li>
+      </ul>
+      <p>${escapeHtml(r.closing)}</p>
+      <p>${escapeHtml(r.trustSafetySignoff)}</p>
+    `;
+    const bodyText = `${fill(t.greeting, { name: charityContactName })}\n\n${fill(r.thanks, { charityName: charityLegalName })}\n\n${r.unableToApprove}\n\n${reason ?? "(no reason provided)"}\n\n${r.notJudgment}\n\n${r.whatYouCanDoHeader}\n- ${r.step1}\n- ${r.step2}\n- ${r.step3}\n\n${r.closing}\n\n${r.trustSafetySignoff}`;
+    return { subject, html: wrapHtml(subject, bodyHtml, resolved), text: `${bodyText}${LEGAL_FOOTER_TEXT}` };
+  }
 
-  return { subject: template.subject, html, text };
+  if (templateKey === "suspended") {
+    // Suspension template keeps English (no CMO-authored i18n for suspension copy)
+    const subject = `Your Give Protocol charity account has been suspended — ${safeName}`;
+    const bodyHtml = `
+      <p>Hi ${safeContact},</p>
+      <p>Your charity account for <strong>${safeName}</strong> on Give Protocol has been temporarily suspended.</p>
+      ${safeReason ? `<p><strong>Reason for suspension:</strong> ${safeReason}</p>` : ""}
+      <p>During suspension, your charity will not be visible to donors and you will not be able to receive new donations.</p>
+      <p>To appeal this decision or learn more about reinstatement, please reply to this email.</p>
+      <p>&mdash; The Give Protocol Team</p>
+    `;
+    const bodyText = `Hi ${charityContactName},\n\nYour charity account for ${charityLegalName} on Give Protocol has been temporarily suspended.\n\n${reason ? `Reason for suspension: ${reason}\n\n` : ""}During suspension, your charity will not be visible to donors and you will not be able to receive new donations.\n\nTo appeal this decision or learn more about reinstatement, please reply to this email.\n\n— The Give Protocol Team`;
+    return { subject, html: wrapHtml(subject, bodyHtml, resolved), text: `${bodyText}${LEGAL_FOOTER_TEXT}` };
+  }
+
+  // Fallback
+  const subject = `Your Give Protocol charity status has been updated — ${safeName}`;
+  const bodyHtml = `<p>Hi ${safeContact},</p><p>The status of <strong>${safeName}</strong> on Give Protocol has been updated to <strong>${escapeHtml(newStatus)}</strong>.</p><p>&mdash; The Give Protocol Team</p>`;
+  const bodyText = `Hi ${charityContactName},\n\nThe status of ${charityLegalName} on Give Protocol has been updated to ${newStatus}.\n\n— The Give Protocol Team`;
+  return { subject, html: wrapHtml(subject, bodyHtml, resolved), text: `${bodyText}${LEGAL_FOOTER_TEXT}` };
 }
 
 /** Build a JSON response with CORS headers */
@@ -231,6 +240,7 @@ serve(async (req: Request) => {
     charityId: reqObj.charityId,
     newStatus: reqObj.newStatus,
     reason: typeof reqObj.reason === "string" ? reqObj.reason : null,
+    locale: typeof reqObj.locale === "string" ? reqObj.locale : null,
   };
 
   const supabase = createClient(supabaseUrl, supabaseServiceKey, {
@@ -315,6 +325,7 @@ serve(async (req: Request) => {
     profile.name,
     request.newStatus,
     request.reason,
+    request.locale,
   );
 
   // Send via Resend
