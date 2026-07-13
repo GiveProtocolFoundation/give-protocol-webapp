@@ -1,16 +1,16 @@
-import { useState, useCallback, useEffect, useRef } from 'react';
+import { useState, useCallback, useEffect, useRef } from "react";
 import {
   loadHelcimScript,
   resetHelcimScriptState,
   fetchHelcimCheckoutToken,
   openHelcimCheckout,
   validateHelcimPayment,
-} from '@/services/helcimService';
-import { Logger } from '@/utils/logger';
+} from "@/services/helcimService";
+import { Logger } from "@/utils/logger";
 import type {
   HelcimPaymentResult,
   DonationFrequency,
-} from '@/components/web3/donation/types/donation';
+} from "@/components/web3/donation/types/donation";
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second base delay
@@ -36,11 +36,13 @@ export interface FiatPaymentInput {
   /** Connected wallet address (associates fiat donation with on-chain identity) */
   donorAddress?: string;
   /** Giving type: direct charity, CEF, or CIF */
-  givingType?: 'direct' | 'cef' | 'cif';
+  givingType?: "direct" | "cef" | "cif";
   /** Cause ID (if donating to a specific cause) */
   causeId?: string;
   /** Fund ID (if donating to a CEF/CIF) */
   fundId?: string;
+  /** Art. 9(2)(a) explicit consent metadata (GIV-655) */
+  art9Consent?: { version: string; locale: string };
 }
 
 /** Return type for the useFiatDonation hook */
@@ -84,13 +86,16 @@ export function useFiatDonation(): UseFiatDonationReturn {
         if (mountedRef.current) {
           setScriptReady(true);
           setError(null);
-          Logger.info('HelcimPay.js ready');
+          Logger.info("HelcimPay.js ready");
         }
       })
       .catch((err) => {
         if (!mountedRef.current) return;
 
-        const message = err instanceof Error ? err.message : 'Failed to load payment processor';
+        const message =
+          err instanceof Error
+            ? err.message
+            : "Failed to load payment processor";
 
         if (attempt < MAX_RETRIES) {
           const delay = calculateRetryDelay(attempt);
@@ -104,7 +109,9 @@ export function useFiatDonation(): UseFiatDonationReturn {
           }, delay);
         } else {
           setError(message);
-          Logger.error('Failed to load HelcimPay.js after all retries', { error: err });
+          Logger.error("Failed to load HelcimPay.js after all retries", {
+            error: err,
+          });
         }
       });
   }, []);
@@ -129,7 +136,7 @@ export function useFiatDonation(): UseFiatDonationReturn {
   const processFiatPayment = useCallback(
     async (data: FiatPaymentInput): Promise<HelcimPaymentResult> => {
       if (!scriptReady) {
-        throw new Error('Payment processor not loaded');
+        throw new Error("Payment processor not loaded");
       }
 
       setLoading(true);
@@ -137,17 +144,27 @@ export function useFiatDonation(): UseFiatDonationReturn {
 
       try {
         // Step 1: Fetch a checkout token from the backend
-        Logger.info('Fetching checkout token', { amount: data.amount, frequency: data.frequency });
-        const { checkoutToken } = await fetchHelcimCheckoutToken(data.amount, data.frequency, {
-          givingType: data.givingType,
-          charityId: data.charityId,
-          causeId: data.causeId,
-          fundId: data.fundId,
+        Logger.info("Fetching checkout token", {
+          amount: data.amount,
+          frequency: data.frequency,
         });
+        const { checkoutToken } = await fetchHelcimCheckoutToken(
+          data.amount,
+          data.frequency,
+          {
+            givingType: data.givingType,
+            charityId: data.charityId,
+            causeId: data.causeId,
+            fundId: data.fundId,
+          },
+        );
 
         // Step 2: Open the HelcimPay.js iframe checkout
         // The iframe handles card input, validation, and payment processing
-        const { data: txData, hash } = await openHelcimCheckout(checkoutToken, data.email);
+        const { data: txData, hash } = await openHelcimCheckout(
+          checkoutToken,
+          data.email,
+        );
 
         // Step 3: Build the result from the iframe transaction data
         const amountCents = txData.amount
@@ -155,10 +172,9 @@ export function useFiatDonation(): UseFiatDonationReturn {
           : Math.round(data.amount * 100);
 
         // Extract last four from masked card number (e.g. "4000000028")
-        const cardNumber = txData.cardNumber || '';
-        const cardLastFour = cardNumber.length >= 4
-          ? cardNumber.slice(-4)
-          : undefined;
+        const cardNumber = txData.cardNumber || "";
+        const cardLastFour =
+          cardNumber.length >= 4 ? cardNumber.slice(-4) : undefined;
 
         // Step 4: Validate payment server-side and persist donation
         // Non-blocking: the payment was already processed by Helcim,
@@ -176,35 +192,43 @@ export function useFiatDonation(): UseFiatDonationReturn {
               coverFees: data.coverFees,
               donorId: data.donorId,
               donorAddress: data.donorAddress,
+              art9Consent: data.art9Consent,
             });
           } catch (validationErr) {
-            Logger.error('Server-side payment validation failed (non-blocking)', {
-              error: validationErr,
-              transactionId: txData.transactionId,
-            });
+            Logger.error(
+              "Server-side payment validation failed (non-blocking)",
+              {
+                error: validationErr,
+                transactionId: txData.transactionId,
+              },
+            );
           }
         } else {
-          Logger.warn('Skipping server-side validation: no donorId (guest checkout)', {
-            transactionId: txData.transactionId,
-          });
+          Logger.warn(
+            "Skipping server-side validation: no donorId (guest checkout)",
+            {
+              transactionId: txData.transactionId,
+            },
+          );
         }
 
         return {
-          transactionId: txData.transactionId || '',
-          approvalCode: txData.approvalCode || '',
+          transactionId: txData.transactionId || "",
+          approvalCode: txData.approvalCode || "",
           amountCents,
           cardLastFour,
         };
       } catch (err) {
-        const message = err instanceof Error ? err.message : 'Payment processing failed';
+        const message =
+          err instanceof Error ? err.message : "Payment processing failed";
         setError(message);
-        Logger.error('Fiat payment error', { error: err });
+        Logger.error("Fiat payment error", { error: err });
         throw err;
       } finally {
         setLoading(false);
       }
     },
-    [scriptReady]
+    [scriptReady],
   );
 
   const retryInitialization = useCallback(() => {

@@ -537,6 +537,8 @@ export interface ValidatePaymentRequest {
   coverFees: boolean;
   donorId: string;
   donorAddress?: string;
+  /** Art. 9(2)(a) explicit consent metadata (GIV-655) */
+  art9Consent?: { version: string; locale: string };
 }
 
 /** Response from the helcim-validate edge function */

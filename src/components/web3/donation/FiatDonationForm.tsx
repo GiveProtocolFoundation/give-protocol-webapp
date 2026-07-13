@@ -25,6 +25,8 @@ import {
   getFiatCurrencyByCode,
 } from "@/config/fiatCurrencies";
 import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
+import { ART9_DONATION_CONSENT } from "@/constants/donationConsent";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FiatDonationFormProps {
   /** Unique ID for the charity */
@@ -195,6 +197,7 @@ export function FiatDonationForm({
   const isMonthly = frequency === "monthly";
   const isPayPal = currency.processor === "paypal";
   const { showToast } = useToast();
+  const { t, language } = useTranslation();
 
   const [name, setName] = useState("");
   const [email, setEmail] = useState("");
@@ -204,6 +207,7 @@ export function FiatDonationForm({
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [mounted, setMounted] = useState(false);
   const [ageAffirmed, setAgeAffirmed] = useState(false);
+  const [art9Consented, setArt9Consented] = useState(false);
 
   const clearPii = useCallback(() => {
     setName("");
@@ -222,6 +226,13 @@ export function FiatDonationForm({
       }
     },
     [clearPii],
+  );
+
+  const handleArt9ConsentChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setArt9Consented(e.target.checked);
+    },
+    [],
   );
 
   useEffect(() => {
@@ -326,6 +337,10 @@ export function FiatDonationForm({
       frequency,
       donorId,
       donorAddress,
+      art9Consent: {
+        version: ART9_DONATION_CONSENT.version,
+        locale: language,
+      },
     });
 
     onSuccess(result);
@@ -342,6 +357,7 @@ export function FiatDonationForm({
     donorId,
     donorAddress,
     onSuccess,
+    language,
   ]);
 
   /** Handle PayPal (non-USD) submit — opens PayPal popup */
@@ -385,6 +401,17 @@ export function FiatDonationForm({
         return;
       }
 
+      // Art. 9(2)(a) explicit consent gate (GIV-655)
+      if (!art9Consented) {
+        setFormError(
+          t(
+            "donation.art9Consent.required",
+            "You must consent to donation data processing to proceed.",
+          ),
+        );
+        return;
+      }
+
       if (!validateForm()) {
         return;
       }
@@ -416,6 +443,8 @@ export function FiatDonationForm({
     },
     [
       ageAffirmed,
+      art9Consented,
+      t,
       validateForm,
       isPayPal,
       handlePayPalSubmit,
@@ -558,6 +587,27 @@ export function FiatDonationForm({
         </span>
       </label>
 
+      {/* Art. 9(2)(a) donation consent gate (GIV-655) */}
+      <label className="flex items-start gap-3 cursor-pointer select-none">
+        <input
+          id="art9-consent"
+          type="checkbox"
+          checked={art9Consented}
+          onChange={handleArt9ConsentChange}
+          className="mt-0.5 h-4 w-4 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500"
+          aria-required="true"
+        />
+        <span className="text-sm text-gray-700 dark:text-gray-300">
+          {t(
+            "donation.art9Consent.statement",
+            ART9_DONATION_CONSENT.statement,
+            {
+              charity: charityName,
+            },
+          )}
+        </span>
+      </label>
+
       {/* Helcim script loading status (USD only) */}
       {!isPayPal && !scriptReady && (
         <div
@@ -597,7 +647,9 @@ export function FiatDonationForm({
       {/* Submit button */}
       <Button
         type="submit"
-        disabled={isBusy || !isReady || amount <= 0 || !ageAffirmed}
+        disabled={
+          isBusy || !isReady || amount <= 0 || !ageAffirmed || !art9Consented
+        }
         fullWidth
         size="lg"
         icon={
