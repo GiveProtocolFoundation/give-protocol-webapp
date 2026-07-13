@@ -69,8 +69,8 @@ interface ValidateRequest {
   donorId: string;
   /** Optional connected wallet address for dashboard association */
   donorAddress?: string;
-  /** Art. 9(2)(a) explicit consent metadata (GIV-655) */
-  art9Consent?: { version: string; locale: string };
+  /** Art. 9(2)(a) explicit consent metadata (GIV-655) — required */
+  art9Consent: { version: string; locale: string };
 }
 
 /** Row from the checkout_sessions table */
@@ -118,7 +118,14 @@ function validateRequestBody(body: unknown): body is ValidateRequest {
     typeof req.donorEmail === "string" &&
     req.donorEmail.includes("@") &&
     typeof req.donorId === "string" &&
-    req.donorId.length > 0
+    req.donorId.length > 0 &&
+    typeof req.art9Consent === "object" &&
+    req.art9Consent !== null &&
+    typeof (req.art9Consent as Record<string, unknown>).version === "string" &&
+    ((req.art9Consent as Record<string, unknown>).version as string).length >
+      0 &&
+    typeof (req.art9Consent as Record<string, unknown>).locale === "string" &&
+    ((req.art9Consent as Record<string, unknown>).locale as string).length > 0
   );
 }
 
@@ -264,21 +271,20 @@ async function logFiatPayment(
   }
 
   // Art. 9(2)(a) consent record — server-side write (GIV-655)
-  if (request.art9Consent) {
-    const { error: consentErr } = await supabase
-      .from("donation_consents")
-      .insert({
-        user_id: request.donorId,
-        charity_id: session.charity_id ?? request.charityId,
-        donation_type: "fiat",
-        donation_ref: txData.transactionId || "",
-        consent_text_version: request.art9Consent.version,
-        locale: request.art9Consent.locale,
-      });
-    if (consentErr) {
-      console.error("Failed to log Art.9 donation consent:", consentErr);
-      // Non-blocking: payment was already recorded; consent failure is logged
-    }
+  // art9Consent is required and validated before reaching this point
+  const { error: consentErr } = await supabase
+    .from("donation_consents")
+    .insert({
+      user_id: request.donorId,
+      charity_id: session.charity_id ?? request.charityId,
+      donation_type: "fiat",
+      donation_ref: txData.transactionId || "",
+      consent_text_version: request.art9Consent.version,
+      locale: request.art9Consent.locale,
+    });
+  if (consentErr) {
+    console.error("Failed to log Art.9 donation consent:", consentErr);
+    // Non-blocking: payment was already recorded; consent failure is logged
   }
 
   return data.id;
@@ -392,7 +398,7 @@ async function parseAndValidateBody(
         JSON.stringify({
           success: false,
           error:
-            "Invalid request. Required: checkoutToken, transactionData, hash, charityId, charityName, donorName, donorEmail, donorId",
+            "Invalid request. Required: checkoutToken, transactionData, hash, charityId, charityName, donorName, donorEmail, donorId, art9Consent",
         }),
         { status: 400, headers: jsonHeaders },
       );

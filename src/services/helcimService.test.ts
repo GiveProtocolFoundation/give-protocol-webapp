@@ -663,6 +663,7 @@ describe("helcimService", () => {
       donorEmail: "john@example.com",
       coverFees: false,
       donorId: "donor-456",
+      art9Consent: { version: "art9-donation-v1", locale: "en" },
     };
 
     it("should validate a payment successfully", async () => {
@@ -719,11 +720,6 @@ describe("helcimService", () => {
     });
 
     it("should pass art9Consent through to the edge function (GIV-655)", async () => {
-      const dataWithConsent = {
-        ...mockValidateData,
-        art9Consent: { version: "art9-donation-v1", locale: "en" },
-      };
-
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: () =>
@@ -733,7 +729,7 @@ describe("helcimService", () => {
           }),
       } as Response);
 
-      await validateHelcimPayment(dataWithConsent);
+      await validateHelcimPayment(mockValidateData);
 
       const fetchCall = (global.fetch as jest.Mock).mock.calls[0];
       const body = JSON.parse(fetchCall[1].body);
@@ -741,6 +737,23 @@ describe("helcimService", () => {
         version: "art9-donation-v1",
         locale: "en",
       });
+    });
+
+    it("should throw when edge function rejects due to missing art9Consent (GIV-655)", async () => {
+      (global.fetch as jest.Mock).mockResolvedValueOnce({
+        ok: false,
+        status: 400,
+        json: () =>
+          Promise.resolve({
+            success: false,
+            error:
+              "Invalid request. Required: checkoutToken, transactionData, hash, charityId, charityName, donorName, donorEmail, donorId, art9Consent",
+          }),
+      } as unknown as Response);
+
+      await expect(validateHelcimPayment(mockValidateData)).rejects.toThrow(
+        "art9Consent",
+      );
     });
   });
 });
