@@ -1280,8 +1280,7 @@ export default {
     "donation.art9Consent.statement":
       "我瞭解我的捐款記錄將我與{{charity}}連結。若此舉可能顯示宗教、政治或哲學方面的歸屬關係，我明確同意Give Protocol處理此記錄以完成及管理我的捐款。",
     "donation.art9Consent.label": "捐款資料同意",
-    "donation.art9Consent.required":
-      "您必須同意捐款資料處理才能繼續。",
+    "donation.art9Consent.required": "您必須同意捐款資料處理才能繼續。",
 
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
