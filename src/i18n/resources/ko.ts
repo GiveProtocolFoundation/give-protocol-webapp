@@ -1317,6 +1317,14 @@ export default {
     "donation.toast.confirmedMessage":
       "Your contribution is recorded on-chain.",
     "donation.toast.failed": "Donation failed",
+
+    // Art. 9(2)(a) donation consent (GIV-655)
+    "donation.art9Consent.statement":
+      "제 기부 기록이 저를 {{charity}}에 연결한다는 것을 이해합니다. 이것이 종교적, 정치적 또는 철학적 소속을 나타낼 수 있는 경우, 기부를 완료하고 관리하기 위해 Give Protocol이 이 기록을 처리하는 것에 명시적으로 동의합니다.",
+    "donation.art9Consent.label": "기부 데이터 동의",
+    "donation.art9Consent.required":
+      "계속하려면 기부 데이터 처리에 동의해야 합니다.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
