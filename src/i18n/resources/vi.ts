@@ -1344,6 +1344,14 @@ export default {
     "donation.toast.confirmedMessage":
       "Your contribution is recorded on-chain.",
     "donation.toast.failed": "Donation failed",
+
+    // Art. 9(2)(a) donation consent (GIV-655)
+    "donation.art9Consent.statement":
+      "Tôi hiểu rằng hồ sơ quyên góp của tôi liên kết tôi với {{charity}}. Trong trường hợp điều này có thể cho thấy sự liên kết tôn giáo, chính trị hoặc triết học, tôi đồng ý rõ ràng cho Give Protocol xử lý hồ sơ này để hoàn tất và quản lý khoản quyên góp của tôi.",
+    "donation.art9Consent.label": "Đồng ý dữ liệu quyên góp",
+    "donation.art9Consent.required":
+      "Bạn phải đồng ý với việc xử lý dữ liệu quyên góp để tiếp tục.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

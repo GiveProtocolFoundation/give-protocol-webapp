@@ -1405,6 +1405,14 @@ export default {
     "donation.toast.confirmedMessage":
       "Your contribution is recorded on-chain.",
     "donation.toast.failed": "Donation failed",
+
+    // Art. 9(2)(a) donation consent (GIV-655)
+    "donation.art9Consent.statement":
+      "Ich verstehe, dass mein Spendeneintrag mich mit {{charity}} verknüpft. Soweit dies auf eine religiöse, politische oder philosophische Zugehörigkeit hinweisen könnte, stimme ich ausdrücklich zu, dass Give Protocol diesen Eintrag verarbeitet, um meine Spende abzuwickeln und zu verwalten.",
+    "donation.art9Consent.label": "Einwilligung zur Spendendatenverarbeitung",
+    "donation.art9Consent.required":
+      "Sie müssen der Verarbeitung der Spendendaten zustimmen, um fortzufahren.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

@@ -235,10 +235,6 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.charity.contactEmail",
   "admin.charity.contactPhone",
   "admin.charity.raisedUnavailable",
-  // GIV-655: Art. 9(2)(a) donation consent — English-only operative text per GIV-495/497 board precedent
-  "donation.art9Consent.statement",
-  "donation.art9Consent.label",
-  "donation.art9Consent.required",
   // GIV-495: volunteer consent legal paragraphs — English-only operative text (board-approved 2026-06-20)
   "volunteer.understanding.item1",
   "volunteer.understanding.item2",

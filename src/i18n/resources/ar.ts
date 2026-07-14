@@ -1312,6 +1312,14 @@ export default {
     "donation.toast.confirmedMessage":
       "Your contribution is recorded on-chain.",
     "donation.toast.failed": "Donation failed",
+
+    // Art. 9(2)(a) donation consent (GIV-655)
+    "donation.art9Consent.statement":
+      "أفهم أن سجل تبرعي يربطني بـ {{charity}}. حيث قد يشير ذلك إلى انتماء ديني أو سياسي أو فلسفي، فإنني أوافق صراحةً على معالجة Give Protocol لهذا السجل لإتمام تبرعي وإدارته.",
+    "donation.art9Consent.label": "الموافقة على بيانات التبرع",
+    "donation.art9Consent.required":
+      "يجب أن توافق على معالجة بيانات التبرع للمتابعة.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
