@@ -526,6 +526,11 @@ const SectionYourRights: React.FC = () => (
     </ul>
     <p>
       To exercise these rights, please contact us at privacy@giveprotocol.io.
+      If you are located in the European Union, the European Economic Area, or
+      the United Kingdom, you may also exercise your rights or raise a concern
+      through our appointed Article 27 representative,{" "}
+      <strong>DataRep</strong> (see Section 13 for postal contact details), in
+      addition to your right to lodge a complaint with a supervisory authority.
     </p>
 
     <h3>8.1 Right to Erasure — Blockchain Limitation</h3>
