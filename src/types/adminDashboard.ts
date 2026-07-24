@@ -21,7 +21,10 @@ export interface AdminDashboardStats {
 
 /** Activity event types returned by get_admin_recent_activity() */
 export type AdminActivityEventType =
-  "donation" | "registration" | "verification" | "volunteer_hours";
+  | "donation"
+  | "registration"
+  | "verification"
+  | "volunteer_hours";
 
 /** A single activity event from get_admin_recent_activity() */
 export interface AdminActivityEvent {
