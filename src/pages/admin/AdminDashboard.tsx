@@ -141,6 +141,10 @@ function groupAlerts(alerts: AdminAlert[]): Array<{
       if (a.createdAt > existing.latestCreatedAt) {
         existing.latestCreatedAt = a.createdAt;
       }
+      // A group is high priority as soon as any member has sat > 3 days
+      if (a.severity === "high") {
+        existing.severity = a.severity;
+      }
     } else {
       map.set(a.alertType, {
         severity: a.severity,
@@ -253,8 +257,10 @@ function VolumeEmptyChart(): React.ReactElement {
 /** Maps an alert type to the route its "Review" button should open. */
 const ALERT_ROUTES: Record<string, string> = {
   pending_verification: "/admin/charities",
-  expired_validation: "/admin/charities",
-  removal_request: "/admin/charities",
+  expired_validation: "/admin/volunteer-validation",
+  pending_validation: "/admin/volunteer-validation",
+  removal_request: "/admin/donors",
+  donation_flag: "/admin/donations",
 };
 
 /** One priority alert banner for a grouped alert. */

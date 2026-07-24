@@ -10,10 +10,13 @@ import AdminDashboard from "../admin/AdminDashboard";
 import {
   getAdminDashboardStats,
   getAdminRecentActivity,
+  getAdminAlerts,
 } from "@/services/adminDashboardService";
+import type { AdminAlert } from "@/types/adminDashboard";
 
 const mockGetStats = jest.mocked(getAdminDashboardStats);
 const mockGetActivity = jest.mocked(getAdminRecentActivity);
+const mockGetAlerts = jest.mocked(getAdminAlerts);
 const mockUseAuth = jest.mocked(useAuth);
 
 const mockStats = {
@@ -215,6 +218,77 @@ describe("AdminDashboard", () => {
       await waitFor(() => {
         expect(screen.getByText("Quick Actions")).toBeInTheDocument();
       });
+    });
+  });
+
+  describe("Priority alerts", () => {
+    const baseAlert: AdminAlert = {
+      alertType: "donation_flag",
+      severity: "high",
+      title: "Open Donation Flag",
+      description: "Flagged donation awaiting review: chargeback risk",
+      entityId: "flag-1",
+      entityType: "donation_flag",
+      createdAt: new Date(Date.now() - 4 * 24 * 60 * 60 * 1000).toISOString(),
+      count: 1,
+    };
+
+    it("shows the High Priority chip for matters sitting more than 3 days", async () => {
+      mockGetAlerts.mockResolvedValue([baseAlert]);
+      renderDashboard();
+      await waitFor(() => {
+        expect(screen.getByText("High Priority")).toBeInTheDocument();
+      });
+      expect(screen.getByText("Open Donation Flag")).toBeInTheDocument();
+    });
+
+    it("shows Needs Attention for matters younger than 3 days", async () => {
+      mockGetAlerts.mockResolvedValue([
+        {
+          ...baseAlert,
+          severity: "medium",
+          createdAt: new Date().toISOString(),
+        },
+      ]);
+      renderDashboard();
+      await waitFor(() => {
+        expect(screen.getByText("Needs Attention")).toBeInTheDocument();
+      });
+      expect(screen.queryByText("High Priority")).not.toBeInTheDocument();
+    });
+
+    it("escalates a mixed-age group to High Priority", async () => {
+      mockGetAlerts.mockResolvedValue([
+        { ...baseAlert, severity: "medium", entityId: "flag-2" },
+        { ...baseAlert, severity: "high", entityId: "flag-3" },
+      ]);
+      renderDashboard();
+      await waitFor(() => {
+        expect(screen.getByText("High Priority")).toBeInTheDocument();
+      });
+      expect(screen.queryByText("Needs Attention")).not.toBeInTheDocument();
+    });
+
+    it("links each alert type to its review queue", async () => {
+      mockGetAlerts.mockResolvedValue([
+        baseAlert,
+        {
+          ...baseAlert,
+          alertType: "removal_request",
+          title: "Pending Removal Request",
+          entityId: "user-1",
+          entityType: "user",
+        },
+      ]);
+      renderDashboard();
+      await waitFor(() => {
+        expect(screen.getAllByText("Review queue")).toHaveLength(2);
+      });
+      const links = screen
+        .getAllByText("Review queue")
+        .map((el) => el.closest("a")?.getAttribute("href"));
+      expect(links).toContain("/admin/donations");
+      expect(links).toContain("/admin/donors");
     });
   });
 });

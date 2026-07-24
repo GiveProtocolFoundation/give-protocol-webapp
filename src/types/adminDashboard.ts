@@ -55,7 +55,9 @@ export type AdminAlertSeverity = "high" | "medium" | "low";
 export type AdminAlertType =
   | "pending_verification"
   | "expired_validation"
-  | "removal_request";
+  | "pending_validation"
+  | "removal_request"
+  | "donation_flag";
 
 /** A single pending admin alert */
 export interface AdminAlert {

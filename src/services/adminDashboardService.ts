@@ -135,8 +135,9 @@ export async function getAdminRecentActivity(
 
 /**
  * Fetches pending admin alerts from get_admin_alerts().
- * Returns pending charity verifications, expired validation requests,
- * and pending removal requests.
+ * Returns pending charity verifications, removal requests, expired and stale
+ * volunteer validation requests, and open donation flags. Matters sitting
+ * more than 3 days come back with severity "high" (GIV-721).
  * Requires the current user to have admin JWT claims.
  * @returns Array of AdminAlert items
  */
