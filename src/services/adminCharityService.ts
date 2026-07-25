@@ -70,7 +70,9 @@ export async function listCharities(
 
     if (error) {
       Logger.error("Error fetching admin charity list", { error, filters });
-      return EMPTY_RESULT;
+      throw new Error(
+        `Admin charity list RPC failed: ${error.message} (code: ${error.code})`,
+      );
     }
 
     const rows = (data || []) as AdminCharityListRow[];
@@ -94,7 +96,7 @@ export async function listCharities(
       error: error instanceof Error ? error.message : String(error),
       filters,
     });
-    return EMPTY_RESULT;
+    throw error instanceof Error ? error : new Error(String(error));
   }
 }
 
