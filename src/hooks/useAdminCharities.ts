@@ -1,6 +1,9 @@
 import { useCallback, useState } from "react";
 import { useToast } from "../contexts/ToastContext";
-import { listCharities, updateCharityStatus } from "../services/adminCharityService";
+import {
+  listCharities,
+  updateCharityStatus,
+} from "../services/adminCharityService";
 import type {
   AdminCharityListFilters,
   AdminCharityListResult,

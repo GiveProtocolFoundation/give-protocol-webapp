@@ -96,9 +96,7 @@ export async function listCharities(
       error: error instanceof Error ? error.message : String(error),
       filters,
     });
-    throw error instanceof Error
-      ? error
-      : new Error(String(error));
+    throw error instanceof Error ? error : new Error(String(error));
   }
 }
 
