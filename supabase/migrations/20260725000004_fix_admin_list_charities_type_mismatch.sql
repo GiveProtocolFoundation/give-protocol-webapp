@@ -43,7 +43,13 @@ WHERE updated_at = NOW() AND created_at < NOW() - INTERVAL '1 minute';
 -- 2. Recreate admin_list_charities with explicit TIMESTAMPTZ casts
 --    to fix 42804 when profiles.created_at / profiles.updated_at are stored
 --    as TIMESTAMP (without timezone) rather than TIMESTAMPTZ.
+--
+--    PostgreSQL 42P13: cannot change return type via CREATE OR REPLACE FUNCTION
+--    when the OUT-parameter set differs from the existing function definition.
+--    Must DROP first before recreating with an expanded RETURNS TABLE.
 -- ---------------------------------------------------------------------------
+DROP FUNCTION IF EXISTS public.admin_list_charities(text, text, text, integer, integer);
+
 CREATE OR REPLACE FUNCTION admin_list_charities(
   p_status        TEXT        DEFAULT NULL,
   p_category      TEXT        DEFAULT NULL,
