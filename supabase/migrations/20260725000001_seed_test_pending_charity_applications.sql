@@ -62,13 +62,12 @@ BEGIN
   ON CONFLICT (id) DO NOTHING;
 
   -- Profiles row (the generic user profile, type='charity')
-  INSERT INTO profiles (id, user_id, name, type, created_at, updated_at)
+  INSERT INTO profiles (id, user_id, name, type, created_at)
   VALUES (
     v_profile_id_1,
     v_user_id_1,
     'Green Earth Alliance',
     'charity',
-    NOW() - INTERVAL '6 days',
     NOW() - INTERVAL '6 days'
   )
   ON CONFLICT (id) DO NOTHING;
@@ -126,13 +125,12 @@ BEGIN
   )
   ON CONFLICT (id) DO NOTHING;
 
-  INSERT INTO profiles (id, user_id, name, type, created_at, updated_at)
+  INSERT INTO profiles (id, user_id, name, type, created_at)
   VALUES (
     v_profile_id_2,
     v_user_id_2,
     'Solar Aid Foundation',
     'charity',
-    NOW() - INTERVAL '2 days',
     NOW() - INTERVAL '2 days'
   )
   ON CONFLICT (id) DO NOTHING;
