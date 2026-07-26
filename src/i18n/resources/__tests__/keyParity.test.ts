@@ -224,6 +224,7 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.dashboard.fiat",
   "admin.dashboard.activitySubtitle",
   "admin.dashboard.viewAllActivity",
+  "admin.dashboard.viewAllDonations",
   "admin.charity.tabAll",
   "admin.charity.review",
   "admin.charity.colOrganization",

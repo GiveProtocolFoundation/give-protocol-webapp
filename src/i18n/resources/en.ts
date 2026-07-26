@@ -913,6 +913,7 @@ export default {
     "admin.dashboard.totalVolume": "Total volume",
     "admin.dashboard.crypto": "Crypto",
     "admin.dashboard.fiat": "Fiat",
+    "admin.dashboard.viewAllDonations": "View all donations",
     "admin.dashboard.activitySubtitle": "Platform events as they happen",
     "admin.dashboard.viewAllActivity": "View all activity",
 
