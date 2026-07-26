@@ -26,11 +26,13 @@ import {
   getAdminRecentActivity,
   getAdminAlerts,
 } from "@/services/adminDashboardService";
+import { getDonationSummary } from "@/services/adminDonationService";
 import type {
   AdminDashboardStats,
   AdminActivityEvent,
   AdminAlert,
 } from "@/types/adminDashboard";
+import type { DonationSummaryGroupBy } from "@/types/adminDonation";
 
 // ---------------------------------------------------------------------------
 // Helpers
@@ -254,6 +256,109 @@ function VolumeEmptyChart(): React.ReactElement {
   );
 }
 
+/** A single time bucket in the donation-volume chart. */
+interface VolumeBucket {
+  key: string;
+  crypto: number;
+  fiat: number;
+}
+
+/** Series colors for the volume chart (crypto, fiat). */
+const VOLUME_COLORS = { crypto: "#1b8a6b", fiat: "#3a6bd0" };
+
+/** Stacked-bar donation-volume chart driven by admin_donation_summary. */
+function VolumeChart({
+  buckets,
+  cryptoLabel,
+  fiatLabel,
+}: {
+  buckets: VolumeBucket[];
+  cryptoLabel: string;
+  fiatLabel: string;
+}): React.ReactElement {
+  const width = 600;
+  const height = 150;
+  const top = 12;
+  const baseline = 138;
+  const plotH = baseline - top;
+  const gap = 2;
+  const barW = Math.max(2, width / buckets.length - gap);
+  const maxTotal = Math.max(...buckets.map((b) => b.crypto + b.fiat), 1);
+
+  return (
+    <div className="relative mt-[14px] h-[150px]">
+      <svg
+        width="100%"
+        height={height}
+        viewBox={`0 0 ${width} ${height}`}
+        preserveAspectRatio="none"
+        className="block"
+        role="img"
+      >
+        {[0, 1, 2, 3].map((i) => (
+          <line
+            key={`grid-${i}`}
+            x1={0}
+            x2={width}
+            y1={top + i * 42}
+            y2={top + i * 42}
+            stroke="#eef0ef"
+            strokeWidth={1}
+          />
+        ))}
+        {buckets.map((b, i) => {
+          const x = (i * width) / buckets.length + gap / 2;
+          const cryptoH = (b.crypto / maxTotal) * plotH;
+          const fiatH = (b.fiat / maxTotal) * plotH;
+          // 2px surface gap between stacked segments when both are present
+          const segGap = cryptoH > 0 && fiatH > 0 ? 2 : 0;
+          return (
+            <g key={b.key}>
+              <title>
+                {`${b.key} · ${cryptoLabel} ${formatCurrency(b.crypto)} · ${fiatLabel} ${formatCurrency(b.fiat)}`}
+              </title>
+              {/* Full-height invisible hit target for the tooltip */}
+              <rect
+                x={x}
+                y={top}
+                width={barW}
+                height={plotH}
+                fill="transparent"
+              />
+              {cryptoH > 0 && (
+                <rect
+                  x={x}
+                  y={baseline - cryptoH}
+                  width={barW}
+                  height={cryptoH}
+                  fill={VOLUME_COLORS.crypto}
+                />
+              )}
+              {fiatH > 0 && (
+                <rect
+                  x={x}
+                  y={baseline - cryptoH - segGap - fiatH}
+                  width={barW}
+                  height={fiatH}
+                  fill={VOLUME_COLORS.fiat}
+                />
+              )}
+            </g>
+          );
+        })}
+        <line
+          x1={0}
+          x2={width}
+          y1={baseline}
+          y2={baseline}
+          stroke="#e0e4e2"
+          strokeWidth={1.5}
+        />
+      </svg>
+    </div>
+  );
+}
+
 /** Maps an alert type to the route its "Review" button should open. */
 const ALERT_ROUTES: Record<string, string> = {
   pending_verification: "/admin/charities",
@@ -341,19 +446,22 @@ function LegendItem({
   );
 }
 
-/** Donation-volume panel with range toggle and an empty-state chart. */
+/** Donation-volume panel with range toggle and a live stacked-bar chart. */
 function DonationVolumePanel({
   stats,
+  buckets,
   range,
   rangeLabel,
   onRangeChange,
 }: {
   stats: AdminDashboardStats;
+  buckets: VolumeBucket[];
   range: "30D" | "90D" | "YTD";
   rangeLabel: string;
   onRangeChange: (_e: React.MouseEvent<HTMLButtonElement>) => void;
 }): React.ReactElement {
   const { t } = useTranslation();
+  const hasVolume = buckets.some((b) => b.crypto + b.fiat > 0);
   return (
     <div className="rounded-[14px] border border-[#e4e8e6] bg-white p-5 shadow-[0_1px_2px_#0b1f1a07]">
       <div className="mb-1.5 flex items-start justify-between">
@@ -388,7 +496,15 @@ function DonationVolumePanel({
         </div>
       </div>
 
-      <VolumeEmptyChart />
+      {hasVolume ? (
+        <VolumeChart
+          buckets={buckets}
+          cryptoLabel={t("admin.dashboard.crypto", "Crypto")}
+          fiatLabel={t("admin.dashboard.fiat", "Fiat")}
+        />
+      ) : (
+        <VolumeEmptyChart />
+      )}
 
       <div className="mt-[14px] flex gap-6 border-t border-[#eef0ef] pt-[14px]">
         <LegendItem
@@ -400,14 +516,21 @@ function DonationVolumePanel({
           label={t("admin.dashboard.crypto", "Crypto")}
           value={formatCurrency(stats.cryptoVolumeUsd)}
           valueClassName="mt-0.5 text-[15px]"
-          dotClass="bg-[#1fae7f]"
+          dotClass="bg-[#1b8a6b]"
         />
         <LegendItem
           label={t("admin.dashboard.fiat", "Fiat")}
           value={formatCurrency(stats.fiatVolumeUsd)}
           valueClassName="mt-0.5 text-[15px]"
-          dotClass="bg-[#9fd9c4]"
+          dotClass="bg-[#3a6bd0]"
         />
+        <div className="flex-1" />
+        <Link
+          to="/admin/donations"
+          className="self-center text-[12.5px] font-semibold text-[#1b8a6b] no-underline"
+        >
+          {t("admin.dashboard.viewAllDonations", "View all donations")} →
+        </Link>
       </div>
     </div>
   );
@@ -611,6 +734,7 @@ const AdminDashboard: React.FC = () => {
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [range, setRange] = useState<"30D" | "90D" | "YTD">("30D");
+  const [volumeBuckets, setVolumeBuckets] = useState<VolumeBucket[]>([]);
 
   const fetchAll = useCallback(async () => {
     try {
@@ -640,6 +764,49 @@ const AdminDashboard: React.FC = () => {
     fetchAll();
     trackEvent("admin_dashboard_viewed", { userId: user?.id });
   }, [user?.id, fetchAll]);
+
+  // Donation-volume time series for the selected range
+  useEffect(() => {
+    let cancelled = false;
+    const now = new Date();
+    let dateFrom: Date;
+    let groupBy: DonationSummaryGroupBy;
+    if (range === "30D") {
+      dateFrom = new Date(now.getTime() - 30 * 24 * 60 * 60 * 1000);
+      groupBy = "day";
+    } else if (range === "90D") {
+      dateFrom = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000);
+      groupBy = "week";
+    } else {
+      dateFrom = new Date(now.getFullYear(), 0, 1);
+      groupBy = "month";
+    }
+    getDonationSummary(dateFrom.toISOString(), now.toISOString(), groupBy).then(
+      (rows) => {
+        if (cancelled) return;
+        const byKey = new Map<string, VolumeBucket>();
+        for (const row of rows) {
+          const bucket = byKey.get(row.groupKey) ?? {
+            key: row.groupKey,
+            crypto: 0,
+            fiat: 0,
+          };
+          if (row.paymentMethod === "crypto") {
+            bucket.crypto += row.totalAmountUsd;
+          } else {
+            bucket.fiat += row.totalAmountUsd;
+          }
+          byKey.set(row.groupKey, bucket);
+        }
+        setVolumeBuckets(
+          [...byKey.values()].sort((a, b) => a.key.localeCompare(b.key)),
+        );
+      },
+    );
+    return () => {
+      cancelled = true;
+    };
+  }, [range]);
 
   const handleRangeChange = useCallback(
     (e: React.MouseEvent<HTMLButtonElement>) => {
@@ -762,6 +929,7 @@ const AdminDashboard: React.FC = () => {
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.55fr_1fr]">
         <DonationVolumePanel
           stats={stats}
+          buckets={volumeBuckets}
           range={range}
           rangeLabel={rangeLabel}
           onRangeChange={handleRangeChange}
