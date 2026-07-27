@@ -211,11 +211,12 @@ export async function logRead(
   dedupWindow.set(dedupKey, now);
 
   try {
-    const actionType = entityId === null ? "view_pii_list" : "view_pii";
+    // action_type (view_pii vs view_pii_list) is derived server-side from
+    // p_entity_id; sending it as an argument changes the named-arg set and
+    // PostgREST fails to match the function (PGRST202).
     const { data, error } = await supabase.rpc(
       "insert_admin_audit_read_entry",
       {
-        p_action_type: actionType,
         p_entity_type: entityType,
         p_entity_id: entityId,
         p_context: context

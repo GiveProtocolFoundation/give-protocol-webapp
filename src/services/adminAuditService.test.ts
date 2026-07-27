@@ -267,7 +267,6 @@ describe("adminAuditService", () => {
       expect(supabase.rpc).toHaveBeenCalledWith(
         "insert_admin_audit_read_entry",
         {
-          p_action_type: "view_pii_list",
           p_entity_type: "user",
           p_entity_id: null,
           p_context: {
@@ -292,7 +291,6 @@ describe("adminAuditService", () => {
       expect(supabase.rpc).toHaveBeenCalledWith(
         "insert_admin_audit_read_entry",
         {
-          p_action_type: "view_pii",
           p_entity_type: "charity",
           p_entity_id: "charity-123",
           p_context: null,
@@ -383,7 +381,6 @@ describe("adminAuditService", () => {
       expect(supabase.rpc).toHaveBeenCalledWith(
         "insert_admin_audit_read_entry",
         {
-          p_action_type: "view_pii",
           p_entity_type: "volunteer",
           p_entity_id: "vol-1",
           p_context: null,
