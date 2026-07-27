@@ -1,6 +1,12 @@
 // This file runs before modules are loaded to set up import.meta.env
 // Required for modules that use Vite's import.meta.env
 
+// react-router v7 references TextEncoder at module init time; jsdom doesn't
+// expose Node's WHATWG globals, so we polyfill from Node's util module.
+const { TextEncoder, TextDecoder } = require('util');
+globalThis.TextEncoder = TextEncoder;
+globalThis.TextDecoder = TextDecoder;
+
 globalThis.import = {
   meta: {
     env: {
