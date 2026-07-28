@@ -1,13 +1,13 @@
 import { jest } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
+import { TokenNetworkSettings } from "./TokenNetworkSettings";
 import {
-  TokenNetworkSettings,
   NETWORK_OPTIONS,
   TOKEN_OPTIONS,
   parseEnabledChainIds,
   parseEnabledTokens,
   serializeEnabledNetworks,
-} from "./TokenNetworkSettings";
+} from "./tokenNetworkUtils";
 import type { PlatformConfigEntry } from "@/types/adminPlatformConfig";
 
 const networksEntry: PlatformConfigEntry = {
