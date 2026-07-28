@@ -81,7 +81,7 @@ describe("parseEnabledChainIds", () => {
 
   it("returns empty set for non-array values", () => {
     expect(parseEnabledChainIds("base")).toEqual(new Set());
-    expect(parseEnabledChainIds(undefined)).toEqual(new Set());
+    expect(parseEnabledChainIds()).toEqual(new Set());
     expect(parseEnabledChainIds(42)).toEqual(new Set());
   });
 

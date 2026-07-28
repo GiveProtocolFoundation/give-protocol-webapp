@@ -8,6 +8,10 @@ import {
 let _cached: PublicPlatformConfig | null = null;
 let _pending: Promise<PublicPlatformConfig> | null = null;
 
+/**
+ * Fetches the public platform config once, deduplicating concurrent callers.
+ * @returns Promise resolving to the cached or freshly fetched config
+ */
 function fetchOnce(): Promise<PublicPlatformConfig> {
   if (_cached) return Promise.resolve(_cached);
   if (!_pending) {

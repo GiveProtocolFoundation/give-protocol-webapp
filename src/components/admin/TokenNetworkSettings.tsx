@@ -118,7 +118,7 @@ export const TOKEN_OPTIONS: AdminTokenOption[] = [
  * @returns Set of enabled chain IDs
  */
 export function parseEnabledChainIds(
-  value: PlatformConfigValue | undefined,
+  value?: PlatformConfigValue,
 ): Set<number> {
   const ids = new Set<number>();
   if (!Array.isArray(value)) return ids;
@@ -219,6 +219,11 @@ function NetworkRow({
   );
 }
 
+/**
+ * Renders a single token checkbox row.
+ * @param props - Token option, enabled/saving state, and toggle handler
+ * @returns Token row element
+ */
 function TokenRow({
   option,
   enabled,
@@ -246,6 +251,11 @@ function TokenRow({
   );
 }
 
+/**
+ * Shows the last-updated timestamp and author for a config entry.
+ * @param props - Platform config entry
+ * @returns Metadata line, or null when the entry has never been updated
+ */
 function SectionMeta({
   entry,
 }: {
