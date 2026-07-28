@@ -15,6 +15,7 @@ import { CHAIN_IDS } from "@/config/contracts";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { ART9_DONATION_CONSENT } from "@/constants/donationConsent";
 import { useTranslation } from "@/hooks/useTranslation";
+import { usePlatformConfig } from "@/hooks/usePlatformConfig";
 import { supabase } from "@/lib/supabase";
 
 interface DonationFormProps {
@@ -57,13 +58,17 @@ export function DonationForm({
   const { showToast, dismissToast } = useToast();
   const { user } = useAuth();
   const { t, language } = useTranslation();
+  const { supportedTokens } = usePlatformConfig();
   const pendingToastIdRef = useRef<string | null>(null);
   const [art9Consented, setArt9Consented] = useState(false);
 
-  // Get ERC20 tokens available for the current chain
+  // Get ERC20 tokens for the current chain, filtered by admin-enabled tokens.
+  // supportedTokens is null while loading or on fetch error — show all.
   const availableTokens = useMemo(() => {
-    return getERC20TokensForChain(chainId ?? CHAIN_IDS.BASE);
-  }, [chainId]);
+    const tokens = getERC20TokensForChain(chainId ?? CHAIN_IDS.BASE);
+    if (!supportedTokens) return tokens;
+    return tokens.filter((t) => supportedTokens.includes(t.symbol));
+  }, [chainId, supportedTokens]);
 
   const [amount, setAmount] = useState(0);
   const [selectedToken, setSelectedToken] = useState<TokenConfig>(

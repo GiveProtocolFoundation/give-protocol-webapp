@@ -15,6 +15,7 @@ import {
   isChainSupported,
 } from "../config/contracts";
 import { ENV } from "../config/env";
+import { usePlatformConfig } from "../hooks/usePlatformConfig";
 
 const STORAGE_KEY = "giveprotocol_selected_chain";
 
@@ -65,6 +66,8 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
   // Determine if testnets should be shown
   const showTestnets = ENV.SHOW_TESTNETS;
 
+  const { supportedNetworks } = usePlatformConfig();
+
   // Initialize with SSR-safe default; hydrate from localStorage in useEffect
   const [selectedChainId, setSelectedChainId] =
     useState<ChainId>(DEFAULT_CHAIN_ID);
@@ -82,11 +85,13 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
     }
   }, []);
 
-  // Get available chains based on testnet setting
-  const availableChains = React.useMemo(
-    () => getAvailableChains(showTestnets),
-    [showTestnets],
-  );
+  // Get available chains filtered by admin-enabled networks.
+  // supportedNetworks is null while loading or on fetch error — show all.
+  const availableChains = React.useMemo(() => {
+    const allChains = getAvailableChains(showTestnets);
+    if (!supportedNetworks) return allChains;
+    return allChains.filter((c) => supportedNetworks.includes(c.chainId));
+  }, [showTestnets, supportedNetworks]);
 
   // Get selected chain config
   const selectedChain = React.useMemo(
