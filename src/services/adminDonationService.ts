@@ -58,49 +58,43 @@ export async function listDonations(
   const page = filters.page ?? 1;
   const limit = filters.limit ?? 50;
 
-  try {
-    const { data, error } = await supabase.rpc("admin_list_donations", {
-      p_payment_method: filters.paymentMethod ?? null,
-      p_charity_id: filters.charityId ?? null,
-      p_donor_user_id: filters.donorUserId ?? null,
-      p_search: filters.search ?? null,
-      p_date_from: filters.dateFrom ?? null,
-      p_date_to: filters.dateTo ?? null,
-      p_min_amount_usd: filters.minAmountUsd ?? null,
-      p_max_amount_usd: filters.maxAmountUsd ?? null,
-      p_flagged: filters.flagged ?? null,
-      p_page: page,
-      p_limit: limit,
-    });
+  const { data, error } = await supabase.rpc("admin_list_donations", {
+    p_payment_method: filters.paymentMethod ?? null,
+    p_charity_id: filters.charityId ?? null,
+    p_donor_user_id: filters.donorUserId ?? null,
+    p_search: filters.search ?? null,
+    p_date_from: filters.dateFrom ?? null,
+    p_date_to: filters.dateTo ?? null,
+    p_min_amount_usd: filters.minAmountUsd ?? null,
+    p_max_amount_usd: filters.maxAmountUsd ?? null,
+    p_flagged: filters.flagged ?? null,
+    p_page: page,
+    p_limit: limit,
+  });
 
-    if (error) {
-      Logger.error("Error fetching admin donation list", { error, filters });
-      return EMPTY_RESULT;
-    }
-
-    const rows = (data || []) as AdminDonationListRow[];
-
-    if (rows.length === 0) {
-      return { ...EMPTY_RESULT, page, limit };
-    }
-
-    const totalCount = rows[0].total_count;
-    const donations = rows.map(mapDonationRow);
-
-    return {
-      donations,
-      totalCount,
-      page,
-      limit,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  } catch (error) {
-    Logger.error("Admin donation list query failed", {
-      error: error instanceof Error ? error.message : String(error),
-      filters,
-    });
-    return EMPTY_RESULT;
+  if (error) {
+    Logger.error("Error fetching admin donation list", { error, filters });
+    throw new Error(
+      `admin_list_donations RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminDonationListRow[];
+
+  if (rows.length === 0) {
+    return { ...EMPTY_RESULT, page, limit };
+  }
+
+  const totalCount = rows[0].total_count;
+  const donations = rows.map(mapDonationRow);
+
+  return {
+    donations,
+    totalCount,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 }
 
 /**
@@ -116,49 +110,41 @@ export async function getDonationSummary(
   dateTo: string,
   groupBy: DonationSummaryGroupBy,
 ): Promise<AdminDonationSummaryRow[]> {
-  try {
-    const { data, error } = await supabase.rpc("admin_donation_summary", {
-      p_date_from: dateFrom,
-      p_date_to: dateTo,
-      p_group_by: groupBy,
-    });
+  const { data, error } = await supabase.rpc("admin_donation_summary", {
+    p_date_from: dateFrom,
+    p_date_to: dateTo,
+    p_group_by: groupBy,
+  });
 
-    if (error) {
-      Logger.error("Error fetching donation summary", {
-        error,
-        dateFrom,
-        dateTo,
-        groupBy,
-      });
-      return [];
-    }
-
-    const rows = (data || []) as Array<{
-      group_key: string;
-      payment_method: string;
-      total_amount_usd: number;
-      donation_count: number;
-      charity_id: string | null;
-      charity_name: string | null;
-    }>;
-
-    return rows.map((row) => ({
-      groupKey: row.group_key,
-      paymentMethod: row.payment_method as DonationPaymentMethod,
-      totalAmountUsd: Number(row.total_amount_usd),
-      donationCount: Number(row.donation_count),
-      charityId: row.charity_id,
-      charityName: row.charity_name,
-    }));
-  } catch (error) {
-    Logger.error("Donation summary query failed", {
-      error: error instanceof Error ? error.message : String(error),
+  if (error) {
+    Logger.error("Error fetching donation summary", {
+      error,
       dateFrom,
       dateTo,
       groupBy,
     });
-    return [];
+    throw new Error(
+      `admin_donation_summary RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as Array<{
+    group_key: string;
+    payment_method: string;
+    total_amount_usd: number;
+    donation_count: number;
+    charity_id: string | null;
+    charity_name: string | null;
+  }>;
+
+  return rows.map((row) => ({
+    groupKey: row.group_key,
+    paymentMethod: row.payment_method as DonationPaymentMethod,
+    totalAmountUsd: Number(row.total_amount_usd),
+    donationCount: Number(row.donation_count),
+    charityId: row.charity_id,
+    charityName: row.charity_name,
+  }));
 }
 
 /**

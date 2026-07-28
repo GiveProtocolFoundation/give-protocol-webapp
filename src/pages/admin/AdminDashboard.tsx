@@ -18,6 +18,7 @@ import {
   type LucideIcon,
 } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { useAuth } from "@/contexts/AuthContext";
 import { trackEvent } from "@/lib/sentry";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -569,8 +570,12 @@ function ActivityRow({ evt }: { evt: AdminActivityEvent }): React.ReactElement {
 /** Recent-activity panel with up to five events and a footer link. */
 function RecentActivityPanel({
   activity,
+  error: activityErr,
+  onRetry,
 }: {
   activity: AdminActivityEvent[];
+  error: string | null;
+  onRetry: () => void;
 }): React.ReactElement {
   const { t } = useTranslation();
   return (
@@ -584,7 +589,13 @@ function RecentActivityPanel({
           "Platform events as they happen",
         )}
       </div>
-      {activity.length === 0 ? (
+      {activityErr !== null ? (
+        <AdminErrorPanel
+          title={t("admin.error.recentActivity", "Recent Activity Load Error")}
+          message={activityErr}
+          onRetry={onRetry}
+        />
+      ) : activity.length === 0 ? (
         <div className="flex flex-1 items-center justify-center py-8 text-center text-[12.5px] text-[#9aa5a0]">
           {t("admin.dashboard.noRecentActivity", "No recent activity.")}
         </div>
@@ -733,31 +744,57 @@ const AdminDashboard: React.FC = () => {
   const [alerts, setAlerts] = useState<AdminAlert[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
+  const [activityError, setActivityError] = useState<string | null>(null);
+  const [alertsError, setAlertsError] = useState<string | null>(null);
   const [range, setRange] = useState<"30D" | "90D" | "YTD">("30D");
   const [volumeBuckets, setVolumeBuckets] = useState<VolumeBucket[]>([]);
+  const [volumeError, setVolumeError] = useState<string | null>(null);
 
   const fetchAll = useCallback(async () => {
-    try {
-      setLoading(true);
-      setError(null);
+    setLoading(true);
+    setError(null);
+    setActivityError(null);
+    setAlertsError(null);
 
-      const [statsData, activityData, alertsData] = await Promise.all([
+    const [statsResult, activityResult, alertsResult] =
+      await Promise.allSettled([
         getAdminDashboardStats(),
         getAdminRecentActivity(1, 10),
         getAdminAlerts(),
       ]);
 
-      setStats(statsData);
-      setActivity(activityData.events);
-      setAlerts(alertsData);
-    } catch (err) {
+    if (statsResult.status === "fulfilled") {
+      setStats(statsResult.value);
+    } else {
       const msg =
-        err instanceof Error ? err.message : "Failed to load dashboard data.";
+        statsResult.reason instanceof Error
+          ? statsResult.reason.message
+          : "Failed to load dashboard stats.";
       setError(msg);
       trackEvent("admin_dashboard_error", { error: msg, userId: user?.id });
-    } finally {
-      setLoading(false);
     }
+
+    if (activityResult.status === "fulfilled") {
+      setActivity(activityResult.value.events);
+    } else {
+      setActivityError(
+        activityResult.reason instanceof Error
+          ? activityResult.reason.message
+          : "Failed to load recent activity.",
+      );
+    }
+
+    if (alertsResult.status === "fulfilled") {
+      setAlerts(alertsResult.value);
+    } else {
+      setAlertsError(
+        alertsResult.reason instanceof Error
+          ? alertsResult.reason.message
+          : "Failed to load alerts.",
+      );
+    }
+
+    setLoading(false);
   }, [user?.id]);
 
   useEffect(() => {
@@ -781,8 +818,9 @@ const AdminDashboard: React.FC = () => {
       dateFrom = new Date(now.getFullYear(), 0, 1);
       groupBy = "month";
     }
-    getDonationSummary(dateFrom.toISOString(), now.toISOString(), groupBy).then(
-      (rows) => {
+    setVolumeError(null);
+    getDonationSummary(dateFrom.toISOString(), now.toISOString(), groupBy)
+      .then((rows) => {
         if (cancelled) return;
         const byKey = new Map<string, VolumeBucket>();
         for (const row of rows) {
@@ -801,8 +839,15 @@ const AdminDashboard: React.FC = () => {
         setVolumeBuckets(
           [...byKey.values()].sort((a, b) => a.key.localeCompare(b.key)),
         );
-      },
-    );
+      })
+      .catch((err: unknown) => {
+        if (cancelled) return;
+        setVolumeError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load donation volume.",
+        );
+      });
     return () => {
       cancelled = true;
     };
@@ -863,6 +908,15 @@ const AdminDashboard: React.FC = () => {
 
   return (
     <div className="flex w-full max-w-[1240px] flex-col gap-[22px] px-8 pb-12 pt-[26px]">
+      {/* Alerts error panel */}
+      {alertsError !== null && (
+        <AdminErrorPanel
+          title={t("admin.error.alerts", "Alerts Load Error")}
+          message={alertsError}
+          onRetry={fetchAll}
+        />
+      )}
+
       {/* Priority alert banners — one per alert group, only when present */}
       {alertGroups.map((group) => (
         <AlertBanner key={group.alertType} group={group} />
@@ -927,14 +981,28 @@ const AdminDashboard: React.FC = () => {
 
       {/* Donation volume + recent activity */}
       <div className="grid grid-cols-1 gap-4 lg:grid-cols-[1.55fr_1fr]">
-        <DonationVolumePanel
-          stats={stats}
-          buckets={volumeBuckets}
-          range={range}
-          rangeLabel={rangeLabel}
-          onRangeChange={handleRangeChange}
+        {volumeError !== null ? (
+          <AdminErrorPanel
+            title={t(
+              "admin.error.donationVolume",
+              "Donation Volume Load Error",
+            )}
+            message={volumeError}
+          />
+        ) : (
+          <DonationVolumePanel
+            stats={stats}
+            buckets={volumeBuckets}
+            range={range}
+            rangeLabel={rangeLabel}
+            onRangeChange={handleRangeChange}
+          />
+        )}
+        <RecentActivityPanel
+          activity={activity}
+          error={activityError}
+          onRetry={fetchAll}
         />
-        <RecentActivityPanel activity={activity} />
       </div>
 
       {/* Quick actions */}

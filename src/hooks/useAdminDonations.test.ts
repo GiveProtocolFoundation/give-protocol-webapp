@@ -81,7 +81,7 @@ describe("useAdminDonations", () => {
       );
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should show toast and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -90,7 +90,9 @@ describe("useAdminDonations", () => {
       const { result } = renderHook(() => useAdminDonations());
 
       await act(async () => {
-        await result.current.fetchDonations();
+        await expect(result.current.fetchDonations()).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.result.donations).toHaveLength(0);
@@ -132,7 +134,7 @@ describe("useAdminDonations", () => {
       });
     });
 
-    it("should return empty summary on RPC error", async () => {
+    it("should show toast and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -141,11 +143,13 @@ describe("useAdminDonations", () => {
       const { result } = renderHook(() => useAdminDonations());
 
       await act(async () => {
-        await result.current.fetchSummary(
-          "2026-01-01T00:00:00Z",
-          "2026-12-31T23:59:59Z",
-          "month",
-        );
+        await expect(
+          result.current.fetchSummary(
+            "2026-01-01T00:00:00Z",
+            "2026-12-31T23:59:59Z",
+            "month",
+          ),
+        ).rejects.toThrow("RPC failed");
       });
 
       expect(result.current.summary).toEqual([]);

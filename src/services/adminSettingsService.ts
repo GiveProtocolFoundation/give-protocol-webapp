@@ -38,20 +38,15 @@ function mapAdminUserRow(row: AdminUserRow): AdminUserEntry {
  * @returns Array of admin user entries, or empty array on failure
  */
 export async function listAdminUsers(): Promise<AdminUserEntry[]> {
-  try {
-    const { data, error } = await supabase.rpc("admin_list_admin_users");
+  const { data, error } = await supabase.rpc("admin_list_admin_users");
 
-    if (error) {
-      Logger.error("Error fetching admin users", { error });
-      return [];
-    }
-
-    const rows = (data || []) as AdminUserRow[];
-    return rows.map(mapAdminUserRow);
-  } catch (error) {
-    Logger.error("Admin users fetch failed", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return [];
+  if (error) {
+    Logger.error("Error fetching admin users", { error });
+    throw new Error(
+      `admin_list_admin_users RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminUserRow[];
+  return rows.map(mapAdminUserRow);
 }

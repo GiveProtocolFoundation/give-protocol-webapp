@@ -187,26 +187,20 @@ describe("adminDonationService", () => {
       expect(result.limit).toBe(25);
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
-      const result = await listDonations();
-
-      expect(result.donations).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(listDonations()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await listDonations();
-
-      expect(result.donations).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(listDonations()).rejects.toThrow("Network failure");
     });
 
     it("should handle null data gracefully", async () => {
@@ -281,32 +275,32 @@ describe("adminDonationService", () => {
       });
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
-      const result = await getDonationSummary(
-        "2026-01-01T00:00:00Z",
-        "2026-12-31T23:59:59Z",
-        "month",
-      );
-
-      expect(result).toEqual([]);
+      await expect(
+        getDonationSummary(
+          "2026-01-01T00:00:00Z",
+          "2026-12-31T23:59:59Z",
+          "month",
+        ),
+      ).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network error"));
 
-      const result = await getDonationSummary(
-        "2026-01-01T00:00:00Z",
-        "2026-12-31T23:59:59Z",
-        "day",
-      );
-
-      expect(result).toEqual([]);
+      await expect(
+        getDonationSummary(
+          "2026-01-01T00:00:00Z",
+          "2026-12-31T23:59:59Z",
+          "day",
+        ),
+      ).rejects.toThrow("Network error");
     });
   });
 

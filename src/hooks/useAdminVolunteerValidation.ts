@@ -45,23 +45,32 @@ const INITIAL_RESULT: AdminValidationRequestResult = {
 export function useAdminVolunteerValidation() {
   const [stats, setStats] = useState<AdminValidationStats | null>(null);
   const [statsLoading, setStatsLoading] = useState(false);
+  const [statsError, setStatsError] = useState<string | null>(null);
   const [result, setResult] =
     useState<AdminValidationRequestResult>(INITIAL_RESULT);
   const [loading, setLoading] = useState(false);
+  const [requestsError, setRequestsError] = useState<string | null>(null);
   const [overriding, setOverriding] = useState(false);
   const [suspiciousPatterns, setSuspiciousPatterns] = useState<
     AdminSuspiciousVolunteerPattern[]
   >([]);
   const [patternsLoading, setPatternsLoading] = useState(false);
+  const [patternsError, setPatternsError] = useState<string | null>(null);
   const { showToast } = useToast();
 
   const fetchStats = useCallback(async () => {
     try {
       setStatsLoading(true);
+      setStatsError(null);
       const data = await getValidationStats();
       setStats(data);
       return data;
     } catch (error) {
+      const msg =
+        error instanceof Error
+          ? error.message
+          : "Failed to load validation statistics";
+      setStatsError(msg);
       showToast("error", "Failed to load validation statistics");
       throw error;
     } finally {
@@ -73,10 +82,16 @@ export function useAdminVolunteerValidation() {
     async (filters: AdminValidationRequestFilters = {}) => {
       try {
         setLoading(true);
+        setRequestsError(null);
         const data = await listValidationRequests(filters);
         setResult(data);
         return data;
       } catch (error) {
+        const msg =
+          error instanceof Error
+            ? error.message
+            : "Failed to load validation requests";
+        setRequestsError(msg);
         showToast("error", "Failed to load validation requests");
         throw error;
       } finally {
@@ -119,10 +134,16 @@ export function useAdminVolunteerValidation() {
   const fetchSuspiciousPatterns = useCallback(async () => {
     try {
       setPatternsLoading(true);
+      setPatternsError(null);
       const data = await getSuspiciousPatterns();
       setSuspiciousPatterns(data);
       return data;
     } catch (error) {
+      const msg =
+        error instanceof Error
+          ? error.message
+          : "Failed to load suspicious patterns";
+      setPatternsError(msg);
       showToast("error", "Failed to load suspicious patterns");
       throw error;
     } finally {
@@ -133,11 +154,14 @@ export function useAdminVolunteerValidation() {
   return {
     stats,
     statsLoading,
+    statsError,
     result,
     loading,
+    requestsError,
     overriding,
     suspiciousPatterns,
     patternsLoading,
+    patternsError,
     fetchStats,
     fetchRequests,
     submitOverride,

@@ -69,6 +69,7 @@ const mockFetchSuspiciousPatterns = jest
 const createHookReturn = (overrides = {}) => ({
   stats: mockStats,
   statsLoading: false,
+  statsError: null as string | null,
   result: {
     requests: [mockRequest],
     totalCount: 1,
@@ -77,9 +78,11 @@ const createHookReturn = (overrides = {}) => ({
     totalPages: 1,
   },
   loading: false,
+  requestsError: null as string | null,
   overriding: false,
   suspiciousPatterns: [] as AdminSuspiciousVolunteerPattern[],
   patternsLoading: false,
+  patternsError: null as string | null,
   fetchStats: mockFetchStats,
   fetchRequests: mockFetchRequests,
   submitOverride: mockSubmitOverride,

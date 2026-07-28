@@ -134,7 +134,7 @@ describe("useAdminAuditLog", () => {
       expect(result.current.entries).toHaveLength(5);
     });
 
-    it("should return empty entries on RPC error", async () => {
+    it("should show toast and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -143,7 +143,9 @@ describe("useAdminAuditLog", () => {
       const { result } = renderHook(() => useAdminAuditLog());
 
       await act(async () => {
-        await result.current.fetchAuditLog();
+        await expect(result.current.fetchAuditLog()).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.entries).toEqual([]);

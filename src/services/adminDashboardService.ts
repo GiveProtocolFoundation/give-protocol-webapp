@@ -92,45 +92,38 @@ export async function getAdminRecentActivity(
 ): Promise<AdminActivityResult> {
   const offset = (page - 1) * limit;
 
-  try {
-    const { data, error } = await supabase.rpc("get_admin_recent_activity", {
-      p_limit: limit,
-      p_offset: offset,
-    });
+  const { data, error } = await supabase.rpc("get_admin_recent_activity", {
+    p_limit: limit,
+    p_offset: offset,
+  });
 
-    if (error) {
-      Logger.error("Error fetching admin recent activity", {
-        error,
-        page,
-        limit,
-      });
-      return EMPTY_ACTIVITY_RESULT;
-    }
-
-    const rows = (data || []) as AdminActivityRow[];
-
-    if (rows.length === 0) {
-      return { ...EMPTY_ACTIVITY_RESULT, page, limit };
-    }
-
-    const totalCount = rows[0].total_count;
-    const events = rows.map(mapActivityRow);
-
-    return {
-      events,
-      totalCount,
-      page,
-      limit,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  } catch (error) {
-    Logger.error("Admin recent activity query failed", {
-      error: error instanceof Error ? error.message : String(error),
+  if (error) {
+    Logger.error("Error fetching admin recent activity", {
+      error,
       page,
       limit,
     });
-    return EMPTY_ACTIVITY_RESULT;
+    throw new Error(
+      `get_admin_recent_activity RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminActivityRow[];
+
+  if (rows.length === 0) {
+    return { ...EMPTY_ACTIVITY_RESULT, page, limit };
+  }
+
+  const totalCount = rows[0].total_count;
+  const events = rows.map(mapActivityRow);
+
+  return {
+    events,
+    totalCount,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 }
 
 /**
@@ -142,20 +135,15 @@ export async function getAdminRecentActivity(
  * @returns Array of AdminAlert items
  */
 export async function getAdminAlerts(): Promise<AdminAlert[]> {
-  try {
-    const { data, error } = await supabase.rpc("get_admin_alerts");
+  const { data, error } = await supabase.rpc("get_admin_alerts");
 
-    if (error) {
-      Logger.error("Error fetching admin alerts", { error });
-      return [];
-    }
-
-    const rows = (data || []) as AdminAlertRow[];
-    return rows.map(mapAlertRow);
-  } catch (error) {
-    Logger.error("Admin alerts query failed", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return [];
+  if (error) {
+    Logger.error("Error fetching admin alerts", { error });
+    throw new Error(
+      `get_admin_alerts RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminAlertRow[];
+  return rows.map(mapAlertRow);
 }

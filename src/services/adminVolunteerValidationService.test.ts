@@ -85,14 +85,12 @@ describe("adminVolunteerValidationService", () => {
       });
     });
 
-    it("should return null on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
-      const result = await getValidationStats();
-
-      expect(result).toBeNull();
+      await expect(getValidationStats()).rejects.toThrow("RPC failed");
     });
 
     it("should return null when data is empty array", async () => {
@@ -105,14 +103,12 @@ describe("adminVolunteerValidationService", () => {
       expect(result).toBeNull();
     });
 
-    it("should return null on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await getValidationStats();
-
-      expect(result).toBeNull();
+      await expect(getValidationStats()).rejects.toThrow("Network failure");
     });
   });
 
@@ -244,26 +240,20 @@ describe("adminVolunteerValidationService", () => {
       expect(result.totalCount).toBe(100);
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
-      const result = await listValidationRequests();
-
-      expect(result.requests).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(listValidationRequests()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await listValidationRequests();
-
-      expect(result.requests).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(listValidationRequests()).rejects.toThrow("Network failure");
     });
 
     it("should handle null data gracefully", async () => {
@@ -414,24 +404,20 @@ describe("adminVolunteerValidationService", () => {
       expect(result[0].orgName).toBeNull();
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
-      const result = await getSuspiciousPatterns();
-
-      expect(result).toEqual([]);
+      await expect(getSuspiciousPatterns()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await getSuspiciousPatterns();
-
-      expect(result).toEqual([]);
+      await expect(getSuspiciousPatterns()).rejects.toThrow("Network failure");
     });
 
     it("should return empty array when data is null", async () => {

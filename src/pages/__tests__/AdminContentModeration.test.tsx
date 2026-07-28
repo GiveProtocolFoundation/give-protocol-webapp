@@ -297,4 +297,36 @@ describe("AdminContentModeration", () => {
       });
     });
   });
+
+  describe("Error state", () => {
+    it("shows error panel instead of empty state when list RPC fails", async () => {
+      mockListOpportunities.mockRejectedValue(
+        new Error("admin_list_opportunities RPC failed: boom (code: 42703)"),
+      );
+      renderComponent();
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            "admin_list_opportunities RPC failed: boom (code: 42703)",
+          ),
+        ).toBeInTheDocument();
+      });
+      expect(
+        screen.queryByText("No opportunities found matching your filters."),
+      ).not.toBeInTheDocument();
+    });
+
+    it("retries the fetch when Retry is clicked", async () => {
+      mockListOpportunities.mockRejectedValueOnce(new Error("transient"));
+      renderComponent();
+      await waitFor(() => {
+        expect(screen.getByText("transient")).toBeInTheDocument();
+      });
+      fireEvent.click(screen.getByText("Retry"));
+      await waitFor(() => {
+        expect(screen.getByText("Beach Cleanup")).toBeInTheDocument();
+      });
+      expect(screen.queryByText("transient")).not.toBeInTheDocument();
+    });
+  });
 });

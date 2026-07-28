@@ -86,46 +86,40 @@ export async function getAdminAuditLog(
   const page = filters.page ?? 1;
   const limit = filters.limit ?? 50;
 
-  try {
-    const { data, error } = await supabase.rpc("admin_get_audit_log", {
-      p_action_type: filters.actionType ?? null,
-      p_entity_type: filters.entityType ?? null,
-      p_entity_id: filters.entityId ?? null,
-      p_admin_user_id: filters.adminUserId ?? null,
-      p_date_from: filters.dateFrom ?? null,
-      p_date_to: filters.dateTo ?? null,
-      p_page: page,
-      p_limit: limit,
-    });
+  const { data, error } = await supabase.rpc("admin_get_audit_log", {
+    p_action_type: filters.actionType ?? null,
+    p_entity_type: filters.entityType ?? null,
+    p_entity_id: filters.entityId ?? null,
+    p_admin_user_id: filters.adminUserId ?? null,
+    p_date_from: filters.dateFrom ?? null,
+    p_date_to: filters.dateTo ?? null,
+    p_page: page,
+    p_limit: limit,
+  });
 
-    if (error) {
-      Logger.error("Error fetching admin audit log", { error, filters });
-      return EMPTY_RESULT;
-    }
-
-    const rows = (data || []) as AdminAuditLogRow[];
-
-    if (rows.length === 0) {
-      return { ...EMPTY_RESULT, page, limit };
-    }
-
-    const totalCount = rows[0].total_count;
-    const entries = rows.map(mapAuditRow);
-
-    return {
-      entries,
-      totalCount,
-      page,
-      limit,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  } catch (error) {
-    Logger.error("Admin audit log query failed", {
-      error: error instanceof Error ? error.message : String(error),
-      filters,
-    });
-    return EMPTY_RESULT;
+  if (error) {
+    Logger.error("Error fetching admin audit log", { error, filters });
+    throw new Error(
+      `admin_get_audit_log RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminAuditLogRow[];
+
+  if (rows.length === 0) {
+    return { ...EMPTY_RESULT, page, limit };
+  }
+
+  const totalCount = rows[0].total_count;
+  const entries = rows.map(mapAuditRow);
+
+  return {
+    entries,
+    totalCount,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 }
 
 /**

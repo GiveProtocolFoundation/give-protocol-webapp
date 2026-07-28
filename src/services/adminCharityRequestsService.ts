@@ -37,30 +37,25 @@ export async function listCharityRequests(
   limit = 100,
   offset = 0,
 ): Promise<AdminCharityRequestsResult> {
-  try {
-    const { data, error } = await supabase.rpc("admin_list_charity_requests", {
-      p_limit: limit,
-      p_offset: offset,
-    });
+  const { data, error } = await supabase.rpc("admin_list_charity_requests", {
+    p_limit: limit,
+    p_offset: offset,
+  });
 
-    if (error) {
-      Logger.error("Error fetching admin charity requests", { error });
-      return EMPTY_RESULT;
-    }
+  if (error) {
+    Logger.error("Error fetching admin charity requests", { error });
+    throw new Error(
+      `admin_list_charity_requests RPC failed: ${error.message} (code: ${error.code})`,
+    );
+  }
 
-    const rows = (data || []) as AdminCharityRequestRow[];
-    if (rows.length === 0) {
-      return EMPTY_RESULT;
-    }
-
-    return {
-      requests: rows.map(mapRow),
-      totalCount: Number(rows[0].total_count),
-    };
-  } catch (error) {
-    Logger.error("Charity requests fetch failed", {
-      error: error instanceof Error ? error.message : String(error),
-    });
+  const rows = (data || []) as AdminCharityRequestRow[];
+  if (rows.length === 0) {
     return EMPTY_RESULT;
   }
+
+  return {
+    requests: rows.map(mapRow),
+    totalCount: Number(rows[0].total_count),
+  };
 }

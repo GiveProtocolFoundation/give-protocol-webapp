@@ -88,24 +88,20 @@ describe("adminPlatformConfigService", () => {
       expect(result[0].value).toEqual(networksValue);
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
-      const result = await getConfig();
-
-      expect(result).toEqual([]);
+      await expect(getConfig()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await getConfig();
-
-      expect(result).toEqual([]);
+      await expect(getConfig()).rejects.toThrow("Network failure");
     });
 
     it("should return empty array when data is null", async () => {
@@ -258,24 +254,20 @@ describe("adminPlatformConfigService", () => {
       expect(result[0].adminUserId).toBeNull();
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
-      const result = await getConfigAudit();
-
-      expect(result).toEqual([]);
+      await expect(getConfigAudit()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await getConfigAudit();
-
-      expect(result).toEqual([]);
+      await expect(getConfigAudit()).rejects.toThrow("Network failure");
     });
   });
 

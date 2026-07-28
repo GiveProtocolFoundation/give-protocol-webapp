@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -432,6 +433,197 @@ function OverrideModal({
 
 type TabId = "requests" | "patterns";
 
+// ─── Stats Section ──────────────────────────────────────────────────────────
+
+/** Stats card with loading / error / data states */
+function StatsSection({
+  statsLoading,
+  statsError,
+  stats,
+  onRetry,
+}: {
+  statsLoading: boolean;
+  statsError: string | null;
+  stats: AdminValidationStats | null;
+  onRetry: () => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <Card className="p-6 mb-6">
+      <h2 className="text-base font-semibold text-gray-800 mb-4">
+        {t("admin.validation.pipelineStats", "Pipeline Statistics")}
+      </h2>
+      {statsLoading && <LoadingSpinner size="sm" />}
+      {!statsLoading && statsError !== null && (
+        <AdminErrorPanel message={statsError} onRetry={onRetry} />
+      )}
+      {!statsLoading && statsError === null && stats !== null && (
+        <>
+          <StatsRow stats={stats} />
+          <RateRow stats={stats} />
+        </>
+      )}
+      {!statsLoading && statsError === null && stats === null && (
+        <p className="text-sm text-gray-500">
+          {t("admin.validation.noStats", "No statistics available.")}
+        </p>
+      )}
+    </Card>
+  );
+}
+
+// ─── Requests Tab Content ───────────────────────────────────────────────────
+
+/** Requests tab: filter bar, request table, pagination */
+function RequestsTabContent({
+  filters,
+  loading,
+  requestsError,
+  result,
+  onStatusChange,
+  onSearchChange,
+  onOpenOverride,
+  onPrev,
+  onNext,
+}: {
+  filters: AdminValidationRequestFilters;
+  loading: boolean;
+  requestsError: string | null;
+  result: {
+    requests: AdminValidationRequestItem[];
+    page: number;
+    totalPages: number;
+  };
+  onStatusChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
+  onSearchChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onOpenOverride: (_req: AdminValidationRequestItem) => void;
+  onPrev: () => void;
+  onNext: () => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <Card className="p-6">
+      <FilterBar
+        filters={filters}
+        onStatusChange={onStatusChange}
+        onSearchChange={onSearchChange}
+      />
+      {loading && (
+        <div className="flex justify-center py-12">
+          <LoadingSpinner size="lg" />
+        </div>
+      )}
+      {!loading && requestsError !== null && (
+        <AdminErrorPanel message={requestsError} />
+      )}
+      {!loading && requestsError === null && result.requests.length === 0 && (
+        <p className="text-sm text-gray-500 text-center py-8">
+          {t("admin.validation.noRequests", "No validation requests found.")}
+        </p>
+      )}
+      {!loading && requestsError === null && result.requests.length > 0 && (
+        <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
+          <caption className="sr-only">Volunteer validation requests</caption>
+          <thead>
+            <tr className="bg-gray-50 dark:bg-gray-800">
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+              >
+                {t("admin.validation.colVolunteer", "Volunteer")}
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+              >
+                {t("admin.validation.colOrganisation", "Organisation")}
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right"
+              >
+                {t("admin.validation.colHours", "Hours")}
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+              >
+                {t("admin.validation.colActivityDate", "Activity Date")}
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+              >
+                {t("admin.validation.colStatus", "Status")}
+              </th>
+              <th
+                scope="col"
+                className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
+              >
+                {t("admin.validation.colCreated", "Created")}
+              </th>
+              <th scope="col" className="px-4 py-3" />
+            </tr>
+          </thead>
+          <tbody className="divide-y divide-gray-100">
+            {result.requests.map((req) => (
+              <RequestRow
+                key={req.id}
+                request={req}
+                onOverride={onOpenOverride}
+              />
+            ))}
+          </tbody>
+        </table>
+      )}
+      <Pagination
+        page={result.page}
+        totalPages={result.totalPages}
+        onPrev={onPrev}
+        onNext={onNext}
+      />
+    </Card>
+  );
+}
+
+// ─── Patterns Tab Content ───────────────────────────────────────────────────
+
+/** Patterns tab: description, loading/error states, suspicious table */
+function PatternsTabContent({
+  patternsLoading,
+  patternsError,
+  suspiciousPatterns,
+  onRetry,
+}: {
+  patternsLoading: boolean;
+  patternsError: string | null;
+  suspiciousPatterns: AdminSuspiciousVolunteerPattern[];
+  onRetry: () => void;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <Card className="p-6">
+      <p className="text-sm text-gray-600 mb-4">
+        {t(
+          "admin.validation.patternsDescription",
+          "Volunteers flagged for reporting more than the configured threshold of hours in a rolling 7-day window. These patterns may indicate abuse of the self-reported hours system.",
+        )}
+      </p>
+      {patternsLoading && (
+        <div className="flex justify-center py-12">
+          <LoadingSpinner size="lg" />
+        </div>
+      )}
+      {!patternsLoading && patternsError !== null && (
+        <AdminErrorPanel message={patternsError} onRetry={onRetry} />
+      )}
+      {!patternsLoading && patternsError === null && (
+        <SuspiciousTable patterns={suspiciousPatterns} />
+      )}
+    </Card>
+  );
+}
+
 // ─── Main Page ────────────────────────────────────────────────────────────────
 
 /**
@@ -444,11 +636,14 @@ export default function AdminVolunteerValidation(): React.ReactElement {
   const {
     stats,
     statsLoading,
+    statsError,
     result,
     loading,
+    requestsError,
     overriding,
     suspiciousPatterns,
     patternsLoading,
+    patternsError,
     fetchStats,
     fetchRequests,
     submitOverride,
@@ -595,23 +790,12 @@ export default function AdminVolunteerValidation(): React.ReactElement {
       </div>
 
       {/* Pipeline stats */}
-      <Card className="p-6 mb-6">
-        <h2 className="text-base font-semibold text-gray-800 mb-4">
-          {t("admin.validation.pipelineStats", "Pipeline Statistics")}
-        </h2>
-        {statsLoading && <LoadingSpinner size="sm" />}
-        {!statsLoading && stats !== null && (
-          <>
-            <StatsRow stats={stats} />
-            <RateRow stats={stats} />
-          </>
-        )}
-        {!statsLoading && stats === null && (
-          <p className="text-sm text-gray-500">
-            {t("admin.validation.noStats", "No statistics available.")}
-          </p>
-        )}
-      </Card>
+      <StatsSection
+        statsLoading={statsLoading}
+        statsError={statsError}
+        stats={stats}
+        onRetry={fetchStats}
+      />
 
       {/* Tabs */}
       <div className="flex gap-2 mb-4 border-b border-gray-200">
@@ -636,109 +820,27 @@ export default function AdminVolunteerValidation(): React.ReactElement {
 
       {/* Validation Requests tab */}
       {activeTab === "requests" && (
-        <Card className="p-6">
-          <FilterBar
-            filters={filters}
-            onStatusChange={handleStatusChange}
-            onSearchChange={handleSearchChange}
-          />
-          {loading && (
-            <div className="flex justify-center py-12">
-              <LoadingSpinner size="lg" />
-            </div>
-          )}
-          {!loading && result.requests.length === 0 && (
-            <p className="text-sm text-gray-500 text-center py-8">
-              {t(
-                "admin.validation.noRequests",
-                "No validation requests found.",
-              )}
-            </p>
-          )}
-          {!loading && result.requests.length > 0 && (
-            <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
-              <caption className="sr-only">
-                Volunteer validation requests
-              </caption>
-              <thead>
-                <tr className="bg-gray-50 dark:bg-gray-800">
-                  <th
-                    scope="col"
-                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
-                  >
-                    {t("admin.validation.colVolunteer", "Volunteer")}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
-                  >
-                    {t("admin.validation.colOrganisation", "Organisation")}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase text-right"
-                  >
-                    {t("admin.validation.colHours", "Hours")}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
-                  >
-                    {t("admin.validation.colActivityDate", "Activity Date")}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
-                  >
-                    {t("admin.validation.colStatus", "Status")}
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-3 text-xs font-semibold text-gray-500 uppercase"
-                  >
-                    {t("admin.validation.colCreated", "Created")}
-                  </th>
-                  <th scope="col" className="px-4 py-3" />
-                </tr>
-              </thead>
-              <tbody className="divide-y divide-gray-100">
-                {result.requests.map((req) => (
-                  <RequestRow
-                    key={req.id}
-                    request={req}
-                    onOverride={handleOpenOverride}
-                  />
-                ))}
-              </tbody>
-            </table>
-          )}
-          <Pagination
-            page={result.page}
-            totalPages={result.totalPages}
-            onPrev={handlePrev}
-            onNext={handleNext}
-          />
-        </Card>
+        <RequestsTabContent
+          filters={filters}
+          loading={loading}
+          requestsError={requestsError}
+          result={result}
+          onStatusChange={handleStatusChange}
+          onSearchChange={handleSearchChange}
+          onOpenOverride={handleOpenOverride}
+          onPrev={handlePrev}
+          onNext={handleNext}
+        />
       )}
 
       {/* Suspicious Patterns tab */}
       {activeTab === "patterns" && (
-        <Card className="p-6">
-          <p className="text-sm text-gray-600 mb-4">
-            {t(
-              "admin.validation.patternsDescription",
-              "Volunteers flagged for reporting more than the configured threshold of hours in a rolling 7-day window. These patterns may indicate abuse of the self-reported hours system.",
-            )}
-          </p>
-          {patternsLoading && (
-            <div className="flex justify-center py-12">
-              <LoadingSpinner size="lg" />
-            </div>
-          )}
-          {!patternsLoading && (
-            <SuspiciousTable patterns={suspiciousPatterns} />
-          )}
-        </Card>
+        <PatternsTabContent
+          patternsLoading={patternsLoading}
+          patternsError={patternsError}
+          suspiciousPatterns={suspiciousPatterns}
+          onRetry={fetchSuspiciousPatterns}
+        />
       )}
 
       {/* Override Modal */}

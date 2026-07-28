@@ -3,7 +3,9 @@ import { renderHook, act } from "@testing-library/react";
 import { supabase } from "@/lib/supabase";
 import { useAdminDonors } from "./useAdminDonors";
 
-const mockRpc = supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>;
+const mockRpc = supabase.rpc as ReturnType<
+  typeof import("@jest/globals").jest.fn
+>;
 
 describe("useAdminDonors", () => {
   beforeEach(() => {
@@ -51,23 +53,35 @@ describe("useAdminDonors", () => {
       const { result } = renderHook(() => useAdminDonors());
 
       await act(async () => {
-        await result.current.fetchDonors({ status: "suspended", page: 2, limit: 25 });
+        await result.current.fetchDonors({
+          status: "suspended",
+          page: 2,
+          limit: 25,
+        });
       });
 
-      expect(mockRpc).toHaveBeenCalledWith("admin_list_donors", expect.objectContaining({
-        p_status: "suspended",
-        p_page: 2,
-        p_limit: 25,
-      }));
+      expect(mockRpc).toHaveBeenCalledWith(
+        "admin_list_donors",
+        expect.objectContaining({
+          p_status: "suspended",
+          p_page: 2,
+          p_limit: 25,
+        }),
+      );
     });
 
-    it("should return empty result on RPC error", async () => {
-      mockRpc.mockResolvedValue({ data: null, error: { message: "Access denied" } });
+    it("should show toast and re-throw on RPC error", async () => {
+      mockRpc.mockResolvedValue({
+        data: null,
+        error: { message: "Access denied" },
+      });
 
       const { result } = renderHook(() => useAdminDonors());
 
       await act(async () => {
-        await result.current.fetchDonors();
+        await expect(result.current.fetchDonors()).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.result.donors).toHaveLength(0);
@@ -78,9 +92,24 @@ describe("useAdminDonors", () => {
   describe("fetchDonorDetail", () => {
     it("should set detail via admin_get_donor_detail RPC", async () => {
       const mockDetail = {
-        profile: { userId: "user-1", email: "donor@example.com", displayName: "Test Donor", userStatus: "active", createdAt: "2026-01-01T00:00:00Z" },
-        identity: { walletAddress: null, primaryAuthMethod: "email", walletLinkedAt: null },
-        donationSummary: { cryptoDonationCount: 0, cryptoTotalUsd: 0, fiatDonationCount: 2, fiatTotalUsd: 50 },
+        profile: {
+          userId: "user-1",
+          email: "donor@example.com",
+          displayName: "Test Donor",
+          userStatus: "active",
+          createdAt: "2026-01-01T00:00:00Z",
+        },
+        identity: {
+          walletAddress: null,
+          primaryAuthMethod: "email",
+          walletLinkedAt: null,
+        },
+        donationSummary: {
+          cryptoDonationCount: 0,
+          cryptoTotalUsd: 0,
+          fiatDonationCount: 2,
+          fiatTotalUsd: 50,
+        },
         recentCryptoDonations: [],
         recentFiatDonations: [],
         statusHistory: [],
@@ -95,16 +124,23 @@ describe("useAdminDonors", () => {
 
       expect(result.current.detail).toEqual(mockDetail);
       expect(result.current.detailLoading).toBe(false);
-      expect(mockRpc).toHaveBeenCalledWith("admin_get_donor_detail", { p_user_id: "user-1" });
+      expect(mockRpc).toHaveBeenCalledWith("admin_get_donor_detail", {
+        p_user_id: "user-1",
+      });
     });
 
-    it("should set detail to null on RPC error", async () => {
-      mockRpc.mockResolvedValue({ data: null, error: { message: "Not found" } });
+    it("should show toast and re-throw on RPC error", async () => {
+      mockRpc.mockResolvedValue({
+        data: null,
+        error: { message: "Not found" },
+      });
 
       const { result } = renderHook(() => useAdminDonors());
 
       await act(async () => {
-        await result.current.fetchDonorDetail("user-1");
+        await expect(result.current.fetchDonorDetail("user-1")).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.detail).toBeNull();
@@ -121,7 +157,10 @@ describe("useAdminDonors", () => {
 
       let success: boolean | undefined;
       await act(async () => {
-        success = await result.current.suspendDonor("user-1", "Suspicious activity");
+        success = await result.current.suspendDonor(
+          "user-1",
+          "Suspicious activity",
+        );
       });
 
       expect(success).toBe(true);
@@ -133,7 +172,10 @@ describe("useAdminDonors", () => {
     });
 
     it("should return false when updateDonorStatus fails", async () => {
-      mockRpc.mockResolvedValue({ data: null, error: { message: "Access denied" } });
+      mockRpc.mockResolvedValue({
+        data: null,
+        error: { message: "Access denied" },
+      });
 
       const { result } = renderHook(() => useAdminDonors());
 

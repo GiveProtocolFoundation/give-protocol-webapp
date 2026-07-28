@@ -81,43 +81,37 @@ export async function listOpportunities(
   const page = filters.page ?? 1;
   const limit = filters.limit ?? 50;
 
-  try {
-    const { data, error } = await supabase.rpc("admin_list_opportunities", {
-      p_moderation_status: filters.moderationStatus ?? null,
-      p_search: filters.search ?? null,
-      p_charity_id: filters.charityId ?? null,
-      p_page: page,
-      p_limit: limit,
-    });
+  const { data, error } = await supabase.rpc("admin_list_opportunities", {
+    p_moderation_status: filters.moderationStatus ?? null,
+    p_search: filters.search ?? null,
+    p_charity_id: filters.charityId ?? null,
+    p_page: page,
+    p_limit: limit,
+  });
 
-    if (error) {
-      Logger.error("Error fetching admin opportunity list", { error, filters });
-      return EMPTY_OPPORTUNITY_RESULT;
-    }
-
-    const rows = (data || []) as AdminOpportunityListRow[];
-
-    if (rows.length === 0) {
-      return { ...EMPTY_OPPORTUNITY_RESULT, page, limit };
-    }
-
-    const totalCount = rows[0].total_count;
-    const opportunities = rows.map(mapOpportunityRow);
-
-    return {
-      opportunities,
-      totalCount,
-      page,
-      limit,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  } catch (error) {
-    Logger.error("Admin opportunity list query failed", {
-      error: error instanceof Error ? error.message : String(error),
-      filters,
-    });
-    return EMPTY_OPPORTUNITY_RESULT;
+  if (error) {
+    Logger.error("Error fetching admin opportunity list", { error, filters });
+    throw new Error(
+      `admin_list_opportunities RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminOpportunityListRow[];
+
+  if (rows.length === 0) {
+    return { ...EMPTY_OPPORTUNITY_RESULT, page, limit };
+  }
+
+  const totalCount = rows[0].total_count;
+  const opportunities = rows.map(mapOpportunityRow);
+
+  return {
+    opportunities,
+    totalCount,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 }
 
 /**
@@ -132,43 +126,37 @@ export async function listCauses(
   const page = filters.page ?? 1;
   const limit = filters.limit ?? 50;
 
-  try {
-    const { data, error } = await supabase.rpc("admin_list_causes", {
-      p_moderation_status: filters.moderationStatus ?? null,
-      p_search: filters.search ?? null,
-      p_charity_id: filters.charityId ?? null,
-      p_page: page,
-      p_limit: limit,
-    });
+  const { data, error } = await supabase.rpc("admin_list_causes", {
+    p_moderation_status: filters.moderationStatus ?? null,
+    p_search: filters.search ?? null,
+    p_charity_id: filters.charityId ?? null,
+    p_page: page,
+    p_limit: limit,
+  });
 
-    if (error) {
-      Logger.error("Error fetching admin cause list", { error, filters });
-      return EMPTY_CAUSE_RESULT;
-    }
-
-    const rows = (data || []) as AdminCauseListRow[];
-
-    if (rows.length === 0) {
-      return { ...EMPTY_CAUSE_RESULT, page, limit };
-    }
-
-    const totalCount = rows[0].total_count;
-    const causes = rows.map(mapCauseRow);
-
-    return {
-      causes,
-      totalCount,
-      page,
-      limit,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  } catch (error) {
-    Logger.error("Admin cause list query failed", {
-      error: error instanceof Error ? error.message : String(error),
-      filters,
-    });
-    return EMPTY_CAUSE_RESULT;
+  if (error) {
+    Logger.error("Error fetching admin cause list", { error, filters });
+    throw new Error(
+      `admin_list_causes RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminCauseListRow[];
+
+  if (rows.length === 0) {
+    return { ...EMPTY_CAUSE_RESULT, page, limit };
+  }
+
+  const totalCount = rows[0].total_count;
+  const causes = rows.map(mapCauseRow);
+
+  return {
+    causes,
+    totalCount,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 }
 
 /**

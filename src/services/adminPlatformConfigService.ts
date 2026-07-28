@@ -47,22 +47,17 @@ function mapAuditRow(row: PlatformConfigAuditRow): PlatformConfigAuditEntry {
  * @returns Array of platform config entries, or empty array on failure
  */
 export async function getConfig(): Promise<PlatformConfigEntry[]> {
-  try {
-    const { data, error } = await supabase.rpc("admin_get_config");
+  const { data, error } = await supabase.rpc("admin_get_config");
 
-    if (error) {
-      Logger.error("Error fetching platform config", { error });
-      return [];
-    }
-
-    const rows = (data || []) as PlatformConfigRow[];
-    return rows.map(mapConfigRow);
-  } catch (error) {
-    Logger.error("Platform config fetch failed", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return [];
+  if (error) {
+    Logger.error("Error fetching platform config", { error });
+    throw new Error(
+      `admin_get_config RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as PlatformConfigRow[];
+  return rows.map(mapConfigRow);
 }
 
 /**
@@ -105,24 +100,19 @@ export async function updateConfig(
 export async function getConfigAudit(
   limit = 50,
 ): Promise<PlatformConfigAuditEntry[]> {
-  try {
-    const { data, error } = await supabase.rpc("admin_get_config_audit", {
-      p_limit: limit,
-    });
+  const { data, error } = await supabase.rpc("admin_get_config_audit", {
+    p_limit: limit,
+  });
 
-    if (error) {
-      Logger.error("Error fetching platform config audit", { error });
-      return [];
-    }
-
-    const rows = (data || []) as PlatformConfigAuditRow[];
-    return rows.map(mapAuditRow);
-  } catch (error) {
-    Logger.error("Platform config audit fetch failed", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return [];
+  if (error) {
+    Logger.error("Error fetching platform config audit", { error });
+    throw new Error(
+      `admin_get_config_audit RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as PlatformConfigAuditRow[];
+  return rows.map(mapAuditRow);
 }
 
 /**

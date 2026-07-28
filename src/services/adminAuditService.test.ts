@@ -132,7 +132,7 @@ describe("adminAuditService", () => {
       expect(result.limit).toBe(25);
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({
@@ -140,21 +140,15 @@ describe("adminAuditService", () => {
         error: { message: "Access denied" },
       });
 
-      const result = await getAdminAuditLog();
-
-      expect(result.entries).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(getAdminAuditLog()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await getAdminAuditLog();
-
-      expect(result.entries).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(getAdminAuditLog()).rejects.toThrow("Network failure");
     });
 
     it("should handle null data gracefully", async () => {
