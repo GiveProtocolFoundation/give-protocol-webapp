@@ -516,21 +516,14 @@ function RequestsTabContent({
       {!loading && requestsError !== null && (
         <AdminErrorPanel message={requestsError} />
       )}
-      {!loading &&
-        requestsError === null &&
-        result.requests.length === 0 && (
-          <p className="text-sm text-gray-500 text-center py-8">
-            {t(
-              "admin.validation.noRequests",
-              "No validation requests found.",
-            )}
-          </p>
-        )}
+      {!loading && requestsError === null && result.requests.length === 0 && (
+        <p className="text-sm text-gray-500 text-center py-8">
+          {t("admin.validation.noRequests", "No validation requests found.")}
+        </p>
+      )}
       {!loading && requestsError === null && result.requests.length > 0 && (
         <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
-          <caption className="sr-only">
-            Volunteer validation requests
-          </caption>
+          <caption className="sr-only">Volunteer validation requests</caption>
           <thead>
             <tr className="bg-gray-50 dark:bg-gray-800">
               <th
@@ -622,10 +615,7 @@ function PatternsTabContent({
         </div>
       )}
       {!patternsLoading && patternsError !== null && (
-        <AdminErrorPanel
-          message={patternsError}
-          onRetry={onRetry}
-        />
+        <AdminErrorPanel message={patternsError} onRetry={onRetry} />
       )}
       {!patternsLoading && patternsError === null && (
         <SuspiciousTable patterns={suspiciousPatterns} />
