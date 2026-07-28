@@ -263,16 +263,14 @@ export function TokenNetworkSettings({
       {networksEntry !== undefined && (
         <Card className="p-5">
           <div className="flex items-start justify-between gap-4 mb-3">
-            <div>
-              <h2 className="text-sm font-semibold text-gray-800">
-                Donation Networks
-              </h2>
-              <p className="text-xs text-gray-500 mt-0.5">
+            <h2 className="flex-1 text-sm font-semibold text-gray-800">
+              Donation Networks
+              <span className="block text-xs font-normal text-gray-500 mt-0.5">
                 Networks donors can use for on-chain donations. Networks marked
                 unavailable require contract deployment before they can be
                 enabled.
-              </p>
-            </div>
+              </span>
+            </h2>
             <Button
               variant="secondary"
               size="sm"
@@ -309,15 +307,13 @@ export function TokenNetworkSettings({
       {tokensEntry !== undefined && (
         <Card className="p-5">
           <div className="flex items-start justify-between gap-4 mb-3">
-            <div>
-              <h2 className="text-sm font-semibold text-gray-800">
-                Accepted Tokens
-              </h2>
-              <p className="text-xs text-gray-500 mt-0.5">
+            <h2 className="flex-1 text-sm font-semibold text-gray-800">
+              Accepted Tokens
+              <span className="block text-xs font-normal text-gray-500 mt-0.5">
                 Token symbols accepted for on-chain donations across enabled
                 networks.
-              </p>
-            </div>
+              </span>
+            </h2>
             <Button variant="secondary" size="sm" onClick={handleEditTokensRaw}>
               Edit JSON
             </Button>
