@@ -430,7 +430,7 @@ describe("AdminPlatformConfig", () => {
       expect(screen.getByText("Donation Networks")).toBeInTheDocument();
       expect(screen.getByText("Accepted Tokens")).toBeInTheDocument();
       expect(screen.getByText("Base")).toBeInTheDocument();
-      expect(screen.getByText("Arbitrum")).toBeInTheDocument();
+      expect(screen.getAllByText("Arbitrum").length).toBeGreaterThan(0);
     });
 
     it("saves toggled networks through saveConfig", async () => {

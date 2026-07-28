@@ -9,167 +9,19 @@ import React, { useState, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
-import { CHAIN_CONFIGS, SUPPORTED_CHAIN_IDS } from "@/config/contracts";
 import type {
   PlatformConfigEntry,
   PlatformConfigKey,
   PlatformConfigValue,
 } from "@/types/adminPlatformConfig";
-
-// ─── Network registry ─────────────────────────────────────────────────────────
-
-/** A network row shown in the admin settings, with availability status. */
-export interface AdminNetworkOption {
-  chainId: number;
-  name: string;
-  ecosystem: string;
-  /** True when the donation flow is integrated for this chain */
-  available: boolean;
-  /** Shown when the network cannot be enabled yet */
-  unavailableReason?: string;
-}
-
-/**
- * Networks the platform has on its roadmap but cannot accept donations on yet.
- * Ethereum and Avalanche have chain configs but no donation contract wiring;
- * Arbitrum and Polygon are not integrated in the webapp at all.
- */
-const ROADMAP_NETWORKS: AdminNetworkOption[] = [
-  {
-    chainId: 1,
-    name: "Ethereum",
-    ecosystem: "Ethereum",
-    available: false,
-    unavailableReason: "Donation contracts not deployed",
-  },
-  {
-    chainId: 42161,
-    name: "Arbitrum",
-    ecosystem: "Ethereum L2",
-    available: false,
-    unavailableReason: "Not yet integrated",
-  },
-  {
-    chainId: 137,
-    name: "Polygon",
-    ecosystem: "Polygon",
-    available: false,
-    unavailableReason: "Not yet integrated",
-  },
-  {
-    chainId: 43114,
-    name: "Avalanche",
-    ecosystem: "Avalanche",
-    available: false,
-    unavailableReason: "Donation contracts not deployed",
-  },
-];
-
-/**
- * Full list of networks shown in the admin Token & Network tab: integrated
- * mainnet chains from the contract registry first, then roadmap networks.
- */
-export const NETWORK_OPTIONS: AdminNetworkOption[] = [
-  ...SUPPORTED_CHAIN_IDS.map((id) => {
-    const config = CHAIN_CONFIGS[id];
-    return {
-      chainId: config.id,
-      name: config.name,
-      ecosystem: config.ecosystem,
-      available: true,
-    };
-  }),
-  ...ROADMAP_NETWORKS,
-];
-
-// ─── Token registry ───────────────────────────────────────────────────────────
-
-/** A token row shown in the admin settings. */
-export interface AdminTokenOption {
-  symbol: string;
-  name: string;
-}
-
-/**
- * Tokens the donation flow supports across integrated chains
- * (union of the per-chain mainnet token lists plus non-EVM natives).
- */
-export const TOKEN_OPTIONS: AdminTokenOption[] = [
-  { symbol: "ETH", name: "Ethereum" },
-  { symbol: "WETH", name: "Wrapped Ether" },
-  { symbol: "USDC", name: "USD Coin" },
-  { symbol: "USDT", name: "Tether USD" },
-  { symbol: "DAI", name: "Dai Stablecoin" },
-  { symbol: "OP", name: "Optimism" },
-  { symbol: "GLMR", name: "Glimmer" },
-  { symbol: "WGLMR", name: "Wrapped GLMR" },
-  { symbol: "DOT", name: "Polkadot" },
-  { symbol: "SOL", name: "Solana" },
-  { symbol: "KSM", name: "Kusama" },
-];
-
-// ─── Value parsing / serialisation ────────────────────────────────────────────
-
-/**
- * Parses a stored supported_networks value into the set of enabled chain IDs.
- * Accepts the canonical `[{chainId, name}]` shape plus legacy string/number
- * array shapes (matched by name against the network registry).
- * @param value - Raw platform_config value for supported_networks
- * @returns Set of enabled chain IDs
- */
-export function parseEnabledChainIds(value?: PlatformConfigValue): Set<number> {
-  const ids = new Set<number>();
-  if (!Array.isArray(value)) return ids;
-  for (const item of value) {
-    if (typeof item === "number") {
-      ids.add(item);
-    } else if (typeof item === "string") {
-      const match = NETWORK_OPTIONS.find(
-        (n) => n.name.toLowerCase() === item.toLowerCase(),
-      );
-      if (match !== undefined) ids.add(match.chainId);
-    } else if (
-      item !== null &&
-      typeof item === "object" &&
-      typeof (item as { chainId?: unknown }).chainId === "number"
-    ) {
-      ids.add((item as { chainId: number }).chainId);
-    }
-  }
-  return ids;
-}
-
-/**
- * Parses a stored supported_tokens value into a set of token symbols.
- * @param value - Raw platform_config value for supported_tokens
- * @returns Set of enabled token symbols (uppercased)
- */
-export function parseEnabledTokens(
-  value: PlatformConfigValue | undefined,
-): Set<string> {
-  const symbols = new Set<string>();
-  if (!Array.isArray(value)) return symbols;
-  for (const item of value) {
-    if (typeof item === "string" && item.length > 0) {
-      symbols.add(item.toUpperCase());
-    }
-  }
-  return symbols;
-}
-
-/**
- * Serialises a set of enabled chain IDs into the canonical stored shape.
- * @param enabled - Set of enabled chain IDs
- * @returns Array of `{chainId, name}` entries ordered like the registry
- */
-export function serializeEnabledNetworks(
-  enabled: Set<number>,
-): Array<{ chainId: number; name: string }> {
-  return NETWORK_OPTIONS.filter((n) => enabled.has(n.chainId)).map((n) => ({
-    chainId: n.chainId,
-    name: n.name,
-  }));
-}
+import {
+  NETWORK_OPTIONS,
+  TOKEN_OPTIONS,
+  parseEnabledChainIds,
+  parseEnabledTokens,
+  serializeEnabledNetworks,
+} from "./tokenNetworkUtils";
+import type { AdminNetworkOption, AdminTokenOption } from "./tokenNetworkUtils";
 
 // ─── Row sub-components ───────────────────────────────────────────────────────
 
@@ -411,16 +263,14 @@ export function TokenNetworkSettings({
       {networksEntry !== undefined && (
         <Card className="p-5">
           <div className="flex items-start justify-between gap-4 mb-3">
-            <div>
-              <h2 className="text-sm font-semibold text-gray-800">
-                Donation Networks
-              </h2>
-              <p className="text-xs text-gray-500 mt-0.5">
+            <h2 className="flex-1 text-sm font-semibold text-gray-800">
+              Donation Networks
+              <span className="block text-xs font-normal text-gray-500 mt-0.5">
                 Networks donors can use for on-chain donations. Networks marked
                 unavailable require contract deployment before they can be
                 enabled.
-              </p>
-            </div>
+              </span>
+            </h2>
             <Button
               variant="secondary"
               size="sm"
@@ -457,15 +307,13 @@ export function TokenNetworkSettings({
       {tokensEntry !== undefined && (
         <Card className="p-5">
           <div className="flex items-start justify-between gap-4 mb-3">
-            <div>
-              <h2 className="text-sm font-semibold text-gray-800">
-                Accepted Tokens
-              </h2>
-              <p className="text-xs text-gray-500 mt-0.5">
+            <h2 className="flex-1 text-sm font-semibold text-gray-800">
+              Accepted Tokens
+              <span className="block text-xs font-normal text-gray-500 mt-0.5">
                 Token symbols accepted for on-chain donations across enabled
                 networks.
-              </p>
-            </div>
+              </span>
+            </h2>
             <Button variant="secondary" size="sm" onClick={handleEditTokensRaw}>
               Edit JSON
             </Button>

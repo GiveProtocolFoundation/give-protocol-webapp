@@ -1,0 +1,16 @@
+-- GIV-790: Chain config plumbing for Ethereum, Arbitrum, Polygon, Avalanche
+--
+-- The webapp chain registry and env wiring are in place for these 4 chains,
+-- but donor-facing config (supported_networks / supported_tokens rows) must
+-- NOT be seeded until donation contracts are deployed + verified on each chain.
+--
+-- When contracts are live on a chain, the admin can enable it via the
+-- Token & Network Settings editor (GIV-782), or run:
+--
+--   UPDATE platform_config
+--   SET value = value || '[{"chainId":1,"name":"Ethereum"}]'::jsonb
+--   WHERE key = 'supported_networks';
+--
+-- This migration is intentionally a no-op placeholder to document the
+-- sequencing requirement.
+SELECT 1;

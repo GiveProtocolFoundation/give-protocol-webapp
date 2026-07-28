@@ -18,9 +18,13 @@ export type WalletProviderType =
  * Supported network types
  */
 export type NetworkType =
+  | "ethereum"
   | "base"
   | "optimism"
   | "moonbeam"
+  | "arbitrum"
+  | "polygon"
+  | "avalanche"
   | "base-sepolia"
   | "optimism-sepolia"
   | "moonbase"
@@ -158,6 +162,13 @@ export interface NetworkConfig {
 export const NETWORKS: NetworkConfig[] = [
   // EVM Mainnets
   {
+    id: "ethereum",
+    name: "Ethereum",
+    token: "ETH",
+    color: "#627EEA",
+    chainType: "evm",
+  },
+  {
     id: "base",
     name: "Base",
     token: "ETH",
@@ -176,6 +187,27 @@ export const NETWORKS: NetworkConfig[] = [
     name: "Moonbeam",
     token: "GLMR",
     color: "#53CBC8",
+    chainType: "evm",
+  },
+  {
+    id: "arbitrum",
+    name: "Arbitrum",
+    token: "ETH",
+    color: "#28A0F0",
+    chainType: "evm",
+  },
+  {
+    id: "polygon",
+    name: "Polygon",
+    token: "POL",
+    color: "#8247E5",
+    chainType: "evm",
+  },
+  {
+    id: "avalanche",
+    name: "Avalanche",
+    token: "AVAX",
+    color: "#E84142",
     chainType: "evm",
   },
   // EVM Testnets

@@ -23,6 +23,8 @@ import { useAuth } from "@/contexts/AuthContext";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useMultiChainContext } from "@/contexts/MultiChainContext";
 import { DOCS_CONFIG } from "@/config/docs";
+import { hasDeployedContracts } from "@/config/contracts";
+import type { ChainId } from "@/config/contracts";
 import { NETWORKS } from "./Wallet/types";
 
 const NAV_LINK_BASE =
@@ -399,40 +401,46 @@ export const AppNavbar: React.FC = () => {
     }
   }, [multiChain.activeChainType, multiChain.activeAccount?.chainName]);
 
-  // Filter visible networks based on connected wallet's supported chain types
-  const visibleNetworks = useMemo(() => {
-    const supportedTypes = multiChain.wallet?.supportedChainTypes;
-    if (!supportedTypes || supportedTypes.length === 0) {
-      // No wallet connected or unknown — show only EVM
-      return NETWORKS.filter((n) => n.chainType === "evm");
-    }
-
-    // Map wallet ChainType values to NetworkConfig chainType values
-    const chainTypeMap: Record<string, string> = {
-      evm: "evm",
-      solana: "solana",
-      polkadot: "polkadot",
-    };
-
-    const allowedTypes = new Set(
-      supportedTypes.map((ct) => chainTypeMap[ct] || ct),
-    );
-
-    return NETWORKS.filter((n) => allowedTypes.has(n.chainType));
-  }, [multiChain.wallet?.supportedChainTypes]);
-
   // EVM NetworkType to chain ID mapping
   const evmChainIds: Partial<Record<NetworkType, number>> = useMemo(
     () => ({
+      ethereum: 1,
       base: 8453,
       optimism: 10,
       moonbeam: 1284,
+      arbitrum: 42161,
+      polygon: 137,
+      avalanche: 43114,
       "base-sepolia": 84532,
       "optimism-sepolia": 11155420,
       moonbase: 1287,
     }),
     [],
   );
+
+  // Filter visible networks: only show chains with deployed contracts (EVM
+  // mainnets), plus testnets and non-EVM chains which have separate gating
+  const visibleNetworks = useMemo(() => {
+    const supportedTypes = multiChain.wallet?.supportedChainTypes;
+    const chainTypeMap: Record<string, string> = {
+      evm: "evm",
+      solana: "solana",
+      polkadot: "polkadot",
+    };
+
+    const allowedTypes =
+      !supportedTypes || supportedTypes.length === 0
+        ? new Set(["evm"])
+        : new Set(supportedTypes.map((ct) => chainTypeMap[ct] || ct));
+
+    return NETWORKS.filter((n) => {
+      if (!allowedTypes.has(n.chainType)) return false;
+      if (n.chainType !== "evm") return true;
+      const chainId = evmChainIds[n.id];
+      if (!chainId) return true;
+      return hasDeployedContracts(chainId as ChainId);
+    });
+  }, [multiChain.wallet?.supportedChainTypes, evmChainIds]);
 
   const handleNetworkChange = useCallback(
     async (_network: NetworkType) => {
