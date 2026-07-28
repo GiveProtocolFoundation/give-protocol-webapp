@@ -413,7 +413,11 @@ export function TokenNetworkSettings({
                 enabled.
               </p>
             </div>
-            <Button variant="secondary" size="sm" onClick={handleEditNetworksRaw}>
+            <Button
+              variant="secondary"
+              size="sm"
+              onClick={handleEditNetworksRaw}
+            >
               Edit JSON
             </Button>
           </div>
