@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -444,11 +445,14 @@ export default function AdminVolunteerValidation(): React.ReactElement {
   const {
     stats,
     statsLoading,
+    statsError,
     result,
     loading,
+    requestsError,
     overriding,
     suspiciousPatterns,
     patternsLoading,
+    patternsError,
     fetchStats,
     fetchRequests,
     submitOverride,
@@ -600,13 +604,16 @@ export default function AdminVolunteerValidation(): React.ReactElement {
           {t("admin.validation.pipelineStats", "Pipeline Statistics")}
         </h2>
         {statsLoading && <LoadingSpinner size="sm" />}
-        {!statsLoading && stats !== null && (
+        {!statsLoading && statsError !== null && (
+          <AdminErrorPanel message={statsError} onRetry={fetchStats} />
+        )}
+        {!statsLoading && statsError === null && stats !== null && (
           <>
             <StatsRow stats={stats} />
             <RateRow stats={stats} />
           </>
         )}
-        {!statsLoading && stats === null && (
+        {!statsLoading && statsError === null && stats === null && (
           <p className="text-sm text-gray-500">
             {t("admin.validation.noStats", "No statistics available.")}
           </p>
@@ -647,7 +654,10 @@ export default function AdminVolunteerValidation(): React.ReactElement {
               <LoadingSpinner size="lg" />
             </div>
           )}
-          {!loading && result.requests.length === 0 && (
+          {!loading && requestsError !== null && (
+            <AdminErrorPanel message={requestsError} />
+          )}
+          {!loading && requestsError === null && result.requests.length === 0 && (
             <p className="text-sm text-gray-500 text-center py-8">
               {t(
                 "admin.validation.noRequests",
@@ -655,7 +665,7 @@ export default function AdminVolunteerValidation(): React.ReactElement {
               )}
             </p>
           )}
-          {!loading && result.requests.length > 0 && (
+          {!loading && requestsError === null && result.requests.length > 0 && (
             <table className="min-w-full divide-y divide-gray-200 text-left overflow-x-auto">
               <caption className="sr-only">
                 Volunteer validation requests
@@ -735,7 +745,13 @@ export default function AdminVolunteerValidation(): React.ReactElement {
               <LoadingSpinner size="lg" />
             </div>
           )}
-          {!patternsLoading && (
+          {!patternsLoading && patternsError !== null && (
+            <AdminErrorPanel
+              message={patternsError}
+              onRetry={fetchSuspiciousPatterns}
+            />
+          )}
+          {!patternsLoading && patternsError === null && (
             <SuspiciousTable patterns={suspiciousPatterns} />
           )}
         </Card>

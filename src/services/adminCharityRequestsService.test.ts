@@ -56,24 +56,19 @@ describe("adminCharityRequestsService", () => {
       expect(result.totalCount).toBe(0);
     });
 
-    it("returns empty result on RPC error", async () => {
+    it("throws on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const result = await listCharityRequests();
-
-      expect(result.requests).toHaveLength(0);
-      expect(result.totalCount).toBe(0);
+      await expect(listCharityRequests()).rejects.toThrow("RPC failed");
     });
 
-    it("returns empty result when RPC throws", async () => {
+    it("throws when RPC throws", async () => {
       mockRpc.mockRejectedValue(new Error("Network error"));
 
-      const result = await listCharityRequests();
-
-      expect(result.requests).toHaveLength(0);
+      await expect(listCharityRequests()).rejects.toThrow("Network error");
     });
 
     it("maps snake_case row to camelCase item", async () => {

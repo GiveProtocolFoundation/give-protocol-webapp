@@ -84,23 +84,19 @@ describe("adminSettingsService", () => {
       ]);
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const result = await listAdminUsers();
-
-      expect(result).toEqual([]);
+      await expect(listAdminUsers()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
-      const result = await listAdminUsers();
-
-      expect(result).toEqual([]);
+      await expect(listAdminUsers()).rejects.toThrow("Network failure");
     });
 
     it("should return empty array when data is null", async () => {

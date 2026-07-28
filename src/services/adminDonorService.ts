@@ -50,46 +50,40 @@ export async function listDonors(
   const page = filters.page ?? 1;
   const limit = filters.limit ?? 50;
 
-  try {
-    const { data, error } = await supabase.rpc("admin_list_donors", {
-      p_status: filters.status ?? null,
-      p_auth_method: filters.authMethod ?? null,
-      p_search: filters.search ?? null,
-      p_date_from: filters.dateFrom ?? null,
-      p_date_to: filters.dateTo ?? null,
-      p_min_donated: filters.minDonated ?? null,
-      p_page: page,
-      p_limit: limit,
-    });
+  const { data, error } = await supabase.rpc("admin_list_donors", {
+    p_status: filters.status ?? null,
+    p_auth_method: filters.authMethod ?? null,
+    p_search: filters.search ?? null,
+    p_date_from: filters.dateFrom ?? null,
+    p_date_to: filters.dateTo ?? null,
+    p_min_donated: filters.minDonated ?? null,
+    p_page: page,
+    p_limit: limit,
+  });
 
-    if (error) {
-      Logger.error("Error fetching admin donor list", { error, filters });
-      return EMPTY_RESULT;
-    }
-
-    const rows = (data || []) as AdminDonorListRow[];
-
-    if (rows.length === 0) {
-      return { ...EMPTY_RESULT, page, limit };
-    }
-
-    const totalCount = rows[0].total_count;
-    const donors = rows.map(mapDonorRow);
-
-    return {
-      donors,
-      totalCount,
-      page,
-      limit,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  } catch (error) {
-    Logger.error("Admin donor list query failed", {
-      error: error instanceof Error ? error.message : String(error),
-      filters,
-    });
-    return EMPTY_RESULT;
+  if (error) {
+    Logger.error("Error fetching admin donor list", { error, filters });
+    throw new Error(
+      `admin_list_donors RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminDonorListRow[];
+
+  if (rows.length === 0) {
+    return { ...EMPTY_RESULT, page, limit };
+  }
+
+  const totalCount = rows[0].total_count;
+  const donors = rows.map(mapDonorRow);
+
+  return {
+    donors,
+    totalCount,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 }
 
 /**
@@ -101,24 +95,18 @@ export async function listDonors(
 export async function getDonorDetail(
   userId: string,
 ): Promise<AdminDonorDetail | null> {
-  try {
-    const { data, error } = await supabase.rpc("admin_get_donor_detail", {
-      p_user_id: userId,
-    });
+  const { data, error } = await supabase.rpc("admin_get_donor_detail", {
+    p_user_id: userId,
+  });
 
-    if (error) {
-      Logger.error("Error fetching donor detail", { error, userId });
-      return null;
-    }
-
-    return data as AdminDonorDetail;
-  } catch (error) {
-    Logger.error("Donor detail query failed", {
-      error: error instanceof Error ? error.message : String(error),
-      userId,
-    });
-    return null;
+  if (error) {
+    Logger.error("Error fetching donor detail", { error, userId });
+    throw new Error(
+      `admin_get_donor_detail RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  return data as AdminDonorDetail;
 }
 
 /**

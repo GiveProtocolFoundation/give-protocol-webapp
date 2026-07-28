@@ -72,29 +72,29 @@ describe("adminReportsService", () => {
       });
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const rows = await getCharityGrowthReport(
-        "2026-01-01T00:00:00Z",
-        "2026-01-31T23:59:59Z",
-      );
-
-      expect(rows).toEqual([]);
+      await expect(
+        getCharityGrowthReport(
+          "2026-01-01T00:00:00Z",
+          "2026-01-31T23:59:59Z",
+        ),
+      ).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
-      const rows = await getCharityGrowthReport(
-        "2026-01-01T00:00:00Z",
-        "2026-01-31T23:59:59Z",
-      );
-
-      expect(rows).toEqual([]);
+      await expect(
+        getCharityGrowthReport(
+          "2026-01-01T00:00:00Z",
+          "2026-01-31T23:59:59Z",
+        ),
+      ).rejects.toThrow("Network failure");
     });
 
     it("should handle null data gracefully", async () => {
@@ -157,29 +157,29 @@ describe("adminReportsService", () => {
       });
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const rows = await getDonorActivityReport(
-        "2026-01-01T00:00:00Z",
-        "2026-01-31T23:59:59Z",
-      );
-
-      expect(rows).toEqual([]);
+      await expect(
+        getDonorActivityReport(
+          "2026-01-01T00:00:00Z",
+          "2026-01-31T23:59:59Z",
+        ),
+      ).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
-      const rows = await getDonorActivityReport(
-        "2026-01-01T00:00:00Z",
-        "2026-01-31T23:59:59Z",
-      );
-
-      expect(rows).toEqual([]);
+      await expect(
+        getDonorActivityReport(
+          "2026-01-01T00:00:00Z",
+          "2026-01-31T23:59:59Z",
+        ),
+      ).rejects.toThrow("Network failure");
     });
   });
 
@@ -228,29 +228,29 @@ describe("adminReportsService", () => {
       });
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const rows = await getVolunteerReport(
-        "2026-01-01T00:00:00Z",
-        "2026-01-31T23:59:59Z",
-      );
-
-      expect(rows).toEqual([]);
+      await expect(
+        getVolunteerReport(
+          "2026-01-01T00:00:00Z",
+          "2026-01-31T23:59:59Z",
+        ),
+      ).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
-      const rows = await getVolunteerReport(
-        "2026-01-01T00:00:00Z",
-        "2026-01-31T23:59:59Z",
-      );
-
-      expect(rows).toEqual([]);
+      await expect(
+        getVolunteerReport(
+          "2026-01-01T00:00:00Z",
+          "2026-01-31T23:59:59Z",
+        ),
+      ).rejects.toThrow("Network failure");
     });
   });
 
@@ -320,23 +320,23 @@ describe("adminReportsService", () => {
       expect(mockRpc).toHaveBeenCalledTimes(3);
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const rows = await getPlatformHealthSummary("30d");
-
-      expect(rows).toEqual([]);
+      await expect(getPlatformHealthSummary("30d")).rejects.toThrow(
+        "RPC failed",
+      );
     });
 
-    it("should return empty array on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
-      const rows = await getPlatformHealthSummary("30d");
-
-      expect(rows).toEqual([]);
+      await expect(getPlatformHealthSummary("30d")).rejects.toThrow(
+        "Network failure",
+      );
     });
   });
 

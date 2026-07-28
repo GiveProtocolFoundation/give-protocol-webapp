@@ -244,6 +244,11 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "volunteer.understanding.item5",
   "volunteer.understanding.item6Before",
   "volunteer.understanding.item6After",
+  // GIV-786: admin error panel keys — English-first; translations to follow.
+  "admin.error.title",
+  "admin.error.recentActivity",
+  "admin.error.alerts",
+  "admin.error.donationVolume",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;

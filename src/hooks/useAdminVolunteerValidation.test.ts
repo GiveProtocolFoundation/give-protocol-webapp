@@ -61,7 +61,7 @@ describe("useAdminVolunteerValidation", () => {
       expect(result.current.stats?.avgResponseTimeHours).toBe(5.0);
     });
 
-    it("should set stats to null on RPC error", async () => {
+    it("should set statsError and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -70,7 +70,7 @@ describe("useAdminVolunteerValidation", () => {
       const { result } = renderHook(() => useAdminVolunteerValidation());
 
       await act(async () => {
-        await result.current.fetchStats();
+        await expect(result.current.fetchStats()).rejects.toThrow("RPC failed");
       });
 
       expect(result.current.stats).toBeNull();
@@ -139,7 +139,7 @@ describe("useAdminVolunteerValidation", () => {
       );
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should set requestsError and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -148,7 +148,9 @@ describe("useAdminVolunteerValidation", () => {
       const { result } = renderHook(() => useAdminVolunteerValidation());
 
       await act(async () => {
-        await result.current.fetchRequests();
+        await expect(result.current.fetchRequests()).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.result.requests).toEqual([]);
@@ -272,7 +274,7 @@ describe("useAdminVolunteerValidation", () => {
       });
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should set patternsError and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -281,7 +283,9 @@ describe("useAdminVolunteerValidation", () => {
       const { result } = renderHook(() => useAdminVolunteerValidation());
 
       await act(async () => {
-        await result.current.fetchSuspiciousPatterns();
+        await expect(
+          result.current.fetchSuspiciousPatterns(),
+        ).rejects.toThrow("RPC failed");
       });
 
       expect(result.current.suspiciousPatterns).toEqual([]);

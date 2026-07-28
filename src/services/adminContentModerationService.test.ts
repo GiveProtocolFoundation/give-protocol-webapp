@@ -100,24 +100,19 @@ describe("adminContentModerationService", () => {
       expect(result.totalPages).toBe(0);
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const result = await listOpportunities();
-
-      expect(result.opportunities).toHaveLength(0);
-      expect(result.totalCount).toBe(0);
+      await expect(listOpportunities()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result when RPC throws", async () => {
+    it("should throw when RPC throws", async () => {
       mockRpc.mockRejectedValue(new Error("Network error"));
 
-      const result = await listOpportunities();
-
-      expect(result.opportunities).toHaveLength(0);
+      await expect(listOpportunities()).rejects.toThrow("Network error");
     });
 
     it("should map snake_case row to camelCase AdminOpportunityListItem", async () => {
@@ -213,23 +208,19 @@ describe("adminContentModerationService", () => {
       expect(result.totalPages).toBe(0);
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
       });
 
-      const result = await listCauses();
-
-      expect(result.causes).toHaveLength(0);
+      await expect(listCauses()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result when RPC throws", async () => {
+    it("should throw when RPC throws", async () => {
       mockRpc.mockRejectedValue(new Error("Network error"));
 
-      const result = await listCauses();
-
-      expect(result.causes).toHaveLength(0);
+      await expect(listCauses()).rejects.toThrow("Network error");
     });
 
     it("should map snake_case row to camelCase AdminCauseListItem", async () => {

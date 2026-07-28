@@ -143,7 +143,7 @@ describe("adminDashboardService", () => {
       expect(event.eventTime).toBe("2026-04-11T10:00:00Z");
     });
 
-    it("should return empty result when RPC returns error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({
@@ -151,20 +151,17 @@ describe("adminDashboardService", () => {
         error: { message: "permission denied" },
       });
 
-      const result = await getAdminRecentActivity();
-
-      expect(result.events).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(getAdminRecentActivity()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result when RPC throws", async () => {
+    it("should throw when RPC throws", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("connection refused"));
 
-      const result = await getAdminRecentActivity();
-
-      expect(result.events).toEqual([]);
+      await expect(getAdminRecentActivity()).rejects.toThrow(
+        "connection refused",
+      );
     });
 
     it("should compute totalPages correctly", async () => {
@@ -247,7 +244,7 @@ describe("adminDashboardService", () => {
       expect(alerts).toEqual([]);
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({
@@ -255,19 +252,15 @@ describe("adminDashboardService", () => {
         error: { message: "Admin access required" },
       });
 
-      const alerts = await getAdminAlerts();
-
-      expect(alerts).toEqual([]);
+      await expect(getAdminAlerts()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty array when RPC throws", async () => {
+    it("should throw when RPC throws", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("timeout"));
 
-      const alerts = await getAdminAlerts();
-
-      expect(alerts).toEqual([]);
+      await expect(getAdminAlerts()).rejects.toThrow("timeout");
     });
 
     it("should handle multiple alert types in a single response", async () => {

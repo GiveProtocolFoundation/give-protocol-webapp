@@ -28,36 +28,31 @@ export async function getCharityGrowthReport(
   dateFrom: string,
   dateTo: string,
 ): Promise<CharityGrowthRow[]> {
-  try {
-    const { data, error } = await supabase.rpc("admin_charity_growth_report", {
-      p_date_from: dateFrom,
-      p_date_to: dateTo,
-    });
+  const { data, error } = await supabase.rpc("admin_charity_growth_report", {
+    p_date_from: dateFrom,
+    p_date_to: dateTo,
+  });
 
-    if (error) {
-      Logger.error("Error fetching charity growth report", {
-        error,
-        dateFrom,
-        dateTo,
-      });
-      return [];
-    }
-
-    const rows = (data || []) as CharityGrowthRawRow[];
-    return rows.map((row) => ({
-      period: row.period,
-      newRegistrations: Number(row.new_registrations),
-      approved: Number(row.approved),
-      rejected: Number(row.rejected),
-      active: Number(row.active),
-      suspended: Number(row.suspended),
-    }));
-  } catch (err) {
-    Logger.error("Charity growth report query failed", {
-      error: err instanceof Error ? err.message : String(err),
+  if (error) {
+    Logger.error("Error fetching charity growth report", {
+      error,
+      dateFrom,
+      dateTo,
     });
-    return [];
+    throw new Error(
+      `admin_charity_growth_report RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as CharityGrowthRawRow[];
+  return rows.map((row) => ({
+    period: row.period,
+    newRegistrations: Number(row.new_registrations),
+    approved: Number(row.approved),
+    rejected: Number(row.rejected),
+    active: Number(row.active),
+    suspended: Number(row.suspended),
+  }));
 }
 
 // ─── Donor Activity ───────────────────────────────────────────────────────────
@@ -73,36 +68,31 @@ export async function getDonorActivityReport(
   dateFrom: string,
   dateTo: string,
 ): Promise<DonorActivityRow[]> {
-  try {
-    const { data, error } = await supabase.rpc("admin_donor_activity_report", {
-      p_date_from: dateFrom,
-      p_date_to: dateTo,
-    });
+  const { data, error } = await supabase.rpc("admin_donor_activity_report", {
+    p_date_from: dateFrom,
+    p_date_to: dateTo,
+  });
 
-    if (error) {
-      Logger.error("Error fetching donor activity report", {
-        error,
-        dateFrom,
-        dateTo,
-      });
-      return [];
-    }
-
-    const rows = (data || []) as DonorActivityRawRow[];
-    return rows.map((row) => ({
-      period: row.period,
-      newDonors: Number(row.new_donors),
-      activeDonors: Number(row.active_donors),
-      dormantDonors: Number(row.dormant_donors),
-      avgDonationUsd: Number(row.avg_donation_usd),
-      repeatDonorRate: Number(row.repeat_donor_rate),
-    }));
-  } catch (err) {
-    Logger.error("Donor activity report query failed", {
-      error: err instanceof Error ? err.message : String(err),
+  if (error) {
+    Logger.error("Error fetching donor activity report", {
+      error,
+      dateFrom,
+      dateTo,
     });
-    return [];
+    throw new Error(
+      `admin_donor_activity_report RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as DonorActivityRawRow[];
+  return rows.map((row) => ({
+    period: row.period,
+    newDonors: Number(row.new_donors),
+    activeDonors: Number(row.active_donors),
+    dormantDonors: Number(row.dormant_donors),
+    avgDonationUsd: Number(row.avg_donation_usd),
+    repeatDonorRate: Number(row.repeat_donor_rate),
+  }));
 }
 
 // ─── Volunteer Hours ──────────────────────────────────────────────────────────
@@ -118,36 +108,31 @@ export async function getVolunteerReport(
   dateFrom: string,
   dateTo: string,
 ): Promise<VolunteerReportRow[]> {
-  try {
-    const { data, error } = await supabase.rpc("admin_volunteer_report", {
-      p_date_from: dateFrom,
-      p_date_to: dateTo,
-    });
+  const { data, error } = await supabase.rpc("admin_volunteer_report", {
+    p_date_from: dateFrom,
+    p_date_to: dateTo,
+  });
 
-    if (error) {
-      Logger.error("Error fetching volunteer report", {
-        error,
-        dateFrom,
-        dateTo,
-      });
-      return [];
-    }
-
-    const rows = (data || []) as VolunteerReportRawRow[];
-    return rows.map((row) => ({
-      period: row.period,
-      hoursSubmitted: Number(row.hours_submitted),
-      hoursValidated: Number(row.hours_validated),
-      hoursRejected: Number(row.hours_rejected),
-      rejectionRate: Number(row.rejection_rate),
-      avgValidationDays: Number(row.avg_validation_days),
-    }));
-  } catch (err) {
-    Logger.error("Volunteer report query failed", {
-      error: err instanceof Error ? err.message : String(err),
+  if (error) {
+    Logger.error("Error fetching volunteer report", {
+      error,
+      dateFrom,
+      dateTo,
     });
-    return [];
+    throw new Error(
+      `admin_volunteer_report RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as VolunteerReportRawRow[];
+  return rows.map((row) => ({
+    period: row.period,
+    hoursSubmitted: Number(row.hours_submitted),
+    hoursValidated: Number(row.hours_validated),
+    hoursRejected: Number(row.hours_rejected),
+    rejectionRate: Number(row.rejection_rate),
+    avgValidationDays: Number(row.avg_validation_days),
+  }));
 }
 
 // ─── Platform Health ──────────────────────────────────────────────────────────
@@ -161,33 +146,28 @@ export async function getVolunteerReport(
 export async function getPlatformHealthSummary(
   period: PlatformHealthPeriod,
 ): Promise<PlatformHealthRow[]> {
-  try {
-    const { data, error } = await supabase.rpc(
-      "admin_platform_health_summary",
-      {
-        p_period: period,
-      },
+  const { data, error } = await supabase.rpc(
+    "admin_platform_health_summary",
+    {
+      p_period: period,
+    },
+  );
+
+  if (error) {
+    Logger.error("Error fetching platform health summary", { error, period });
+    throw new Error(
+      `admin_platform_health_summary RPC failed: ${error.message} (code: ${error.code})`,
     );
-
-    if (error) {
-      Logger.error("Error fetching platform health summary", { error, period });
-      return [];
-    }
-
-    const rows = (data || []) as PlatformHealthRawRow[];
-    return rows.map((row) => ({
-      metric: row.metric,
-      value: Number(row.value),
-      trend7d: row.trend_7d !== null ? Number(row.trend_7d) : null,
-      trend30d: row.trend_30d !== null ? Number(row.trend_30d) : null,
-      unit: row.unit,
-    }));
-  } catch (err) {
-    Logger.error("Platform health summary query failed", {
-      error: err instanceof Error ? err.message : String(err),
-    });
-    return [];
   }
+
+  const rows = (data || []) as PlatformHealthRawRow[];
+  return rows.map((row) => ({
+    metric: row.metric,
+    value: Number(row.value),
+    trend7d: row.trend_7d !== null ? Number(row.trend_7d) : null,
+    trend30d: row.trend_30d !== null ? Number(row.trend_30d) : null,
+    unit: row.unit,
+  }));
 }
 
 // ─── CSV export helpers ───────────────────────────────────────────────────────

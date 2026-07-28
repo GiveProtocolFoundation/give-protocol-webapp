@@ -133,7 +133,7 @@ describe("adminDonorService", () => {
       expect(result.totalCount).toBe(100);
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({
@@ -141,21 +141,15 @@ describe("adminDonorService", () => {
         error: { message: "Access denied" },
       });
 
-      const result = await listDonors();
-
-      expect(result.donors).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(listDonors()).rejects.toThrow("RPC failed");
     });
 
-    it("should return empty result on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      const result = await listDonors();
-
-      expect(result.donors).toEqual([]);
-      expect(result.totalCount).toBe(0);
+      await expect(listDonors()).rejects.toThrow("Network failure");
     });
 
     it("should handle null data gracefully", async () => {
@@ -213,7 +207,7 @@ describe("adminDonorService", () => {
       expect(result).toEqual(mockDetail);
     });
 
-    it("should return null on RPC error", async () => {
+    it("should throw on RPC error", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockResolvedValue({
@@ -221,19 +215,15 @@ describe("adminDonorService", () => {
         error: { message: "Access denied" },
       });
 
-      const result = await getDonorDetail("user-1");
-
-      expect(result).toBeNull();
+      await expect(getDonorDetail("user-1")).rejects.toThrow("RPC failed");
     });
 
-    it("should return null on thrown exception", async () => {
+    it("should throw on thrown exception", async () => {
       (
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network error"));
 
-      const result = await getDonorDetail("user-1");
-
-      expect(result).toBeNull();
+      await expect(getDonorDetail("user-1")).rejects.toThrow("Network error");
     });
   });
 

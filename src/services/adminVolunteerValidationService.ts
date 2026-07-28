@@ -53,47 +53,42 @@ function mapRequestRow(
  * @returns Pipeline statistics or null on failure
  */
 export async function getValidationStats(): Promise<AdminValidationStats | null> {
-  try {
-    const { data, error } = await supabase.rpc("admin_validation_stats");
+  const { data, error } = await supabase.rpc("admin_validation_stats");
 
-    if (error) {
-      Logger.error("Error fetching admin validation stats", { error });
-      return null;
-    }
-
-    if (!data || !Array.isArray(data) || data.length === 0) {
-      return null;
-    }
-
-    const row = data[0] as AdminValidationStatsRow;
-    const pendingByOrg = (row.pending_by_org ?? []).map(
-      (o: {
-        org_id: string;
-        org_name: string | null;
-        pending_count: number;
-      }) => ({
-        orgId: o.org_id,
-        orgName: o.org_name,
-        pendingCount: Number(o.pending_count),
-      }),
+  if (error) {
+    Logger.error("Error fetching admin validation stats", { error });
+    throw new Error(
+      `admin_validation_stats RPC failed: ${error.message} (code: ${error.code})`,
     );
+  }
 
-    return {
-      totalPending: Number(row.total_pending),
-      totalApproved: Number(row.total_approved),
-      totalRejected: Number(row.total_rejected),
-      totalExpired: Number(row.total_expired),
-      avgResponseTimeHours: Number(row.avg_response_time_hours),
-      expirationRate: Number(row.expiration_rate),
-      rejectionRate: Number(row.rejection_rate),
-      pendingByOrg,
-    };
-  } catch (error) {
-    Logger.error("Admin validation stats query failed", {
-      error: error instanceof Error ? error.message : String(error),
-    });
+  if (!data || !Array.isArray(data) || data.length === 0) {
     return null;
   }
+
+  const row = data[0] as AdminValidationStatsRow;
+  const pendingByOrg = (row.pending_by_org ?? []).map(
+    (o: {
+      org_id: string;
+      org_name: string | null;
+      pending_count: number;
+    }) => ({
+      orgId: o.org_id,
+      orgName: o.org_name,
+      pendingCount: Number(o.pending_count),
+    }),
+  );
+
+  return {
+    totalPending: Number(row.total_pending),
+    totalApproved: Number(row.total_approved),
+    totalRejected: Number(row.total_rejected),
+    totalExpired: Number(row.total_expired),
+    avgResponseTimeHours: Number(row.avg_response_time_hours),
+    expirationRate: Number(row.expiration_rate),
+    rejectionRate: Number(row.rejection_rate),
+    pendingByOrg,
+  };
 }
 
 /**
@@ -108,52 +103,46 @@ export async function listValidationRequests(
   const page = filters.page ?? 1;
   const limit = filters.limit ?? 50;
 
-  try {
-    const { data, error } = await supabase.rpc(
-      "admin_list_validation_requests",
-      {
-        p_status: filters.status ?? null,
-        p_org_id: filters.orgId ?? null,
-        p_volunteer_id: filters.volunteerId ?? null,
-        p_search: filters.search ?? null,
-        p_date_from: filters.dateFrom ?? null,
-        p_date_to: filters.dateTo ?? null,
-        p_page: page,
-        p_limit: limit,
-      },
-    );
+  const { data, error } = await supabase.rpc(
+    "admin_list_validation_requests",
+    {
+      p_status: filters.status ?? null,
+      p_org_id: filters.orgId ?? null,
+      p_volunteer_id: filters.volunteerId ?? null,
+      p_search: filters.search ?? null,
+      p_date_from: filters.dateFrom ?? null,
+      p_date_to: filters.dateTo ?? null,
+      p_page: page,
+      p_limit: limit,
+    },
+  );
 
-    if (error) {
-      Logger.error("Error fetching admin validation request list", {
-        error,
-        filters,
-      });
-      return EMPTY_RESULT;
-    }
-
-    const rows = (data || []) as AdminValidationRequestRow[];
-
-    if (rows.length === 0) {
-      return { ...EMPTY_RESULT, page, limit };
-    }
-
-    const totalCount = rows[0].total_count;
-    const requests = rows.map(mapRequestRow);
-
-    return {
-      requests,
-      totalCount,
-      page,
-      limit,
-      totalPages: Math.ceil(totalCount / limit),
-    };
-  } catch (error) {
-    Logger.error("Admin validation request list query failed", {
-      error: error instanceof Error ? error.message : String(error),
+  if (error) {
+    Logger.error("Error fetching admin validation request list", {
+      error,
       filters,
     });
-    return EMPTY_RESULT;
+    throw new Error(
+      `admin_list_validation_requests RPC failed: ${error.message} (code: ${error.code})`,
+    );
   }
+
+  const rows = (data || []) as AdminValidationRequestRow[];
+
+  if (rows.length === 0) {
+    return { ...EMPTY_RESULT, page, limit };
+  }
+
+  const totalCount = rows[0].total_count;
+  const requests = rows.map(mapRequestRow);
+
+  return {
+    requests,
+    totalCount,
+    page,
+    limit,
+    totalPages: Math.ceil(totalCount / limit),
+  };
 }
 
 /**
@@ -238,31 +227,26 @@ export async function overrideValidation(
 export async function getSuspiciousPatterns(): Promise<
   AdminSuspiciousVolunteerPattern[]
 > {
-  try {
-    const { data, error } = await supabase.rpc(
-      "admin_suspicious_volunteer_patterns",
+  const { data, error } = await supabase.rpc(
+    "admin_suspicious_volunteer_patterns",
+  );
+
+  if (error) {
+    Logger.error("Error fetching suspicious volunteer patterns", { error });
+    throw new Error(
+      `admin_suspicious_volunteer_patterns RPC failed: ${error.message} (code: ${error.code})`,
     );
-
-    if (error) {
-      Logger.error("Error fetching suspicious volunteer patterns", { error });
-      return [];
-    }
-
-    const rows = (data || []) as AdminSuspiciousVolunteerPatternRow[];
-
-    return rows.map((row) => ({
-      volunteerId: row.volunteer_id,
-      volunteerEmail: row.volunteer_email,
-      volunteerDisplayName: row.volunteer_display_name,
-      orgId: row.org_id,
-      orgName: row.org_name,
-      weeklyHours: Number(row.weekly_hours),
-      totalRequests: Number(row.total_requests),
-    }));
-  } catch (error) {
-    Logger.error("Suspicious volunteer patterns query failed", {
-      error: error instanceof Error ? error.message : String(error),
-    });
-    return [];
   }
+
+  const rows = (data || []) as AdminSuspiciousVolunteerPatternRow[];
+
+  return rows.map((row) => ({
+    volunteerId: row.volunteer_id,
+    volunteerEmail: row.volunteer_email,
+    volunteerDisplayName: row.volunteer_display_name,
+    orgId: row.org_id,
+    orgName: row.org_name,
+    weeklyHours: Number(row.weekly_hours),
+    totalRequests: Number(row.total_requests),
+  }));
 }

@@ -61,13 +61,13 @@ describe("useAdminDonors", () => {
       }));
     });
 
-    it("should return empty result on RPC error", async () => {
+    it("should show toast and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({ data: null, error: { message: "Access denied" } });
 
       const { result } = renderHook(() => useAdminDonors());
 
       await act(async () => {
-        await result.current.fetchDonors();
+        await expect(result.current.fetchDonors()).rejects.toThrow("RPC failed");
       });
 
       expect(result.current.result.donors).toHaveLength(0);
@@ -98,13 +98,15 @@ describe("useAdminDonors", () => {
       expect(mockRpc).toHaveBeenCalledWith("admin_get_donor_detail", { p_user_id: "user-1" });
     });
 
-    it("should set detail to null on RPC error", async () => {
+    it("should show toast and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({ data: null, error: { message: "Not found" } });
 
       const { result } = renderHook(() => useAdminDonors());
 
       await act(async () => {
-        await result.current.fetchDonorDetail("user-1");
+        await expect(result.current.fetchDonorDetail("user-1")).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.detail).toBeNull();

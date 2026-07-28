@@ -64,7 +64,7 @@ describe("useAdminPlatformConfig", () => {
       expect(mockRpc).toHaveBeenCalledWith("admin_get_config");
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should show toast and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -73,7 +73,9 @@ describe("useAdminPlatformConfig", () => {
       const { result } = renderHook(() => useAdminPlatformConfig());
 
       await act(async () => {
-        await result.current.fetchConfig();
+        await expect(result.current.fetchConfig()).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.configs).toEqual([]);
@@ -241,7 +243,7 @@ describe("useAdminPlatformConfig", () => {
       });
     });
 
-    it("should return empty array on RPC error", async () => {
+    it("should show toast and re-throw on RPC error", async () => {
       mockRpc.mockResolvedValue({
         data: null,
         error: { message: "Access denied" },
@@ -250,7 +252,9 @@ describe("useAdminPlatformConfig", () => {
       const { result } = renderHook(() => useAdminPlatformConfig());
 
       await act(async () => {
-        await result.current.fetchAuditLog();
+        await expect(result.current.fetchAuditLog()).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.auditLog).toEqual([]);

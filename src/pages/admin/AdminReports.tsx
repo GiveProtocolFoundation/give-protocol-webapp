@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { useTranslation } from "@/hooks/useTranslation";
 import { getDonationSummary } from "@/services/adminDonationService";
 import { getAdminAuditLog } from "@/services/adminAuditService";
@@ -334,15 +335,25 @@ function DonationsTab({
 }: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<AdminDonationSummaryRow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [groupBy, setGroupBy] = useState<DonationSummaryGroupBy>("month");
 
   useEffect(() => {
     if (!dateFrom || !dateTo) return;
     setLoading(true);
-    getDonationSummary(dateFrom, dateTo, groupBy).then((data) => {
-      setRows(data);
-      setLoading(false);
-    });
+    setError(null);
+    getDonationSummary(dateFrom, dateTo, groupBy)
+      .then((data) => {
+        setRows(data);
+      })
+      .catch((err: unknown) => {
+        setError(
+          err instanceof Error ? err.message : "Failed to load donations.",
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [dateFrom, dateTo, groupBy]);
 
   const handleGroupByChange = useCallback(
@@ -399,17 +410,18 @@ function DonationsTab({
           <LoadingSpinner size="md" />
         </div>
       )}
-      {!loading && rows.length === 0 && (
+      {!loading && error !== null && <AdminErrorPanel message={error} />}
+      {!loading && error === null && rows.length === 0 && (
         <EmptyState message="No donation data for the selected period." />
       )}
 
-      {!loading && rows.length > 0 && chartData.length > 0 && (
+      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
         <div className="overflow-x-auto pb-2">
           <MiniBarChart data={chartData} />
         </div>
       )}
 
-      {!loading && rows.length > 0 && (
+      {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
           <caption className="sr-only">Donation summary report</caption>
           <thead className="bg-gray-50">
@@ -485,14 +497,26 @@ function CharityGrowthTab({
 }: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<CharityGrowthRow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!dateFrom || !dateTo) return;
     setLoading(true);
-    getCharityGrowthReport(dateFrom, dateTo).then((data) => {
-      setRows(data);
-      setLoading(false);
-    });
+    setError(null);
+    getCharityGrowthReport(dateFrom, dateTo)
+      .then((data) => {
+        setRows(data);
+      })
+      .catch((err: unknown) => {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load charity growth report.",
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [dateFrom, dateTo]);
 
   const handleExport = useCallback(() => {
@@ -522,17 +546,18 @@ function CharityGrowthTab({
           <LoadingSpinner size="md" />
         </div>
       )}
-      {!loading && rows.length === 0 && (
+      {!loading && error !== null && <AdminErrorPanel message={error} />}
+      {!loading && error === null && rows.length === 0 && (
         <EmptyState message="No charity growth data for the selected period." />
       )}
 
-      {!loading && rows.length > 0 && chartData.length > 0 && (
+      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
         <div className="overflow-x-auto pb-2">
           <MiniBarChart data={chartData} />
         </div>
       )}
 
-      {!loading && rows.length > 0 && (
+      {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
           <caption className="sr-only">Charity growth report</caption>
           <thead className="bg-gray-50">
@@ -611,14 +636,26 @@ function DonorActivityTab({
 }: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<DonorActivityRow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!dateFrom || !dateTo) return;
     setLoading(true);
-    getDonorActivityReport(dateFrom, dateTo).then((data) => {
-      setRows(data);
-      setLoading(false);
-    });
+    setError(null);
+    getDonorActivityReport(dateFrom, dateTo)
+      .then((data) => {
+        setRows(data);
+      })
+      .catch((err: unknown) => {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load donor activity report.",
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [dateFrom, dateTo]);
 
   const handleExport = useCallback(() => {
@@ -648,17 +685,18 @@ function DonorActivityTab({
           <LoadingSpinner size="md" />
         </div>
       )}
-      {!loading && rows.length === 0 && (
+      {!loading && error !== null && <AdminErrorPanel message={error} />}
+      {!loading && error === null && rows.length === 0 && (
         <EmptyState message="No donor activity data for the selected period." />
       )}
 
-      {!loading && rows.length > 0 && chartData.length > 0 && (
+      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
         <div className="overflow-x-auto pb-2">
           <MiniBarChart data={chartData} />
         </div>
       )}
 
-      {!loading && rows.length > 0 && (
+      {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
           <caption className="sr-only">Donor activity report</caption>
           <thead className="bg-gray-50">
@@ -739,14 +777,26 @@ function VolunteerHoursTab({
 }: Readonly<DateRange>): React.ReactElement {
   const [rows, setRows] = useState<VolunteerReportRow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   useEffect(() => {
     if (!dateFrom || !dateTo) return;
     setLoading(true);
-    getVolunteerReport(dateFrom, dateTo).then((data) => {
-      setRows(data);
-      setLoading(false);
-    });
+    setError(null);
+    getVolunteerReport(dateFrom, dateTo)
+      .then((data) => {
+        setRows(data);
+      })
+      .catch((err: unknown) => {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load volunteer report.",
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [dateFrom, dateTo]);
 
   const handleExport = useCallback(() => {
@@ -776,17 +826,18 @@ function VolunteerHoursTab({
           <LoadingSpinner size="md" />
         </div>
       )}
-      {!loading && rows.length === 0 && (
+      {!loading && error !== null && <AdminErrorPanel message={error} />}
+      {!loading && error === null && rows.length === 0 && (
         <EmptyState message="No volunteer data for the selected period." />
       )}
 
-      {!loading && rows.length > 0 && chartData.length > 0 && (
+      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
         <div className="overflow-x-auto pb-2">
           <MiniBarChart data={chartData} />
         </div>
       )}
 
-      {!loading && rows.length > 0 && (
+      {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
           <caption className="sr-only">Volunteer hours report</caption>
           <thead className="bg-gray-50">
@@ -978,6 +1029,7 @@ function AuditTrailTab({
   const { t } = useTranslation();
   const [entries, setEntries] = useState<AdminAuditLogEntry[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [page, setPage] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [actionFilter, setActionFilter] = useState<AdminAuditActionType | "">(
@@ -993,6 +1045,7 @@ function AuditTrailTab({
     ) => {
       if (!from || !to) return;
       setLoading(true);
+      setError(null);
       const filters: AdminAuditLogFilters = {
         dateFrom: from,
         dateTo: to,
@@ -1002,11 +1055,21 @@ function AuditTrailTab({
       if (action) {
         filters.actionType = action;
       }
-      getAdminAuditLog(filters).then((result) => {
-        setEntries(result.entries);
-        setTotalPages(result.totalPages);
-        setLoading(false);
-      });
+      getAdminAuditLog(filters)
+        .then((result) => {
+          setEntries(result.entries);
+          setTotalPages(result.totalPages);
+        })
+        .catch((err: unknown) => {
+          setError(
+            err instanceof Error
+              ? err.message
+              : "Failed to load audit trail.",
+          );
+        })
+        .finally(() => {
+          setLoading(false);
+        });
     },
     [],
   );
@@ -1089,11 +1152,12 @@ function AuditTrailTab({
           <LoadingSpinner size="md" />
         </div>
       )}
-      {!loading && entries.length === 0 && (
+      {!loading && error !== null && <AdminErrorPanel message={error} />}
+      {!loading && error === null && entries.length === 0 && (
         <EmptyState message="No audit entries for the selected period." />
       )}
 
-      {!loading && entries.length > 0 && (
+      {!loading && error === null && entries.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
           <caption className="sr-only">Audit trail entries</caption>
           <thead className="bg-gray-50">
@@ -1196,6 +1260,7 @@ function PlatformHealthTab({
 }: Readonly<PresetProps>): React.ReactElement {
   const [rows, setRows] = useState<PlatformHealthRow[]>([]);
   const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   let period: string;
   if (preset === "7d") {
@@ -1208,10 +1273,21 @@ function PlatformHealthTab({
 
   useEffect(() => {
     setLoading(true);
-    getPlatformHealthSummary(period).then((data) => {
-      setRows(data);
-      setLoading(false);
-    });
+    setError(null);
+    getPlatformHealthSummary(period)
+      .then((data) => {
+        setRows(data);
+      })
+      .catch((err: unknown) => {
+        setError(
+          err instanceof Error
+            ? err.message
+            : "Failed to load platform health summary.",
+        );
+      })
+      .finally(() => {
+        setLoading(false);
+      });
   }, [period]);
 
   const handleExport = useCallback(() => {
@@ -1233,11 +1309,12 @@ function PlatformHealthTab({
           <LoadingSpinner size="md" />
         </div>
       )}
-      {!loading && rows.length === 0 && (
+      {!loading && error !== null && <AdminErrorPanel message={error} />}
+      {!loading && error === null && rows.length === 0 && (
         <EmptyState message="No platform health data available." />
       )}
 
-      {!loading && rows.length > 0 && (
+      {!loading && error === null && rows.length > 0 && (
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4">
           {rows.map((row) => (
             <div
