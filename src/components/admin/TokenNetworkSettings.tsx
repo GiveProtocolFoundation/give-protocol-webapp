@@ -21,10 +21,7 @@ import {
   parseEnabledTokens,
   serializeEnabledNetworks,
 } from "./tokenNetworkUtils";
-import type {
-  AdminNetworkOption,
-  AdminTokenOption,
-} from "./tokenNetworkUtils";
+import type { AdminNetworkOption, AdminTokenOption } from "./tokenNetworkUtils";
 
 // ─── Row sub-components ───────────────────────────────────────────────────────
 
