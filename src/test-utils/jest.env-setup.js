@@ -3,9 +3,10 @@
 
 // react-router v7 references TextEncoder at module init time; jsdom doesn't
 // expose Node's WHATWG globals, so we polyfill from Node's util module.
-const { TextEncoder, TextDecoder } = require("util");
-globalThis.TextEncoder = TextEncoder;
-globalThis.TextDecoder = TextDecoder;
+// Must use ESM import — this file is ESM because package.json has "type":"module".
+import { TextEncoder, TextDecoder } from "node:util";
+globalThis.TextEncoder ??= TextEncoder;
+globalThis.TextDecoder ??= TextDecoder;
 
 globalThis.import = {
   meta: {
