@@ -109,8 +109,7 @@ const RPC_ENDPOINTS = {
   optimism: process.env.VITE_OPTIMISM_RPC_URL || "https://mainnet.optimism.io",
   moonbeam:
     process.env.VITE_MOONBEAM_RPC_URL || "https://rpc.api.moonbeam.network",
-  arbitrum:
-    process.env.VITE_ARBITRUM_RPC_URL || "https://arb1.arbitrum.io/rpc",
+  arbitrum: process.env.VITE_ARBITRUM_RPC_URL || "https://arb1.arbitrum.io/rpc",
   polygon: process.env.VITE_POLYGON_RPC_URL || "https://polygon-rpc.com",
   avalanche:
     process.env.VITE_AVALANCHE_RPC_URL ||

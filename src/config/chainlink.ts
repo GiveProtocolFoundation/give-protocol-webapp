@@ -214,7 +214,10 @@ export const CHAINLINK_FEEDS: Record<
     },
     USDC: stablecoinFeed("0xF096872672F44d6EBA71458D74fe67F9a77a23B9", "USDC"),
     USDT: stablecoinFeed("0xEBE676ee90Fe1112671f19b6B7459bC678B67e8a", "USDT"),
-    "DAI.e": stablecoinFeed("0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300", "DAI.e"),
+    "DAI.e": stablecoinFeed(
+      "0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300",
+      "DAI.e",
+    ),
   },
 
   // Base Sepolia (Testnet) - Use mainnet feeds as proxy
