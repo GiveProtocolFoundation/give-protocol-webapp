@@ -117,9 +117,7 @@ export const TOKEN_OPTIONS: AdminTokenOption[] = [
  * @param value - Raw platform_config value for supported_networks
  * @returns Set of enabled chain IDs
  */
-export function parseEnabledChainIds(
-  value?: PlatformConfigValue,
-): Set<number> {
+export function parseEnabledChainIds(value?: PlatformConfigValue): Set<number> {
   const ids = new Set<number>();
   if (!Array.isArray(value)) return ids;
   for (const item of value) {
