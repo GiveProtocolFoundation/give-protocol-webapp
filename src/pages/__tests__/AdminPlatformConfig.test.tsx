@@ -253,7 +253,7 @@ describe("AdminPlatformConfig", () => {
 
       renderComponent();
       fireEvent.click(screen.getByText("Token & Network Config"));
-      const editButtons = screen.getAllByText("Edit");
+      const editButtons = screen.getAllByText("Edit JSON");
       fireEvent.click(editButtons[0]);
       expect(screen.getByTestId("modal")).toBeInTheDocument();
 
@@ -394,7 +394,7 @@ describe("AdminPlatformConfig", () => {
   });
 
   describe("Token & Network tab", () => {
-    it("renders token/network config cards", () => {
+    it("renders structured network and token settings", () => {
       const configsWithTokenNetwork = [
         ...mockConfigs,
         {
@@ -406,7 +406,7 @@ describe("AdminPlatformConfig", () => {
         },
         {
           key: "supported_networks" as const,
-          value: ["moonbase", "ethereum"],
+          value: [{ chainId: 8453, name: "Base" }],
           description: "Supported networks list",
           updatedAt: "2025-02-01T00:00:00Z",
           updatedBy: "admin-2",
@@ -427,10 +427,49 @@ describe("AdminPlatformConfig", () => {
       renderComponent();
       fireEvent.click(screen.getByText("Token & Network Config"));
 
-      expect(screen.getByText("supported_tokens")).toBeInTheDocument();
-      expect(screen.getByText("supported_networks")).toBeInTheDocument();
-      expect(screen.getByText("Supported tokens list")).toBeInTheDocument();
-      expect(screen.getByText("Supported networks list")).toBeInTheDocument();
+      expect(screen.getByText("Donation Networks")).toBeInTheDocument();
+      expect(screen.getByText("Accepted Tokens")).toBeInTheDocument();
+      expect(screen.getByText("Base")).toBeInTheDocument();
+      expect(screen.getByText("Arbitrum")).toBeInTheDocument();
+    });
+
+    it("saves toggled networks through saveConfig", async () => {
+      const configsWithTokenNetwork = [
+        {
+          key: "supported_networks" as const,
+          value: [{ chainId: 8453, name: "Base" }],
+          description: "Supported networks list",
+          updatedAt: "2025-02-01T00:00:00Z",
+          updatedBy: "admin-2",
+        },
+      ];
+
+      mockUseAdminPlatformConfig.mockReturnValue({
+        configs: configsWithTokenNetwork,
+        loading: false,
+        saving: false,
+        auditLog: [],
+        auditLoading: false,
+        fetchConfig: mockFetchConfig,
+        saveConfig: mockSaveConfig,
+        fetchAuditLog: jest.fn(),
+      });
+
+      renderComponent();
+      fireEvent.click(screen.getByText("Token & Network Config"));
+
+      fireEvent.click(screen.getByRole("checkbox", { name: /^Optimism / }));
+      fireEvent.click(screen.getByText("Save Networks"));
+
+      await waitFor(() => {
+        expect(mockSaveConfig).toHaveBeenCalledWith({
+          key: "supported_networks",
+          value: [
+            { chainId: 8453, name: "Base" },
+            { chainId: 10, name: "Optimism" },
+          ],
+        });
+      });
     });
 
     it("shows empty state when no token/network configs exist", () => {

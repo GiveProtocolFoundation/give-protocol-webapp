@@ -351,6 +351,8 @@ export default {
       "<rootDir>/src/test-utils/useAdminVolunteerValidationMock.js",
     "^@/hooks/useAdminPlatformConfig$":
       "<rootDir>/src/test-utils/useAdminPlatformConfigMock.js",
+    "^@/hooks/usePlatformConfig$":
+      "<rootDir>/src/test-utils/usePlatformConfigMock.js",
     "^@/hooks/useAdminAuditLog$":
       "<rootDir>/src/test-utils/useAdminAuditLogMock.js",
     "^@/hooks/usePortfolioFunds$":
@@ -389,6 +391,8 @@ export default {
       "<rootDir>/src/test-utils/charityVerificationServiceMock.js",
     "^@/services/walletDesignationService$":
       "<rootDir>/src/test-utils/walletDesignationServiceMock.js",
+    "^@/services/publicPlatformConfigService$":
+      "<rootDir>/src/test-utils/publicPlatformConfigServiceMock.js",
     // Discovery view component mocks — only @/ alias, so individual component tests
     // using relative imports still get the real implementation.
     "^@/components/discovery/PublicDiscoveryView$":
