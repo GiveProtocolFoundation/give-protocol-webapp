@@ -11,6 +11,7 @@ import {
 } from "@/services/adminPlatformConfigService";
 import { getAdminDashboardStats } from "@/services/adminDashboardService";
 import { listAdminUsers } from "@/services/adminSettingsService";
+import { TokenNetworkSettings } from "@/components/admin/TokenNetworkSettings";
 import type {
   PlatformConfigEntry,
   PlatformConfigKey,
@@ -787,56 +788,6 @@ function AuditLogTab({
   );
 }
 
-// ─── Token & Network Config Tab ───────────────────────────────────────────────
-
-/**
- * Renders the token and network configuration tab with editable contract addresses and RPC endpoints.
- * @param props - Component props.
- * @param props.configs - Token and network configuration entries to display.
- * @param props.loading - Whether configuration data is still being fetched.
- * @param props.onEdit - Callback invoked with the configuration entry the user wants to edit.
- * @returns The token/network tab element.
- */
-function TokenNetworkTab({
-  configs,
-  loading,
-  onEdit,
-}: {
-  configs: PlatformConfigEntry[];
-  loading: boolean;
-  onEdit: (_entry: PlatformConfigEntry) => void;
-}): React.ReactElement {
-  if (loading) {
-    return (
-      <div className="flex justify-center py-12">
-        <LoadingSpinner size="lg" />
-      </div>
-    );
-  }
-
-  const tokenNetworkEntries = configs.filter((e) =>
-    TOKEN_NETWORK_KEYS.has(e.key),
-  );
-
-  if (tokenNetworkEntries.length === 0) {
-    return (
-      <Card className="p-8 text-center">
-        <p className="text-gray-500 text-sm">
-          No token or network configuration found.
-        </p>
-      </Card>
-    );
-  }
-
-  return (
-    <div className="space-y-4">
-      {tokenNetworkEntries.map((entry) => (
-        <ConfigCard key={entry.key} entry={entry} onEdit={onEdit} />
-      ))}
-    </div>
-  );
-}
-
 // ─── Admin Users Tab (UR-S7) ──────────────────────────────────────────────────
 
 /**
@@ -1158,6 +1109,15 @@ export default function AdminPlatformConfig(): React.ReactElement {
     [saveConfig],
   );
 
+  const handleSaveTokenNetwork = useCallback(
+    (key: PlatformConfigKey, value: PlatformConfigValue) => {
+      saveConfig({ key, value }).catch(() => {
+        // Error toast handled internally by hook
+      });
+    },
+    [saveConfig],
+  );
+
   return (
     <div className="max-w-5xl mx-auto px-4 py-8">
       <div className="mb-6">
@@ -1189,10 +1149,12 @@ export default function AdminPlatformConfig(): React.ReactElement {
       )}
 
       {activeTab === "token-network" && (
-        <TokenNetworkTab
+        <TokenNetworkSettings
           configs={configs}
           loading={loading}
-          onEdit={handleEdit}
+          saving={saving}
+          onSave={handleSaveTokenNetwork}
+          onEditRaw={handleEdit}
         />
       )}
 

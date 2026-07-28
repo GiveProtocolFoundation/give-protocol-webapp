@@ -10,6 +10,10 @@ export const CHAIN_IDS = {
   BASE: 8453,
   OPTIMISM: 10,
   MOONBEAM: 1284,
+  // Non-EVM Mainnets (synthetic IDs for unified chain selection)
+  SOLANA_MAINNET: 900001,
+  POLKADOT: 900002,
+  KUSAMA: 900003,
 };
 
 const MOCK_NATIVE_ETH = { name: "Ethereum", symbol: "ETH", decimals: 18 };
@@ -93,12 +97,57 @@ export const CHAIN_CONFIGS = {
     isTestnet: false,
     description: "Polkadot ecosystem with cross-chain compatibility.",
   },
+  [CHAIN_IDS.SOLANA_MAINNET]: {
+    id: CHAIN_IDS.SOLANA_MAINNET,
+    name: "Solana",
+    shortName: "solana",
+    chainType: "solana",
+    nativeCurrency: { name: "SOL", symbol: "SOL", decimals: 9 },
+    rpcUrls: ["https://api.mainnet-beta.solana.com"],
+    blockExplorerUrls: ["https://explorer.solana.com"],
+    iconPath: "/chains/solana.svg",
+    color: "#9945FF",
+    ecosystem: "Solana",
+    isTestnet: false,
+    description: "High-speed transactions with low fees.",
+  },
+  [CHAIN_IDS.POLKADOT]: {
+    id: CHAIN_IDS.POLKADOT,
+    name: "Polkadot",
+    shortName: "polkadot",
+    chainType: "polkadot",
+    nativeCurrency: { name: "DOT", symbol: "DOT", decimals: 10 },
+    rpcUrls: ["wss://rpc.polkadot.io"],
+    blockExplorerUrls: ["https://polkadot.subscan.io"],
+    iconPath: "/chains/polkadot.svg",
+    color: "#E6007A",
+    ecosystem: "Polkadot",
+    isTestnet: false,
+    description: "Secure cross-chain interoperability.",
+  },
+  [CHAIN_IDS.KUSAMA]: {
+    id: CHAIN_IDS.KUSAMA,
+    name: "Kusama",
+    shortName: "kusama",
+    chainType: "polkadot",
+    nativeCurrency: { name: "KSM", symbol: "KSM", decimals: 12 },
+    rpcUrls: ["wss://kusama-rpc.polkadot.io"],
+    blockExplorerUrls: ["https://kusama.subscan.io"],
+    iconPath: "/chains/kusama.svg",
+    color: "#000000",
+    ecosystem: "Polkadot",
+    isTestnet: false,
+    description: "Polkadot's canary network for innovation.",
+  },
 };
 
 export const SUPPORTED_CHAIN_IDS = [
   CHAIN_IDS.BASE,
   CHAIN_IDS.OPTIMISM,
   CHAIN_IDS.MOONBEAM,
+  CHAIN_IDS.SOLANA_MAINNET,
+  CHAIN_IDS.POLKADOT,
+  CHAIN_IDS.KUSAMA,
 ];
 
 export const TESTNET_CHAIN_IDS = [
