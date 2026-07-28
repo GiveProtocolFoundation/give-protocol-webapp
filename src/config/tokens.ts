@@ -271,18 +271,165 @@ export const OPTIMISM_SEPOLIA_TOKENS: TokenConfig[] = [
 ];
 
 /**
+ * Supported tokens on Ethereum mainnet
+ */
+export const ETHEREUM_TOKENS: TokenConfig[] = [
+  {
+    ...ETH_METADATA,
+    address: "0x0000000000000000000000000000000000000000",
+  },
+  {
+    ...WETH_METADATA,
+    address: "0xC02aaA39b223FE8D0A0e5C4F27eAD9083C756Cc2",
+  },
+  {
+    ...USDC_METADATA,
+    address: "0xA0b86991c6218b36c1d19D4a2e9Eb0cE3606eB48",
+    minDonation: 1,
+  },
+  {
+    ...USDT_METADATA,
+    address: "0xdAC17F958D2ee523a2206206994597C13D831ec7",
+    minDonation: 1,
+  },
+  {
+    ...DAI_METADATA,
+    address: "0x6B175474E89094C44Da98b954EedeAC495271d0F",
+    minDonation: 1,
+  },
+];
+
+/**
+ * Supported tokens on Arbitrum mainnet
+ */
+export const ARBITRUM_TOKENS: TokenConfig[] = [
+  {
+    ...ETH_METADATA,
+    address: "0x0000000000000000000000000000000000000000",
+  },
+  {
+    ...WETH_METADATA,
+    address: "0x82aF49447D8a07e3bd95BD0d56f35241523fBab1",
+  },
+  {
+    ...USDC_METADATA,
+    address: "0xaf88d065e77c8cC2239327C5EDb3A432268e5831",
+    minDonation: 1,
+  },
+  {
+    ...USDT_METADATA,
+    address: "0xFd086bC7CD5C481DCC9C85ebE478A1C0b69FCbb9",
+    minDonation: 1,
+  },
+  {
+    ...DAI_METADATA,
+    address: "0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1",
+    minDonation: 1,
+  },
+  {
+    symbol: "ARB",
+    name: "Arbitrum",
+    address: "0x912CE59144191C1204E64559FE8253a0e49E6548",
+    decimals: 18,
+    coingeckoId: "arbitrum",
+    icon: "https://assets.coingecko.com/coins/images/16547/small/photo_2023-03-29_21.47.00.jpeg",
+    isNative: false,
+    minDonation: 10,
+  },
+];
+
+/**
+ * Supported tokens on Polygon mainnet
+ */
+export const POLYGON_TOKENS: TokenConfig[] = [
+  {
+    symbol: "POL",
+    name: "POL",
+    address: "0x0000000000000000000000000000000000000000",
+    decimals: 18,
+    coingeckoId: "matic-network",
+    icon: "https://assets.coingecko.com/coins/images/4713/small/polygon.png",
+    isNative: true,
+  },
+  {
+    ...WETH_METADATA,
+    address: "0x7ceB23fD6bC0adD59E62ac25578270cFf1b9f619",
+  },
+  {
+    ...USDC_METADATA,
+    address: "0x3c499c542cEF5E3811e1192ce70d8cC03d5c3359",
+    minDonation: 1,
+  },
+  {
+    ...USDT_METADATA,
+    address: "0xc2132D05D31c914a87C6611C10748AEb04B58e8F",
+    minDonation: 1,
+  },
+  {
+    ...DAI_METADATA,
+    address: "0x8f3Cf7ad23Cd3CaDbD9735AFf958023239c6A063",
+    minDonation: 1,
+  },
+];
+
+/**
+ * Supported tokens on Avalanche C-Chain
+ */
+export const AVALANCHE_TOKENS: TokenConfig[] = [
+  {
+    symbol: "AVAX",
+    name: "Avalanche",
+    address: "0x0000000000000000000000000000000000000000",
+    decimals: 18,
+    coingeckoId: "avalanche-2",
+    icon: "https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png",
+    isNative: true,
+  },
+  {
+    symbol: "WAVAX",
+    name: "Wrapped AVAX",
+    address: "0xB31f66AA3C1e785363F0875A1B74E27b85FD66c7",
+    decimals: 18,
+    coingeckoId: "avalanche-2",
+    icon: "https://assets.coingecko.com/coins/images/12559/small/Avalanche_Circle_RedWhite_Trans.png",
+    isNative: false,
+  },
+  {
+    ...USDC_METADATA,
+    address: "0xB97EF9Ef8734C71904D8002F8b6Bc66Dd9c48a6E",
+    minDonation: 1,
+  },
+  {
+    ...USDT_METADATA,
+    address: "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+    minDonation: 1,
+  },
+  {
+    ...DAI_METADATA,
+    symbol: "DAI.e",
+    name: "Dai Stablecoin (bridged)",
+    address: "0xd586E7F844cEa2F87f50152665BCbc2C279D8d70",
+    minDonation: 1,
+  },
+];
+
+/**
  * Chain-indexed token configurations
  * Maps each supported chain to its available tokens
  */
 export const CHAIN_TOKENS: Record<ChainId, TokenConfig[]> = {
   // Mainnets
+  [CHAIN_IDS.ETHEREUM]: ETHEREUM_TOKENS,
   [CHAIN_IDS.BASE]: BASE_TOKENS,
   [CHAIN_IDS.OPTIMISM]: OPTIMISM_TOKENS,
   [CHAIN_IDS.MOONBEAM]: MOONBEAM_TOKENS,
+  [CHAIN_IDS.ARBITRUM]: ARBITRUM_TOKENS,
+  [CHAIN_IDS.POLYGON]: POLYGON_TOKENS,
+  [CHAIN_IDS.AVALANCHE]: AVALANCHE_TOKENS,
   // Testnets
   [CHAIN_IDS.BASE_SEPOLIA]: BASE_SEPOLIA_TOKENS,
   [CHAIN_IDS.OPTIMISM_SEPOLIA]: OPTIMISM_SEPOLIA_TOKENS,
-  [CHAIN_IDS.MOONBASE]: MOONBEAM_TOKENS, // Moonbase uses same tokens as Moonbeam
+  [CHAIN_IDS.MOONBASE]: MOONBEAM_TOKENS,
 };
 
 /**

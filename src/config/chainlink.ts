@@ -60,6 +60,7 @@ export interface PriceFeedConfig {
 export const SEQUENCER_UPTIME_FEEDS: Partial<Record<ChainId, string>> = {
   [CHAIN_IDS.BASE]: "0xBCF85224fc0756B9Fa45aA7892530B47e10b6433",
   [CHAIN_IDS.OPTIMISM]: "0x371EAD81c9102C9BF4874A9075FFFf170F2Ee389",
+  [CHAIN_IDS.ARBITRUM]: "0xFdB631F5EE196F0ed6FAa767959853A9F217697D",
 };
 
 /** Creates feed entries where wrapped token shares native token's feed */
@@ -146,6 +147,76 @@ export const CHAINLINK_FEEDS: Record<
     USDT: stablecoinFeed("0x3bC50c8f56EaA6D7fBfB5C89DEe16b0FEc296F87", "USDT"),
   },
 
+  // Ethereum Mainnet
+  [CHAIN_IDS.ETHEREUM]: {
+    ...withWrapped("ETH", "WETH", {
+      address: "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+      description: "ETH / USD",
+      decimals: 8,
+      heartbeat: 3600,
+    }),
+    USDC: stablecoinFeed("0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6", "USDC"),
+    USDT: stablecoinFeed("0x3E7d1eAB13ad0104d2750B8863b489D65364e32D", "USDT"),
+    DAI: stablecoinFeed("0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9", "DAI"),
+  },
+
+  // Arbitrum Mainnet
+  [CHAIN_IDS.ARBITRUM]: {
+    ...withWrapped("ETH", "WETH", {
+      address: "0x639Fe6ab55C921f74e7fac1ee960C0B6293ba612",
+      description: "ETH / USD",
+      decimals: 8,
+      heartbeat: 1200,
+    }),
+    USDC: stablecoinFeed("0x50834F3163758fcC1Df9973b6e91f0F0F0434aD3", "USDC"),
+    USDT: stablecoinFeed("0x3f3f5dF88dC9F13eac63DF89EC16ef6e7E25DdE7", "USDT"),
+    DAI: stablecoinFeed("0xc5C8E77B397E531B8EC06BFb0048328B30E9eCfB", "DAI"),
+    ARB: {
+      address: "0xb2A824043730FE05F3DA2efaFa1CBbe83fa548D6",
+      description: "ARB / USD",
+      decimals: 8,
+      heartbeat: 1200,
+    },
+  },
+
+  // Polygon Mainnet
+  [CHAIN_IDS.POLYGON]: {
+    POL: {
+      address: "0xAB594600376Ec9fD91F8e8dC09E7c8B8b1583DAF",
+      description: "MATIC / USD",
+      decimals: 8,
+      heartbeat: 27,
+    },
+    ...withWrapped("ETH", "WETH", {
+      address: "0xF9680D99D6C9589e2a93a78A04A279e509205945",
+      description: "ETH / USD",
+      decimals: 8,
+      heartbeat: 27,
+    }),
+    USDC: stablecoinFeed("0xfE4A8cc5b5B2366C1B58Bea3858e81843583ee2e", "USDC"),
+    USDT: stablecoinFeed("0x0A6513e40db6EB1b165869B680c55757bC9ED40e", "USDT"),
+    DAI: stablecoinFeed("0x4746DeC9e833A82EC7C2C1245845D6E5533a6992", "DAI"),
+  },
+
+  // Avalanche Mainnet
+  [CHAIN_IDS.AVALANCHE]: {
+    AVAX: {
+      address: "0x0A77230d17318075983913bC2145DB16C7366156",
+      description: "AVAX / USD",
+      decimals: 8,
+      heartbeat: 120,
+    },
+    WAVAX: {
+      address: "0x0A77230d17318075983913bC2145DB16C7366156",
+      description: "AVAX / USD",
+      decimals: 8,
+      heartbeat: 120,
+    },
+    USDC: stablecoinFeed("0xF096872672F44d6EBA71458D74fe67F9a77a23B9", "USDC"),
+    USDT: stablecoinFeed("0xEBE676ee90Fe1112671f19b6B7459bC678B67e8a", "USDT"),
+    "DAI.e": stablecoinFeed("0x51D7180edA2260cc4F6e4EebB82FEF5c3c2B8300", "DAI.e"),
+  },
+
   // Base Sepolia (Testnet) - Use mainnet feeds as proxy
   [CHAIN_IDS.BASE_SEPOLIA]: {
     ...withWrapped("ETH", "WETH", {
@@ -189,6 +260,9 @@ export const COINGECKO_TO_SYMBOL: Record<string, string> = {
   tether: "USDT",
   dai: "DAI",
   optimism: "OP",
+  "matic-network": "POL",
+  "avalanche-2": "AVAX",
+  arbitrum: "ARB",
 };
 
 /**

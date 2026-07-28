@@ -11,9 +11,13 @@ import { NETWORKS } from "./types";
 
 /** Chain icon paths keyed by network ID */
 const CHAIN_ICONS: Partial<Record<NetworkType, string>> = {
+  ethereum: "/chains/ethereum.svg",
   base: "/chains/base.svg",
   optimism: "/chains/optimism.svg",
   moonbeam: "/chains/moonbeam.svg",
+  arbitrum: "/chains/arbitrum.svg",
+  polygon: "/chains/polygon.svg",
+  avalanche: "/chains/avalanche.svg",
   "base-sepolia": "/chains/base.svg",
   "optimism-sepolia": "/chains/optimism.svg",
   moonbase: "/chains/moonbeam.svg",

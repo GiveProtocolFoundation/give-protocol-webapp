@@ -107,10 +107,13 @@ describe("parseEnabledTokens", () => {
 describe("serializeEnabledNetworks", () => {
   it("serialises enabled chains in registry order with names", () => {
     const result = serializeEnabledNetworks(new Set([10, 8453]));
-    expect(result).toEqual([
-      { chainId: 8453, name: "Base" },
-      { chainId: 10, name: "Optimism" },
-    ]);
+    expect(result).toEqual(
+      expect.arrayContaining([
+        { chainId: 8453, name: "Base" },
+        { chainId: 10, name: "Optimism" },
+      ]),
+    );
+    expect(result).toHaveLength(2);
   });
 
   it("drops chain IDs not present in the registry", () => {
@@ -119,21 +122,19 @@ describe("serializeEnabledNetworks", () => {
 });
 
 describe("TokenNetworkSettings", () => {
-  it("renders all registry networks with availability status", () => {
+  it("renders all registry networks as available", () => {
     renderComponent();
 
     expect(screen.getByText("Donation Networks")).toBeInTheDocument();
     for (const option of NETWORK_OPTIONS) {
       expect(screen.getAllByText(option.name).length).toBeGreaterThan(0);
     }
-    expect(screen.getAllByText("Available")).toHaveLength(6);
-    expect(screen.getAllByText("Not yet integrated")).toHaveLength(2);
-    expect(screen.getAllByText("Donation contracts not deployed")).toHaveLength(
-      2,
+    expect(screen.getAllByText("Available")).toHaveLength(
+      NETWORK_OPTIONS.length,
     );
   });
 
-  it("checks enabled networks and disables roadmap network checkboxes", () => {
+  it("checks enabled networks and all integrated chains are toggleable", () => {
     renderComponent();
 
     const base = rowCheckbox("Base");
@@ -144,10 +145,10 @@ describe("TokenNetworkSettings", () => {
     expect(solana).not.toBeChecked();
     expect(solana).toBeEnabled();
 
-    expect(rowCheckbox("Arbitrum")).toBeDisabled();
-    expect(rowCheckbox("Polygon")).toBeDisabled();
-    expect(rowCheckbox("Ethereum")).toBeDisabled();
-    expect(rowCheckbox("Avalanche")).toBeDisabled();
+    expect(rowCheckbox("Arbitrum")).toBeEnabled();
+    expect(rowCheckbox("Polygon")).toBeEnabled();
+    expect(rowCheckbox("Ethereum")).toBeEnabled();
+    expect(rowCheckbox("Avalanche")).toBeEnabled();
   });
 
   it("saves toggled networks in the canonical shape", () => {

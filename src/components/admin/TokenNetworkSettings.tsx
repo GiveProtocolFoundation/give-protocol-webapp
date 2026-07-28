@@ -30,47 +30,11 @@ export interface AdminNetworkOption {
 }
 
 /**
- * Networks the platform has on its roadmap but cannot accept donations on yet.
- * Ethereum and Avalanche have chain configs but no donation contract wiring;
- * Arbitrum and Polygon are not integrated in the webapp at all.
+ * Full list of networks shown in the admin Token & Network tab: all integrated
+ * mainnet chains from the contract registry.
  */
-const ROADMAP_NETWORKS: AdminNetworkOption[] = [
-  {
-    chainId: 1,
-    name: "Ethereum",
-    ecosystem: "Ethereum",
-    available: false,
-    unavailableReason: "Donation contracts not deployed",
-  },
-  {
-    chainId: 42161,
-    name: "Arbitrum",
-    ecosystem: "Ethereum L2",
-    available: false,
-    unavailableReason: "Not yet integrated",
-  },
-  {
-    chainId: 137,
-    name: "Polygon",
-    ecosystem: "Polygon",
-    available: false,
-    unavailableReason: "Not yet integrated",
-  },
-  {
-    chainId: 43114,
-    name: "Avalanche",
-    ecosystem: "Avalanche",
-    available: false,
-    unavailableReason: "Donation contracts not deployed",
-  },
-];
-
-/**
- * Full list of networks shown in the admin Token & Network tab: integrated
- * mainnet chains from the contract registry first, then roadmap networks.
- */
-export const NETWORK_OPTIONS: AdminNetworkOption[] = [
-  ...SUPPORTED_CHAIN_IDS.map((id) => {
+export const NETWORK_OPTIONS: AdminNetworkOption[] = SUPPORTED_CHAIN_IDS.map(
+  (id) => {
     const config = CHAIN_CONFIGS[id];
     return {
       chainId: config.id,
@@ -78,9 +42,8 @@ export const NETWORK_OPTIONS: AdminNetworkOption[] = [
       ecosystem: config.ecosystem,
       available: true,
     };
-  }),
-  ...ROADMAP_NETWORKS,
-];
+  },
+);
 
 // ─── Token registry ───────────────────────────────────────────────────────────
 
@@ -101,6 +64,10 @@ export const TOKEN_OPTIONS: AdminTokenOption[] = [
   { symbol: "USDT", name: "Tether USD" },
   { symbol: "DAI", name: "Dai Stablecoin" },
   { symbol: "OP", name: "Optimism" },
+  { symbol: "ARB", name: "Arbitrum" },
+  { symbol: "POL", name: "POL (Polygon)" },
+  { symbol: "AVAX", name: "Avalanche" },
+  { symbol: "WAVAX", name: "Wrapped AVAX" },
   { symbol: "GLMR", name: "Glimmer" },
   { symbol: "WGLMR", name: "Wrapped GLMR" },
   { symbol: "DOT", name: "Polkadot" },

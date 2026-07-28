@@ -1,6 +1,6 @@
 /**
  * EVM Chain Configurations for Give Protocol
- * Supports Base, Optimism, Moonbeam, and Avalanche chains
+ * Supports Ethereum, Base, Optimism, Moonbeam, Arbitrum, Polygon, and Avalanche chains
  */
 
 import type { EVMChainConfig } from "@/types/chains";
@@ -19,6 +19,8 @@ export const EVM_CHAIN_IDS = {
   BASE: 8453,
   OPTIMISM: 10,
   MOONBEAM: 1284,
+  ARBITRUM: 42161,
+  POLYGON: 137,
   AVALANCHE: 43114,
 } as const;
 
@@ -144,6 +146,34 @@ export const EVM_CHAIN_CONFIGS: Record<EVMChainId, EVMChainConfig> = {
     isTestnet: false,
     description: "Polkadot ecosystem with cross-chain compatibility.",
   },
+  [EVM_CHAIN_IDS.ARBITRUM]: {
+    type: "evm",
+    id: EVM_CHAIN_IDS.ARBITRUM,
+    name: "Arbitrum",
+    shortName: "arb",
+    nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://arbiscan.io"],
+    iconPath: "/chains/arbitrum.svg",
+    color: "#28A0F0",
+    ecosystem: "Ethereum L2",
+    isTestnet: false,
+    description: "Leading Ethereum L2 with high throughput and low fees.",
+  },
+  [EVM_CHAIN_IDS.POLYGON]: {
+    type: "evm",
+    id: EVM_CHAIN_IDS.POLYGON,
+    name: "Polygon",
+    shortName: "matic",
+    nativeCurrency: { name: "POL", symbol: "POL", decimals: 18 },
+    rpcUrls: ["https://polygon-rpc.com"],
+    blockExplorerUrls: ["https://polygonscan.com"],
+    iconPath: "/chains/polygon.svg",
+    color: "#8247E5",
+    ecosystem: "Ethereum L2",
+    isTestnet: false,
+    description: "Scalable Ethereum sidechain with low transaction costs.",
+  },
   [EVM_CHAIN_IDS.AVALANCHE]: {
     type: "evm",
     id: EVM_CHAIN_IDS.AVALANCHE,
@@ -164,9 +194,12 @@ export const EVM_CHAIN_CONFIGS: Record<EVMChainId, EVMChainConfig> = {
  * Primary supported EVM chains for Give Protocol
  */
 export const SUPPORTED_EVM_CHAIN_IDS: EVMChainId[] = [
+  EVM_CHAIN_IDS.ETHEREUM,
   EVM_CHAIN_IDS.BASE,
   EVM_CHAIN_IDS.OPTIMISM,
   EVM_CHAIN_IDS.MOONBEAM,
+  EVM_CHAIN_IDS.ARBITRUM,
+  EVM_CHAIN_IDS.POLYGON,
   EVM_CHAIN_IDS.AVALANCHE,
 ];
 

@@ -49,7 +49,12 @@ interface ChainRpcConfig {
   proxyName: string;
 }
 
-const CHAIN_RPC_CONFIGS: Record<ChainId, ChainRpcConfig> = {
+const CHAIN_RPC_CONFIGS: Partial<Record<ChainId, ChainRpcConfig>> = {
+  [CHAIN_IDS.ETHEREUM]: {
+    envVar: "VITE_ETHEREUM_RPC_URL",
+    publicUrl: "https://eth.llamarpc.com",
+    proxyName: "ethereum",
+  },
   [CHAIN_IDS.BASE]: {
     envVar: "VITE_BASE_RPC_URL",
     publicUrl: "https://mainnet.base.org",
@@ -64,6 +69,21 @@ const CHAIN_RPC_CONFIGS: Record<ChainId, ChainRpcConfig> = {
     envVar: "VITE_MOONBEAM_RPC_URL",
     publicUrl: "https://rpc.api.moonbeam.network",
     proxyName: "moonbeam",
+  },
+  [CHAIN_IDS.ARBITRUM]: {
+    envVar: "VITE_ARBITRUM_RPC_URL",
+    publicUrl: "https://arb1.arbitrum.io/rpc",
+    proxyName: "arbitrum",
+  },
+  [CHAIN_IDS.POLYGON]: {
+    envVar: "VITE_POLYGON_RPC_URL",
+    publicUrl: "https://polygon-rpc.com",
+    proxyName: "polygon",
+  },
+  [CHAIN_IDS.AVALANCHE]: {
+    envVar: "VITE_AVALANCHE_RPC_URL",
+    publicUrl: "https://api.avax.network/ext/bc/C/rpc",
+    proxyName: "avalanche",
   },
   [CHAIN_IDS.BASE_SEPOLIA]: {
     envVar: "VITE_BASE_SEPOLIA_RPC_URL",

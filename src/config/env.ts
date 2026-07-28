@@ -45,9 +45,13 @@ const CHAIN_ENV_PREFIX: Record<number, string> = {
   11155420: "VITE_OPTIMISM_SEPOLIA",
   1287: "VITE_MOONBASE",
   // Mainnets
+  1: "VITE_ETHEREUM",
   8453: "VITE_BASE",
   10: "VITE_OPTIMISM",
   1284: "VITE_MOONBEAM",
+  42161: "VITE_ARBITRUM",
+  137: "VITE_POLYGON",
+  43114: "VITE_AVALANCHE",
 };
 
 // Legacy env var names (pre-multi-chain) map to Moonbase
