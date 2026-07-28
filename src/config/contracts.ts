@@ -309,6 +309,25 @@ export function isChainSupported(chainId: number): boolean {
   return chainId in CHAIN_CONFIGS;
 }
 
+// Contract addresses loaded from environment variables per chain
+/** Contract addresses for all supported chains, keyed by chain ID. */
+export const CONTRACT_ADDRESSES: Record<ChainId, ChainContractAddresses> = {
+  // Testnets
+  [CHAIN_IDS.BASE_SEPOLIA]: getChainContractAddresses(CHAIN_IDS.BASE_SEPOLIA),
+  [CHAIN_IDS.OPTIMISM_SEPOLIA]: getChainContractAddresses(
+    CHAIN_IDS.OPTIMISM_SEPOLIA,
+  ),
+  [CHAIN_IDS.MOONBASE]: getChainContractAddresses(CHAIN_IDS.MOONBASE),
+  // Mainnets
+  [CHAIN_IDS.ETHEREUM]: getChainContractAddresses(CHAIN_IDS.ETHEREUM),
+  [CHAIN_IDS.BASE]: getChainContractAddresses(CHAIN_IDS.BASE),
+  [CHAIN_IDS.OPTIMISM]: getChainContractAddresses(CHAIN_IDS.OPTIMISM),
+  [CHAIN_IDS.MOONBEAM]: getChainContractAddresses(CHAIN_IDS.MOONBEAM),
+  [CHAIN_IDS.ARBITRUM]: getChainContractAddresses(CHAIN_IDS.ARBITRUM),
+  [CHAIN_IDS.POLYGON]: getChainContractAddresses(CHAIN_IDS.POLYGON),
+  [CHAIN_IDS.AVALANCHE]: getChainContractAddresses(CHAIN_IDS.AVALANCHE),
+};
+
 /**
  * Check if a chain has donation contracts deployed (DONATION address configured).
  */
@@ -332,25 +351,6 @@ export function getAvailableChains(showTestnets: boolean): ChainConfig[] {
   }
   return mainnetChains;
 }
-
-// Contract addresses loaded from environment variables per chain
-/** Contract addresses for all supported chains, keyed by chain ID. */
-export const CONTRACT_ADDRESSES: Record<ChainId, ChainContractAddresses> = {
-  // Testnets
-  [CHAIN_IDS.BASE_SEPOLIA]: getChainContractAddresses(CHAIN_IDS.BASE_SEPOLIA),
-  [CHAIN_IDS.OPTIMISM_SEPOLIA]: getChainContractAddresses(
-    CHAIN_IDS.OPTIMISM_SEPOLIA,
-  ),
-  [CHAIN_IDS.MOONBASE]: getChainContractAddresses(CHAIN_IDS.MOONBASE),
-  // Mainnets
-  [CHAIN_IDS.ETHEREUM]: getChainContractAddresses(CHAIN_IDS.ETHEREUM),
-  [CHAIN_IDS.BASE]: getChainContractAddresses(CHAIN_IDS.BASE),
-  [CHAIN_IDS.OPTIMISM]: getChainContractAddresses(CHAIN_IDS.OPTIMISM),
-  [CHAIN_IDS.MOONBEAM]: getChainContractAddresses(CHAIN_IDS.MOONBEAM),
-  [CHAIN_IDS.ARBITRUM]: getChainContractAddresses(CHAIN_IDS.ARBITRUM),
-  [CHAIN_IDS.POLYGON]: getChainContractAddresses(CHAIN_IDS.POLYGON),
-  [CHAIN_IDS.AVALANCHE]: getChainContractAddresses(CHAIN_IDS.AVALANCHE),
-};
 
 /**
  * Get contract address for a specific contract on a specific chain
