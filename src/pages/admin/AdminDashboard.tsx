@@ -591,10 +591,7 @@ function RecentActivityPanel({
       </div>
       {activityErr !== null ? (
         <AdminErrorPanel
-          title={t(
-            "admin.error.recentActivity",
-            "Recent Activity Load Error",
-          )}
+          title={t("admin.error.recentActivity", "Recent Activity Load Error")}
           message={activityErr}
           onRetry={onRetry}
         />
@@ -846,7 +843,9 @@ const AdminDashboard: React.FC = () => {
       .catch((err: unknown) => {
         if (cancelled) return;
         setVolumeError(
-          err instanceof Error ? err.message : "Failed to load donation volume.",
+          err instanceof Error
+            ? err.message
+            : "Failed to load donation volume.",
         );
       });
     return () => {

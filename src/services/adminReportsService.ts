@@ -146,12 +146,9 @@ export async function getVolunteerReport(
 export async function getPlatformHealthSummary(
   period: PlatformHealthPeriod,
 ): Promise<PlatformHealthRow[]> {
-  const { data, error } = await supabase.rpc(
-    "admin_platform_health_summary",
-    {
-      p_period: period,
-    },
-  );
+  const { data, error } = await supabase.rpc("admin_platform_health_summary", {
+    p_period: period,
+  });
 
   if (error) {
     Logger.error("Error fetching platform health summary", { error, period });

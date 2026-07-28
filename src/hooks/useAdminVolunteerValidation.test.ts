@@ -283,9 +283,9 @@ describe("useAdminVolunteerValidation", () => {
       const { result } = renderHook(() => useAdminVolunteerValidation());
 
       await act(async () => {
-        await expect(
-          result.current.fetchSuspiciousPatterns(),
-        ).rejects.toThrow("RPC failed");
+        await expect(result.current.fetchSuspiciousPatterns()).rejects.toThrow(
+          "RPC failed",
+        );
       });
 
       expect(result.current.suspiciousPatterns).toEqual([]);

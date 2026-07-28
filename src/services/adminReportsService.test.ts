@@ -79,10 +79,7 @@ describe("adminReportsService", () => {
       });
 
       await expect(
-        getCharityGrowthReport(
-          "2026-01-01T00:00:00Z",
-          "2026-01-31T23:59:59Z",
-        ),
+        getCharityGrowthReport("2026-01-01T00:00:00Z", "2026-01-31T23:59:59Z"),
       ).rejects.toThrow("RPC failed");
     });
 
@@ -90,10 +87,7 @@ describe("adminReportsService", () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
       await expect(
-        getCharityGrowthReport(
-          "2026-01-01T00:00:00Z",
-          "2026-01-31T23:59:59Z",
-        ),
+        getCharityGrowthReport("2026-01-01T00:00:00Z", "2026-01-31T23:59:59Z"),
       ).rejects.toThrow("Network failure");
     });
 
@@ -164,10 +158,7 @@ describe("adminReportsService", () => {
       });
 
       await expect(
-        getDonorActivityReport(
-          "2026-01-01T00:00:00Z",
-          "2026-01-31T23:59:59Z",
-        ),
+        getDonorActivityReport("2026-01-01T00:00:00Z", "2026-01-31T23:59:59Z"),
       ).rejects.toThrow("RPC failed");
     });
 
@@ -175,10 +166,7 @@ describe("adminReportsService", () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
       await expect(
-        getDonorActivityReport(
-          "2026-01-01T00:00:00Z",
-          "2026-01-31T23:59:59Z",
-        ),
+        getDonorActivityReport("2026-01-01T00:00:00Z", "2026-01-31T23:59:59Z"),
       ).rejects.toThrow("Network failure");
     });
   });
@@ -235,10 +223,7 @@ describe("adminReportsService", () => {
       });
 
       await expect(
-        getVolunteerReport(
-          "2026-01-01T00:00:00Z",
-          "2026-01-31T23:59:59Z",
-        ),
+        getVolunteerReport("2026-01-01T00:00:00Z", "2026-01-31T23:59:59Z"),
       ).rejects.toThrow("RPC failed");
     });
 
@@ -246,10 +231,7 @@ describe("adminReportsService", () => {
       mockRpc.mockRejectedValue(new Error("Network failure"));
 
       await expect(
-        getVolunteerReport(
-          "2026-01-01T00:00:00Z",
-          "2026-01-31T23:59:59Z",
-        ),
+        getVolunteerReport("2026-01-01T00:00:00Z", "2026-01-31T23:59:59Z"),
       ).rejects.toThrow("Network failure");
     });
   });

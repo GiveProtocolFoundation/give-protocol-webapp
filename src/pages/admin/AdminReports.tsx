@@ -415,11 +415,14 @@ function DonationsTab({
         <EmptyState message="No donation data for the selected period." />
       )}
 
-      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
-        <div className="overflow-x-auto pb-2">
-          <MiniBarChart data={chartData} />
-        </div>
-      )}
+      {!loading &&
+        error === null &&
+        rows.length > 0 &&
+        chartData.length > 0 && (
+          <div className="overflow-x-auto pb-2">
+            <MiniBarChart data={chartData} />
+          </div>
+        )}
 
       {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
@@ -551,11 +554,14 @@ function CharityGrowthTab({
         <EmptyState message="No charity growth data for the selected period." />
       )}
 
-      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
-        <div className="overflow-x-auto pb-2">
-          <MiniBarChart data={chartData} />
-        </div>
-      )}
+      {!loading &&
+        error === null &&
+        rows.length > 0 &&
+        chartData.length > 0 && (
+          <div className="overflow-x-auto pb-2">
+            <MiniBarChart data={chartData} />
+          </div>
+        )}
 
       {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
@@ -690,11 +696,14 @@ function DonorActivityTab({
         <EmptyState message="No donor activity data for the selected period." />
       )}
 
-      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
-        <div className="overflow-x-auto pb-2">
-          <MiniBarChart data={chartData} />
-        </div>
-      )}
+      {!loading &&
+        error === null &&
+        rows.length > 0 &&
+        chartData.length > 0 && (
+          <div className="overflow-x-auto pb-2">
+            <MiniBarChart data={chartData} />
+          </div>
+        )}
 
       {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
@@ -831,11 +840,14 @@ function VolunteerHoursTab({
         <EmptyState message="No volunteer data for the selected period." />
       )}
 
-      {!loading && error === null && rows.length > 0 && chartData.length > 0 && (
-        <div className="overflow-x-auto pb-2">
-          <MiniBarChart data={chartData} />
-        </div>
-      )}
+      {!loading &&
+        error === null &&
+        rows.length > 0 &&
+        chartData.length > 0 && (
+          <div className="overflow-x-auto pb-2">
+            <MiniBarChart data={chartData} />
+          </div>
+        )}
 
       {!loading && error === null && rows.length > 0 && (
         <table className="w-full text-left text-sm overflow-x-auto">
@@ -1062,9 +1074,7 @@ function AuditTrailTab({
         })
         .catch((err: unknown) => {
           setError(
-            err instanceof Error
-              ? err.message
-              : "Failed to load audit trail.",
+            err instanceof Error ? err.message : "Failed to load audit trail.",
           );
         })
         .finally(() => {

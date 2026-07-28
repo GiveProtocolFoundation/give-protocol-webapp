@@ -103,19 +103,16 @@ export async function listValidationRequests(
   const page = filters.page ?? 1;
   const limit = filters.limit ?? 50;
 
-  const { data, error } = await supabase.rpc(
-    "admin_list_validation_requests",
-    {
-      p_status: filters.status ?? null,
-      p_org_id: filters.orgId ?? null,
-      p_volunteer_id: filters.volunteerId ?? null,
-      p_search: filters.search ?? null,
-      p_date_from: filters.dateFrom ?? null,
-      p_date_to: filters.dateTo ?? null,
-      p_page: page,
-      p_limit: limit,
-    },
-  );
+  const { data, error } = await supabase.rpc("admin_list_validation_requests", {
+    p_status: filters.status ?? null,
+    p_org_id: filters.orgId ?? null,
+    p_volunteer_id: filters.volunteerId ?? null,
+    p_search: filters.search ?? null,
+    p_date_from: filters.dateFrom ?? null,
+    p_date_to: filters.dateTo ?? null,
+    p_page: page,
+    p_limit: limit,
+  });
 
   if (error) {
     Logger.error("Error fetching admin validation request list", {
