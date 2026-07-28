@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import {
   listOpportunities,
   listCauses,
@@ -617,6 +618,7 @@ const AdminContentModeration: React.FC = () => {
     useState<AdminCauseListResult>(INITIAL_CAUSE_RESULT);
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
 
   // Modal state
   const [pendingAction, setPendingAction] = useState<PendingAction | null>(
@@ -640,9 +642,14 @@ const AdminContentModeration: React.FC = () => {
   const fetchOpportunities = useCallback(
     async (f: AdminContentModerationFilters) => {
       setLoading(true);
+      setError(null);
       try {
         const data = await listOpportunities(f);
         setOppResult(data);
+      } catch (err) {
+        setError(
+          err instanceof Error ? err.message : "Failed to load opportunities.",
+        );
       } finally {
         setLoading(false);
       }
@@ -652,15 +659,26 @@ const AdminContentModeration: React.FC = () => {
 
   const fetchCauses = useCallback(async (f: AdminContentModerationFilters) => {
     setLoading(true);
+    setError(null);
     try {
       const data = await listCauses(f);
       setCauseResult(data);
+    } catch (err) {
+      setError(err instanceof Error ? err.message : "Failed to load causes.");
     } finally {
       setLoading(false);
     }
   }, []);
 
   useEffect(() => {
+    if (activeTab === "opportunities") {
+      fetchOpportunities(filters);
+    } else {
+      fetchCauses(filters);
+    }
+  }, [activeTab, filters, fetchOpportunities, fetchCauses]);
+
+  const handleRetry = useCallback(() => {
     if (activeTab === "opportunities") {
       fetchOpportunities(filters);
     } else {
@@ -871,15 +889,23 @@ const AdminContentModeration: React.FC = () => {
           onSearchChange={handleSearchChange}
         />
 
-        <TabContent
-          activeTab={activeTab}
-          loading={loading}
-          updating={updating}
-          oppResult={oppResult}
-          causeResult={causeResult}
-          onOpportunityAction={handleOpportunityAction}
-          onCauseAction={handleCauseAction}
-        />
+        {error !== null && !loading && (
+          <div className="py-4">
+            <AdminErrorPanel message={error} onRetry={handleRetry} />
+          </div>
+        )}
+
+        {error === null && (
+          <TabContent
+            activeTab={activeTab}
+            loading={loading}
+            updating={updating}
+            oppResult={oppResult}
+            causeResult={causeResult}
+            onOpportunityAction={handleOpportunityAction}
+            onCauseAction={handleCauseAction}
+          />
+        )}
 
         <Pagination
           page={currentPage}
