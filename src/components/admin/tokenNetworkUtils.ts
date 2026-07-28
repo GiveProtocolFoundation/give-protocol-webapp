@@ -3,7 +3,11 @@
  * used by both the admin TokenNetworkSettings component and its tests.
  */
 
-import { CHAIN_CONFIGS, SUPPORTED_CHAIN_IDS } from "@/config/contracts";
+import {
+  CHAIN_CONFIGS,
+  CONTRACT_ADDRESSES,
+  SUPPORTED_CHAIN_IDS,
+} from "@/config/contracts";
 import type { PlatformConfigValue } from "@/types/adminPlatformConfig";
 
 // ─── Network registry ─────────────────────────────────────────────────────────
@@ -20,17 +24,33 @@ export interface AdminNetworkOption {
 }
 
 /**
+ * Check if a chain has a donation contract address configured (non-empty env var).
+ * @param chainId - The chain ID to check
+ * @returns True if the DONATION contract address is set
+ */
+function hasDeployedContracts(chainId: number): boolean {
+  const addresses =
+    CONTRACT_ADDRESSES[chainId as keyof typeof CONTRACT_ADDRESSES];
+  return Boolean(addresses?.DONATION);
+}
+
+/**
  * Full list of networks shown in the admin Token & Network tab: all integrated
- * mainnet chains from the contract registry.
+ * mainnet chains from the contract registry. Availability is derived from
+ * whether the DONATION contract address env var is set for that chain.
  */
 export const NETWORK_OPTIONS: AdminNetworkOption[] = SUPPORTED_CHAIN_IDS.map(
   (id) => {
     const config = CHAIN_CONFIGS[id];
+    const available = hasDeployedContracts(id);
     return {
       chainId: config.id,
       name: config.name,
       ecosystem: config.ecosystem,
-      available: true,
+      available,
+      ...(!available && {
+        unavailableReason: "Donation contracts not deployed",
+      }),
     };
   },
 );

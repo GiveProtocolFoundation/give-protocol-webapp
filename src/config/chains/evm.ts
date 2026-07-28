@@ -4,6 +4,7 @@
  */
 
 import type { EVMChainConfig } from "@/types/chains";
+import { getChainContractAddresses } from "@/config/env";
 
 /**
  * EVM Chain ID constants
@@ -237,14 +238,16 @@ export function isEVMChainSupported(chainId: number): boolean {
 }
 
 /**
- * Get available EVM chains based on testnet setting
+ * Get available EVM chains based on testnet setting.
+ * Only includes mainnet chains that have deployed donation contracts,
+ * preventing donors from selecting chains where donations would fail.
  * @param showTestnets - Whether to include testnets
- * @returns Array of chain configs
+ * @returns Array of chain configs with deployed contracts
  */
 export function getAvailableEVMChains(showTestnets: boolean): EVMChainConfig[] {
-  const mainnetChains = SUPPORTED_EVM_CHAIN_IDS.map(
-    (id) => EVM_CHAIN_CONFIGS[id],
-  );
+  const mainnetChains = SUPPORTED_EVM_CHAIN_IDS.filter((id) =>
+    Boolean(getChainContractAddresses(id).DONATION),
+  ).map((id) => EVM_CHAIN_CONFIGS[id]);
   if (showTestnets) {
     const testnetChains = TESTNET_EVM_CHAIN_IDS.map(
       (id) => EVM_CHAIN_CONFIGS[id],

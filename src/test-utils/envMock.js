@@ -40,19 +40,23 @@ export const ENV = {
   ],
 };
 
+// skipcq: SCT-A000 - Placeholder test address, not a real secret
+const TEST_ADDRESS = "0x1234567890123456789012345678901234567890";
+
 /**
  * Get contract addresses for a specific chain from environment variables.
- * Test mock returns undefined addresses (tests use dev fallback).
+ * Test mock returns placeholder addresses so contract-deployment checks
+ * behave consistently with the contracts mock.
  * @param {number} _chainId - The chain ID
  * @returns {object} Contract addresses for the chain
  */
 export function getChainContractAddresses(_chainId) {
   return {
-    DONATION: undefined,
-    VERIFICATION: undefined,
+    DONATION: TEST_ADDRESS,
+    VERIFICATION: TEST_ADDRESS,
     DISTRIBUTION: undefined,
     PORTFOLIO_FUNDS: undefined,
     EXECUTOR: undefined,
-    TOKEN: undefined,
+    TOKEN: TEST_ADDRESS,
   };
 }

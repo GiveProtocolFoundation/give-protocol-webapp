@@ -122,33 +122,29 @@ describe("serializeEnabledNetworks", () => {
 });
 
 describe("TokenNetworkSettings", () => {
-  it("renders all registry networks as available", () => {
+  it("renders all registry networks with derived availability", () => {
     renderComponent();
 
     expect(screen.getByText("Donation Networks")).toBeInTheDocument();
     for (const option of NETWORK_OPTIONS) {
       expect(screen.getAllByText(option.name).length).toBeGreaterThan(0);
     }
-    expect(screen.getAllByText("Available")).toHaveLength(
-      NETWORK_OPTIONS.length,
-    );
+    // In test env the mock provides DONATION addresses for all chains,
+    // so all networks render as available
+    const availableCount = NETWORK_OPTIONS.filter((n) => n.available).length;
+    expect(screen.getAllByText("Available")).toHaveLength(availableCount);
   });
 
-  it("checks enabled networks and all integrated chains are toggleable", () => {
+  it("enables checkboxes only for chains with deployed contracts", () => {
     renderComponent();
 
     const base = rowCheckbox("Base");
     expect(base).toBeChecked();
-    expect(base).toBeEnabled();
-
-    const solana = rowCheckbox("Solana");
-    expect(solana).not.toBeChecked();
-    expect(solana).toBeEnabled();
-
-    expect(rowCheckbox("Arbitrum")).toBeEnabled();
-    expect(rowCheckbox("Polygon")).toBeEnabled();
-    expect(rowCheckbox("Ethereum")).toBeEnabled();
-    expect(rowCheckbox("Avalanche")).toBeEnabled();
+    // Available chains are toggleable; unavailable chains are disabled
+    for (const option of NETWORK_OPTIONS) {
+      const checkbox = rowCheckbox(option.name);
+      expect(checkbox)[option.available ? "toBeEnabled" : "toBeDisabled"]();
+    }
   });
 
   it("saves toggled networks in the canonical shape", () => {

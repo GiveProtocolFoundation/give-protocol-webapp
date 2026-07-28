@@ -310,10 +310,22 @@ export function isChainSupported(chainId: number): boolean {
 }
 
 /**
- * Get available chains based on environment
+ * Check if a chain has donation contracts deployed (DONATION address configured).
+ */
+export function hasDeployedContracts(chainId: ChainId): boolean {
+  const addresses = CONTRACT_ADDRESSES[chainId];
+  return Boolean(addresses?.DONATION);
+}
+
+/**
+ * Get available chains based on environment.
+ * Only includes mainnet chains that have deployed donation contracts,
+ * preventing donors from selecting chains where donations would fail.
  */
 export function getAvailableChains(showTestnets: boolean): ChainConfig[] {
-  const mainnetChains = SUPPORTED_CHAIN_IDS.map((id) => CHAIN_CONFIGS[id]);
+  const mainnetChains = SUPPORTED_CHAIN_IDS.filter(
+    (id) => hasDeployedContracts(id),
+  ).map((id) => CHAIN_CONFIGS[id]);
   if (showTestnets) {
     const testnetChains = TESTNET_CHAIN_IDS.map((id) => CHAIN_CONFIGS[id]);
     return [...mainnetChains, ...testnetChains];
@@ -357,10 +369,11 @@ export function getContractAddress(
 
   const address = addresses[contractName];
   if (!address) {
-    // For development/test environments, return a dummy address
     const nodeEnv =
       typeof process !== "undefined" ? process.env?.NODE_ENV : undefined;
-    if (nodeEnv !== "production") {
+    const chainConfig = CHAIN_CONFIGS[chainId];
+    const isTestnetChain = chainConfig?.isTestnet === true;
+    if (isTestnetChain || nodeEnv === "test") {
       // skipcq: SCT-A000 - This is a placeholder development Ethereum address, not a real secret
       return "0x1234567890123456789012345678901234567890";
     }

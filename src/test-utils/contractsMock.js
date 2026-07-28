@@ -256,6 +256,12 @@ export const CONTRACT_ADDRESSES = Object.fromEntries(
   ]),
 );
 
+/** Mock: checks if a chain has deployed donation contracts */
+export function hasDeployedContracts(chainId) {
+  const addresses = CONTRACT_ADDRESSES[chainId];
+  return Boolean(addresses?.DONATION);
+}
+
 /** Mock: returns a dummy contract address for any contract/chain pair. Exported as jest.fn() so tests can override per-test. */
 import { jest } from "@jest/globals";
 export const getContractAddress = jest.fn().mockReturnValue(DUMMY_ADDRESS);
