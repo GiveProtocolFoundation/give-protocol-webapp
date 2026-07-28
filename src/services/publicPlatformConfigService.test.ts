@@ -174,7 +174,9 @@ describe("publicPlatformConfigService", () => {
         supabase.rpc as ReturnType<typeof import("@jest/globals").jest.fn>
       ).mockRejectedValue(new Error("Network failure"));
 
-      await expect(getPublicPlatformConfig()).rejects.toThrow("Network failure");
+      await expect(getPublicPlatformConfig()).rejects.toThrow(
+        "Network failure",
+      );
     });
   });
 });
