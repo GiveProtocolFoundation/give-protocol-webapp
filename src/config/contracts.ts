@@ -323,8 +323,8 @@ export function hasDeployedContracts(chainId: ChainId): boolean {
  * preventing donors from selecting chains where donations would fail.
  */
 export function getAvailableChains(showTestnets: boolean): ChainConfig[] {
-  const mainnetChains = SUPPORTED_CHAIN_IDS.filter(
-    (id) => hasDeployedContracts(id),
+  const mainnetChains = SUPPORTED_CHAIN_IDS.filter((id) =>
+    hasDeployedContracts(id),
   ).map((id) => CHAIN_CONFIGS[id]);
   if (showTestnets) {
     const testnetChains = TESTNET_CHAIN_IDS.map((id) => CHAIN_CONFIGS[id]);
