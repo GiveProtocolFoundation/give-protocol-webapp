@@ -103,7 +103,6 @@ export function CookieBanner() {
     <>
       {/* skipcq: JS-0764 -- explicit region role required by AC for screen-reader consistency */}
       <section
-        role="region"
         aria-label={t("consent.banner.ariaLabel")}
         className="fixed bottom-0 left-0 right-0 z-50 bg-white border-t border-gray-200 shadow-lg"
       >

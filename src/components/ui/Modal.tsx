@@ -108,7 +108,6 @@ export const Modal: React.FC<ModalProps> = ({
     return () => {
       document.removeEventListener("keydown", handleKeyDown);
       document.body.style.overflow = "";
-
       // Restore focus
       if (previousActiveElement.current) {
         previousActiveElement.current.focus();
@@ -137,7 +136,6 @@ export const Modal: React.FC<ModalProps> = ({
           ref={modalRef}
           tabIndex={-1}
           open
-          role="dialog"
           aria-modal="true"
           aria-labelledby={title ? "modal-title" : undefined}
           className={`
