@@ -130,7 +130,10 @@ function makeMockSupabase(
         .fn<MockSupabaseClient["functions"]["invoke"]>()
         .mockImplementation(() => {
           if (shouldError) {
-            return Promise.resolve({ data: null, error: new Error("decrypt failed") });
+            return Promise.resolve({
+              data: null,
+              error: new Error("decrypt failed"),
+            });
           }
           return Promise.resolve({ data: decryptResult, error: null });
         }),
