@@ -48,6 +48,13 @@ export const PostAuthAgeConfirmModal: React.FC<
     [],
   );
 
+  const handleBackdropKeyDown = useCallback(
+    (e: React.KeyboardEvent<HTMLDivElement>) => {
+      e.stopPropagation();
+    },
+    [],
+  );
+
   return (
     <div
       className="fixed inset-0 z-50 flex items-center justify-center"
@@ -66,6 +73,7 @@ export const PostAuthAgeConfirmModal: React.FC<
       <div
         className="relative z-10 w-full max-w-md mx-4 bg-white dark:bg-gray-800 rounded-2xl shadow-2xl p-6 space-y-5"
         onClick={handleBackdropClick}
+        onKeyDown={handleBackdropKeyDown}
       >
         <h2
           id="post-auth-age-title"
@@ -82,7 +90,7 @@ export const PostAuthAgeConfirmModal: React.FC<
         </p>
 
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          Give Protocol is available to users aged 16 and over.{" "}
+          Give Protocol is available to users aged 16 and over. {" "}
           <a
             href="/privacy"
             className="underline hover:text-gray-700 dark:hover:text-gray-200"
