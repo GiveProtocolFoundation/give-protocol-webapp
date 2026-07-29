@@ -155,7 +155,7 @@ describe("DonorRegistration", () => {
 
   // --- Negative path: decline in PostAuthAgeConfirmModal ---
 
-  it("does not call signInWithGoogle when modal is declined", async () => {
+  it("does not call signInWithGoogle when modal is declined", () => {
     render(<DonorRegistration />);
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },

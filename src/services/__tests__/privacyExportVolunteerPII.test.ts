@@ -128,11 +128,14 @@ function makeMockSupabase(
     functions: {
       invoke: jest
         .fn<MockSupabaseClient["functions"]["invoke"]>()
-        .mockImplementation(async () => {
+        .mockImplementation(() => {
           if (shouldError) {
-            return { data: null, error: new Error("decrypt failed") };
+            return Promise.resolve({
+              data: null,
+              error: new Error("decrypt failed"),
+            });
           }
-          return { data: decryptResult, error: null };
+          return Promise.resolve({ data: decryptResult, error: null });
         }),
     },
   };
@@ -180,7 +183,7 @@ describe("privacy-export: volunteer_applications PII resolution", () => {
 
     const invokeMock = jest
       .fn<MockSupabaseClient["functions"]["invoke"]>()
-      .mockImplementation(async (_name, opts) => {
+      .mockImplementation((_name, opts) => {
         const field = (opts.body as Record<string, unknown>).field as string;
         const map: Record<string, string> = {
           full_name: "Decrypted Jane",
