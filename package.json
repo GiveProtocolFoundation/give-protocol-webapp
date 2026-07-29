@@ -104,7 +104,7 @@
     "globals": "^15.0.0",
     "jest": "^30.0.5",
     "jest-axe": "^10.0.0",
-    "jest-environment-jsdom": "^30.0.5",
+    "jest-environment-jsdom": "^30.4.1",
     "postcss": "^8.5.23",
     "sharp": "^0.35.0",
     "sonarqube-scanner": "^5.0.0",
