@@ -146,7 +146,7 @@ describe("useGasEstimate", () => {
     expect(result.current.gasEstimate?.gasEstimateUsd).toBe(0);
   });
 
-  it("should return null when provider is not available", async () => {
+  it("should return null when provider is not available", () => {
     jest.mocked(useWeb3).mockReturnValue({
       provider: null,
       signer: null,
