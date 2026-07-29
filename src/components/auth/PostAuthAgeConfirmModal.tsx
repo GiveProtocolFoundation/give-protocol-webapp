@@ -90,7 +90,7 @@ export const PostAuthAgeConfirmModal: React.FC<
         </p>
 
         <p className="text-xs text-gray-500 dark:text-gray-400">
-          Give Protocol is available to users aged 16 and over. {" "}
+          Give Protocol is available to users aged 16 and over.{" "}
           <a
             href="/privacy"
             className="underline hover:text-gray-700 dark:hover:text-gray-200"
