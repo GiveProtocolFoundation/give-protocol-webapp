@@ -71,7 +71,7 @@ export function DonationForm({
   const availableTokens = useMemo(() => {
     const tokens = getERC20TokensForChain(chainId ?? CHAIN_IDS.BASE);
     if (!supportedTokens) return tokens;
-    return tokens.filter((t) => supportedTokens.includes(t.symbol));
+    return tokens.filter((tk) => supportedTokens.includes(tk.symbol));
   }, [chainId, supportedTokens]);
 
   const [amount, setAmount] = useState(0);
