@@ -1665,6 +1665,15 @@ export default {
     "donation.art9Consent.required":
       "You must consent to donation data processing to proceed.",
 
+    // Donation gas estimate (GIV-799)
+    "donation.gas.estimating": "Estimating network fee…",
+    "donation.gas.label": "Est. network fee",
+    "donation.gas.highGasWarning":
+      "High gas alert: estimated fee is {{usd}}, which is {{pct}} of your donation.",
+    "donation.gas.highGasSuggestion":
+      "Consider a larger donation or switching to a lower-fee chain.",
+    "donation.gas.l2Hint": "For lower fees, try {{chains}}.",
+
     // Charity claim toast notifications (GIV-300)
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":

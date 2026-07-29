@@ -7,7 +7,12 @@ import { validateAmount } from "@/utils/validation";
 import { useToast } from "@/contexts/ToastContext";
 import { Logger } from "@/utils/logger";
 import { ethers } from "ethers";
-import { getContractAddress, CHAIN_IDS } from "@/config/contracts";
+import {
+  getContractAddress,
+  CHAIN_IDS,
+  CHAIN_CONFIGS,
+  type ChainId,
+} from "@/config/contracts";
 import { getERC20TokensForChain, type TokenConfig } from "@/config/tokens";
 import { TokenSelector } from "./TokenSelector";
 import { DualAmountInput } from "./DualAmountInput";
@@ -686,7 +691,11 @@ export function ScheduledDonationForm({
         const gasUsed = receipt.gasUsed;
         const gasPrice = receipt.gasPrice || receipt.effectiveGasPrice;
         const fee = ethers.formatEther(gasUsed * gasPrice);
-        setTransactionFee(`${Number.parseFloat(fee).toFixed(6)} GLMR`);
+        const nativeSymbol =
+          CHAIN_CONFIGS[chainId as ChainId]?.nativeCurrency.symbol ?? "ETH";
+        setTransactionFee(
+          `${Number.parseFloat(fee).toFixed(6)} ${nativeSymbol}`,
+        );
 
         setShowConfirmation(true);
 
@@ -711,6 +720,7 @@ export function ScheduledDonationForm({
       art9Consented,
       t,
       charityAddress,
+      chainId,
       isConnected,
       provider,
       address,

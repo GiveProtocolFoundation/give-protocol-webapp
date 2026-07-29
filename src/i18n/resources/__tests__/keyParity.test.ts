@@ -249,6 +249,12 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.error.recentActivity",
   "admin.error.alerts",
   "admin.error.donationVolume",
+  // GIV-799: Ethereum gas UX warnings — English-first; translations to follow.
+  "donation.gas.estimating",
+  "donation.gas.label",
+  "donation.gas.highGasWarning",
+  "donation.gas.highGasSuggestion",
+  "donation.gas.l2Hint",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;
