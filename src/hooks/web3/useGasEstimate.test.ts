@@ -20,13 +20,18 @@ jest.mock("@/utils/logger", () => ({
   },
 }));
 
-const mockGetPrice =
-  jest.fn<() => Promise<{ price: number; symbol: string; updatedAt: number; isValid: boolean }>>();
+const mockGetPrice = jest.fn<
+  () => Promise<{
+    price: number;
+    symbol: string;
+    updatedAt: number;
+    isValid: boolean;
+  }>
+>();
 
 beforeEach(async () => {
-  const { chainlinkPriceFeedService } = await import(
-    "@/services/chainlinkPriceFeed"
-  );
+  const { chainlinkPriceFeedService } =
+    await import("@/services/chainlinkPriceFeed");
   (
     chainlinkPriceFeedService as unknown as {
       getPrice: typeof mockGetPrice;
@@ -37,10 +42,12 @@ beforeEach(async () => {
 function setupProvider(maxFeePerGas: bigint) {
   jest.mocked(useWeb3).mockReturnValue({
     provider: {
-      getFeeData: jest.fn<() => Promise<{ maxFeePerGas: bigint; gasPrice: null }>>().mockResolvedValue({
-        maxFeePerGas,
-        gasPrice: null,
-      }),
+      getFeeData: jest
+        .fn<() => Promise<{ maxFeePerGas: bigint; gasPrice: null }>>()
+        .mockResolvedValue({
+          maxFeePerGas,
+          gasPrice: null,
+        }),
     } as unknown as ReturnType<typeof useWeb3>["provider"],
     signer: null,
     address: "0xtest",

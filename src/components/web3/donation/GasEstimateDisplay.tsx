@@ -33,8 +33,7 @@ export function GasEstimateDisplay({
         ? "<$0.01"
         : `~$${gasEstimate.gasEstimateUsd.toFixed(2)}`;
     const gwei = gasEstimate.gasPriceGwei.toFixed(1);
-    const pct =
-      gasRatio !== null ? `${Math.round(gasRatio * 100)}%` : null;
+    const pct = gasRatio !== null ? `${Math.round(gasRatio * 100)}%` : null;
     return { usd, gwei, pct };
   }, [gasEstimate, gasRatio]);
 
@@ -42,12 +41,7 @@ export function GasEstimateDisplay({
     return (
       <div className="flex items-center gap-2 text-sm text-gray-500 dark:text-gray-400 py-2">
         <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-        <span>
-          {t(
-            "donation.gas.estimating",
-            "Estimating network fee…",
-          )}
-        </span>
+        <span>{t("donation.gas.estimating", "Estimating network fee…")}</span>
       </div>
     );
   }
@@ -97,13 +91,9 @@ export function GasEstimateDisplay({
         <div className="flex items-center gap-2 text-xs text-blue-600 dark:text-blue-400 px-3 py-1.5">
           <ArrowRight className="w-3 h-3" />
           <span>
-            {t(
-              "donation.gas.l2Hint",
-              "For lower fees, try {{chains}}.",
-              {
-                chains: L2_ALTERNATIVES.join(", "),
-              },
-            )}
+            {t("donation.gas.l2Hint", "For lower fees, try {{chains}}.", {
+              chains: L2_ALTERNATIVES.join(", "),
+            })}
           </span>
         </div>
       )}
