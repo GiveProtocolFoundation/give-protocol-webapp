@@ -4,14 +4,17 @@ import { Button } from "@/components/ui/Button";
 import { validateAmount } from "@/utils/validation";
 import { useDonation, DonationType } from "@/hooks/web3/useDonation";
 import { useTokenBalance } from "@/hooks/web3/useTokenBalance";
+import { useGasEstimate } from "@/hooks/web3/useGasEstimate";
 import { useToast } from "@/contexts/ToastContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { Logger } from "@/utils/logger";
 import { TokenSelector } from "./TokenSelector";
 import { DualAmountInput } from "./DualAmountInput";
 import { FiatPresets } from "./FiatPresets";
+import { GasEstimateDisplay } from "./GasEstimateDisplay";
 import { getERC20TokensForChain, type TokenConfig } from "@/config/tokens";
 import { CHAIN_IDS } from "@/config/contracts";
+import { useCurrencyContext } from "@/contexts/CurrencyContext";
 import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
 import { ART9_DONATION_CONSENT } from "@/constants/donationConsent";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -59,6 +62,7 @@ export function DonationForm({
   const { user } = useAuth();
   const { t, language } = useTranslation();
   const { supportedTokens } = usePlatformConfig();
+  const { convertToFiat } = useCurrencyContext();
   const pendingToastIdRef = useRef<string | null>(null);
   const [art9Consented, setArt9Consented] = useState(false);
 
@@ -78,6 +82,19 @@ export function DonationForm({
   const [successMessage, setSuccessMessage] = useState("");
   const { balance, isLoading: isLoadingBalance } =
     useTokenBalance(selectedToken);
+
+  const donationAmountUsd = useMemo(() => {
+    if (amount <= 0) return null;
+    const usd = convertToFiat(amount, selectedToken.coingeckoId);
+    return usd > 0 ? usd : null;
+  }, [amount, selectedToken.coingeckoId, convertToFiat]);
+
+  const {
+    gasEstimate,
+    isLoading: isLoadingGas,
+    gasRatio,
+    isHighGasRatio,
+  } = useGasEstimate(donationAmountUsd);
 
   // Reset selected token when chain changes
   React.useEffect(() => {
@@ -284,6 +301,14 @@ export function DonationForm({
         value={amount}
         onChange={handleAmountChange}
         maxBalance={balance ?? undefined}
+      />
+
+      <GasEstimateDisplay
+        gasEstimate={gasEstimate}
+        isLoading={isLoadingGas}
+        gasRatio={gasRatio}
+        isHighGasRatio={isHighGasRatio}
+        isHighGasChain={gasEstimate?.isHighGasChain ?? false}
       />
 
       {/* Art. 9(2)(a) donation consent gate (GIV-655) */}
