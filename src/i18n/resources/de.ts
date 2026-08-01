@@ -1417,5 +1417,8 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    "privacy.security.auditLog":
+      "Als technische Maßnahme gemäß Artikel 32 der DSGVO protokollieren und überwachen wir den administrativen Zugriff auf personenbezogene Daten — einschließlich der durchgeführten Aktion und des Zeitpunkts — um unbefugten Zugriff zu erkennen, Rechenschaftspflicht nachzuweisen und Ereignisse im unwahrscheinlichen Fall einer Verletzung des Schutzes personenbezogener Daten (Artikel 34) zu rekonstruieren. Personenbezogene Daten von Spendern werden nicht in diese Verwaltungszugriffsprotokolle dupliziert. Verwaltungszugriffsprotokolle unterscheiden sich von den in §7.1 beschriebenen Authentifizierungs- und Sicherheitsprotokollen; ihre Aufbewahrungsfrist wird durch unser internes Verzeichnis von Verarbeitungstätigkeiten geregelt.",
   },
 };

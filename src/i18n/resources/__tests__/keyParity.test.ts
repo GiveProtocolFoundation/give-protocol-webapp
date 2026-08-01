@@ -57,7 +57,6 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.auditTrail.viewedEntity",
   "admin.auditTrail.viewedList",
   "admin.auditTrail.viewedListNoFilters",
-  "privacy.security.auditLog",
   "admin.actions.platformNews",
   "admin.actions.platformNewsDesc",
   "admin.news.activate",

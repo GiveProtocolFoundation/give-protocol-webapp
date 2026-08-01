@@ -1329,5 +1329,8 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    "privacy.security.auditLog":
+      "GDPR 제32조에 따른 기술적 조치로서, 당사는 개인 데이터에 대한 관리자 접근을 기록하고 모니터링합니다. 여기에는 수행된 작업과 발생 시점이 포함되며, 무단 접근 탐지, 책임성 입증, 그리고 만일의 개인 데이터 침해(제34조) 발생 시 사건 재구성을 목적으로 합니다. 기부자의 개인 데이터는 이러한 관리자 접근 로그에 복제되지 않습니다. 관리자 접근 로그는 §7.1에 설명된 인증 및 보안 로그와 구별되며, 보존 기간은 당사의 내부 처리 활동 기록에 의해 관리됩니다.",
   },
 };

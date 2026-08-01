@@ -1285,5 +1285,8 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    "privacy.security.auditLog":
+      "作为GDPR第32条规定的技术措施，我们记录并监控对个人数据的管理访问——包括所执行的操作及其发生时间——以检测未经授权的访问、证明问责制，并在万一发生个人数据泄露（第34条）时重建事件。捐赠者的个人数据不会被复制到这些管理访问日志中。管理访问日志与§7.1中描述的身份验证和安全日志不同；其保留期限由我们的内部处理活动记录管理。",
   },
 };

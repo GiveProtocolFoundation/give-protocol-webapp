@@ -1359,5 +1359,8 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    "privacy.security.auditLog":
+      "GDPR第32条に基づく技術的措置として、個人データへの管理者アクセスを記録および監視しています。これには、実行された操作とその発生時刻が含まれ、不正アクセスの検出、説明責任の実証、および個人データ侵害（第34条）が万一発生した場合の事象の再構成を目的としています。寄付者の個人データは、これらの管理者アクセスログに複製されません。管理者アクセスログは、§7.1に記載されている認証およびセキュリティログとは異なるものであり、その保持期間は当社の内部処理活動記録によって定められています。",
   },
 };
