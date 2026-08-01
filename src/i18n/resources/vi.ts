@@ -1356,5 +1356,7 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+    "privacy.security.auditLog":
+      "Là biện pháp kỹ thuật theo Điều 32 của GDPR, chúng tôi ghi nhật ký và giám sát việc truy cập dữ liệu cá nhân của quản trị viên — bao gồm hành động đã thực hiện và thời điểm xảy ra — để phát hiện truy cập trái phép, chứng minh trách nhiệm giải trình và tái dựng các sự kiện trong trường hợp không mong muốn xảy ra vi phạm dữ liệu cá nhân (Điều 34). Dữ liệu cá nhân của nhà tài trợ không được sao chép vào các nhật ký truy cập quản trị này. Nhật ký truy cập quản trị khác biệt với nhật ký xác thực và bảo mật được mô tả trong §7.1; thời hạn lưu giữ của chúng được quy định bởi Hồ sơ Hoạt động Xử lý nội bộ của chúng tôi.",
   },
 };

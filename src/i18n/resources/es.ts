@@ -1399,5 +1399,7 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+    "privacy.security.auditLog":
+      "Como medida técnica conforme al artículo 32 del RGPD, registramos y supervisamos el acceso administrativo a los datos personales —incluyendo la acción realizada y cuándo tuvo lugar— para detectar accesos no autorizados, demostrar la responsabilidad proactiva y reconstruir los hechos en el improbable caso de una violación de datos personales (artículo 34). Los datos personales de los donantes no se duplican en estos registros de acceso administrativo. Los registros de acceso administrativo son distintos de los registros de autenticación y seguridad descritos en el §7.1; su período de retención se rige por nuestro Registro de Actividades de Tratamiento interno.",
   },
 };

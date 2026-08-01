@@ -1420,5 +1420,7 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+    "privacy.security.auditLog":
+      "En tant que mesure technique au titre de l'article 32 du RGPD, nous journalisons et surveillons les accès administratifs aux données personnelles — y compris l'action effectuée et le moment où elle a eu lieu — afin de détecter les accès non autorisés, de démontrer notre responsabilité et de reconstituer les événements dans le cas improbable d'une violation de données personnelles (article 34). Les données personnelles des donateurs ne sont pas dupliquées dans ces journaux d'accès administratif. Les journaux d'accès administratif sont distincts des journaux d'authentification et de sécurité décrits au §7.1 ; leur durée de conservation est régie par notre Registre des activités de traitement interne.",
   },
 };
