@@ -1423,5 +1423,265 @@ export default {
 
     "privacy.security.auditLog":
       "En tant que mesure technique au titre de l'article 32 du RGPD, nous enregistrons et surveillons les accès administratifs aux données personnelles — y compris l'action effectuée et le moment où elle a eu lieu — afin de détecter les accès non autorisés, de démontrer la responsabilité et de reconstituer les événements dans le cas improbable d'une violation de données personnelles (article 34). Les données personnelles des donateurs ne sont pas dupliquées dans ces journaux d'accès administratif. Les journaux d'accès administratif sont distincts des journaux d'authentification et de sécurité décrits au §7.1 ; leur durée de conservation est régie par notre Registre des activités de traitement interne.",
+
+    // Remaining i18n keys — batch translation
+    "admin.auditTrail.filterByAction": "Filtrer par action",
+    "admin.auditTrail.allActions": "Toutes les actions",
+    "admin.auditTrail.action.charityStatusChange":
+      "Changement de statut d'association",
+    "admin.auditTrail.action.userStatusChange":
+      "Changement de statut d'utilisateur",
+    "admin.auditTrail.action.donationFlag": "Signalement de don",
+    "admin.auditTrail.action.donationFlagResolve":
+      "Résolution de signalement de don",
+    "admin.auditTrail.action.validationOverride": "Dérogation de validation",
+    "admin.auditTrail.action.configChange": "Changement de configuration",
+    "admin.auditTrail.action.verificationApprove":
+      "Approbation de vérification",
+    "admin.auditTrail.action.verificationReject": "Rejet de vérification",
+    "admin.auditTrail.action.charitySuspend": "Suspension d'association",
+    "admin.auditTrail.action.charityReinstate": "Réintégration d'association",
+    "admin.auditTrail.action.userSuspend": "Suspension d'utilisateur",
+    "admin.auditTrail.action.userReinstate": "Réintégration d'utilisateur",
+    "admin.auditTrail.action.userBan": "Bannissement d'utilisateur",
+    "admin.auditTrail.action.viewPii":
+      "Consultation de données personnelles (PII)",
+    "admin.auditTrail.action.viewPiiList":
+      "Consultation de la liste des données personnelles (PII)",
+    "admin.auditTrail.viewedEntity":
+      "L'administrateur {{adminId}} a consulté {{entityType}} {{entityId}}",
+    "admin.auditTrail.viewedList":
+      "L'administrateur {{adminId}} a consulté la liste {{entityType}} (page {{page}}, filtres : {{filters}})",
+    "admin.auditTrail.viewedListNoFilters":
+      "L'administrateur {{adminId}} a consulté la liste {{entityType}} (page {{page}})",
+    "admin.actions.platformNews": "Actualités de la plateforme",
+    "admin.actions.platformNewsDesc":
+      "Gérer les actualités affichées sur la page de découverte",
+    "admin.news.activate": "Activer {{title}}",
+    "admin.news.activated": "Actualité publiée",
+    "admin.news.activeLabel": "Publiée (visible du public)",
+    "admin.news.categoryLabel": "Catégorie",
+    "admin.news.contentLabel": "Contenu / Extrait",
+    "admin.news.contentPlaceholder": "Brève description de l'actualité...",
+    "admin.news.createNews": "Créer une actualité",
+    "admin.news.createNewsBtn": "Créer l'actualité",
+    "admin.news.created": "Actualité créée",
+    "admin.news.dateLabel": "Date de publication",
+    "admin.news.deactivate": "Désactiver {{title}}",
+    "admin.news.deactivated": "Actualité masquée",
+    "admin.news.deleteItem": "Supprimer {{title}}",
+    "admin.news.deleted": "Actualité supprimée",
+    "admin.news.editItem": "Modifier {{title}}",
+    "admin.news.editNews": "Modifier l'actualité",
+    "admin.news.imageLabel": "URL de l'image (facultatif)",
+    "admin.news.imagePlaceholder": "https://...",
+    "admin.news.inactive": "Inactive",
+    "admin.news.newItem": "Nouvelle actualité",
+    "admin.news.noItemsMessage":
+      "Créez votre première actualité pour partager des mises à jour avec votre communauté",
+    "admin.news.noItemsYet": "Aucune actualité pour le moment",
+    "admin.news.publishedOn": "Publiée le {{date}}",
+    "admin.news.saving": "Enregistrement...",
+    "admin.news.subtitle":
+      "Gérer les actualités affichées sur la page de découverte publique",
+    "admin.news.title": "Actualités de la plateforme",
+    "admin.news.titleLabel": "Titre",
+    "admin.news.titlePlaceholder": "ex. Rapport d'impact trimestriel",
+    "admin.news.updateNews": "Mettre à jour l'actualité",
+    "admin.news.updated": "Actualité mise à jour",
+    "admin.news.urlLabel": "URL du lien",
+    "admin.news.urlPlaceholder": "/news/mon-article",
+    "charity.walletBadge.institutionalLabel": "Détenu chez {{custodianName}}",
+    "charity.walletBadge.institutionalTooltip":
+      "Les dons sont versés à un portefeuille détenu par un dépositaire institutionnel qualifié.",
+    "charity.walletBadge.safeLabel":
+      "Trésorerie multisignature · {{threshold}} signatures sur {{count}}",
+    "charity.walletBadge.safeTooltip":
+      "Les dons sont versés à un portefeuille multisignature nécessitant plusieurs approbations avant tout mouvement de fonds.",
+    "wallet.eoa.chain": "Réseau",
+    "wallet.eoa.checkAuthorized":
+      "Je suis autorisé(e) par mon organisation à désigner ce portefeuille comme adresse de réception des dons caritatifs.",
+    "wallet.eoa.checkRisk":
+      "Je comprends qu'un portefeuille à signataire unique présente un risque plus élevé qu'un portefeuille multisignature, et que la perte de la clé privée entraîne une perte permanente des fonds.",
+    "wallet.eoa.confirmSubtitle":
+      "Veuillez confirmer les points suivants avant d'enregistrer ce portefeuille.",
+    "wallet.eoa.confirmTitle": "Confirmation finale",
+    "wallet.eoa.connectFirst": "Veuillez d'abord connecter votre portefeuille.",
+    "wallet.eoa.connectWallet": "Connecter le portefeuille",
+    "wallet.eoa.missingSignature":
+      "Signature manquante. Veuillez revenir en arrière et signer à nouveau.",
+    "wallet.eoa.proceedAnyway": "Je comprends, continuer",
+    "wallet.eoa.register": "Enregistrer le portefeuille",
+    "wallet.eoa.registering": "Enregistrement...",
+    "wallet.eoa.rejected": "La demande de signature a été rejetée.",
+    "wallet.eoa.riskParagraph1":
+      "Un portefeuille à signataire unique (EOA) est contrôlé par une seule clé privée. Si cette clé est perdue, volée ou compromise, tous les fonds envoyés à ce portefeuille sont définitivement irrécupérables.",
+    "wallet.eoa.riskParagraph2":
+      "Pour les fonds d'une organisation, nous recommandons fortement d'utiliser un portefeuille multisignature Safe à la place. Les portefeuilles multisignatures nécessitent plusieurs approbations pour chaque transaction, ce qui protège contre les points de défaillance uniques.",
+    "wallet.eoa.riskParagraph3":
+      "En continuant, vous reconnaissez que Give Protocol n'est pas responsable de toute perte de fonds résultant de la compromission, de la perte ou de la mauvaise gestion de la clé privée.",
+    "wallet.eoa.riskTitle":
+      "Portefeuille à signataire unique : risques importants",
+    "wallet.eoa.signError":
+      "Échec de la signature du message. Veuillez réessayer.",
+    "wallet.eoa.signMessage": "Signer le message de vérification",
+    "wallet.eoa.signSubtitle":
+      "Connectez votre portefeuille et signez un message pour prouver que vous contrôlez cette adresse.",
+    "wallet.eoa.signTitle": "Connecter et signer",
+    "wallet.eoa.useMultisig": "Utiliser un multisignature à la place",
+    "wallet.eoa.walletConnection": "Portefeuille",
+    "wallet.eoa.walletToRegister": "Portefeuille à enregistrer",
+    "wallet.institutional.address": "Adresse du portefeuille",
+    "wallet.institutional.attestation": "Document d'attestation",
+    "wallet.institutional.attestationHelp":
+      "Téléversez un fichier PDF, JPEG ou PNG (max 10 Mo) prouvant votre relation de dépôt.",
+    "wallet.institutional.backToWallets": "Retour aux portefeuilles",
+    "wallet.institutional.chain": "Réseau",
+    "wallet.institutional.chooseFile": "Choisir un fichier ou glisser-déposer",
+    "wallet.institutional.custodian": "Dépositaire",
+    "wallet.institutional.fileTooLarge":
+      "Le fichier doit être inférieur à 10 Mo.",
+    "wallet.institutional.invalidAddress":
+      "Veuillez saisir une adresse Ethereum valide (0x...)",
+    "wallet.institutional.invalidFileType":
+      "Veuillez téléverser un fichier PDF, JPEG ou PNG.",
+    "wallet.institutional.removeFile": "Supprimer le fichier",
+    "wallet.institutional.selectCustodian":
+      "Veuillez sélectionner un dépositaire.",
+    "wallet.institutional.selectCustodianOption":
+      "Sélectionner un dépositaire...",
+    "wallet.institutional.submit": "Soumettre pour examen",
+    "wallet.institutional.submittedDesc":
+      "L'enregistrement de votre portefeuille institutionnel est en cours d'examen. Vous recevrez un e-mail sous 3 jours ouvrés.",
+    "wallet.institutional.submittedTitle": "Portefeuille soumis pour examen",
+    "wallet.institutional.submitting": "Soumission en cours...",
+    "wallet.institutional.subtitle":
+      "Fournissez les détails de votre portefeuille géré par un dépositaire et téléversez un document d'attestation pour vérification.",
+    "wallet.institutional.title":
+      "Enregistrer un portefeuille de dépôt institutionnel",
+    "wallet.institutional.uploadFile": "Téléverser le fichier d'attestation",
+    "wallet.institutional.uploadRequired":
+      "Veuillez téléverser un document d'attestation.",
+    "wallet.safe.address": "Adresse du Safe",
+    "wallet.safe.chain": "Réseau",
+    "wallet.safe.connectFirst":
+      "Veuillez d'abord connecter votre portefeuille signataire.",
+    "wallet.safe.connectSigner": "Connecter le portefeuille signataire",
+    "wallet.safe.createNew": "Créer un nouveau Safe",
+    "wallet.safe.createNewDesc":
+      "Ouvre app.safe.global où vous pouvez créer un nouveau multisignature. Revenez ici une fois déployé.",
+    "wallet.safe.haveOne": "J'ai déjà un Safe",
+    "wallet.safe.haveOneDesc":
+      "Saisissez l'adresse de votre Safe et vérifiez le contrôle en signant un message depuis un portefeuille signataire.",
+    "wallet.safe.invalidAddress":
+      "Veuillez saisir une adresse Ethereum valide (0x...)",
+    "wallet.safe.rejected": "La demande de signature a été rejetée.",
+    "wallet.safe.signError":
+      "Échec de la signature du message de vérification. Veuillez réessayer.",
+    "wallet.safe.signVerify": "Signer pour vérifier",
+    "wallet.safe.signerWallet": "Portefeuille signataire",
+    "wallet.safe.subtitle":
+      "Un Safe nécessite plusieurs signataires pour approuver chaque transaction, offrant le plus haut niveau de sécurité pour les fonds de votre association.",
+    "wallet.safe.title": "Configurer un portefeuille multisignature Safe",
+    "wallet.safe.verifyTitle": "Vérifier la propriété du Safe",
+    "wallet.safe.verifying": "Vérification en cours...",
+    "wallet.setup.addAnother": "Ajouter un autre",
+    "wallet.setup.custodian": "Dépositaire",
+    "wallet.setup.deleteFailed": "Échec de la suppression du portefeuille",
+    "wallet.setup.eoaDesc":
+      "Un portefeuille standard contrôlé par une seule clé privée. Le plus simple mais le moins sécurisé pour un usage organisationnel.",
+    "wallet.setup.eoaTitle": "Signataire unique (EOA)",
+    "wallet.setup.institutionalDesc":
+      "Géré par un dépositaire qualifié (Fireblocks, Anchorage, etc.). Nécessite un document d'attestation.",
+    "wallet.setup.institutionalTitle": "Dépôt institutionnel",
+    "wallet.setup.makePrimary": "Définir comme principal",
+    "wallet.setup.primary": "Principal",
+    "wallet.setup.primaryFailed":
+      "Échec de la mise à jour du portefeuille principal",
+    "wallet.setup.primaryUpdated": "Portefeuille principal mis à jour",
+    "wallet.setup.recommended": "Recommandé",
+    "wallet.setup.remove": "Supprimer le portefeuille",
+    "wallet.setup.safeDesc":
+      "Plusieurs signataires requis pour chaque transaction. Sécurité maximale pour les fonds organisationnels.",
+    "wallet.setup.safeSigners": "Signataires",
+    "wallet.setup.safeTitle": "Safe multisignature",
+    "wallet.setup.subtitle":
+      "Choisissez comment votre association recevra les dons en crypto-monnaie. Nous recommandons un portefeuille multisignature pour une sécurité maximale.",
+    "wallet.setup.title": "Configurer votre portefeuille de réception",
+    "wallet.setup.viewExplorer": "Voir sur l'explorateur de blocs",
+    "wallet.setup.walletAdded": "Portefeuille enregistré avec succès",
+    "wallet.setup.walletDeleted": "Portefeuille supprimé",
+    "wallet.setup.walletsTitle": "Portefeuilles de réception",
+    "admin.nav.dashboard": "Tableau de bord",
+    "admin.nav.reports": "Rapports et analyses",
+    "admin.nav.charities": "Associations",
+    "admin.nav.donations": "Dons",
+    "admin.nav.impactMetrics": "Indicateurs d'impact",
+    "admin.nav.portfolioFunds": "Fonds du portefeuille",
+    "admin.nav.contentModeration": "Modération de contenu",
+    "admin.nav.settings": "Paramètres système",
+    "admin.nav.overview": "Vue d'ensemble",
+    "admin.nav.operations": "Opérations",
+    "admin.nav.consoleLabel": "Console d'administration",
+    "admin.shell.searchPlaceholder":
+      "Rechercher donateurs, associations, hash de transaction…",
+    "admin.shell.searchLabel": "Rechercher dans la console d'administration",
+    "admin.shell.notifications": "Notifications",
+    "admin.shell.adminLabel": "administrateur",
+    "admin.shell.superAdmin": "Super administrateur",
+    "admin.shell.signOut": "Se déconnecter",
+    "admin.shell.backToPublicSite": "Retour au site public",
+    "admin.shell.homeLink": "Accueil Give Protocol",
+    "admin.dashboard.severityHigh": "Priorité élevée",
+    "admin.dashboard.severityMedium": "Attention requise",
+    "admin.dashboard.severityLow": "À examiner",
+    "admin.dashboard.alertOldest": "Demande la plus ancienne soumise",
+    "admin.dashboard.alertReviewHint":
+      "examen pour ne pas ralentir l'intégration",
+    "admin.dashboard.reviewQueue": "File d'examen",
+    "admin.dashboard.kpiDonorsSub":
+      "{{count}} nouveaux au cours des 30 derniers jours",
+    "admin.dashboard.kpiPending": "{{count}} en attente",
+    "admin.dashboard.awaitingVerification": "En attente de vérification",
+    "admin.dashboard.kpiVerifiedSub": "sur {{total}} au total approuvés",
+    "admin.dashboard.kpiVolunteersActive": "Inscriptions actives",
+    "admin.dashboard.kpiVolunteersSub": "Aucune inscription active",
+    "admin.dashboard.donationVolume": "Volume de dons",
+    "admin.dashboard.donationVolumeSub": "{{range}} · crypto + fiat combinés",
+    "admin.dashboard.range30d": "30 derniers jours",
+    "admin.dashboard.range90d": "90 derniers jours",
+    "admin.dashboard.rangeYtd": "Depuis le début de l'année",
+    "admin.dashboard.volumeEmptyTitle": "Aucun don enregistré pour le moment",
+    "admin.dashboard.volumeEmptySub":
+      "Le volume s'affichera ici dès que le premier don sera réglé",
+    "admin.dashboard.totalVolume": "Volume total",
+    "admin.dashboard.crypto": "Crypto",
+    "admin.dashboard.fiat": "Fiat",
+    "admin.dashboard.activitySubtitle":
+      "Événements de la plateforme au fur et à mesure",
+    "admin.dashboard.viewAllActivity": "Voir toute l'activité",
+    "admin.dashboard.viewAllDonations": "Voir tous les dons",
+    "admin.charity.tabAll": "Toutes",
+    "admin.charity.review": "Examiner",
+    "admin.charity.colOrganization": "Organisation",
+    "admin.charity.colRaised": "Collecté",
+    "admin.charity.colSubmitted": "Soumis",
+    "admin.charity.searchAria": "Rechercher des associations",
+    "admin.charity.reviewTitle": "Examiner {{name}}",
+    "admin.charity.submittedRelative": "Soumis {{when}}",
+    "admin.charity.contactEmail": "E-mail",
+    "admin.charity.contactPhone": "Téléphone",
+    "admin.charity.raisedUnavailable": "Aucun total de dons disponible",
+    "admin.error.title": "Erreur de chargement des données",
+    "admin.error.recentActivity": "Erreur de chargement de l'activité récente",
+    "admin.error.alerts": "Erreur de chargement des alertes",
+    "admin.error.donationVolume": "Erreur de chargement du volume de dons",
+    "donation.gas.estimating": "Estimation des frais de réseau…",
+    "donation.gas.label": "Frais de réseau est.",
+    "donation.gas.highGasWarning":
+      "Alerte frais élevés : les frais estimés sont de {{usd}}, soit {{pct}} de votre don.",
+    "donation.gas.highGasSuggestion":
+      "Envisagez un don plus important ou de passer à une chaîne à frais réduits.",
+    "donation.gas.l2Hint": "Pour des frais réduits, essayez {{chains}}.",
   },
 };

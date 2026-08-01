@@ -1420,5 +1420,286 @@ export default {
 
     "privacy.security.auditLog":
       "Als technische Maßnahme gemäß Artikel 32 der DSGVO protokollieren und überwachen wir den administrativen Zugriff auf personenbezogene Daten — einschließlich der durchgeführten Aktion und des Zeitpunkts — um unbefugten Zugriff zu erkennen, Rechenschaftspflicht nachzuweisen und Ereignisse im unwahrscheinlichen Fall einer Verletzung des Schutzes personenbezogener Daten (Artikel 34) zu rekonstruieren. Personenbezogene Daten von Spendern werden nicht in diese Verwaltungszugriffsprotokolle dupliziert. Verwaltungszugriffsprotokolle unterscheiden sich von den in §7.1 beschriebenen Authentifizierungs- und Sicherheitsprotokollen; ihre Aufbewahrungsfrist wird durch unser internes Verzeichnis von Verarbeitungstätigkeiten geregelt.",
+
+    // Remaining i18n keys — batch translation
+
+    // Admin - Audit trail
+    "admin.auditTrail.filterByAction": "Nach Aktion filtern",
+    "admin.auditTrail.allActions": "Alle Aktionen",
+    "admin.auditTrail.action.charityStatusChange":
+      "Statusänderung der Organisation",
+    "admin.auditTrail.action.userStatusChange": "Statusänderung des Benutzers",
+    "admin.auditTrail.action.donationFlag": "Spende markiert",
+    "admin.auditTrail.action.donationFlagResolve":
+      "Markierung der Spende aufgehoben",
+    "admin.auditTrail.action.validationOverride": "Bestätigung überschrieben",
+    "admin.auditTrail.action.configChange": "Konfigurationsänderung",
+    "admin.auditTrail.action.verificationApprove": "Verifizierung genehmigt",
+    "admin.auditTrail.action.verificationReject": "Verifizierung abgelehnt",
+    "admin.auditTrail.action.charitySuspend": "Organisation gesperrt",
+    "admin.auditTrail.action.charityReinstate":
+      "Organisation wiederhergestellt",
+    "admin.auditTrail.action.userSuspend": "Benutzer gesperrt",
+    "admin.auditTrail.action.userReinstate": "Benutzer wiederhergestellt",
+    "admin.auditTrail.action.userBan": "Benutzer verbannt",
+    "admin.auditTrail.action.viewPii": "PII angezeigt",
+    "admin.auditTrail.action.viewPiiList": "PII-Liste angezeigt",
+    "admin.auditTrail.viewedEntity":
+      "Admin {{adminId}} hat {{entityType}} {{entityId}} angezeigt",
+    "admin.auditTrail.viewedList":
+      "Admin {{adminId}} hat die {{entityType}}-Liste angezeigt (Seite {{page}}, Filter: {{filters}})",
+    "admin.auditTrail.viewedListNoFilters":
+      "Admin {{adminId}} hat die {{entityType}}-Liste angezeigt (Seite {{page}})",
+
+    // Admin - News
+    "admin.actions.platformNews": "Plattform-Neuigkeiten",
+    "admin.actions.platformNewsDesc":
+      "Neuigkeiten auf der Durchsuchen-Seite verwalten",
+    "admin.news.activate": "{{title}} veröffentlichen",
+    "admin.news.activated": "Neuigkeit veröffentlicht",
+    "admin.news.activeLabel": "Veröffentlicht (öffentlich sichtbar)",
+    "admin.news.categoryLabel": "Kategorie",
+    "admin.news.contentLabel": "Inhalt / Auszug",
+    "admin.news.contentPlaceholder": "Kurzbeschreibung der Neuigkeit...",
+    "admin.news.createNews": "Neuigkeit erstellen",
+    "admin.news.createNewsBtn": "Neuigkeit erstellen",
+    "admin.news.created": "Neuigkeit erstellt",
+    "admin.news.dateLabel": "Veröffentlichungsdatum",
+    "admin.news.deactivate": "{{title}} deaktivieren",
+    "admin.news.deactivated": "Neuigkeit ausgeblendet",
+    "admin.news.deleteItem": "{{title}} löschen",
+    "admin.news.deleted": "Neuigkeit gelöscht",
+    "admin.news.editItem": "{{title}} bearbeiten",
+    "admin.news.editNews": "Neuigkeit bearbeiten",
+    "admin.news.imageLabel": "Bild-URL (optional)",
+    "admin.news.imagePlaceholder": "https://...",
+    "admin.news.inactive": "Inaktiv",
+    "admin.news.newItem": "Neuer Eintrag",
+    "admin.news.noItemsMessage":
+      "Erstellen Sie Ihre erste Neuigkeit, um Updates mit Ihrer Community zu teilen",
+    "admin.news.noItemsYet": "Noch keine Neuigkeiten",
+    "admin.news.publishedOn": "Veröffentlicht am {{date}}",
+    "admin.news.saving": "Wird gespeichert...",
+    "admin.news.subtitle":
+      "Verwalten Sie Neuigkeiten, die auf der öffentlichen Durchsuchen-Seite angezeigt werden",
+    "admin.news.title": "Plattform-Neuigkeiten",
+    "admin.news.titleLabel": "Titel",
+    "admin.news.titlePlaceholder": "z. B. Vierteljährlicher Wirkungsbericht",
+    "admin.news.updateNews": "Neuigkeit aktualisieren",
+    "admin.news.updated": "Neuigkeit aktualisiert",
+    "admin.news.urlLabel": "Link-URL",
+    "admin.news.urlPlaceholder": "/news/mein-artikel",
+
+    // Charity - wallet badge
+    "charity.walletBadge.institutionalLabel": "Verwahrt bei {{custodianName}}",
+    "charity.walletBadge.institutionalTooltip":
+      "Spenden gehen an ein Wallet, das von einem qualifizierten institutionellen Verwahrer gehalten wird.",
+    "charity.walletBadge.safeLabel":
+      "Multisig-Treasury · {{threshold}}-von-{{count}} Unterzeichnern",
+    "charity.walletBadge.safeTooltip":
+      "Spenden gehen an ein Multisig-Wallet, das mehrere Genehmigungen erfordert, bevor Gelder bewegt werden können.",
+
+    // Wallet - EOA
+    "wallet.eoa.chain": "Netzwerk",
+    "wallet.eoa.checkAuthorized":
+      "Ich bin von meiner Organisation befugt, dieses Wallet als Empfangsadresse für wohltätige Spenden festzulegen.",
+    "wallet.eoa.checkRisk":
+      "Ich verstehe, dass ein Wallet mit nur einem Unterzeichner ein höheres Risiko als ein Multisig birgt und dass der Verlust des privaten Schlüssels den dauerhaften Verlust der Gelder bedeutet.",
+    "wallet.eoa.confirmSubtitle":
+      "Bitte bestätigen Sie Folgendes, bevor Sie dieses Wallet registrieren.",
+    "wallet.eoa.confirmTitle": "Endgültige Bestätigung",
+    "wallet.eoa.connectFirst": "Bitte verbinden Sie zuerst Ihr Wallet.",
+    "wallet.eoa.connectWallet": "Wallet verbinden",
+    "wallet.eoa.missingSignature":
+      "Signatur fehlt. Bitte gehen Sie zurück und signieren Sie erneut.",
+    "wallet.eoa.proceedAnyway": "Ich verstehe, fortfahren",
+    "wallet.eoa.register": "Wallet registrieren",
+    "wallet.eoa.registering": "Wird registriert...",
+    "wallet.eoa.rejected": "Signaturanfrage wurde abgelehnt.",
+    "wallet.eoa.riskParagraph1":
+      "Ein Wallet mit nur einem Unterzeichner (EOA) wird von einem einzigen privaten Schlüssel kontrolliert. Geht dieser Schlüssel verloren, wird er gestohlen oder kompromittiert, sind alle an dieses Wallet gesendeten Gelder dauerhaft unwiederbringlich.",
+    "wallet.eoa.riskParagraph2":
+      "Für Organisationsgelder empfehlen wir dringend, stattdessen ein Multisig-Safe-Wallet zu verwenden. Multisig-Wallets erfordern mehrere Genehmigungen für jede Transaktion und schützen so vor einzelnen Fehlerquellen.",
+    "wallet.eoa.riskParagraph3":
+      "Mit dem Fortfahren erkennen Sie an, dass Give Protocol nicht für einen Verlust von Geldern durch Kompromittierung, Verlust oder Missmanagement des privaten Schlüssels verantwortlich ist.",
+    "wallet.eoa.riskTitle":
+      "Wallet mit nur einem Unterzeichner: wichtige Risiken",
+    "wallet.eoa.signError":
+      "Nachricht konnte nicht signiert werden. Bitte versuchen Sie es erneut.",
+    "wallet.eoa.signMessage": "Verifizierungsnachricht signieren",
+    "wallet.eoa.signSubtitle":
+      "Verbinden Sie Ihr Wallet und signieren Sie eine Nachricht, um nachzuweisen, dass Sie diese Adresse kontrollieren.",
+    "wallet.eoa.signTitle": "Verbinden und signieren",
+    "wallet.eoa.useMultisig": "Stattdessen ein Multisig verwenden",
+    "wallet.eoa.walletConnection": "Wallet",
+    "wallet.eoa.walletToRegister": "Zu registrierendes Wallet",
+
+    // Wallet - Institutional
+    "wallet.institutional.address": "Wallet-Adresse",
+    "wallet.institutional.attestation": "Bestätigungsdokument",
+    "wallet.institutional.attestationHelp":
+      "Laden Sie eine PDF-, JPEG- oder PNG-Datei hoch (max. 10 MB), die Ihre Verwahrungsbeziehung nachweist.",
+    "wallet.institutional.backToWallets": "Zurück zu den Wallets",
+    "wallet.institutional.chain": "Netzwerk",
+    "wallet.institutional.chooseFile":
+      "Datei auswählen oder per Drag & Drop ablegen",
+    "wallet.institutional.custodian": "Verwahrer",
+    "wallet.institutional.fileTooLarge":
+      "Die Datei muss kleiner als 10 MB sein.",
+    "wallet.institutional.invalidAddress":
+      "Bitte geben Sie eine gültige Ethereum-Adresse ein (0x...)",
+    "wallet.institutional.invalidFileType":
+      "Bitte laden Sie eine PDF-, JPEG- oder PNG-Datei hoch.",
+    "wallet.institutional.removeFile": "Datei entfernen",
+    "wallet.institutional.selectCustodian":
+      "Bitte wählen Sie einen Verwahrer aus.",
+    "wallet.institutional.selectCustodianOption": "Verwahrer auswählen...",
+    "wallet.institutional.submit": "Zur Prüfung einreichen",
+    "wallet.institutional.submittedDesc":
+      "Ihre institutionelle Wallet-Registrierung wird geprüft. Sie erhalten innerhalb von 3 Werktagen eine E-Mail.",
+    "wallet.institutional.submittedTitle": "Wallet zur Prüfung eingereicht",
+    "wallet.institutional.submitting": "Wird eingereicht...",
+    "wallet.institutional.subtitle":
+      "Geben Sie die Details Ihres vom Verwahrer verwalteten Wallets an und laden Sie zur Verifizierung ein Bestätigungsdokument hoch.",
+    "wallet.institutional.title":
+      "Ein institutionelles Verwahrungs-Wallet registrieren",
+    "wallet.institutional.uploadFile": "Bestätigungsdatei hochladen",
+    "wallet.institutional.uploadRequired":
+      "Bitte laden Sie ein Bestätigungsdokument hoch.",
+
+    // Wallet - Safe
+    "wallet.safe.address": "Safe-Adresse",
+    "wallet.safe.chain": "Netzwerk",
+    "wallet.safe.connectFirst":
+      "Bitte verbinden Sie zuerst Ihr Unterzeichner-Wallet.",
+    "wallet.safe.connectSigner": "Unterzeichner-Wallet verbinden",
+    "wallet.safe.createNew": "Ein neues Safe erstellen",
+    "wallet.safe.createNewDesc":
+      "Öffnet app.safe.global, wo Sie ein neues Multisig erstellen können. Kommen Sie hierher zurück, sobald es bereitgestellt ist.",
+    "wallet.safe.haveOne": "Ich habe bereits ein Safe",
+    "wallet.safe.haveOneDesc":
+      "Geben Sie Ihre Safe-Adresse ein und bestätigen Sie die Kontrolle, indem Sie eine Nachricht von einem Unterzeichner-Wallet signieren.",
+    "wallet.safe.invalidAddress":
+      "Bitte geben Sie eine gültige Ethereum-Adresse ein (0x...)",
+    "wallet.safe.rejected": "Signaturanfrage wurde abgelehnt.",
+    "wallet.safe.signError":
+      "Verifizierungsnachricht konnte nicht signiert werden. Bitte versuchen Sie es erneut.",
+    "wallet.safe.signVerify": "Signieren, um die Kontrolle zu bestätigen",
+    "wallet.safe.signerWallet": "Unterzeichner-Wallet",
+    "wallet.safe.subtitle":
+      "Ein Safe erfordert mehrere Unterzeichner, um jede Transaktion zu genehmigen, und bietet so das höchste Sicherheitsniveau für die Gelder Ihrer Organisation.",
+    "wallet.safe.title": "Ein Safe-Multisig-Wallet einrichten",
+    "wallet.safe.verifyTitle": "Safe-Eigentum verifizieren",
+    "wallet.safe.verifying": "Wird verifiziert...",
+
+    // Wallet - Setup
+    "wallet.setup.addAnother": "Weiteres hinzufügen",
+    "wallet.setup.custodian": "Verwahrer",
+    "wallet.setup.deleteFailed": "Wallet konnte nicht entfernt werden",
+    "wallet.setup.eoaDesc":
+      "Ein Standard-Wallet, das von einem privaten Schlüssel kontrolliert wird. Am einfachsten, aber am wenigsten sicher für den organisatorischen Einsatz.",
+    "wallet.setup.eoaTitle": "Einzelner Unterzeichner (EOA)",
+    "wallet.setup.institutionalDesc":
+      "Verwaltet von einem qualifizierten Verwahrer (Fireblocks, Anchorage usw.). Erfordert ein Bestätigungsdokument.",
+    "wallet.setup.institutionalTitle": "Institutionelle Verwahrung",
+    "wallet.setup.makePrimary": "Als primär festlegen",
+    "wallet.setup.primary": "Primär",
+    "wallet.setup.primaryFailed":
+      "Primäres Wallet konnte nicht aktualisiert werden",
+    "wallet.setup.primaryUpdated": "Primäres Wallet aktualisiert",
+    "wallet.setup.recommended": "Empfohlen",
+    "wallet.setup.remove": "Wallet entfernen",
+    "wallet.setup.safeDesc":
+      "Mehrere Unterzeichner sind für jede Transaktion erforderlich. Höchste Sicherheit für Organisationsgelder.",
+    "wallet.setup.safeSigners": "Unterzeichner",
+    "wallet.setup.safeTitle": "Multisig Safe",
+    "wallet.setup.subtitle":
+      "Wählen Sie, wie Ihre Organisation Krypto-Spenden erhalten soll. Wir empfehlen ein Multisig-Wallet für maximale Sicherheit.",
+    "wallet.setup.title": "Richten Sie Ihr Empfangs-Wallet ein",
+    "wallet.setup.viewExplorer": "Im Block-Explorer anzeigen",
+    "wallet.setup.walletAdded": "Wallet erfolgreich registriert",
+    "wallet.setup.walletDeleted": "Wallet entfernt",
+    "wallet.setup.walletsTitle": "Empfangs-Wallets",
+
+    // Admin - Nav
+    "admin.nav.dashboard": "Dashboard",
+    "admin.nav.reports": "Berichte & Analysen",
+    "admin.nav.charities": "Organisationen",
+    "admin.nav.donations": "Spenden",
+    "admin.nav.impactMetrics": "Wirkungskennzahlen",
+    "admin.nav.portfolioFunds": "Portfolio-Fonds",
+    "admin.nav.contentModeration": "Inhaltsmoderation",
+    "admin.nav.settings": "Systemeinstellungen",
+    "admin.nav.overview": "Übersicht",
+    "admin.nav.operations": "Betrieb",
+    "admin.nav.consoleLabel": "Admin-Konsole",
+
+    // Admin - Shell
+    "admin.shell.searchPlaceholder": "Spender, Organisationen, Tx-Hash suchen…",
+    "admin.shell.searchLabel": "Die Admin-Konsole durchsuchen",
+    "admin.shell.notifications": "Benachrichtigungen",
+    "admin.shell.adminLabel": "Admin",
+    "admin.shell.superAdmin": "Super-Admin",
+    "admin.shell.signOut": "Abmelden",
+    "admin.shell.backToPublicSite": "Zurück zur öffentlichen Website",
+    "admin.shell.homeLink": "Give Protocol Startseite",
+
+    // Admin - Dashboard (new keys)
+    "admin.dashboard.severityHigh": "Hohe Priorität",
+    "admin.dashboard.severityMedium": "Erfordert Aufmerksamkeit",
+    "admin.dashboard.severityLow": "Zur Prüfung",
+    "admin.dashboard.alertOldest": "Älteste eingereichte Anfrage",
+    "admin.dashboard.alertReviewHint":
+      "Prüfung, um den Onboarding-Prozess voranzutreiben",
+    "admin.dashboard.reviewQueue": "Prüfwarteschlange",
+    "admin.dashboard.kpiDonorsSub": "{{count}} neu in den letzten 30 Tagen",
+    "admin.dashboard.kpiPending": "{{count}} ausstehend",
+    "admin.dashboard.awaitingVerification": "Warten auf Verifizierung",
+    "admin.dashboard.kpiVerifiedSub": "von {{total}} insgesamt genehmigt",
+    "admin.dashboard.kpiVolunteersActive": "Aktive Anmeldungen",
+    "admin.dashboard.kpiVolunteersSub": "Keine aktiven Anmeldungen",
+    "admin.dashboard.donationVolume": "Spendenvolumen",
+    "admin.dashboard.donationVolumeSub": "{{range}} · Krypto + Fiat kombiniert",
+    "admin.dashboard.range30d": "Letzte 30 Tage",
+    "admin.dashboard.range90d": "Letzte 90 Tage",
+    "admin.dashboard.rangeYtd": "Seit Jahresbeginn",
+    "admin.dashboard.volumeEmptyTitle": "Noch keine Spenden erfasst",
+    "admin.dashboard.volumeEmptySub":
+      "Das Volumen wird hier angezeigt, sobald die erste Spende abgeschlossen ist",
+    "admin.dashboard.totalVolume": "Gesamtvolumen",
+    "admin.dashboard.crypto": "Krypto",
+    "admin.dashboard.fiat": "Fiat",
+    "admin.dashboard.activitySubtitle": "Plattformereignisse in Echtzeit",
+    "admin.dashboard.viewAllActivity": "Alle Aktivitäten anzeigen",
+    "admin.dashboard.viewAllDonations": "Alle Spenden anzeigen",
+
+    // Admin - Charity (new keys)
+    "admin.charity.tabAll": "Alle",
+    "admin.charity.review": "Prüfen",
+    "admin.charity.colOrganization": "Organisation",
+    "admin.charity.colRaised": "Gesammelt",
+    "admin.charity.colSubmitted": "Eingereicht",
+    "admin.charity.searchAria": "Organisationen suchen",
+    "admin.charity.reviewTitle": "{{name}} prüfen",
+    "admin.charity.submittedRelative": "Eingereicht {{when}}",
+    "admin.charity.contactEmail": "E-Mail",
+    "admin.charity.contactPhone": "Telefon",
+    "admin.charity.raisedUnavailable": "Keine Gesamtspendensumme verfügbar",
+
+    // Admin - Error
+    "admin.error.title": "Fehler beim Laden der Daten",
+    "admin.error.recentActivity": "Fehler beim Laden der letzten Aktivitäten",
+    "admin.error.alerts": "Fehler beim Laden der Benachrichtigungen",
+    "admin.error.donationVolume": "Fehler beim Laden des Spendenvolumens",
+
+    // Donation - Gas
+    "donation.gas.estimating": "Netzwerkgebühr wird geschätzt…",
+    "donation.gas.label": "Geschätzte Netzwerkgebühr",
+    "donation.gas.highGasWarning":
+      "Hohe Gas-Warnung: Die geschätzte Gebühr beträgt {{usd}}, das sind {{pct}} Ihrer Spende.",
+    "donation.gas.highGasSuggestion":
+      "Erwägen Sie eine größere Spende oder den Wechsel zu einer Chain mit niedrigeren Gebühren.",
+    "donation.gas.l2Hint":
+      "Für niedrigere Gebühren versuchen Sie es mit {{chains}}.",
   },
 };
