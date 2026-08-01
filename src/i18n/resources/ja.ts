@@ -1388,7 +1388,8 @@ export default {
     "admin.auditTrail.viewedListNoFilters":
       "管理者{{adminId}}が{{entityType}}リストを閲覧しました（ページ{{page}}）",
     "admin.actions.platformNews": "プラットフォームニュース",
-    "admin.actions.platformNewsDesc": "閲覧ページに表示されるニュース項目を管理",
+    "admin.actions.platformNewsDesc":
+      "閲覧ページに表示されるニュース項目を管理",
     "admin.news.activate": "{{title}}を公開",
     "admin.news.activated": "ニュース項目が公開されました",
     "admin.news.activeLabel": "公開中（一般に公開）",
@@ -1469,24 +1470,28 @@ export default {
     "wallet.institutional.chain": "ネットワーク",
     "wallet.institutional.chooseFile": "ファイルを選択またはドラッグ＆ドロップ",
     "wallet.institutional.custodian": "カストディアン",
-    "wallet.institutional.fileTooLarge": "ファイルは10MB未満である必要があります。",
+    "wallet.institutional.fileTooLarge":
+      "ファイルは10MB未満である必要があります。",
     "wallet.institutional.invalidAddress":
       "有効なEthereumアドレス（0x...）を入力してください",
     "wallet.institutional.invalidFileType":
       "PDF、JPEG、またはPNGファイルをアップロードしてください。",
     "wallet.institutional.removeFile": "ファイルを削除",
-    "wallet.institutional.selectCustodian": "カストディアンを選択してください。",
+    "wallet.institutional.selectCustodian":
+      "カストディアンを選択してください。",
     "wallet.institutional.selectCustodianOption": "カストディアンを選択...",
     "wallet.institutional.submit": "審査のために送信",
     "wallet.institutional.submittedDesc":
       "機関カストディウォレットの登録は審査中です。3営業日以内にメールが届きます。",
-    "wallet.institutional.submittedTitle": "ウォレットが審査のために送信されました",
+    "wallet.institutional.submittedTitle":
+      "ウォレットが審査のために送信されました",
     "wallet.institutional.submitting": "送信中...",
     "wallet.institutional.subtitle":
       "カストディアンが管理するウォレットの詳細を入力し、確認のための証明書類をアップロードしてください。",
     "wallet.institutional.title": "機関カストディウォレットを登録",
     "wallet.institutional.uploadFile": "証明ファイルをアップロード",
-    "wallet.institutional.uploadRequired": "証明書類をアップロードしてください。",
+    "wallet.institutional.uploadRequired":
+      "証明書類をアップロードしてください。",
     "wallet.safe.address": "Safeアドレス",
     "wallet.safe.chain": "ネットワーク",
     "wallet.safe.connectFirst": "まず署名者ウォレットを接続してください。",
@@ -1568,8 +1573,7 @@ export default {
     "admin.dashboard.kpiVolunteersActive": "アクティブな申し込み",
     "admin.dashboard.kpiVolunteersSub": "アクティブな申し込みはありません",
     "admin.dashboard.donationVolume": "寄付額",
-    "admin.dashboard.donationVolumeSub":
-      "{{range}}・暗号資産と法定通貨の合計",
+    "admin.dashboard.donationVolumeSub": "{{range}}・暗号資産と法定通貨の合計",
     "admin.dashboard.range30d": "過去30日間",
     "admin.dashboard.range90d": "過去90日間",
     "admin.dashboard.rangeYtd": "年初来",
@@ -1579,7 +1583,8 @@ export default {
     "admin.dashboard.totalVolume": "合計額",
     "admin.dashboard.crypto": "暗号資産",
     "admin.dashboard.fiat": "法定通貨",
-    "admin.dashboard.activitySubtitle": "リアルタイムのプラットフォームイベント",
+    "admin.dashboard.activitySubtitle":
+      "リアルタイムのプラットフォームイベント",
     "admin.dashboard.viewAllActivity": "すべてのアクティビティを表示",
     "admin.dashboard.viewAllDonations": "すべての寄付を表示",
     "admin.charity.tabAll": "すべて",

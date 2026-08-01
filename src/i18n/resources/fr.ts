@@ -1462,8 +1462,7 @@ export default {
     "admin.news.activeLabel": "Publiée (visible du public)",
     "admin.news.categoryLabel": "Catégorie",
     "admin.news.contentLabel": "Contenu / Extrait",
-    "admin.news.contentPlaceholder":
-      "Brève description de l'actualité...",
+    "admin.news.contentPlaceholder": "Brève description de l'actualité...",
     "admin.news.createNews": "Créer une actualité",
     "admin.news.createNewsBtn": "Créer l'actualité",
     "admin.news.created": "Actualité créée",
@@ -1492,8 +1491,7 @@ export default {
     "admin.news.updated": "Actualité mise à jour",
     "admin.news.urlLabel": "URL du lien",
     "admin.news.urlPlaceholder": "/news/mon-article",
-    "charity.walletBadge.institutionalLabel":
-      "Détenu chez {{custodianName}}",
+    "charity.walletBadge.institutionalLabel": "Détenu chez {{custodianName}}",
     "charity.walletBadge.institutionalTooltip":
       "Les dons sont versés à un portefeuille détenu par un dépositaire institutionnel qualifié.",
     "charity.walletBadge.safeLabel":
@@ -1539,8 +1537,7 @@ export default {
       "Téléversez un fichier PDF, JPEG ou PNG (max 10 Mo) prouvant votre relation de dépôt.",
     "wallet.institutional.backToWallets": "Retour aux portefeuilles",
     "wallet.institutional.chain": "Réseau",
-    "wallet.institutional.chooseFile":
-      "Choisir un fichier ou glisser-déposer",
+    "wallet.institutional.chooseFile": "Choisir un fichier ou glisser-déposer",
     "wallet.institutional.custodian": "Dépositaire",
     "wallet.institutional.fileTooLarge":
       "Le fichier doit être inférieur à 10 Mo.",
@@ -1556,15 +1553,13 @@ export default {
     "wallet.institutional.submit": "Soumettre pour examen",
     "wallet.institutional.submittedDesc":
       "L'enregistrement de votre portefeuille institutionnel est en cours d'examen. Vous recevrez un e-mail sous 3 jours ouvrés.",
-    "wallet.institutional.submittedTitle":
-      "Portefeuille soumis pour examen",
+    "wallet.institutional.submittedTitle": "Portefeuille soumis pour examen",
     "wallet.institutional.submitting": "Soumission en cours...",
     "wallet.institutional.subtitle":
       "Fournissez les détails de votre portefeuille géré par un dépositaire et téléversez un document d'attestation pour vérification.",
     "wallet.institutional.title":
       "Enregistrer un portefeuille de dépôt institutionnel",
-    "wallet.institutional.uploadFile":
-      "Téléverser le fichier d'attestation",
+    "wallet.institutional.uploadFile": "Téléverser le fichier d'attestation",
     "wallet.institutional.uploadRequired":
       "Veuillez téléverser un document d'attestation.",
     "wallet.safe.address": "Adresse du Safe",
@@ -1592,8 +1587,7 @@ export default {
     "wallet.safe.verifying": "Vérification en cours...",
     "wallet.setup.addAnother": "Ajouter un autre",
     "wallet.setup.custodian": "Dépositaire",
-    "wallet.setup.deleteFailed":
-      "Échec de la suppression du portefeuille",
+    "wallet.setup.deleteFailed": "Échec de la suppression du portefeuille",
     "wallet.setup.eoaDesc":
       "Un portefeuille standard contrôlé par une seule clé privée. Le plus simple mais le moins sécurisé pour un usage organisationnel.",
     "wallet.setup.eoaTitle": "Signataire unique (EOA)",
@@ -1653,8 +1647,7 @@ export default {
     "admin.dashboard.kpiVolunteersActive": "Inscriptions actives",
     "admin.dashboard.kpiVolunteersSub": "Aucune inscription active",
     "admin.dashboard.donationVolume": "Volume de dons",
-    "admin.dashboard.donationVolumeSub":
-      "{{range}} · crypto + fiat combinés",
+    "admin.dashboard.donationVolumeSub": "{{range}} · crypto + fiat combinés",
     "admin.dashboard.range30d": "30 derniers jours",
     "admin.dashboard.range90d": "90 derniers jours",
     "admin.dashboard.rangeYtd": "Depuis le début de l'année",
@@ -1678,14 +1671,11 @@ export default {
     "admin.charity.submittedRelative": "Soumis {{when}}",
     "admin.charity.contactEmail": "E-mail",
     "admin.charity.contactPhone": "Téléphone",
-    "admin.charity.raisedUnavailable":
-      "Aucun total de dons disponible",
+    "admin.charity.raisedUnavailable": "Aucun total de dons disponible",
     "admin.error.title": "Erreur de chargement des données",
-    "admin.error.recentActivity":
-      "Erreur de chargement de l'activité récente",
+    "admin.error.recentActivity": "Erreur de chargement de l'activité récente",
     "admin.error.alerts": "Erreur de chargement des alertes",
-    "admin.error.donationVolume":
-      "Erreur de chargement du volume de dons",
+    "admin.error.donationVolume": "Erreur de chargement du volume de dons",
     "donation.gas.estimating": "Estimation des frais de réseau…",
     "donation.gas.label": "Frais de réseau est.",
     "donation.gas.highGasWarning":

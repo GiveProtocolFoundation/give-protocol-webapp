@@ -1488,16 +1488,19 @@ export default {
     "wallet.institutional.submit": "समीक्षा के लिए सबमिट करें",
     "wallet.institutional.submittedDesc":
       "आपका संस्थागत वॉलेट पंजीकरण समीक्षाधीन है। आपको 3 कार्य दिवसों के भीतर एक ईमेल प्राप्त होगा।",
-    "wallet.institutional.submittedTitle": "वॉलेट समीक्षा के लिए सबमिट किया गया",
+    "wallet.institutional.submittedTitle":
+      "वॉलेट समीक्षा के लिए सबमिट किया गया",
     "wallet.institutional.submitting": "सबमिट किया जा रहा है...",
     "wallet.institutional.subtitle":
       "अपने कस्टोडियन-प्रबंधित वॉलेट का विवरण प्रदान करें और सत्यापन के लिए एक सत्यापन दस्तावेज़ अपलोड करें।",
     "wallet.institutional.title": "एक संस्थागत कस्टडी वॉलेट पंजीकृत करें",
     "wallet.institutional.uploadFile": "सत्यापन फ़ाइल अपलोड करें",
-    "wallet.institutional.uploadRequired": "कृपया एक सत्यापन दस्तावेज़ अपलोड करें।",
+    "wallet.institutional.uploadRequired":
+      "कृपया एक सत्यापन दस्तावेज़ अपलोड करें।",
     "wallet.safe.address": "Safe पता",
     "wallet.safe.chain": "नेटवर्क",
-    "wallet.safe.connectFirst": "कृपया पहले अपना हस्ताक्षरकर्ता वॉलेट कनेक्ट करें।",
+    "wallet.safe.connectFirst":
+      "कृपया पहले अपना हस्ताक्षरकर्ता वॉलेट कनेक्ट करें।",
     "wallet.safe.connectSigner": "हस्ताक्षरकर्ता वॉलेट कनेक्ट करें",
     "wallet.safe.createNew": "एक नया Safe बनाएँ",
     "wallet.safe.createNewDesc":
@@ -1505,7 +1508,8 @@ export default {
     "wallet.safe.haveOne": "मेरे पास पहले से ही एक Safe है",
     "wallet.safe.haveOneDesc":
       "अपना Safe पता दर्ज करें और हस्ताक्षरकर्ता वॉलेट से एक संदेश पर हस्ताक्षर करके नियंत्रण सत्यापित करें।",
-    "wallet.safe.invalidAddress": "कृपया एक मान्य Ethereum पता दर्ज करें (0x...)",
+    "wallet.safe.invalidAddress":
+      "कृपया एक मान्य Ethereum पता दर्ज करें (0x...)",
     "wallet.safe.rejected": "हस्ताक्षर अनुरोध अस्वीकार कर दिया गया।",
     "wallet.safe.signError":
       "सत्यापन संदेश पर हस्ताक्षर करने में विफल। कृपया पुनः प्रयास करें।",
@@ -1585,7 +1589,8 @@ export default {
     "admin.dashboard.totalVolume": "कुल मात्रा",
     "admin.dashboard.crypto": "क्रिप्टो",
     "admin.dashboard.fiat": "फ़िएट",
-    "admin.dashboard.activitySubtitle": "जैसे-जैसे होते हैं, प्लेटफ़ॉर्म घटनाएँ",
+    "admin.dashboard.activitySubtitle":
+      "जैसे-जैसे होते हैं, प्लेटफ़ॉर्म घटनाएँ",
     "admin.dashboard.viewAllActivity": "सभी गतिविधि देखें",
     "admin.dashboard.viewAllDonations": "सभी दान देखें",
     "admin.charity.tabAll": "सभी",

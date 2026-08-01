@@ -1442,8 +1442,7 @@ export default {
     "wallet.eoa.confirmTitle": "Xác nhận cuối cùng",
     "wallet.eoa.connectFirst": "Vui lòng kết nối ví của bạn trước.",
     "wallet.eoa.connectWallet": "Kết nối ví",
-    "wallet.eoa.missingSignature":
-      "Thiếu chữ ký. Vui lòng quay lại và ký lại.",
+    "wallet.eoa.missingSignature": "Thiếu chữ ký. Vui lòng quay lại và ký lại.",
     "wallet.eoa.proceedAnyway": "Tôi đã hiểu, tiếp tục",
     "wallet.eoa.register": "Đăng ký ví",
     "wallet.eoa.registering": "Đang đăng ký...",
@@ -1477,8 +1476,7 @@ export default {
     "wallet.institutional.invalidFileType":
       "Vui lòng tải lên tệp PDF, JPEG hoặc PNG.",
     "wallet.institutional.removeFile": "Xóa tệp",
-    "wallet.institutional.selectCustodian":
-      "Vui lòng chọn một đơn vị lưu ký.",
+    "wallet.institutional.selectCustodian": "Vui lòng chọn một đơn vị lưu ký.",
     "wallet.institutional.selectCustodianOption": "Chọn đơn vị lưu ký...",
     "wallet.institutional.submit": "Gửi để xem xét",
     "wallet.institutional.submittedDesc":
@@ -1563,28 +1561,31 @@ export default {
     "admin.dashboard.severityMedium": "Cần chú ý",
     "admin.dashboard.severityLow": "Cần xem xét",
     "admin.dashboard.alertOldest": "Yêu cầu cũ nhất đã được gửi",
-    "admin.dashboard.alertReviewHint":
-      "xem xét để duy trì tiến độ tiếp nhận",
+    "admin.dashboard.alertReviewHint": "xem xét để duy trì tiến độ tiếp nhận",
     "admin.dashboard.reviewQueue": "Hàng đợi xem xét",
     "admin.dashboard.kpiDonorsSub": "{{count}} mới trong 30 ngày qua",
     "admin.dashboard.kpiPending": "{{count}} đang chờ xử lý",
     "admin.dashboard.awaitingVerification": "Đang chờ xác minh",
-    "admin.dashboard.kpiVerifiedSub": "trên tổng số {{total}} đã được phê duyệt",
+    "admin.dashboard.kpiVerifiedSub":
+      "trên tổng số {{total}} đã được phê duyệt",
     "admin.dashboard.kpiVolunteersActive": "Lượt đăng ký đang hoạt động",
-    "admin.dashboard.kpiVolunteersSub": "Không có lượt đăng ký nào đang hoạt động",
+    "admin.dashboard.kpiVolunteersSub":
+      "Không có lượt đăng ký nào đang hoạt động",
     "admin.dashboard.donationVolume": "Khối lượng quyên góp",
     "admin.dashboard.donationVolumeSub":
       "{{range}} · kết hợp tiền mã hóa + tiền pháp định",
     "admin.dashboard.range30d": "30 ngày qua",
     "admin.dashboard.range90d": "90 ngày qua",
     "admin.dashboard.rangeYtd": "Từ đầu năm đến nay",
-    "admin.dashboard.volumeEmptyTitle": "Chưa có khoản quyên góp nào được ghi nhận",
+    "admin.dashboard.volumeEmptyTitle":
+      "Chưa có khoản quyên góp nào được ghi nhận",
     "admin.dashboard.volumeEmptySub":
       "Khối lượng sẽ được hiển thị trên biểu đồ ngay khi khoản quyên góp đầu tiên được xác nhận",
     "admin.dashboard.totalVolume": "Tổng khối lượng",
     "admin.dashboard.crypto": "Tiền mã hóa",
     "admin.dashboard.fiat": "Tiền pháp định",
-    "admin.dashboard.activitySubtitle": "Các sự kiện trên nền tảng khi chúng xảy ra",
+    "admin.dashboard.activitySubtitle":
+      "Các sự kiện trên nền tảng khi chúng xảy ra",
     "admin.dashboard.viewAllActivity": "Xem tất cả hoạt động",
     "admin.dashboard.viewAllDonations": "Xem tất cả khoản quyên góp",
     "admin.charity.tabAll": "Tất cả",

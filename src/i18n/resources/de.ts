@@ -1428,15 +1428,13 @@ export default {
     "admin.auditTrail.allActions": "Alle Aktionen",
     "admin.auditTrail.action.charityStatusChange":
       "Statusänderung der Organisation",
-    "admin.auditTrail.action.userStatusChange":
-      "Statusänderung des Benutzers",
+    "admin.auditTrail.action.userStatusChange": "Statusänderung des Benutzers",
     "admin.auditTrail.action.donationFlag": "Spende markiert",
     "admin.auditTrail.action.donationFlagResolve":
       "Markierung der Spende aufgehoben",
     "admin.auditTrail.action.validationOverride": "Bestätigung überschrieben",
     "admin.auditTrail.action.configChange": "Konfigurationsänderung",
-    "admin.auditTrail.action.verificationApprove":
-      "Verifizierung genehmigt",
+    "admin.auditTrail.action.verificationApprove": "Verifizierung genehmigt",
     "admin.auditTrail.action.verificationReject": "Verifizierung abgelehnt",
     "admin.auditTrail.action.charitySuspend": "Organisation gesperrt",
     "admin.auditTrail.action.charityReinstate":
@@ -1524,7 +1522,8 @@ export default {
       "Für Organisationsgelder empfehlen wir dringend, stattdessen ein Multisig-Safe-Wallet zu verwenden. Multisig-Wallets erfordern mehrere Genehmigungen für jede Transaktion und schützen so vor einzelnen Fehlerquellen.",
     "wallet.eoa.riskParagraph3":
       "Mit dem Fortfahren erkennen Sie an, dass Give Protocol nicht für einen Verlust von Geldern durch Kompromittierung, Verlust oder Missmanagement des privaten Schlüssels verantwortlich ist.",
-    "wallet.eoa.riskTitle": "Wallet mit nur einem Unterzeichner: wichtige Risiken",
+    "wallet.eoa.riskTitle":
+      "Wallet mit nur einem Unterzeichner: wichtige Risiken",
     "wallet.eoa.signError":
       "Nachricht konnte nicht signiert werden. Bitte versuchen Sie es erneut.",
     "wallet.eoa.signMessage": "Verifizierungsnachricht signieren",
@@ -1660,8 +1659,7 @@ export default {
     "admin.dashboard.kpiVolunteersActive": "Aktive Anmeldungen",
     "admin.dashboard.kpiVolunteersSub": "Keine aktiven Anmeldungen",
     "admin.dashboard.donationVolume": "Spendenvolumen",
-    "admin.dashboard.donationVolumeSub":
-      "{{range}} · Krypto + Fiat kombiniert",
+    "admin.dashboard.donationVolumeSub": "{{range}} · Krypto + Fiat kombiniert",
     "admin.dashboard.range30d": "Letzte 30 Tage",
     "admin.dashboard.range90d": "Letzte 90 Tage",
     "admin.dashboard.rangeYtd": "Seit Jahresbeginn",
@@ -1701,6 +1699,7 @@ export default {
       "Hohe Gas-Warnung: Die geschätzte Gebühr beträgt {{usd}}, das sind {{pct}} Ihrer Spende.",
     "donation.gas.highGasSuggestion":
       "Erwägen Sie eine größere Spende oder den Wechsel zu einer Chain mit niedrigeren Gebühren.",
-    "donation.gas.l2Hint": "Für niedrigere Gebühren versuchen Sie es mit {{chains}}.",
+    "donation.gas.l2Hint":
+      "Für niedrigere Gebühren versuchen Sie es mit {{chains}}.",
   },
 };

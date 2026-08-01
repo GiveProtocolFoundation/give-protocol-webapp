@@ -1518,7 +1518,8 @@ export default {
     "donation.gas.label": "預估網路手續費",
     "donation.gas.highGasWarning":
       "高手續費警示：預估手續費為 {{usd}}，佔您捐款金額的 {{pct}}。",
-    "donation.gas.highGasSuggestion": "建議提高捐款金額，或改用手續費較低的鏈。",
+    "donation.gas.highGasSuggestion":
+      "建議提高捐款金額，或改用手續費較低的鏈。",
     "donation.gas.l2Hint": "若想降低手續費，可嘗試 {{chains}}。",
   },
 };

@@ -1527,7 +1527,8 @@ export default {
     "admin.dashboard.severityMedium": "주의 필요",
     "admin.dashboard.severityLow": "검토 대상",
     "admin.dashboard.alertOldest": "가장 오래된 요청 제출일",
-    "admin.dashboard.alertReviewHint": "온보딩을 계속 진행하려면 검토가 필요합니다",
+    "admin.dashboard.alertReviewHint":
+      "온보딩을 계속 진행하려면 검토가 필요합니다",
     "admin.dashboard.reviewQueue": "검토 대기열",
     "admin.dashboard.kpiDonorsSub": "최근 30일간 신규 {{count}}건",
     "admin.dashboard.kpiPending": "{{count}}건 대기 중",
@@ -1570,6 +1571,7 @@ export default {
       "높은 가스비 경고: 예상 수수료는 {{usd}}로, 기부금의 {{pct}}에 해당합니다.",
     "donation.gas.highGasSuggestion":
       "더 큰 금액을 기부하거나 수수료가 낮은 체인으로 전환하는 것을 고려해 보세요.",
-    "donation.gas.l2Hint": "더 낮은 수수료를 원하시면 {{chains}}을(를) 시도해 보세요.",
+    "donation.gas.l2Hint":
+      "더 낮은 수수료를 원하시면 {{chains}}을(를) 시도해 보세요.",
   },
 };

@@ -1362,8 +1362,7 @@ export default {
       "การแก้ไขสถานะการบริจาคที่ถูกตั้งค่าสถานะ",
     "admin.auditTrail.action.validationOverride": "การยกเลิกการตรวจสอบ",
     "admin.auditTrail.action.configChange": "การเปลี่ยนแปลงการตั้งค่าระบบ",
-    "admin.auditTrail.action.verificationApprove":
-      "การอนุมัติการยืนยันตัวตน",
+    "admin.auditTrail.action.verificationApprove": "การอนุมัติการยืนยันตัวตน",
     "admin.auditTrail.action.verificationReject": "การปฏิเสธการยืนยันตัวตน",
     "admin.auditTrail.action.charitySuspend": "การระงับองค์กรการกุศล",
     "admin.auditTrail.action.charityReinstate": "การคืนสถานะองค์กรการกุศล",
@@ -1371,8 +1370,7 @@ export default {
     "admin.auditTrail.action.userReinstate": "การคืนสถานะผู้ใช้",
     "admin.auditTrail.action.userBan": "การแบนผู้ใช้",
     "admin.auditTrail.action.viewPii": "การดูข้อมูลส่วนบุคคล (PII)",
-    "admin.auditTrail.action.viewPiiList":
-      "การดูรายการข้อมูลส่วนบุคคล (PII)",
+    "admin.auditTrail.action.viewPiiList": "การดูรายการข้อมูลส่วนบุคคล (PII)",
     "admin.auditTrail.viewedEntity":
       "ผู้ดูแลระบบ {{adminId}} ดู {{entityType}} {{entityId}}",
     "admin.auditTrail.viewedList":
@@ -1380,8 +1378,7 @@ export default {
     "admin.auditTrail.viewedListNoFilters":
       "ผู้ดูแลระบบ {{adminId}} ดูรายการ {{entityType}} (หน้า {{page}})",
     "admin.actions.platformNews": "ข่าวสารแพลตฟอร์ม",
-    "admin.actions.platformNewsDesc":
-      "จัดการรายการข่าวสารบนหน้าเรียกดู",
+    "admin.actions.platformNewsDesc": "จัดการรายการข่าวสารบนหน้าเรียกดู",
     "admin.news.activate": "เผยแพร่ {{title}}",
     "admin.news.activated": "เผยแพร่รายการข่าวสารแล้ว",
     "admin.news.activeLabel": "เผยแพร่แล้ว (สาธารณชนมองเห็นได้)",
@@ -1407,8 +1404,7 @@ export default {
     "admin.news.noItemsYet": "ยังไม่มีรายการข่าวสาร",
     "admin.news.publishedOn": "เผยแพร่เมื่อ {{date}}",
     "admin.news.saving": "กำลังบันทึก...",
-    "admin.news.subtitle":
-      "จัดการรายการข่าวสารที่แสดงบนหน้าเรียกดูสาธารณะ",
+    "admin.news.subtitle": "จัดการรายการข่าวสารที่แสดงบนหน้าเรียกดูสาธารณะ",
     "admin.news.title": "ข่าวสารแพลตฟอร์ม",
     "admin.news.titleLabel": "ชื่อเรื่อง",
     "admin.news.titlePlaceholder": "เช่น รายงานผลกระทบรายไตรมาส",
@@ -1469,8 +1465,7 @@ export default {
       "โปรดอัปโหลดไฟล์ PDF, JPEG หรือ PNG",
     "wallet.institutional.removeFile": "ลบไฟล์",
     "wallet.institutional.selectCustodian": "โปรดเลือกผู้รับฝากทรัพย์สิน",
-    "wallet.institutional.selectCustodianOption":
-      "เลือกผู้รับฝากทรัพย์สิน...",
+    "wallet.institutional.selectCustodianOption": "เลือกผู้รับฝากทรัพย์สิน...",
     "wallet.institutional.submit": "ส่งเพื่อตรวจสอบ",
     "wallet.institutional.submittedDesc":
       "การลงทะเบียนกระเป๋าเงินสถาบันของคุณอยู่ระหว่างการตรวจสอบ คุณจะได้รับอีเมลภายใน 3 วันทำการ",
@@ -1478,14 +1473,12 @@ export default {
     "wallet.institutional.submitting": "กำลังส่ง...",
     "wallet.institutional.subtitle":
       "ระบุรายละเอียดกระเป๋าเงินที่ดูแลโดยผู้รับฝากทรัพย์สินของคุณ และอัปโหลดเอกสารรับรองเพื่อการตรวจสอบ",
-    "wallet.institutional.title":
-      "ลงทะเบียนกระเป๋าเงินฝากทรัพย์สินระดับสถาบัน",
+    "wallet.institutional.title": "ลงทะเบียนกระเป๋าเงินฝากทรัพย์สินระดับสถาบัน",
     "wallet.institutional.uploadFile": "อัปโหลดไฟล์เอกสารรับรอง",
     "wallet.institutional.uploadRequired": "โปรดอัปโหลดเอกสารรับรอง",
     "wallet.safe.address": "ที่อยู่ Safe",
     "wallet.safe.chain": "เครือข่าย",
-    "wallet.safe.connectFirst":
-      "โปรดเชื่อมต่อกระเป๋าเงินผู้ลงนามของคุณก่อน",
+    "wallet.safe.connectFirst": "โปรดเชื่อมต่อกระเป๋าเงินผู้ลงนามของคุณก่อน",
     "wallet.safe.connectSigner": "เชื่อมต่อกระเป๋าเงินผู้ลงนาม",
     "wallet.safe.createNew": "สร้าง Safe ใหม่",
     "wallet.safe.createNewDesc":
@@ -1493,11 +1486,9 @@ export default {
     "wallet.safe.haveOne": "ข้าพเจ้ามี Safe อยู่แล้ว",
     "wallet.safe.haveOneDesc":
       "ป้อนที่อยู่ Safe ของคุณและยืนยันการควบคุมโดยการลงลายเซ็นข้อความจากกระเป๋าเงินผู้ลงนาม",
-    "wallet.safe.invalidAddress":
-      "โปรดป้อนที่อยู่ Ethereum ที่ถูกต้อง (0x...)",
+    "wallet.safe.invalidAddress": "โปรดป้อนที่อยู่ Ethereum ที่ถูกต้อง (0x...)",
     "wallet.safe.rejected": "คำขอลงลายเซ็นถูกปฏิเสธ",
-    "wallet.safe.signError":
-      "ลงลายเซ็นข้อความยืนยันไม่สำเร็จ โปรดลองอีกครั้ง",
+    "wallet.safe.signError": "ลงลายเซ็นข้อความยืนยันไม่สำเร็จ โปรดลองอีกครั้ง",
     "wallet.safe.signVerify": "ลงลายเซ็นเพื่อยืนยันการควบคุม",
     "wallet.safe.signerWallet": "กระเป๋าเงินผู้ลงนาม",
     "wallet.safe.subtitle":
@@ -1542,8 +1533,7 @@ export default {
     "admin.nav.overview": "ภาพรวม",
     "admin.nav.operations": "การดำเนินงาน",
     "admin.nav.consoleLabel": "คอนโซลผู้ดูแลระบบ",
-    "admin.shell.searchPlaceholder":
-      "ค้นหาผู้บริจาค องค์กรการกุศล แฮชธุรกรรม…",
+    "admin.shell.searchPlaceholder": "ค้นหาผู้บริจาค องค์กรการกุศล แฮชธุรกรรม…",
     "admin.shell.searchLabel": "ค้นหาในคอนโซลผู้ดูแลระบบ",
     "admin.shell.notifications": "การแจ้งเตือน",
     "admin.shell.adminLabel": "ผู้ดูแลระบบ",
@@ -1561,7 +1551,8 @@ export default {
     "admin.dashboard.kpiDonorsSub": "ใหม่ {{count}} รายการใน 30 วันที่ผ่านมา",
     "admin.dashboard.kpiPending": "รอดำเนินการ {{count}} รายการ",
     "admin.dashboard.awaitingVerification": "รอการยืนยันตัวตน",
-    "admin.dashboard.kpiVerifiedSub": "จากทั้งหมด {{total}} รายการที่อนุมัติแล้ว",
+    "admin.dashboard.kpiVerifiedSub":
+      "จากทั้งหมด {{total}} รายการที่อนุมัติแล้ว",
     "admin.dashboard.kpiVolunteersActive": "การสมัครที่ใช้งานอยู่",
     "admin.dashboard.kpiVolunteersSub": "ไม่มีการสมัครที่ใช้งานอยู่",
     "admin.dashboard.donationVolume": "ปริมาณการบริจาค",

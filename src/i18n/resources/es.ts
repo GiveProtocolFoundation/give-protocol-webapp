@@ -1408,21 +1408,16 @@ export default {
     "admin.auditTrail.allActions": "Todas las acciones",
     "admin.auditTrail.action.charityStatusChange":
       "Cambio de estado de organización",
-    "admin.auditTrail.action.userStatusChange":
-      "Cambio de estado de usuario",
+    "admin.auditTrail.action.userStatusChange": "Cambio de estado de usuario",
     "admin.auditTrail.action.donationFlag": "Marca de donación",
     "admin.auditTrail.action.donationFlagResolve":
       "Resolución de marca de donación",
-    "admin.auditTrail.action.validationOverride":
-      "Anulación de validación",
+    "admin.auditTrail.action.validationOverride": "Anulación de validación",
     "admin.auditTrail.action.configChange": "Cambio de configuración",
-    "admin.auditTrail.action.verificationApprove":
-      "Aprobación de verificación",
-    "admin.auditTrail.action.verificationReject":
-      "Rechazo de verificación",
+    "admin.auditTrail.action.verificationApprove": "Aprobación de verificación",
+    "admin.auditTrail.action.verificationReject": "Rechazo de verificación",
     "admin.auditTrail.action.charitySuspend": "Suspensión de organización",
-    "admin.auditTrail.action.charityReinstate":
-      "Reinstalación de organización",
+    "admin.auditTrail.action.charityReinstate": "Reinstalación de organización",
     "admin.auditTrail.action.userSuspend": "Suspensión de usuario",
     "admin.auditTrail.action.userReinstate": "Reinstalación de usuario",
     "admin.auditTrail.action.userBan": "Prohibición de usuario",
@@ -1442,8 +1437,7 @@ export default {
     "admin.news.activeLabel": "Publicada (visible al público)",
     "admin.news.categoryLabel": "Categoría",
     "admin.news.contentLabel": "Contenido / Extracto",
-    "admin.news.contentPlaceholder":
-      "Breve descripción de la novedad...",
+    "admin.news.contentPlaceholder": "Breve descripción de la novedad...",
     "admin.news.createNews": "Crear Novedad",
     "admin.news.createNewsBtn": "Crear Novedad",
     "admin.news.created": "Novedad creada",
@@ -1472,8 +1466,7 @@ export default {
     "admin.news.updated": "Novedad actualizada",
     "admin.news.urlLabel": "URL del Enlace",
     "admin.news.urlPlaceholder": "/news/mi-articulo",
-    "charity.walletBadge.institutionalLabel":
-      "Custodiada en {{custodianName}}",
+    "charity.walletBadge.institutionalLabel": "Custodiada en {{custodianName}}",
     "charity.walletBadge.institutionalTooltip":
       "Las donaciones se envían a una billetera custodiada por un custodio institucional calificado.",
     "charity.walletBadge.safeLabel":
@@ -1504,8 +1497,7 @@ export default {
       "Al continuar, usted reconoce que Give Protocol no es responsable de ninguna pérdida de fondos debido al compromiso, pérdida o mala gestión de la clave privada.",
     "wallet.eoa.riskTitle":
       "Billetera de un solo firmante: riesgos importantes",
-    "wallet.eoa.signError":
-      "No se pudo firmar el mensaje. Inténtelo de nuevo.",
+    "wallet.eoa.signError": "No se pudo firmar el mensaje. Inténtelo de nuevo.",
     "wallet.eoa.signMessage": "Firmar mensaje de verificación",
     "wallet.eoa.signSubtitle":
       "Conecte su billetera y firme un mensaje para demostrar que controla esta dirección.",
@@ -1519,30 +1511,25 @@ export default {
       "Suba un PDF, JPEG o PNG (máx. 10MB) que demuestre su relación de custodia.",
     "wallet.institutional.backToWallets": "Volver a las billeteras",
     "wallet.institutional.chain": "Red",
-    "wallet.institutional.chooseFile":
-      "Elegir archivo o arrastrar y soltar",
+    "wallet.institutional.chooseFile": "Elegir archivo o arrastrar y soltar",
     "wallet.institutional.custodian": "Custodio",
-    "wallet.institutional.fileTooLarge":
-      "El archivo debe ser menor de 10MB.",
+    "wallet.institutional.fileTooLarge": "El archivo debe ser menor de 10MB.",
     "wallet.institutional.invalidAddress":
       "Introduzca una dirección de Ethereum válida (0x...)",
-    "wallet.institutional.invalidFileType":
-      "Suba un archivo PDF, JPEG o PNG.",
+    "wallet.institutional.invalidFileType": "Suba un archivo PDF, JPEG o PNG.",
     "wallet.institutional.removeFile": "Eliminar archivo",
     "wallet.institutional.selectCustodian": "Seleccione un custodio.",
     "wallet.institutional.selectCustodianOption": "Seleccionar custodio...",
     "wallet.institutional.submit": "Enviar para revisión",
     "wallet.institutional.submittedDesc":
       "Su registro de billetera institucional está en revisión. Recibirá un correo electrónico dentro de 3 días hábiles.",
-    "wallet.institutional.submittedTitle":
-      "Billetera enviada para revisión",
+    "wallet.institutional.submittedTitle": "Billetera enviada para revisión",
     "wallet.institutional.submitting": "Enviando...",
     "wallet.institutional.subtitle":
       "Proporcione los datos de su billetera gestionada por un custodio y suba un documento de certificación para su verificación.",
     "wallet.institutional.title":
       "Registrar una billetera de custodia institucional",
-    "wallet.institutional.uploadFile":
-      "Subir archivo de certificación",
+    "wallet.institutional.uploadFile": "Subir archivo de certificación",
     "wallet.institutional.uploadRequired":
       "Suba un documento de certificación.",
     "wallet.safe.address": "Dirección Safe",
@@ -1578,8 +1565,7 @@ export default {
     "wallet.setup.institutionalTitle": "Custodia Institucional",
     "wallet.setup.makePrimary": "Marcar como principal",
     "wallet.setup.primary": "Principal",
-    "wallet.setup.primaryFailed":
-      "Error al actualizar la billetera principal",
+    "wallet.setup.primaryFailed": "Error al actualizar la billetera principal",
     "wallet.setup.primaryUpdated": "Billetera principal actualizada",
     "wallet.setup.recommended": "Recomendado",
     "wallet.setup.remove": "Eliminar billetera",
@@ -1628,8 +1614,7 @@ export default {
     "admin.dashboard.kpiVolunteersActive": "Inscripciones activas",
     "admin.dashboard.kpiVolunteersSub": "Sin inscripciones activas",
     "admin.dashboard.donationVolume": "Volumen de Donaciones",
-    "admin.dashboard.donationVolumeSub":
-      "{{range}} · cripto y fiat combinados",
+    "admin.dashboard.donationVolumeSub": "{{range}} · cripto y fiat combinados",
     "admin.dashboard.range30d": "Últimos 30 días",
     "admin.dashboard.range90d": "Últimos 90 días",
     "admin.dashboard.rangeYtd": "Año hasta la fecha",
@@ -1653,13 +1638,11 @@ export default {
     "admin.charity.submittedRelative": "Enviado {{when}}",
     "admin.charity.contactEmail": "Correo electrónico",
     "admin.charity.contactPhone": "Teléfono",
-    "admin.charity.raisedUnavailable":
-      "No hay total de donaciones disponible",
+    "admin.charity.raisedUnavailable": "No hay total de donaciones disponible",
     "admin.error.title": "Error al Cargar Datos",
     "admin.error.recentActivity": "Error al Cargar Actividad Reciente",
     "admin.error.alerts": "Error al Cargar Alertas",
-    "admin.error.donationVolume":
-      "Error al Cargar el Volumen de Donaciones",
+    "admin.error.donationVolume": "Error al Cargar el Volumen de Donaciones",
     "donation.gas.estimating": "Estimando tarifa de red…",
     "donation.gas.label": "Tarifa de red est.",
     "donation.gas.highGasWarning":

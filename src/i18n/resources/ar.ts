@@ -1353,8 +1353,7 @@ export default {
     "admin.auditTrail.viewedListNoFilters":
       "قام المسؤول {{adminId}} بعرض قائمة {{entityType}} (الصفحة {{page}})",
     "admin.actions.platformNews": "أخبار المنصة",
-    "admin.actions.platformNewsDesc":
-      "إدارة عناصر الأخبار في صفحة التصفح",
+    "admin.actions.platformNewsDesc": "إدارة عناصر الأخبار في صفحة التصفح",
     "admin.news.activate": "تفعيل {{title}}",
     "admin.news.activated": "تم نشر عنصر الأخبار",
     "admin.news.activeLabel": "منشور (مرئي للجمهور)",
@@ -1380,8 +1379,7 @@ export default {
     "admin.news.noItemsYet": "لا توجد عناصر أخبار بعد",
     "admin.news.publishedOn": "نُشر في {{date}}",
     "admin.news.saving": "جارٍ الحفظ...",
-    "admin.news.subtitle":
-      "إدارة عناصر الأخبار المعروضة في صفحة التصفح العامة",
+    "admin.news.subtitle": "إدارة عناصر الأخبار المعروضة في صفحة التصفح العامة",
     "admin.news.title": "أخبار المنصة",
     "admin.news.titleLabel": "العنوان",
     "admin.news.titlePlaceholder": "مثال: تقرير الأثر ربع السنوي",
@@ -1401,8 +1399,7 @@ export default {
       "أنا مخوَّل من قبل مؤسستي لتعيين هذه المحفظة كعنوان استلام للتبرعات الخيرية.",
     "wallet.eoa.checkRisk":
       "أدرك أن المحفظة ذات الموقّع الواحد تحمل مخاطر أعلى من المحفظة متعددة التوقيعات، وأن فقدان المفتاح الخاص يعني فقدان الأموال بشكل دائم.",
-    "wallet.eoa.confirmSubtitle":
-      "يرجى تأكيد ما يلي قبل تسجيل هذه المحفظة.",
+    "wallet.eoa.confirmSubtitle": "يرجى تأكيد ما يلي قبل تسجيل هذه المحفظة.",
     "wallet.eoa.confirmTitle": "التأكيد النهائي",
     "wallet.eoa.connectFirst": "يرجى توصيل محفظتك أولاً.",
     "wallet.eoa.connectWallet": "توصيل المحفظة",
@@ -1466,8 +1463,7 @@ export default {
       "أدخل عنوان Safe الخاص بك وتحقق من التحكم بتوقيع رسالة من محفظة موقّع.",
     "wallet.safe.invalidAddress": "يرجى إدخال عنوان Ethereum صالح (0x...)",
     "wallet.safe.rejected": "تم رفض طلب التوقيع.",
-    "wallet.safe.signError":
-      "فشل توقيع رسالة التحقق. يرجى المحاولة مرة أخرى.",
+    "wallet.safe.signError": "فشل توقيع رسالة التحقق. يرجى المحاولة مرة أخرى.",
     "wallet.safe.signVerify": "التوقيع للتحقق من التحكم",
     "wallet.safe.signerWallet": "محفظة الموقّع",
     "wallet.safe.subtitle":

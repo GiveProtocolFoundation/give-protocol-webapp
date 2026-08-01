@@ -1335,8 +1335,7 @@ export default {
     "admin.news.imagePlaceholder": "https://...",
     "admin.news.inactive": "未激活",
     "admin.news.newItem": "新建项目",
-    "admin.news.noItemsMessage":
-      "创建您的第一个新闻项目，与社区分享最新动态",
+    "admin.news.noItemsMessage": "创建您的第一个新闻项目，与社区分享最新动态",
     "admin.news.noItemsYet": "暂无新闻项目",
     "admin.news.publishedOn": "发布于{{date}}",
     "admin.news.saving": "保存中……",
@@ -1351,8 +1350,7 @@ export default {
     "charity.walletBadge.institutionalLabel": "托管于{{custodianName}}",
     "charity.walletBadge.institutionalTooltip":
       "捐款将进入由合格机构托管方持有的钱包。",
-    "charity.walletBadge.safeLabel":
-      "多签国库 · {{threshold}}/{{count}}签署人",
+    "charity.walletBadge.safeLabel": "多签国库 · {{threshold}}/{{count}}签署人",
     "charity.walletBadge.safeTooltip":
       "捐款将进入需要多个批准才能转移资金的多重签名钱包。",
     "wallet.eoa.chain": "网络",
@@ -1393,8 +1391,7 @@ export default {
     "wallet.institutional.chooseFile": "选择文件或拖放到此处",
     "wallet.institutional.custodian": "托管方",
     "wallet.institutional.fileTooLarge": "文件大小必须小于10MB。",
-    "wallet.institutional.invalidAddress":
-      "请输入有效的以太坊地址（0x...）",
+    "wallet.institutional.invalidAddress": "请输入有效的以太坊地址（0x...）",
     "wallet.institutional.invalidFileType": "请上传PDF、JPEG或PNG文件。",
     "wallet.institutional.removeFile": "移除文件",
     "wallet.institutional.selectCustodian": "请选择托管方。",
@@ -1492,8 +1489,7 @@ export default {
     "admin.dashboard.range90d": "过去90天",
     "admin.dashboard.rangeYtd": "年初至今",
     "admin.dashboard.volumeEmptyTitle": "尚无捐款记录",
-    "admin.dashboard.volumeEmptySub":
-      "首笔捐款结算后，此处将显示图表",
+    "admin.dashboard.volumeEmptySub": "首笔捐款结算后，此处将显示图表",
     "admin.dashboard.totalVolume": "总额",
     "admin.dashboard.crypto": "加密货币",
     "admin.dashboard.fiat": "法币",
