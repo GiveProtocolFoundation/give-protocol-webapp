@@ -1286,5 +1286,8 @@ export default {
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
     "charity.toast.submissionFailed": "Submission failed",
+
+    "privacy.security.auditLog":
+      "作為GDPR第32條規定的技術措施，我們記錄並監控對個人資料的管理存取——包括所執行的操作及其發生時間——以偵測未經授權的存取、證明問責制，並在萬一發生個人資料外洩（第34條）時重建事件。捐款者的個人資料不會被複製到這些管理存取日誌中。管理存取日誌與§7.1中描述的身分驗證和安全日誌不同；其保留期限由我們的內部處理活動紀錄管理。",
   },
 };
