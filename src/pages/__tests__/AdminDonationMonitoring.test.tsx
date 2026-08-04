@@ -59,6 +59,7 @@ const createHookReturn = (overrides = {}) => ({
   flagging: false,
   summary: [],
   summaryLoading: false,
+  error: null,
   fetchDonations: mockFetchDonations,
   fetchSummary: mockFetchSummary,
   submitFlag: mockSubmitFlag,
