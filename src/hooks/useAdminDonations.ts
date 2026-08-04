@@ -59,7 +59,8 @@ export function useAdminDonations() {
         setResult(data);
         return data;
       } catch (err) {
-        const msg = err instanceof Error ? err.message : "Failed to load donations";
+        const msg =
+          err instanceof Error ? err.message : "Failed to load donations";
         setError(msg);
         showToast("error", msg);
         throw err;
