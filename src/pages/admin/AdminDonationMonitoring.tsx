@@ -644,7 +644,11 @@ const AdminDonationMonitoring: React.FC = () => {
   if (error !== null && !loading) {
     return (
       <div className="px-8 py-12">
-        <AdminErrorPanel title={t("admin.error.donations", "Donations Load Error")} message={error} onRetry={handleRetry} />
+        <AdminErrorPanel
+          title={t("admin.error.donations", "Donations Load Error")}
+          message={error}
+          onRetry={handleRetry}
+        />
       </div>
     );
   }
