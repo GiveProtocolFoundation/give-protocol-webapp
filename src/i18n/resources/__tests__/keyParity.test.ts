@@ -45,6 +45,9 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "volunteer.understanding.item5",
   "volunteer.understanding.item6Before",
   "volunteer.understanding.item6After",
+  // GIV-841: admin error panel titles — translations pending
+  "admin.error.charities",
+  "admin.error.donations",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;

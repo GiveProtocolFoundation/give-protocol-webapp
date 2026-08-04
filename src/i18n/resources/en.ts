@@ -835,6 +835,8 @@ export default {
     "admin.error.recentActivity": "Recent Activity Load Error",
     "admin.error.alerts": "Alerts Load Error",
     "admin.error.donationVolume": "Donation Volume Load Error",
+    "admin.error.charities": "Charities Load Error",
+    "admin.error.donations": "Donations Load Error",
     "admin.stats.last7d": "last 7d",
     "admin.stats.last30d": "last 30d",
     "admin.stats.totalDonors": "Total Donors",

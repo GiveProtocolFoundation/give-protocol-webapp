@@ -561,7 +561,7 @@ const AdminCharityManagement: React.FC = () => {
   if (error !== null && !loading) {
     return (
       <div className="px-8 py-12">
-        <AdminErrorPanel message={error} onRetry={handleRetry} />
+        <AdminErrorPanel title={t("admin.error.charities", "Charities Load Error")} message={error} onRetry={handleRetry} />
       </div>
     );
   }

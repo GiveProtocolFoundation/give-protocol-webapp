@@ -4,6 +4,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
 import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
+import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminDonations } from "@/hooks/useAdminDonations";
 import { logRead } from "@/services/adminAuditService";
 import type {
@@ -456,6 +457,7 @@ function DonationListTable({
  * filters, pagination, flag workflow, and CSV export.
  */
 const AdminDonationMonitoring: React.FC = () => {
+  const { t } = useTranslation();
   const {
     result,
     loading,
@@ -642,7 +644,7 @@ const AdminDonationMonitoring: React.FC = () => {
   if (error !== null && !loading) {
     return (
       <div className="px-8 py-12">
-        <AdminErrorPanel message={error} onRetry={handleRetry} />
+        <AdminErrorPanel title={t("admin.error.donations", "Donations Load Error")} message={error} onRetry={handleRetry} />
       </div>
     );
   }
