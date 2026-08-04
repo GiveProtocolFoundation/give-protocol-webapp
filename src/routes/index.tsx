@@ -166,31 +166,37 @@ export function AppRoutes() {
         <Route
           path="/admin/charity-registration"
           element={
-            <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <CharityRegistration />
-              </Suspense>
-            </RouteTransition>
+            <ProtectedRoute requiredRoles={["admin"]}>
+              <RouteTransition>
+                <Suspense fallback={<LoadingFallback />}>
+                  <CharityRegistration />
+                </Suspense>
+              </RouteTransition>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/charity-diagnostics"
           element={
-            <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <CharityDiagnostics />
-              </Suspense>
-            </RouteTransition>
+            <ProtectedRoute requiredRoles={["admin"]}>
+              <RouteTransition>
+                <Suspense fallback={<LoadingFallback />}>
+                  <CharityDiagnostics />
+                </Suspense>
+              </RouteTransition>
+            </ProtectedRoute>
           }
         />
         <Route
           path="/admin/token-management"
           element={
-            <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <TokenManagement />
-              </Suspense>
-            </RouteTransition>
+            <ProtectedRoute requiredRoles={["admin"]}>
+              <RouteTransition>
+                <Suspense fallback={<LoadingFallback />}>
+                  <TokenManagement />
+                </Suspense>
+              </RouteTransition>
+            </ProtectedRoute>
           }
         />
         <Route
