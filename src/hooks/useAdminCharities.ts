@@ -51,7 +51,7 @@ export function useAdminCharities() {
         return data;
       } catch (err) {
         const msg = err instanceof Error ? err.message : String(err);
-        setError(`Failed to load charities: ${msg}`);
+        setError(msg);
         showToast("error", `Failed to load charities: ${msg}`);
         throw err;
       } finally {

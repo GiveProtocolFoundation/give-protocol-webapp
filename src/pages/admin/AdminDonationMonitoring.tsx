@@ -641,18 +641,6 @@ const AdminDonationMonitoring: React.FC = () => {
     fetchDonations(filters);
   }, [fetchDonations, filters]);
 
-  if (error !== null && !loading) {
-    return (
-      <div className="px-8 py-12">
-        <AdminErrorPanel
-          title={t("admin.error.donations", "Donations Load Error")}
-          message={error}
-          onRetry={handleRetry}
-        />
-      </div>
-    );
-  }
-
   if (loading && result.donations.length === 0) {
     return (
       <div className="flex min-h-screen items-center justify-center">
@@ -734,6 +722,14 @@ const AdminDonationMonitoring: React.FC = () => {
             </div>
           )}
         </Card>
+      )}
+
+      {error !== null && (
+        <AdminErrorPanel
+          title={t("admin.error.donations", "Donations Load Error")}
+          message={error}
+          onRetry={handleRetry}
+        />
       )}
 
       {/* Donation list */}

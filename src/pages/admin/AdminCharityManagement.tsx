@@ -547,28 +547,16 @@ const AdminCharityManagement: React.FC = () => {
     ],
   );
 
+  const handleRetry = useCallback(() => {
+    fetchCharities(filters);
+  }, [fetchCharities, filters]);
+
   const tabCounts: Record<TabValue, number | undefined> = {
     all: stats?.totalCharities ?? result.totalCount,
     pending: stats?.pendingCharities,
     verified: stats?.verifiedCharities,
     rejected: undefined,
   };
-
-  const handleRetry = useCallback(() => {
-    fetchCharities(filters);
-  }, [fetchCharities, filters]);
-
-  if (error !== null && !loading) {
-    return (
-      <div className="px-8 py-12">
-        <AdminErrorPanel
-          title={t("admin.error.charities", "Charities Load Error")}
-          message={error}
-          onRetry={handleRetry}
-        />
-      </div>
-    );
-  }
 
   if (loading && result.charities.length === 0) {
     return (
@@ -603,6 +591,14 @@ const AdminCharityManagement: React.FC = () => {
           />
         </div>
       </div>
+
+      {error !== null && (
+        <AdminErrorPanel
+          title={t("admin.error.charities", "Charities Load Error")}
+          message={error}
+          onRetry={handleRetry}
+        />
+      )}
 
       {/* Table card */}
       <div className="overflow-hidden rounded-[14px] border border-[#e4e8e6] bg-white shadow-[0_1px_2px_#0b1f1a07]">
