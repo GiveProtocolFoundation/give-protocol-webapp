@@ -3,6 +3,7 @@ import { Search } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminCharities } from "@/hooks/useAdminCharities";
 import { useAdminStats } from "@/components/admin/shell";
@@ -412,6 +413,7 @@ const AdminCharityManagement: React.FC = () => {
     result,
     loading,
     updating,
+    error,
     fetchCharities,
     approveCharity,
     rejectCharity,
@@ -545,6 +547,10 @@ const AdminCharityManagement: React.FC = () => {
     ],
   );
 
+  const handleRetry = useCallback(() => {
+    fetchCharities(filters);
+  }, [fetchCharities, filters]);
+
   const tabCounts: Record<TabValue, number | undefined> = {
     all: stats?.totalCharities ?? result.totalCount,
     pending: stats?.pendingCharities,
@@ -585,6 +591,14 @@ const AdminCharityManagement: React.FC = () => {
           />
         </div>
       </div>
+
+      {error !== null && (
+        <AdminErrorPanel
+          title={t("admin.error.charities", "Charities Load Error")}
+          message={error}
+          onRetry={handleRetry}
+        />
+      )}
 
       {/* Table card */}
       <div className="overflow-hidden rounded-[14px] border border-[#e4e8e6] bg-white shadow-[0_1px_2px_#0b1f1a07]">
