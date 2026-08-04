@@ -37,6 +37,8 @@ const LANGUAGE_CODES = [
  *   add translated strings to each locale file.
  */
 const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
+  // GIV-841: AdminErrorPanel title for charity management page
+  "admin.error.charities",
   // GIV-495: volunteer consent legal paragraphs — English-only operative text (board-approved 2026-06-20)
   "volunteer.understanding.item1",
   "volunteer.understanding.item2",
