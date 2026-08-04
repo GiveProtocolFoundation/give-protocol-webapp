@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { useAdminDonations } from "@/hooks/useAdminDonations";
 import { logRead } from "@/services/adminAuditService";
 import type {
@@ -461,6 +462,7 @@ const AdminDonationMonitoring: React.FC = () => {
     flagging,
     summary,
     summaryLoading,
+    error,
     fetchDonations,
     fetchSummary,
     submitFlag,
@@ -632,6 +634,18 @@ const AdminDonationMonitoring: React.FC = () => {
       `donation-summary-${reportDateFrom}-to-${reportDateTo}.csv`,
     );
   }, [exportCsv, summary, reportDateFrom, reportDateTo]);
+
+  const handleRetry = useCallback(() => {
+    fetchDonations(filters);
+  }, [fetchDonations, filters]);
+
+  if (error !== null && !loading) {
+    return (
+      <div className="px-8 py-12">
+        <AdminErrorPanel message={error} onRetry={handleRetry} />
+      </div>
+    );
+  }
 
   if (loading && result.donations.length === 0) {
     return (

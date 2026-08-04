@@ -38,19 +38,22 @@ export function useAdminCharities() {
   const [result, setResult] = useState<AdminCharityListResult>(INITIAL_RESULT);
   const [loading, setLoading] = useState(false);
   const [updating, setUpdating] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { showToast } = useToast();
 
   const fetchCharities = useCallback(
     async (filters: AdminCharityListFilters = {}) => {
       try {
         setLoading(true);
+        setError(null);
         const data = await listCharities(filters);
         setResult(data);
         return data;
-      } catch (error) {
-        const msg = error instanceof Error ? error.message : String(error);
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : String(err);
+        setError(`Failed to load charities: ${msg}`);
         showToast("error", `Failed to load charities: ${msg}`);
-        throw error;
+        throw err;
       } finally {
         setLoading(false);
       }
@@ -154,6 +157,7 @@ export function useAdminCharities() {
     result,
     loading,
     updating,
+    error,
     fetchCharities,
     approveCharity,
     rejectCharity,

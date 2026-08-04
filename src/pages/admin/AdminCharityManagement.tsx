@@ -3,6 +3,7 @@ import { Search } from "lucide-react";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Modal } from "@/components/ui/Modal";
 import { Button } from "@/components/ui/Button";
+import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminCharities } from "@/hooks/useAdminCharities";
 import { useAdminStats } from "@/components/admin/shell";
@@ -412,6 +413,7 @@ const AdminCharityManagement: React.FC = () => {
     result,
     loading,
     updating,
+    error,
     fetchCharities,
     approveCharity,
     rejectCharity,
@@ -551,6 +553,18 @@ const AdminCharityManagement: React.FC = () => {
     verified: stats?.verifiedCharities,
     rejected: undefined,
   };
+
+  const handleRetry = useCallback(() => {
+    fetchCharities(filters);
+  }, [fetchCharities, filters]);
+
+  if (error !== null && !loading) {
+    return (
+      <div className="px-8 py-12">
+        <AdminErrorPanel message={error} onRetry={handleRetry} />
+      </div>
+    );
+  }
 
   if (loading && result.charities.length === 0) {
     return (

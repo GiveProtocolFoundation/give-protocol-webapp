@@ -47,18 +47,22 @@ export function useAdminDonations() {
   const [flagging, setFlagging] = useState(false);
   const [summary, setSummary] = useState<AdminDonationSummaryRow[]>([]);
   const [summaryLoading, setSummaryLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const { showToast } = useToast();
 
   const fetchDonations = useCallback(
     async (filters: AdminDonationListFilters = {}) => {
       try {
         setLoading(true);
+        setError(null);
         const data = await listDonations(filters);
         setResult(data);
         return data;
-      } catch (error) {
-        showToast("error", "Failed to load donations");
-        throw error;
+      } catch (err) {
+        const msg = err instanceof Error ? err.message : "Failed to load donations";
+        setError(msg);
+        showToast("error", msg);
+        throw err;
       } finally {
         setLoading(false);
       }
@@ -159,6 +163,7 @@ export function useAdminDonations() {
     flagging,
     summary,
     summaryLoading,
+    error,
     fetchDonations,
     fetchSummary,
     submitFlag,
