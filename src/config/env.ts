@@ -60,6 +60,12 @@ const CHAIN_ENV_PREFIX: Record<number, string> = {
 export function getChainContractAddresses(
   chainId: number,
 ): ChainContractAddresses {
+  /**
+   * Retrieves the contract addresses for the specified blockchain chain.
+   *
+   * @param chainId - The identifier of the blockchain network.
+   * @returns The collection of contract addresses associated with the chain, or undefined for each if not found.
+   */
   const prefix = CHAIN_ENV_PREFIX[chainId];
 
   const empty: ChainContractAddresses = {
@@ -75,6 +81,12 @@ export function getChainContractAddresses(
     return empty;
   }
 
+  /**
+   * Retrieves the environment variable address for a given contract suffix.
+   *
+   * @param suffix - The suffix identifying the contract address in the environment variables.
+   * @returns The contract address string from environment or undefined if not set.
+   */
   const getAddr = (suffix: string): string | undefined =>
     getEnv(`${prefix}_${suffix}_ADDRESS`);
 
