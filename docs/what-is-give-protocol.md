@@ -33,11 +33,14 @@ Volunteers log service hours through the platform. Organizations verify those ho
 
 Give Protocol is built on top of several EVM-compatible blockchains:
 
-| Network      | Purpose                                                 |
-| ------------ | ------------------------------------------------------- |
-| **Base**     | Primary donation network (low fees, Coinbase ecosystem) |
-| **Optimism** | Secondary network with OP rewards                       |
-| **Moonbeam** | Polkadot ecosystem support                              |
+| Network       | Purpose                                                 |
+| ------------- | ------------------------------------------------------- |
+| **Base**      | Primary donation network (low fees, Coinbase ecosystem) |
+| **Ethereum**  | Original smart contract platform                        |
+| **Optimism**  | Ethereum L2 with OP rewards                             |
+| **Arbitrum**  | Ethereum L2 with high throughput and low fees           |
+| **Polygon**   | Scalable Ethereum sidechain with low transaction costs  |
+| **Avalanche** | High-throughput chain with low fees                     |
 
 Smart contracts handle:
 

@@ -39,11 +39,14 @@ Give Protocol operates on the following EVM-compatible blockchains:
 | Network          | Chain ID | Status  |
 | ---------------- | -------- | ------- |
 | **Base**         | 8453     | Mainnet |
+| **Ethereum**     | 1        | Mainnet |
 | **Optimism**     | 10       | Mainnet |
-| **Moonbeam**     | 1284     | Mainnet |
+| **Arbitrum**     | 42161    | Mainnet |
+| **Polygon**      | 137      | Mainnet |
+| **Avalanche**    | 43114    | Mainnet |
 | Base Sepolia     | 84532    | Testnet |
 | Optimism Sepolia | 11155420 | Testnet |
-| Moonbase Alpha   | 1287     | Testnet |
+| Avalanche Fuji   | 43113    | Testnet |
 
 When you connect a wallet, Give Protocol will detect your current network. If you are on an unsupported network, a prompt will ask you to switch to a supported one.
 
@@ -60,15 +63,15 @@ Alternatively, switch networks directly in your wallet application — Give Prot
 
 On each supported network, you can donate using:
 
-| Token | Base | Optimism | Moonbeam |
-| ----- | ---- | -------- | -------- |
-| USDC  | ✓    | ✓        | ✓        |
-| USDT  | ✓    | ✓        | ✓        |
-| DAI   | ✓    | ✓        | —        |
-| WETH  | ✓    | ✓        | —        |
-| OP    | —    | ✓        | —        |
-| xcDOT | —    | —        | ✓        |
-| WGLMR | —    | —        | ✓        |
+| Token | Base | Ethereum | Optimism | Arbitrum | Polygon | Avalanche |
+| ----- | ---- | -------- | -------- | -------- | ------- | --------- |
+| USDC  | ✓    | ✓        | ✓        | ✓        | ✓       | ✓         |
+| USDT  | ✓    | ✓        | ✓        | ✓        | ✓       | ✓         |
+| DAI   | ✓    | ✓        | ✓        | ✓        | ✓       | ✓         |
+| WETH  | ✓    | ✓        | ✓        | ✓        | ✓       | —         |
+| OP    | —    | —        | ✓        | —        | —       | —         |
+| ARB   | —    | —        | —        | ✓        | —       | —         |
+| AVAX  | —    | —        | —        | —        | —       | ✓         |
 
 ## Disconnecting Your Wallet
 

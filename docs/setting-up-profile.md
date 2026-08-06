@@ -21,7 +21,7 @@ Alternatively, go directly to `/settings`.
 ### Giving Preferences
 
 - **Preferred currency** — Select the currency for displaying donation amounts (USD, EUR, GBP, etc.). This is display-only; actual token values are not converted automatically.
-- **Preferred networks** — Choose which blockchain networks (Base, Optimism, Moonbeam) you plan to use most. This pre-selects your default chain when donating.
+- **Preferred networks** — Choose which blockchain networks (Base, Ethereum, Optimism, Arbitrum, Polygon, Avalanche) you plan to use most. This pre-selects your default chain when donating.
 - **Notifications** — Configure email alerts for donation confirmations, recurring payment reminders, and impact reports.
 
 ### Privacy Settings
