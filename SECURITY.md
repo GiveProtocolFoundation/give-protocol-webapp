@@ -73,9 +73,6 @@ This check runs in the **Code Quality** CI workflow on every push and PR.
 
 | Chain    | Contract                 | Version     | Audited                  | Status  |
 | -------- | ------------------------ | ----------- | ------------------------ | ------- |
-| Moonbeam | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
-| Moonbeam | CharitableEquityFund.sol | pre-release | No — planned pre-mainnet | Testnet |
-| Moonbeam | CauseImpactFund.sol      | pre-release | No — planned pre-mainnet | Testnet |
 | Base     | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
 | Optimism | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
 

@@ -3,7 +3,7 @@
 **Version:** 1.0
 **Date:** February 2025
 **Target Repository:** `give-protocol-contracts`
-**Applicable Chains:** Base, Optimism, Moonbeam (EVM-Compatible)
+**Applicable Chains:** Base, Ethereum, Optimism, Arbitrum, Polygon, Avalanche (EVM-Compatible)
 
 ## Overview
 
@@ -159,10 +159,6 @@ await contract.setMinDonation(WETH_BASE, parseUnits("0.0003", 18)); // ~$1 at $3
 await contract.setMinDonation(USDC_OP, parseUnits("1", 6));
 await contract.setMinDonation(DAI_OP, parseUnits("1", 18));
 await contract.setMinDonation(OP_TOKEN, parseUnits("1", 18)); // ~$1.50
-
-// Moonbeam deployment (existing)
-await contract.setMinDonation(USDC_GLMR, parseUnits("1", 6));
-await contract.setMinDonation(DOT_XC, parseUnits("0.2", 10)); // ~$1 at $5 DOT
 ```
 
 ---
@@ -188,15 +184,6 @@ await contract.setMinDonation(DOT_XC, parseUnits("0.2", 10)); // ~$1 at $5 DOT
 | DAI              | `0xDA10009cBd5D07dd0CeCc66161FC93D7c9000da1` | 18       |
 | OP               | `0x4200000000000000000000000000000000000042` | 18       |
 | WETH             | `0x4200000000000000000000000000000000000006` | 18       |
-
-#### Moonbeam Mainnet (Chain ID: 1284)
-
-| Token | Address                                      | Decimals |
-| ----- | -------------------------------------------- | -------- |
-| USDC  | `0x931715FEE2d06333043d11F658C8CE934aC61D0c` | 6        |
-| USDT  | `0xc30E9cA94CF52f3Bf5692aaCF81353a27052c46f` | 6        |
-| xcDOT | `0xFfFFfFff1FcaCBd218EDc0EbA20Fc2308C778080` | 10       |
-| WGLMR | `0xAcc15dC74880C9944775448304B263D191c6077F` | 18       |
 
 ---
 

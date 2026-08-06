@@ -14,7 +14,7 @@ Progressive Web Application for Give Protocol, a Delaware-based 501(c)(3) nonpro
 - **Cause-Specific Impact Funds (CIFs)** and **Charitable Equity Funds (CEFs)**: Participate in pooled giving vehicles that spread donations across multiple causes and organizations
 - **Dashboard**: Track all donations and recurring contributions at `/give-dashboard`
 - **Recurring Donations**: Set up automated monthly or quarterly giving at `/scheduled-donations`
-- **Multi-Chain**: Donate across Base, Optimism, Moonbeam, and more
+- **Multi-Chain**: Donate across Base, Ethereum, Optimism, Arbitrum, Polygon, and Avalanche
 
 ### For Charities
 
@@ -82,14 +82,13 @@ VITE_BASE_SEPOLIA_PORTFOLIO_FUNDS_ADDRESS=0x...
 VITE_BASE_SEPOLIA_EXECUTOR_ADDRESS=0x...
 VITE_BASE_SEPOLIA_TOKEN_ADDRESS=0x...
 
-# Repeat for: OPTIMISM_SEPOLIA, MOONBASE (testnets)
-#             BASE, OPTIMISM, MOONBEAM (mainnets)
+# Repeat for: OPTIMISM_SEPOLIA, ARBITRUM_SEPOLIA, POLYGON_AMOY, AVALANCHE_FUJI (testnets)
+#             BASE, ETHEREUM, OPTIMISM, ARBITRUM, POLYGON, AVALANCHE (mainnets)
 
 # --- RPC URLs (optional -- uses server proxy if not set) ---
 # Set dedicated provider URLs (Alchemy, Infura) for production.
 # VITE_BASE_RPC_URL=https://base-mainnet.g.alchemy.com/v2/YOUR_KEY
 # VITE_OPTIMISM_RPC_URL=https://opt-mainnet.g.alchemy.com/v2/YOUR_KEY
-# VITE_MOONBEAM_RPC_URL=https://rpc.api.moonbeam.network
 
 # --- Helcim Fiat Payments (frontend flag only) ---
 VITE_HELCIM_TEST_MODE=true
@@ -174,7 +173,7 @@ The app supports a broad range of wallet providers for EVM-compatible chains:
 - Transaction signing, submission, and status monitoring
 - Wallet disconnect synced with authentication logout
 
-**Supported chains:** Base, Optimism, Moonbeam (mainnets), and their respective testnets (Base Sepolia, Optimism Sepolia, Moonbase Alpha).
+**Supported chains:** Base, Ethereum, Optimism, Arbitrum, Polygon, and Avalanche (mainnets), and their respective testnets.
 
 ## Tech Stack
 

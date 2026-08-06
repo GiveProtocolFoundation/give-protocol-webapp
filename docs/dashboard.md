@@ -24,7 +24,7 @@ The **Donation History** table lists every completed donation with:
 | Date    | Timestamp of the on-chain transaction               |
 | Charity | Name and link to the charity profile                |
 | Amount  | Token amount and USD equivalent at time of donation |
-| Network | Blockchain network used (Base, Optimism, Moonbeam)  |
+| Network | Blockchain network used (Base, Ethereum, Optimism, Arbitrum, Polygon, Avalanche) |
 | Status  | Confirmed, Pending, or Failed                       |
 | Receipt | Link to download or view the tax receipt            |
 

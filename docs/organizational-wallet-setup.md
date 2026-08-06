@@ -24,8 +24,9 @@ A [Safe](https://safe.global) multisig wallet requires M-of-N approvals before a
 
 - Open-source, audited smart contract wallet
 - Battle-tested by DAOs and foundations managing hundreds of millions of dollars
-- Supports all three Give Protocol mainnet chains (Base, Optimism, Moonbeam)
 - Free to deploy; only gas costs apply
+
+> **Chain note:** Give Protocol accepts donations on six EVM chains (Base, Ethereum, Optimism, Arbitrum, Polygon, and Avalanche), but organizational treasury wallet designation currently supports **Base mainnet only**. Register a Base Safe below; donations sent on other chains still settle to your charity but treasury designation is verified against your Base address.
 
 ### Step-by-Step Setup
 
@@ -49,24 +50,6 @@ A [Safe](https://safe.global) multisig wallet requires M-of-N approvals before a
 
 8. In the Give Protocol Charity Portal, go to **Organization Settings → Wallet Address** and paste the Safe address.
 
-#### Optimism
-
-Follow the same steps above but select **Optimism** as the network in step 2.
-
-> The Safe UI at app.safe.global supports Optimism natively. Use the same signer addresses you used on Base if your signers hold wallets on multiple chains.
-
-#### Moonbeam
-
-1. Go to [app.safe.global](https://app.safe.global) and connect your personal wallet.
-2. Click **Create new Safe** and select **Moonbeam** as the network.
-
-   ![placeholder: safe-moonbeam-deploy-step-1]
-
-3. Follow the same owner and threshold configuration steps as above.
-4. After deployment, paste the Moonbeam Safe address into the Give Protocol Charity Portal under **Organization Settings → Wallet Address (Moonbeam)**.
-
-> **Moonbeam note:** Ensure your signer wallets have a small amount of GLMR to cover deployment gas. You can bridge GLMR via [Moonbeam's official bridge](https://apps.moonbeam.network/moonbeam/xcm).
-
 ### After Deployment
 
 - Store the Safe address in your organization's records.
@@ -81,12 +64,12 @@ If your organization already uses a regulated custodian (such as Anchorage Digit
 
 ### Supported Custodians
 
-| Custodian         | Supported Chains         | Notes                                    |
-| ----------------- | ------------------------ | ---------------------------------------- |
-| Anchorage Digital | Base, Optimism           | Requires Business account                |
-| BitGo             | Base, Optimism, Moonbeam | Multi-user policies supported            |
-| Coinbase Prime    | Base, Optimism           | Institutional account required           |
-| Fireblocks        | Base, Optimism, Moonbeam | Policy Engine recommended for governance |
+| Custodian         | Supported Chains | Notes                                     |
+| ----------------- | ----------------- | ----------------------------------------- |
+| Anchorage Digital | Base               | Requires Business account                |
+| BitGo             | Base               | Multi-user policies supported            |
+| Coinbase Prime    | Base               | Institutional account required           |
+| Fireblocks        | Base               | Policy Engine recommended for governance |
 
 ### Attestation Requirements
 

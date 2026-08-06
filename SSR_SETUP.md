@@ -102,7 +102,6 @@ node scripts/prerender.js
 SSR requires the same environment variables as the SPA:
 - `VITE_SUPABASE_URL`
 - `VITE_SUPABASE_ANON_KEY`
-- `VITE_MOONBASE_RPC_URL`
 - etc.
 
 ## Testing SSR
