@@ -64,12 +64,12 @@ If your organization already uses a regulated custodian (such as Anchorage Digit
 
 ### Supported Custodians
 
-| Custodian         | Supported Chains | Notes                                     |
-| ----------------- | ----------------- | ----------------------------------------- |
-| Anchorage Digital | Base               | Requires Business account                |
-| BitGo             | Base               | Multi-user policies supported            |
-| Coinbase Prime    | Base               | Institutional account required           |
-| Fireblocks        | Base               | Policy Engine recommended for governance |
+| Custodian         | Supported Chains | Notes                                    |
+| ----------------- | ---------------- | ---------------------------------------- |
+| Anchorage Digital | Base             | Requires Business account                |
+| BitGo             | Base             | Multi-user policies supported            |
+| Coinbase Prime    | Base             | Institutional account required           |
+| Fireblocks        | Base             | Policy Engine recommended for governance |
 
 ### Attestation Requirements
 

@@ -71,10 +71,10 @@ This check runs in the **Code Quality** CI workflow on every push and PR.
 
 ### Smart Contract Versions
 
-| Chain    | Contract                 | Version     | Audited                  | Status  |
-| -------- | ------------------------ | ----------- | ------------------------ | ------- |
-| Base     | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
-| Optimism | DirectDonation.sol       | pre-release | No — planned pre-mainnet | Testnet |
+| Chain    | Contract           | Version     | Audited                  | Status  |
+| -------- | ------------------ | ----------- | ------------------------ | ------- |
+| Base     | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
+| Optimism | DirectDonation.sol | pre-release | No — planned pre-mainnet | Testnet |
 
 ---
 
