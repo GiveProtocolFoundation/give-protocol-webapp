@@ -26,8 +26,10 @@ import { promoteToPendingEmail } from "../_shared/wallet-designation-promote.ts"
 import { sendChangeConfirmationEmail } from "../_shared/wallet-designation-cooldown-emails.ts";
 
 const PENDING_CONTRACT_SIG_TTL_MS = 7 * 24 * 60 * 60 * 1000;
-const MOONBASE_CHAIN_ID = 1287;
-const MOONBASE_RPC_URL = "https://rpc.api.moonbase.moonbeam.network";
+const BASE_CHAIN_ID = 8453;
+// BASE_RPC_URL function secret overrides the public endpoint (paid-tier RPC,
+// see GIV-785); falls back to the Base public RPC.
+const BASE_RPC_URL = Deno.env.get("BASE_RPC_URL") ?? "https://mainnet.base.org";
 const EIP_1271_MAGIC_VALUE = "0x1626ba7e";
 const ISVALIDSIGNATURE_ABI = [
   "function isValidSignature(bytes32 _hash, bytes _signature) view returns (bytes4)",
@@ -96,7 +98,7 @@ async function verifyContractSignature(
   signature: string,
 ): Promise<boolean | null> {
   try {
-    const provider = new ethers.JsonRpcProvider(MOONBASE_RPC_URL);
+    const provider = new ethers.JsonRpcProvider(BASE_RPC_URL);
     const contract = new ethers.Contract(
       contractAddress,
       ISVALIDSIGNATURE_ABI,
@@ -117,7 +119,7 @@ async function verifyContractSignature(
 }
 
 async function getCodeAt(address: string): Promise<string> {
-  const provider = new ethers.JsonRpcProvider(MOONBASE_RPC_URL);
+  const provider = new ethers.JsonRpcProvider(BASE_RPC_URL);
   return provider.getCode(address);
 }
 
@@ -251,7 +253,7 @@ serve(async (req: Request) => {
     charityProfileId: profile.id,
     candidateAddress: nonce.candidate_address,
     userEmail: user.email,
-    chainId: MOONBASE_CHAIN_ID,
+    chainId: BASE_CHAIN_ID,
     issuedAt: nonce.issued_at,
     nonce: nonce.nonce,
   });
@@ -306,7 +308,7 @@ serve(async (req: Request) => {
         message_hash: messageHash,
         signature: body.signature,
         message,
-        chain_id: MOONBASE_CHAIN_ID,
+        chain_id: BASE_CHAIN_ID,
         initiated_by: user.id,
         expires_at: expiresAt,
       });
@@ -332,7 +334,7 @@ serve(async (req: Request) => {
       wallet_kind: "contract",
       signature: body.signature,
       message,
-      chain_id: MOONBASE_CHAIN_ID,
+      chain_id: BASE_CHAIN_ID,
       ip,
       user_agent: userAgent,
       action: "contract_signature_pending",
@@ -363,7 +365,7 @@ serve(async (req: Request) => {
         wallet_kind: walletKind,
         signature: body.signature,
         message,
-        chain_id: MOONBASE_CHAIN_ID,
+        chain_id: BASE_CHAIN_ID,
         ip,
         user_agent: userAgent,
         action: "change_submitted",
@@ -376,7 +378,7 @@ serve(async (req: Request) => {
           pending_wallet_kind: walletKind,
           pending_wallet_designation_signature: body.signature,
           pending_wallet_designation_message: message,
-          pending_wallet_designation_chain_id: MOONBASE_CHAIN_ID,
+          pending_wallet_designation_chain_id: BASE_CHAIN_ID,
           // status STAYS 'active' until email confirmation kicks off cooldown.
         })
         .eq("id", profile.id);
@@ -391,7 +393,7 @@ serve(async (req: Request) => {
         charityName: profile.name,
         candidateAddress: nonce.candidate_address,
         walletKind,
-        chainId: MOONBASE_CHAIN_ID,
+        chainId: BASE_CHAIN_ID,
         initiatedByEmail: user.email,
         currentWalletAddress: profile.wallet_address ?? "(unknown)",
         signature: body.signature,
@@ -440,7 +442,7 @@ serve(async (req: Request) => {
       profile,
       candidateAddress: nonce.candidate_address,
       walletKind,
-      chainId: MOONBASE_CHAIN_ID,
+      chainId: BASE_CHAIN_ID,
       initiatedBy: { id: user.id, email: user.email },
       signature: body.signature,
       message,

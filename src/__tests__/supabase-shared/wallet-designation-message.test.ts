@@ -17,7 +17,7 @@ describe("buildDesignationMessage", () => {
     charityProfileId: "11111111-2222-3333-4444-555555555555",
     candidateAddress: "0xAbCdEf0123456789AbCdEf0123456789AbCdEf01",
     userEmail: "admin@acme.org",
-    chainId: 1287,
+    chainId: 8453,
     issuedAt: "2026-05-18T01:23:45.000Z",
     nonce: "deadbeefcafebabe",
   };
@@ -31,7 +31,7 @@ describe("buildDesignationMessage", () => {
         "Charity: Acme Foundation (11111111-2222-3333-4444-555555555555)",
         "Wallet:  0xAbCdEf0123456789AbCdEf0123456789AbCdEf01",
         "By user: admin@acme.org",
-        "Chain:   1287",
+        "Chain:   8453",
         "Issued:  2026-05-18T01:23:45.000Z",
         "Nonce:   deadbeefcafebabe",
         "",

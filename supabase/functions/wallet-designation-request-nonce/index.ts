@@ -14,7 +14,7 @@ import { ethers } from "https://esm.sh/ethers@6.9.0";
 import { buildDesignationMessage } from "../_shared/wallet-designation-message.ts";
 
 const NONCE_TTL_MS = 10 * 60 * 1000;
-const MOONBASE_CHAIN_ID = 1287;
+const BASE_CHAIN_ID = 8453;
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -170,7 +170,7 @@ serve(async (req: Request) => {
     charityProfileId: profile.id,
     candidateAddress,
     userEmail: user.email,
-    chainId: MOONBASE_CHAIN_ID,
+    chainId: BASE_CHAIN_ID,
     issuedAt,
     nonce,
   });
@@ -181,7 +181,7 @@ serve(async (req: Request) => {
       nonce,
       message,
       expiresAt,
-      chainId: MOONBASE_CHAIN_ID,
+      chainId: BASE_CHAIN_ID,
     },
     200,
   );
