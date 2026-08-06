@@ -45,12 +45,12 @@ const CHAIN_MATRIX: ChainSpec[] = [
 ];
 
 const TEST_WALLET = "0xf39Fd6e51aad88F6F4ce6aB8827279cffFb92266";
-const FAKE_TX_HASH = "0x" + "ab".repeat(32);
-const MAX_UINT256_HEX = "0x" + "f".repeat(64);
+const FAKE_TX_HASH = `0x${"ab".repeat(32)}`;
+const MAX_UINT256_HEX = `0x${"f".repeat(64)}`;
 
 /** ABI-encodes an integer as a zero-padded 32-byte hex string */
 function abiUint256(n: bigint | number): string {
-  return "0x" + BigInt(n).toString(16).padStart(64, "0");
+  return `0x${BigInt(n).toString(16).padStart(64, "0")}`;
 }
 
 CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
@@ -179,7 +179,7 @@ CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
                   return Promise.resolve({
                     transactionHash: FAKE_TX_HASH,
                     blockNumber: "0x1",
-                    blockHash: "0x" + "0".repeat(64),
+                    blockHash: `0x${"0".repeat(64)}`,
                     status: "0x1",
                     gasUsed: "0x5208",
                     cumulativeGasUsed: "0x5208",
@@ -187,7 +187,7 @@ CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
                     from: TEST_WALLET,
                     to: donationContract,
                     contractAddress: null,
-                    logsBloom: "0x" + "0".repeat(512),
+                    logsBloom: `0x${"0".repeat(512)}`,
                     transactionIndex: "0x0",
                     type: "0x2",
                   });

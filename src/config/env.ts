@@ -75,6 +75,7 @@ export function getChainContractAddresses(
     return empty;
   }
 
+  /** Resolves a contract address env var for the given suffix (e.g. "DONATION"). */
   const getAddr = (suffix: string): string | undefined =>
     getEnv(`${prefix}_${suffix}_ADDRESS`);
 
