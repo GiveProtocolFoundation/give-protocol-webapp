@@ -121,11 +121,11 @@ describe("web3ContextHelpers", () => {
 
   describe("getChainParams", () => {
     it("returns chain params for a known chain", () => {
-      // 1287 = MOONBASE in the contractsMock.
-      const params = getChainParams(1287);
+      // 8453 = BASE in the contractsMock.
+      const params = getChainParams(8453);
       expect(params).toMatchObject({
-        chainId: "0x507",
-        chainName: "Moonbase Alpha",
+        chainId: "0x2105",
+        chainName: "Base",
       });
       expect(Array.isArray(params?.rpcUrls)).toBe(true);
       expect(Array.isArray(params?.blockExplorerUrls)).toBe(true);
@@ -152,11 +152,11 @@ describe("web3ContextHelpers", () => {
       const provider = baseProvider();
       provider.request.mockResolvedValueOnce(null);
 
-      await switchToChain(provider as never, 1287 as never);
+      await switchToChain(provider as never, 8453 as never);
 
       expect(provider.request).toHaveBeenCalledWith({
         method: "wallet_switchEthereumChain",
-        params: [{ chainId: "0x507" }],
+        params: [{ chainId: "0x2105" }],
       });
     });
 
@@ -166,14 +166,14 @@ describe("web3ContextHelpers", () => {
         .mockRejectedValueOnce({ code: 4902 })
         .mockResolvedValueOnce(null);
 
-      await switchToChain(provider as never, 1287 as never);
+      await switchToChain(provider as never, 8453 as never);
 
       expect(provider.request).toHaveBeenNthCalledWith(2, {
         method: "wallet_addEthereumChain",
         params: [
           expect.objectContaining({
-            chainId: "0x507",
-            chainName: "Moonbase Alpha",
+            chainId: "0x2105",
+            chainName: "Base",
           }),
         ],
       });
@@ -184,7 +184,7 @@ describe("web3ContextHelpers", () => {
       provider.request.mockRejectedValueOnce({ code: 4001 });
 
       await expect(
-        switchToChain(provider as never, 1287 as never),
+        switchToChain(provider as never, 8453 as never),
       ).rejects.toThrow(/Please switch to/);
     });
 
@@ -193,7 +193,7 @@ describe("web3ContextHelpers", () => {
       provider.request.mockRejectedValueOnce({ code: -32000, message: "rpc" });
 
       await expect(
-        switchToChain(provider as never, 1287 as never),
+        switchToChain(provider as never, 8453 as never),
       ).rejects.toThrow("Failed to switch network. Please try again.");
     });
 

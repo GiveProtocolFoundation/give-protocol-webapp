@@ -20,7 +20,7 @@ const TEST_ADDRESS = "0x1234567890abcdef1234567890abcdef12345678";
 const defaultProps: WalletButtonProps = {
   address: TEST_ADDRESS,
   provider: "metamask",
-  network: "moonbase",
+  network: "base",
   onDisconnect: mockDisconnect,
   onSwitchAccount: mockSwitchAccount,
   onNetworkChange: mockNetworkChange,
@@ -38,7 +38,7 @@ describe("WalletButton", () => {
     jest.clearAllMocks();
     mockUseWalletBalance.mockReturnValue({
       native: "1.5000",
-      nativeSymbol: "DEV",
+      nativeSymbol: "ETH",
       usdValue: "$3.00",
       isLoading: false,
       error: null,
@@ -263,7 +263,7 @@ describe("WalletButton", () => {
     it("uses fetched balances when no external balances provided", () => {
       mockUseWalletBalance.mockReturnValue({
         native: "2.5000",
-        nativeSymbol: "DEV",
+        nativeSymbol: "ETH",
         usdValue: "$5.00",
         isLoading: false,
         error: null,
@@ -274,7 +274,7 @@ describe("WalletButton", () => {
 
       fireEvent.click(screen.getByRole("button", { name: "Wallet menu" }));
 
-      expect(screen.getByText("DEV")).toBeInTheDocument();
+      expect(screen.getByText("ETH")).toBeInTheDocument();
     });
 
     it("uses external balances when provided", () => {

@@ -30,13 +30,11 @@ interface WalletBalanceResult {
 /**
  * Network configuration for balance fetching
  */
-const NETWORK_CONFIG: Record<
-  NetworkType,
-  { symbol: string; chainId: number; decimals: number }
+const NETWORK_CONFIG: Partial<
+  Record<NetworkType, { symbol: string; chainId: number; decimals: number }>
 > = {
   base: { symbol: "ETH", chainId: CHAIN_IDS.BASE, decimals: 18 },
   optimism: { symbol: "ETH", chainId: CHAIN_IDS.OPTIMISM, decimals: 18 },
-  moonbeam: { symbol: "GLMR", chainId: CHAIN_IDS.MOONBEAM, decimals: 18 },
   "base-sepolia": {
     symbol: "ETH",
     chainId: CHAIN_IDS.BASE_SEPOLIA,
@@ -47,7 +45,6 @@ const NETWORK_CONFIG: Record<
     chainId: CHAIN_IDS.OPTIMISM_SEPOLIA,
     decimals: 18,
   },
-  moonbase: { symbol: "DEV", chainId: CHAIN_IDS.MOONBASE, decimals: 18 },
 };
 
 /** Cache for token prices */
@@ -56,7 +53,7 @@ const PRICE_CACHE_TTL = 60000; // 60 second cache
 
 /**
  * Fetch token price from Chainlink (primary) or cache
- * @param symbol - Token symbol (e.g., "ETH", "GLMR")
+ * @param symbol - Token symbol (e.g., "ETH", "USDC")
  * @param chainId - Chain ID for the price feed
  * @returns USD price or null if fetch fails
  */
@@ -139,7 +136,7 @@ export function useWalletBalance(network: NetworkType): WalletBalanceResult {
   const isMountedRef = useRef(true);
 
   // Get network config
-  const config = NETWORK_CONFIG[network] || NETWORK_CONFIG.moonbase;
+  const config = NETWORK_CONFIG[network] || NETWORK_CONFIG.base;
 
   const fetchBalance = useCallback(async () => {
     if (!provider || !address || !isConnected) {

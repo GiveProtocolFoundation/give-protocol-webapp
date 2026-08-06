@@ -21,7 +21,7 @@ export const RegisterCharityForm: React.FC = () => {
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setCharityAddress(e.target.value);
     },
-    []
+    [],
   );
 
   const handleUseTestAddress = useCallback(() => {
@@ -123,7 +123,7 @@ export const RegisterCharityForm: React.FC = () => {
           Test Charity Address
         </h3>
         <p className="text-sm text-blue-800 mb-2">
-          For testing on Moonbase Alpha, use:
+          For testing on Base Sepolia, use:
         </p>
         <code className="block p-2 bg-white rounded text-xs break-all border border-blue-200">
           {TEST_CHARITY_ADDRESS}

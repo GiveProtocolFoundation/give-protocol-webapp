@@ -1,6 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
 import {
-  MOONBEAM_TOKENS,
   BASE_TOKENS,
   BASE_SEPOLIA_TOKENS,
   OPTIMISM_TOKENS,
@@ -17,14 +16,6 @@ import {
 
 describe("tokens config", () => {
   describe("token arrays", () => {
-    it("MOONBEAM_TOKENS should have expected tokens", () => {
-      expect(MOONBEAM_TOKENS.length).toBeGreaterThan(0);
-      const symbols = MOONBEAM_TOKENS.map((t) => t.symbol);
-      expect(symbols).toContain("DEV");
-      expect(symbols).toContain("GLMR");
-      expect(symbols).toContain("USDC");
-    });
-
     it("BASE_TOKENS should have ETH and stablecoins", () => {
       expect(BASE_TOKENS.length).toBeGreaterThan(0);
       const symbols = BASE_TOKENS.map((t) => t.symbol);
@@ -48,11 +39,7 @@ describe("tokens config", () => {
     });
 
     it("all tokens should have required fields", () => {
-      const allTokens = [
-        ...MOONBEAM_TOKENS,
-        ...BASE_TOKENS,
-        ...OPTIMISM_TOKENS,
-      ];
+      const allTokens = [...BASE_TOKENS, ...OPTIMISM_TOKENS];
       for (const token of allTokens) {
         expect(token.symbol).toBeTruthy();
         expect(token.name).toBeTruthy();
@@ -91,9 +78,9 @@ describe("tokens config", () => {
 
   describe("getTokenBySymbol", () => {
     it("should find token by symbol (case-insensitive)", () => {
-      const token = getTokenBySymbol("glmr");
+      const token = getTokenBySymbol("eth");
       expect(token).toBeDefined();
-      expect(token?.symbol).toBe("GLMR");
+      expect(token?.symbol).toBe("ETH");
     });
 
     it("should return undefined for unknown symbol", () => {
@@ -103,7 +90,7 @@ describe("tokens config", () => {
 
   describe("getTokenByAddress", () => {
     it("should find token by address (case-insensitive)", () => {
-      const address = MOONBEAM_TOKENS[2].address; // WGLMR
+      const address = BASE_TOKENS[1].address; // WETH on Base
       const token = getTokenByAddress(address.toLowerCase());
       expect(token).toBeDefined();
       expect(token?.address).toBe(address);
@@ -137,7 +124,7 @@ describe("tokens config", () => {
 
     it("should return fallback for unknown chain", () => {
       const tokens = getTokensForChain(99999);
-      expect(tokens).toBe(MOONBEAM_TOKENS);
+      expect(tokens).toBe(BASE_TOKENS);
     });
   });
 

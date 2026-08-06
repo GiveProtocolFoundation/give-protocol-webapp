@@ -67,7 +67,7 @@ export const ApplicationAcceptance: React.FC<ApplicationAcceptanceProps> = ({
                 {acceptanceHash}
               </code>
               <a
-                href={`https://moonbase.moonscan.io/tx/${acceptanceHash}`}
+                href={`https://basescan.org/tx/${acceptanceHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-2 text-emerald-600 hover:text-emerald-800"

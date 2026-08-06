@@ -4,11 +4,8 @@ import { jest } from "@jest/globals";
 // EVM chain stubs
 export const getEVMChainConfig = jest.fn((chainId) => ({
   id: chainId,
-  name: chainId === 1287 ? "Moonbase Alpha" : "Base",
-  blockExplorerUrls:
-    chainId === 1287
-      ? ["https://moonbase.moonscan.io"]
-      : ["https://basescan.org"],
+  name: "Base",
+  blockExplorerUrls: ["https://basescan.org"],
 }));
 
 export const getEVMChainParams = jest.fn((chainId) => ({
@@ -26,7 +23,6 @@ export const DEFAULT_EVM_CHAIN_ID = 8453;
 export const EVM_CHAIN_IDS = {
   MAINNET: 1,
   BASE: 8453,
-  MOONBASE_ALPHA: 1287,
 };
 
 // Solana cluster stubs
@@ -43,10 +39,24 @@ export const isSolanaClusterSupported = jest.fn(() => true);
 // Polkadot chain stubs
 export const DEFAULT_POLKADOT_CHAIN = "polkadot";
 
+export const POLKADOT_CHAINS = { POLKADOT: "polkadot", KUSAMA: "kusama" };
+
+export const POLKADOT_CHAIN_CONFIGS = {};
+
+export const SUPPORTED_POLKADOT_CHAINS = ["polkadot"];
+
+export const TESTNET_POLKADOT_CHAINS = [];
+
 export const getPolkadotChainConfig = jest.fn((chainId) => ({
   id: chainId,
   name: "Polkadot",
-  rpcEndpoints: ["wss://rpc.polkadot.io"],
+  ss58Prefix: 0,
 }));
 
 export const isPolkadotChainSupported = jest.fn(() => true);
+
+export const getAvailablePolkadotChains = jest.fn(() => ["polkadot"]);
+
+export const getPolkadotExplorerUrl = jest.fn(() => "https://polkadot.subscan.io");
+
+export const getChainSS58Prefix = jest.fn(() => 0);

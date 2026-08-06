@@ -211,29 +211,6 @@ class EVMWalletBase implements WalletProvider {
         rpcUrls: ["https://mainnet.optimism.io"],
         blockExplorerUrls: ["https://optimistic.etherscan.io/"],
       },
-      // Moonbeam
-      [CHAIN_IDS.MOONBASE]: {
-        chainId: `0x${CHAIN_IDS.MOONBASE.toString(16)}`,
-        chainName: "Moonbase Alpha",
-        nativeCurrency: {
-          name: "DEV",
-          symbol: "DEV",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc.api.moonbase.moonbeam.network"],
-        blockExplorerUrls: ["https://moonbase.moonscan.io/"],
-      },
-      [CHAIN_IDS.MOONBEAM]: {
-        chainId: `0x${CHAIN_IDS.MOONBEAM.toString(16)}`,
-        chainName: "Moonbeam",
-        nativeCurrency: {
-          name: "GLMR",
-          symbol: "GLMR",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc.api.moonbeam.network"],
-        blockExplorerUrls: ["https://moonbeam.moonscan.io/"],
-      },
     };
     return chains[chainId as keyof typeof chains];
   }
@@ -288,7 +265,7 @@ class MetaMaskWallet extends EVMWalletBase {
  * ```typescript
  * const walletConnect = new WalletConnect();
  * const address = await walletConnect.connect();
- * await walletConnect.switchChain(1287); // Moonbase Alpha
+ * await walletConnect.switchChain(8453); // Base
  * ```
  */
 class WalletConnect implements WalletProvider {
@@ -352,7 +329,7 @@ class WalletConnect implements WalletProvider {
  * const nova = new NovaWallet();
  * if (nova.isInstalled()) {
  *   const address = await nova.connect();
- *   await nova.switchChain(1284); // Moonbeam
+ *   await nova.switchChain(8453); // Base
  * }
  * ```
  */
@@ -389,7 +366,7 @@ class NovaWallet extends EVMWalletBase {
  * const subwallet = new SubWallet();
  * if (subwallet.isInstalled()) {
  *   const address = await subwallet.connect();
- *   await subwallet.switchChain(1287); // Moonbase Alpha
+ *   await subwallet.switchChain(8453); // Base
  * }
  * ```
  */
@@ -428,7 +405,7 @@ class SubWallet extends EVMWalletBase {
  * const talisman = new TalismanWallet();
  * if (talisman.isInstalled()) {
  *   const address = await talisman.connect();
- *   await talisman.switchChain(1284); // Moonbeam
+ *   await talisman.switchChain(8453); // Base
  * }
  * ```
  */

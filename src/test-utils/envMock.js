@@ -14,8 +14,8 @@ export const ENV = {
   SUPABASE_URL: "https://mock-supabase-url.supabase.co", // skipcq: SCT-A000 - Test placeholder URL, not a real endpoint
   SUPABASE_ANON_KEY: "mock-supabase-anon-key", // skipcq: SCT-A000 - Test placeholder, not a real key
   APP_DOMAIN: "localhost",
-  NETWORK: "moonbase",
-  NETWORK_ENDPOINT: "wss://wss.api.moonbase.moonbeam.network",
+  NETWORK: "base",
+  NETWORK_ENDPOINT: "",
   ENABLE_GOOGLE_AUTH: false,
   ENABLE_MAGIC_LINKS: false,
   SHOW_TESTNETS: true,

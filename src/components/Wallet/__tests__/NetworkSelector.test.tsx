@@ -25,13 +25,6 @@ const mockNetworks: NetworkConfig[] = [
     color: "#9945FF",
     chainType: "solana",
   },
-  {
-    id: "polkadot",
-    name: "Polkadot",
-    token: "DOT",
-    color: "#E6007A",
-    chainType: "polkadot",
-  },
 ];
 
 const defaultProps = {
@@ -82,9 +75,8 @@ describe("NetworkSelector", () => {
       fireEvent.click(screen.getByRole("button", { name: /Current network/i }));
 
       expect(screen.getByText("EVM Networks")).toBeInTheDocument();
-      // "Solana" and "Polkadot" appear as both section headers and network names
+      // "Solana" appears as both section header and network name
       expect(screen.getAllByText("Solana")).toHaveLength(2);
-      expect(screen.getAllByText("Polkadot")).toHaveLength(2);
     });
 
     it("shows all network names in dropdown", () => {
@@ -92,7 +84,7 @@ describe("NetworkSelector", () => {
       fireEvent.click(screen.getByRole("button", { name: /Current network/i }));
 
       const menuItems = screen.getAllByRole("menuitemradio");
-      expect(menuItems).toHaveLength(4);
+      expect(menuItems).toHaveLength(3);
     });
 
     it("marks current network as checked", () => {

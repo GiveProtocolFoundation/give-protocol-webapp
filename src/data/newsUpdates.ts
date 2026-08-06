@@ -14,10 +14,10 @@ export interface NewsUpdate {
 export const NEWS_UPDATES: NewsUpdate[] = [
   {
     id: "n-2026-04-15",
-    title: "Multi-chain distributions live on Moonbeam",
+    title: "Multi-chain distributions now live",
     excerpt:
-      "Charities can now receive scheduled donations on Moonbeam in addition to Ethereum and Polygon.",
-    url: "/news/multichain-moonbeam",
+      "Charities can now receive scheduled donations on Base in addition to Ethereum and Polygon.",
+    url: "/news/multichain-base",
     publishedAt: "2026-04-15",
   },
   {

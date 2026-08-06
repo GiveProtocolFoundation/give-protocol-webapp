@@ -6,7 +6,6 @@ interface EIP1193Provider {
   isMetaMask?: boolean;
   isCoinbaseWallet?: boolean;
   isPhantom?: boolean;
-  isTalisman?: boolean;
   request: (_args: { method: string; params?: unknown[] }) => Promise<unknown>;
   on: (_event: string, _callback: (..._args: unknown[]) => void) => void;
   removeListener: (
@@ -34,37 +33,6 @@ interface SolanaWalletProvider {
   off: (_event: string, _callback: (..._args: unknown[]) => void) => void;
 }
 
-/** Polkadot extension injected accounts interface */
-interface InjectedAccountWithMeta {
-  address: string;
-  meta: {
-    name?: string;
-    source: string;
-    genesisHash?: string | null;
-  };
-  type?: string;
-}
-
-/** Polkadot wallet extension interface */
-interface PolkadotWalletProvider {
-  name: string;
-  version: string;
-  accounts: {
-    get: (_anyType?: boolean) => Promise<InjectedAccountWithMeta[]>;
-    subscribe: (
-      _callback: (_accounts: InjectedAccountWithMeta[]) => void,
-    ) => () => void;
-  };
-  signer: {
-    signPayload: (_payload: unknown) => Promise<{ signature: string }>;
-    signRaw: (_raw: {
-      address: string;
-      data: string;
-      type: "bytes" | "payload";
-    }) => Promise<{ signature: string }>;
-  };
-}
-
 interface Window {
   /** Google Analytics gtag command queue (set by index.html; optional — absent in SSR/tests without the script) */
   gtag?: (...args: unknown[]) => void;
@@ -74,12 +42,6 @@ interface Window {
   ethereum?: EIP1193Provider;
   /** Coinbase Wallet extension */
   coinbaseWalletExtension?: EIP1193Provider;
-  /** SubWallet EVM provider */
-  SubWallet?: EIP1193Provider;
-  /** Talisman EVM provider */
-  talismanEth?: EIP1193Provider;
-  /** Talisman Polkadot extension */
-  talismanSub?: PolkadotWalletProvider;
   /** Nova Wallet provider */
   nova?: EIP1193Provider;
   /** Phantom wallet (multi-chain) */
@@ -90,14 +52,6 @@ interface Window {
   /** Solana wallet providers */
   solana?: SolanaWalletProvider;
   solflare?: SolanaWalletProvider;
-  /** Polkadot extension injected wallets */
-  injectedWeb3?: Record<
-    string,
-    {
-      enable: (_origin: string) => Promise<PolkadotWalletProvider>;
-      version: string;
-    }
-  >;
 }
 
 interface ImportMetaEnv {
@@ -127,10 +81,8 @@ interface ImportMetaEnv {
   readonly VITE_APP_VERSION?: string;
   readonly VITE_BASE_RPC_URL?: string;
   readonly VITE_OPTIMISM_RPC_URL?: string;
-  readonly VITE_MOONBEAM_RPC_URL?: string;
   readonly VITE_BASE_SEPOLIA_RPC_URL?: string;
   readonly VITE_OPTIMISM_SEPOLIA_RPC_URL?: string;
-  readonly VITE_MOONBASE_RPC_URL?: string;
 }
 
 interface ImportMeta {

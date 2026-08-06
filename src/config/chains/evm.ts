@@ -1,6 +1,6 @@
 /**
  * EVM Chain Configurations for Give Protocol
- * Supports Ethereum, Base, Optimism, Moonbeam, Arbitrum, Polygon, and Avalanche chains
+ * Supports Ethereum, Base, Optimism, Arbitrum, Polygon, and Avalanche chains
  */
 
 import type { EVMChainConfig } from "@/types/chains";
@@ -13,13 +13,11 @@ export const EVM_CHAIN_IDS = {
   // Testnets
   BASE_SEPOLIA: 84532,
   OPTIMISM_SEPOLIA: 11155420,
-  MOONBASE: 1287,
   AVALANCHE_FUJI: 43113,
   // Mainnets
   ETHEREUM: 1,
   BASE: 8453,
   OPTIMISM: 10,
-  MOONBEAM: 1284,
   ARBITRUM: 42161,
   POLYGON: 137,
   AVALANCHE: 43114,
@@ -60,20 +58,6 @@ export const EVM_CHAIN_CONFIGS: Record<EVMChainId, EVMChainConfig> = {
     ecosystem: "Ethereum L2",
     isTestnet: true,
     description: "Optimism testnet for development and testing.",
-  },
-  [EVM_CHAIN_IDS.MOONBASE]: {
-    type: "evm",
-    id: EVM_CHAIN_IDS.MOONBASE,
-    name: "Moonbase Alpha",
-    shortName: "moonbase",
-    nativeCurrency: { name: "DEV", symbol: "DEV", decimals: 18 },
-    rpcUrls: ["https://rpc.api.moonbase.moonbeam.network"],
-    blockExplorerUrls: ["https://moonbase.moonscan.io"],
-    iconPath: "/chains/moonbeam.svg",
-    color: "#53CBC8",
-    ecosystem: "Polkadot",
-    isTestnet: true,
-    description: "Moonbeam testnet for development and testing.",
   },
   [EVM_CHAIN_IDS.AVALANCHE_FUJI]: {
     type: "evm",
@@ -133,20 +117,6 @@ export const EVM_CHAIN_CONFIGS: Record<EVMChainId, EVMChainConfig> = {
     isTestnet: false,
     description: "Ethereum Layer 2 with strong DeFi ecosystem.",
   },
-  [EVM_CHAIN_IDS.MOONBEAM]: {
-    type: "evm",
-    id: EVM_CHAIN_IDS.MOONBEAM,
-    name: "Moonbeam",
-    shortName: "moonbeam",
-    nativeCurrency: { name: "Glimmer", symbol: "GLMR", decimals: 18 },
-    rpcUrls: ["https://rpc.api.moonbeam.network"],
-    blockExplorerUrls: ["https://moonscan.io"],
-    iconPath: "/chains/moonbeam.svg",
-    color: "#53CBC8",
-    ecosystem: "Polkadot",
-    isTestnet: false,
-    description: "Polkadot ecosystem with cross-chain compatibility.",
-  },
   [EVM_CHAIN_IDS.ARBITRUM]: {
     type: "evm",
     id: EVM_CHAIN_IDS.ARBITRUM,
@@ -198,7 +168,6 @@ export const SUPPORTED_EVM_CHAIN_IDS: EVMChainId[] = [
   EVM_CHAIN_IDS.ETHEREUM,
   EVM_CHAIN_IDS.BASE,
   EVM_CHAIN_IDS.OPTIMISM,
-  EVM_CHAIN_IDS.MOONBEAM,
   EVM_CHAIN_IDS.ARBITRUM,
   EVM_CHAIN_IDS.POLYGON,
   EVM_CHAIN_IDS.AVALANCHE,
@@ -210,7 +179,6 @@ export const SUPPORTED_EVM_CHAIN_IDS: EVMChainId[] = [
 export const TESTNET_EVM_CHAIN_IDS: EVMChainId[] = [
   EVM_CHAIN_IDS.BASE_SEPOLIA,
   EVM_CHAIN_IDS.OPTIMISM_SEPOLIA,
-  EVM_CHAIN_IDS.MOONBASE,
   EVM_CHAIN_IDS.AVALANCHE_FUJI,
 ];
 

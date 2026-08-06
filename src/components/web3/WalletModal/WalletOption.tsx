@@ -12,7 +12,7 @@ import type { ChainType, UnifiedWalletProvider } from "@/types/wallet";
  * Maps wallet name to chain types not yet fully implemented.
  */
 const COMING_SOON_CHAINS: Record<string, ChainType[]> = {
-  Ledger: ["polkadot", "solana"],
+  Ledger: ["solana"],
 };
 
 /** Install URLs for supported wallets. */
@@ -20,8 +20,6 @@ const WALLET_INSTALL_URLS: Record<string, string> = {
   MetaMask: "https://metamask.io/download/",
   Rabby: "https://rabby.io/",
   Phantom: "https://phantom.app/download",
-  Talisman: "https://talisman.xyz/download",
-  SubWallet: "https://subwallet.app/download",
   "Coinbase Wallet": "https://www.coinbase.com/wallet/downloads",
   Ledger: "https://www.ledger.com/start",
 };
@@ -68,16 +66,22 @@ export const WalletOption: React.FC<WalletOptionProps> = ({
     }
   }, [wallet, onSelect, isDisabled, isThisConnecting, isInstalled]);
 
-  const handleInstallClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (installUrl) {
-      window.open(installUrl, "_blank", "noopener,noreferrer");
-    }
-  }, [installUrl]);
+  const handleInstallClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (installUrl) {
+        window.open(installUrl, "_blank", "noopener,noreferrer");
+      }
+    },
+    [installUrl],
+  );
 
-  const handleIconError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = "/icons/wallet.svg";
-  }, []);
+  const handleIconError = useCallback(
+    (e: React.SyntheticEvent<HTMLImageElement>) => {
+      e.currentTarget.src = "/icons/wallet.svg";
+    },
+    [],
+  );
 
   return (
     <button
@@ -104,7 +108,9 @@ export const WalletOption: React.FC<WalletOptionProps> = ({
       />
 
       {/* Wallet Name */}
-      <span className={`flex-1 min-w-0 font-medium truncate ${isInstalled ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-500"}`}>
+      <span
+        className={`flex-1 min-w-0 font-medium truncate ${isInstalled ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-500"}`}
+      >
         {wallet.name}
       </span>
 

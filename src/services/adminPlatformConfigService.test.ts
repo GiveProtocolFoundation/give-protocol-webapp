@@ -69,7 +69,7 @@ describe("adminPlatformConfigService", () => {
     });
 
     it("should handle JSON config values", async () => {
-      const networksValue = [8453, 10, 1284];
+      const networksValue = [8453, 10, 42161];
       const mockRows = [
         {
           key: "supported_networks",

@@ -27,12 +27,6 @@ const CHAIN_STYLES: Record<
     borderColor: "border-emerald-200",
     icon: "/chains/solana.svg",
   },
-  polkadot: {
-    bgColor: "bg-pink-50",
-    textColor: "text-pink-700",
-    borderColor: "border-pink-200",
-    icon: "/chains/polkadot.svg",
-  },
 };
 
 interface AccountBadgeProps {
@@ -90,7 +84,7 @@ export const AccountBadge: React.FC<AccountBadgeProps> = ({
       setCopied(true);
       setTimeout(() => setCopied(false), 2000);
     },
-    [account.address]
+    [account.address],
   );
 
   const handleClick = useCallback(() => {
@@ -184,11 +178,7 @@ export const AccountBadge: React.FC<AccountBadgeProps> = ({
     );
   }
 
-  return (
-    <div className={sharedClassName}>
-      {content}
-    </div>
-  );
+  return <div className={sharedClassName}>{content}</div>;
 };
 
 /**
@@ -235,7 +225,7 @@ interface ChainTypeBadgeProps {
 
 /**
  * Chain type badge showing the chain name in uppercase with styled colors
- * @param chainType - Chain type to display (evm, solana, polkadot)
+ * @param chainType - Chain type to display (evm, solana)
  * @param size - Badge size variant
  * @param className - Additional CSS classes
  */
@@ -245,7 +235,8 @@ export const ChainTypeBadge: React.FC<ChainTypeBadgeProps> = ({
   className = "",
 }) => {
   const styles = CHAIN_STYLES[chainType];
-  const sizeClasses = size === "sm" ? "text-xs px-1.5 py-0.5" : "text-sm px-2 py-1";
+  const sizeClasses =
+    size === "sm" ? "text-xs px-1.5 py-0.5" : "text-sm px-2 py-1";
 
   return (
     <span

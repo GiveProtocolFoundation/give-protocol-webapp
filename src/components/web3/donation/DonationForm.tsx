@@ -30,7 +30,7 @@ interface DonationFormProps {
 /**
  * Form component for making donations to charities
  * @function DonationForm
- * @description Comprehensive donation form that supports both native GLMR and ERC20 token donations.
+ * @description Comprehensive donation form that supports both native and ERC20 token donations.
  * Includes wallet connection check, donation type selection, amount validation, and transaction processing.
  * @param {Object} props - Component props
  * @param {string} props.charityAddress - The blockchain address of the charity to receive the donation

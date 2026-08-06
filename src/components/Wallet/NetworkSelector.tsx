@@ -14,27 +14,22 @@ const CHAIN_ICONS: Partial<Record<NetworkType, string>> = {
   ethereum: "/chains/ethereum.svg",
   base: "/chains/base.svg",
   optimism: "/chains/optimism.svg",
-  moonbeam: "/chains/moonbeam.svg",
   arbitrum: "/chains/arbitrum.svg",
   polygon: "/chains/polygon.svg",
   avalanche: "/chains/avalanche.svg",
   "base-sepolia": "/chains/base.svg",
   "optimism-sepolia": "/chains/optimism.svg",
-  moonbase: "/chains/moonbeam.svg",
   "solana-mainnet": "/chains/solana.svg",
-  polkadot: "/chains/polkadot.svg",
-  kusama: "/chains/kusama.svg",
 };
 
 /** Section labels for each chain ecosystem */
 const CHAIN_TYPE_LABELS: Record<string, string> = {
   evm: "EVM Networks",
   solana: "Solana",
-  polkadot: "Polkadot",
 };
 
 /** Display order for chain type sections */
-const CHAIN_TYPE_ORDER = ["evm", "solana", "polkadot"] as const;
+const CHAIN_TYPE_ORDER = ["evm", "solana"] as const;
 
 /**
  * Chain icon component - shows SVG icon with colored dot fallback
@@ -70,7 +65,7 @@ const ChainIcon: React.FC<{ network: NetworkConfig; size?: number }> = ({
 
 /**
  * NetworkSelector component - Allows switching between blockchain networks
- * Groups networks by chain type (EVM, Solana, Polkadot) with section headers
+ * Groups networks by chain type (EVM, Solana) with section headers
  * @param props - NetworkSelectorProps
  * @returns Network selector dropdown JSX element
  */

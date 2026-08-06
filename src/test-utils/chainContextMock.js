@@ -1,8 +1,8 @@
 import { jest } from "@jest/globals";
 
 export const useChainContext = jest.fn(() => ({
-  chainId: 1287,
-  chainName: "Moonbase Alpha",
+  chainId: 8453,
+  chainName: "Base",
   isSupported: true,
   switchChain: jest.fn(),
 }));
@@ -34,19 +34,6 @@ const MOCK_CHAINS = [
     isTestnet: false,
     description: "Ethereum Layer 2 with strong DeFi ecosystem.",
   },
-  {
-    id: 1284,
-    name: "Moonbeam",
-    shortName: "moonbeam",
-    nativeCurrency: { name: "Glimmer", symbol: "GLMR", decimals: 18 },
-    rpcUrls: ["https://rpc.api.moonbeam.network"],
-    blockExplorerUrls: ["https://moonscan.io"],
-    iconPath: "/chains/moonbeam.svg",
-    color: "#53CBC8",
-    ecosystem: "Polkadot",
-    isTestnet: false,
-    description: "Polkadot ecosystem with cross-chain compatibility.",
-  },
 ];
 
 // useChain is the hook used by ChainSelectionModal and other components
@@ -69,10 +56,8 @@ export const ChainProvider = ({ children }) => children;
 export const CHAIN_IDS = {
   BASE: 8453,
   OPTIMISM: 10,
-  MOONBEAM: 1284,
   BASE_SEPOLIA: 84532,
   OPTIMISM_SEPOLIA: 11155420,
-  MOONBASE: 1287,
 };
 
 export const CHAIN_CONFIGS = {};

@@ -43,8 +43,8 @@ describe("PriceFeedService", () => {
   describe("getTokenPrices", () => {
     it("should fetch prices from API successfully", async () => {
       const mockResponse = {
-        moonbeam: { usd: 0.5 },
-        polkadot: { usd: 7.5 },
+        arbitrum: { usd: 0.5 },
+        ethereum: { usd: 2500 },
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -53,22 +53,22 @@ describe("PriceFeedService", () => {
       } as Response);
 
       const prices = await service.getTokenPrices(
-        ["moonbeam", "polkadot"],
+        ["arbitrum", "ethereum"],
         "usd",
       );
 
       expect(prices).toEqual({
-        moonbeam: 0.5,
-        polkadot: 7.5,
+        arbitrum: 0.5,
+        ethereum: 2500,
       });
       expect(global.fetch).toHaveBeenCalledWith(
-        "/api/coingecko/simple/price?ids=moonbeam,polkadot&vs_currencies=usd",
+        "/api/coingecko/simple/price?ids=arbitrum,ethereum&vs_currencies=usd",
       );
     });
 
     it("should return cached prices when cache is valid", async () => {
       const mockResponse = {
-        moonbeam: { usd: 0.5 },
+        arbitrum: { usd: 0.5 },
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -77,18 +77,18 @@ describe("PriceFeedService", () => {
       } as Response);
 
       // First call - should fetch
-      await service.getTokenPrices(["moonbeam"], "usd");
+      await service.getTokenPrices(["arbitrum"], "usd");
       expect(global.fetch).toHaveBeenCalledTimes(1);
 
       // Second call - should use cache
-      const cachedPrices = await service.getTokenPrices(["moonbeam"], "usd");
+      const cachedPrices = await service.getTokenPrices(["arbitrum"], "usd");
       expect(global.fetch).toHaveBeenCalledTimes(1); // Still 1, no new fetch
-      expect(cachedPrices).toEqual({ moonbeam: 0.5 });
+      expect(cachedPrices).toEqual({ arbitrum: 0.5 });
     });
 
     it("should fetch fresh prices when some tokens are not in cache", async () => {
       const mockResponse1 = {
-        moonbeam: { usd: 0.5 },
+        arbitrum: { usd: 0.5 },
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -96,13 +96,13 @@ describe("PriceFeedService", () => {
         json: () => Promise.resolve(mockResponse1),
       } as Response);
 
-      // First call - cache moonbeam
-      await service.getTokenPrices(["moonbeam"], "usd");
+      // First call - cache arbitrum
+      await service.getTokenPrices(["arbitrum"], "usd");
       expect(global.fetch).toHaveBeenCalledTimes(1);
 
       const mockResponse2 = {
-        moonbeam: { usd: 0.5 },
-        polkadot: { usd: 7.5 },
+        arbitrum: { usd: 0.5 },
+        ethereum: { usd: 2500 },
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -110,18 +110,18 @@ describe("PriceFeedService", () => {
         json: () => Promise.resolve(mockResponse2),
       } as Response);
 
-      // Second call - request both tokens, polkadot not in cache
+      // Second call - request both tokens, ethereum not in cache
       const prices = await service.getTokenPrices(
-        ["moonbeam", "polkadot"],
+        ["arbitrum", "ethereum"],
         "usd",
       );
       expect(global.fetch).toHaveBeenCalledTimes(2); // Should fetch again
-      expect(prices).toEqual({ moonbeam: 0.5, polkadot: 7.5 });
+      expect(prices).toEqual({ arbitrum: 0.5, ethereum: 2500 });
     });
 
     it("should fetch fresh prices when cache is expired", async () => {
-      const mockResponse1 = { moonbeam: { usd: 0.5 } };
-      const mockResponse2 = { moonbeam: { usd: 0.6 } };
+      const mockResponse1 = { arbitrum: { usd: 0.5 } };
+      const mockResponse2 = { arbitrum: { usd: 0.6 } };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -129,7 +129,7 @@ describe("PriceFeedService", () => {
       } as Response);
 
       // First call
-      await service.getTokenPrices(["moonbeam"], "usd");
+      await service.getTokenPrices(["arbitrum"], "usd");
 
       // Clear cache to simulate expiration
       service.clearCache();
@@ -140,13 +140,13 @@ describe("PriceFeedService", () => {
       } as Response);
 
       // Second call - should fetch again
-      const prices = await service.getTokenPrices(["moonbeam"], "usd");
+      const prices = await service.getTokenPrices(["arbitrum"], "usd");
       expect(global.fetch).toHaveBeenCalledTimes(2);
-      expect(prices).toEqual({ moonbeam: 0.6 });
+      expect(prices).toEqual({ arbitrum: 0.6 });
     });
 
     it("should handle API errors and return stale cache", async () => {
-      const mockResponse = { moonbeam: { usd: 0.5 } };
+      const mockResponse = { arbitrum: { usd: 0.5 } };
 
       // First successful fetch
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -154,15 +154,15 @@ describe("PriceFeedService", () => {
         json: () => Promise.resolve(mockResponse),
       } as Response);
 
-      await service.getTokenPrices(["moonbeam"], "usd");
+      await service.getTokenPrices(["arbitrum"], "usd");
 
       // Force cache expiration
       service.clearCache();
       // Manually set stale data in cache
       const stalePriceCache = {
         prices: {
-          moonbeam_usd: {
-            tokenId: "moonbeam",
+          arbitrum_usd: {
+            tokenId: "arbitrum",
             price: 0.5,
             currency: "usd",
             timestamp: Date.now() - 120000, // 2 minutes old
@@ -180,8 +180,8 @@ describe("PriceFeedService", () => {
         statusText: "Service Unavailable",
       } as Response);
 
-      const prices = await service.getTokenPrices(["moonbeam"], "usd");
-      expect(prices).toEqual({ moonbeam: 0.5 });
+      const prices = await service.getTokenPrices(["arbitrum"], "usd");
+      expect(prices).toEqual({ arbitrum: 0.5 });
     });
 
     it("should return empty prices when both sources fail and no cache available", async () => {
@@ -190,14 +190,14 @@ describe("PriceFeedService", () => {
         statusText: "Service Unavailable",
       } as Response);
 
-      const prices = await service.getTokenPrices(["moonbeam"], "usd");
+      const prices = await service.getTokenPrices(["arbitrum"], "usd");
       expect(prices).toEqual({});
     });
 
     it("should handle missing price data for specific tokens", async () => {
       const mockResponse = {
-        moonbeam: { usd: 0.5 },
-        // polkadot data is missing
+        arbitrum: { usd: 0.5 },
+        // ethereum data is missing
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -206,15 +206,15 @@ describe("PriceFeedService", () => {
       } as Response);
 
       const prices = await service.getTokenPrices(
-        ["moonbeam", "polkadot"],
+        ["arbitrum", "ethereum"],
         "usd",
       );
-      expect(prices).toEqual({ moonbeam: 0.5 });
+      expect(prices).toEqual({ arbitrum: 0.5 });
     });
 
     it("should use default currency when not specified", async () => {
       const mockResponse = {
-        moonbeam: { usd: 0.5 },
+        arbitrum: { usd: 0.5 },
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -222,9 +222,9 @@ describe("PriceFeedService", () => {
         json: () => Promise.resolve(mockResponse),
       } as Response);
 
-      await service.getTokenPrices(["moonbeam"]);
+      await service.getTokenPrices(["arbitrum"]);
       expect(global.fetch as jest.Mock).toHaveBeenCalledWith(
-        "/api/coingecko/simple/price?ids=moonbeam&vs_currencies=usd",
+        "/api/coingecko/simple/price?ids=arbitrum&vs_currencies=usd",
       );
     });
   });
@@ -232,7 +232,7 @@ describe("PriceFeedService", () => {
   describe("getTokenPrice", () => {
     it("should fetch price for a single token", async () => {
       const mockResponse = {
-        moonbeam: { usd: 0.5 },
+        arbitrum: { usd: 0.5 },
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -240,13 +240,13 @@ describe("PriceFeedService", () => {
         json: () => Promise.resolve(mockResponse),
       } as Response);
 
-      const price = await service.getTokenPrice("moonbeam", "usd");
+      const price = await service.getTokenPrice("arbitrum", "usd");
       expect(price).toBe(0.5);
     });
 
     it("should fetch price with custom currency", async () => {
       const mockResponse = {
-        moonbeam: { eur: 0.45 },
+        arbitrum: { eur: 0.45 },
       };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
@@ -254,10 +254,10 @@ describe("PriceFeedService", () => {
         json: () => mockResponse,
       } as Response);
 
-      const price = await service.getTokenPrice("moonbeam", "eur");
+      const price = await service.getTokenPrice("arbitrum", "eur");
       expect(price).toBe(0.45);
       expect(global.fetch as jest.Mock).toHaveBeenCalledWith(
-        "/api/coingecko/simple/price?ids=moonbeam&vs_currencies=eur",
+        "/api/coingecko/simple/price?ids=arbitrum&vs_currencies=eur",
       );
     });
 
@@ -277,14 +277,14 @@ describe("PriceFeedService", () => {
 
   describe("clearCache", () => {
     it("should clear the price cache", async () => {
-      const mockResponse = { moonbeam: { usd: 0.5 } };
+      const mockResponse = { arbitrum: { usd: 0.5 } };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
         json: () => Promise.resolve(mockResponse),
       } as Response);
 
-      await service.getTokenPrices(["moonbeam"], "usd");
+      await service.getTokenPrices(["arbitrum"], "usd");
       expect(service.getLastUpdate()).toBeGreaterThan(0);
 
       service.clearCache();
@@ -299,7 +299,7 @@ describe("PriceFeedService", () => {
     });
 
     it("should return timestamp after fetching prices", async () => {
-      const mockResponse = { moonbeam: { usd: 0.5 } };
+      const mockResponse = { arbitrum: { usd: 0.5 } };
 
       (global.fetch as jest.Mock).mockResolvedValueOnce({
         ok: true,
@@ -307,7 +307,7 @@ describe("PriceFeedService", () => {
       } as Response);
 
       const beforeTime = Date.now();
-      await service.getTokenPrices(["moonbeam"], "usd");
+      await service.getTokenPrices(["arbitrum"], "usd");
       const afterTime = Date.now();
 
       const lastUpdate = service.getLastUpdate();

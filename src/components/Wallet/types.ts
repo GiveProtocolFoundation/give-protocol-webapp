@@ -7,12 +7,7 @@ import type { RefObject } from "react";
 /**
  * Supported wallet provider types
  */
-export type WalletProviderType =
-  | "polkadot-js"
-  | "talisman"
-  | "subwallet"
-  | "nova"
-  | "metamask";
+export type WalletProviderType = "nova" | "metamask";
 
 /**
  * Supported network types
@@ -21,25 +16,19 @@ export type NetworkType =
   | "ethereum"
   | "base"
   | "optimism"
-  | "moonbeam"
   | "arbitrum"
   | "polygon"
   | "avalanche"
   | "base-sepolia"
   | "optimism-sepolia"
-  | "moonbase"
-  | "solana-mainnet"
-  | "polkadot"
-  | "kusama";
+  | "solana-mainnet";
 
 /**
  * Wallet balance information
  */
 export interface WalletBalances {
-  /** Native token balance (DOT, KSM, GLMR, DEV) */
+  /** Native token balance (ETH, etc.) */
   native?: string;
-  /** GLMR balance (for Moonbeam) */
-  glmr?: string;
   /** Total USD value of all balances */
   usdValue?: string;
   /** Loading state for balance fetching */
@@ -153,7 +142,7 @@ export interface NetworkConfig {
   /** Network icon/color for display */
   color: string;
   /** Chain ecosystem type */
-  chainType: "evm" | "solana" | "polkadot";
+  chainType: "evm" | "solana";
 }
 
 /**
@@ -180,13 +169,6 @@ export const NETWORKS: NetworkConfig[] = [
     name: "Optimism",
     token: "ETH",
     color: "#FF0420",
-    chainType: "evm",
-  },
-  {
-    id: "moonbeam",
-    name: "Moonbeam",
-    token: "GLMR",
-    color: "#53CBC8",
     chainType: "evm",
   },
   {
@@ -225,13 +207,6 @@ export const NETWORKS: NetworkConfig[] = [
     color: "#FF0420",
     chainType: "evm",
   },
-  {
-    id: "moonbase",
-    name: "Moonbase Alpha",
-    token: "DEV",
-    color: "#53CBC8",
-    chainType: "evm",
-  },
   // Solana
   {
     id: "solana-mainnet",
@@ -239,21 +214,6 @@ export const NETWORKS: NetworkConfig[] = [
     token: "SOL",
     color: "#9945FF",
     chainType: "solana",
-  },
-  // Polkadot
-  {
-    id: "polkadot",
-    name: "Polkadot",
-    token: "DOT",
-    color: "#E6007A",
-    chainType: "polkadot",
-  },
-  {
-    id: "kusama",
-    name: "Kusama",
-    token: "KSM",
-    color: "#000000",
-    chainType: "polkadot",
   },
 ];
 

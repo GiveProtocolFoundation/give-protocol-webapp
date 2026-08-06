@@ -12,7 +12,7 @@ interface WithdrawalFormProps {
 /**
  * Form component for withdrawing funds from the blockchain
  * @function WithdrawalForm
- * @description Provides a user interface for withdrawing GLMR tokens from the connected wallet.
+ * @description Provides a user interface for withdrawing tokens from the connected wallet.
  * Includes amount validation and transaction status feedback.
  * @param {Object} props - Component props
  * @param {function} [props.onSuccess] - Optional callback function called after successful withdrawal
@@ -53,7 +53,7 @@ export function WithdrawalForm({ onSuccess }: WithdrawalFormProps) {
 
         Logger.info("Withdrawal submitted", {
           amount,
-          token: "GLMR",
+          token: "ETH",
         });
       } catch (err) {
         setError(
@@ -73,7 +73,7 @@ export function WithdrawalForm({ onSuccess }: WithdrawalFormProps) {
       )}
 
       <Input
-        label="Amount (GLMR)"
+        label="Amount (ETH)"
         type="number"
         min="0"
         step="0.000000000000000001"

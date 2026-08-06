@@ -40,6 +40,38 @@ export const SEQUENCER_UPTIME_FEEDS = {
 
 /** Chainlink price feed addresses per chain + symbol. */
 export const CHAINLINK_FEEDS = {
+  [CHAIN_IDS.ETHEREUM]: {
+    ETH: feed(
+      "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+      "ETH / USD",
+      8,
+      3600,
+    ),
+    WETH: feed(
+      "0x5f4eC3Df9cbd43714FE2740f5E3616155c5b8419",
+      "ETH / USD",
+      8,
+      3600,
+    ),
+    USDC: feed(
+      "0x8fFfFfd4AfB6115b954Bd326cbe7B4BA576818f6",
+      "USDC / USD",
+      8,
+      86400,
+    ),
+    USDT: feed(
+      "0x3E7d1eAB13ad0104d2750B8863b489D65364e32D",
+      "USDT / USD",
+      8,
+      86400,
+    ),
+    DAI: feed(
+      "0xAed0c38402a5d19df6E4c03F4E2DceD6e29c1ee9",
+      "DAI / USD",
+      8,
+      3600,
+    ),
+  },
   [CHAIN_IDS.BASE]: {
     ETH: feed(
       "0x71041dddad3595F9CEd3DcCFBe3D1F4b0a16Bb70",
@@ -81,32 +113,6 @@ export const CHAINLINK_FEEDS = {
       86400,
     ),
   },
-  [CHAIN_IDS.MOONBEAM]: {
-    GLMR: feed(
-      "0x4497B606be93e773bbA5eaCFCb2ac5E2214220Eb",
-      "GLMR / USD",
-      8,
-      3600,
-    ),
-    WGLMR: feed(
-      "0x4497B606be93e773bbA5eaCFCb2ac5E2214220Eb",
-      "GLMR / USD",
-      8,
-      3600,
-    ),
-    DOT: feed(
-      "0x1466b4bD0C4B6B8e1164991909961e0EE6a66d8c",
-      "DOT / USD",
-      8,
-      3600,
-    ),
-    USDC: feed(
-      "0xA122591F60115D63421f66F752EF9f6e0bc73abC",
-      "USDC / USD",
-      8,
-      86400,
-    ),
-  },
   [CHAIN_IDS.BASE_SEPOLIA]: {
     ETH: feed(
       "0x4aDC67696bA383F43DD60A9e78F2C97Fbbfc7cb1",
@@ -135,14 +141,6 @@ export const CHAINLINK_FEEDS = {
       3600,
     ),
   },
-  [CHAIN_IDS.MOONBASE]: {
-    DEV: feed(
-      "0x0000000000000000000000000000000000000000",
-      "DEV / USD",
-      8,
-      3600,
-    ),
-  },
 };
 
 /** CoinGecko ID → Chainlink symbol mapping. */
@@ -153,9 +151,6 @@ export const COINGECKO_TO_SYMBOL = {
   tether: "USDT",
   dai: "DAI",
   optimism: "OP",
-  moonbeam: "GLMR",
-  "wrapped-moonbeam": "WGLMR",
-  polkadot: "DOT",
 };
 
 /** Mock: returns the feed config for a chain + symbol pair */

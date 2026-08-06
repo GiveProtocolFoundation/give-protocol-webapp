@@ -21,9 +21,9 @@ const DEFAULT_CONFIG: ContractConfig = {
   maxRetries: 3,
   retryDelay: 1000,
   fallbackRPCs: [
-    "https://rpc.api.moonbase.moonbeam.network",
-    "https://moonbase-alpha.public.blastapi.io",
-    "https://moonbase.unitedbloc.com:1000",
+    "https://mainnet.base.org",
+    "https://base.publicnode.com",
+    "https://base.llamarpc.com",
   ],
 };
 

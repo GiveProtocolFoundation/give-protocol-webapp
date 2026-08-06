@@ -108,7 +108,7 @@ function mapContributionToTransaction(c: UnifiedContribution): Transaction {
     return {
       id: c.id,
       amount: c.amount || 0,
-      cryptoType: "GLMR",
+      cryptoType: "ETH",
       fiatValue: c.amount || 0,
       timestamp: c.date,
       status: c.status === "completed" ? "completed" : "pending",

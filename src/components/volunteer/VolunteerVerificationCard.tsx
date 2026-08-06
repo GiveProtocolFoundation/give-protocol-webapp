@@ -36,14 +36,13 @@ export const VolunteerVerificationCard: React.FC<
   const { t } = useTranslation();
 
   /** Returns the block explorer URL for a given transaction ID and network. */
-  const getExplorerUrl = (txId: string, network = "moonbase") => {
+  const getExplorerUrl = (txId: string, network = "base") => {
     const explorers = {
-      moonbase: "https://moonbase.moonscan.io/tx/",
-      moonbeam: "https://moonscan.io/tx/",
-      polkadot: "https://polkadot.subscan.io/extrinsic/",
+      base: "https://basescan.org/tx/",
+      "base-sepolia": "https://sepolia.basescan.org/tx/",
     };
 
-    return `${explorers[network as keyof typeof explorers] || explorers.moonbase}${txId}`;
+    return `${explorers[network as keyof typeof explorers] || explorers.base}${txId}`;
   };
 
   return (
