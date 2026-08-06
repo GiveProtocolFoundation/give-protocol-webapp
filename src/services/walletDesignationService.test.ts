@@ -46,7 +46,7 @@ describe("walletDesignationService", () => {
           nonce: "abc123",
           message: "Sign this",
           expiresAt: "2026-05-18T01:00:00Z",
-          chainId: 1287,
+          chainId: 8453,
         },
         error: null,
       });
@@ -58,7 +58,7 @@ describe("walletDesignationService", () => {
           nonce: "abc123",
           message: "Sign this",
           expiresAt: "2026-05-18T01:00:00Z",
-          chainId: 1287,
+          chainId: 8453,
         },
       });
     });

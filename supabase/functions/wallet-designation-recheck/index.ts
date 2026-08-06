@@ -22,7 +22,10 @@ import {
 import { ethers } from "https://esm.sh/ethers@6.9.0";
 import { promoteToPendingEmail } from "../_shared/wallet-designation-promote.ts";
 
-const MOONBASE_RPC_URL = "https://rpc.api.moonbase.moonbeam.network";
+const BASE_CHAIN_ID = 8453;
+// BASE_RPC_URL function secret overrides the public endpoint (paid-tier RPC,
+// see GIV-785); falls back to the Base public RPC.
+const BASE_RPC_URL = Deno.env.get("BASE_RPC_URL") ?? "https://mainnet.base.org";
 const EIP_1271_MAGIC_VALUE = "0x1626ba7e";
 const ISVALIDSIGNATURE_ABI = [
   "function isValidSignature(bytes32 _hash, bytes _signature) view returns (bytes4)",
@@ -68,7 +71,7 @@ async function verifyContractSignature(
   signature: string,
 ): Promise<boolean | null> {
   try {
-    const provider = new ethers.JsonRpcProvider(MOONBASE_RPC_URL);
+    const provider = new ethers.JsonRpcProvider(BASE_RPC_URL);
     const contract = new ethers.Contract(
       contractAddress,
       ISVALIDSIGNATURE_ABI,
@@ -125,6 +128,17 @@ async function processOne(args: ProcessOneArgs): Promise<ProcessOneResult> {
     });
 
     return { pendingId: pending.id, outcome: "expired" };
+  }
+
+  // A signature collected for another chain (legacy Moonbase rows) must not
+  // be checked against the Base RPC — the same Safe address can exist on both
+  // chains. Leave the row to age out via the expiry branch above.
+  if (pending.chain_id !== BASE_CHAIN_ID) {
+    return {
+      pendingId: pending.id,
+      outcome: "skipped",
+      reason: "unsupported_chain",
+    };
   }
 
   const isValid = await verifyContractSignature(
