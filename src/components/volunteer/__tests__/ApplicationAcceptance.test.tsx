@@ -153,7 +153,7 @@ describe("ApplicationAcceptance", () => {
         const link = screen.getByRole("link");
         expect(link).toHaveAttribute(
           "href",
-          "https://moonbase.moonscan.io/tx/0x1234567890abcdef",
+          "https://basescan.org/tx/0x1234567890abcdef",
         );
         expect(link).toHaveAttribute("target", "_blank");
         expect(link).toHaveAttribute("rel", "noopener noreferrer");

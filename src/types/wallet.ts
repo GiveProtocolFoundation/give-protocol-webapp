@@ -1,12 +1,12 @@
 /**
  * Multi-chain wallet type definitions for Give Protocol
- * Provides unified interfaces for EVM, Solana, and Polkadot chains
+ * Provides unified interfaces for EVM and Solana chains
  */
 
 /**
  * Supported blockchain types
  */
-export type ChainType = "evm" | "solana" | "polkadot";
+export type ChainType = "evm" | "solana";
 
 /**
  * Wallet category for UI grouping
@@ -27,7 +27,7 @@ export interface UnifiedAccount {
   address: string;
   /** Type of blockchain this account belongs to */
   chainType: ChainType;
-  /** Chain ID (number for EVM, string for Solana/Polkadot) */
+  /** Chain ID (number for EVM, string for Solana) */
   chainId: number | string;
   /** Human-readable chain name */
   chainName: string;
@@ -57,8 +57,6 @@ export interface UnifiedTransactionRequest {
   gasPrice?: string;
   /** Solana-specific transaction object */
   solanaTransaction?: unknown;
-  /** Polkadot-specific extrinsic */
-  polkadotExtrinsic?: unknown;
 }
 
 /**
@@ -77,7 +75,6 @@ export interface UnifiedWalletProvider {
   providers: {
     evm?: unknown;
     solana?: unknown;
-    polkadot?: unknown;
   };
 
   /**

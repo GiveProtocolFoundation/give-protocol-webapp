@@ -17,7 +17,6 @@ import type {
 import {
   getEVMChainConfig,
   getSolanaClusterConfig,
-  getPolkadotChainConfig,
 } from "@/config/chains";
 
 /**
@@ -67,8 +66,6 @@ export function useMultiChain() {
         return getEVMChainConfig(chainId as number);
       case "solana":
         return getSolanaClusterConfig(chainId as string);
-      case "polkadot":
-        return getPolkadotChainConfig(chainId as string);
       default:
         return null;
     }
@@ -100,11 +97,6 @@ export function useMultiChain() {
           const baseUrl = "https://explorer.solana.com";
           const cluster = config.id === "mainnet-beta" ? "" : `?cluster=${config.id}`;
           return `${baseUrl}/${type}/${value}${cluster}`;
-        }
-        case "polkadot": {
-          const config = activeChainConfig as { explorerUrl?: string };
-          const entityType = type === "tx" ? "extrinsic" : "account";
-          return `${config.explorerUrl}/${entityType}/${value}`;
         }
         default:
           return "#";

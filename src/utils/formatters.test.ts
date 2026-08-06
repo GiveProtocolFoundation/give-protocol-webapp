@@ -39,36 +39,36 @@ describe('formatFiat', () => {
 });
 
 describe('formatCrypto', () => {
-  const glmrToken = { symbol: 'GLMR', decimals: 18 };
+  const ethToken = { symbol: 'ETH', decimals: 18 };
 
   it('should format crypto amounts with symbol', () => {
-    expect(formatCrypto(1.23456789, glmrToken)).toContain('GLMR');
-    expect(formatCrypto(1.23456789, glmrToken)).toContain('1.23');
+    expect(formatCrypto(1.23456789, ethToken)).toContain('ETH');
+    expect(formatCrypto(1.23456789, ethToken)).toContain('1.23');
   });
 
   it('should use appropriate decimals for small amounts', () => {
-    const verySmall = formatCrypto(0.00000123, glmrToken);
+    const verySmall = formatCrypto(0.00000123, ethToken);
     expect(verySmall).toContain('0.00000123');
   });
 
   it('should use appropriate decimals for medium amounts', () => {
-    const medium = formatCrypto(0.123456, glmrToken);
+    const medium = formatCrypto(0.123456, ethToken);
     expect(medium).toContain('0.123456');
   });
 
   it('should respect custom decimal option', () => {
-    expect(formatCrypto(1.23456789, glmrToken, { decimals: 2 })).toContain('1.23');
+    expect(formatCrypto(1.23456789, ethToken, { decimals: 2 })).toContain('1.23');
   });
 
   it('should hide symbol when showSymbol is false', () => {
-    const result = formatCrypto(1.23, glmrToken, { showSymbol: false });
-    expect(result).not.toContain('GLMR');
+    const result = formatCrypto(1.23, ethToken, { showSymbol: false });
+    expect(result).not.toContain('ETH');
   });
 
   it('should format compact notation for large numbers', () => {
-    const result = formatCrypto(1234567, glmrToken, { compact: true });
+    const result = formatCrypto(1234567, ethToken, { compact: true });
     expect(result).toContain('M');
-    expect(result).toContain('GLMR');
+    expect(result).toContain('ETH');
   });
 });
 

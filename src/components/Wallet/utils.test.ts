@@ -60,9 +60,6 @@ describe("formatAddress", () => {
 
 describe("getExplorerUrl", () => {
   it("returns the correct URL for each known network", () => {
-    expect(getExplorerUrl("polkadot", "0xabc")).toBe(
-      "https://polkadot.subscan.io/account/0xabc",
-    );
     expect(getExplorerUrl("base", "0xdef")).toBe(
       "https://basescan.org/address/0xdef",
     );
@@ -74,30 +71,26 @@ describe("getExplorerUrl", () => {
     );
   });
 
-  it("falls back to the moonbase explorer for unknown networks", () => {
+  it("falls back to the base explorer for unknown networks", () => {
     expect(getExplorerUrl("unknown-network", "0xdead")).toBe(
-      "https://moonbase.moonscan.io/address/0xdead",
+      "https://basescan.org/address/0xdead",
     );
   });
 });
 
 describe("network constants", () => {
   it("exposes display names for every supported network", () => {
-    expect(NETWORK_NAMES.moonbase).toBe("Moonbase Alpha");
+    expect(NETWORK_NAMES.base).toBe("Base");
     expect(NETWORK_NAMES["base-sepolia"]).toBe("Base Sepolia");
     expect(NETWORK_NAMES["optimism-sepolia"]).toBe("OP Sepolia");
   });
 
   it("exposes token symbols for every supported network", () => {
-    expect(NETWORK_TOKENS.polkadot).toBe("DOT");
-    expect(NETWORK_TOKENS.moonbeam).toBe("GLMR");
     expect(NETWORK_TOKENS.base).toBe("ETH");
     expect(NETWORK_TOKENS["solana-mainnet"]).toBe("SOL");
   });
 
   it("exposes display names for every supported wallet provider", () => {
-    expect(PROVIDER_NAMES["polkadot-js"]).toBe("Polkadot.js");
-    expect(PROVIDER_NAMES.talisman).toBe("Talisman");
     expect(PROVIDER_NAMES.metamask).toBe("MetaMask");
   });
 });

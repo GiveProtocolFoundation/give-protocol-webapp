@@ -62,9 +62,6 @@ describe("WalletModal", () => {
       expect(
         screen.getByRole("button", { name: /Optimism/i }),
       ).toBeInTheDocument();
-      expect(
-        screen.getByRole("button", { name: /Moonbeam/i }),
-      ).toBeInTheDocument();
     });
 
     it("disables Continue button when no network is selected", () => {
@@ -129,9 +126,6 @@ describe("WalletModal", () => {
         expect(screen.getByRole("tab", { name: /EVM/i })).toBeInTheDocument();
         expect(
           screen.getByRole("tab", { name: /Solana/i }),
-        ).toBeInTheDocument();
-        expect(
-          screen.getByRole("tab", { name: /Polkadot/i }),
         ).toBeInTheDocument();
       });
     });

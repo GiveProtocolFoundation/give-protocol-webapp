@@ -142,7 +142,7 @@ describe("ChainContext", () => {
       // Should include mainnet chains
       expect(availableChains).toContain("8453"); // Base
       expect(availableChains).toContain("10"); // Optimism
-      expect(availableChains).toContain("1284"); // Moonbeam
+      expect(availableChains).toContain("42161"); // Arbitrum
     });
 
     it("checks if chain is supported", () => {

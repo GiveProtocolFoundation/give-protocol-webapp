@@ -33,9 +33,6 @@ export const WalletModal = ({ isOpen, onClose, wallets, onConnect }) => {
       <button type="button" data-chaintype="solana">
         Solana
       </button>
-      <button type="button" data-chaintype="polkadot">
-        Polkadot
-      </button>
     </div>
   );
 };

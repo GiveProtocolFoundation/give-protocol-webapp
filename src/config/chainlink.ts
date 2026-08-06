@@ -93,10 +93,10 @@ function stablecoinFeed(address: string, symbol: string): PriceFeedConfig {
  * Chainlink price feed addresses by chain
  * Maps token symbols to their USD price feed addresses
  */
-export const CHAINLINK_FEEDS: Record<
+export const CHAINLINK_FEEDS: Partial<Record<
   ChainId,
   Record<string, PriceFeedConfig>
-> = {
+>> = {
   // Base Mainnet
   [CHAIN_IDS.BASE]: {
     ...withWrapped("ETH", "WETH", {
@@ -127,24 +127,6 @@ export const CHAINLINK_FEEDS: Record<
       decimals: 8,
       heartbeat: 1200,
     },
-  },
-
-  // Moonbeam Mainnet
-  [CHAIN_IDS.MOONBEAM]: {
-    ...withWrapped("GLMR", "WGLMR", {
-      address: "0x4497B606be93e773bbA5eaCFCb2ac5E2214220Eb",
-      description: "GLMR / USD",
-      decimals: 8,
-      heartbeat: 3600,
-    }),
-    DOT: {
-      address: "0x1466b4bD0C4B6B8e1164991909961e0EE6a66d8c",
-      description: "DOT / USD",
-      decimals: 8,
-      heartbeat: 3600,
-    },
-    USDC: stablecoinFeed("0xA122591F60115D63421f66F752EF9f6e0bc73abC", "USDC"),
-    USDT: stablecoinFeed("0x3bC50c8f56EaA6D7fBfB5C89DEe16b0FEc296F87", "USDT"),
   },
 
   // Ethereum Mainnet
@@ -240,15 +222,6 @@ export const CHAINLINK_FEEDS: Record<
     }),
   },
 
-  // Moonbase Alpha (Testnet) - Limited feeds available
-  [CHAIN_IDS.MOONBASE]: {
-    DEV: {
-      address: "0x0000000000000000000000000000000000000000", // No Chainlink feed, use fallback
-      description: "DEV / USD",
-      decimals: 8,
-      heartbeat: 3600,
-    },
-  },
 };
 
 /**
@@ -256,9 +229,6 @@ export const CHAINLINK_FEEDS: Record<
  */
 export const COINGECKO_TO_SYMBOL: Record<string, string> = {
   ethereum: "ETH",
-  moonbeam: "GLMR",
-  "wrapped-moonbeam": "WGLMR",
-  polkadot: "DOT",
   "usd-coin": "USDC",
   tether: "USDT",
   dai: "DAI",

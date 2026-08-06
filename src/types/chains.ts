@@ -1,6 +1,6 @@
 /**
  * Multi-chain configuration types for Give Protocol
- * Supports EVM, Solana, and Polkadot chain families
+ * Supports EVM and Solana chain families
  */
 
 import type { ChainType } from "./wallet";
@@ -48,7 +48,7 @@ export interface EVMChainConfig extends BaseChainConfig {
   rpcUrls: string[];
   /** Block explorer URLs */
   blockExplorerUrls: string[];
-  /** Ecosystem identifier (e.g., "Ethereum L2", "Polkadot") */
+  /** Ecosystem identifier (e.g., "Ethereum L2", "Coinbase") */
   ecosystem: string;
 }
 
@@ -69,29 +69,9 @@ export interface SolanaClusterConfig extends BaseChainConfig {
 }
 
 /**
- * Polkadot/Substrate chain configuration
- */
-export interface PolkadotChainConfig extends BaseChainConfig {
-  type: "polkadot";
-  id: string;
-  /** SS58 address prefix */
-  ss58Prefix: number;
-  /** WebSocket RPC endpoint */
-  wsEndpoint: string;
-  /** Native token details */
-  nativeToken: NativeCurrency;
-  /** Block explorer URL */
-  explorerUrl: string;
-  /** Parachain ID (if applicable) */
-  parachainId?: number;
-  /** Relay chain (polkadot, kusama, westend) */
-  relayChain?: string;
-}
-
-/**
  * Union type for all chain configurations
  */
-export type AnyChainConfig = EVMChainConfig | SolanaClusterConfig | PolkadotChainConfig;
+export type AnyChainConfig = EVMChainConfig | SolanaClusterConfig;
 
 /**
  * Multi-chain registry holding all chain configurations
@@ -99,7 +79,6 @@ export type AnyChainConfig = EVMChainConfig | SolanaClusterConfig | PolkadotChai
 export interface ChainRegistry {
   evm: Record<number, EVMChainConfig>;
   solana: Record<string, SolanaClusterConfig>;
-  polkadot: Record<string, PolkadotChainConfig>;
 }
 
 /**
@@ -120,11 +99,3 @@ export function isSolanaChain(config: AnyChainConfig): config is SolanaClusterCo
   return config.type === "solana";
 }
 
-/**
- * Type guard to check if config is Polkadot
- * @param config - Chain configuration to check
- * @returns True if Polkadot chain
- */
-export function isPolkadotChain(config: AnyChainConfig): config is PolkadotChainConfig {
-  return config.type === "polkadot";
-}

@@ -247,19 +247,6 @@ export const WalletDropdown: React.FC<WalletDropdownProps> = ({
                 {formatBalance(balances.native)}
               </span>
             </div>
-            {network === "moonbeam" && balances.glmr !== undefined && (
-              <div className="flex items-center justify-between">
-                <div className="flex items-center gap-2">
-                  <Wallet className="h-4 w-4 text-blue-600 dark:text-blue-400" />
-                  <span className="text-sm font-medium text-gray-700 dark:text-gray-200">
-                    GLMR
-                  </span>
-                </div>
-                <span className="text-sm font-mono text-gray-900 dark:text-gray-100">
-                  {formatBalance(balances.glmr)}
-                </span>
-              </div>
-            )}
             <div className="flex items-center justify-between pt-2 border-t border-gray-100 dark:border-gray-700">
               <span className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 Total Value

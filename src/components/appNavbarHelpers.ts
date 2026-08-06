@@ -7,7 +7,7 @@ import type { NetworkType } from "./Wallet";
 
 /** Subset of MultiChainContext that the network-switch helpers depend on. */
 export interface MultiChainHandle {
-  switchChainType: (_chainType: "evm" | "solana" | "polkadot") => void;
+  switchChainType: (_chainType: "evm" | "solana") => void;
   switchChain: (_chainId: number | string, _chainType: string) => Promise<void>;
   activeChainType: string;
   wallet: unknown;
@@ -63,22 +63,3 @@ export function switchSolanaNetwork(
   }
 }
 
-/**
- * Switch to a Polkadot/Kusama chain via MultiChainContext. When a wallet is
- * connected the helper also forwards the network id to multiChain.switchChain.
- */
-export async function switchPolkadotNetwork(
-  network: NetworkType,
-  deps: Pick<NetworkSwitchDeps, "setNetwork" | "multiChain">,
-): Promise<void> {
-  const { setNetwork, multiChain } = deps;
-  try {
-    multiChain.switchChainType("polkadot");
-    if (multiChain.wallet) {
-      await multiChain.switchChain(network, "polkadot");
-    }
-    setNetwork(network);
-  } catch (err) {
-    console.error("Failed to switch to Polkadot network:", err);
-  }
-}

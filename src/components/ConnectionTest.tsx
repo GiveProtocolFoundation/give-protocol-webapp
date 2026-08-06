@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { supabase } from "@/lib/supabase";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { Button } from "./ui/Button";
-import { CHAIN_IDS } from "@/config/contracts";
 
 /** Supabase connection status display. */
 const SupabaseStatusSection: React.FC<{
@@ -39,7 +38,7 @@ const Web3StatusSection: React.FC<{
     {chainId && (
       <p className="text-sm text-gray-600 mb-2">
         Connected to chain ID:{" "}
-        {chainId === CHAIN_IDS.MOONBASE ? "Moonbase Alpha (1287)" : chainId}
+        {chainId}
       </p>
     )}
     {web3Error && (

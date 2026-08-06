@@ -42,10 +42,6 @@ process.env.VITE_SUPABASE_ANON_KEY =
   process.env.VITE_SUPABASE_ANON_KEY || "mock-supabase-anon-key";
 process.env.VITE_DOCS_URL =
   process.env.VITE_DOCS_URL || "https://mock-docs-url.com";
-process.env.VITE_MOONBASE_RPC_URL =
-  process.env.VITE_MOONBASE_RPC_URL ||
-  "https://rpc.api.moonbase.moonbeam.network";
-
 // Mock window.matchMedia
 Object.defineProperty(window, "matchMedia", {
   writable: true,

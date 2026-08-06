@@ -76,7 +76,7 @@ export const VolunteerHoursVerification: React.FC<
                 {verificationHash}
               </code>
               <a
-                href={`https://moonbase.moonscan.io/tx/${verificationHash}`}
+                href={`https://basescan.org/tx/${verificationHash}`}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="ml-2 text-emerald-600 hover:text-emerald-800"

@@ -181,7 +181,7 @@ export const useVolunteerVerification = () => {
           .from('volunteer_verifications')
           .update({
             blockchainReference: {
-              network: 'moonbase',
+              network: 'base',
               transactionId: blockchainRecord.transactionId,
               blockNumber: blockchainRecord.blockNumber
             }

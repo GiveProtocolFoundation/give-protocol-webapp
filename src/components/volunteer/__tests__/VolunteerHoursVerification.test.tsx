@@ -183,7 +183,7 @@ describe("VolunteerHoursVerification", () => {
         const link = screen.getByRole("link");
         expect(link).toHaveAttribute(
           "href",
-          "https://moonbase.moonscan.io/tx/0xabcdef1234567890",
+          "https://basescan.org/tx/0xabcdef1234567890",
         );
         expect(link).toHaveAttribute("target", "_blank");
         expect(link).toHaveAttribute("rel", "noopener noreferrer");

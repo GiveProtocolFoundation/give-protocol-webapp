@@ -357,7 +357,7 @@ const SuccessMessage: React.FC<SuccessMessageProps> = ({
               Transaction Hash:
             </p>
             <a
-              href={`https://moonbase.moonscan.io/tx/${transactionHash}`}
+              href={`https://basescan.org/tx/${transactionHash}`}
               target="_blank"
               rel="noopener noreferrer"
               className="flex items-center gap-1 text-xs text-emerald-600 dark:text-emerald-400 hover:text-emerald-800 dark:hover:text-emerald-300 font-medium"

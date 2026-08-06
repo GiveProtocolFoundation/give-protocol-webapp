@@ -20,7 +20,7 @@ describe("Register", () => {
       provider: null,
       signer: null,
       address: null,
-      chainId: 1287,
+      chainId: 8453,
       isConnected: false,
       isConnecting: false,
       error: null,
@@ -49,7 +49,7 @@ describe("Register", () => {
 
     it("renders Runs On trust tags", () => {
       renderRegister();
-      expect(screen.getByText("Moonbeam")).toBeInTheDocument();
+      expect(screen.getByText("Arbitrum")).toBeInTheDocument();
       expect(screen.getByText("Base")).toBeInTheDocument();
       expect(screen.getByText("Optimism")).toBeInTheDocument();
     });
@@ -126,7 +126,7 @@ describe("Register", () => {
         provider: null,
         signer: null,
         address: "0x1234567890123456789012345678901234567890",
-        chainId: 1287,
+        chainId: 8453,
         isConnected: true,
         isConnecting: false,
         error: null,
@@ -145,7 +145,7 @@ describe("Register", () => {
         provider: null,
         signer: null,
         address: "0x1234567890123456789012345678901234567890",
-        chainId: 1287,
+        chainId: 8453,
         isConnected: true,
         isConnecting: false,
         error: null,
@@ -169,7 +169,7 @@ describe("Register", () => {
         provider: null,
         signer: null,
         address: "0x1234567890123456789012345678901234567890",
-        chainId: 1287,
+        chainId: 8453,
         isConnected: true,
         isConnecting: false,
         error: null,

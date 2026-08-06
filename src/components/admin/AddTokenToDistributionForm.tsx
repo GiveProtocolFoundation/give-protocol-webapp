@@ -10,10 +10,10 @@ import { Logger } from "@/utils/logger";
 const TestTokensSection: React.FC<{ onUseDevToken: () => void }> = ({ onUseDevToken }) => (
   <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
     <h3 className="text-sm font-semibold text-blue-900 mb-2">
-      Common Test Tokens on Moonbase Alpha
+      Common Test Tokens on Base Sepolia
     </h3>
     <p className="text-xs font-medium text-blue-800 mb-1">
-      DEV Token (Wrapped GLMR):
+      WETH Token:
     </p>
     <code className="block p-2 bg-white rounded text-xs break-all border border-blue-200">
       0x7Cb6b60Ca0e18a0BceB24Bd3C99d8894Ed199abD
@@ -208,7 +208,7 @@ export const AddTokenToDistributionForm: React.FC = () => {
             className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all duration-200"
           />
           <p className="mt-2 text-sm text-gray-500">
-            Enter the token contract address (e.g., USDC, GLMR)
+            Enter the token contract address (e.g., USDC, ETH)
           </p>
         </div>
 
@@ -226,7 +226,7 @@ export const AddTokenToDistributionForm: React.FC = () => {
             min="0"
             value={tokenPrice}
             onChange={handleTokenPriceChange}
-            placeholder="e.g., 1.00 for stablecoins, 0.025 for GLMR"
+            placeholder="e.g., 1.00 for stablecoins, 3500 for ETH"
             className="w-full px-4 py-3 border-2 border-gray-300 rounded-xl focus:outline-none focus:ring-3 focus:ring-emerald-500/30 focus:border-emerald-500 transition-all duration-200"
           />
           <p className="mt-2 text-sm text-gray-500">

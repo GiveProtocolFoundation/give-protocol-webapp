@@ -21,7 +21,7 @@ jest.mock("@/config/tokens", () => ({
   ]),
 }));
 jest.mock("@/config/contracts", () => ({
-  CHAIN_IDS: { BASE: 8453, MOONBASE: 1287 },
+  CHAIN_IDS: { BASE: 8453 },
   getContractAddress: jest.fn(() => "0xDonationContract"),
 }));
 

@@ -87,9 +87,6 @@ export function CurrencyProvider({
       // Get prices for all tokens we support (including ethereum for ETH/WETH)
       const tokenIds = [
         "ethereum",
-        "moonbeam",
-        "wrapped-moonbeam",
-        "polkadot",
         "usd-coin",
         "tether",
         "dai",
@@ -209,10 +206,10 @@ export function CurrencyProvider({
  * function DonationForm() {
  *   const { selectedCurrency, tokenPrices, convertToFiat } = useCurrencyContext();
  *
- *   const glmrPrice = tokenPrices['moonbeam'];
- *   const fiatValue = convertToFiat(10, 'moonbeam');
+ *   const ethPrice = tokenPrices['ethereum'];
+ *   const fiatValue = convertToFiat(10, 'ethereum');
  *
- *   return <div>10 GLMR = {fiatValue} {selectedCurrency.code}</div>;
+ *   return <div>10 ETH = {fiatValue} {selectedCurrency.code}</div>;
  * }
  * ```
  */

@@ -164,7 +164,7 @@ describe("useAdminPlatformConfig", () => {
     });
 
     it("should handle JSON array config values", async () => {
-      const networks = [8453, 10, 1284];
+      const networks = [8453, 10, 42161];
       mockRpc
         .mockResolvedValueOnce({ data: null, error: null })
         .mockResolvedValueOnce({

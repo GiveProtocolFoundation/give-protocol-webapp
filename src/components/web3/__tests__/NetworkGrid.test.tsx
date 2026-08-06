@@ -31,17 +31,17 @@ const mockChains: ChainConfig[] = [
     description: "Ethereum Layer 2 with strong DeFi ecosystem.",
   },
   {
-    id: 1284,
-    name: "Moonbeam",
-    shortName: "moonbeam",
-    nativeCurrency: { name: "Glimmer", symbol: "GLMR", decimals: 18 },
-    rpcUrls: ["https://rpc.api.moonbeam.network"],
-    blockExplorerUrls: ["https://moonscan.io"],
-    iconPath: "/chains/moonbeam.svg",
-    color: "#53CBC8",
-    ecosystem: "Polkadot",
+    id: 42161,
+    name: "Arbitrum",
+    shortName: "arb",
+    nativeCurrency: { name: "Ethereum", symbol: "ETH", decimals: 18 },
+    rpcUrls: ["https://arb1.arbitrum.io/rpc"],
+    blockExplorerUrls: ["https://arbiscan.io"],
+    iconPath: "/chains/arbitrum.svg",
+    color: "#28A0F0",
+    ecosystem: "Ethereum L2",
     isTestnet: false,
-    description: "Polkadot ecosystem with cross-chain compatibility.",
+    description: "Leading Ethereum L2.",
   },
 ];
 
@@ -63,7 +63,7 @@ describe("NetworkGrid", () => {
 
     expect(screen.getByText("Base")).toBeInTheDocument();
     expect(screen.getByText("Optimism")).toBeInTheDocument();
-    expect(screen.getByText("Moonbeam")).toBeInTheDocument();
+    expect(screen.getByText("Arbitrum")).toBeInTheDocument();
   });
 
   it("renders coming soon placeholder cards", () => {

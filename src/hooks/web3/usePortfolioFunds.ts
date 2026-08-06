@@ -3,7 +3,7 @@ import { ethers } from "ethers";
 import { useContract } from "./useContract";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { Logger } from "@/utils/logger";
-import { getContractAddress } from "@/config/contracts";
+import { getContractAddress, CHAIN_IDS } from "@/config/contracts";
 
 /** A portfolio fund that distributes donations across multiple charities. */
 export interface PortfolioFund {
@@ -46,7 +46,7 @@ export function usePortfolioFunds() {
 
   const contractAddress = getContractAddress(
     "PORTFOLIO_FUNDS",
-    chainId || 1287,
+    chainId || CHAIN_IDS.BASE,
   );
   const contract = useContract(contractAddress, [
     // Fund management

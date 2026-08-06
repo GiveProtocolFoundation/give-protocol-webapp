@@ -43,7 +43,7 @@ const DonationMobileCard: React.FC<{ donation: Transaction }> = ({
     </div>
     <div className="flex justify-between text-sm">
       <span className="text-gray-900">
-        {donation.amount} {donation.cryptoType || "GLMR"}
+        {donation.amount} {donation.cryptoType || "ETH"}
       </span>
       <span className="text-gray-500">
         {donation.fiatValue ? formatCurrency(donation.fiatValue) : "N/A"}
@@ -99,7 +99,7 @@ const DonationTable: React.FC<{ donations: Transaction[] }> = ({
             {donation.metadata?.organization || "Unknown"}
           </td>
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
-            {donation.amount} {donation.cryptoType || "GLMR"}
+            {donation.amount} {donation.cryptoType || "ETH"}
           </td>
           <td className="px-6 py-4 whitespace-nowrap text-sm text-gray-900">
             {donation.fiatValue ? formatCurrency(donation.fiatValue) : "N/A"}

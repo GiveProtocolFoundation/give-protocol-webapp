@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import { TokenConfig, MOONBEAM_TOKENS } from "@/config/tokens";
+import { TokenConfig, BASE_TOKENS } from "@/config/tokens";
 import { useCurrencyContext } from "@/contexts/CurrencyContext";
 import { formatCrypto, formatFiat } from "@/utils/formatters";
 import { ChevronDown, Loader2 } from "lucide-react";
@@ -11,7 +11,7 @@ interface TokenSelectorProps {
   onSelectToken: (_token: TokenConfig) => void;
   walletBalance?: number;
   isLoadingBalance?: boolean;
-  /** Optional list of tokens to show. Defaults to all MOONBEAM_TOKENS */
+  /** Optional list of tokens to show. Defaults to all BASE_TOKENS */
   availableTokens?: TokenConfig[];
 }
 
@@ -31,7 +31,7 @@ export function TokenSelector({
   onSelectToken,
   walletBalance,
   isLoadingBalance = false,
-  availableTokens = MOONBEAM_TOKENS,
+  availableTokens = BASE_TOKENS,
 }: TokenSelectorProps): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const { selectedCurrency, tokenPrices, convertToFiat } = useCurrencyContext();

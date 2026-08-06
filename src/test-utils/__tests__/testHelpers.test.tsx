@@ -55,7 +55,7 @@ describe("testHelpers", () => {
     it("validates blockchain explorer link attributes", () => {
       const { container } = render(
         <a
-          href="https://moonbase.moonscan.io/tx/0xabcdef123456"
+          href="https://basescan.org/tx/0xabcdef123456"
           target="_blank"
           rel="noopener noreferrer"
           data-testid="blockchain-link"
@@ -78,7 +78,7 @@ describe("testHelpers", () => {
       const mockElement = document.createElement("a");
       mockElement.setAttribute(
         "href",
-        "https://moonbase.moonscan.io/tx/0x123hash",
+        "https://basescan.org/tx/0x123hash",
       );
       mockElement.setAttribute("target", "_blank");
       mockElement.setAttribute("rel", "noopener noreferrer");
@@ -92,7 +92,7 @@ describe("testHelpers", () => {
       const mockElement = document.createElement("a");
       mockElement.setAttribute(
         "href",
-        "https://moonbase.moonscan.io/tx/0xtest",
+        "https://basescan.org/tx/0xtest",
       );
       mockElement.setAttribute("target", "_blank");
       mockElement.setAttribute("rel", "noopener noreferrer");
@@ -100,7 +100,7 @@ describe("testHelpers", () => {
       // Test all three attribute checks
       expect(mockElement).toHaveAttribute(
         "href",
-        "https://moonbase.moonscan.io/tx/0xtest",
+        "https://basescan.org/tx/0xtest",
       );
       expect(mockElement).toHaveAttribute("target", "_blank");
       expect(mockElement).toHaveAttribute("rel", "noopener noreferrer");

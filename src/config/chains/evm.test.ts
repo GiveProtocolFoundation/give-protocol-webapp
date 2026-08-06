@@ -23,7 +23,6 @@ describe("EVM chain config", () => {
 
     it("should include testnets", () => {
       expect(EVM_CHAIN_IDS.BASE_SEPOLIA).toBe(84532);
-      expect(EVM_CHAIN_IDS.MOONBASE).toBe(1287);
     });
   });
 

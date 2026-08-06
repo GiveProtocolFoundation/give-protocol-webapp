@@ -76,7 +76,7 @@ describe("parseEnabledChainIds", () => {
   });
 
   it("parses numeric entries directly", () => {
-    expect(parseEnabledChainIds([1284])).toEqual(new Set([1284]));
+    expect(parseEnabledChainIds([8453])).toEqual(new Set([8453]));
   });
 
   it("returns empty set for non-array values", () => {

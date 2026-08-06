@@ -138,7 +138,7 @@ const RunsOnTags: React.FC = () => {
         />
       </div>
       <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
-        {["Moonbeam", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
+        {["Arbitrum", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
           (tag) => (
             <span
               key={tag}

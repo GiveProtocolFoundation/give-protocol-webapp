@@ -1,6 +1,6 @@
 /**
  * MultiChainContext - Unified multi-chain wallet state management
- * Provides a single source of truth for EVM, Solana, and Polkadot connections
+ * Provides a single source of truth for EVM and Solana connections
  */
 
 import React, {
@@ -87,7 +87,7 @@ interface MultiChainProviderProps {
 
 /**
  * MultiChain Provider Component
- * Manages unified wallet connections across EVM, Solana, and Polkadot chains
+ * Manages unified wallet connections across EVM and Solana chains
  * @param children - Child components
  */
 export function MultiChainProvider({ children }: MultiChainProviderProps) {

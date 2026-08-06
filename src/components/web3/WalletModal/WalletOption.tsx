@@ -12,7 +12,7 @@ import type { ChainType, UnifiedWalletProvider } from "@/types/wallet";
  * Maps wallet name to chain types not yet fully implemented.
  */
 const COMING_SOON_CHAINS: Record<string, ChainType[]> = {
-  Ledger: ["polkadot", "solana"],
+  Ledger: ["solana"],
 };
 
 /** Install URLs for supported wallets. */
@@ -20,8 +20,6 @@ const WALLET_INSTALL_URLS: Record<string, string> = {
   MetaMask: "https://metamask.io/download/",
   Rabby: "https://rabby.io/",
   Phantom: "https://phantom.app/download",
-  Talisman: "https://talisman.xyz/download",
-  SubWallet: "https://subwallet.app/download",
   "Coinbase Wallet": "https://www.coinbase.com/wallet/downloads",
   Ledger: "https://www.ledger.com/start",
 };

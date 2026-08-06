@@ -12,7 +12,7 @@ import { useWeb3 } from "@/contexts/Web3Context";
 import { ethers } from "ethers";
 import { getContractAddress } from "@/config/contracts";
 
-// Real Moonbase Alpha contract address (non-dummy) for tests that reach contract call path
+// Real contract address (non-dummy) for tests that reach contract call path
 const REAL_CONTRACT_ADDRESS = "0xabcdef1234567890123456789012345678abcdef";
 const DONOR_ADDRESS = "0xTestDonorAddress";
 
@@ -31,7 +31,7 @@ function setupConnectedWallet() {
     provider: mockProvider as unknown as ReturnType<typeof useWeb3>["provider"],
     signer: null,
     address: DONOR_ADDRESS,
-    chainId: 1287,
+    chainId: 84532,
     isConnected: true,
     isConnecting: false,
     error: null,
@@ -52,7 +52,7 @@ describe("useScheduledDonation", () => {
       provider: null,
       signer: null,
       address: null,
-      chainId: 1287,
+      chainId: 84532,
       isConnected: false,
       isConnecting: false,
       error: null,

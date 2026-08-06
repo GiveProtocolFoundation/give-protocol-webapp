@@ -27,12 +27,6 @@ const CHAIN_STYLES: Record<
     borderColor: "border-emerald-200",
     icon: "/chains/solana.svg",
   },
-  polkadot: {
-    bgColor: "bg-pink-50",
-    textColor: "text-pink-700",
-    borderColor: "border-pink-200",
-    icon: "/chains/polkadot.svg",
-  },
 };
 
 interface AccountBadgeProps {
@@ -235,7 +229,7 @@ interface ChainTypeBadgeProps {
 
 /**
  * Chain type badge showing the chain name in uppercase with styled colors
- * @param chainType - Chain type to display (evm, solana, polkadot)
+ * @param chainType - Chain type to display (evm, solana)
  * @param size - Badge size variant
  * @param className - Additional CSS classes
  */

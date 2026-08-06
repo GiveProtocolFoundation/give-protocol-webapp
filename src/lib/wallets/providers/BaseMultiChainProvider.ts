@@ -1,6 +1,6 @@
 /**
  * Base class for multi-chain wallet providers
- * Extracts shared logic from Phantom, Coinbase, Talisman, and SubWallet providers
+ * Extracts shared logic from Phantom and Coinbase providers
  */
 
 import { Logger } from "@/utils/logger";
@@ -15,8 +15,8 @@ import { EVMAdapter, isEIP1193Provider } from "../adapters/EVMAdapter";
 import { DEFAULT_EVM_CHAIN_ID } from "@/config/chains";
 
 /**
- * Common interface for secondary chain adapters (Solana or Polkadot)
- * Both SolanaAdapter and PolkadotAdapter satisfy this interface
+ * Common interface for secondary chain adapters (Solana)
+ * SolanaAdapter satisfies this interface
  */
 export interface SecondaryChainAdapter {
   disconnect(): Promise<void>;
@@ -41,7 +41,7 @@ export abstract class BaseMultiChainProvider implements UnifiedWalletProvider {
   protected evmAdapter: EVMAdapter | null = null;
   protected connectedChainType: ChainType | null = null;
 
-  /** The non-EVM chain type this provider supports ("solana" or "polkadot") */
+  /** The non-EVM chain type this provider supports (e.g., "solana") */
   protected abstract readonly secondaryChainType: ChainType;
 
   abstract isInstalled(): boolean;

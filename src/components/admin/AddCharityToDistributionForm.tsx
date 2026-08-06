@@ -172,7 +172,7 @@ export const AddCharityToDistributionForm: React.FC = () => {
           Test Charity Address
         </h3>
         <p className="text-sm text-blue-800 mb-2">
-          For testing on Moonbase Alpha, use:
+          For testing on Base Sepolia, use:
         </p>
         <code className="block p-2 bg-white rounded text-xs break-all border border-blue-200">
           0x537f232A75F59F3CAbeBf851E0810Fc95F42aa75

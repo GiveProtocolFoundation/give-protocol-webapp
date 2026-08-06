@@ -43,30 +43,17 @@ const CHAIN_ENV_PREFIX: Record<number, string> = {
   // Testnets
   84532: "VITE_BASE_SEPOLIA",
   11155420: "VITE_OPTIMISM_SEPOLIA",
-  1287: "VITE_MOONBASE",
   // Mainnets
   1: "VITE_ETHEREUM",
   8453: "VITE_BASE",
   10: "VITE_OPTIMISM",
-  1284: "VITE_MOONBEAM",
   42161: "VITE_ARBITRUM",
   137: "VITE_POLYGON",
   43114: "VITE_AVALANCHE",
 };
 
-// Legacy env var names (pre-multi-chain) map to Moonbase
-const LEGACY_CONTRACT_VARS: Record<string, string> = {
-  DONATION: "VITE_DONATION_CONTRACT_ADDRESS",
-  VERIFICATION: "VITE_VERIFICATION_CONTRACT_ADDRESS",
-  DISTRIBUTION: "VITE_DISTRIBUTION_CONTRACT_ADDRESS",
-  PORTFOLIO_FUNDS: "VITE_PORTFOLIO_FUNDS_CONTRACT_ADDRESS",
-  EXECUTOR: "VITE_EXECUTOR_CONTRACT_ADDRESS",
-  TOKEN: "VITE_TOKEN_CONTRACT_ADDRESS",
-};
-
 /**
  * Get contract addresses for a specific chain from environment variables.
- * For Moonbase (1287), falls back to legacy VITE_*_CONTRACT_ADDRESS vars.
  * @param chainId - The chain ID to get addresses for
  * @returns Contract addresses for the chain
  */
@@ -88,18 +75,8 @@ export function getChainContractAddresses(
     return empty;
   }
 
-  const useLegacyFallback = chainId === 1287;
-
-  /** Resolves a contract address from env vars, falling back to legacy names for Moonbase. */
-  const getAddr = (suffix: string): string | undefined => {
-    const value = getEnv(`${prefix}_${suffix}_ADDRESS`);
-    if (value) return value;
-    // Fall back to legacy var names for Moonbase
-    if (useLegacyFallback) {
-      return getEnv(LEGACY_CONTRACT_VARS[suffix] || "");
-    }
-    return undefined;
-  };
+  const getAddr = (suffix: string): string | undefined =>
+    getEnv(`${prefix}_${suffix}_ADDRESS`);
 
   return {
     DONATION: getAddr("DONATION"),
@@ -120,10 +97,10 @@ export const ENV = {
   APP_DOMAIN: getEnv("VITE_APP_DOMAIN") || "localhost",
 
   // Optional variables with defaults
-  NETWORK: getEnv("VITE_NETWORK") || "moonbase",
+  NETWORK: getEnv("VITE_NETWORK") || "base",
   NETWORK_ENDPOINT:
     getEnv("VITE_NETWORK_ENDPOINT") ||
-    "wss://wss.api.moonbase.moonbeam.network",
+    "",
 
   // Feature flags
   ENABLE_GOOGLE_AUTH: getEnv("VITE_ENABLE_GOOGLE_AUTH") === "true",

@@ -15,7 +15,6 @@ import type { NetworkType, WalletProviderType } from "./Wallet";
 import {
   switchEvmNetwork,
   switchSolanaNetwork,
-  switchPolkadotNetwork,
 } from "./appNavbarHelpers";
 import { Menu, X, LogOut } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -288,8 +287,6 @@ const NavActions: React.FC<{
     if (typeof browserGlobal.window === "undefined" || !browserGlobal.ethereum)
       return "metamask";
     if (browserGlobal.ethereum.isMetaMask) return "metamask";
-    if (browserGlobal.ethereum.isTalisman) return "talisman";
-    if (browserGlobal.ethereum.isSubWallet) return "subwallet";
     return "metamask";
   }, []);
 
@@ -371,10 +368,8 @@ export const AppNavbar: React.FC = () => {
     () => ({
       8453: "base",
       10: "optimism",
-      1284: "moonbeam",
       84532: "base-sepolia",
       11155420: "optimism-sepolia",
-      1287: "moonbase",
     }),
     [],
   );
@@ -391,13 +386,6 @@ export const AppNavbar: React.FC = () => {
   useEffect(() => {
     if (multiChain.activeChainType === "solana") {
       setNetwork("solana-mainnet");
-    } else if (multiChain.activeChainType === "polkadot") {
-      const chainName = multiChain.activeAccount?.chainName?.toLowerCase();
-      if (chainName === "kusama") {
-        setNetwork("kusama");
-      } else {
-        setNetwork("polkadot");
-      }
     }
   }, [multiChain.activeChainType, multiChain.activeAccount?.chainName]);
 
@@ -407,13 +395,11 @@ export const AppNavbar: React.FC = () => {
       ethereum: 1,
       base: 8453,
       optimism: 10,
-      moonbeam: 1284,
       arbitrum: 42161,
       polygon: 137,
       avalanche: 43114,
       "base-sepolia": 84532,
       "optimism-sepolia": 11155420,
-      moonbase: 1287,
     }),
     [],
   );
@@ -425,7 +411,6 @@ export const AppNavbar: React.FC = () => {
     const chainTypeMap: Record<string, string> = {
       evm: "evm",
       solana: "solana",
-      polkadot: "polkadot",
     };
 
     const allowedTypes =
@@ -460,8 +445,6 @@ export const AppNavbar: React.FC = () => {
         await switchEvmNetwork(_network, deps);
       } else if (networkConfig.chainType === "solana") {
         switchSolanaNetwork(_network, deps);
-      } else if (networkConfig.chainType === "polkadot") {
-        await switchPolkadotNetwork(_network, deps);
       }
     },
     [isConnected, switchChain, multiChain, evmChainIds],

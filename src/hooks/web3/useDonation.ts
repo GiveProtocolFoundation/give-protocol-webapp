@@ -161,7 +161,7 @@ export function useDonation() {
       // Get donation contract address for approval
       const donationContractAddress = getContractAddress(
         "DONATION",
-        chainId ?? CHAIN_IDS.MOONBASE,
+        chainId ?? CHAIN_IDS.BASE,
       );
 
       // Check if we need to approve the token first

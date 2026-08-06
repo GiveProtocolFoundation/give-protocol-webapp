@@ -34,7 +34,7 @@ const defaultWeb3Mock = {
   provider: null,
   signer: null,
   address: null,
-  chainId: 1287,
+  chainId: 8453,
   isConnected: false,
   isConnecting: false,
   error: null,
@@ -183,21 +183,21 @@ describe("useUnifiedAuth", () => {
         ...defaultWeb3Mock,
         address: "0xabc123",
         isConnected: true,
-        chainId: 1287,
+        chainId: 8453,
       });
 
       const { result } = renderHook(() => useUnifiedAuth());
 
       expect(result.current.isWalletConnected).toBe(true);
       expect(result.current.walletAddress).toBe("0xabc123");
-      expect(result.current.chainId).toBe(1287);
+      expect(result.current.chainId).toBe(8453);
     });
 
     it("returns disconnected wallet state by default", () => {
       const { result } = renderHook(() => useUnifiedAuth());
 
       expect(result.current.isWalletConnected).toBe(false);
-      expect(result.current.chainId).toBe(1287);
+      expect(result.current.chainId).toBe(8453);
     });
   });
 

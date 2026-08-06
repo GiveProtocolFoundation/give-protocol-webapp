@@ -60,7 +60,7 @@ export class LedgerProvider implements UnifiedWalletProvider {
   readonly name = "Ledger";
   readonly icon = "ledger";
   readonly category: WalletCategory = "hardware";
-  readonly supportedChainTypes: ChainType[] = ["evm", "solana", "polkadot"];
+  readonly supportedChainTypes: ChainType[] = ["evm", "solana"];
 
   private dmk: DeviceManagementKit | null = null;
   private device: LedgerDevice | null = null;
@@ -137,8 +137,6 @@ export class LedgerProvider implements UnifiedWalletProvider {
         return this.connectEVM();
       } else if (chainType === "solana") {
         return LedgerProvider.connectSolana();
-      } else if (chainType === "polkadot") {
-        return LedgerProvider.connectPolkadot();
       }
 
       throw new Error(`Unsupported chain type: ${chainType}`);
@@ -208,15 +206,6 @@ export class LedgerProvider implements UnifiedWalletProvider {
   private static connectSolana(): Promise<UnifiedAccount[]> {
     // Solana support would require @ledgerhq/hw-app-solana
     throw new Error("Ledger Solana support coming soon");
-  }
-
-  /**
-   * Connect to Ledger for Polkadot
-   * @returns Array of Polkadot accounts
-   */
-  private static connectPolkadot(): Promise<UnifiedAccount[]> {
-    // Polkadot support would require @ledgerhq/hw-app-polkadot
-    throw new Error("Ledger Polkadot support coming soon");
   }
 
   /**

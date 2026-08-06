@@ -69,12 +69,6 @@ describe("isValidAddress", () => {
     expect(isValidAddress("0x1234")).toBe(false);
   });
 
-  it("should validate Polkadot addresses", () => {
-    expect(
-      isValidAddress("5GrwvaEF5zXb26Fz9rcQpDWS57CtERHpNehXCPcNoHGKutQY"),
-    ).toBe(true);
-  });
-
   it("should reject invalid addresses", () => {
     expect(isValidAddress("not-an-address")).toBe(false);
   });
