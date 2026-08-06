@@ -103,7 +103,10 @@ CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
             chainId: hexId,
             selectedAddress: null as string | null,
 
-            request(args: { method: string; params?: unknown[] }): Promise<unknown> {
+            request(args: {
+              method: string;
+              params?: unknown[];
+            }): Promise<unknown> {
               switch (args.method) {
                 case "eth_requestAccounts":
                 case "eth_accounts": {
@@ -122,19 +125,24 @@ CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
 
                 case "eth_getBalance":
                   // 1 ETH
-                  return Promise.resolve(abiUint256(BigInt("1000000000000000000")));
+                  return Promise.resolve(
+                    abiUint256(BigInt("1000000000000000000")),
+                  );
 
                 case "eth_getCode":
                   // Non-empty bytecode so contract is treated as deployed
                   return Promise.resolve("0x608060405234");
 
                 case "eth_call": {
-                  const callParams = (args.params as Array<{ data?: string }>)[0] ?? {};
+                  const callParams =
+                    (args.params as Array<{ data?: string }>)[0] ?? {};
                   const data = callParams.data ?? "";
 
                   if (data.startsWith("0x70a08231")) {
                     // balanceOf(address) → 100 tokens (18 decimals)
-                    return Promise.resolve(abiUint256(BigInt("100000000000000000000")));
+                    return Promise.resolve(
+                      abiUint256(BigInt("100000000000000000000")),
+                    );
                   }
                   if (data.startsWith("0x313ce567")) {
                     // decimals() → 18
@@ -159,9 +167,8 @@ CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
                   return Promise.resolve("0x0");
 
                 case "eth_sendTransaction": {
-                  const txParams = (
-                    args.params as Array<{ to?: string }>
-                  )[0] ?? {};
+                  const txParams =
+                    (args.params as Array<{ to?: string }>)[0] ?? {};
                   if (txParams.to) {
                     win._capturedTxTo = txParams.to;
                   }
@@ -211,7 +218,9 @@ CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
 
     it(`asserts ${name} DurationDonation contract in trust signals and completes donation`, () => {
       // Open the one-time donation modal
-      cy.contains("button", /give once/i).should("be.visible").click();
+      cy.contains("button", /give once/i)
+        .should("be.visible")
+        .click();
 
       // Switch to Wallet (crypto) payment method
       cy.contains("button", /^wallet$/i).click();
@@ -243,7 +252,9 @@ CHAIN_MATRIX.forEach(({ id: chainId, hexId, name, donationContract }) => {
       cy.get("#art9-consent").check();
 
       // Submit
-      cy.contains("button", /donate now/i).should("not.be.disabled").click();
+      cy.contains("button", /donate now/i)
+        .should("not.be.disabled")
+        .click();
 
       // Assert the transaction was sent to the Base DurationDonation contract
       cy.window({ timeout: 15_000 })

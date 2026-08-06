@@ -85,13 +85,7 @@ export function CurrencyProvider({
       const currencyCode = selectedCurrency.coingeckoId.toLowerCase();
 
       // Get prices for all tokens we support (including ethereum for ETH/WETH)
-      const tokenIds = [
-        "ethereum",
-        "usd-coin",
-        "tether",
-        "dai",
-        "optimism",
-      ];
+      const tokenIds = ["ethereum", "usd-coin", "tether", "dai", "optimism"];
 
       const prices = await priceFeedService.getTokenPrices(
         tokenIds,

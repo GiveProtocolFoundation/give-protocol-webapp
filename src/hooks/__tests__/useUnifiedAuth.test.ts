@@ -44,10 +44,7 @@ const defaultWeb3Mock = {
 } as ReturnType<typeof useWeb3>;
 
 /** Helper to create a chainable supabase query builder mock */
-function createQueryChain(resolvedValue: {
-  data: unknown;
-  error: unknown;
-}) {
+function createQueryChain(resolvedValue: { data: unknown; error: unknown }) {
   const builder = Promise.resolve(resolvedValue);
   const chainable = builder as Promise<typeof resolvedValue> & {
     select: ReturnType<typeof jest.fn>;
@@ -67,9 +64,7 @@ function createQueryChain(resolvedValue: {
  * and returns the caught error. This allows act() to flush state updates
  * from the catch/finally blocks before we assert on result.current.
  */
-async function actAndCatch(
-  fn: () => Promise<void>,
-): Promise<Error> {
+async function actAndCatch(fn: () => Promise<void>): Promise<Error> {
   let caught: Error | undefined;
   await act(async () => {
     try {
@@ -290,11 +285,9 @@ describe("useUnifiedAuth", () => {
 
     it("sets loading state during sign-in", async () => {
       let resolveSignIn: (_value: Record<string, unknown>) => void;
-      const signInPromise = new Promise<Record<string, unknown>>(
-        (resolve) => {
-          resolveSignIn = resolve;
-        },
-      );
+      const signInPromise = new Promise<Record<string, unknown>>((resolve) => {
+        resolveSignIn = resolve;
+      });
 
       (
         supabase.auth.signInWithPassword as ReturnType<typeof jest.fn>
@@ -411,13 +404,9 @@ describe("useUnifiedAuth", () => {
     it("throws if user is not authenticated", async () => {
       const { result } = renderHook(() => useUnifiedAuth());
 
-      const caught = await actAndCatch(() =>
-        result.current.unlinkWallet(),
-      );
+      const caught = await actAndCatch(() => result.current.unlinkWallet());
 
-      expect(caught.message).toBe(
-        "You must be signed in to unlink a wallet",
-      );
+      expect(caught.message).toBe("You must be signed in to unlink a wallet");
       expect(result.current.error).toBe(
         "You must be signed in to unlink a wallet",
       );
@@ -507,9 +496,7 @@ describe("useUnifiedAuth", () => {
 
       const caught = await actAndCatch(() => result.current.linkWallet());
 
-      expect(caught.message).toBe(
-        "You must be signed in to link a wallet",
-      );
+      expect(caught.message).toBe("You must be signed in to link a wallet");
       expect(result.current.error).toBe(
         "You must be signed in to link a wallet",
       );

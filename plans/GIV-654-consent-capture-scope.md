@@ -17,6 +17,7 @@ Implementation delegated to Engineering via child issue (see GIV-654 thread).
 ### 2.1 Affirmative act: **unticked checkbox** (conservative variant)
 
 Counsel accepted either proceed-button confirmation (EDPB 05/2020 §93) or a checkbox. We choose the checkbox because:
+
 - `FiatDonationForm.tsx` already has the `ageAffirmed` unticked-checkbox gate — identical UX pattern, minimal marginal friction.
 - Checkbox produces the strongest evidentiary record of an affirmative act for special-category data.
 
@@ -47,12 +48,12 @@ CREATE TABLE IF NOT EXISTS donation_consents (
 
 ### 2.3 Surfaces (from code scope)
 
-| Surface | File | Insertion point |
-|---|---|---|
-| Fiat form | `src/components/web3/donation/FiatDonationForm.tsx` | after `ageAffirmed` checkbox (~L538–559), before submit (L598) |
-| Crypto one-time | `src/components/web3/donation/DonationForm.tsx` | before submit button (L230) |
-| Crypto monthly | `src/components/web3/donation/ScheduledDonationForm.tsx` | same pattern |
-| Fiat server write | `supabase/functions/helcim-validate/index.ts` | `logFiatPayment()` (L216–265) |
+| Surface           | File                                                     | Insertion point                                                |
+| ----------------- | -------------------------------------------------------- | -------------------------------------------------------------- |
+| Fiat form         | `src/components/web3/donation/FiatDonationForm.tsx`      | after `ageAffirmed` checkbox (~L538–559), before submit (L598) |
+| Crypto one-time   | `src/components/web3/donation/DonationForm.tsx`          | before submit button (L230)                                    |
+| Crypto monthly    | `src/components/web3/donation/ScheduledDonationForm.tsx` | same pattern                                                   |
+| Fiat server write | `supabase/functions/helcim-validate/index.ts`            | `logFiatPayment()` (L216–265)                                  |
 
 Charity name: `FiatDonationForm` already receives `charityName` prop. `DonationForm`/`ScheduledDonationForm` receive only `charityAddress` — parent (`DonationModal.tsx`) must pass `charityName` down (it has it at L316).
 

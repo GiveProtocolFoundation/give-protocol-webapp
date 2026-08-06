@@ -73,7 +73,6 @@ describe("ChainSelectionModal", () => {
       expect(screen.getByText("Base")).toBeInTheDocument();
       expect(screen.getByText("Optimism")).toBeInTheDocument();
     });
-
   });
 
   describe("selection behavior", () => {

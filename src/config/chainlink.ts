@@ -93,10 +93,9 @@ function stablecoinFeed(address: string, symbol: string): PriceFeedConfig {
  * Chainlink price feed addresses by chain
  * Maps token symbols to their USD price feed addresses
  */
-export const CHAINLINK_FEEDS: Partial<Record<
-  ChainId,
-  Record<string, PriceFeedConfig>
->> = {
+export const CHAINLINK_FEEDS: Partial<
+  Record<ChainId, Record<string, PriceFeedConfig>>
+> = {
   // Base Mainnet
   [CHAIN_IDS.BASE]: {
     ...withWrapped("ETH", "WETH", {
@@ -221,7 +220,6 @@ export const CHAINLINK_FEEDS: Partial<Record<
       heartbeat: 3600,
     }),
   },
-
 };
 
 /**

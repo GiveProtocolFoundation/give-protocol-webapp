@@ -37,8 +37,7 @@ const Web3StatusSection: React.FC<{
     </div>
     {chainId && (
       <p className="text-sm text-gray-600 mb-2">
-        Connected to chain ID:{" "}
-        {chainId}
+        Connected to chain ID: {chainId}
       </p>
     )}
     {web3Error && (

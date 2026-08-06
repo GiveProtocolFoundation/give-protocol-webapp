@@ -35,7 +35,8 @@ export function TokenSelector({
 }: TokenSelectorProps): React.ReactElement {
   const [isOpen, setIsOpen] = useState(false);
   const { selectedCurrency, tokenPrices, convertToFiat } = useCurrencyContext();
-  const { balances, isLoading: isLoadingAllBalances } = useMultiTokenBalance(availableTokens);
+  const { balances, isLoading: isLoadingAllBalances } =
+    useMultiTokenBalance(availableTokens);
 
   const handleToggle = useCallback(() => {
     setIsOpen(!isOpen);
@@ -114,9 +115,10 @@ export function TokenSelector({
             const price = tokenPrices[token.coingeckoId];
             const isSelected = token.symbol === selectedToken.symbol;
             const tokenBalance = balances[token.symbol];
-            const tokenFiatValue = tokenBalance !== undefined
-              ? convertToFiat(tokenBalance, token.coingeckoId)
-              : 0;
+            const tokenFiatValue =
+              tokenBalance !== undefined
+                ? convertToFiat(tokenBalance, token.coingeckoId)
+                : 0;
 
             return (
               <button
@@ -138,7 +140,9 @@ export function TokenSelector({
                   <div className="font-medium text-gray-900">
                     {token.symbol}
                   </div>
-                  <div className="text-sm text-gray-500 truncate">{token.name}</div>
+                  <div className="text-sm text-gray-500 truncate">
+                    {token.name}
+                  </div>
                   {isLoadingAllBalances && (
                     <div className="flex items-center gap-1 text-xs text-gray-400 mt-0.5">
                       <Loader2 className="w-3 h-3 animate-spin" />
@@ -147,8 +151,10 @@ export function TokenSelector({
                   )}
                   {!isLoadingAllBalances && tokenBalance !== undefined && (
                     <div className="text-xs text-gray-600 mt-0.5">
-                      Balance: {formatCrypto(tokenBalance, token, { decimals: 4 })}
-                      {tokenFiatValue > 0 && ` (${formatFiat(tokenFiatValue, selectedCurrency, { decimals: 2 })})`}
+                      Balance:{" "}
+                      {formatCrypto(tokenBalance, token, { decimals: 4 })}
+                      {tokenFiatValue > 0 &&
+                        ` (${formatFiat(tokenFiatValue, selectedCurrency, { decimals: 2 })})`}
                     </div>
                   )}
                 </div>

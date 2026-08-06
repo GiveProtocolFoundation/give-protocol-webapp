@@ -25,23 +25,23 @@ non-US charity registries (separate roadmap item).
 
 ### A. EIN-labelled fields (6 surfaces)
 
-| Surface | Current copy | i18n key |
-|---|---|---|
-| Admin → Charity Requests (header + caption + footer + page intro) | "EIN", "Charity requests by EIN", "unique EINs", "grouped by EIN" | `admin.charityRequests.ein`, etc. (en.ts L962–L972) |
-| Admin → Charity Management (table column + inline label) | "EIN" | `admin.charity.colEin` (en.ts L931); inline string at `AdminCharityManagement.tsx:297` |
-| Charity claim flow | "EIN" | `charity.claim.einLabel` (en.ts L1243) |
-| Browse → Charity card | "EIN" | `browse.charity.einLabel` (en.ts L1414); inline at `ProjectCard.tsx:50` |
-| Charity profile page (row + display + error) | "EIN", "We couldn't find a charity with this EIN." | `charity.profile.rowEin`, `charity.profile.einDisplay` (en.ts L1506, L1520); `CharityProfilePage.tsx:635` |
-| Volunteer self-reported charity autocomplete | "Search charity registry by name or EIN…" | inline at `CharityOrgAutocomplete.tsx:128` |
+| Surface                                                           | Current copy                                                      | i18n key                                                                                                  |
+| ----------------------------------------------------------------- | ----------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------- |
+| Admin → Charity Requests (header + caption + footer + page intro) | "EIN", "Charity requests by EIN", "unique EINs", "grouped by EIN" | `admin.charityRequests.ein`, etc. (en.ts L962–L972)                                                       |
+| Admin → Charity Management (table column + inline label)          | "EIN"                                                             | `admin.charity.colEin` (en.ts L931); inline string at `AdminCharityManagement.tsx:297`                    |
+| Charity claim flow                                                | "EIN"                                                             | `charity.claim.einLabel` (en.ts L1243)                                                                    |
+| Browse → Charity card                                             | "EIN"                                                             | `browse.charity.einLabel` (en.ts L1414); inline at `ProjectCard.tsx:50`                                   |
+| Charity profile page (row + display + error)                      | "EIN", "We couldn't find a charity with this EIN."                | `charity.profile.rowEin`, `charity.profile.einDisplay` (en.ts L1506, L1520); `CharityProfilePage.tsx:635` |
+| Volunteer self-reported charity autocomplete                      | "Search charity registry by name or EIN…"                         | inline at `CharityOrgAutocomplete.tsx:128`                                                                |
 
 ### B. IRS / 501(c)(3) references (3 surfaces)
 
-| Surface | Current copy | Location |
-|---|---|---|
-| Charity profile verified badge | "Verified 501(c)(3)" | `charity.profile.verified501c3` (en.ts L1503) |
-| Charity profile unclaimed status | "Unclaimed — IRS data only" | `charity.profile.statusUnclaimed` (en.ts L1505) |
-| Charity profile about card fallback | "IRS activity codes" (JSDoc + UI fallback) | `CharityProfilePage.tsx:417`, `561` |
-| Charity profile 501(c)(3) display badge | "501(c)(3)" | `CharityProfilePage.tsx:324` |
+| Surface                                 | Current copy                               | Location                                        |
+| --------------------------------------- | ------------------------------------------ | ----------------------------------------------- |
+| Charity profile verified badge          | "Verified 501(c)(3)"                       | `charity.profile.verified501c3` (en.ts L1503)   |
+| Charity profile unclaimed status        | "Unclaimed — IRS data only"                | `charity.profile.statusUnclaimed` (en.ts L1505) |
+| Charity profile about card fallback     | "IRS activity codes" (JSDoc + UI fallback) | `CharityProfilePage.tsx:417`, `561`             |
+| Charity profile 501(c)(3) display badge | "501(c)(3)"                                | `CharityProfilePage.tsx:324`                    |
 
 ### C. Already country-agnostic (no change needed)
 
@@ -52,7 +52,7 @@ non-US charity registries (separate roadmap item).
 ### D. Out of scope for this issue (separate workstreams)
 
 - `formatDate` uses `toLocaleDateString("en-US", …)` on the admin page — this
-  is date *formatting*, not a US label. Track as engineering polish if needed
+  is date _formatting_, not a US label. Track as engineering polish if needed
   (use the user's locale via `useTranslation`).
 - Internal data model only stores IRS BMF EINs; supporting UK Charity
   Commission / CRA Canada / ACNC Australia registries is a multi-quarter
@@ -64,17 +64,17 @@ Goal: country-agnostic labels that don't imply a specific jurisdiction, while
 preserving US-specific legal precision where donors rely on it (tax
 deductibility).
 
-| Current US-centric term | Replacement | Rationale |
-|---|---|---|
-| **EIN** (as a field label) | **Tax ID** | Universally understood; matches the role of the identifier across jurisdictions. Where space allows, use "Tax ID (EIN)" so US users keep the familiar acronym. |
-| "Search by … EIN" | "Search by name or tax ID" | Removes acronym; placeholder still discoverable. |
-| "grouped by EIN" / "unique EINs" | "grouped by organization" / "unique organizations" | Avoids re-introducing the acronym in body copy. |
-| **Verified 501(c)(3)** | **Verified nonprofit** (with US tooltip: "Registered 501(c)(3) — donations may be tax-deductible in the United States") | Keeps tax-status disclosure for US donors without making the badge US-only. |
-| **Unclaimed — IRS data only** | **Unclaimed — public registry data only** | Same meaning; jurisdiction-neutral. |
-| **IRS activity codes** | **Registry activity codes** | Same meaning; jurisdiction-neutral. |
-| **501(c)(3)** standalone badge | **Registered nonprofit** | Same approach as above. |
-| **NTEE code** | **Sector code** (NTEE remains as the value, e.g. "Sector code: B25") | NTEE is US-specific; labelling as "sector code" lets us substitute UK SIC / Canada CRA codes later without another copy migration. |
-| **Ruling year** | **Registration year** | "Ruling year" is IRS-determination jargon. |
+| Current US-centric term          | Replacement                                                                                                             | Rationale                                                                                                                                                      |
+| -------------------------------- | ----------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **EIN** (as a field label)       | **Tax ID**                                                                                                              | Universally understood; matches the role of the identifier across jurisdictions. Where space allows, use "Tax ID (EIN)" so US users keep the familiar acronym. |
+| "Search by … EIN"                | "Search by name or tax ID"                                                                                              | Removes acronym; placeholder still discoverable.                                                                                                               |
+| "grouped by EIN" / "unique EINs" | "grouped by organization" / "unique organizations"                                                                      | Avoids re-introducing the acronym in body copy.                                                                                                                |
+| **Verified 501(c)(3)**           | **Verified nonprofit** (with US tooltip: "Registered 501(c)(3) — donations may be tax-deductible in the United States") | Keeps tax-status disclosure for US donors without making the badge US-only.                                                                                    |
+| **Unclaimed — IRS data only**    | **Unclaimed — public registry data only**                                                                               | Same meaning; jurisdiction-neutral.                                                                                                                            |
+| **IRS activity codes**           | **Registry activity codes**                                                                                             | Same meaning; jurisdiction-neutral.                                                                                                                            |
+| **501(c)(3)** standalone badge   | **Registered nonprofit**                                                                                                | Same approach as above.                                                                                                                                        |
+| **NTEE code**                    | **Sector code** (NTEE remains as the value, e.g. "Sector code: B25")                                                    | NTEE is US-specific; labelling as "sector code" lets us substitute UK SIC / Canada CRA codes later without another copy migration.                             |
+| **Ruling year**                  | **Registration year**                                                                                                   | "Ruling year" is IRS-determination jargon.                                                                                                                     |
 
 ## Implementation notes for engineering
 

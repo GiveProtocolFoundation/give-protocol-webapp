@@ -10,17 +10,17 @@ DNS:
 
 TLS handshake acceptance matrix, ports 2053 and 2083 (identical results on both; port 443 matches):
 
-| Probe | Result |
-|---|---|
-| TLS 1.0 / TLS 1.1 | **Rejected** |
-| TLS 1.3 (AEAD suites) | Accepted (TLS_AES_256_GCM_SHA384) |
-| TLS 1.2 ECDHE-RSA-AES128/256-GCM | Accepted (PCI/Mozilla-Intermediate compliant) |
-| TLS 1.2 ECDHE-RSA-CHACHA20-POLY1305 | Accepted (compliant) |
-| TLS 1.2 **DHE-RSA-AES128-GCM-SHA256 / DHE-RSA-AES256-GCM-SHA384** (the suites named in the scan finding) | **Rejected — handshake failure** |
-| TLS 1.2 DHE-RSA-AES128/256-SHA, DHE-RSA-CHACHA20-POLY1305 | Rejected |
-| TLS 1.2 static-RSA key exchange (AES-GCM/CBC, no PFS) | Rejected |
-| TLS 1.2 ECDHE-RSA-AES128-SHA / AES256-SHA (SHA-1 CBC) | Rejected |
-| TLS 1.2 ECDHE-RSA-AES128-SHA256 / ECDHE-RSA-AES256-SHA384 (SHA-2 CBC) | Accepted — only deviation from Mozilla Intermediate |
+| Probe                                                                                                    | Result                                              |
+| -------------------------------------------------------------------------------------------------------- | --------------------------------------------------- |
+| TLS 1.0 / TLS 1.1                                                                                        | **Rejected**                                        |
+| TLS 1.3 (AEAD suites)                                                                                    | Accepted (TLS_AES_256_GCM_SHA384)                   |
+| TLS 1.2 ECDHE-RSA-AES128/256-GCM                                                                         | Accepted (PCI/Mozilla-Intermediate compliant)       |
+| TLS 1.2 ECDHE-RSA-CHACHA20-POLY1305                                                                      | Accepted (compliant)                                |
+| TLS 1.2 **DHE-RSA-AES128-GCM-SHA256 / DHE-RSA-AES256-GCM-SHA384** (the suites named in the scan finding) | **Rejected — handshake failure**                    |
+| TLS 1.2 DHE-RSA-AES128/256-SHA, DHE-RSA-CHACHA20-POLY1305                                                | Rejected                                            |
+| TLS 1.2 static-RSA key exchange (AES-GCM/CBC, no PFS)                                                    | Rejected                                            |
+| TLS 1.2 ECDHE-RSA-AES128-SHA / AES256-SHA (SHA-1 CBC)                                                    | Rejected                                            |
+| TLS 1.2 ECDHE-RSA-AES128-SHA256 / ECDHE-RSA-AES256-SHA384 (SHA-2 CBC)                                    | Accepted — only deviation from Mozilla Intermediate |
 
 **Conclusion:** the flagged DHE-RSA suites do **not** reproduce as of 2026-08-03. The edge enforces TLS ≥1.2 with forward secrecy (ECDHE) on every accepted suite. The only "discouraged" acceptances are two CBC-mode ECDHE suites with SHA-2 HMACs, which are not prohibited by PCI DSS v4.0.1 strong-cryptography requirements (PFS present, no SHA-1, no known practical attack with modern TLS stacks).
 
@@ -44,6 +44,7 @@ TLS handshake acceptance matrix, ports 2053 and 2083 (identical results on both;
 > Project ref: `lhbyfidtlhojnrewpstp`. Our custom domain `api.giveprotocol.io` (CNAME to `lhbyfidtlhojnrewpstp.supabase.co`) is subject to quarterly PCI ASV scans. Our Q3 scan flagged "SSL/TLS Recommended Cipher Suites (PCI DSS)" on Cloudflare alternate-HTTPS ports 2053 and 2083.
 >
 > Requests, in order of preference:
+>
 > 1. Close/disable alternate HTTPS ports (2053, 2083, 2087, 2096, 8443) for our custom domain, or confirm whether this is configurable — only 443 carries our traffic.
 > 2. If port closure isn't possible: restrict TLS 1.2 cipher suites on the edge to the Mozilla Intermediate set (ECDHE-GCM/CHACHA20 only, i.e. drop CBC-mode suites ECDHE-RSA-AES128-SHA256 / ECDHE-RSA-AES256-SHA384).
 > 3. If neither is configurable: a short written statement of Supabase's edge TLS posture (min TLS 1.2, ECDHE-only, no DHE/static-RSA) that we can attach to ASV attestations as third-party evidence.

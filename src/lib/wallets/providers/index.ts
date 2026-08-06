@@ -5,7 +5,10 @@
 
 // Base classes
 export { BaseEVMProvider } from "./BaseEVMProvider";
-export { BaseMultiChainProvider, type SecondaryChainAdapter } from "./BaseMultiChainProvider";
+export {
+  BaseMultiChainProvider,
+  type SecondaryChainAdapter,
+} from "./BaseMultiChainProvider";
 
 // MetaMask - EVM only
 export { MetaMaskProvider, createMetaMaskProvider } from "./MetaMaskProvider";

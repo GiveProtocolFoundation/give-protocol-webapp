@@ -62,4 +62,3 @@ export function switchSolanaNetwork(
     console.error("Failed to switch to Solana:", err);
   }
 }
-

@@ -12,10 +12,7 @@ import { ClientOnly } from "./ClientOnly";
 import { SettingsMenu } from "./SettingsMenu";
 import { WalletButton, NetworkSelector } from "./Wallet";
 import type { NetworkType, WalletProviderType } from "./Wallet";
-import {
-  switchEvmNetwork,
-  switchSolanaNetwork,
-} from "./appNavbarHelpers";
+import { switchEvmNetwork, switchSolanaNetwork } from "./appNavbarHelpers";
 import { Menu, X, LogOut } from "lucide-react";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAuth } from "@/contexts/AuthContext";

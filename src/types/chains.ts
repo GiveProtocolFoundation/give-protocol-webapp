@@ -95,7 +95,8 @@ export function isEVMChain(config: AnyChainConfig): config is EVMChainConfig {
  * @param config - Chain configuration to check
  * @returns True if Solana chain
  */
-export function isSolanaChain(config: AnyChainConfig): config is SolanaClusterConfig {
+export function isSolanaChain(
+  config: AnyChainConfig,
+): config is SolanaClusterConfig {
   return config.type === "solana";
 }
-

@@ -9,29 +9,29 @@
 
 ## 1. The question
 
-A donation record links an identified donor to a named charity. Where the charity is religious, political, or philosophical in character, the record is *liable indirectly to reveal* a Recital 51 special category. Two framings were tabled by Head of Data (plans/GIV-651-ropa-v1.6-delta.md, Item 3):
+A donation record links an identified donor to a named charity. Where the charity is religious, political, or philosophical in character, the record is _liable indirectly to reveal_ a Recital 51 special category. Two framings were tabled by Head of Data (plans/GIV-651-ropa-v1.6-delta.md, Item 3):
 
 - **Option A — purpose-based non-Art.9:** processing purpose is transaction facilitation; no inference, segmentation, targeting, or profiling keyed on affiliation; therefore Art. 9 is not engaged.
 - **Option B — Art. 9 engaged; rely on Art. 9(2)(a) explicit consent**, given the deliberate affirmative donation act.
 
 ## 2. Controlling authority — why pure Option A is doctrinally exposed
 
-1. **CJEU C-184/20, *OT v Vyriausioji tarnybinės etikos komisija* (1 Aug 2022):** the Court held that data *liable indirectly to disclose* a special category (there, sexual orientation via a spouse's name in a public declaration) **constitutes Art. 9 processing**, expressly rejecting a narrow reading confined to intrinsically sensitive data. The test is **content-based** ("liable to reveal"), not purpose-based.
-2. **CJEU C-252/21, *Meta Platforms v Bundeskartellamt* (4 July 2023):** collection of data about visits to websites/apps relating to sensitive topics was held capable of constituting Art. 9 processing even absent any controller intent to infer the sensitive attribute.
+1. **CJEU C-184/20, _OT v Vyriausioji tarnybinės etikos komisija_ (1 Aug 2022):** the Court held that data _liable indirectly to disclose_ a special category (there, sexual orientation via a spouse's name in a public declaration) **constitutes Art. 9 processing**, expressly rejecting a narrow reading confined to intrinsically sensitive data. The test is **content-based** ("liable to reveal"), not purpose-based.
+2. **CJEU C-252/21, _Meta Platforms v Bundeskartellamt_ (4 July 2023):** collection of data about visits to websites/apps relating to sensitive topics was held capable of constituting Art. 9 processing even absent any controller intent to infer the sensitive attribute.
 3. **Recital 51 + EDPB posture:** the EDPB has consistently tracked the CJEU's broad reading post-2022. The pre-2022 "inference-purpose" approach (still visible in some legacy ICO guidance) is the weaker position in the EU; and we owe compliance in both EU and UK (DataRep EU + UK reps appointed, GIV-543).
 
-**Consequence:** Option A as drafted ("we do not process this as Art. 9 data because our purpose is transaction facilitation") is contrary to the current CJEU line. A supervisory authority applying C-184/20 would likely find Art. 9 *engaged* for donations to affiliation-revealing charities, at which point a controller with no Art. 9(2) condition on file has a gap in its Art. 30 record and its lawfulness analysis.
+**Consequence:** Option A as drafted ("we do not process this as Art. 9 data because our purpose is transaction facilitation") is contrary to the current CJEU line. A supervisory authority applying C-184/20 would likely find Art. 9 _engaged_ for donations to affiliation-revealing charities, at which point a controller with no Art. 9(2) condition on file has a gap in its Art. 30 record and its lawfulness analysis.
 
 Purpose still matters — but as **mitigation and safeguard evidence**, not as the gateway test.
 
 ## 3. Art. 9(2) condition analysis
 
-| Condition | Fit | Notes |
-|---|---|---|
-| **9(2)(a) explicit consent** | **Best fit** | The donation is a deliberate, affirmative, specific act by the data subject directed at the named charity. Explicitness can be satisfied by an express statement presented at donation confirmation (EDPB Guidelines 05/2020 §§93–94: explicit = express statement; a clear confirmation of a written statement suffices; a separate checkbox is one method, not the only one). |
-| 9(2)(d) nonprofit body, members/contacts | Poor fit | Applies to the *foundation/charity's own* processing of its members; Give Protocol is an intermediary platform, and the condition bars disclosure outside the body without consent. |
-| 9(2)(e) manifestly made public | Poor fit / rejected | On-chain visibility of a wallet-level donation does not make the *identified donor's* affiliation "manifestly public"; EDPB reads (e) narrowly and pseudonymous chain data ≠ deliberate public self-disclosure of affiliation. Do not rely on it. |
-| 9(2)(f) legal claims | N/A for routine processing | Retain as ancillary basis for dispute/defence retention only. |
+| Condition                                | Fit                        | Notes                                                                                                                                                                                                                                                                                                                                                                           |
+| ---------------------------------------- | -------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| **9(2)(a) explicit consent**             | **Best fit**               | The donation is a deliberate, affirmative, specific act by the data subject directed at the named charity. Explicitness can be satisfied by an express statement presented at donation confirmation (EDPB Guidelines 05/2020 §§93–94: explicit = express statement; a clear confirmation of a written statement suffices; a separate checkbox is one method, not the only one). |
+| 9(2)(d) nonprofit body, members/contacts | Poor fit                   | Applies to the _foundation/charity's own_ processing of its members; Give Protocol is an intermediary platform, and the condition bars disclosure outside the body without consent.                                                                                                                                                                                             |
+| 9(2)(e) manifestly made public           | Poor fit / rejected        | On-chain visibility of a wallet-level donation does not make the _identified donor's_ affiliation "manifestly public"; EDPB reads (e) narrowly and pseudonymous chain data ≠ deliberate public self-disclosure of affiliation. Do not rely on it.                                                                                                                               |
+| 9(2)(f) legal claims                     | N/A for routine processing | Retain as ancillary basis for dispute/defence retention only.                                                                                                                                                                                                                                                                                                                   |
 
 **Freely-given concern (Art. 7(4) bundling):** conditioning the donation on consent to process the donation record is acceptable because processing the donor→charity record is **objectively necessary to execute the very transaction the data subject requests**. This is not tying consent to unrelated processing; EDPB 05/2020 §§26–31 tolerates conditionality where processing is strictly necessary to deliver the requested service. Withdrawal maps to the existing erasure/objection pathway (with Art. 17(3) carve-outs for legal-obligation retention, e.g., receipts/accounting).
 
@@ -65,5 +65,6 @@ Minimum viable, to be scoped by engineering once confirmed:
 ## 7. Confirmation sought
 
 Board (as human counsel relay) to confirm:
+
 1. **Framing = Option B layered** (§4), or direct otherwise.
 2. Consent-capture mechanics (§5) acceptable as the engineering scope baseline.

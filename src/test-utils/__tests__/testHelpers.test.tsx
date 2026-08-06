@@ -76,10 +76,7 @@ describe("testHelpers", () => {
 
     it("checks href attribute with hash", () => {
       const mockElement = document.createElement("a");
-      mockElement.setAttribute(
-        "href",
-        "https://basescan.org/tx/0x123hash",
-      );
+      mockElement.setAttribute("href", "https://basescan.org/tx/0x123hash");
       mockElement.setAttribute("target", "_blank");
       mockElement.setAttribute("rel", "noopener noreferrer");
 
@@ -90,10 +87,7 @@ describe("testHelpers", () => {
 
     it("checks target and rel attributes", () => {
       const mockElement = document.createElement("a");
-      mockElement.setAttribute(
-        "href",
-        "https://basescan.org/tx/0xtest",
-      );
+      mockElement.setAttribute("href", "https://basescan.org/tx/0xtest");
       mockElement.setAttribute("target", "_blank");
       mockElement.setAttribute("rel", "noopener noreferrer");
 

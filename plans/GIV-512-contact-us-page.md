@@ -10,7 +10,7 @@
 
 ## Recommended file path
 
-`_pages/help-center/need-help.md`  *(or `help-center/need-help/index.md` — match existing Jekyll convention in repo)*
+`_pages/help-center/need-help.md` _(or `help-center/need-help/index.md` — match existing Jekyll convention in repo)_
 
 ## Page source (drop-in Jekyll markdown)
 
@@ -68,7 +68,7 @@ For responsible disclosure of vulnerabilities, please use the subject line **"Se
 
 ---
 
-*Give Protocol is a Progressive Web App for blockchain-based charitable giving. Your donations move on-chain; our support is human.*
+_Give Protocol is a Progressive Web App for blockchain-based charitable giving. Your donations move on-chain; our support is human._
 ```
 
 ---

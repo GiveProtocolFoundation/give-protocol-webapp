@@ -75,12 +75,12 @@ export abstract class BaseMultiChainProvider implements UnifiedWalletProvider {
 
     try {
       if (chainType === "evm") {
-        accounts.push(...await this.connectEVM());
+        accounts.push(...(await this.connectEVM()));
         this.connectedChainType = "evm";
       }
 
       if (chainType === this.secondaryChainType) {
-        accounts.push(...await this.connectSecondary());
+        accounts.push(...(await this.connectSecondary()));
         this.connectedChainType = this.secondaryChainType;
       }
 
@@ -165,7 +165,10 @@ export abstract class BaseMultiChainProvider implements UnifiedWalletProvider {
    * @param chainId - Target chain ID
    * @param chainType - Chain type
    */
-  async switchChain(chainId: number | string, chainType: ChainType): Promise<void> {
+  async switchChain(
+    chainId: number | string,
+    chainType: ChainType,
+  ): Promise<void> {
     if (chainType === "evm" && this.evmAdapter) {
       await this.evmAdapter.switchChain(chainId as number);
     } else if (chainType === this.secondaryChainType) {
@@ -179,7 +182,9 @@ export abstract class BaseMultiChainProvider implements UnifiedWalletProvider {
    * Switch the secondary chain. Override in subclasses that need different behavior.
    * @param chainId - Target chain ID
    */
-  protected async switchSecondaryChain(chainId: number | string): Promise<void> {
+  protected async switchSecondaryChain(
+    chainId: number | string,
+  ): Promise<void> {
     const secondary = this.getSecondaryAdapter();
     if (!secondary) {
       throw new Error(`Cannot switch chain for ${this.secondaryChainType}`);
@@ -215,7 +220,10 @@ export abstract class BaseMultiChainProvider implements UnifiedWalletProvider {
    * @param chainType - Chain type for signing
    * @returns Signature
    */
-  async signMessage(message: string | Uint8Array, chainType: ChainType): Promise<string> {
+  async signMessage(
+    message: string | Uint8Array,
+    chainType: ChainType,
+  ): Promise<string> {
     if (chainType === "evm" && this.evmAdapter) {
       return await this.evmAdapter.signMessage(message);
     }

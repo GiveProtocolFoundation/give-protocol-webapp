@@ -39,10 +39,7 @@ describe("tokens config", () => {
     });
 
     it("all tokens should have required fields", () => {
-      const allTokens = [
-        ...BASE_TOKENS,
-        ...OPTIMISM_TOKENS,
-      ];
+      const allTokens = [...BASE_TOKENS, ...OPTIMISM_TOKENS];
       for (const token of allTokens) {
         expect(token.symbol).toBeTruthy();
         expect(token.name).toBeTruthy();

@@ -42,50 +42,50 @@ Legend: 🟢 Done / rollout-ready · 🟡 Functional but needs docs or polish ·
 
 ### 3.1 Core Giving Loop
 
-| Capability | State | Notes / Gap |
-|---|---|---|
-| Account creation (email + Google OAuth) | 🟢 | Live. PASSWORD_RECOVERY / ResetPassword flow shipped (GIV-338). |
-| Consent capture (English) | 🟢 | Board chose English-only consent (GIV-495, PRs #479/#482 merged). GA4 consent-gated. |
-| Charity discovery + verification badge | 🟡 | Country-agnostic copy shipped (GIV-520/581): "Tax ID", "Verified nonprofit", "Sector code". US tax-deductibility tooltip preserved. Data model still US-EIN internally — non-US registry ingestion is a **separate workstream**, not v1-blocking but limits non-US charity onboarding. |
-| Fiat donations (Helcim) | 🟢 | Live. postMessage origin validation in place. |
-| Crypto donations (Base mainnet, chain 8453) | 🟡 | Wallet/Web3 live; **crypto donation data export still blocked (GIV-419)** — Art. 20 portability gap. Not a payment blocker, a data-rights blocker. |
-| Transactional email (receipts, notifications) | 🟢 | Resend, 12-locale templates wired (GIV-638, PR #495). US IRS Pub. 1771 receipt block verbatim-English. |
-| Tax receipts / documentation | 🟡 | Fiat receipts fine. Confirm crypto-donation receipt parity before GA. |
+| Capability                                    | State | Notes / Gap                                                                                                                                                                                                                                                                            |
+| --------------------------------------------- | ----- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Account creation (email + Google OAuth)       | 🟢    | Live. PASSWORD_RECOVERY / ResetPassword flow shipped (GIV-338).                                                                                                                                                                                                                        |
+| Consent capture (English)                     | 🟢    | Board chose English-only consent (GIV-495, PRs #479/#482 merged). GA4 consent-gated.                                                                                                                                                                                                   |
+| Charity discovery + verification badge        | 🟡    | Country-agnostic copy shipped (GIV-520/581): "Tax ID", "Verified nonprofit", "Sector code". US tax-deductibility tooltip preserved. Data model still US-EIN internally — non-US registry ingestion is a **separate workstream**, not v1-blocking but limits non-US charity onboarding. |
+| Fiat donations (Helcim)                       | 🟢    | Live. postMessage origin validation in place.                                                                                                                                                                                                                                          |
+| Crypto donations (Base mainnet, chain 8453)   | 🟡    | Wallet/Web3 live; **crypto donation data export still blocked (GIV-419)** — Art. 20 portability gap. Not a payment blocker, a data-rights blocker.                                                                                                                                     |
+| Transactional email (receipts, notifications) | 🟢    | Resend, 12-locale templates wired (GIV-638, PR #495). US IRS Pub. 1771 receipt block verbatim-English.                                                                                                                                                                                 |
+| Tax receipts / documentation                  | 🟡    | Fiat receipts fine. Confirm crypto-donation receipt parity before GA.                                                                                                                                                                                                                  |
 
 ### 3.2 Trust, Safety & Data Rights
 
-| Capability | State | Notes / Gap |
-|---|---|---|
-| Volunteer PII isolation (RLS) | 🔴 | **GIV-407: `volunteer_applications` RLS `USING(true)` exposes all applicant PII to any authenticated user.** PR opened, **awaiting merge**. This is the single most serious open data-safety item. Must ship before GA. |
-| Data export (Art. 20 portability) | 🟡 | Covers volunteer_applications, legacy donations. **Crypto donations still uncovered (GIV-419).** |
-| Consent withdrawal / CMP | 🟢 | Silktide removed; single CMP; GA4 + Sentry Phase-B gated. |
-| Admin audit logging | 🟢 | 5 admin read RPCs instrumented (GIV-413/414). Privacy.tsx §6 disclosed. |
-| RoPA (Art. 30 register) | 🟡 | v1.5 live. **v1.6 delta in flight (GIV-651):** add GA4 activity, Sentry Phase-A activity, Art. 9 handling note. |
-| Art. 9 special-category framing | 🔴→counsel | Charity affiliation can imply religious/political belief (Recital 51). Framing drafted as purpose-based non-Art.9; **Art. 9(2) condition selection is a counsel decision (GIV-652)**, not an engineering one. Blocks a clean "we don't process special categories" claim. |
-| Art. 27 EU/UK representative | 🟢 | DataRep appointed (GIV-543). Complaints route to local SAs; no lead SA (no EU establishment). |
-| DPO determination | 🟢 | No DPO required (fails all 3 Art. 37(1) triggers; ≤1,000 subjects). **Caveat: re-assess at mainnet launch, not on 12-mo calendar** — launch can invalidate the ≤1,000 assumption (GIV-651). |
-| Privacy policy accuracy | 🟡 | §5 processor list, §6/§7.1 retention reconciliation ongoing. GA4 retention value ("2 months") must be **set in GA4 console by a human** (CEO/founder — no agent has Google creds; GIV-476). Code asserts it; console must match or it's Art. 5(1)(e) drift. |
+| Capability                        | State      | Notes / Gap                                                                                                                                                                                                                                                               |
+| --------------------------------- | ---------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Volunteer PII isolation (RLS)     | 🔴         | **GIV-407: `volunteer_applications` RLS `USING(true)` exposes all applicant PII to any authenticated user.** PR opened, **awaiting merge**. This is the single most serious open data-safety item. Must ship before GA.                                                   |
+| Data export (Art. 20 portability) | 🟡         | Covers volunteer_applications, legacy donations. **Crypto donations still uncovered (GIV-419).**                                                                                                                                                                          |
+| Consent withdrawal / CMP          | 🟢         | Silktide removed; single CMP; GA4 + Sentry Phase-B gated.                                                                                                                                                                                                                 |
+| Admin audit logging               | 🟢         | 5 admin read RPCs instrumented (GIV-413/414). Privacy.tsx §6 disclosed.                                                                                                                                                                                                   |
+| RoPA (Art. 30 register)           | 🟡         | v1.5 live. **v1.6 delta in flight (GIV-651):** add GA4 activity, Sentry Phase-A activity, Art. 9 handling note.                                                                                                                                                           |
+| Art. 9 special-category framing   | 🔴→counsel | Charity affiliation can imply religious/political belief (Recital 51). Framing drafted as purpose-based non-Art.9; **Art. 9(2) condition selection is a counsel decision (GIV-652)**, not an engineering one. Blocks a clean "we don't process special categories" claim. |
+| Art. 27 EU/UK representative      | 🟢         | DataRep appointed (GIV-543). Complaints route to local SAs; no lead SA (no EU establishment).                                                                                                                                                                             |
+| DPO determination                 | 🟢         | No DPO required (fails all 3 Art. 37(1) triggers; ≤1,000 subjects). **Caveat: re-assess at mainnet launch, not on 12-mo calendar** — launch can invalidate the ≤1,000 assumption (GIV-651).                                                                               |
+| Privacy policy accuracy           | 🟡         | §5 processor list, §6/§7.1 retention reconciliation ongoing. GA4 retention value ("2 months") must be **set in GA4 console by a human** (CEO/founder — no agent has Google creds; GIV-476). Code asserts it; console must match or it's Art. 5(1)(e) drift.               |
 
 ### 3.3 Documentation & Guidance (the "general audience comfort" question)
 
-| Surface | State | Gap |
-|---|---|---|
-| Help center | 🟡 | `/help-center/need-help/` 404 fixed (docs#4). Other `/help-center/*` URLs are an **audit candidate** — dead links erode trust. |
-| Contact-us path | 🟡 | GIV-512 in flight. Single-inbox routing (`info@giveprotocol.io`, subject-tagged). Needs the page live + link-checked. |
-| Donor onboarding / "how giving works" | 🔴 | No evidence of a first-run donor walkthrough or crypto-giving primer for non-technical users. **This is the biggest general-audience-comfort gap.** A stranger arriving cold needs a guided path. |
-| Charity onboarding guide | 🟡 | Verification flow exists; a step-by-step "get your nonprofit listed" doc would reduce support load. |
-| Volunteer manager guidance | 🟡 | Volo Index is a separate product; core webapp volunteer flow needs a short applicant-facing explainer. |
-| Security disclosure | 🟢 | `privacy@giveprotocol.io` (security@ never existed; SECURITY.md corrected, GIV-336). |
+| Surface                               | State | Gap                                                                                                                                                                                               |
+| ------------------------------------- | ----- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Help center                           | 🟡    | `/help-center/need-help/` 404 fixed (docs#4). Other `/help-center/*` URLs are an **audit candidate** — dead links erode trust.                                                                    |
+| Contact-us path                       | 🟡    | GIV-512 in flight. Single-inbox routing (`info@giveprotocol.io`, subject-tagged). Needs the page live + link-checked.                                                                             |
+| Donor onboarding / "how giving works" | 🔴    | No evidence of a first-run donor walkthrough or crypto-giving primer for non-technical users. **This is the biggest general-audience-comfort gap.** A stranger arriving cold needs a guided path. |
+| Charity onboarding guide              | 🟡    | Verification flow exists; a step-by-step "get your nonprofit listed" doc would reduce support load.                                                                                               |
+| Volunteer manager guidance            | 🟡    | Volo Index is a separate product; core webapp volunteer flow needs a short applicant-facing explainer.                                                                                            |
+| Security disclosure                   | 🟢    | `privacy@giveprotocol.io` (security@ never existed; SECURITY.md corrected, GIV-336).                                                                                                              |
 
 ### 3.4 Engineering Health / Release Confidence
 
-| Item | State | Notes |
-|---|---|---|
-| CI green on main | 🟢 | Green since 2026-07-03 (GIV-405). 288 suites / 3909 tests / 0 failures baseline. |
-| CSP config sync | 🟢 | `scripts/validate-csp.mjs` enforces sync across 4 config files. |
-| Deployment | 🟢 | Netlify auto-publish on main; scripted rollback (Netlify CLI) drilled (GIV-329). |
-| Supabase region | 🟢 | Ireland (EU). Intra-EEA — no SCCs needed for core data. |
-| PR EU-targeting gate | 🟢 | PR template 4-checkbox gate live (GIV-534). |
+| Item                 | State | Notes                                                                            |
+| -------------------- | ----- | -------------------------------------------------------------------------------- |
+| CI green on main     | 🟢    | Green since 2026-07-03 (GIV-405). 288 suites / 3909 tests / 0 failures baseline. |
+| CSP config sync      | 🟢    | `scripts/validate-csp.mjs` enforces sync across 4 config files.                  |
+| Deployment           | 🟢    | Netlify auto-publish on main; scripted rollback (Netlify CLI) drilled (GIV-329). |
+| Supabase region      | 🟢    | Ireland (EU). Intra-EEA — no SCCs needed for core data.                          |
+| PR EU-targeting gate | 🟢    | PR template 4-checkbox gate live (GIV-534).                                      |
 
 ---
 

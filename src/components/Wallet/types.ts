@@ -7,9 +7,7 @@ import type { RefObject } from "react";
 /**
  * Supported wallet provider types
  */
-export type WalletProviderType =
-  | "nova"
-  | "metamask";
+export type WalletProviderType = "nova" | "metamask";
 
 /**
  * Supported network types

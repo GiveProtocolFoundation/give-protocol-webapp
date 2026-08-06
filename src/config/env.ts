@@ -98,9 +98,7 @@ export const ENV = {
 
   // Optional variables with defaults
   NETWORK: getEnv("VITE_NETWORK") || "base",
-  NETWORK_ENDPOINT:
-    getEnv("VITE_NETWORK_ENDPOINT") ||
-    "",
+  NETWORK_ENDPOINT: getEnv("VITE_NETWORK_ENDPOINT") || "",
 
   // Feature flags
   ENABLE_GOOGLE_AUTH: getEnv("VITE_ENABLE_GOOGLE_AUTH") === "true",

@@ -23,9 +23,7 @@ function buildDeps(
   overrides: Partial<NetworkSwitchDeps> = {},
 ): NetworkSwitchDeps {
   return {
-    evmChainIds: { base: 8453 } as Partial<
-      Record<NetworkType, number>
-    >,
+    evmChainIds: { base: 8453 } as Partial<Record<NetworkType, number>>,
     isConnected: true,
     setNetwork: jest.fn(),
     switchChain: jest.fn().mockResolvedValue(),
@@ -120,4 +118,3 @@ describe("switchSolanaNetwork", () => {
     expect(deps.setNetwork).not.toHaveBeenCalled();
   });
 });
-

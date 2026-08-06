@@ -7,14 +7,14 @@ import CharityScheduledDistributionABI from "@/contracts/CharityScheduledDistrib
 import { Logger } from "@/utils/logger";
 
 /** Section showing common test token addresses with a quick-fill button. */
-const TestTokensSection: React.FC<{ onUseDevToken: () => void }> = ({ onUseDevToken }) => (
+const TestTokensSection: React.FC<{ onUseDevToken: () => void }> = ({
+  onUseDevToken,
+}) => (
   <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
     <h3 className="text-sm font-semibold text-blue-900 mb-2">
       Common Test Tokens on Base Sepolia
     </h3>
-    <p className="text-xs font-medium text-blue-800 mb-1">
-      WETH Token:
-    </p>
+    <p className="text-xs font-medium text-blue-800 mb-1">WETH Token:</p>
     <code className="block p-2 bg-white rounded text-xs break-all border border-blue-200">
       0x7Cb6b60Ca0e18a0BceB24Bd3C99d8894Ed199abD
     </code>

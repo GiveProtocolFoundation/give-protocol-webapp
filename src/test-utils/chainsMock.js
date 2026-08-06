@@ -35,4 +35,3 @@ export const getSolanaClusterConfig = jest.fn((clusterId) => ({
 }));
 
 export const isSolanaClusterSupported = jest.fn(() => true);
-

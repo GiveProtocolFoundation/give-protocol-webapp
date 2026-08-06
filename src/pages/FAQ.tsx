@@ -128,10 +128,10 @@ const FAQ_SECTIONS: FAQSectionData[] = [
         answer: (
           <p>
             Give Protocol is multichain by design. Currently supported networks
-            include Base, Optimism, and Solana. The
-            specific tokens accepted depend on the network and the receiving
-            organization&apos;s wallet configuration. Check the charity&apos;s
-            profile page for their supported assets.
+            include Base, Optimism, and Solana. The specific tokens accepted
+            depend on the network and the receiving organization&apos;s wallet
+            configuration. Check the charity&apos;s profile page for their
+            supported assets.
           </p>
         ),
       },

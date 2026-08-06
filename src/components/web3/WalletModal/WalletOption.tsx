@@ -66,16 +66,22 @@ export const WalletOption: React.FC<WalletOptionProps> = ({
     }
   }, [wallet, onSelect, isDisabled, isThisConnecting, isInstalled]);
 
-  const handleInstallClick = useCallback((e: React.MouseEvent) => {
-    e.stopPropagation();
-    if (installUrl) {
-      window.open(installUrl, "_blank", "noopener,noreferrer");
-    }
-  }, [installUrl]);
+  const handleInstallClick = useCallback(
+    (e: React.MouseEvent) => {
+      e.stopPropagation();
+      if (installUrl) {
+        window.open(installUrl, "_blank", "noopener,noreferrer");
+      }
+    },
+    [installUrl],
+  );
 
-  const handleIconError = useCallback((e: React.SyntheticEvent<HTMLImageElement>) => {
-    e.currentTarget.src = "/icons/wallet.svg";
-  }, []);
+  const handleIconError = useCallback(
+    (e: React.SyntheticEvent<HTMLImageElement>) => {
+      e.currentTarget.src = "/icons/wallet.svg";
+    },
+    [],
+  );
 
   return (
     <button
@@ -102,7 +108,9 @@ export const WalletOption: React.FC<WalletOptionProps> = ({
       />
 
       {/* Wallet Name */}
-      <span className={`flex-1 min-w-0 font-medium truncate ${isInstalled ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-500"}`}>
+      <span
+        className={`flex-1 min-w-0 font-medium truncate ${isInstalled ? "text-gray-900 dark:text-white" : "text-gray-400 dark:text-gray-500"}`}
+      >
         {wallet.name}
       </span>
 

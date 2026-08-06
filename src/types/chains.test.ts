@@ -1,9 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import {
-  isEVMChain,
-  isSolanaChain,
-  type AnyChainConfig,
-} from "./chains";
+import { isEVMChain, isSolanaChain, type AnyChainConfig } from "./chains";
 
 const evmConfig: AnyChainConfig = {
   type: "evm",
@@ -55,5 +51,4 @@ describe("chain type guards", () => {
       expect(isSolanaChain(evmConfig)).toBe(false);
     });
   });
-
 });
