@@ -88,7 +88,6 @@ export class SecurityManager {
       ENV.APP_DOMAIN,
       `app.${ENV.APP_DOMAIN}`,
       "lhbyfidtlhojnrewpstp.supabase.co",
-      "westend-rpc.polkadot.io",
       "api.giveprotocol.io",
       "images.unsplash.com",
       "api.coingecko.com",
@@ -96,10 +95,8 @@ export class SecurityManager {
       "api.helcim.com",
       "mainnet.base.org",
       "mainnet.optimism.io",
-      "rpc.api.moonbeam.network",
       "sepolia.base.org",
       "sepolia.optimism.io",
-      "rpc.api.moonbase.moonbeam.network",
       "base.publicnode.com",
       "s3.amazonaws.com",
     ];

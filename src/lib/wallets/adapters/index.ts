@@ -1,6 +1,6 @@
 /**
  * Chain Adapter exports for Give Protocol
- * Unified access to EVM, Solana, and Polkadot adapters
+ * Unified access to EVM and Solana adapters
  */
 
 // EVM Adapter
@@ -17,11 +17,3 @@ export {
   createSolanaAdapter,
   isSolanaProvider,
 } from "./SolanaAdapter";
-
-// Polkadot Adapter
-export {
-  PolkadotAdapter,
-  enablePolkadotExtension,
-  getAvailablePolkadotExtensions,
-  isPolkadotExtension,
-} from "./PolkadotAdapter";

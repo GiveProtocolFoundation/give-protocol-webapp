@@ -94,10 +94,7 @@ const TokenManagement: React.FC = () => {
           <li>
             Tokens must be whitelisted before they can be used for donations
           </li>
-          <li>
-            Use the zero address (0x0000...0000) to accept native DEV/GLMR
-            tokens
-          </li>
+          <li>Use the zero address (0x0000...0000) to accept native tokens</li>
           <li>
             Once added, tokens cannot be removed without calling
             removeAcceptedToken

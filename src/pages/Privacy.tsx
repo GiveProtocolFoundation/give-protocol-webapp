@@ -539,7 +539,7 @@ const SectionYourRights: React.FC = () => (
       of all personal data from our internal systems within{" "}
       <strong>30 days</strong>, including the link between your Give Protocol
       account and your wallet address. However, transaction data that has
-      already been recorded on public blockchain networks (such as Moonbeam,
+      already been recorded on public blockchain networks (such as Arbitrum,
       Base, and Optimism) <strong>cannot be erased</strong>, because blockchain
       ledgers are immutable by design and no technical means exist to remove or
       alter a confirmed on-chain record.

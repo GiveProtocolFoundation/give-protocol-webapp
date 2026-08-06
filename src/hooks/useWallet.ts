@@ -10,8 +10,6 @@ import {
   MetaMaskProvider,
   RabbyProvider,
   PhantomProvider,
-  TalismanProvider,
-  SubWalletProvider,
   CoinbaseProvider,
   LedgerProvider,
   createSafeProvider,
@@ -211,29 +209,6 @@ class EVMWalletBase implements WalletProvider {
         rpcUrls: ["https://mainnet.optimism.io"],
         blockExplorerUrls: ["https://optimistic.etherscan.io/"],
       },
-      // Moonbeam
-      [CHAIN_IDS.MOONBASE]: {
-        chainId: `0x${CHAIN_IDS.MOONBASE.toString(16)}`,
-        chainName: "Moonbase Alpha",
-        nativeCurrency: {
-          name: "DEV",
-          symbol: "DEV",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc.api.moonbase.moonbeam.network"],
-        blockExplorerUrls: ["https://moonbase.moonscan.io/"],
-      },
-      [CHAIN_IDS.MOONBEAM]: {
-        chainId: `0x${CHAIN_IDS.MOONBEAM.toString(16)}`,
-        chainName: "Moonbeam",
-        nativeCurrency: {
-          name: "GLMR",
-          symbol: "GLMR",
-          decimals: 18,
-        },
-        rpcUrls: ["https://rpc.api.moonbeam.network"],
-        blockExplorerUrls: ["https://moonbeam.moonscan.io/"],
-      },
     };
     return chains[chainId as keyof typeof chains];
   }
@@ -288,7 +263,7 @@ class MetaMaskWallet extends EVMWalletBase {
  * ```typescript
  * const walletConnect = new WalletConnect();
  * const address = await walletConnect.connect();
- * await walletConnect.switchChain(1287); // Moonbase Alpha
+ * await walletConnect.switchChain(8453); // Base
  * ```
  */
 class WalletConnect implements WalletProvider {
@@ -345,14 +320,14 @@ class WalletConnect implements WalletProvider {
  * Nova Wallet provider implementation
  * @class NovaWallet
  * @extends EVMWalletBase
- * @description Integrates with Nova Wallet for Polkadot ecosystem.
- * Nova is a mobile-first wallet popular in the Polkadot/Kusama ecosystem.
+ * @description Integrates with Nova Wallet for EVM chains.
+ * Nova is a mobile-first multi-chain wallet with EVM support.
  * @example
  * ```typescript
  * const nova = new NovaWallet();
  * if (nova.isInstalled()) {
  *   const address = await nova.connect();
- *   await nova.switchChain(1284); // Moonbeam
+ *   await nova.switchChain(8453); // Base
  * }
  * ```
  */
@@ -375,84 +350,6 @@ class NovaWallet extends EVMWalletBase {
     this.installationChecks++;
     if (typeof window === "undefined") return false;
     return typeof window.nova !== "undefined";
-  }
-}
-
-/**
- * SubWallet provider implementation
- * @class SubWallet
- * @extends EVMWalletBase
- * @description Integrates with SubWallet browser extension for Polkadot ecosystem.
- * SubWallet is the most popular wallet in the Polkadot ecosystem with full EVM support.
- * @example
- * ```typescript
- * const subwallet = new SubWallet();
- * if (subwallet.isInstalled()) {
- *   const address = await subwallet.connect();
- *   await subwallet.switchChain(1287); // Moonbase Alpha
- * }
- * ```
- */
-class SubWallet extends EVMWalletBase {
-  private installationChecks = 0;
-
-  /**
-   * Initializes the wallet with the SubWallet-injected `window.SubWallet` provider when available.
-   */
-  constructor() {
-    super(
-      "SubWallet",
-      "subwallet",
-      typeof window !== "undefined" && window.SubWallet
-        ? window.SubWallet
-        : null,
-    );
-  }
-
-  /** Check whether SubWallet extension is available */
-  isInstalled(): boolean {
-    this.installationChecks++;
-    if (typeof window === "undefined") return false;
-    return typeof window.SubWallet !== "undefined";
-  }
-}
-
-/**
- * Talisman wallet provider implementation
- * @class TalismanWallet
- * @extends EVMWalletBase
- * @description Integrates with Talisman wallet for multi-chain Polkadot ecosystem support.
- * Talisman provides seamless switching between Substrate and EVM accounts.
- * @example
- * ```typescript
- * const talisman = new TalismanWallet();
- * if (talisman.isInstalled()) {
- *   const address = await talisman.connect();
- *   await talisman.switchChain(1284); // Moonbeam
- * }
- * ```
- */
-class TalismanWallet extends EVMWalletBase {
-  private installationChecks = 0;
-
-  /**
-   * Initializes the wallet with the Talisman-injected `window.talismanEth` provider when available.
-   */
-  constructor() {
-    super(
-      "Talisman",
-      "talisman",
-      typeof window !== "undefined" && window.talismanEth
-        ? window.talismanEth
-        : null,
-    );
-  }
-
-  /** Check whether Talisman wallet is available */
-  isInstalled(): boolean {
-    this.installationChecks++;
-    if (typeof window === "undefined") return false;
-    return typeof window.talismanEth !== "undefined";
   }
 }
 
@@ -504,7 +401,7 @@ class CoinbaseWallet extends EVMWalletBase {
 /**
  * React hook for managing multiple cryptocurrency wallets
  * @function useWallet
- * @description Provides access to various wallet providers including MetaMask, Coinbase, Tally, Brave, and Polkadot.
+ * @description Provides access to various wallet providers including MetaMask, Coinbase, Tally, and Brave.
  * Returns utilities for discovering installed wallets and accessing wallet instances for connection management.
  * @returns {Object} Object containing wallet management utilities
  * @returns {Function} returns.getInstalledWallets - Function that returns array of installed wallet providers
@@ -531,8 +428,6 @@ export function useWallet() {
   const wallets: WalletProvider[] = [
     new MetaMaskWallet(),
     new CoinbaseWallet(),
-    new SubWallet(),
-    new TalismanWallet(),
     new WalletConnect(),
     new NovaWallet(),
   ];
@@ -567,12 +462,6 @@ export function useUnifiedWallets() {
     // Multi-chain wallets - always add them so they show in the UI
     const phantom = new PhantomProvider();
     wallets.push(phantom);
-
-    const talisman = new TalismanProvider();
-    wallets.push(talisman);
-
-    const subwallet = new SubWalletProvider();
-    wallets.push(subwallet);
 
     const coinbase = new CoinbaseProvider();
     wallets.push(coinbase);

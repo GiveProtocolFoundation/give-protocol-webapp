@@ -169,10 +169,7 @@ export const renderWithAllProviders = (
  * @param hash - Transaction hash for the link
  */
 export const expectBlockchainLink = (element: HTMLElement, hash: string) => {
-  expect(element).toHaveAttribute(
-    "href",
-    `https://moonbase.moonscan.io/tx/${hash}`,
-  );
+  expect(element).toHaveAttribute("href", `https://basescan.org/tx/${hash}`);
   expect(element).toHaveAttribute("target", "_blank");
   expect(element).toHaveAttribute("rel", "noopener noreferrer");
 };

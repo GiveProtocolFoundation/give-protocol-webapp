@@ -107,8 +107,6 @@ const RPC_ENDPOINTS = {
   ethereum: process.env.VITE_ETHEREUM_RPC_URL || "https://eth.llamarpc.com",
   base: process.env.VITE_BASE_RPC_URL || "https://base.publicnode.com",
   optimism: process.env.VITE_OPTIMISM_RPC_URL || "https://mainnet.optimism.io",
-  moonbeam:
-    process.env.VITE_MOONBEAM_RPC_URL || "https://rpc.api.moonbeam.network",
   arbitrum: process.env.VITE_ARBITRUM_RPC_URL || "https://arb1.arbitrum.io/rpc",
   polygon: process.env.VITE_POLYGON_RPC_URL || "https://polygon-rpc.com",
   avalanche:
@@ -118,9 +116,6 @@ const RPC_ENDPOINTS = {
     process.env.VITE_BASE_SEPOLIA_RPC_URL || "https://sepolia.base.org",
   "optimism-sepolia":
     process.env.VITE_OPTIMISM_SEPOLIA_RPC_URL || "https://sepolia.optimism.io",
-  moonbase:
-    process.env.VITE_MOONBASE_RPC_URL ||
-    "https://rpc.api.moonbase.moonbeam.network",
 };
 
 app.post("/api/rpc/:chain", async (req, res) => {

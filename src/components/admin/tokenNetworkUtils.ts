@@ -78,11 +78,7 @@ export const TOKEN_OPTIONS: AdminTokenOption[] = [
   { symbol: "POL", name: "POL (Polygon)" },
   { symbol: "AVAX", name: "Avalanche" },
   { symbol: "WAVAX", name: "Wrapped AVAX" },
-  { symbol: "GLMR", name: "Glimmer" },
-  { symbol: "WGLMR", name: "Wrapped GLMR" },
-  { symbol: "DOT", name: "Polkadot" },
   { symbol: "SOL", name: "Solana" },
-  { symbol: "KSM", name: "Kusama" },
 ];
 
 // ─── Value parsing / serialisation ────────────────────────────────────────────

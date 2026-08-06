@@ -62,7 +62,7 @@ describe("Auth", () => {
 
     it("renders Runs On trust tags", () => {
       renderAuth();
-      expect(screen.getByText("Moonbeam")).toBeInTheDocument();
+      expect(screen.getByText("Arbitrum")).toBeInTheDocument();
       expect(screen.getByText("Base")).toBeInTheDocument();
       expect(screen.getByText("Optimism")).toBeInTheDocument();
       expect(screen.getByText("Open Source")).toBeInTheDocument();

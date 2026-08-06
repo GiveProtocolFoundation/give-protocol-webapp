@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import {
   switchEvmNetwork,
   switchSolanaNetwork,
-  switchPolkadotNetwork,
   type MultiChainHandle,
   type NetworkSwitchDeps,
 } from "../appNavbarHelpers";
@@ -24,9 +23,7 @@ function buildDeps(
   overrides: Partial<NetworkSwitchDeps> = {},
 ): NetworkSwitchDeps {
   return {
-    evmChainIds: { base: 8453, moonbase: 1287 } as Partial<
-      Record<NetworkType, number>
-    >,
+    evmChainIds: { base: 8453 } as Partial<Record<NetworkType, number>>,
     isConnected: true,
     setNetwork: jest.fn(),
     switchChain: jest.fn().mockResolvedValue(),
@@ -116,40 +113,6 @@ describe("switchSolanaNetwork", () => {
     switchSolanaNetwork("solana" as NetworkType, deps);
     expect(consoleErrorSpy).toHaveBeenCalledWith(
       "Failed to switch to Solana:",
-      expect.any(Error),
-    );
-    expect(deps.setNetwork).not.toHaveBeenCalled();
-  });
-});
-
-describe("switchPolkadotNetwork", () => {
-  it("flips multiChain to polkadot and forwards the chain id when a wallet is connected", async () => {
-    const multiChain = buildMultiChain({ wallet: { name: "Talisman" } });
-    const deps = buildDeps({ multiChain });
-    await switchPolkadotNetwork("polkadot" as NetworkType, deps);
-    expect(multiChain.switchChainType).toHaveBeenCalledWith("polkadot");
-    expect(multiChain.switchChain).toHaveBeenCalledWith("polkadot", "polkadot");
-    expect(deps.setNetwork).toHaveBeenCalledWith("polkadot");
-  });
-
-  it("skips multiChain.switchChain when no wallet is connected", async () => {
-    const multiChain = buildMultiChain({ wallet: null });
-    const deps = buildDeps({ multiChain });
-    await switchPolkadotNetwork("polkadot" as NetworkType, deps);
-    expect(multiChain.switchChainType).toHaveBeenCalledWith("polkadot");
-    expect(multiChain.switchChain).not.toHaveBeenCalled();
-    expect(deps.setNetwork).toHaveBeenCalledWith("polkadot");
-  });
-
-  it("logs and swallows when switchChain rejects", async () => {
-    const multiChain = buildMultiChain({
-      wallet: { name: "Talisman" },
-      switchChain: jest.fn().mockRejectedValue(new Error("polkadot boom")),
-    });
-    const deps = buildDeps({ multiChain });
-    await switchPolkadotNetwork("polkadot" as NetworkType, deps);
-    expect(consoleErrorSpy).toHaveBeenCalledWith(
-      "Failed to switch to Polkadot network:",
       expect.any(Error),
     );
     expect(deps.setNetwork).not.toHaveBeenCalled();

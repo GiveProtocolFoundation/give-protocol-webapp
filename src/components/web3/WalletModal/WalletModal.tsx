@@ -21,11 +21,6 @@ type ModalStep = "network" | "wallet";
 const CHAIN_TABS: { type: ChainType; label: string; activeClass: string }[] = [
   { type: "evm", label: "EVM", activeClass: "bg-blue-600 text-white" },
   { type: "solana", label: "Solana", activeClass: "bg-emerald-600 text-white" },
-  {
-    type: "polkadot",
-    label: "Polkadot",
-    activeClass: "bg-pink-600 text-white",
-  },
 ];
 
 /** Network selection step dialog content. */

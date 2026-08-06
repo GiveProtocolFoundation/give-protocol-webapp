@@ -71,7 +71,7 @@ const defaultWeb3State = {
   provider: null,
   signer: null,
   address: null,
-  chainId: 1287,
+  chainId: 8453,
   isConnected: false,
   isConnecting: false,
   error: null,

@@ -156,7 +156,7 @@ function _isSupportedChainId(chainId: number | string): boolean {
  * @function ConnectButton
  * @description Comprehensive Web3 wallet connection button that handles wallet selection, connection states,
  * network switching, error handling, and account management. Supports multiple wallet providers across
- * EVM, Solana, and Polkadot chains.
+ * EVM and Solana chains.
  * @returns {React.ReactElement} Dynamic button component that shows different states:
  *   - Connect button when no wallet is connected
  *   - Account dropdown with address/alias when connected

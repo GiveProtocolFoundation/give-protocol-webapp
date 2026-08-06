@@ -65,11 +65,6 @@ const CHAIN_RPC_CONFIGS: Partial<Record<ChainId, ChainRpcConfig>> = {
     publicUrl: "https://mainnet.optimism.io",
     proxyName: "optimism",
   },
-  [CHAIN_IDS.MOONBEAM]: {
-    envVar: "VITE_MOONBEAM_RPC_URL",
-    publicUrl: "https://rpc.api.moonbeam.network",
-    proxyName: "moonbeam",
-  },
   [CHAIN_IDS.ARBITRUM]: {
     envVar: "VITE_ARBITRUM_RPC_URL",
     publicUrl: "https://arb1.arbitrum.io/rpc",
@@ -94,11 +89,6 @@ const CHAIN_RPC_CONFIGS: Partial<Record<ChainId, ChainRpcConfig>> = {
     envVar: "VITE_OPTIMISM_SEPOLIA_RPC_URL",
     publicUrl: "https://sepolia.optimism.io",
     proxyName: "optimism-sepolia",
-  },
-  [CHAIN_IDS.MOONBASE]: {
-    envVar: "VITE_MOONBASE_RPC_URL",
-    publicUrl: "https://rpc.api.moonbase.moonbeam.network",
-    proxyName: "moonbase",
   },
 };
 

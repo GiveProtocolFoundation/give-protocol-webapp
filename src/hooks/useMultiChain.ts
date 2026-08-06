@@ -14,11 +14,7 @@ import type {
   UnifiedAccount,
   UnifiedWalletProvider,
 } from "@/types/wallet";
-import {
-  getEVMChainConfig,
-  getSolanaClusterConfig,
-  getPolkadotChainConfig,
-} from "@/config/chains";
+import { getEVMChainConfig, getSolanaClusterConfig } from "@/config/chains";
 
 /**
  * Multi-chain wallet hook
@@ -38,7 +34,7 @@ export function useMultiChain() {
     (chainType: ChainType): UnifiedAccount[] => {
       return context.accounts.filter((a) => a.chainType === chainType);
     },
-    [context.accounts]
+    [context.accounts],
   );
 
   /**
@@ -50,7 +46,7 @@ export function useMultiChain() {
     (chainType: ChainType): boolean => {
       return context.wallet?.supportedChainTypes.includes(chainType) ?? false;
     },
-    [context.wallet]
+    [context.wallet],
   );
 
   /**
@@ -67,8 +63,6 @@ export function useMultiChain() {
         return getEVMChainConfig(chainId as number);
       case "solana":
         return getSolanaClusterConfig(chainId as string);
-      case "polkadot":
-        return getPolkadotChainConfig(chainId as string);
       default:
         return null;
     }
@@ -98,19 +92,15 @@ export function useMultiChain() {
             id?: string;
           };
           const baseUrl = "https://explorer.solana.com";
-          const cluster = config.id === "mainnet-beta" ? "" : `?cluster=${config.id}`;
+          const cluster =
+            config.id === "mainnet-beta" ? "" : `?cluster=${config.id}`;
           return `${baseUrl}/${type}/${value}${cluster}`;
-        }
-        case "polkadot": {
-          const config = activeChainConfig as { explorerUrl?: string };
-          const entityType = type === "tx" ? "extrinsic" : "account";
-          return `${config.explorerUrl}/${entityType}/${value}`;
         }
         default:
           return "#";
       }
     },
-    [context.activeAccount, activeChainConfig]
+    [context.activeAccount, activeChainConfig],
   );
 
   /**
@@ -122,7 +112,7 @@ export function useMultiChain() {
     async (wallet: UnifiedWalletProvider, chainType?: ChainType) => {
       await context.connect(wallet, chainType);
     },
-    [context]
+    [context],
   );
 
   return {
@@ -164,4 +154,7 @@ export function useMultiChainLegacyEVM() {
   return useMultiChainEVM();
 }
 
-export { useMultiChainEVM, useMultiChainSigner } from "@/contexts/MultiChainContext";
+export {
+  useMultiChainEVM,
+  useMultiChainSigner,
+} from "@/contexts/MultiChainContext";

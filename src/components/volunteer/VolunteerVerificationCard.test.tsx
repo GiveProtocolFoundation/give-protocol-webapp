@@ -12,7 +12,7 @@ const FULL_VERIFICATION = {
   acceptedAt: "2026-01-15T10:00:00Z",
   verifiedAt: "2026-01-20T14:00:00Z",
   blockchainReference: {
-    network: "moonbase",
+    network: "base",
     transactionId: "0x1234567890abcdef1234567890abcdef",
     blockNumber: 42,
   },
@@ -51,7 +51,7 @@ describe("VolunteerVerificationCard", () => {
     render(<VolunteerVerificationCard verification={FULL_VERIFICATION} />);
     expect(screen.getByText("Blockchain Reference")).toBeTruthy();
     const link = screen.getByText("0x12345678...").closest("a");
-    expect(link?.getAttribute("href")).toContain("moonbase.moonscan.io");
+    expect(link?.getAttribute("href")).toContain("basescan.org");
   });
 
   it("should not render optional fields when missing", () => {

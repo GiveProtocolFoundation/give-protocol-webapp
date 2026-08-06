@@ -12,10 +12,6 @@ export {
   SolanaAdapter,
   createSolanaAdapter,
   isSolanaProvider,
-  PolkadotAdapter,
-  enablePolkadotExtension,
-  getAvailablePolkadotExtensions,
-  isPolkadotExtension,
 } from "./adapters";
 
 // Wallet Providers
@@ -26,10 +22,6 @@ export {
   createRabbyProvider,
   PhantomProvider,
   createPhantomProvider,
-  TalismanProvider,
-  createTalismanProvider,
-  SubWalletProvider,
-  createSubWalletProvider,
   CoinbaseProvider,
   createCoinbaseProvider,
   SafeProvider,

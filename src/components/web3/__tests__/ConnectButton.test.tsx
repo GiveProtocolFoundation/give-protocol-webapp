@@ -29,7 +29,7 @@ const defaultWeb3Mock = {
   provider: null,
   signer: null,
   address: null,
-  chainId: 1287,
+  chainId: 8453,
   isConnected: false,
   isConnecting: false,
   error: null,
@@ -120,9 +120,6 @@ describe("ConnectButton", () => {
       await waitFor(() => {
         expect(screen.getAllByText("EVM").length).toBeGreaterThanOrEqual(1);
         expect(screen.getAllByText("Solana").length).toBeGreaterThanOrEqual(1);
-        expect(screen.getAllByText("Polkadot").length).toBeGreaterThanOrEqual(
-          1,
-        );
       });
     });
   });
@@ -132,7 +129,7 @@ describe("ConnectButton", () => {
       mockUseWeb3.mockReturnValue({
         ...defaultWeb3Mock,
         address: testAddresses.mainWallet,
-        chainId: 1287,
+        chainId: 8453,
         isConnected: true,
       });
       mockUseMultiChainContext.mockReturnValue({
@@ -142,8 +139,8 @@ describe("ConnectButton", () => {
           id: "test-account",
           address: testAddresses.mainWallet,
           chainType: "evm" as const,
-          chainId: 1287,
-          chainName: "Moonbase Alpha",
+          chainId: 8453,
+          chainName: "Base",
           source: "MetaMask",
         },
       });
@@ -171,7 +168,7 @@ describe("ConnectButton", () => {
       fireEvent.click(screen.getByText(testAddresses.shortAddress));
 
       await waitFor(() => {
-        expect(screen.getByText("Moonbase Alpha")).toBeInTheDocument();
+        expect(screen.getByText("Base")).toBeInTheDocument();
       });
     });
 
@@ -197,7 +194,7 @@ describe("ConnectButton", () => {
       mockUseWeb3.mockReturnValue({
         ...defaultWeb3Mock,
         address: testAddresses.mainWallet,
-        chainId: 1287,
+        chainId: 8453,
         isConnected: true,
       });
       mockUseMultiChainContext.mockReturnValue({
@@ -207,8 +204,8 @@ describe("ConnectButton", () => {
           id: "test-account",
           address: testAddresses.mainWallet,
           chainType: "evm" as const,
-          chainId: 1287,
-          chainName: "Moonbase Alpha",
+          chainId: 8453,
+          chainName: "Base",
           source: "MetaMask",
         },
       });

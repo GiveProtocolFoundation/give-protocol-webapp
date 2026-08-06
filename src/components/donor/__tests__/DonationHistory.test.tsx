@@ -10,7 +10,7 @@ describe("DonationHistory Component", () => {
       id: "1",
       hash: "0x123abc...",
       amount: "100",
-      cryptoType: "GLMR",
+      cryptoType: "ETH",
       fiatValue: 50.25,
       timestamp: "2024-01-15T10:30:00Z",
       status: "completed",
@@ -22,7 +22,7 @@ describe("DonationHistory Component", () => {
       id: "2",
       hash: "0x456def...",
       amount: "50",
-      cryptoType: "GLMR",
+      cryptoType: "ETH",
       fiatValue: 25.12,
       timestamp: "2024-01-10T14:20:00Z",
       status: "pending",
@@ -34,7 +34,7 @@ describe("DonationHistory Component", () => {
       id: "3",
       hash: null,
       amount: "75",
-      cryptoType: "GLMR",
+      cryptoType: "ETH",
       fiatValue: null,
       timestamp: "2024-01-05T09:15:00Z",
       status: "failed",
@@ -58,9 +58,9 @@ describe("DonationHistory Component", () => {
     render(<DonationHistory donations={mockDonations} />);
 
     // Each amount appears in both desktop table and mobile card view
-    expect(screen.getAllByText("100 GLMR").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("50 GLMR").length).toBeGreaterThan(0);
-    expect(screen.getAllByText("75 GLMR").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("100 ETH").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("50 ETH").length).toBeGreaterThan(0);
+    expect(screen.getAllByText("75 ETH").length).toBeGreaterThan(0);
   });
 
   it("displays fiat values when available", () => {
@@ -156,7 +156,7 @@ describe("DonationHistory Component", () => {
         id: "1",
         hash: "0x123abc...",
         amount: "100",
-        cryptoType: "GLMR",
+        cryptoType: "ETH",
         fiatValue: 50.25,
         timestamp: "2024-01-15T10:30:00Z",
         status: "completed",

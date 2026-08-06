@@ -1,6 +1,6 @@
 /**
  * Chain configuration exports for Give Protocol
- * Unified access to EVM, Solana, and Polkadot chain configurations
+ * Unified access to EVM and Solana chain configurations
  */
 
 // EVM chains
@@ -31,26 +31,10 @@ export {
   type SolanaClusterId,
 } from "./solana";
 
-// Polkadot chains
-export {
-  POLKADOT_CHAINS,
-  POLKADOT_CHAIN_CONFIGS,
-  SUPPORTED_POLKADOT_CHAINS,
-  TESTNET_POLKADOT_CHAINS,
-  DEFAULT_POLKADOT_CHAIN,
-  getPolkadotChainConfig,
-  isPolkadotChainSupported,
-  getAvailablePolkadotChains,
-  getPolkadotExplorerUrl,
-  getChainSS58Prefix,
-  type PolkadotChainId,
-} from "./polkadot";
-
 // Re-export chain types
 export type {
   EVMChainConfig,
   SolanaClusterConfig,
-  PolkadotChainConfig,
   AnyChainConfig,
   ChainRegistry,
 } from "@/types/chains";

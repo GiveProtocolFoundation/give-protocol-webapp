@@ -41,7 +41,7 @@ export function useTokenBalance(
     try {
       let fetchedBalance: number;
       if (token.isNative) {
-        // Fetch native token (GLMR/DEV) balance
+        // Fetch native token balance
         const balanceWei = await provider.getBalance(address);
         fetchedBalance = Number.parseFloat(ethers.formatEther(balanceWei));
         setBalance(fetchedBalance);

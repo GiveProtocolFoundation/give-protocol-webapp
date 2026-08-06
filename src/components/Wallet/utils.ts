@@ -54,10 +54,6 @@ export function formatAddress(
  * Network explorer URL configuration
  */
 const EXPLORER_URLS: Record<string, string> = {
-  polkadot: "https://polkadot.subscan.io/account/",
-  kusama: "https://kusama.subscan.io/account/",
-  moonbeam: "https://moonbeam.moonscan.io/address/",
-  moonbase: "https://moonbase.moonscan.io/address/",
   base: "https://basescan.org/address/",
   "base-sepolia": "https://sepolia.basescan.org/address/",
   optimism: "https://optimistic.etherscan.io/address/",
@@ -72,7 +68,7 @@ const EXPLORER_URLS: Record<string, string> = {
  * @returns Full explorer URL
  */
 export function getExplorerUrl(network: string, address: string): string {
-  const baseUrl = EXPLORER_URLS[network] || EXPLORER_URLS.moonbase;
+  const baseUrl = EXPLORER_URLS[network] || EXPLORER_URLS.base;
   return `${baseUrl}${address}`;
 }
 
@@ -80,10 +76,6 @@ export function getExplorerUrl(network: string, address: string): string {
  * Network display names
  */
 export const NETWORK_NAMES: Record<string, string> = {
-  polkadot: "Polkadot",
-  kusama: "Kusama",
-  moonbeam: "Moonbeam",
-  moonbase: "Moonbase Alpha",
   base: "Base",
   "base-sepolia": "Base Sepolia",
   optimism: "Optimism",
@@ -95,10 +87,6 @@ export const NETWORK_NAMES: Record<string, string> = {
  * Network token symbols
  */
 export const NETWORK_TOKENS: Record<string, string> = {
-  polkadot: "DOT",
-  kusama: "KSM",
-  moonbeam: "GLMR",
-  moonbase: "DEV",
   base: "ETH",
   "base-sepolia": "ETH",
   optimism: "ETH",
@@ -110,9 +98,6 @@ export const NETWORK_TOKENS: Record<string, string> = {
  * Wallet provider display names
  */
 export const PROVIDER_NAMES: Record<string, string> = {
-  "polkadot-js": "Polkadot.js",
-  talisman: "Talisman",
-  subwallet: "SubWallet",
   nova: "Nova Wallet",
   metamask: "MetaMask",
 };

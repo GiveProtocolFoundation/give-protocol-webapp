@@ -5,7 +5,10 @@
 
 // Base classes
 export { BaseEVMProvider } from "./BaseEVMProvider";
-export { BaseMultiChainProvider, type SecondaryChainAdapter } from "./BaseMultiChainProvider";
+export {
+  BaseMultiChainProvider,
+  type SecondaryChainAdapter,
+} from "./BaseMultiChainProvider";
 
 // MetaMask - EVM only
 export { MetaMaskProvider, createMetaMaskProvider } from "./MetaMaskProvider";
@@ -15,12 +18,6 @@ export { RabbyProvider, createRabbyProvider } from "./RabbyProvider";
 
 // Phantom - EVM + Solana
 export { PhantomProvider, createPhantomProvider } from "./PhantomProvider";
-
-// Talisman - EVM + Polkadot
-export { TalismanProvider, createTalismanProvider } from "./TalismanProvider";
-
-// SubWallet - EVM + Polkadot
-export { SubWalletProvider, createSubWalletProvider } from "./SubWalletProvider";
 
 // Coinbase - EVM + Solana
 export { CoinbaseProvider, createCoinbaseProvider } from "./CoinbaseProvider";

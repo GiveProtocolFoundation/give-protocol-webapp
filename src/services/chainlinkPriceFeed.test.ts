@@ -44,11 +44,11 @@ describe("ChainlinkPriceFeedService", () => {
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      const result = await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      const result = await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
       expect(result).not.toBeNull();
       expect(result?.price).toBe(2500);
-      expect(result?.symbol).toBe("GLMR");
+      expect(result?.symbol).toBe("ETH");
       expect(result?.isValid).toBe(true);
     });
 
@@ -62,9 +62,9 @@ describe("ChainlinkPriceFeedService", () => {
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
-      const result = await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      const result = await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
       expect(result?.price).toBe(2500);
       expect(mockFns.latestRoundData).toHaveBeenCalledTimes(1);
@@ -77,11 +77,6 @@ describe("ChainlinkPriceFeedService", () => {
 
     it("should return null when token has no feed", async () => {
       const result = await service.getPrice(CHAIN_IDS.BASE, "NONEXISTENT");
-      expect(result).toBeNull();
-    });
-
-    it("should return null when feed address is zero address", async () => {
-      const result = await service.getPrice(CHAIN_IDS.MOONBASE, "DEV");
       expect(result).toBeNull();
     });
 
@@ -163,7 +158,7 @@ describe("ChainlinkPriceFeedService", () => {
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      const result = await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      const result = await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
       expect(result).not.toBeNull();
       expect(result?.isValid).toBe(false);
@@ -179,7 +174,7 @@ describe("ChainlinkPriceFeedService", () => {
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      const result = await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      const result = await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
       expect(result).toBeNull();
     });
 
@@ -194,7 +189,7 @@ describe("ChainlinkPriceFeedService", () => {
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
       // Expire cache
       const priceCache = (
@@ -202,9 +197,9 @@ describe("ChainlinkPriceFeedService", () => {
           priceCache: Map<string, { fetchedAt: number; data: unknown }>;
         }
       ).priceCache;
-      const entry = priceCache.get(`${CHAIN_IDS.MOONBEAM}_GLMR`);
+      const entry = priceCache.get(`${CHAIN_IDS.ETHEREUM}_ETH`);
       if (entry) {
-        priceCache.set(`${CHAIN_IDS.MOONBEAM}_GLMR`, {
+        priceCache.set(`${CHAIN_IDS.ETHEREUM}_ETH`, {
           ...entry,
           fetchedAt: 0,
         });
@@ -215,7 +210,7 @@ describe("ChainlinkPriceFeedService", () => {
         new Error("Contract error"),
       );
 
-      const result = await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      const result = await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
       expect(result).not.toBeNull();
       expect(result?.price).toBe(2500);
@@ -227,7 +222,7 @@ describe("ChainlinkPriceFeedService", () => {
         new Error("Contract error"),
       );
 
-      const result = await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      const result = await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
       expect(result).toBeNull();
     });
 
@@ -279,7 +274,7 @@ describe("ChainlinkPriceFeedService", () => {
 
   describe("getPrices", () => {
     it("should fetch prices for multiple tokens", async () => {
-      // GLMR
+      // ETH
       mockFns.latestRoundData.mockResolvedValueOnce([
         1n,
         50000000n,
@@ -288,24 +283,24 @@ describe("ChainlinkPriceFeedService", () => {
         1n,
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
-      // DOT
+      // USDC
       mockFns.latestRoundData.mockResolvedValueOnce([
         1n,
-        750000000n,
+        100000000n,
         BigInt(now),
         BigInt(now - 60),
         1n,
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      const results = await service.getPrices(CHAIN_IDS.MOONBEAM, [
-        "GLMR",
-        "DOT",
+      const results = await service.getPrices(CHAIN_IDS.ETHEREUM, [
+        "ETH",
+        "USDC",
       ]);
 
       expect(results.size).toBe(2);
-      expect(results.get("GLMR")?.price).toBe(0.5);
-      expect(results.get("DOT")?.price).toBe(7.5);
+      expect(results.get("ETH")?.price).toBe(0.5);
+      expect(results.get("USDC")?.price).toBe(1);
     });
 
     it("should skip tokens that fail and continue", async () => {
@@ -313,7 +308,7 @@ describe("ChainlinkPriceFeedService", () => {
         .mockRejectedValueOnce(new Error("RPC error"))
         .mockResolvedValueOnce([
           1n,
-          750000000n,
+          100000000n,
           BigInt(now),
           BigInt(now - 60),
           1n,
@@ -321,13 +316,13 @@ describe("ChainlinkPriceFeedService", () => {
       // First decimals() call is consumed alongside the rejected latestRoundData in Promise.all
       mockFns.decimals.mockResolvedValueOnce(8).mockResolvedValueOnce(8);
 
-      const results = await service.getPrices(CHAIN_IDS.MOONBEAM, [
-        "GLMR",
-        "DOT",
+      const results = await service.getPrices(CHAIN_IDS.ETHEREUM, [
+        "ETH",
+        "USDC",
       ]);
 
       expect(results.size).toBe(1);
-      expect(results.get("DOT")?.price).toBe(7.5);
+      expect(results.get("USDC")?.price).toBe(1);
     });
 
     it("should catch unexpected errors thrown by getPrice", async () => {
@@ -335,7 +330,7 @@ describe("ChainlinkPriceFeedService", () => {
         .spyOn(service, "getPrice")
         .mockRejectedValueOnce(new Error("unexpected"));
 
-      const results = await service.getPrices(CHAIN_IDS.MOONBEAM, ["GLMR"]);
+      const results = await service.getPrices(CHAIN_IDS.ETHEREUM, ["ETH"]);
 
       expect(results.size).toBe(0);
     });
@@ -353,8 +348,8 @@ describe("ChainlinkPriceFeedService", () => {
       mockFns.decimals.mockResolvedValueOnce(8);
 
       const price = await service.getPriceByCoingeckoId(
-        CHAIN_IDS.MOONBEAM,
-        "moonbeam",
+        CHAIN_IDS.ETHEREUM,
+        "ethereum",
       );
       expect(price).toBe(2500);
     });
@@ -388,11 +383,11 @@ describe("ChainlinkPriceFeedService", () => {
       mockFns.decimals.mockResolvedValueOnce(8);
 
       const results = await service.getPricesByCoingeckoIds(
-        CHAIN_IDS.MOONBEAM,
-        ["moonbeam", "usd-coin"],
+        CHAIN_IDS.ETHEREUM,
+        ["ethereum", "usd-coin"],
       );
 
-      expect(results["moonbeam"]).toBe(2500);
+      expect(results["ethereum"]).toBe(2500);
       expect(results["usd-coin"]).toBe(1);
     });
 
@@ -407,8 +402,8 @@ describe("ChainlinkPriceFeedService", () => {
       mockFns.latestRoundData.mockRejectedValueOnce(new Error("RPC error"));
 
       const results = await service.getPricesByCoingeckoIds(
-        CHAIN_IDS.MOONBEAM,
-        ["moonbeam"],
+        CHAIN_IDS.ETHEREUM,
+        ["ethereum"],
       );
       expect(Object.keys(results)).toHaveLength(0);
     });
@@ -419,8 +414,8 @@ describe("ChainlinkPriceFeedService", () => {
         .mockRejectedValueOnce(new Error("unexpected"));
 
       const results = await service.getPricesByCoingeckoIds(
-        CHAIN_IDS.MOONBEAM,
-        ["moonbeam"],
+        CHAIN_IDS.ETHEREUM,
+        ["ethereum"],
       );
       expect(Object.keys(results)).toHaveLength(0);
     });
@@ -437,7 +432,7 @@ describe("ChainlinkPriceFeedService", () => {
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
       service.clearCache();
 
@@ -450,7 +445,7 @@ describe("ChainlinkPriceFeedService", () => {
       ]);
       mockFns.decimals.mockResolvedValueOnce(8);
 
-      const result = await service.getPrice(CHAIN_IDS.MOONBEAM, "GLMR");
+      const result = await service.getPrice(CHAIN_IDS.ETHEREUM, "ETH");
 
       expect(result?.price).toBe(3000);
       expect(mockFns.latestRoundData).toHaveBeenCalledTimes(2);

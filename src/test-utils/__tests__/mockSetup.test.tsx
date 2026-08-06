@@ -38,14 +38,14 @@ describe("mockSetup", () => {
       const overrides = {
         address: "0x123",
         isConnected: true,
-        chainId: 1287,
+        chainId: 8453,
       };
 
       const result = createMockWeb3(overrides);
 
       expect(result.address).toBe("0x123");
       expect(result.isConnected).toBe(true);
-      expect(result.chainId).toBe(1287);
+      expect(result.chainId).toBe(8453);
       expect(typeof result.connect).toBe("function");
     });
   });

@@ -33,7 +33,7 @@ describe("publicPlatformConfigService", () => {
           supported_networks: [
             { chainId: 8453, name: "Base" },
             { chainId: 10, name: "Optimism" },
-            { chainId: 1284, name: "Moonbeam" },
+            { chainId: 42161, name: "Arbitrum" },
           ],
           supported_tokens: ["USDC", "ETH"],
         },
@@ -42,7 +42,7 @@ describe("publicPlatformConfigService", () => {
 
       const result = await getPublicPlatformConfig();
 
-      expect(result.supportedNetworks).toEqual([8453, 10, 1284]);
+      expect(result.supportedNetworks).toEqual([8453, 10, 42161]);
       expect(result.supportedTokens).toEqual(["USDC", "ETH"]);
     });
 
@@ -52,7 +52,7 @@ describe("publicPlatformConfigService", () => {
       ).mockResolvedValue({
         data: {
           supported_networks: [8453, 10, 900001],
-          supported_tokens: ["GLMR"],
+          supported_tokens: ["ETH"],
         },
         error: null,
       });
@@ -69,18 +69,18 @@ describe("publicPlatformConfigService", () => {
         data: {
           supported_networks: [
             { chainId: 900001, name: "Solana" },
-            { chainId: 900002, name: "Polkadot" },
-            { chainId: 900003, name: "Kusama" },
+            { chainId: 8453, name: "Base" },
+            { chainId: 42161, name: "Arbitrum" },
           ],
-          supported_tokens: ["SOL", "DOT", "KSM"],
+          supported_tokens: ["SOL", "ETH", "ETH"],
         },
         error: null,
       });
 
       const result = await getPublicPlatformConfig();
 
-      expect(result.supportedNetworks).toEqual([900001, 900002, 900003]);
-      expect(result.supportedTokens).toEqual(["SOL", "DOT", "KSM"]);
+      expect(result.supportedNetworks).toEqual([900001, 8453, 42161]);
+      expect(result.supportedTokens).toEqual(["SOL", "ETH", "ETH"]);
     });
 
     it("should skip items with invalid chainId", async () => {

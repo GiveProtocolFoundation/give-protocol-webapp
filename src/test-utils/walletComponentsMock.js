@@ -33,13 +33,6 @@ export const NETWORKS = [
     color: "#0052FF",
     chainType: "evm",
   },
-  {
-    id: "moonbase",
-    name: "Moonbase Alpha",
-    token: "DEV",
-    color: "#53CBC8",
-    chainType: "evm",
-  },
 ];
 
 /** @param {string} addr - Wallet address to format */

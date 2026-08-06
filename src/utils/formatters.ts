@@ -99,9 +99,9 @@ export function formatFiat(
  * @returns Formatted crypto amount string
  * @example
  * ```ts
- * formatCrypto(1.23456789, { symbol: "GLMR", decimals: 18 }) // "1.235 GLMR"
+ * formatCrypto(1.23456789, { symbol: "ETH", decimals: 18 }) // "1.235 ETH"
  * formatCrypto(0.00000123, { symbol: "BTC", decimals: 8 }) // "0.00000123 BTC"
- * formatCrypto(1234.5, { symbol: "GLMR" }, { compact: true }) // "1.23K GLMR"
+ * formatCrypto(1234.5, { symbol: "ETH" }, { compact: true }) // "1.23K ETH"
  * ```
  */
 export function formatCrypto(

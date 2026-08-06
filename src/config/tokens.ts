@@ -7,7 +7,7 @@ import { CHAIN_IDS, type ChainId } from "./contracts";
 
 /** Configuration for a single supported token on a given chain. */
 export interface TokenConfig {
-  /** Token symbol (e.g., "GLMR", "USDC") */
+  /** Token symbol (e.g., "ETH", "USDC") */
   symbol: string;
   /** Full token name */
   name: string;
@@ -36,86 +36,6 @@ export interface FiatCurrency {
   /** CoinGecko API ID (e.g., "usd", "eur") */
   coingeckoId: string;
 }
-
-/**
- * Supported tokens on Moonbeam Alpha testnet
- * These represent the tokens available for donations
- */
-export const MOONBEAM_TOKENS: TokenConfig[] = [
-  {
-    symbol: "DEV",
-    name: "Moonbase Alpha DEV",
-    address: "0x0000000000000000000000000000000000000000", // Native token
-    decimals: 18,
-    coingeckoId: "moonbeam", // Using GLMR price as proxy since DEV is testnet token
-    icon: "https://assets.coingecko.com/coins/images/22459/small/glmr.png",
-    isNative: true,
-  },
-  {
-    symbol: "GLMR",
-    name: "Glimmer",
-    address: "0x0000000000000000000000000000000000000000", // Native token (for mainnet)
-    decimals: 18,
-    coingeckoId: "moonbeam",
-    icon: "https://assets.coingecko.com/coins/images/22459/small/glmr.png",
-    isNative: true,
-  },
-  {
-    symbol: "WGLMR",
-    name: "Wrapped GLMR",
-    address: "0xAcc15dC74880C9944775448304B263D191c6077F", // Moonbase Alpha WGLMR
-    decimals: 18,
-    coingeckoId: "wrapped-moonbeam",
-    icon: "https://assets.coingecko.com/coins/images/22459/small/glmr.png",
-    isNative: false,
-  },
-  {
-    symbol: "DOT",
-    name: "Polkadot",
-    address: "0xFfFFfFff1FcaCBd218EDc0EbA20Fc2308C778080", // xcDOT on Moonbeam
-    decimals: 10,
-    coingeckoId: "polkadot",
-    icon: "https://assets.coingecko.com/coins/images/12171/small/polkadot.png",
-    isNative: false,
-  },
-  {
-    symbol: "USDC",
-    name: "USD Coin",
-    address: "0x931715FEE2d06333043d11F658C8CE934aC61D0c", // Multichain USDC on Moonbeam
-    decimals: 6,
-    coingeckoId: "usd-coin",
-    icon: "https://assets.coingecko.com/coins/images/6319/small/USD_Coin_icon.png",
-    isNative: false,
-  },
-  {
-    symbol: "USDT",
-    name: "Tether USD",
-    address: "0xc30E9cA94CF52f3Bf5692aaCF81353a27052c46f", // Multichain USDT on Moonbeam
-    decimals: 6,
-    coingeckoId: "tether",
-    icon: "https://assets.coingecko.com/coins/images/325/small/Tether.png",
-    isNative: false,
-  },
-  // Test tokens for Moonbase Alpha testnet
-  {
-    symbol: "MERC",
-    name: "Mercury Test Token",
-    address: "0x37822de108AFFdd5cDCFDaAa2E32756Da284DB85",
-    decimals: 18,
-    coingeckoId: "moonbeam", // Using GLMR price as proxy for test token
-    icon: "https://assets.coingecko.com/coins/images/22459/small/glmr.png",
-    isNative: false,
-  },
-  {
-    symbol: "PLUT",
-    name: "Pluto Test Token",
-    address: "0x4c945cD20DD13168BC87f30D55f12dC26512ca33",
-    decimals: 18,
-    coingeckoId: "moonbeam", // Using GLMR price as proxy for test token
-    icon: "https://assets.coingecko.com/coins/images/22459/small/glmr.png",
-    isNative: false,
-  },
-];
 
 /** Shared token metadata for tokens that appear across multiple chains */
 const ETH_METADATA = {
@@ -417,19 +337,17 @@ export const AVALANCHE_TOKENS: TokenConfig[] = [
  * Chain-indexed token configurations
  * Maps each supported chain to its available tokens
  */
-export const CHAIN_TOKENS: Record<ChainId, TokenConfig[]> = {
+export const CHAIN_TOKENS: Partial<Record<ChainId, TokenConfig[]>> = {
   // Mainnets
   [CHAIN_IDS.ETHEREUM]: ETHEREUM_TOKENS,
   [CHAIN_IDS.BASE]: BASE_TOKENS,
   [CHAIN_IDS.OPTIMISM]: OPTIMISM_TOKENS,
-  [CHAIN_IDS.MOONBEAM]: MOONBEAM_TOKENS,
   [CHAIN_IDS.ARBITRUM]: ARBITRUM_TOKENS,
   [CHAIN_IDS.POLYGON]: POLYGON_TOKENS,
   [CHAIN_IDS.AVALANCHE]: AVALANCHE_TOKENS,
   // Testnets
   [CHAIN_IDS.BASE_SEPOLIA]: BASE_SEPOLIA_TOKENS,
   [CHAIN_IDS.OPTIMISM_SEPOLIA]: OPTIMISM_SEPOLIA_TOKENS,
-  [CHAIN_IDS.MOONBASE]: MOONBEAM_TOKENS,
 };
 
 /**
@@ -461,7 +379,7 @@ export const SUPPORTED_CURRENCIES: FiatCurrency[] = [
  * @returns Token configuration or undefined if not found
  */
 export function getTokenBySymbol(symbol: string): TokenConfig | undefined {
-  return MOONBEAM_TOKENS.find(
+  return BASE_TOKENS.find(
     (token) => token.symbol.toLowerCase() === symbol.toLowerCase(),
   );
 }
@@ -472,7 +390,7 @@ export function getTokenBySymbol(symbol: string): TokenConfig | undefined {
  * @returns Token configuration or undefined if not found
  */
 export function getTokenByAddress(address: string): TokenConfig | undefined {
-  return MOONBEAM_TOKENS.find(
+  return BASE_TOKENS.find(
     (token) => token.address.toLowerCase() === address.toLowerCase(),
   );
 }
@@ -491,10 +409,10 @@ export function getCurrencyByCode(code: string): FiatCurrency | undefined {
 /**
  * Get tokens available for a specific chain
  * @param chainId Chain ID to get tokens for
- * @returns Array of token configurations for the chain, or Moonbeam tokens as fallback
+ * @returns Array of token configurations for the chain, or Base tokens as fallback
  */
 export function getTokensForChain(chainId: ChainId | number): TokenConfig[] {
-  return CHAIN_TOKENS[chainId as ChainId] || MOONBEAM_TOKENS;
+  return CHAIN_TOKENS[chainId as ChainId] || BASE_TOKENS;
 }
 
 /**

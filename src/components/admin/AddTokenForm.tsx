@@ -163,7 +163,7 @@ export const AddTokenForm: React.FC = () => {
 
       <div className="mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg">
         <h3 className="text-sm font-semibold text-blue-900 mb-2">
-          Native Token (DEV/GLMR)
+          Native Token (ETH)
         </h3>
         <p className="text-sm text-blue-800 mb-2">
           To accept native token donations, use the zero address:
