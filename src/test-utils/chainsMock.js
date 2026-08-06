@@ -57,6 +57,8 @@ export const isPolkadotChainSupported = jest.fn(() => true);
 
 export const getAvailablePolkadotChains = jest.fn(() => ["polkadot"]);
 
-export const getPolkadotExplorerUrl = jest.fn(() => "https://polkadot.subscan.io");
+export const getPolkadotExplorerUrl = jest.fn(
+  () => "https://polkadot.subscan.io",
+);
 
 export const getChainSS58Prefix = jest.fn(() => 0);
