@@ -55,7 +55,7 @@ const AuthCallback: React.FC = () => {
       } else {
         navigate("/browse", { replace: true });
       }
-      return;
+      return undefined;
     }
 
     const timer = setTimeout(() => {
