@@ -48,7 +48,7 @@ export const DonorRegistration: React.FC = () => {
   const {
     loading,
     signUpWithEmail,
-    registerPasskey,
+    signUpWithPasskey,
     signInWithGoogle,
     signInWithWallet,
     isPasskeySupported,
@@ -137,13 +137,7 @@ export const DonorRegistration: React.FC = () => {
       return;
     }
     try {
-      const randomBytes = new Uint8Array(24);
-      crypto.getRandomValues(randomBytes);
-      const randomPassword = Array.from(randomBytes, (b) =>
-        b.toString(16).padStart(2, "0"),
-      ).join("");
-      await signUpWithEmail(email, randomPassword);
-      await registerPasskey();
+      await signUpWithPasskey(email);
     } catch (err) {
       const message =
         err instanceof Error ? err.message : "Passkey sign-up failed";
@@ -155,7 +149,7 @@ export const DonorRegistration: React.FC = () => {
         setError(message);
       }
     }
-  }, [email, signUpWithEmail, registerPasskey, t]);
+  }, [email, signUpWithPasskey, t]);
 
   const handleGoogleSignUp = useCallback(async () => {
     setError("");
@@ -335,11 +329,18 @@ export const DonorRegistration: React.FC = () => {
       </p>
 
       {/* Collapsible password section */}
-      <div>
+      <div className="pt-2">
+        <div className="flex items-center gap-3 mb-2">
+          <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600" />
+          <span className="text-xs text-gray-400 dark:text-gray-500 uppercase tracking-wider font-medium">
+            {t("common.or", "or")}
+          </span>
+          <div className="flex-1 h-px bg-gray-300 dark:bg-gray-600" />
+        </div>
         <button
           type="button"
           onClick={handlePasswordToggle}
-          className="w-full flex items-center justify-between text-sm text-gray-500 hover:text-gray-700 transition-colors py-2"
+          className="w-full flex items-center justify-between text-sm text-gray-700 dark:text-gray-300 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors py-2.5 px-3 rounded-lg border border-gray-200 dark:border-gray-700 hover:border-emerald-300 dark:hover:border-emerald-700 bg-white dark:bg-gray-800"
           aria-expanded={isPasswordOpen}
         >
           <span className="font-medium">

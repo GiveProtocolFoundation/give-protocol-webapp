@@ -1399,6 +1399,7 @@ export default {
     "common.email": "Email",
     "common.password": "Password",
     "common.confirmPassword": "Confirm Password",
+    "common.or": "or",
 
     // Footer component (GIV-253 / GIV-263 fix)
     "footer.brand.tagline":

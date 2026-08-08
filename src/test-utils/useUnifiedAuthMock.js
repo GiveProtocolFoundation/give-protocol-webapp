@@ -22,6 +22,7 @@ export const useUnifiedAuth = jest.fn(() => ({
   signInWithWallet: jest.fn(),
   signInWithPasskey: jest.fn(),
   registerPasskey: jest.fn(),
+  signUpWithPasskey: jest.fn(),
   signInWithGoogle: jest.fn(),
   signInWithApple: jest.fn(),
   linkWallet: jest.fn(),
