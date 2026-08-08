@@ -134,9 +134,7 @@ describe("DonorRegistration", () => {
     ).toBeInTheDocument();
     fireEvent.click(screen.getByText(/I confirm.*16 or older/i));
     await waitFor(() => {
-      expect(mockSignUpWithPasskey).toHaveBeenCalledWith(
-        "donor@example.com",
-      );
+      expect(mockSignUpWithPasskey).toHaveBeenCalledWith("donor@example.com");
     });
   });
 
