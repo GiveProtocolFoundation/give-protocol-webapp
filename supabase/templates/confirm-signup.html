@@ -1,0 +1,84 @@
+<!doctype html>
+<!--
+  Template: Confirm Signup (GIV-897)
+  Provider: Supabase Auth built-in email
+
+  DEPLOYMENT — BOARD ACTION REQUIRED:
+  Paste this HTML into the Supabase Dashboard:
+    Auth > Email Templates > Confirm signup > Body
+  Set Subject to: Confirm your Give Protocol account
+
+  Supabase magic variable: {{ .ConfirmationURL }}
+  From / Reply-To: configured in Auth > SMTP settings
+    (notifications@giveprotocol.io / info@giveprotocol.io per GIV-634).
+-->
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Confirm your Give Protocol account</title>
+  </head>
+  <body
+    style="
+      font-family: Arial, sans-serif;
+      max-width: 600px;
+      margin: 0 auto;
+      padding: 24px;
+      color: #333;
+    "
+  >
+    <div style="background: #10b981; padding: 20px; border-radius: 8px 8px 0 0">
+      <h1 style="color: white; margin: 0; font-size: 20px">Give Protocol</h1>
+    </div>
+    <div
+      style="
+        border: 1px solid #e5e7eb;
+        border-top: none;
+        padding: 24px;
+        border-radius: 0 0 8px 8px;
+      "
+    >
+      <p>Welcome to Give Protocol!</p>
+      <p>
+        Thanks for signing up. Please confirm your email address to activate
+        your account and start making an impact.
+      </p>
+
+      <p>
+        <a
+          href="{{ .ConfirmationURL }}"
+          style="
+            background: #10b981;
+            color: white;
+            padding: 10px 20px;
+            border-radius: 6px;
+            text-decoration: none;
+            display: inline-block;
+            margin-top: 8px;
+          "
+          >Confirm my account &rarr;</a
+        >
+      </p>
+
+      <p>
+        This link expires in <strong>24 hours</strong>. If it expires, you can
+        request a new confirmation from the sign-in page.
+      </p>
+
+      <p>
+        <strong>Didn't sign up?</strong> You can safely ignore this email. No
+        account will be created without confirmation.
+      </p>
+
+      <p>&mdash; The Give Protocol Team</p>
+
+      <hr style="border: none; border-top: 1px solid #e5e7eb; margin: 24px 0" />
+      <p style="font-size: 12px; color: #6b7280">
+        Give Protocol &middot; giveprotocol.io &middot; You're receiving this
+        because someone signed up with this email address.<br />
+        Questions? Reply to this email or write to
+        <a href="mailto:info@giveprotocol.io">info@giveprotocol.io</a>.
+      </p>
+    </div>
+  </body>
+</html>
