@@ -66,6 +66,7 @@ interface UnifiedAuthState {
   ) => Promise<void>;
   signInWithPasskey: () => Promise<void>;
   registerPasskey: (_deviceName?: string) => Promise<void>;
+  signUpWithPasskey: (_email: string) => Promise<void>;
   signInWithGoogle: () => Promise<void>;
   signInWithApple: () => Promise<void>;
   linkWallet: () => Promise<void>;
@@ -490,6 +491,63 @@ export function useUnifiedAuth(): UnifiedAuthState {
     [passkey],
   );
 
+  const signUpWithPasskey = useCallback(
+    async (email: string) => {
+      try {
+        setLoading(true);
+        setError(null);
+
+        // Step 1: Create user server-side (auto-confirmed) and get session
+        const initResponse = await fetch(
+          `${ENV.SUPABASE_URL}/functions/v1/passkey-signup-init`,
+          {
+            method: "POST",
+            headers: {
+              "Content-Type": "application/json",
+              apikey: ENV.SUPABASE_ANON_KEY,
+            },
+            body: JSON.stringify({ email }),
+          },
+        );
+
+        const initData = await initResponse.json();
+
+        if (!initResponse.ok || !initData?.success) {
+          throw new Error(initData?.error ?? "Failed to create account");
+        }
+
+        // Step 2: Set the session so passkey-register-options can authenticate
+        const { error: sessionError } = await supabase.auth.setSession({
+          access_token: initData.session.access_token,
+          refresh_token: initData.session.refresh_token,
+        });
+
+        if (sessionError) {
+          throw new Error(
+            `Failed to establish session: ${sessionError.message}`,
+          );
+        }
+
+        // Step 3: Register passkey using the existing flow (now authenticated)
+        await passkey.registerPasskey();
+      } catch (err) {
+        const message =
+          err instanceof Error ? err.message : "Passkey sign-up failed";
+        if (
+          !message.includes("cancelled") &&
+          !message.includes("AbortError") &&
+          !message.includes("NotAllowedError")
+        ) {
+          setError(message);
+        }
+        throw err;
+      } finally {
+        setLoading(false);
+      }
+    },
+    [passkey],
+  );
+
   const signInWithGoogle = useCallback(async () => {
     try {
       setLoading(true);
@@ -564,6 +622,7 @@ export function useUnifiedAuth(): UnifiedAuthState {
     signInWithWallet,
     signInWithPasskey,
     registerPasskey,
+    signUpWithPasskey,
     signInWithGoogle,
     signInWithApple,
     linkWallet,

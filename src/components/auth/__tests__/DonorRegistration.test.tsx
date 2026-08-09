@@ -7,6 +7,7 @@ import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 
 const mockSignUpWithEmail = jest.fn();
 const mockRegisterPasskey = jest.fn();
+const mockSignUpWithPasskey = jest.fn();
 const mockSignInWithGoogle = jest.fn();
 
 const mockSignInWithWallet = jest.fn();
@@ -16,11 +17,13 @@ describe("DonorRegistration", () => {
   beforeEach(() => {
     mockSignUpWithEmail.mockClear();
     mockRegisterPasskey.mockClear();
+    mockSignUpWithPasskey.mockClear();
     mockSignInWithGoogle.mockClear();
     mockSignInWithWallet.mockClear();
     mockUseUnifiedAuth.mockReturnValue({
       signUpWithEmail: mockSignUpWithEmail,
       registerPasskey: mockRegisterPasskey,
+      signUpWithPasskey: mockSignUpWithPasskey,
       signInWithGoogle: mockSignInWithGoogle,
       signInWithWallet: mockSignInWithWallet,
       isPasskeySupported: true,
@@ -38,6 +41,7 @@ describe("DonorRegistration", () => {
       error: null,
       signInWithEmail: jest.fn(),
       signInWithPasskey: jest.fn(),
+      signInWithApple: jest.fn(),
       linkWallet: jest.fn(),
       unlinkWallet: jest.fn(),
       signOut: jest.fn(),
@@ -118,9 +122,8 @@ describe("DonorRegistration", () => {
     });
   });
 
-  it("calls signUpWithEmail and registerPasskey when passkey button clicked with valid email and modal confirmed", async () => {
-    mockSignUpWithEmail.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
-    mockRegisterPasskey.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
+  it("calls signUpWithPasskey when passkey button clicked with valid email and modal confirmed", async () => {
+    mockSignUpWithPasskey.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
     render(<DonorRegistration />);
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },
@@ -131,12 +134,8 @@ describe("DonorRegistration", () => {
     ).toBeInTheDocument();
     fireEvent.click(screen.getByText(/I confirm.*16 or older/i));
     await waitFor(() => {
-      expect(mockSignUpWithEmail).toHaveBeenCalledWith(
-        "donor@example.com",
-        expect.any(String),
-      );
+      expect(mockSignUpWithPasskey).toHaveBeenCalledWith("donor@example.com");
     });
-    expect(mockRegisterPasskey).toHaveBeenCalled();
   });
 
   it("shows error when passkey button clicked without email (modal confirmed)", async () => {
@@ -149,8 +148,7 @@ describe("DonorRegistration", () => {
     await waitFor(() => {
       expect(screen.getByRole("alert")).toHaveTextContent(/email/i);
     });
-    expect(mockSignUpWithEmail).not.toHaveBeenCalled();
-    expect(mockRegisterPasskey).not.toHaveBeenCalled();
+    expect(mockSignUpWithPasskey).not.toHaveBeenCalled();
   });
 
   // --- Negative path: decline in PostAuthAgeConfirmModal ---
