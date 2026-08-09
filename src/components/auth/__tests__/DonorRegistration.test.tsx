@@ -276,15 +276,21 @@ describe("DonorRegistration", () => {
     });
   });
 
-  it("email/password submit button is disabled until age-affirmation is checked", () => {
+  it("email/password submit button is always enabled but shows error when age-affirmation not checked", async () => {
     render(<DonorRegistration />);
     fireEvent.click(screen.getByText("Or set a password"));
     const submitBtn = screen.getByRole("button", {
       name: /create donor account/i,
     });
-    // Not yet checked
-    expect(submitBtn).toBeDisabled();
-    fireEvent.click(screen.getByRole("checkbox"));
+    // Button is enabled regardless of age-affirmation state
     expect(submitBtn).not.toBeDisabled();
+    // Submit the form directly — age not affirmed yet
+    const form = screen.getByRole("form", { name: /password registration form/i });
+    fireEvent.submit(form);
+    await waitFor(() => {
+      expect(
+        screen.getByText(/please confirm you are 13 years or older/i),
+      ).toBeInTheDocument();
+    });
   });
 });

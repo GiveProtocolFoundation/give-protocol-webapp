@@ -1226,6 +1226,8 @@ export default {
     "auth.validation.passwordTooShort":
       "Password must be at least 8 characters long",
     "auth.validation.passwordMismatch": "Passwords do not match",
+    "auth.validation.ageAffirmationRequired":
+      "Please confirm you are 13 years or older to continue.",
 
     // Login page (GIV-253 / GIV-263 fix)
     "auth.login.welcomeHeading": "Welcome to Give Protocol",
