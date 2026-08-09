@@ -178,6 +178,16 @@ export const DonorRegistration: React.FC = () => {
       e.preventDefault();
       setError("");
 
+      if (!ageAffirmed) {
+        setError(
+          t(
+            "auth.validation.ageAffirmationRequired",
+            "Please confirm you are 13 years or older to continue.",
+          ),
+        );
+        return;
+      }
+
       if (!validateEmail(email)) {
         setError(t("auth.validation.invalidEmail"));
         return;
@@ -201,7 +211,7 @@ export const DonorRegistration: React.FC = () => {
         setError(message);
       }
     },
-    [email, password, confirmPassword, signUpWithEmail, t],
+    [ageAffirmed, email, password, confirmPassword, signUpWithEmail, t],
   );
 
   const handlePostAuthConfirm = useCallback(async () => {
@@ -385,7 +395,7 @@ export const DonorRegistration: React.FC = () => {
             <Button
               type="submit"
               className="w-full bg-gradient-to-b from-emerald-500 to-emerald-600 border border-emerald-700 shadow-none hover:from-emerald-600 hover:to-emerald-700 hover:shadow-none"
-              disabled={loading || !ageAffirmed}
+              disabled={loading}
               aria-busy={loading}
             >
               {loading

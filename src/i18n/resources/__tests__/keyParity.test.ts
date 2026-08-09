@@ -53,6 +53,8 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.error.donations",
   // GIV-894: divider label for password section — translations pending
   "common.or",
+  // GIV-894: age-affirmation validation error — translations pending
+  "auth.validation.ageAffirmationRequired",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;
