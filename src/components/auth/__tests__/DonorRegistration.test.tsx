@@ -285,7 +285,9 @@ describe("DonorRegistration", () => {
     // Button is enabled regardless of age-affirmation state
     expect(submitBtn).not.toBeDisabled();
     // Submit the form directly — age not affirmed yet
-    const form = screen.getByRole("form", { name: /password registration form/i });
+    const form = screen.getByRole("form", {
+      name: /password registration form/i,
+    });
     fireEvent.submit(form);
     await waitFor(() => {
       expect(
