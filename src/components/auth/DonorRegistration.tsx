@@ -1,4 +1,5 @@
 import React, { useState, useCallback } from "react";
+import { useNavigate } from "react-router-dom";
 import { Fingerprint, ChevronDown, ChevronUp, Wallet } from "lucide-react";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -45,6 +46,7 @@ const GoogleIcon: React.FC = () => (
  * @returns JSX.Element representing the donor registration form.
  */
 export const DonorRegistration: React.FC = () => {
+  const navigate = useNavigate();
   const {
     loading,
     signUpWithEmail,
@@ -205,13 +207,24 @@ export const DonorRegistration: React.FC = () => {
 
       try {
         await signUpWithEmail(email, password, { type: "donor" });
+        navigate(
+          `/auth/registration-success?type=donor&email=${encodeURIComponent(email)}`,
+        );
       } catch (err) {
         const message =
           err instanceof Error ? err.message : "Failed to create account";
         setError(message);
       }
     },
-    [ageAffirmed, email, password, confirmPassword, signUpWithEmail, t],
+    [
+      ageAffirmed,
+      email,
+      navigate,
+      password,
+      confirmPassword,
+      signUpWithEmail,
+      t,
+    ],
   );
 
   const handlePostAuthConfirm = useCallback(async () => {
