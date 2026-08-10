@@ -1,7 +1,15 @@
 import { jest } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { DonorRegistration } from "../DonorRegistration";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
+
+const renderWithRouter = () =>
+  render(
+    <MemoryRouter>
+      <DonorRegistration />
+    </MemoryRouter>,
+  );
 
 // useUnifiedAuth and PasswordStrengthBar are both mocked via moduleNameMapper
 
@@ -49,7 +57,7 @@ describe("DonorRegistration", () => {
   });
 
   it("renders the email field and primary auth buttons", () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     expect(screen.getByLabelText(/email/i)).toBeInTheDocument();
     expect(screen.getByText("Sign up with Passkey")).toBeInTheDocument();
     expect(screen.getByText("Continue with Google")).toBeInTheDocument();
@@ -57,7 +65,7 @@ describe("DonorRegistration", () => {
   });
 
   it("renders privacy policy and terms of service links", () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     // Age-affirmation label + GDPR notice both link to /privacy, so multiple links exist
     const privacyLinks = screen.getAllByRole("link", {
       name: /privacy policy/i,
@@ -71,7 +79,7 @@ describe("DonorRegistration", () => {
   });
 
   it("does not render password fields by default", () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     expect(screen.queryByLabelText(/^password$/i)).not.toBeInTheDocument();
     expect(
       screen.queryByLabelText(/confirm password/i),
@@ -79,12 +87,12 @@ describe("DonorRegistration", () => {
   });
 
   it("renders the 'Or set a password' collapsible toggle", () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     expect(screen.getByText("Or set a password")).toBeInTheDocument();
   });
 
   it("expands password fields when toggle is clicked", () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByText("Or set a password"));
     expect(screen.getByLabelText(/^password$/i)).toBeInTheDocument();
     expect(screen.getByLabelText(/confirm password/i)).toBeInTheDocument();
@@ -97,7 +105,7 @@ describe("DonorRegistration", () => {
 
   it("calls signInWithGoogle when Google button is clicked and modal confirmed", async () => {
     mockSignInWithGoogle.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByText("Continue with Google"));
     // PostAuthAgeConfirmModal is now visible
     expect(
@@ -111,7 +119,7 @@ describe("DonorRegistration", () => {
 
   it("calls signInWithWallet when wallet button is clicked and modal confirmed", async () => {
     mockSignInWithWallet.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByText("Connect Wallet"));
     expect(
       screen.getByRole("dialog", { name: /age confirmation/i }),
@@ -124,7 +132,7 @@ describe("DonorRegistration", () => {
 
   it("calls signUpWithPasskey when passkey button clicked with valid email and modal confirmed", async () => {
     mockSignUpWithPasskey.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },
     });
@@ -139,7 +147,7 @@ describe("DonorRegistration", () => {
   });
 
   it("shows error when passkey button clicked without email (modal confirmed)", async () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByText("Sign up with Passkey"));
     expect(
       screen.getByRole("dialog", { name: /age confirmation/i }),
@@ -154,7 +162,7 @@ describe("DonorRegistration", () => {
   // --- Negative path: decline in PostAuthAgeConfirmModal ---
 
   it("does not call signInWithGoogle when modal is declined", () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },
     });
@@ -170,7 +178,7 @@ describe("DonorRegistration", () => {
   });
 
   it("clears PII when age-affirmation checkbox is unchecked (email/password path)", () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.change(screen.getByLabelText(/email/i), {
       target: { value: "donor@example.com" },
     });
@@ -184,7 +192,7 @@ describe("DonorRegistration", () => {
   // --- Email / password path: gated by inline age-affirmation checkbox ---
 
   it("shows validation error for invalid email in password form", async () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     // Age-affirmation must be checked to enable the submit button
     fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
@@ -207,7 +215,7 @@ describe("DonorRegistration", () => {
   });
 
   it("shows validation error for short password", async () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
     fireEvent.change(screen.getByLabelText(/email/i), {
@@ -229,7 +237,7 @@ describe("DonorRegistration", () => {
   });
 
   it("shows validation error when passwords do not match", async () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
     fireEvent.change(screen.getByLabelText(/email/i), {
@@ -252,7 +260,7 @@ describe("DonorRegistration", () => {
 
   it("calls signUpWithEmail with correct args on valid password form submission", async () => {
     mockSignUpWithEmail.mockResolvedValueOnce(undefined); // skipcq: JS-W1042 — mockResolvedValueOnce requires an argument
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByRole("checkbox"));
     fireEvent.click(screen.getByText("Or set a password"));
     fireEvent.change(screen.getByLabelText(/email/i), {
@@ -277,7 +285,7 @@ describe("DonorRegistration", () => {
   });
 
   it("email/password submit button is always enabled but shows error when age-affirmation not checked", async () => {
-    render(<DonorRegistration />);
+    renderWithRouter();
     fireEvent.click(screen.getByText("Or set a password"));
     const submitBtn = screen.getByRole("button", {
       name: /create donor account/i,
