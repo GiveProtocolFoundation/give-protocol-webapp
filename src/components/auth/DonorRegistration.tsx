@@ -216,7 +216,15 @@ export const DonorRegistration: React.FC = () => {
         setError(message);
       }
     },
-    [ageAffirmed, email, navigate, password, confirmPassword, signUpWithEmail, t],
+    [
+      ageAffirmed,
+      email,
+      navigate,
+      password,
+      confirmPassword,
+      signUpWithEmail,
+      t,
+    ],
   );
 
   const handlePostAuthConfirm = useCallback(async () => {
