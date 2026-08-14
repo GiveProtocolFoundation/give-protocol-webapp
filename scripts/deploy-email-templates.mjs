@@ -27,17 +27,19 @@ const ALLOWED_REDIRECTS = [
 const token = process.env.SUPABASE_ACCESS_TOKEN;
 if (!token) {
   throw new Error(
-    `SUPABASE_ACCESS_TOKEN env var is required.\nGenerate one at: Supabase Dashboard → Account → Access Tokens`,
+    "SUPABASE_ACCESS_TOKEN env var is required.\nGenerate one at: Supabase Dashboard → Account → Access Tokens",
   );
 }
 
 const checkOnly = process.argv.includes("--check");
 const templatesDir = resolve(__dirname, "..", "supabase", "templates");
 
+/** @param {string} filename - Template file name relative to supabase/templates. @returns {string} Template HTML content. */
 function readTemplate(filename) {
   return readFileSync(resolve(templatesDir, filename), "utf-8");
 }
 
+/** @param {string} method - HTTP method. @param {string} path - API path. @param {object} [body] - Request body. @returns {Promise<object>} Parsed JSON response. */
 async function apiRequest(method, path, body) {
   const url = `${API_BASE}${path}`;
   const opts = {
@@ -57,14 +59,17 @@ async function apiRequest(method, path, body) {
   return res.json();
 }
 
+/** @returns {Promise<object>} Current Supabase Auth config. */
 function getCurrentConfig() {
   return apiRequest("GET", `/projects/${PROJECT_REF}/config/auth`);
 }
 
+/** @param {object} patch - Config fields to update. @returns {Promise<object>} Updated config. */
 function updateConfig(patch) {
   return apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
 }
 
+/** @param {object} config - Supabase Auth config object. */
 function printUrlConfig(config) {
   console.log("\n=== URL Configuration ===");
   console.log(`  Site URL:       ${config.site_url || "(not set)"}`);
@@ -75,6 +80,7 @@ function printUrlConfig(config) {
   console.log(`  Redirect Allow: ${config.uri_allow_list || "(not set)"}`);
 }
 
+/** @param {object} config - Supabase Auth config object. */
 function printSmtpStatus(config) {
   console.log("\n=== Current SMTP Configuration ===");
   console.log(
@@ -88,6 +94,7 @@ function printSmtpStatus(config) {
   console.log(`  Max Freq:     ${config.smtp_max_frequency || "(not set)"}s`);
 }
 
+/** @param {object} config - Supabase Auth config object. */
 function printTemplateStatus(config) {
   const templates = [
     { key: "confirmation", label: "Confirmation (signup)" },
@@ -111,6 +118,7 @@ function printTemplateStatus(config) {
   }
 }
 
+/** Deploys branded email templates and URL config to Supabase Auth. */
 async function deploy() {
   console.log(`Target: Supabase project ${PROJECT_REF} (prod)`);
 
