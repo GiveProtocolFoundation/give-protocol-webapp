@@ -160,7 +160,9 @@ export function useAuthActions() {
   const resetPassword = async (email: string) => {
     try {
       setLoading(true);
-      const { error } = await supabase.auth.resetPasswordForEmail(email);
+      const { error } = await supabase.auth.resetPasswordForEmail(email, {
+        redirectTo: `${window.location.origin}/auth/reset-password`,
+      });
       if (error) throw error;
       showToast("success", "Password reset email sent");
     } catch (error) {
