@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Deploy Give Protocol branded email templates to Supabase Auth.
  *
@@ -26,21 +25,15 @@ const ALLOWED_REDIRECTS = [
 ];
 
 const token = process.env.SUPABASE_ACCESS_TOKEN;
-if (!token) {
-  console.error(
-    "Error: SUPABASE_ACCESS_TOKEN env var is required.\n" +
-      "Generate one at: Supabase Dashboard → Account → Access Tokens",
-  );
-  process.exit(1);
-}
-
 const checkOnly = process.argv.includes("--check");
 const templatesDir = resolve(__dirname, "..", "supabase", "templates");
 
+/** Read a template file from supabase/templates/ */
 function readTemplate(filename) {
   return readFileSync(resolve(templatesDir, filename), "utf-8");
 }
 
+/** Perform an authenticated request against the Supabase Management API */
 async function apiRequest(method, path, body) {
   const url = `${API_BASE}${path}`;
   const opts = {
@@ -60,14 +53,17 @@ async function apiRequest(method, path, body) {
   return res.json();
 }
 
-async function getCurrentConfig() {
+/** Fetch the project's current auth configuration */
+function getCurrentConfig() {
   return apiRequest("GET", `/projects/${PROJECT_REF}/config/auth`);
 }
 
-async function updateConfig(patch) {
+/** Patch the project's auth configuration */
+function updateConfig(patch) {
   return apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
 }
 
+/** Print the project's Site URL + redirect allow-list status */
 function printUrlConfig(config) {
   console.log("\n=== URL Configuration ===");
   console.log(`  Site URL:       ${config.site_url || "(not set)"}`);
@@ -78,6 +74,7 @@ function printUrlConfig(config) {
   console.log(`  Redirect Allow: ${config.uri_allow_list || "(not set)"}`);
 }
 
+/** Print the project's custom SMTP configuration status */
 function printSmtpStatus(config) {
   console.log("\n=== Current SMTP Configuration ===");
   console.log(
@@ -91,6 +88,7 @@ function printSmtpStatus(config) {
   console.log(`  Max Freq:     ${config.smtp_max_frequency || "(not set)"}s`);
 }
 
+/** Print which auth email templates carry Give Protocol branding */
 function printTemplateStatus(config) {
   const templates = [
     { key: "confirmation", label: "Confirmation (signup)" },
@@ -114,7 +112,14 @@ function printTemplateStatus(config) {
   }
 }
 
+/** Report current config, then (unless --check) deploy URL config + branded templates */
 async function deploy() {
+  if (!token) {
+    throw new Error(
+      "SUPABASE_ACCESS_TOKEN env var is required. Generate one at: Supabase Dashboard → Account → Access Tokens",
+    );
+  }
+
   console.log(`Target: Supabase project ${PROJECT_REF} (prod)`);
 
   const currentConfig = await getCurrentConfig();
@@ -158,7 +163,7 @@ async function deploy() {
   await updateConfig(patch);
 
   console.log("Deployed successfully:\n");
-  console.log("  ✓ Site URL → " + PROD_SITE_URL);
+  console.log(`  ✓ Site URL → ${PROD_SITE_URL}`);
   console.log("  ✓ Redirect allow list updated");
   console.log("  ✓ Confirmation (signup)");
   console.log("  ✓ Recovery (password reset)");
@@ -193,5 +198,5 @@ async function deploy() {
 
 deploy().catch((err) => {
   console.error("\nFailed:", err.message);
-  process.exit(1);
+  process.exitCode = 1;
 });
