@@ -1,4 +1,3 @@
-#!/usr/bin/env node
 /**
  * Deploy Give Protocol branded email templates to Supabase Auth.
  *
@@ -27,11 +26,9 @@ const ALLOWED_REDIRECTS = [
 
 const token = process.env.SUPABASE_ACCESS_TOKEN;
 if (!token) {
-  console.error(
-    "Error: SUPABASE_ACCESS_TOKEN env var is required.\n" +
-      "Generate one at: Supabase Dashboard → Account → Access Tokens",
+  throw new Error(
+    `SUPABASE_ACCESS_TOKEN env var is required.\nGenerate one at: Supabase Dashboard → Account → Access Tokens`,
   );
-  process.exit(1);
 }
 
 const checkOnly = process.argv.includes("--check");
@@ -60,11 +57,11 @@ async function apiRequest(method, path, body) {
   return res.json();
 }
 
-async function getCurrentConfig() {
+function getCurrentConfig() {
   return apiRequest("GET", `/projects/${PROJECT_REF}/config/auth`);
 }
 
-async function updateConfig(patch) {
+function updateConfig(patch) {
   return apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
 }
 
@@ -192,6 +189,6 @@ async function deploy() {
 }
 
 deploy().catch((err) => {
-  console.error("\nFailed:", err.message);
-  process.exit(1);
+  console.error(`\nFailed: ${err.message}`);
+  throw err;
 });
