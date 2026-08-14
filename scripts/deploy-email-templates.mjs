@@ -29,7 +29,7 @@ const token = process.env.SUPABASE_ACCESS_TOKEN;
 if (!token) {
   console.error(
     "Error: SUPABASE_ACCESS_TOKEN env var is required.\n" +
-      "Generate one at: Supabase Dashboard → Account → Access Tokens"
+      "Generate one at: Supabase Dashboard → Account → Access Tokens",
   );
   process.exit(1);
 }
@@ -72,13 +72,17 @@ function printUrlConfig(config) {
   console.log("\n=== URL Configuration ===");
   console.log(`  Site URL:       ${config.site_url || "(not set)"}`);
   const isCorrect = config.site_url === PROD_SITE_URL;
-  console.log(`  Correct:        ${isCorrect ? "Yes ✓" : `No ✗ (should be ${PROD_SITE_URL})`}`);
+  console.log(
+    `  Correct:        ${isCorrect ? "Yes ✓" : `No ✗ (should be ${PROD_SITE_URL})`}`,
+  );
   console.log(`  Redirect Allow: ${config.uri_allow_list || "(not set)"}`);
 }
 
 function printSmtpStatus(config) {
   console.log("\n=== Current SMTP Configuration ===");
-  console.log(`  Enabled:      ${config.smtp_admin_email ? "Yes" : "No (using Supabase default)"}`);
+  console.log(
+    `  Enabled:      ${config.smtp_admin_email ? "Yes" : "No (using Supabase default)"}`,
+  );
   console.log(`  Sender Email: ${config.smtp_admin_email || "(not set)"}`);
   console.log(`  Sender Name:  ${config.smtp_sender_name || "(not set)"}`);
   console.log(`  SMTP Host:    ${config.smtp_host || "(not set)"}`);
@@ -146,7 +150,9 @@ async function deploy() {
     mailer_templates_email_change_content: readTemplate("change-email.html"),
 
     mailer_subjects_reauthentication: "Confirm your identity — Give Protocol",
-    mailer_templates_reauthentication_content: readTemplate("reauthentication.html"),
+    mailer_templates_reauthentication_content: readTemplate(
+      "reauthentication.html",
+    ),
   };
 
   await updateConfig(patch);
@@ -169,11 +175,19 @@ async function deploy() {
   const smtpOk = updated.smtp_admin_email && updated.smtp_host;
   if (!smtpOk) {
     console.log("\n⚠  WARNING: Custom SMTP does not appear to be configured.");
-    console.log("   Emails will come from Supabase's default sender, NOT giveprotocol.io.");
-    console.log("   To fix: go to Supabase Dashboard → Project Settings → Auth → SMTP Settings");
-    console.log("   and configure Resend SMTP (smtp.resend.com, port 465, SSL).");
+    console.log(
+      "   Emails will come from Supabase's default sender, NOT giveprotocol.io.",
+    );
+    console.log(
+      "   To fix: go to Supabase Dashboard → Project Settings → Auth → SMTP Settings",
+    );
+    console.log(
+      "   and configure Resend SMTP (smtp.resend.com, port 465, SSL).",
+    );
   } else {
-    console.log(`\n  SMTP sender: ${updated.smtp_admin_email} (${updated.smtp_sender_name || "no name"})`);
+    console.log(
+      `\n  SMTP sender: ${updated.smtp_admin_email} (${updated.smtp_sender_name || "no name"})`,
+    );
   }
 }
 
