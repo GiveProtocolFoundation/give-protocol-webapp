@@ -25,15 +25,21 @@ const ALLOWED_REDIRECTS = [
 ];
 
 const token = process.env.SUPABASE_ACCESS_TOKEN;
+if (!token) {
+  throw new Error(
+    "SUPABASE_ACCESS_TOKEN env var is required.\nGenerate one at: Supabase Dashboard → Account → Access Tokens",
+  );
+}
+
 const checkOnly = process.argv.includes("--check");
 const templatesDir = resolve(__dirname, "..", "supabase", "templates");
 
-/** Read a template file from supabase/templates/ */
+/** @param {string} filename - Template file name relative to supabase/templates. @returns {string} Template HTML content. */
 function readTemplate(filename) {
   return readFileSync(resolve(templatesDir, filename), "utf-8");
 }
 
-/** Perform an authenticated request against the Supabase Management API */
+/** @param {string} method - HTTP method. @param {string} path - API path. @param {object} [body] - Request body. @returns {Promise<object>} Parsed JSON response. */
 async function apiRequest(method, path, body) {
   const url = `${API_BASE}${path}`;
   const opts = {
@@ -53,17 +59,17 @@ async function apiRequest(method, path, body) {
   return res.json();
 }
 
-/** Fetch the project's current auth configuration */
+/** @returns {Promise<object>} Current Supabase Auth config. */
 function getCurrentConfig() {
   return apiRequest("GET", `/projects/${PROJECT_REF}/config/auth`);
 }
 
-/** Patch the project's auth configuration */
+/** @param {object} patch - Config fields to update. @returns {Promise<object>} Updated config. */
 function updateConfig(patch) {
   return apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
 }
 
-/** Print the project's Site URL + redirect allow-list status */
+/** @param {object} config - Supabase Auth config object. */
 function printUrlConfig(config) {
   console.log("\n=== URL Configuration ===");
   console.log(`  Site URL:       ${config.site_url || "(not set)"}`);
@@ -74,7 +80,7 @@ function printUrlConfig(config) {
   console.log(`  Redirect Allow: ${config.uri_allow_list || "(not set)"}`);
 }
 
-/** Print the project's custom SMTP configuration status */
+/** @param {object} config - Supabase Auth config object. */
 function printSmtpStatus(config) {
   console.log("\n=== Current SMTP Configuration ===");
   console.log(
@@ -88,7 +94,7 @@ function printSmtpStatus(config) {
   console.log(`  Max Freq:     ${config.smtp_max_frequency || "(not set)"}s`);
 }
 
-/** Print which auth email templates carry Give Protocol branding */
+/** @param {object} config - Supabase Auth config object. */
 function printTemplateStatus(config) {
   const templates = [
     { key: "confirmation", label: "Confirmation (signup)" },
@@ -112,14 +118,8 @@ function printTemplateStatus(config) {
   }
 }
 
-/** Report current config, then (unless --check) deploy URL config + branded templates */
+/** Deploys branded email templates and URL config to Supabase Auth. */
 async function deploy() {
-  if (!token) {
-    throw new Error(
-      "SUPABASE_ACCESS_TOKEN env var is required. Generate one at: Supabase Dashboard → Account → Access Tokens",
-    );
-  }
-
   console.log(`Target: Supabase project ${PROJECT_REF} (prod)`);
 
   const currentConfig = await getCurrentConfig();
@@ -197,6 +197,6 @@ async function deploy() {
 }
 
 deploy().catch((err) => {
-  console.error("\nFailed:", err.message);
-  process.exitCode = 1;
+  console.error(`\nFailed: ${err.message}`);
+  throw err;
 });
