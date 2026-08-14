@@ -184,7 +184,7 @@ export const DonorRegistration: React.FC = () => {
         setError(
           t(
             "auth.validation.ageAffirmationRequired",
-            "Please confirm you are 13 years or older to continue.",
+            "Please confirm you are 16 years of age or older to continue.",
           ),
         );
         return;
