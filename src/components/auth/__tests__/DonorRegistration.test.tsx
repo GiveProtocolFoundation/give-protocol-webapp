@@ -299,7 +299,7 @@ describe("DonorRegistration", () => {
     fireEvent.submit(form);
     await waitFor(() => {
       expect(
-        screen.getByText(/please confirm you are 13 years or older/i),
+        screen.getByText(/please confirm you are 16 years of age or older/i),
       ).toBeInTheDocument();
     });
   });
