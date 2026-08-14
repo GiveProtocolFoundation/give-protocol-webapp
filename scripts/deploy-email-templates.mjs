@@ -19,9 +19,10 @@ const PROJECT_REF = "lhbyfidtlhojnrewpstp";
 const API_BASE = "https://api.supabase.com/v1";
 const PROD_SITE_URL = "https://giveprotocol.io";
 const ALLOWED_REDIRECTS = [
+  "https://giveprotocol.io/**",
+  "https://www.giveprotocol.io/**",
   "http://localhost:5173/**",
   "http://localhost:3000/**",
-  "https://giveprotocol.io/**",
 ];
 
 const token = process.env.SUPABASE_ACCESS_TOKEN;
@@ -69,37 +70,37 @@ async function updateConfig(patch) {
 
 function printUrlConfig(config) {
   console.log("\n=== URL Configuration ===");
-  console.log(`  Site URL:       ${config.SITE_URL || "(not set)"}`);
-  const isCorrect = config.SITE_URL === PROD_SITE_URL;
+  console.log(`  Site URL:       ${config.site_url || "(not set)"}`);
+  const isCorrect = config.site_url === PROD_SITE_URL;
   console.log(`  Correct:        ${isCorrect ? "Yes ✓" : `No ✗ (should be ${PROD_SITE_URL})`}`);
-  console.log(`  Redirect Allow: ${config.URI_ALLOW_LIST || "(not set)"}`);
+  console.log(`  Redirect Allow: ${config.uri_allow_list || "(not set)"}`);
 }
 
 function printSmtpStatus(config) {
   console.log("\n=== Current SMTP Configuration ===");
-  console.log(`  Enabled:      ${config.SMTP_ADMIN_EMAIL ? "Yes" : "No (using Supabase default)"}`);
-  console.log(`  Sender Email: ${config.SMTP_ADMIN_EMAIL || "(not set)"}`);
-  console.log(`  Sender Name:  ${config.SMTP_SENDER_NAME || "(not set)"}`);
-  console.log(`  SMTP Host:    ${config.SMTP_HOST || "(not set)"}`);
-  console.log(`  SMTP Port:    ${config.SMTP_PORT || "(not set)"}`);
-  console.log(`  SMTP User:    ${config.SMTP_USER || "(not set)"}`);
-  console.log(`  Max Freq:     ${config.SMTP_MAX_FREQUENCY || "(not set)"}s`);
+  console.log(`  Enabled:      ${config.smtp_admin_email ? "Yes" : "No (using Supabase default)"}`);
+  console.log(`  Sender Email: ${config.smtp_admin_email || "(not set)"}`);
+  console.log(`  Sender Name:  ${config.smtp_sender_name || "(not set)"}`);
+  console.log(`  SMTP Host:    ${config.smtp_host || "(not set)"}`);
+  console.log(`  SMTP Port:    ${config.smtp_port || "(not set)"}`);
+  console.log(`  SMTP User:    ${config.smtp_user || "(not set)"}`);
+  console.log(`  Max Freq:     ${config.smtp_max_frequency || "(not set)"}s`);
 }
 
 function printTemplateStatus(config) {
   const templates = [
-    { key: "CONFIRMATION", label: "Confirmation (signup)" },
-    { key: "RECOVERY", label: "Recovery (password reset)" },
-    { key: "INVITE", label: "Invite" },
-    { key: "MAGIC_LINK", label: "Magic Link" },
-    { key: "EMAIL_CHANGE", label: "Email Change" },
-    { key: "REAUTHENTICATION", label: "Reauthentication" },
+    { key: "confirmation", label: "Confirmation (signup)" },
+    { key: "recovery", label: "Recovery (password reset)" },
+    { key: "invite", label: "Invite" },
+    { key: "magic_link", label: "Magic Link" },
+    { key: "email_change", label: "Email Change" },
+    { key: "reauthentication", label: "Reauthentication" },
   ];
 
   console.log("\n=== Current Email Template Status ===");
   for (const t of templates) {
-    const subjectKey = `MAILER_SUBJECTS_${t.key}`;
-    const contentKey = `MAILER_TEMPLATES_${t.key}_CONTENT`;
+    const subjectKey = `mailer_subjects_${t.key}`;
+    const contentKey = `mailer_templates_${t.key}_content`;
     const subject = config[subjectKey] || "(default)";
     const content = config[contentKey] || "";
     const isBranded = content.includes("Give Protocol");
@@ -126,26 +127,26 @@ async function deploy() {
   console.log("\n=== Deploying URL config + branded templates... ===\n");
 
   const patch = {
-    SITE_URL: PROD_SITE_URL,
-    URI_ALLOW_LIST: ALLOWED_REDIRECTS.join(","),
+    site_url: PROD_SITE_URL,
+    uri_allow_list: ALLOWED_REDIRECTS.join(","),
 
-    MAILER_SUBJECTS_CONFIRMATION: "Confirm your email — Give Protocol",
-    MAILER_TEMPLATES_CONFIRMATION_CONTENT: readTemplate("confirm-signup.html"),
+    mailer_subjects_confirmation: "Confirm your email — Give Protocol",
+    mailer_templates_confirmation_content: readTemplate("confirm-signup.html"),
 
-    MAILER_SUBJECTS_RECOVERY: "Reset your password — Give Protocol",
-    MAILER_TEMPLATES_RECOVERY_CONTENT: readTemplate("recovery.html"),
+    mailer_subjects_recovery: "Reset your password — Give Protocol",
+    mailer_templates_recovery_content: readTemplate("recovery.html"),
 
-    MAILER_SUBJECTS_INVITE: "You've been invited to Give Protocol",
-    MAILER_TEMPLATES_INVITE_CONTENT: readTemplate("invite-user.html"),
+    mailer_subjects_invite: "You've been invited to Give Protocol",
+    mailer_templates_invite_content: readTemplate("invite-user.html"),
 
-    MAILER_SUBJECTS_MAGIC_LINK: "Your sign-in link — Give Protocol",
-    MAILER_TEMPLATES_MAGIC_LINK_CONTENT: readTemplate("magic-link.html"),
+    mailer_subjects_magic_link: "Your sign-in link — Give Protocol",
+    mailer_templates_magic_link_content: readTemplate("magic-link.html"),
 
-    MAILER_SUBJECTS_EMAIL_CHANGE: "Confirm your new email — Give Protocol",
-    MAILER_TEMPLATES_EMAIL_CHANGE_CONTENT: readTemplate("change-email.html"),
+    mailer_subjects_email_change: "Confirm your new email — Give Protocol",
+    mailer_templates_email_change_content: readTemplate("change-email.html"),
 
-    MAILER_SUBJECTS_REAUTHENTICATION: "Confirm your identity — Give Protocol",
-    MAILER_TEMPLATES_REAUTHENTICATION_CONTENT: readTemplate("reauthentication.html"),
+    mailer_subjects_reauthentication: "Confirm your identity — Give Protocol",
+    mailer_templates_reauthentication_content: readTemplate("reauthentication.html"),
   };
 
   await updateConfig(patch);
@@ -165,14 +166,14 @@ async function deploy() {
   printUrlConfig(updated);
   printTemplateStatus(updated);
 
-  const smtpOk = updated.SMTP_ADMIN_EMAIL && updated.SMTP_HOST;
+  const smtpOk = updated.smtp_admin_email && updated.smtp_host;
   if (!smtpOk) {
     console.log("\n⚠  WARNING: Custom SMTP does not appear to be configured.");
     console.log("   Emails will come from Supabase's default sender, NOT giveprotocol.io.");
     console.log("   To fix: go to Supabase Dashboard → Project Settings → Auth → SMTP Settings");
     console.log("   and configure Resend SMTP (smtp.resend.com, port 465, SSL).");
   } else {
-    console.log(`\n  SMTP sender: ${updated.SMTP_ADMIN_EMAIL} (${updated.SMTP_SENDER_NAME || "no name"})`);
+    console.log(`\n  SMTP sender: ${updated.smtp_admin_email} (${updated.smtp_sender_name || "no name"})`);
   }
 }
 
