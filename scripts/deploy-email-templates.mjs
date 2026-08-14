@@ -17,6 +17,12 @@ import { fileURLToPath } from "node:url";
 const __dirname = dirname(fileURLToPath(import.meta.url));
 const PROJECT_REF = "lhbyfidtlhojnrewpstp";
 const API_BASE = "https://api.supabase.com/v1";
+const PROD_SITE_URL = "https://giveprotocol.io";
+const ALLOWED_REDIRECTS = [
+  "http://localhost:5173/**",
+  "http://localhost:3000/**",
+  "https://giveprotocol.io/**",
+];
 
 const token = process.env.SUPABASE_ACCESS_TOKEN;
 if (!token) {
@@ -61,6 +67,14 @@ async function updateConfig(patch) {
   return apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
 }
 
+function printUrlConfig(config) {
+  console.log("\n=== URL Configuration ===");
+  console.log(`  Site URL:       ${config.SITE_URL || "(not set)"}`);
+  const isCorrect = config.SITE_URL === PROD_SITE_URL;
+  console.log(`  Correct:        ${isCorrect ? "Yes ✓" : `No ✗ (should be ${PROD_SITE_URL})`}`);
+  console.log(`  Redirect Allow: ${config.URI_ALLOW_LIST || "(not set)"}`);
+}
+
 function printSmtpStatus(config) {
   console.log("\n=== Current SMTP Configuration ===");
   console.log(`  Enabled:      ${config.SMTP_ADMIN_EMAIL ? "Yes" : "No (using Supabase default)"}`);
@@ -100,6 +114,7 @@ async function deploy() {
 
   const currentConfig = await getCurrentConfig();
 
+  printUrlConfig(currentConfig);
   printSmtpStatus(currentConfig);
   printTemplateStatus(currentConfig);
 
@@ -108,9 +123,12 @@ async function deploy() {
     return;
   }
 
-  console.log("\n=== Deploying branded templates... ===\n");
+  console.log("\n=== Deploying URL config + branded templates... ===\n");
 
   const patch = {
+    SITE_URL: PROD_SITE_URL,
+    URI_ALLOW_LIST: ALLOWED_REDIRECTS.join(","),
+
     MAILER_SUBJECTS_CONFIRMATION: "Confirm your email — Give Protocol",
     MAILER_TEMPLATES_CONFIRMATION_CONTENT: readTemplate("confirm-signup.html"),
 
@@ -132,7 +150,9 @@ async function deploy() {
 
   await updateConfig(patch);
 
-  console.log("All 6 email templates deployed successfully:\n");
+  console.log("Deployed successfully:\n");
+  console.log("  ✓ Site URL → " + PROD_SITE_URL);
+  console.log("  ✓ Redirect allow list updated");
   console.log("  ✓ Confirmation (signup)");
   console.log("  ✓ Recovery (password reset)");
   console.log("  ✓ Invite");
@@ -142,6 +162,7 @@ async function deploy() {
 
   console.log("\n=== Verifying deployment... ===\n");
   const updated = await getCurrentConfig();
+  printUrlConfig(updated);
   printTemplateStatus(updated);
 
   const smtpOk = updated.SMTP_ADMIN_EMAIL && updated.SMTP_HOST;
