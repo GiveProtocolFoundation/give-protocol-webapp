@@ -158,7 +158,7 @@ async function deploy() {
   await updateConfig(patch);
 
   console.log("Deployed successfully:\n");
-  console.log("  ✓ Site URL → " + PROD_SITE_URL);
+  console.log(`  ✓ Site URL → ${PROD_SITE_URL}`);
   console.log("  ✓ Redirect allow list updated");
   console.log("  ✓ Confirmation (signup)");
   console.log("  ✓ Recovery (password reset)");
