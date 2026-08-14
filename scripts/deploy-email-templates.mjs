@@ -25,15 +25,21 @@ const ALLOWED_REDIRECTS = [
 ];
 
 const token = process.env.SUPABASE_ACCESS_TOKEN;
+if (!token) {
+  throw new Error(
+    "SUPABASE_ACCESS_TOKEN env var is required. Generate one at: Supabase Dashboard → Account → Access Tokens",
+  );
+}
+
 const checkOnly = process.argv.includes("--check");
 const templatesDir = resolve(__dirname, "..", "supabase", "templates");
 
-/** Read a template file from supabase/templates/ */
+/** Reads a template file from the templates directory. */
 function readTemplate(filename) {
   return readFileSync(resolve(templatesDir, filename), "utf-8");
 }
 
-/** Perform an authenticated request against the Supabase Management API */
+/** Makes an authenticated request to the Supabase Management API. */
 async function apiRequest(method, path, body) {
   const url = `${API_BASE}${path}`;
   const opts = {
@@ -53,33 +59,29 @@ async function apiRequest(method, path, body) {
   return res.json();
 }
 
-/** Fetch the project's current auth configuration */
+/** Fetches the current auth config for the project. */
 function getCurrentConfig() {
   return apiRequest("GET", `/projects/${PROJECT_REF}/config/auth`);
 }
 
-/** Patch the project's auth configuration */
+/** Applies a partial config patch to the project auth settings. */
 function updateConfig(patch) {
   return apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
 }
 
-/** Print the project's Site URL + redirect allow-list status */
+/** Prints the URL and redirect configuration. */
 function printUrlConfig(config) {
   console.log("\n=== URL Configuration ===");
   console.log(`  Site URL:       ${config.site_url || "(not set)"}`);
   const isCorrect = config.site_url === PROD_SITE_URL;
-  console.log(
-    `  Correct:        ${isCorrect ? "Yes ✓" : `No ✗ (should be ${PROD_SITE_URL})`}`,
-  );
+  console.log(`  Correct:        ${isCorrect ? "Yes ✓" : `No ✗ (should be ${PROD_SITE_URL})`}`);
   console.log(`  Redirect Allow: ${config.uri_allow_list || "(not set)"}`);
 }
 
-/** Print the project's custom SMTP configuration status */
+/** Prints the current SMTP configuration. */
 function printSmtpStatus(config) {
   console.log("\n=== Current SMTP Configuration ===");
-  console.log(
-    `  Enabled:      ${config.smtp_admin_email ? "Yes" : "No (using Supabase default)"}`,
-  );
+  console.log(`  Enabled:      ${config.smtp_admin_email ? "Yes" : "No (using Supabase default)"}`);
   console.log(`  Sender Email: ${config.smtp_admin_email || "(not set)"}`);
   console.log(`  Sender Name:  ${config.smtp_sender_name || "(not set)"}`);
   console.log(`  SMTP Host:    ${config.smtp_host || "(not set)"}`);
@@ -88,7 +90,7 @@ function printSmtpStatus(config) {
   console.log(`  Max Freq:     ${config.smtp_max_frequency || "(not set)"}s`);
 }
 
-/** Print which auth email templates carry Give Protocol branding */
+/** Prints the branded status of each email template. */
 function printTemplateStatus(config) {
   const templates = [
     { key: "confirmation", label: "Confirmation (signup)" },
@@ -112,14 +114,8 @@ function printTemplateStatus(config) {
   }
 }
 
-/** Report current config, then (unless --check) deploy URL config + branded templates */
+/** Deploys URL config and branded email templates to Supabase. */
 async function deploy() {
-  if (!token) {
-    throw new Error(
-      "SUPABASE_ACCESS_TOKEN env var is required. Generate one at: Supabase Dashboard → Account → Access Tokens",
-    );
-  }
-
   console.log(`Target: Supabase project ${PROJECT_REF} (prod)`);
 
   const currentConfig = await getCurrentConfig();
@@ -155,9 +151,7 @@ async function deploy() {
     mailer_templates_email_change_content: readTemplate("change-email.html"),
 
     mailer_subjects_reauthentication: "Confirm your identity — Give Protocol",
-    mailer_templates_reauthentication_content: readTemplate(
-      "reauthentication.html",
-    ),
+    mailer_templates_reauthentication_content: readTemplate("reauthentication.html"),
   };
 
   await updateConfig(patch);
@@ -180,19 +174,11 @@ async function deploy() {
   const smtpOk = updated.smtp_admin_email && updated.smtp_host;
   if (!smtpOk) {
     console.log("\n⚠  WARNING: Custom SMTP does not appear to be configured.");
-    console.log(
-      "   Emails will come from Supabase's default sender, NOT giveprotocol.io.",
-    );
-    console.log(
-      "   To fix: go to Supabase Dashboard → Project Settings → Auth → SMTP Settings",
-    );
-    console.log(
-      "   and configure Resend SMTP (smtp.resend.com, port 465, SSL).",
-    );
+    console.log("   Emails will come from Supabase's default sender, NOT giveprotocol.io.");
+    console.log("   To fix: go to Supabase Dashboard → Project Settings → Auth → SMTP Settings");
+    console.log("   and configure Resend SMTP (smtp.resend.com, port 465, SSL).");
   } else {
-    console.log(
-      `\n  SMTP sender: ${updated.smtp_admin_email} (${updated.smtp_sender_name || "no name"})`,
-    );
+    console.log(`\n  SMTP sender: ${updated.smtp_admin_email} (${updated.smtp_sender_name || "no name"})`);
   }
 }
 
