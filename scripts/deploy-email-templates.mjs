@@ -3,8 +3,12 @@
  *
  * Usage:
  *   SUPABASE_ACCESS_TOKEN=sbp_xxx node scripts/deploy-email-templates.mjs [--check]
+ *   SUPABASE_ACCESS_TOKEN=sbp_xxx RESEND_API_KEY=re_xxx node scripts/deploy-email-templates.mjs --configure-smtp
+ *   SUPABASE_ACCESS_TOKEN=sbp_xxx node scripts/deploy-email-templates.mjs --test-signup
  *
- * --check   Read-only: prints current SMTP + template config without changing anything.
+ * --check            Read-only: prints current SMTP + template config without changing anything.
+ * --configure-smtp   Configure Resend SMTP for Supabase Auth (requires RESEND_API_KEY env var).
+ * --test-signup      Send a test signup request to verify email delivery.
  *
  * Requires a Supabase personal access token (Dashboard → Account → Access Tokens).
  */
@@ -32,7 +36,10 @@ if (!token) {
 }
 
 const checkOnly = process.argv.includes("--check");
+const configureSmtp = process.argv.includes("--configure-smtp");
+const testSignup = process.argv.includes("--test-signup");
 const templatesDir = resolve(__dirname, "..", "supabase", "templates");
+const SUPABASE_URL = `https://${PROJECT_REF}.supabase.co`;
 
 /** @param {string} filename - Template file name relative to supabase/templates. @returns {string} Template HTML content. */
 function readTemplate(filename) {
@@ -118,6 +125,118 @@ function printTemplateStatus(config) {
   }
 }
 
+/** Configures Resend SMTP for Supabase Auth via Management API. */
+async function smtpConfigure() {
+  const resendKey = process.env.RESEND_API_KEY;
+  if (!resendKey) {
+    throw new Error(
+      "RESEND_API_KEY env var is required for --configure-smtp.\n" +
+        "Get it from: https://resend.com/api-keys",
+    );
+  }
+
+  console.log(`Target: Supabase project ${PROJECT_REF} (prod)`);
+  console.log("\n=== Current SMTP Configuration ===");
+
+  const current = await getCurrentConfig();
+  printSmtpStatus(current);
+
+  console.log("\n=== Configuring Resend SMTP... ===\n");
+
+  const smtpPatch = {
+    smtp_admin_email: "support@giveprotocol.io",
+    smtp_sender_name: "Give Protocol",
+    smtp_host: "smtp.resend.com",
+    smtp_port: 587,
+    smtp_user: "resend",
+    smtp_pass: resendKey,
+    smtp_max_frequency: 60,
+  };
+
+  await updateConfig(smtpPatch);
+
+  console.log("SMTP configured. Verifying...\n");
+  const updated = await getCurrentConfig();
+  printSmtpStatus(updated);
+
+  const ok = updated.smtp_admin_email && updated.smtp_host;
+  if (ok) {
+    console.log("\n  SMTP configured successfully.");
+    console.log(
+      "  Run with --test-signup to verify email delivery end-to-end.",
+    );
+  } else {
+    console.log("\n  WARNING: SMTP does not appear to have taken effect.");
+    console.log("  Check the Supabase Dashboard → Auth → SMTP Settings.");
+  }
+}
+
+/** Tests signup email delivery by creating a disposable account. */
+async function smtpTestSignup() {
+  console.log(`Target: Supabase project ${PROJECT_REF} (prod)`);
+
+  const current = await getCurrentConfig();
+  printSmtpStatus(current);
+
+  console.log("\n=== Testing signup email delivery ===\n");
+
+  const testEmail = `giv909-test-${Date.now()}@example.com`;
+  console.log(`  Test email: ${testEmail}`);
+
+  const anonKey = await getAnonKey();
+  const res = await fetch(`${SUPABASE_URL}/auth/v1/signup`, {
+    method: "POST",
+    headers: {
+      apikey: anonKey,
+      "Content-Type": "application/json",
+    },
+    body: JSON.stringify({
+      email: testEmail,
+      password: "SmtpTest2026!Diagnostic",
+      data: { full_name: "SMTP Diagnostic Test" },
+    }),
+  });
+
+  const status = res.status;
+  const body = await res.json();
+
+  if (status === 200 && body.user) {
+    console.log(`  Status: ${status} OK`);
+    console.log(
+      `  confirmation_sent_at: ${body.user.confirmation_sent_at || "NOT SET"}`,
+    );
+    console.log(
+      `  email_confirmed_at: ${body.user.email_confirmed_at || "NOT SET"}`,
+    );
+    if (body.user.confirmation_sent_at) {
+      console.log("\n  Email was queued for delivery.");
+      console.log(
+        "  Check the recipient inbox (and spam folder) to confirm receipt.",
+      );
+    } else {
+      console.log("\n  WARNING: User created but no confirmation email sent.");
+    }
+  } else if (status === 500) {
+    console.log(`  Status: ${status} FAILED`);
+    console.log(`  Error: ${body.msg || body.message || JSON.stringify(body)}`);
+    console.log("\n  SMTP is misconfigured. Run --configure-smtp to fix.");
+  } else {
+    console.log(`  Status: ${status}`);
+    console.log(`  Response: ${JSON.stringify(body, null, 2)}`);
+  }
+}
+
+/** @returns {Promise<string>} Anon key for the project. */
+async function getAnonKey() {
+  const keys = await apiRequest(
+    "GET",
+    `/projects/${PROJECT_REF}/api-keys`,
+  );
+  const anon = keys.find((k) => k.name === "anon");
+  if (!anon) throw new Error("Could not find anon key via Management API");
+  return anon.api_key;
+}
+
 /** Deploys branded email templates and URL config to Supabase Auth. */
 async function deploy() {
   console.log(`Target: Supabase project ${PROJECT_REF} (prod)`);
@@ -196,7 +315,18 @@ async function deploy() {
   }
 }
 
-deploy().catch((err) => {
+/** @returns {Promise<void>} */
+async function main() {
+  if (configureSmtp) {
+    await smtpConfigure();
+  } else if (testSignup) {
+    await smtpTestSignup();
+  } else {
+    await deploy();
+  }
+}
+
+main().catch((err) => {
   console.error(`\nFailed: ${err.message}`);
   throw err;
 });
