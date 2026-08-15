@@ -228,10 +228,7 @@ async function smtpTestSignup() {
 
 /** @returns {Promise<string>} Anon key for the project. */
 async function getAnonKey() {
-  const keys = await apiRequest(
-    "GET",
-    `/projects/${PROJECT_REF}/api-keys`,
-  );
+  const keys = await apiRequest("GET", `/projects/${PROJECT_REF}/api-keys`);
   const anon = keys.find((k) => k.name === "anon");
   if (!anon) throw new Error("Could not find anon key via Management API");
   return anon.api_key;
