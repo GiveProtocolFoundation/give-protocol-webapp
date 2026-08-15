@@ -197,6 +197,6 @@ async function deploy() {
 }
 
 deploy().catch((err) => {
-  console.error("\nFailed:", err.message);
-  process.exitCode = 1;
+  console.error(`\nFailed: ${err.message}`);
+  throw err;
 });

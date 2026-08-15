@@ -2,6 +2,16 @@
   "name": "give-protocol-webapp",
   "version": "1.0.0",
   "description": "Progressive Web App for Give Protocol - Blockchain-based charitable giving platform",
+  "license": "MIT",
+  "author": "Give Protocol Foundation",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/GiveProtocolFoundation/give-protocol-webapp.git"
+  },
+  "bugs": {
+    "url": "https://github.com/GiveProtocolFoundation/give-protocol-webapp/issues"
+  },
+  "homepage": "https://github.com/GiveProtocolFoundation/give-protocol-webapp#readme",
   "private": true,
   "type": "module",
   "scripts": {
