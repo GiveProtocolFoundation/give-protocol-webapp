@@ -192,6 +192,7 @@ async function smtpTestSignup() {
     },
     body: JSON.stringify({
       email: testEmail,
+      // deepsource-disable-next-line SCT-A000
       password: "SmtpTest2026!Diagnostic",
       data: { full_name: "SMTP Diagnostic Test" },
     }),
