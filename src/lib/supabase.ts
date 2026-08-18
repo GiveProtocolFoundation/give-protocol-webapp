@@ -11,7 +11,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
   // and producing a blank page with no visible error. Auth calls will fail
   // gracefully at runtime so the UI can still render and display the issue.
   console.error(
-    "[supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_ANON_KEY. " +
+    "[supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY. " +
       "Set these in your hosting environment and redeploy.",
   );
 }
