@@ -93,8 +93,12 @@ export function getChainContractAddresses(
 /** Validated environment configuration object built from VITE_* variables at startup. */
 export const ENV = {
   // Required variables
+  // VITE_SUPABASE_PUBLISHABLE_KEY is the new Supabase credential format (sb_publishable_*).
+  // VITE_SUPABASE_ANON_KEY is kept as a fallback for local dev / legacy configs.
   SUPABASE_URL: getEnv("VITE_SUPABASE_URL"),
-  SUPABASE_ANON_KEY: getEnv("VITE_SUPABASE_ANON_KEY"),
+  SUPABASE_ANON_KEY:
+    getEnv("VITE_SUPABASE_PUBLISHABLE_KEY") ?? getEnv("VITE_SUPABASE_ANON_KEY"),
+  SUPABASE_JWKS_URL: getEnv("VITE_SUPABASE_JWKS_URL"),
   APP_DOMAIN: getEnv("VITE_APP_DOMAIN") || "localhost",
 
   // Optional variables with defaults
@@ -134,7 +138,7 @@ export const ENV = {
 if (!ENV.SUPABASE_URL || !ENV.SUPABASE_ANON_KEY) {
   console.error("Missing required Supabase environment variables:", {
     SUPABASE_URL: ENV.SUPABASE_URL ? "defined" : "undefined",
-    SUPABASE_ANON_KEY: ENV.SUPABASE_ANON_KEY ? "defined" : "undefined",
+    SUPABASE_PUBLISHABLE_KEY: ENV.SUPABASE_ANON_KEY ? "defined" : "undefined",
   });
 }
 
