@@ -147,7 +147,7 @@ async function smtpConfigure() {
     smtp_admin_email: "support@giveprotocol.io",
     smtp_sender_name: "Give Protocol",
     smtp_host: "smtp.resend.com",
-    smtp_port: 587,
+    smtp_port: "465",
     smtp_user: "resend",
     smtp_pass: resendKey,
     smtp_max_frequency: 60,
