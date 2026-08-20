@@ -60,3 +60,12 @@ CLAUDE_CODE_RULES.md
 
 # Claude Code editor artifacts (worktrees, session files)
 .claude/
+
+# Internal governance / legal / IR docs — must NOT be committed to this public repo (GIV-917)
+# These belong in a private backend/ops/governance repo.
+plans/GIV-651-ropa-v1.6-delta.md
+plans/GIV-652-art9-counsel-memo.md
+plans/GIV-654-consent-capture-scope.md
+plans/GIV-819-asv-dispute-supabase-ticket.md
+plans/GIV-835-functional-audit-plan.md
+ops/ir-queries/
