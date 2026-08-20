@@ -29,11 +29,7 @@ interface UnifiedUser {
 
 /** Current step in the wallet-based authentication flow. */
 export type WalletAuthStep =
-  | "connecting"
-  | "signing"
-  | "verifying"
-  | "session"
-  | null;
+  "connecting" | "signing" | "verifying" | "session" | null;
 
 interface UnifiedAuthState {
   user: UnifiedUser | null;

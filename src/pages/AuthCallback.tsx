@@ -89,7 +89,7 @@ const AuthCallback: React.FC = () => {
     if (!tokenHash || !otpType || exchangeStarted.current) return;
     exchangeStarted.current = true;
 
-    void supabase.auth
+    supabase.auth
       .verifyOtp({ token_hash: tokenHash, type: otpType })
       .then(({ error }) => {
         if (error) {

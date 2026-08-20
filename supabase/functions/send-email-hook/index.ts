@@ -180,7 +180,10 @@ function hookError(message: string, httpCode: number): Response {
 serve(async (req: Request) => {
   try {
     const rawBody = await req.text();
-    console.log("send-email-hook: received request, body length:", rawBody.length);
+    console.log(
+      "send-email-hook: received request, body length:",
+      rawBody.length,
+    );
 
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
     if (!resendApiKey) {
@@ -226,10 +229,7 @@ serve(async (req: Request) => {
 
     if (!resendRes.ok) {
       const errBody = await resendRes.text();
-      return hookError(
-        `Resend API error ${resendRes.status}: ${errBody}`,
-        502,
-      );
+      return hookError(`Resend API error ${resendRes.status}: ${errBody}`, 502);
     }
 
     const result = await resendRes.json();
