@@ -723,6 +723,17 @@ export function AppRoutes() {
             </RouteTransition>
           }
         />
+        {/* Target of every emailed verification link built by send-email-hook. */}
+        <Route
+          path="/auth/confirm"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <AuthCallback />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
         <Route
           path="/auth/registration-success"
           element={

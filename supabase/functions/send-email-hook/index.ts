@@ -157,40 +157,54 @@ function renderEmail(config: EmailConfig, confirmUrl: string): string {
 </html>`;
 }
 
+/**
+ * Build a GoTrue hook error response.
+ *
+ * Returning success when the send actually failed is what made this class of
+ * bug invisible: GoTrue reports "email sent", the UI tells the user to check
+ * their inbox, and nothing ever arrives. Failing loudly surfaces the real cause
+ * at signup time and in the auth logs instead.
+ *
+ * @param {string} message - Operator-facing reason the send failed.
+ * @param {number} httpCode - HTTP status GoTrue should report.
+ * @returns {Response} JSON error response in GoTrue's hook error format.
+ */
+function hookError(message: string, httpCode: number): Response {
+  console.error("send-email-hook:", message);
+  return new Response(
+    JSON.stringify({ error: { http_code: httpCode, message } }),
+    { status: httpCode, headers: { "Content-Type": "application/json" } },
+  );
+}
+
 serve(async (req: Request) => {
   try {
     const rawBody = await req.text();
-    console.log("send-email-hook: received request, body length:", rawBody.length);
+    console.log(
+      "send-email-hook: received request, body length:",
+      rawBody.length,
+    );
 
     const resendApiKey = Deno.env.get("RESEND_API_KEY");
     if (!resendApiKey) {
-      console.error("send-email-hook: RESEND_API_KEY not set — emails will not be sent");
-      return new Response(JSON.stringify({}), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+      return hookError("RESEND_API_KEY not set — cannot send email", 500);
     }
 
     let payload: HookPayload;
     try {
       payload = JSON.parse(rawBody);
     } catch {
-      console.error("send-email-hook: failed to parse JSON body");
-      return new Response(JSON.stringify({}), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+      return hookError("failed to parse JSON body", 400);
     }
 
     const userEmail = payload?.user?.email;
     const actionType = payload?.email_data?.email_action_type;
 
     if (!userEmail || !actionType) {
-      console.error("send-email-hook: missing user.email or email_data.email_action_type");
-      return new Response(JSON.stringify({}), {
-        status: 200,
-        headers: { "Content-Type": "application/json" },
-      });
+      return hookError(
+        "missing user.email or email_data.email_action_type",
+        400,
+      );
     }
 
     const config = getEmailConfig(actionType);
@@ -215,21 +229,17 @@ serve(async (req: Request) => {
 
     if (!resendRes.ok) {
       const errBody = await resendRes.text();
-      console.error("send-email-hook: Resend API error", resendRes.status, errBody);
-    } else {
-      const result = await resendRes.json();
-      console.log("send-email-hook: sent successfully, Resend ID:", result.id);
+      return hookError(`Resend API error ${resendRes.status}: ${errBody}`, 502);
     }
+
+    const result = await resendRes.json();
+    console.log("send-email-hook: sent successfully, Resend ID:", result.id);
 
     return new Response(JSON.stringify({}), {
       status: 200,
       headers: { "Content-Type": "application/json" },
     });
   } catch (err) {
-    console.error("send-email-hook: unexpected error:", err);
-    return new Response(JSON.stringify({}), {
-      status: 200,
-      headers: { "Content-Type": "application/json" },
-    });
+    return hookError(`unexpected error: ${String(err)}`, 500);
   }
 });
