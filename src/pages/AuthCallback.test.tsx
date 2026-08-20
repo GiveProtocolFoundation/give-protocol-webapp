@@ -322,6 +322,7 @@ describe("AuthCallback", () => {
 
       await act(async () => {
         renderCallback("/auth/confirm?token_hash=abc123&type=signup");
+        await Promise.resolve(); // flush microtask queue so verifyOtp effect fires
       });
 
       expect(mockVerifyOtp).toHaveBeenCalledWith({
@@ -335,6 +336,7 @@ describe("AuthCallback", () => {
 
       await act(async () => {
         renderCallback("/auth/confirm?token_hash=rec456&type=recovery");
+        await Promise.resolve(); // flush microtask queue so verifyOtp effect fires
       });
 
       expect(mockVerifyOtp).toHaveBeenCalledWith({
@@ -354,6 +356,7 @@ describe("AuthCallback", () => {
 
       await act(async () => {
         renderCallback("/auth/confirm?token_hash=stale&type=signup");
+        await Promise.resolve(); // flush microtask queue so verifyOtp effect fires
       });
 
       expect(
@@ -377,6 +380,7 @@ describe("AuthCallback", () => {
             </MemoryRouter>
           </React.StrictMode>,
         );
+        await Promise.resolve(); // flush microtask queue so verifyOtp effect fires
       });
 
       expect(mockVerifyOtp).toHaveBeenCalledTimes(1);
@@ -387,12 +391,13 @@ describe("AuthCallback", () => {
 
       await act(async () => {
         renderCallback("/auth/confirm?token_hash=abc&type=bogus");
+        await Promise.resolve(); // flush microtask queue so verifyOtp effect fires
       });
 
       expect(mockVerifyOtp).not.toHaveBeenCalled();
     });
 
-    it("recovers the resend email from a nested next param", async () => {
+    it("recovers the resend email from a nested next param", () => {
       mockedUseAuth.mockReturnValue(makeAuth({ user: null, loading: false }));
       const next = encodeURIComponent(
         "https://giveprotocol.io/auth/callback?email=nested%40example.com",
