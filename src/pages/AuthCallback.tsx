@@ -1,16 +1,65 @@
-import React, { useEffect, useState, useCallback } from "react";
+import React, { useEffect, useState, useCallback, useRef } from "react";
 import { useNavigate, Link, useSearchParams } from "react-router-dom";
 import { CheckCircle } from "lucide-react";
 import { useAuth } from "@/contexts/AuthContext";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Button } from "@/components/ui/Button";
 import { supabase } from "@/lib/supabase";
+import type { EmailOtpType } from "@supabase/supabase-js";
 
 const SESSION_TIMEOUT_MS = 5000;
 
+/** OTP types GoTrue can hand back on an emailed verification link. */
+const EMAIL_OTP_TYPES: readonly EmailOtpType[] = [
+  "signup",
+  "invite",
+  "magiclink",
+  "recovery",
+  "email_change",
+  "email",
+];
+
+/**
+ * Narrow the untrusted `type` query param to a GoTrue email OTP type.
+ *
+ * @param {string | null} value - Raw `type` param from the verification link.
+ * @returns {EmailOtpType | null} The matching OTP type, or null when unrecognised.
+ */
+function parseOtpType(value: string | null): EmailOtpType | null {
+  const match = EMAIL_OTP_TYPES.find((t) => t === value);
+  return match ?? null;
+}
+
+/**
+ * Read the signup email out of a verification link.
+ * The Send Email Hook nests the original `emailRedirectTo` under `next`, so the
+ * `email` param can live either at the top level or inside that nested URL.
+ *
+ * @param {URLSearchParams} params - Query params of the current location.
+ * @returns {string} The email address, or an empty string when absent.
+ */
+function extractEmail(params: URLSearchParams): string {
+  const direct = params.get("email");
+  if (direct) return direct;
+
+  const next = params.get("next");
+  if (!next) return "";
+
+  const queryStart = next.indexOf("?");
+  if (queryStart === -1) return "";
+  return new URLSearchParams(next.slice(queryStart + 1)).get("email") ?? "";
+}
+
 /**
  * AuthCallback page — landing point for email verification and OAuth redirects.
- * Supabase JS auto-parses the hash fragment on page load, establishing the session.
+ *
+ * Handles both link shapes GoTrue can produce:
+ * - `?token_hash=…&type=…` (Send Email Hook / server-side verification). These
+ *   are exchanged here via `verifyOtp`, which is cross-device safe — unlike PKCE
+ *   `?code=`, it does not need the code_verifier written at signup time, so a
+ *   link opened on a different device than the one that signed up still works.
+ * - `?code=` / `#access_token=` — auto-parsed by supabase-js on page load.
+ *
  * This component waits briefly for the session to appear then routes the user.
  * On timeout (e.g., expired link), it offers a frictionless one-click resend
  * by reading the user's email from the URL params set in the original verification link.
@@ -27,7 +76,31 @@ const AuthCallback: React.FC = () => {
   >("idle");
 
   // Extract email encoded in the emailRedirectTo URL (set at signup time).
-  const email = searchParams.get("email") ?? "";
+  const email = extractEmail(searchParams);
+
+  const tokenHash = searchParams.get("token_hash");
+  const otpType = parseOtpType(searchParams.get("type"));
+
+  // Guards against a second exchange in StrictMode: verification tokens are
+  // single-use, so a replayed verifyOtp would fail and show a false "expired".
+  const exchangeStarted = useRef(false);
+
+  useEffect(() => {
+    if (!tokenHash || !otpType || exchangeStarted.current) return;
+    exchangeStarted.current = true;
+
+    void supabase.auth
+      .verifyOtp({ token_hash: tokenHash, type: otpType })
+      .then(({ error }) => {
+        if (error) {
+          setTimedOut(true);
+          return;
+        }
+        if (otpType === "recovery") {
+          navigate("/auth/reset-password", { replace: true });
+        }
+      });
+  }, [tokenHash, otpType, navigate]);
 
   // Defensive guard: if a password-reset link is somehow routed here,
   // forward the user to the dedicated ResetPassword page instead of

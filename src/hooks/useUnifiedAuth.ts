@@ -193,7 +193,9 @@ export function useUnifiedAuth(): UnifiedAuthState {
           password,
           options: {
             data: { type: "donor", ...metadata },
-            emailRedirectTo: `${window.location.origin}/auth/callback`,
+            // Encode the email so the expired-link screen can offer a
+            // one-click resend without asking the user to retype it.
+            emailRedirectTo: `${window.location.origin}/auth/callback?email=${encodeURIComponent(email)}`,
           },
         });
 

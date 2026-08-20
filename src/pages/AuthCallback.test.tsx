@@ -78,10 +78,12 @@ function renderCallback(initialEntry = "/auth/callback") {
     <MemoryRouter initialEntries={[initialEntry]}>
       <Routes>
         <Route path="/auth/callback" element={<AuthCallback />} />
+        <Route path="/auth/confirm" element={<AuthCallback />} />
         <Route path="/charity-portal" element={<div>Charity Portal</div>} />
         <Route path="/give-dashboard" element={<div>Give Dashboard</div>} />
         <Route path="/browse" element={<div>Browse</div>} />
         <Route path="/auth" element={<div>Login</div>} />
+        <Route path="/auth/reset-password" element={<div>Reset Password</div>} />
       </Routes>
     </MemoryRouter>,
   );
@@ -300,5 +302,108 @@ describe("AuthCallback", () => {
     });
 
     expect(screen.getByText(/something went wrong/i)).toBeInTheDocument();
+  });
+
+  // GIV-909: send-email-hook links to /auth/confirm?token_hash=…&type=…
+  // Nothing exchanged that token, so every emailed link dead-ended.
+  describe("token_hash verification (emailed links)", () => {
+    const mockVerifyOtp = jest.mocked(supabase.auth.verifyOtp);
+
+    beforeEach(() => {
+      mockVerifyOtp.mockReset();
+      mockVerifyOtp.mockResolvedValue({ data: null, error: null } as never);
+    });
+
+    it("exchanges token_hash from a signup confirmation link", async () => {
+      mockedUseAuth.mockReturnValue(makeAuth({ user: null, loading: false }));
+
+      await act(async () => {
+        renderCallback("/auth/confirm?token_hash=abc123&type=signup");
+      });
+
+      expect(mockVerifyOtp).toHaveBeenCalledWith({
+        token_hash: "abc123",
+        type: "signup",
+      });
+    });
+
+    it("sends a verified recovery link to the reset-password page", async () => {
+      mockedUseAuth.mockReturnValue(makeAuth({ user: null, loading: false }));
+
+      await act(async () => {
+        renderCallback("/auth/confirm?token_hash=rec456&type=recovery");
+      });
+
+      expect(mockVerifyOtp).toHaveBeenCalledWith({
+        token_hash: "rec456",
+        type: "recovery",
+      });
+      expect(screen.getByText("Reset Password")).toBeInTheDocument();
+    });
+
+    it("shows the expired-link screen when the token is rejected", async () => {
+      mockedUseAuth.mockReturnValue(makeAuth({ user: null, loading: false }));
+
+      mockVerifyOtp.mockResolvedValue({
+        data: null,
+        error: new Error("Token has expired or is invalid"),
+      } as never);
+
+      await act(async () => {
+        renderCallback("/auth/confirm?token_hash=stale&type=signup");
+      });
+
+      expect(
+        screen.getByText(/your verification link has expired/i),
+      ).toBeInTheDocument();
+    });
+
+    it("exchanges the token only once under StrictMode double-invoke", async () => {
+      mockedUseAuth.mockReturnValue(makeAuth({ user: null, loading: false }));
+
+      await act(async () => {
+        render(
+          <React.StrictMode>
+            <MemoryRouter
+              initialEntries={["/auth/confirm?token_hash=once&type=signup"]}
+            >
+              <Routes>
+                <Route path="/auth/confirm" element={<AuthCallback />} />
+                <Route path="/browse" element={<div>Browse</div>} />
+              </Routes>
+            </MemoryRouter>
+          </React.StrictMode>,
+        );
+      });
+
+      expect(mockVerifyOtp).toHaveBeenCalledTimes(1);
+    });
+
+    it("ignores an unrecognised type rather than calling verifyOtp", async () => {
+      mockedUseAuth.mockReturnValue(makeAuth({ user: null, loading: false }));
+
+      await act(async () => {
+        renderCallback("/auth/confirm?token_hash=abc&type=bogus");
+      });
+
+      expect(mockVerifyOtp).not.toHaveBeenCalled();
+    });
+
+    it("recovers the resend email from a nested next param", async () => {
+      mockedUseAuth.mockReturnValue(makeAuth({ user: null, loading: false }));
+      const next = encodeURIComponent(
+        "https://giveprotocol.io/auth/callback?email=nested%40example.com",
+      );
+
+      renderCallback(`/auth/confirm?next=${next}`);
+
+      act(() => {
+        jest.advanceTimersByTime(5001);
+      });
+
+      expect(
+        screen.getByRole("button", { name: /send new link/i }),
+      ).toBeInTheDocument();
+    });
   });
 });
