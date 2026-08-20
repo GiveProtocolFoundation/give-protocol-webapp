@@ -83,7 +83,10 @@ function renderCallback(initialEntry = "/auth/callback") {
         <Route path="/give-dashboard" element={<div>Give Dashboard</div>} />
         <Route path="/browse" element={<div>Browse</div>} />
         <Route path="/auth" element={<div>Login</div>} />
-        <Route path="/auth/reset-password" element={<div>Reset Password</div>} />
+        <Route
+          path="/auth/reset-password"
+          element={<div>Reset Password</div>}
+        />
       </Routes>
     </MemoryRouter>,
   );
