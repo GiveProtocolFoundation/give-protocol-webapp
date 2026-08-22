@@ -10,9 +10,18 @@
  */
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
+import { Webhook } from "npm:standardwebhooks@1.0.0";
 
 const SITE_URL = "https://giveprotocol.io";
 const FROM_EMAIL = "Give Protocol <support@giveprotocol.io>";
+
+const SEND_EMAIL_HOOK_SECRET = Deno.env.get("SEND_EMAIL_HOOK_SECRET");
+if (!SEND_EMAIL_HOOK_SECRET) {
+  throw new Error("SEND_EMAIL_HOOK_SECRET is required");
+}
+
+// Supports both "v1,whsec_xxx" and raw base64 secret forms
+const webhookSecret = SEND_EMAIL_HOOK_SECRET.replace("v1,whsec_", "");
 
 interface HookPayload {
   user: {
@@ -160,11 +169,6 @@ function renderEmail(config: EmailConfig, confirmUrl: string): string {
 /**
  * Build a GoTrue hook error response.
  *
- * Returning success when the send actually failed is what made this class of
- * bug invisible: GoTrue reports "email sent", the UI tells the user to check
- * their inbox, and nothing ever arrives. Failing loudly surfaces the real cause
- * at signup time and in the auth logs instead.
- *
  * @param {string} message - Operator-facing reason the send failed.
  * @param {number} httpCode - HTTP status GoTrue should report.
  * @returns {Response} JSON error response in GoTrue's hook error format.
@@ -179,22 +183,30 @@ function hookError(message: string, httpCode: number): Response {
 
 serve(async (req: Request) => {
   try {
+    if (req.method !== "POST") {
+      return hookError("Method not allowed", 405);
+    }
+
     const rawBody = await req.text();
     console.log(
       "send-email-hook: received request, body length:",
       rawBody.length,
     );
 
-    const resendApiKey = Deno.env.get("RESEND_API_KEY");
-    if (!resendApiKey) {
-      return hookError("RESEND_API_KEY not set — cannot send email", 500);
-    }
+    const headers = Object.fromEntries(req.headers.entries());
 
     let payload: HookPayload;
     try {
-      payload = JSON.parse(rawBody);
-    } catch {
-      return hookError("failed to parse JSON body", 400);
+      const verifier = new Webhook(webhookSecret);
+      payload = verifier.verify(rawBody, headers) as HookPayload;
+    } catch (err) {
+      console.error("Webhook signature verification failed:", err);
+      return hookError("Unauthorized", 401);
+    }
+
+    const resendApiKey = Deno.env.get("RESEND_API_KEY");
+    if (!resendApiKey) {
+      return hookError("RESEND_API_KEY not set — cannot send email", 500);
     }
 
     const userEmail = payload?.user?.email;
