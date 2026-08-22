@@ -13,6 +13,11 @@ const supabaseAnonKey = ENV.SUPABASE_ANON_KEY;
 const FALLBACK_SUPABASE_URL = "https://misconfigured.invalid";
 const FALLBACK_SUPABASE_ANON_KEY = "misconfigured";
 
+/**
+ * Checks if the given string is a valid HTTP or HTTPS URL.
+ * @param {string} value - The URL string to validate.
+ * @returns {boolean} True if the URL is a valid HTTP/HTTPS URL, false otherwise.
+ */
 function isValidHttpUrl(value: string): boolean {
   try {
     const parsed = new URL(value);
