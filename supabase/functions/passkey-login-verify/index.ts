@@ -69,14 +69,13 @@ async function generateSession(
     return { error: "Failed to create session" };
   }
 
-  const url = new URL(linkData.properties.action_link);
-  const token = url.searchParams.get("token");
-  const tokenType = url.searchParams.get("type") ?? "magiclink";
-  if (!token) return { error: "Failed to generate auth token" };
+  const tokenHash = linkData.properties?.hashed_token;
+  const tokenType = linkData.properties?.verification_type ?? "magiclink";
+  if (!tokenHash) return { error: "Failed to generate auth token" };
 
   const { data: sessionData, error: verifyError } =
     await supabase.auth.verifyOtp({
-      token_hash: token,
+      token_hash: tokenHash,
       type: tokenType as "magiclink",
     });
 

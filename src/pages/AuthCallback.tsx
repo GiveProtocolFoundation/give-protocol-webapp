@@ -10,13 +10,14 @@ import type { EmailOtpType } from "@supabase/supabase-js";
 const SESSION_TIMEOUT_MS = 5000;
 
 /** OTP types GoTrue can hand back on an emailed verification link. */
-const EMAIL_OTP_TYPES: readonly EmailOtpType[] = [
+const EMAIL_OTP_TYPES: readonly string[] = [
   "signup",
   "invite",
   "magiclink",
   "recovery",
   "email_change",
   "email",
+  "reauthentication",
 ];
 
 /**
@@ -27,7 +28,7 @@ const EMAIL_OTP_TYPES: readonly EmailOtpType[] = [
  */
 function parseOtpType(value: string | null): EmailOtpType | null {
   const match = EMAIL_OTP_TYPES.find((t) => t === value);
-  return match ?? null;
+  return (match as EmailOtpType) ?? null;
 }
 
 /**
