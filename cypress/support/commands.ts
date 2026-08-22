@@ -1,5 +1,3 @@
-import "@testing-library/cypress/add-commands";
-
 interface EthereumRequestArgs {
   method: string;
   params?: unknown[];
