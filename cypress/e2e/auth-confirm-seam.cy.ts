@@ -48,14 +48,14 @@ const NOT_FOUND_FINGERPRINT = "Page Not Found";
 /* ------------------------------------------------------------------ */
 
 function requireEnv(name: string): string {
-  const v = Cypress.env(name);
-  if (!v) {
+  const envValue = Cypress.env(name);
+  if (!envValue) {
     throw new Error(
       `Missing Cypress env var: ${name}. ` +
         "Set it in cypress.env.json or via CYPRESS_ prefix in CI.",
     );
   }
-  return String(v);
+  return String(envValue);
 }
 
 /**
@@ -223,7 +223,7 @@ describeSuite(
         userId = uid;
 
         expect(actionLink, "action_link must be non-empty").to.be.a("string")
-          .and.not.be.empty;
+          .and.not.be.empty();
       });
     });
 
@@ -324,8 +324,7 @@ describeSuite(
 
     it("Step 5: following the confirm link establishes a session and redirects to dashboard", () => {
       const confirmUrl: string = Cypress.env("__giv921_confirmUrl");
-      expect(confirmUrl, "confirmUrl must be set").to.be.a("string").and.not.be
-        .empty;
+      expect(confirmUrl, "confirmUrl must be set").to.be.a("string").and.not.be.empty;
 
       cy.visit(confirmUrl);
 
@@ -347,7 +346,10 @@ describeSuite(
           raw,
           "Supabase session must be present in localStorage after confirm",
         ).to.not.be.null;
-        const session = JSON.parse(raw!);
+        if (raw === null) {
+          throw new Error("Supabase session must be present in localStorage after confirm");
+        }
+        const session = JSON.parse(raw);
         expect(
           session.access_token,
           "access_token must be present in session",
@@ -369,7 +371,7 @@ describeSuite(
       // Confirm the session is gone.
       cy.window().then((win) => {
         const session = win.localStorage.getItem(storageKey());
-        expect(session, "session must be cleared after sign-out").to.be.null;
+        expect(session, "session must be cleared after sign-out").to.equal(null);
       });
     });
 
@@ -477,7 +479,7 @@ describe("GIV-921 Route assertion: /auth/confirm must be a real route (not 404)"
       expect(
         hasLoader || hasExpired,
         `Expected AuthCallback UI but got: "${text.slice(0, 200)}"`,
-      ).to.be.true;
+      ).to.equal(true);
     });
   });
 });
