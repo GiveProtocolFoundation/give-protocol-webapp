@@ -5,6 +5,7 @@ This directory contains automated workflows for code quality, testing, and analy
 ## Workflows
 
 ### 0. Auth Confirm Seam E2E (`auth-confirm-seam.yml`) — GIV-921
+
 - **Triggers**: Scheduled (06:00 & 12:00 UTC), PRs touching auth files, Manual
 - **Purpose**: End-to-end auth chain test: signup → email → confirm → sign-in
 - **Features**:
@@ -16,8 +17,26 @@ This directory contains automated workflows for code quality, testing, and analy
   - `CYPRESS_SUPABASE_URL`
   - `CYPRESS_SUPABASE_ANON_KEY`
   - `CYPRESS_SUPABASE_SERVICE_ROLE_KEY`
+- **Running locally**:
+  ```bash
+  # Start the app with Supabase proxied through the dev server (same-origin,
+  # which avoids sandboxed-browser restrictions on extra localhost ports):
+  E2E_SUPABASE_PROXY_TARGET=http://127.0.0.1:54321 \
+  VITE_SUPABASE_URL=http://localhost:5173/sb \
+  VITE_SUPABASE_ANON_KEY=<anon-key> \
+  npx vite --port 5173 &
+
+  CYPRESS_SUPABASE_URL=http://localhost:5173/sb \
+  CYPRESS_SUPABASE_ANON_KEY=<anon-key> \
+  CYPRESS_SUPABASE_SERVICE_ROLE_KEY=<service-role-key> \
+  npx cypress run --spec "cypress/e2e/auth-confirm-seam.cy.ts" --browser chrome --headless
+  ```
+  Against a cloud project, point `CYPRESS_SUPABASE_URL` / `VITE_SUPABASE_URL`
+  directly at the project URL (e.g. `https://api.giveprotocol.io`) — no proxy
+  needed. Use a test/staging project for the service-role key.
 
 ### 1. SonarCloud Analysis (`sonarcloud.yml`)
+
 - **Triggers**: Push to main/develop, Pull requests, Manual trigger
 - **Purpose**: Runs SonarCloud analysis for code quality metrics
 - **Features**:
@@ -27,6 +46,7 @@ This directory contains automated workflows for code quality, testing, and analy
   - Comments on PRs with results
 
 ### 2. Code Quality & Analysis (`code-quality.yml`)
+
 - **Triggers**: Push to main/develop/feature/fix branches, PRs, Daily schedule, Manual
 - **Purpose**: Comprehensive code quality checks
 - **Features**:
@@ -38,6 +58,7 @@ This directory contains automated workflows for code quality, testing, and analy
   - GitHub summary generation
 
 ### 3. New Code Analysis (`new-code-analysis.yml`)
+
 - **Triggers**: Pull requests, Push to main
 - **Purpose**: Focused analysis on changed code only
 - **Features**:
@@ -80,6 +101,7 @@ To use these workflows, you need to configure the following secrets in your GitH
 ## Manual Triggering
 
 To manually trigger a workflow:
+
 1. Go to Actions tab
 2. Select the workflow
 3. Click "Run workflow"
@@ -95,30 +117,36 @@ To manually trigger a workflow:
 ## Troubleshooting
 
 ### Cypress Installation Failures
+
 **Problem**: `npm ci` fails with "The Cypress App could not be downloaded" or "Response code: 500"
 
 **Solution**: All workflows now skip Cypress binary installation during `npm ci` by setting `CYPRESS_INSTALL_BINARY=0`. This is safe because:
+
 - Cypress is only needed for E2E tests (`npm run test:e2e`)
 - Unit tests and builds don't require Cypress
 - Cypress binary is cached and installed separately when needed
 
 **Technical Details**:
+
 - Environment variable `CYPRESS_INSTALL_BINARY=0` prevents automatic Cypress download
 - Cypress binary cache path: `~/.cache/Cypress`
 - Cache key based on `package-lock.json` hash for automatic invalidation
 - For E2E tests, add a separate workflow step to install Cypress explicitly
 
 ### SonarCloud not running?
+
 1. Check if SONAR_TOKEN is set correctly
 2. Verify project exists in SonarCloud
 3. Check workflow logs for errors
 
 ### Tests failing in CI but passing locally?
+
 1. Check Node.js version matches
 2. Ensure all dependencies are in package.json
 3. Check for environment-specific issues
 
 ### Coverage not showing?
+
 1. Ensure tests generate lcov reports
 2. Check coverage file paths match configuration
 3. Verify SonarCloud project settings

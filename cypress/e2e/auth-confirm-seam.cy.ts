@@ -36,6 +36,12 @@
  *   npm run dev:spa &
  *   npx cypress run --spec cypress/e2e/auth-confirm-seam.cy.ts
  *
+ * NOTE — sandboxed browsers: browsers launched by Cypress inside some sandboxes
+ * cannot connect to extra localhost ports (only the app server itself).  If
+ * signup fails with "Failed to fetch", start Vite with the same-origin
+ * Supabase proxy and point CYPRESS_SUPABASE_URL/VITE_SUPABASE_URL at
+ * http://localhost:5173/sb — see .github/workflows/README.md for the recipe.
+ *
  * Runs on schedule in CI — see .github/workflows/auth-confirm-seam.yml
  *
  * @module auth-confirm-seam
@@ -69,6 +75,23 @@ function requireEnv(name: string): string {
     );
   }
   return String(envValue);
+}
+
+/**
+ * Pins the app locale to English before a cy.visit().
+ *
+ * The app uses i18next-browser-languagedetector (order: localStorage,
+ * navigator) — so on a browser whose language is not English the signup
+ * page renders in that language and English text assertions fail.
+ * Writing `language=en` to localStorage forces the English copy the
+ * rest of this spec asserts against.
+ */
+function visitEnglish(path: string) {
+  return cy.visit(path, {
+    onBeforeLoad(win) {
+      win.localStorage.setItem("language", "en");
+    },
+  });
 }
 
 /**
@@ -162,19 +185,25 @@ describeSuite(
     /* ---------------------------------------------------------------- */
 
     it("Step 1: signs up with a fresh address via the UI signup form", () => {
-      cy.visit("/auth/signup");
+      visitEnglish("/auth/signup");
 
       // The signup form is passkey-first: email is always visible, but the
       // password section is collapsed behind an "Or set a password" toggle.
-      // Expand it so the password fields become visible.
+      // Expand it so the password fields become visible.  The toggle is
+      // selected via aria-expanded (language-agnostic — the label is i18n'd).
       cy.get('input[type="email"], input[name="email"], [data-testid="email"]')
         .first()
         .type(testEmail);
 
-      // Click "Or set a password" to reveal the collapsible password section.
-      cy.contains(/set a password|or set|password/i)
-        .first()
-        .click();
+      // Click the collapsible toggle to reveal the password section.
+      // Locale is pinned to English, but match a few translations for safety.
+      cy.contains(
+        'button[type="button"][aria-expanded]',
+        /set a password|contraseña|mot de passe|密码/i,
+      ).click();
+
+      // Age-affirmation gate (GIV-454) blocks the password submit path.
+      cy.get("#age-affirmation").check();
 
       cy.get(
         'input[type="password"], input[name="password"], [data-testid="password"]',
@@ -198,11 +227,7 @@ describeSuite(
 
       // After signup GoTrue triggers the send-email-hook and the app navigates
       // to /auth/registration-success.
-      cy.url({ timeout: 15_000 }).should(
-        "satisfy",
-        (url: string) =>
-          url.includes("registration-success") || url.includes("signup"),
-      );
+      cy.url({ timeout: 15_000 }).should("include", "registration-success");
     });
 
     /* ---------------------------------------------------------------- */
@@ -213,38 +238,69 @@ describeSuite(
       // generateLink('signup', …) returns an action_link that carries the
       // same token_hash that GoTrue would embed in the real email.  We use it
       // to parse out the confirm URL without requiring a real inbox.
+      //
+      // GoTrue refuses generateLink('signup') for a user that already exists,
+      // and Step 1 just created that user via the real signup form.  So we
+      // delete the Step-1 user first and let generateLink re-create it in the
+      // *unconfirmed* state — exactly the state a real user is in after
+      // signing up in production (where MAILER_AUTOCONFIRM is off).
+      const admin = buildAdminClient();
+      const deleteExistingUser = async (): Promise<void> => {
+        const { data, error } = await admin.auth.admin.listUsers();
+        if (error) throw new Error(`listUsers failed: ${error.message}`);
+        const existing = data.users.find((u) => u.email === testEmail);
+        if (existing) {
+          const del = await admin.auth.admin.deleteUser(existing.id);
+          if (del.error)
+            throw new Error(`deleteUser failed: ${del.error.message}`);
+        }
+      };
+
       cy.wrap(
-        buildAdminClient()
-          .auth.admin.generateLink({
-            type: "signup",
-            email: testEmail,
-            password: TEST_PASSWORD,
-            options: {
-              redirectTo: `${Cypress.config("baseUrl")}/auth/confirm`,
-            },
-          })
-          .then(({ data, error }) => {
-            if (error) throw new Error(`generateLink failed: ${error.message}`);
-            if (!data.user) throw new Error("generateLink returned no user");
-            return {
-              actionLink: data.properties?.action_link ?? "",
-              userId: data.user.id,
-            };
-          }),
-        { timeout: 30_000 },
+        deleteExistingUser().then(() =>
+          admin.auth.admin
+            .generateLink({
+              type: "signup",
+              email: testEmail,
+              password: TEST_PASSWORD,
+              options: {
+                redirectTo: `${Cypress.config("baseUrl")}/auth/confirm`,
+              },
+            })
+            .then(({ data, error }) => {
+              if (error)
+                throw new Error(`generateLink failed: ${error.message}`);
+              if (!data.user) throw new Error("generateLink returned no user");
+              return {
+                actionLink: data.properties?.action_link ?? "",
+                hashedToken: data.properties?.hashed_token ?? "",
+                userId: data.user.id,
+              };
+            }),
+        ),
+        { timeout: 60_000 },
       ).then((result: unknown) => {
-        const { actionLink, userId: uid } = result as {
+        const {
+          actionLink,
+          hashedToken,
+          userId: uid,
+        } = result as {
           actionLink: string;
+          hashedToken: string;
           userId: string;
         };
         // Store for later steps.
         Cypress.env("__giv921_actionLink", actionLink);
+        Cypress.env("__giv921_hashedToken", hashedToken);
         Cypress.env("__giv921_userId", uid);
         userId = uid;
 
-        expect(actionLink, "action_link must be non-empty")
-          .to.be.a("string")
-          .and.not.be.empty();
+        expect(actionLink, "action_link must be non-empty").to.be.a("string");
+        expect(actionLink, "action_link must be non-empty").to.not.be.empty;
+        // The hashed_token is what GoTrue embeds as token_hash in the real
+        // verification email link — this is the value /auth/confirm consumes.
+        expect(hashedToken, "hashed_token must be non-empty").to.be.a("string");
+        expect(hashedToken, "hashed_token must be non-empty").to.not.be.empty;
       });
     });
 
@@ -254,24 +310,29 @@ describeSuite(
 
     it("Step 3: parses a /auth/confirm URL out of the action link", () => {
       const actionLink: string = Cypress.env("__giv921_actionLink");
-      expect(actionLink, "actionLink must be set from Step 2").to.be.a("string")
-        .and.not.be.empty;
+      const hashedToken: string = Cypress.env("__giv921_hashedToken");
+      expect(actionLink, "actionLink must be set from Step 2").to.be.a(
+        "string",
+      );
+      expect(actionLink, "actionLink must be set from Step 2").to.not.be.empty;
 
-      // The action_link from generateLink may be the Supabase GoTrue URL directly.
-      // We need to convert it to our app's /auth/confirm URL form.
-      // Extract token_hash and type from actionLink (GoTrue embeds them).
+      // The action_link points at GoTrue's /auth/v1/verify endpoint and
+      // carries the *raw* token.  The email the user actually receives is
+      // built by the send-email-hook from the hashed_token, which becomes the
+      // `token_hash` query param our /auth/confirm route consumes.  Derive the
+      // exact URL shape the email contains.
       const url = new URL(actionLink);
-      const tokenHash = url.searchParams.get("token_hash");
       const type = url.searchParams.get("type") ?? "signup";
 
-      expect(
-        tokenHash,
-        "token_hash must be present in the action link",
-      ).to.be.a("string").and.not.be.empty;
+      expect(hashedToken, "hashedToken must be set from Step 2").to.be.a(
+        "string",
+      );
+      expect(hashedToken, "hashedToken must be set from Step 2").to.not.be
+        .empty;
 
-      const appConfirmUrl = `${Cypress.config("baseUrl")}/auth/confirm?token_hash=${tokenHash}&type=${type}`;
+      const appConfirmUrl = `${Cypress.config("baseUrl")}/auth/confirm?token_hash=${hashedToken}&type=${type}`;
       Cypress.env("__giv921_confirmUrl", appConfirmUrl);
-      Cypress.env("__giv921_tokenHash", tokenHash);
+      Cypress.env("__giv921_tokenHash", hashedToken);
       Cypress.env("__giv921_type", type);
 
       cy.log(`Confirm URL: ${appConfirmUrl}`);
@@ -289,8 +350,10 @@ describeSuite(
 
     it("Step 4+5: /auth/confirm is a real app route AND confirms the account → session established", () => {
       const confirmUrl: string = Cypress.env("__giv921_confirmUrl");
-      expect(confirmUrl, "confirmUrl must be set from Step 3").to.be.a("string")
-        .and.not.be.empty;
+      expect(confirmUrl, "confirmUrl must be set from Step 3").to.be.a(
+        "string",
+      );
+      expect(confirmUrl, "confirmUrl must be set from Step 3").to.not.be.empty;
 
       // --- Part A: HTTP-level check that the route exists (does NOT consume token) ---
       //
@@ -318,16 +381,17 @@ describeSuite(
       // calls verifyOtp.  If /auth/confirm were not a declared <Route>, the SPA
       // 404 catch-all would render NotFound — which contains the fingerprint
       // below.  If the route exists, AuthCallback renders "Verifying your
-      // account..." instead.
-      cy.visit(confirmUrl, { failOnStatusCode: false });
+      // account..." (or the expired-link UI on failure).
+      //
+      // Note: when verifyOtp succeeds quickly the loader unmounts almost
+      // immediately, so we do NOT require the loader text to be observed —
+      // asserting the absence of the 404 fingerprint plus the redirect below
+      // is what proves the route is real.
+      visitEnglish(confirmUrl);
 
       cy.get("body", { timeout: 10_000 }).should(
         "not.contain",
         NOT_FOUND_FINGERPRINT,
-      );
-
-      cy.contains("Verifying your account", { timeout: 10_000 }).should(
-        "exist",
       );
 
       // --- Part C: Session established and user redirected to dashboard ---
@@ -467,9 +531,7 @@ describeSuite(
  */
 describe("GIV-921 Route assertion: /auth/confirm must be a real route (not 404)", () => {
   it("visiting /auth/confirm with a bogus token renders AuthCallback, not NotFound", () => {
-    cy.visit("/auth/confirm?token_hash=fakehash_giv921_probe&type=signup", {
-      failOnStatusCode: false,
-    });
+    visitEnglish("/auth/confirm?token_hash=fakehash_giv921_probe&type=signup");
 
     // The AuthCallback component times out and renders the expired-link UI.
     // The NotFound component renders our NOT_FOUND_FINGERPRINT string.
