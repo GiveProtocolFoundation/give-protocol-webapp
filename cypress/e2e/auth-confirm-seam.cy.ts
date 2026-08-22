@@ -222,7 +222,8 @@ describeSuite(
         Cypress.env("__giv921_userId", uid);
         userId = uid;
 
-        expect(actionLink, "action_link must be non-empty").to.be.a("string")
+        expect(actionLink, "action_link must be non-empty")
+          .to.be.a("string")
           .and.not.be.empty();
       });
     });
@@ -324,7 +325,8 @@ describeSuite(
 
     it("Step 5: following the confirm link establishes a session and redirects to dashboard", () => {
       const confirmUrl: string = Cypress.env("__giv921_confirmUrl");
-      expect(confirmUrl, "confirmUrl must be set").to.be.a("string").and.not.be.empty;
+      expect(confirmUrl, "confirmUrl must be set").to.be.a("string").and.not.be
+        .empty;
 
       cy.visit(confirmUrl);
 
@@ -347,7 +349,9 @@ describeSuite(
           "Supabase session must be present in localStorage after confirm",
         ).to.not.be.null;
         if (raw === null) {
-          throw new Error("Supabase session must be present in localStorage after confirm");
+          throw new Error(
+            "Supabase session must be present in localStorage after confirm",
+          );
         }
         const session = JSON.parse(raw);
         expect(
@@ -371,7 +375,9 @@ describeSuite(
       // Confirm the session is gone.
       cy.window().then((win) => {
         const session = win.localStorage.getItem(storageKey());
-        expect(session, "session must be cleared after sign-out").to.equal(null);
+        expect(session, "session must be cleared after sign-out").to.equal(
+          null,
+        );
       });
     });
 
