@@ -172,9 +172,7 @@ describeSuite(
         .type(testEmail);
 
       // Click "Or set a password" to reveal the collapsible password section.
-      cy.contains(
-        /set a password|or set|password/i,
-      )
+      cy.contains(/set a password|or set|password/i)
         .first()
         .click();
 
