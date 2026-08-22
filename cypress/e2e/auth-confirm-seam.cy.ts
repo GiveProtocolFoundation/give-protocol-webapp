@@ -199,7 +199,7 @@ describeSuite(
       // Locale is pinned to English, but match a few translations for safety.
       cy.contains(
         'button[type="button"][aria-expanded]',
-        /set a password|contraseña|mot de passe|密码/i,
+        /set a password|contraseña|mot de passe|密码/iu,
       ).click();
 
       // Age-affirmation gate (GIV-454) blocks the password submit path.
@@ -245,6 +245,7 @@ describeSuite(
       // *unconfirmed* state — exactly the state a real user is in after
       // signing up in production (where MAILER_AUTOCONFIRM is off).
       const admin = buildAdminClient();
+      /** Deletes the Step-1 user, if present, so generateLink can re-create it unconfirmed. */
       const deleteExistingUser = async (): Promise<void> => {
         const { data, error } = await admin.auth.admin.listUsers();
         if (error) throw new Error(`listUsers failed: ${error.message}`);
@@ -296,11 +297,11 @@ describeSuite(
         userId = uid;
 
         expect(actionLink, "action_link must be non-empty").to.be.a("string");
-        expect(actionLink, "action_link must be non-empty").to.not.be.empty;
+        expect(actionLink, "action_link must be non-empty").to.not.equal("");
         // The hashed_token is what GoTrue embeds as token_hash in the real
         // verification email link — this is the value /auth/confirm consumes.
         expect(hashedToken, "hashed_token must be non-empty").to.be.a("string");
-        expect(hashedToken, "hashed_token must be non-empty").to.not.be.empty;
+        expect(hashedToken, "hashed_token must be non-empty").to.not.equal("");
       });
     });
 
@@ -314,7 +315,7 @@ describeSuite(
       expect(actionLink, "actionLink must be set from Step 2").to.be.a(
         "string",
       );
-      expect(actionLink, "actionLink must be set from Step 2").to.not.be.empty;
+      expect(actionLink, "actionLink must be set from Step 2").to.not.equal("");
 
       // The action_link points at GoTrue's /auth/v1/verify endpoint and
       // carries the *raw* token.  The email the user actually receives is
@@ -327,8 +328,9 @@ describeSuite(
       expect(hashedToken, "hashedToken must be set from Step 2").to.be.a(
         "string",
       );
-      expect(hashedToken, "hashedToken must be set from Step 2").to.not.be
-        .empty;
+      expect(hashedToken, "hashedToken must be set from Step 2").to.not.equal(
+        "",
+      );
 
       const appConfirmUrl = `${Cypress.config("baseUrl")}/auth/confirm?token_hash=${hashedToken}&type=${type}`;
       Cypress.env("__giv921_confirmUrl", appConfirmUrl);
@@ -353,7 +355,7 @@ describeSuite(
       expect(confirmUrl, "confirmUrl must be set from Step 3").to.be.a(
         "string",
       );
-      expect(confirmUrl, "confirmUrl must be set from Step 3").to.not.be.empty;
+      expect(confirmUrl, "confirmUrl must be set from Step 3").to.not.equal("");
 
       // --- Part A: HTTP-level check that the route exists (does NOT consume token) ---
       //
@@ -413,17 +415,16 @@ describeSuite(
         expect(
           raw,
           "Supabase session must be present in localStorage after confirm",
-        ).to.not.be.null;
+        ).to.not.equal(null);
         if (raw === null) {
           throw new Error(
             "Supabase session must be present in localStorage after confirm",
           );
         }
         const session = JSON.parse(raw);
-        expect(
-          session.access_token,
-          "access_token must be present in session",
-        ).to.be.a("string").and.not.be.empty;
+        expect(session.access_token, "access_token must be present in session")
+          .to.be.a("string")
+          .and.not.equal("");
       });
     });
 
