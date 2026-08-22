@@ -1,6 +1,17 @@
 -- Add missing INSERT and UPDATE policies for wallet_aliases
 -- Users were unable to set wallet aliases due to missing RLS policies
 
+-- Guard: create the table if a prior migration did not (fresh local stacks
+-- failed here because no migration created wallet_aliases).
+CREATE TABLE IF NOT EXISTS wallet_aliases (
+  id UUID PRIMARY KEY DEFAULT gen_random_uuid(),
+  user_id UUID NOT NULL REFERENCES auth.users (id) ON DELETE CASCADE,
+  wallet_address TEXT NOT NULL UNIQUE,
+  alias TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
+);
+
 -- Policy for INSERT: Users can insert their own wallet aliases
 DROP POLICY IF EXISTS "Users can insert their own wallet aliases" ON wallet_aliases;
 CREATE POLICY "Users can insert their own wallet aliases" ON wallet_aliases

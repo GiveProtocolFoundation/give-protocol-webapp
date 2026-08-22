@@ -8,8 +8,8 @@ beforeEach(() => {
     win.sessionStorage.clear();
   });
 
-  // Preserve cookies between tests
-  Cypress.Cookies.preserveOnce("session_id");
+  // Session state is persisted by the app in localStorage, not cookies, so no
+  // cookie preservation is needed here (preserveOnce was removed in Cypress 12).
 });
 
 // Log failed test screenshots to console
