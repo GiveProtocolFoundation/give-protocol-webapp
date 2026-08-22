@@ -5,13 +5,44 @@ import { ENV } from "../config/env";
 const supabaseUrl = ENV.SUPABASE_URL;
 const supabaseAnonKey = ENV.SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
+/**
+ * `createClient` throws synchronously if the URL isn't a valid http(s) URL,
+ * or if the key is empty — a missing env var or a malformed value trigger
+ * either. Placeholders keep that constructor call from ever throwing.
+ */
+const FALLBACK_SUPABASE_URL = "https://misconfigured.invalid";
+const FALLBACK_SUPABASE_ANON_KEY = "misconfigured";
+
+/**
+ * Checks if the given string is a valid HTTP or HTTPS URL.
+ * @param {string} value - The URL string to validate.
+ * @returns {boolean} True if the URL is a valid HTTP/HTTPS URL, false otherwise.
+ */
+function isValidHttpUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+const resolvedSupabaseUrl =
+  supabaseUrl && isValidHttpUrl(supabaseUrl)
+    ? supabaseUrl
+    : FALLBACK_SUPABASE_URL;
+const resolvedSupabaseAnonKey = supabaseAnonKey || FALLBACK_SUPABASE_ANON_KEY;
+
+if (
+  resolvedSupabaseUrl === FALLBACK_SUPABASE_URL ||
+  resolvedSupabaseAnonKey === FALLBACK_SUPABASE_ANON_KEY
+) {
   // Log clearly but do not throw at module-load time — a top-level throw
   // crashes the app before React mounts, bypassing ErrorBoundary entirely
   // and producing a blank page with no visible error. Auth calls will fail
   // gracefully at runtime so the UI can still render and display the issue.
   console.error(
-    "[supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY. " +
+    "[supabase] Missing or invalid VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY. " +
       "Set these in your hosting environment and redeploy.",
   );
 }
@@ -20,50 +51,54 @@ if (!supabaseUrl || !supabaseAnonKey) {
  * Supabase client instance configured for the Give Protocol application
  * Provides authenticated access to the database and authentication services
  */
-export const supabase = createClient(supabaseUrl ?? "", supabaseAnonKey ?? "", {
-  auth: {
-    // Configure auth settings
-    autoRefreshToken: true,
-    persistSession: true,
-    detectSessionInUrl: true,
-    flowType: "pkce", // Use PKCE flow for better security
-    // Storage for auth tokens
-    storage: {
-      getItem: (key: string) => {
-        if (typeof window !== "undefined") {
-          return window.localStorage.getItem(key);
-        }
-        return null;
+export const supabase = createClient(
+  resolvedSupabaseUrl,
+  resolvedSupabaseAnonKey,
+  {
+    auth: {
+      // Configure auth settings
+      autoRefreshToken: true,
+      persistSession: true,
+      detectSessionInUrl: true,
+      flowType: "pkce", // Use PKCE flow for better security
+      // Storage for auth tokens
+      storage: {
+        getItem: (key: string) => {
+          if (typeof window !== "undefined") {
+            return window.localStorage.getItem(key);
+          }
+          return null;
+        },
+        setItem: (key: string, value: string) => {
+          if (typeof window !== "undefined") {
+            window.localStorage.setItem(key, value);
+          }
+        },
+        removeItem: (key: string) => {
+          if (typeof window !== "undefined") {
+            window.localStorage.removeItem(key);
+          }
+        },
       },
-      setItem: (key: string, value: string) => {
-        if (typeof window !== "undefined") {
-          window.localStorage.setItem(key, value);
-        }
+    },
+    db: {
+      // Database settings
+      schema: "public",
+    },
+    global: {
+      // Global settings
+      headers: {
+        "X-Client-Info": "give-protocol-app",
       },
-      removeItem: (key: string) => {
-        if (typeof window !== "undefined") {
-          window.localStorage.removeItem(key);
-        }
+    },
+    realtime: {
+      // Realtime settings for live updates
+      params: {
+        eventsPerSecond: 10,
       },
     },
   },
-  db: {
-    // Database settings
-    schema: "public",
-  },
-  global: {
-    // Global settings
-    headers: {
-      "X-Client-Info": "give-protocol-app",
-    },
-  },
-  realtime: {
-    // Realtime settings for live updates
-    params: {
-      eventsPerSecond: 10,
-    },
-  },
-});
+);
 
 /**
  * Helper functions for common Supabase operations
