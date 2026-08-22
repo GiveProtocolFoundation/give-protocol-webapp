@@ -5,13 +5,37 @@ import { ENV } from "../config/env";
 const supabaseUrl = ENV.SUPABASE_URL;
 const supabaseAnonKey = ENV.SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
+/**
+ * `createClient` throws synchronously if the URL isn't a valid http(s) URL,
+ * or if the key is empty — a missing env var or a malformed value trigger
+ * either. Placeholders keep that constructor call from ever throwing.
+ */
+const FALLBACK_SUPABASE_URL = "https://misconfigured.invalid";
+const FALLBACK_SUPABASE_ANON_KEY = "misconfigured";
+
+function isValidHttpUrl(value: string): boolean {
+  try {
+    const parsed = new URL(value);
+    return parsed.protocol === "http:" || parsed.protocol === "https:";
+  } catch {
+    return false;
+  }
+}
+
+const resolvedSupabaseUrl =
+  supabaseUrl && isValidHttpUrl(supabaseUrl) ? supabaseUrl : FALLBACK_SUPABASE_URL;
+const resolvedSupabaseAnonKey = supabaseAnonKey || FALLBACK_SUPABASE_ANON_KEY;
+
+if (
+  resolvedSupabaseUrl === FALLBACK_SUPABASE_URL ||
+  resolvedSupabaseAnonKey === FALLBACK_SUPABASE_ANON_KEY
+) {
   // Log clearly but do not throw at module-load time — a top-level throw
   // crashes the app before React mounts, bypassing ErrorBoundary entirely
   // and producing a blank page with no visible error. Auth calls will fail
   // gracefully at runtime so the UI can still render and display the issue.
   console.error(
-    "[supabase] Missing VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY. " +
+    "[supabase] Missing or invalid VITE_SUPABASE_URL or VITE_SUPABASE_PUBLISHABLE_KEY. " +
       "Set these in your hosting environment and redeploy.",
   );
 }
@@ -20,7 +44,7 @@ if (!supabaseUrl || !supabaseAnonKey) {
  * Supabase client instance configured for the Give Protocol application
  * Provides authenticated access to the database and authentication services
  */
-export const supabase = createClient(supabaseUrl ?? "", supabaseAnonKey ?? "", {
+export const supabase = createClient(resolvedSupabaseUrl, resolvedSupabaseAnonKey, {
   auth: {
     // Configure auth settings
     autoRefreshToken: true,
