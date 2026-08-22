@@ -4,6 +4,19 @@ This directory contains automated workflows for code quality, testing, and analy
 
 ## Workflows
 
+### 0. Auth Confirm Seam E2E (`auth-confirm-seam.yml`) — GIV-921
+- **Triggers**: Scheduled (06:00 & 12:00 UTC), PRs touching auth files, Manual
+- **Purpose**: End-to-end auth chain test: signup → email → confirm → sign-in
+- **Features**:
+  - Runs `cypress/e2e/auth-confirm-seam.cy.ts` against a real Supabase project
+  - Uses service-role key to generate verification links (no real inbox required)
+  - Creates a GitHub issue automatically on scheduled-run failures
+  - Guards against config drift that unit tests cannot detect
+- **Required Secrets**:
+  - `CYPRESS_SUPABASE_URL`
+  - `CYPRESS_SUPABASE_ANON_KEY`
+  - `CYPRESS_SUPABASE_SERVICE_ROLE_KEY`
+
 ### 1. SonarCloud Analysis (`sonarcloud.yml`)
 - **Triggers**: Push to main/develop, Pull requests, Manual trigger
 - **Purpose**: Runs SonarCloud analysis for code quality metrics
@@ -41,7 +54,12 @@ To use these workflows, you need to configure the following secrets in your GitH
    - Get it from: https://sonarcloud.io/account/security
    - Add in: Settings → Secrets and variables → Actions
 
-2. **GITHUB_TOKEN**: Automatically provided by GitHub Actions (no setup needed)
+2. **Auth Confirm Seam secrets** (required for `auth-confirm-seam.yml`):
+   - `CYPRESS_SUPABASE_URL` — e.g. `https://api.giveprotocol.io`
+   - `CYPRESS_SUPABASE_ANON_KEY` — public anon key
+   - `CYPRESS_SUPABASE_SERVICE_ROLE_KEY` — service-role key (test/staging env only)
+
+3. **GITHUB_TOKEN**: Automatically provided by GitHub Actions (no setup needed)
 
 ## Setup Instructions
 

@@ -10,17 +10,30 @@
  *   GoTrue would embed in the verification email. We grab it directly, skipping
  *   SMTP/Resend delivery, and exercise exactly the same app code path.
  *
- * Step 4 — route assertion:
- *   We issue a cy.request() to the confirm URL *before* following it.
- *   The response must be the SPA shell (200 + <html>), not the 404 catch-all
- *   body.  This is the assertion that would have caught GIV-909.
+ * Test flow (6 steps):
+ *   1. Sign up via UI form
+ *   2. Retrieve token via generateLink API
+ *   3. Parse /auth/confirm URL from the action_link
+ *   4. HTTP-check + visit URL + assert route is real (NOT the 404 catch-all),
+ *      assert session is established — all in one test because token is single-use
+ *   5. Sign out, verify session is cleared
+ *   6. Sign back in with email/password, assert dashboard is reachable
+ *
+ * Plus a separate negative test: visiting /auth/confirm with a bogus token
+ * renders AuthCallback, not NotFound — proving the assertion has teeth.  If
+ * the route were removed from the router, both tests would fail.
  *
  * Required Cypress env vars (cypress.env.json or CYPRESS_* CI secrets):
  *   SUPABASE_URL              — e.g. https://api.giveprotocol.io
  *   SUPABASE_ANON_KEY         — public anon key
  *   SUPABASE_SERVICE_ROLE_KEY — service-role key (test / staging env only)
  *
- * Run locally:
+ * Run locally (against production build, same as CI):
+ *   npm run build:spa && npx vite preview --port 5173 &
+ *   npx cypress run --spec cypress/e2e/auth-confirm-seam.cy.ts
+ *
+ * Against the dev server (faster feedback loop during development):
+ *   npm run dev:spa &
  *   npx cypress run --spec cypress/e2e/auth-confirm-seam.cy.ts
  *
  * Runs on schedule in CI — see .github/workflows/auth-confirm-seam.yml
@@ -151,11 +164,20 @@ describeSuite(
     it("Step 1: signs up with a fresh address via the UI signup form", () => {
       cy.visit("/auth/signup");
 
-      // Fill in the signup form.
-      // The form varies by user type; use donor (default) flow.
+      // The signup form is passkey-first: email is always visible, but the
+      // password section is collapsed behind an "Or set a password" toggle.
+      // Expand it so the password fields become visible.
       cy.get('input[type="email"], input[name="email"], [data-testid="email"]')
         .first()
         .type(testEmail);
+
+      // Click "Or set a password" to reveal the collapsible password section.
+      cy.contains(
+        /set a password|or set|password/i,
+      )
+        .first()
+        .click();
+
       cy.get(
         'input[type="password"], input[name="password"], [data-testid="password"]',
       )
@@ -176,8 +198,8 @@ describeSuite(
         .first()
         .click();
 
-      // After signup GoTrue triggers the send-email-hook and the app navigates to
-      // /auth/registration-success (or shows an inline "check your email" banner).
+      // After signup GoTrue triggers the send-email-hook and the app navigates
+      // to /auth/registration-success.
       cy.url({ timeout: 15_000 }).should(
         "satisfy",
         (url: string) =>
@@ -258,80 +280,62 @@ describeSuite(
     });
 
     /* ---------------------------------------------------------------- */
-    /* Step 4 — Assert the URL resolves to a real route (THE KEY CHECK) */
+    /* Steps 4 + 5: Route assertion, follow link, assert session        */
     /* ---------------------------------------------------------------- */
+    /*
+     * These are merged into a single test because the token_hash in the
+     * verification link is single-use.  Step 4's HTTP check (cy.request)
+     * does NOT consume the token, but the subsequent cy.visit() DOES.
+     * Visiting again in a separate test would fail on an expired token.
+     */
 
-    it("Step 4: /auth/confirm is a real app route — not the SPA 404 catch-all", () => {
+    it("Step 4+5: /auth/confirm is a real app route AND confirms the account → session established", () => {
       const confirmUrl: string = Cypress.env("__giv921_confirmUrl");
       expect(confirmUrl, "confirmUrl must be set from Step 3").to.be.a("string")
         .and.not.be.empty;
 
-      // Request the confirm URL directly.  The SPA always returns 200 from the
-      // server (index.html is served for all paths), so we check the BODY to
-      // distinguish a real route from the 404 catch-all.
+      // --- Part A: HTTP-level check that the route exists (does NOT consume token) ---
       //
-      // A real route: React mounts <AuthCallback> which renders a loading
-      //   spinner — the page does NOT contain our NotFound component's heading.
-      //
-      // The broken state (GIV-909): the server returned 404 / the SPA rendered
-      //   NotFound because /auth/confirm had no <Route> definition.
-      //
-      // We also assert the route IS declared in the router by visiting it and
-      // verifying we do NOT land on the NotFound page.
+      // The SPA always returns 200 from the server (index.html for all paths),
+      // so a plain HTTP request cannot distinguish a real route from a 404.
+      // This check is a structural sanity check: the response must be HTML,
+      // not a server error or JSON redirect.
       cy.request({
         url: confirmUrl,
         failOnStatusCode: false,
       }).then((response) => {
-        // Status 200 — the dev server (or static host) serves the SPA shell.
         expect(response.status, "confirm URL must return HTTP 200").to.equal(
           200,
         );
-
-        // The response body must be an HTML document, not a JSON error.
         expect(response.headers["content-type"] ?? "").to.include("text/html");
-
-        // The body must NOT be the 404-catch-all page's content.
-        // (The SPA serves index.html for all paths, so we check for our
-        //  NotFound-page fingerprint which would appear if React rendered it.)
-        // Note: index.html itself won't contain "Page Not Found" — that string
-        // is rendered client-side by React.  The critical assertion is below
-        // (navigating to the URL and checking the DOM).
         expect(
           response.body,
           "confirm URL must not serve an error document",
         ).to.be.a("string");
       });
 
-      // Visit the URL in the browser so React mounts and we can assert the DOM.
+      // --- Part B: The key behavioural assertion (would have caught GIV-909) ---
+      //
+      // Visit the confirm URL in a real browser.  React mounts and AuthCallback
+      // calls verifyOtp.  If /auth/confirm were not a declared <Route>, the SPA
+      // 404 catch-all would render NotFound — which contains the fingerprint
+      // below.  If the route exists, AuthCallback renders "Verifying your
+      // account..." instead.
       cy.visit(confirmUrl, { failOnStatusCode: false });
 
-      // The AuthCallback component renders "Verifying your account..." while it
-      // exchanges the token.  A NotFound page would render its own heading.
-      // We assert the NotFound fingerprint does NOT appear.
       cy.get("body", { timeout: 10_000 }).should(
         "not.contain",
         NOT_FOUND_FINGERPRINT,
       );
 
-      // Optionally assert the expected loading text IS present.
       cy.contains("Verifying your account", { timeout: 10_000 }).should(
         "exist",
       );
-    });
 
-    /* ---------------------------------------------------------------- */
-    /* Step 5 — Follow the link, assert a session is established        */
-    /* ---------------------------------------------------------------- */
-
-    it("Step 5: following the confirm link establishes a session and redirects to dashboard", () => {
-      const confirmUrl: string = Cypress.env("__giv921_confirmUrl");
-      expect(confirmUrl, "confirmUrl must be set").to.be.a("string").and.not.be
-        .empty;
-
-      cy.visit(confirmUrl);
-
-      // After token exchange AuthCallback redirects to the appropriate dashboard.
-      // Donor accounts go to /give-dashboard; unknown type goes to /browse.
+      // --- Part C: Session established and user redirected to dashboard ---
+      //
+      // After the successful verifyOtp, AuthCallback navigates the user to
+      // their dashboard.  A donor account goes to /give-dashboard.
       cy.url({ timeout: 20_000 }).should(
         "satisfy",
         (url: string) =>
@@ -340,7 +344,7 @@ describeSuite(
           url.includes("/charity-portal"),
       );
 
-      // Confirm localStorage holds a Supabase session.
+      // The Supabase SDK writes a session to localStorage.
       cy.window().then((win) => {
         const key = storageKey();
         const raw = win.localStorage.getItem(key);
@@ -362,10 +366,10 @@ describeSuite(
     });
 
     /* ---------------------------------------------------------------- */
-    /* Step 6 — Sign out                                                */
+    /* Step 5 — Sign out                                                */
     /* ---------------------------------------------------------------- */
 
-    it("Step 6: signs out cleanly", () => {
+    it("Step 5: signs out cleanly", () => {
       // Clear session — mirrors what supabaseLogout does.
       const key = storageKey();
       cy.window().then((win) => win.localStorage.removeItem(key));
@@ -385,7 +389,7 @@ describeSuite(
     /* Step 7 — Sign back in with same credentials, reach dashboard     */
     /* ---------------------------------------------------------------- */
 
-    it("Step 7: signs back in with email/password and reaches the dashboard", () => {
+    it("Step 6: signs back in with email/password and reaches the dashboard", () => {
       // Sign in via password (the account is now confirmed).
       cy.wrap(
         buildAnonClient()
