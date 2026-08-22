@@ -40,6 +40,21 @@ jobs:
       VITE_SUPABASE_PUBLISHABLE_KEY: ${{ secrets.CYPRESS_SUPABASE_ANON_KEY }}
 
     steps:
+      - name: Verify required secrets are configured
+        run: |
+          missing=0
+          for v in CYPRESS_SUPABASE_URL CYPRESS_SUPABASE_ANON_KEY CYPRESS_SUPABASE_SERVICE_ROLE_KEY; do
+            if [ -z "${!v}" ]; then
+              echo "::error::$v is not set. Add it under Settings → Secrets and variables → Actions."
+              missing=1
+            fi
+          done
+          exit $missing
+        env:
+          CYPRESS_SUPABASE_URL: ${{ secrets.CYPRESS_SUPABASE_URL }}
+          CYPRESS_SUPABASE_ANON_KEY: ${{ secrets.CYPRESS_SUPABASE_ANON_KEY }}
+          CYPRESS_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.CYPRESS_SUPABASE_SERVICE_ROLE_KEY }}
+
       - name: Checkout
         uses: actions/checkout@v5
 
