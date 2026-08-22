@@ -1,18 +1,18 @@
 # GIV-922 Auth Entry-Point Audit
 
-End-to-end confirmation of every Supabase email token now hinges on our `/auth/confirm` route + `verifyOtp` seam. The table below walks through the six uncovered entry points plus the resend helper. 
+End-to-end confirmation of every Supabase email token now hinges on our `/auth/confirm` route + `verifyOtp` seam. The table below walks through the six uncovered entry points plus the resend helper.
 
 **Note on E2E Verification:** As an AI agent, I cannot manually click email links or use biometric passkeys. Therefore, the end-to-end completion is marked as `unverifiable-without-creds`. However, I have verified the structural requirements for each path (Route Table matching, Token Exchange via verifyOtp, Silent Failure handling, and PKCE Cross-device safety).
 
-| Path | E2E Status | Evidence (Code-Level Verification) |
-| --- | --- | --- |
-| Password reset (`recovery` email) | unverifiable-without-creds | `send-email-hook` builds `https://.../auth/confirm?token_hash=...&type=recovery`. `AuthCallback.tsx` includes `recovery` in `EMAIL_OTP_TYPES`, calls `supabase.auth.verifyOtp`, and routes to `/auth/reset-password`. It does not rely on PKCE `code_verifier`, making it cross-device safe. |
-| Magic link (`magiclink` email) | unverifiable-without-creds | Targets `/auth/confirm` with `type=magiclink`. `AuthCallback.tsx` recognizes `magiclink`, exchanges `token_hash` via `verifyOtp`, and redirects to the dashboard. Cross-device safe. |
-| Email change (`email_change` email) | unverifiable-without-creds | The hook emits both new/old-email confirmations as `type=email_change`. They land on `/auth/confirm`. `AuthCallback.tsx` exchanges them with `verifyOtp` correctly. |
-| Reauthentication (`reauthentication` email) | unverifiable-without-creds | The template points at `/auth/confirm`. `AuthCallback.tsx` handles `type=reauthentication`, calls `verifyOtp` and redirects properly. |
-| Passkey / WebAuthn | unverifiable-without-creds | Mints passkey sessions using `generateLink` -> `verifyOtp` pattern (e.g. in `passkey-signup-init` and `passkey-login-verify`). The client consumes returned tokens via `passkey.loginWithPasskey` -> `supabase.auth.setSession`. No `?code=` query strings are used, avoiding PKCE issues. |
-| Wallet auth | unverifiable-without-creds | `wallet-auth` generates a magic link, pulls its `hashed_token`, calls `verifyOtp` server-side, and returns the session. The client `useUnifiedAuth.ts` hydrates it. Safe from PKCE mismatches. |
-| Resend verification | unverifiable-without-creds | Returns HTTP 200 intentionally to avoid email enumeration, but triggers `supabase.auth.resend`. The redirect URL points to `/auth/callback?email=...` so the hook builds an `/auth/confirm` link, behaving exactly like the original. |
+| Path                                        | E2E Status                 | Evidence (Code-Level Verification)                                                                                                                                                                                                                                                           |
+| ------------------------------------------- | -------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Password reset (`recovery` email)           | unverifiable-without-creds | `send-email-hook` builds `https://.../auth/confirm?token_hash=...&type=recovery`. `AuthCallback.tsx` includes `recovery` in `EMAIL_OTP_TYPES`, calls `supabase.auth.verifyOtp`, and routes to `/auth/reset-password`. It does not rely on PKCE `code_verifier`, making it cross-device safe. |
+| Magic link (`magiclink` email)              | unverifiable-without-creds | Targets `/auth/confirm` with `type=magiclink`. `AuthCallback.tsx` recognizes `magiclink`, exchanges `token_hash` via `verifyOtp`, and redirects to the dashboard. Cross-device safe.                                                                                                         |
+| Email change (`email_change` email)         | unverifiable-without-creds | The hook emits both new/old-email confirmations as `type=email_change`. They land on `/auth/confirm`. `AuthCallback.tsx` exchanges them with `verifyOtp` correctly.                                                                                                                          |
+| Reauthentication (`reauthentication` email) | unverifiable-without-creds | The template points at `/auth/confirm`. `AuthCallback.tsx` handles `type=reauthentication`, calls `verifyOtp` and redirects properly.                                                                                                                                                        |
+| Passkey / WebAuthn                          | unverifiable-without-creds | Mints passkey sessions using `generateLink` -> `verifyOtp` pattern (e.g. in `passkey-signup-init` and `passkey-login-verify`). The client consumes returned tokens via `passkey.loginWithPasskey` -> `supabase.auth.setSession`. No `?code=` query strings are used, avoiding PKCE issues.   |
+| Wallet auth                                 | unverifiable-without-creds | `wallet-auth` generates a magic link, pulls its `hashed_token`, calls `verifyOtp` server-side, and returns the session. The client `useUnifiedAuth.ts` hydrates it. Safe from PKCE mismatches.                                                                                               |
+| Resend verification                         | unverifiable-without-creds | Returns HTTP 200 intentionally to avoid email enumeration, but triggers `supabase.auth.resend`. The redirect URL points to `/auth/callback?email=...` so the hook builds an `/auth/confirm` link, behaving exactly like the original.                                                        |
 
 ### Addressing Specific Concerns
 
@@ -21,6 +21,7 @@ End-to-end confirmation of every Supabase email token now hinges on our `/auth/c
 3. **Passkey Configuration in GoTrue:** Prod `/auth/v1/settings` reporting `passkeys_enabled: false` is **irrelevant**. I have confirmed that our passkey implementation is completely self-hosted. The edge functions (`passkey-signup-init`, `passkey-login-verify`, etc.) use `@simplewebauthn/server` and custom tables (`user_passkeys`, `passkey_challenges`) to verify passkeys, and then mint sessions using `supabase.auth.admin.generateLink({ type: "magiclink" })` followed by `verifyOtp`. It does not rely on GoTrue's native passkey features.
 
 ### Next Steps
-Since all paths structurally map correctly to `/auth/confirm` and exchange tokens correctly via `verifyOtp`, there are no code changes to make. 
+
+Since all paths structurally map correctly to `/auth/confirm` and exchange tokens correctly via `verifyOtp`, there are no code changes to make.
 
 I am handing this back for manual QA verification since E2E completion requires actual credentials/email clicks.
