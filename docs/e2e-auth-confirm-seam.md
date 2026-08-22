@@ -45,10 +45,10 @@ got: <NotFound page>`; restoring it made it pass again.
 
 ## Required environment
 
-| Variable | Purpose |
-| --- | --- |
-| `CYPRESS_SUPABASE_URL` | Supabase project URL |
-| `CYPRESS_SUPABASE_ANON_KEY` | Public anon key |
+| Variable                            | Purpose                                      |
+| ----------------------------------- | -------------------------------------------- |
+| `CYPRESS_SUPABASE_URL`              | Supabase project URL                         |
+| `CYPRESS_SUPABASE_ANON_KEY`         | Public anon key                              |
 | `CYPRESS_SUPABASE_SERVICE_ROLE_KEY` | Service-role key (**test/staging env only**) |
 
 ## Run locally
