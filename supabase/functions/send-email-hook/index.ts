@@ -15,13 +15,11 @@ import { Webhook } from "npm:standardwebhooks@1.0.0";
 const SITE_URL = "https://giveprotocol.io";
 const FROM_EMAIL = "Give Protocol <support@giveprotocol.io>";
 
-const SEND_EMAIL_HOOK_SECRET = Deno.env.get("SEND_EMAIL_HOOK_SECRET");
-if (!SEND_EMAIL_HOOK_SECRET) {
-  throw new Error("SEND_EMAIL_HOOK_SECRET is required");
+function getWebhookSecret(): string | null {
+  const raw = Deno.env.get("SEND_EMAIL_HOOK_SECRET");
+  if (!raw) return null;
+  return raw.replace("v1,whsec_", "");
 }
-
-// Supports both "v1,whsec_xxx" and raw base64 secret forms
-const webhookSecret = SEND_EMAIL_HOOK_SECRET.replace("v1,whsec_", "");
 
 interface HookPayload {
   user: {
@@ -185,6 +183,14 @@ serve(async (req: Request) => {
   try {
     if (req.method !== "POST") {
       return hookError("Method not allowed", 405);
+    }
+
+    const webhookSecret = getWebhookSecret();
+    if (!webhookSecret) {
+      console.error(
+        "send-email-hook: SEND_EMAIL_HOOK_SECRET is not set — refusing to process request",
+      );
+      return hookError("SEND_EMAIL_HOOK_SECRET not set — cannot verify requests", 500);
     }
 
     const rawBody = await req.text();
