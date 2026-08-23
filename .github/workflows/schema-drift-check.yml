@@ -1,0 +1,91 @@
+name: Scheduled Schema Drift Check
+
+on:
+  schedule:
+    - cron: '0 0 * * *' # Daily at midnight UTC
+  workflow_dispatch:
+
+jobs:
+  check-schema-drift:
+    name: Check Schema Drift (${{ matrix.environment }})
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - environment: prod
+            project_id: lhbyfidtlhojnrewpstp
+          - environment: staging
+            project_id: staging-project-id-placeholder
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      
+      - name: Setup Node
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Extract Expected Tables from Migrations
+        id: expected
+        run: |
+          node -e '
+            const fs = require("fs");
+            const path = require("path");
+            const dir = "supabase/migrations";
+            let tables = new Set();
+            for (const file of fs.readdirSync(dir)) {
+              if (!file.endsWith(".sql")) continue;
+              let content = fs.readFileSync(path.join(dir, file), "utf8");
+              // Remove comments
+              content = content.replace(/--.*$/gm, "");
+              content = content.replace(/\/\*[\s\S]*?\*\//g, "");
+              const regex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-zA-Z0-9_."]+)/ig;
+              let match;
+              while ((match = regex.exec(content)) !== null) {
+                let t = match[1].replace(/^public\./i, "").replace(/"/g, "");
+                tables.add(t);
+              }
+            }
+            const sorted = Array.from(tables).sort().join("\n");
+            fs.writeFileSync("expected_tables.txt", sorted + "\n");
+          '
+
+      - name: Check Staging Project ID
+        if: matrix.environment == 'staging'
+        run: |
+          if [ "${{ matrix.project_id }}" == "staging-project-id-placeholder" ]; then
+            echo "Staging project ID not set. Please update the workflow file with the actual staging project ID."
+            exit 1
+          fi
+
+      - name: Dump Actual Schema from Supabase
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          echo "Dumping schema for project ${{ matrix.project_id }}..."
+          supabase db dump --linked --schema public --project-ref ${{ matrix.project_id }} > db_dump.sql
+          
+          node -e '
+            const fs = require("fs");
+            let content = fs.readFileSync("db_dump.sql", "utf8");
+            let tables = new Set();
+            const regex = /CREATE\s+TABLE\s+([a-zA-Z0-9_."]+)/ig;
+            let match;
+            while ((match = regex.exec(content)) !== null) {
+               let t = match[1].replace(/^public\./i, "").replace(/"/g, "");
+               tables.add(t);
+            }
+            const sorted = Array.from(tables).sort().join("\n");
+            fs.writeFileSync("actual_tables.txt", sorted + "\n");
+          '
+
+      - name: Detect Drift (Diff Expected vs Actual)
+        run: |
+          echo "Comparing expected tables (from migrations) against actual tables (from db dump)..."
+          diff -u expected_tables.txt actual_tables.txt

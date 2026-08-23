@@ -158,3 +158,16 @@ To manually trigger a workflow:
 3. **Use artifacts**: Upload logs and reports for debugging
 4. **Monitor costs**: GitHub Actions has usage limits
 5. **Regular updates**: Keep actions versions current
+
+### 4. Scheduled Schema Drift Check (`schema-drift-check.yml`) — GIV-935
+
+- **Triggers**: Scheduled daily, Manual trigger
+- **Purpose**: Detect "history says applied, schema says missing" class of migration drift by comparing expected schema against the actual database dump.
+- **Features**:
+  - Parses expected tables directly from `CREATE TABLE` and `CREATE TABLE IF NOT EXISTS` statements in `supabase/migrations/`
+  - Runs `supabase db dump --linked --schema public` to get the actual tables.
+  - Fails if there's any discrepancy (drift) and provides a clear `diff` output.
+  - Checks both production and staging projects. (To configure staging, add the project ID to the workflow file's matrix configuration or set a variable).
+  - No auto-repair—manual triage is required to maintain a clear audit trail.
+- **Required Secrets**:
+  - `SUPABASE_ACCESS_TOKEN` - To authenticate the Supabase CLI and allow `db dump` to execute.
