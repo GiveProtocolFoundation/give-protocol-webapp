@@ -26,6 +26,13 @@ if (!token) {
 const checkOnly = process.argv.includes("--check");
 const disable = process.argv.includes("--disable");
 
+/**
+ * Call the Supabase Management API.
+ * @param {string} method - HTTP method (e.g. "GET", "PATCH").
+ * @param {string} path - API path appended to API_BASE.
+ * @param {object} [body] - Optional JSON request body.
+ * @returns {Promise<object|string>} Parsed JSON response, or raw text if not JSON.
+ */
 async function apiRequest(method, path, body) {
   const opts = {
     method,
@@ -61,30 +68,28 @@ const relevant = {
 };
 console.log("Current auth hook config:", JSON.stringify(relevant, null, 2));
 
-if (checkOnly) {
-  process.exit(0);
-}
+if (!checkOnly) {
+  if (!relevant.hook_send_email_secrets_set && !disable) {
+    throw new Error(
+      "hook_send_email_secrets is not set. Configure it (Dashboard → Authentication → Hooks → Send Email → Secrets, value `v1,whsec_...`) before enabling the hook.",
+    );
+  }
 
-if (!relevant.hook_send_email_secrets_set && !disable) {
-  throw new Error(
-    "hook_send_email_secrets is not set. Configure it (Dashboard → Authentication → Hooks → Send Email → Secrets, value `v1,whsec_...`) before enabling the hook.",
+  const patch = disable
+    ? { hook_send_email_enabled: false }
+    : { hook_send_email_enabled: true, hook_send_email_uri: HOOK_URI };
+
+  const updated = await apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
+  console.log(
+    "Updated:",
+    JSON.stringify(
+      {
+        hook_send_email_enabled: updated.hook_send_email_enabled,
+        hook_send_email_uri: updated.hook_send_email_uri,
+      },
+      null,
+      2,
+    ),
   );
+  console.log(disable ? "Send Email hook disabled." : "Send Email hook enabled. Now run a test signup at https://giveprotocol.io to verify the branded email arrives.");
 }
-
-const patch = disable
-  ? { hook_send_email_enabled: false }
-  : { hook_send_email_enabled: true, hook_send_email_uri: HOOK_URI };
-
-const updated = await apiRequest("PATCH", `/projects/${PROJECT_REF}/config/auth`, patch);
-console.log(
-  "Updated:",
-  JSON.stringify(
-    {
-      hook_send_email_enabled: updated.hook_send_email_enabled,
-      hook_send_email_uri: updated.hook_send_email_uri,
-    },
-    null,
-    2,
-  ),
-);
-console.log(disable ? "Send Email hook disabled." : "Send Email hook enabled. Now run a test signup at https://giveprotocol.io to verify the branded email arrives.");
