@@ -39,7 +39,10 @@ async function apiRequest(method, path, body) {
   const res = await fetch(`${API_BASE}${path}`, opts);
   const text = await res.text();
   if (!res.ok) {
-    throw new Error(`${method} ${path} → ${res.status}: ${text}`);
+    const hint = res.status === 401
+      ? " The token looks invalid or is a project API key. Use a *personal access token* (Dashboard → Account → Access Tokens, starts with `sbp_`), not a `sb_publishable_...`/anon/service key."
+      : "";
+    throw new Error(`${method} ${path} → ${res.status}: ${text}${hint}`);
   }
   try {
     return JSON.parse(text);
