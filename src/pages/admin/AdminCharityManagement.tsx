@@ -230,13 +230,17 @@ function ReviewModal({
     reinstate: t("admin.charity.reinstate", "Reinstate"),
   };
   const actions = actionsForStatus(charity.verificationStatus);
+  const displayName =
+    charity.name !== ""
+      ? charity.name
+      : t("admin.charity.unnamed", "Unnamed organization");
 
   return (
     <Modal
       isOpen={charity !== null}
       onClose={onClose}
       title={t("admin.charity.reviewTitle", "Review {{name}}", {
-        name: charity.name,
+        name: displayName,
       })}
       size="md"
     >
@@ -342,7 +346,11 @@ function CharityRow({
   onReview: (_charity: AdminCharityListItem) => void;
 }): React.ReactElement {
   const { t } = useTranslation();
-  const tint = tintForName(charity.name);
+  const displayName =
+    charity.name !== ""
+      ? charity.name
+      : t("admin.charity.unnamed", "Unnamed organization");
+  const tint = tintForName(displayName);
 
   const handleReview = useCallback(
     () => onReview(charity),
@@ -355,11 +363,11 @@ function CharityRow({
         <span
           className={`flex h-[34px] w-[34px] flex-none items-center justify-center rounded-[9px] text-[13px] font-bold ${tint.bg} ${tint.fg}`}
         >
-          {initialsForName(charity.name)}
+          {initialsForName(displayName)}
         </span>
         <div className="min-w-0 leading-[1.3]">
           <div className="truncate text-[13px] font-semibold text-[#16201c]">
-            {charity.name}
+            {displayName}
           </div>
           <div className="font-mono-data text-[11px] text-[#9aa5a0]">
             {charity.ein !== null

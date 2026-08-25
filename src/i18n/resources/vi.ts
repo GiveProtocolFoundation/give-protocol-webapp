@@ -809,6 +809,7 @@ export default {
     "admin.charity.confirm": "Xác nhận",
     "admin.charity.noResults":
       "Không tìm thấy tổ chức từ thiện phù hợp với bộ lọc.",
+    "admin.charity.unnamed": "Tổ chức chưa có tên",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "Yêu cầu tổ chức từ thiện",

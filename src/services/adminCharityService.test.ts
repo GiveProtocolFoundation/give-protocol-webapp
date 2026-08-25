@@ -141,6 +141,21 @@ describe("adminCharityService", () => {
       expect(result.charities).toHaveLength(2);
     });
 
+    it("should map a NULL name row to an empty string, not null (GIV-929)", async () => {
+      // profiles.name stays NULL until the charity completes signup; the
+      // admin list page crashed with "can't access property 'length', e is
+      // null" when name was passed through as null.
+      mockRpc.mockResolvedValue({
+        data: [makeRow({ name: null })],
+        error: null,
+      });
+
+      const result = await listCharities();
+
+      expect(result.charities).toHaveLength(1);
+      expect(result.charities[0].name).toBe("");
+    });
+
     it("should preserve page and limit from filters in the result", async () => {
       mockRpc.mockResolvedValue({ data: [], error: null });
 

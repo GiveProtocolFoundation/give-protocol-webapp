@@ -759,6 +759,7 @@ export default {
     "admin.charity.saving": "保存中\u2026",
     "admin.charity.confirm": "确认",
     "admin.charity.noResults": "未找到符合筛选条件的慈善机构。",
+    "admin.charity.unnamed": "未命名组织",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "慈善机构请求",
