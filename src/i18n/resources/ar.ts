@@ -782,6 +782,7 @@ export default {
     "admin.charity.confirm": "تأكيد",
     "admin.charity.noResults":
       "لم يتم العثور على مؤسسات خيرية تطابق معايير التصفية.",
+    "admin.charity.unnamed": "منظمة بدون اسم",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "طلبات المؤسسات الخيرية",

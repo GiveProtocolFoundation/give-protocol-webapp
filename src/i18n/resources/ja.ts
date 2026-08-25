@@ -810,6 +810,7 @@ export default {
     "admin.charity.confirm": "確認",
     "admin.charity.noResults":
       "フィルター条件に一致するチャリティが見つかりません。",
+    "admin.charity.unnamed": "名称未設定の団体",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "チャリティリクエスト",

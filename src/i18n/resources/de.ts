@@ -848,6 +848,7 @@ export default {
     "admin.charity.confirm": "Bestätigen",
     "admin.charity.noResults":
       "Keine Organisationen gefunden, die Ihren Filtern entsprechen.",
+    "admin.charity.unnamed": "Unbenannte Organisation",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "Organisationsanfragen",

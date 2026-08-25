@@ -70,7 +70,8 @@ export interface AdminCharityStatusUpdateInput {
 export interface AdminCharityListRow {
   id: string;
   user_id: string | null;
-  name: string;
+  /** Nullable in DB: profiles.name stays NULL until the charity completes signup */
+  name: string | null;
   category: string | null;
   logo_url: string | null;
   mission: string | null;

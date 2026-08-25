@@ -790,6 +790,7 @@ export default {
     "admin.charity.saving": "저장 중\u2026",
     "admin.charity.confirm": "확인",
     "admin.charity.noResults": "필터 조건에 맞는 자선단체를 찾을 수 없습니다.",
+    "admin.charity.unnamed": "이름 없는 단체",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "자선단체 요청",

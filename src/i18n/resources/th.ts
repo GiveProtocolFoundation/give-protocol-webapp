@@ -802,6 +802,7 @@ export default {
     "admin.charity.saving": "กำลังบันทึก\u2026",
     "admin.charity.confirm": "ยืนยัน",
     "admin.charity.noResults": "ไม่พบองค์กรการกุศลที่ตรงกับตัวกรองของคุณ",
+    "admin.charity.unnamed": "องค์กรที่ไม่มีชื่อ",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "คำขอองค์กรการกุศล",

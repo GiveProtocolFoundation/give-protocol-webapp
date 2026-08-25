@@ -819,6 +819,7 @@ export default {
     "admin.charity.saving": "सहेजा जा रहा है\u2026",
     "admin.charity.confirm": "पुष्टि करें",
     "admin.charity.noResults": "आपके फ़िल्टर से मेल खाती कोई चैरिटी नहीं मिली।",
+    "admin.charity.unnamed": "अनाम संगठन",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "चैरिटी अनुरोध",

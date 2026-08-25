@@ -244,4 +244,48 @@ describe("AdminCharityManagement", () => {
       ).toBeInTheDocument();
     });
   });
+
+  describe("Null-name charities (GIV-929)", () => {
+    // profiles.name is NULL until a charity completes signup; the service
+    // coerces it to "" and the page must render a fallback label instead of
+    // crashing in tintForName/initialsForName.
+    it("renders the unnamed fallback for a charity with an empty name", () => {
+      mockUseAdminCharities.mockReturnValue(
+        createHookReturn({
+          result: {
+            charities: [{ ...mockCharity, id: "ch-null", name: "" }],
+            totalCount: 1,
+            page: 1,
+            limit: 50,
+            totalPages: 1,
+          },
+        }),
+      );
+      renderComponent();
+      expect(screen.getByText("Unnamed organization")).toBeInTheDocument();
+    });
+
+    it("shows the unnamed fallback in the review modal title", async () => {
+      mockUseAdminCharities.mockReturnValue(
+        createHookReturn({
+          result: {
+            charities: [{ ...mockCharity, id: "ch-null", name: "" }],
+            totalCount: 1,
+            page: 1,
+            limit: 50,
+            totalPages: 1,
+          },
+        }),
+      );
+      renderComponent();
+      fireEvent.click(screen.getByText("Review"));
+      await waitFor(() => {
+        expect(
+          screen.getByRole("heading", {
+            name: /Review Unnamed organization/,
+          }),
+        ).toBeInTheDocument();
+      });
+    });
+  });
 });

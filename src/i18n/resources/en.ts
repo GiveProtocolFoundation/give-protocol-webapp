@@ -1042,6 +1042,7 @@ export default {
     "admin.charity.saving": "Saving\u2026",
     "admin.charity.confirm": "Confirm",
     "admin.charity.noResults": "No charities found matching your filters.",
+    "admin.charity.unnamed": "Unnamed organization",
 
     // Admin - Charity Requests page (GIV-256)
     "admin.charityRequests.title": "Charity Requests",

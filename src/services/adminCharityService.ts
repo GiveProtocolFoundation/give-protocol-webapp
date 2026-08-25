@@ -26,7 +26,9 @@ function mapCharityRow(row: AdminCharityListRow): AdminCharityListItem {
   return {
     id: row.id,
     userId: row.user_id,
-    name: row.name,
+    // profiles.name is NULL until the charity completes their profile;
+    // coerce to "" so name-based rendering (initials, tint) can't crash (GIV-929).
+    name: row.name ?? "",
     category: row.category,
     logoUrl: row.logo_url,
     mission: row.mission,
