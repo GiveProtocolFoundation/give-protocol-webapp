@@ -38,8 +38,11 @@ describe("GIV-931 Auth signup API smoke test", () => {
     }).then((response) => {
       expect(response.status).to.be.oneOf([200, 201, 429]);
       if (response.status === 200 || response.status === 201) {
-        expect(response.body).to.have.property("user");
-        expect(response.body.user).to.have.property("email", email);
+        // GoTrue returns { user, session } once a session is established, but
+        // returns the user object directly at the top level when email
+        // confirmation is still pending (no session yet).
+        const user = response.body.user ?? response.body;
+        expect(user).to.have.property("email", email);
       }
       cy.log(`Signup HTTP status: ${response.status}`);
     });
