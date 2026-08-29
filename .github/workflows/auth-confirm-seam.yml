@@ -180,13 +180,12 @@ jobs:
 
       - name: Run signup smoke spec
         # No dev server is started for this job — the spec only calls cy.request()
-        # against Supabase directly, so cypress.config.ts's baseUrl (localhost:5173)
-        # must be cleared or Cypress will fail waiting for a server that never starts.
-        run: npx cypress run --spec "cypress/e2e/auth-signup-smoke.cy.ts" --headless --browser chrome
+        # against Supabase directly. Use cypress.smoke.config.ts, which omits
+        # baseUrl, so Cypress doesn't wait for a localhost:5173 server that never starts.
+        run: npx cypress run --config-file cypress.smoke.config.ts --spec "cypress/e2e/auth-signup-smoke.cy.ts" --headless --browser chrome
         env:
           CYPRESS_SUPABASE_URL: ${{ secrets.CYPRESS_SUPABASE_URL }}
           CYPRESS_SUPABASE_ANON_KEY: ${{ secrets.CYPRESS_SUPABASE_ANON_KEY }}
-          CYPRESS_BASE_URL: ""
 
       - name: Create failure issue on scheduled run
         if: failure() && github.event_name == 'schedule'
