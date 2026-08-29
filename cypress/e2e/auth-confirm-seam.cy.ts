@@ -245,7 +245,9 @@ function preflightAuthApi(): Promise<void> {
         hint =
           "GoTrue reached the database but the auth.users query failed after retries. Check the Supabase project's database health (pause, incident, auth schema drift).";
       }
-      throw new Error(`Pre-flight failed: ${describeAuthError(cause)}. ${hint}`);
+      throw new Error(
+        `Pre-flight failed: ${describeAuthError(cause)}. ${hint}`,
+      );
     });
 }
 
