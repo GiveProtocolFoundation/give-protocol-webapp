@@ -4,6 +4,10 @@ name: Auth Confirm Seam — Scheduled E2E + Signup Smoke
 # sign-in chain end-to-end, plus a fast HTTP-level signup smoke test that catches
 # hook-configuration outages (GIV-931) before they become hour-long production blockers.
 
+permissions:
+  contents: read
+  issues: write
+
 on:
   schedule:
     - cron: "0 6 * * *"
