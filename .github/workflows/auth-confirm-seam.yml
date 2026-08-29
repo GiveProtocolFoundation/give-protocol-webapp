@@ -97,6 +97,50 @@ jobs:
             sleep 1
           done
 
+      # ------------------------------------------------------------------
+      # Preflight: prove the Supabase project and both CI keys work from the
+      # runner BEFORE building/running Cypress. Makes infra failures (rotated
+      # keys, paused project, exhausted auth email rate limit, degraded auth
+      # DB) fail in seconds with a named cause instead of an opaque 3-step
+      # Cypress cascade (run 33267858413). Never prints secrets or user rows.
+      # ------------------------------------------------------------------
+      - name: Preflight — verify Supabase project and CI secrets
+        run: |
+          set -euo pipefail
+          host="$(printf '%s' "$CYPRESS_SUPABASE_URL" | sed -E 's#^https?://([^/]+).*#\1#')"
+          echo "CYPRESS_SUPABASE_URL host: $host"
+
+          code="$(curl -s -o /tmp/health.json -w '%{http_code}' --max-time 20 \
+            -H "apikey: $CYPRESS_SUPABASE_ANON_KEY" "$CYPRESS_SUPABASE_URL/auth/v1/health")"
+          echo "GET /auth/v1/health (anon key) -> HTTP $code"
+          if [ "$code" != "200" ]; then
+            cat /tmp/health.json; echo
+            echo "::error::Auth API unreachable or anon key rejected (HTTP $code). Check CYPRESS_SUPABASE_URL / CYPRESS_SUPABASE_ANON_KEY and that the project is not paused."
+            exit 1
+          fi
+          echo "GoTrue version: $(cat /tmp/health.json | sed -n 's/.*"version":"\([^"]*\)".*/\1/p')"
+
+          code="$(curl -s -o /tmp/users.json -w '%{http_code}' --max-time 20 \
+            -H "apikey: $CYPRESS_SUPABASE_SERVICE_ROLE_KEY" \
+            -H "Authorization: Bearer $CYPRESS_SUPABASE_SERVICE_ROLE_KEY" \
+            "$CYPRESS_SUPABASE_URL/auth/v1/admin/users?per_page=1")"
+          echo "GET /auth/v1/admin/users (service-role key) -> HTTP $code"
+          if [ "$code" != "200" ]; then
+            # Error bodies contain no PII — print them to name the cause.
+            cat /tmp/users.json; echo
+            case "$code" in
+              401) echo "::error::Service-role key invalid or rotated. Update CYPRESS_SUPABASE_SERVICE_ROLE_KEY." ;;
+              429) echo "::error::Project is rate-limited (auth email budget exhausted — production signups affected too)." ;;
+              *)   echo "::error::Admin API database error (HTTP $code). Check project database health / incidents." ;;
+            esac
+            exit 1
+          fi
+          echo "Preflight OK: auth API reachable, anon + service-role keys valid, auth DB queryable."
+        env:
+          CYPRESS_SUPABASE_URL: ${{ secrets.CYPRESS_SUPABASE_URL }}
+          CYPRESS_SUPABASE_ANON_KEY: ${{ secrets.CYPRESS_SUPABASE_ANON_KEY }}
+          CYPRESS_SUPABASE_SERVICE_ROLE_KEY: ${{ secrets.CYPRESS_SUPABASE_SERVICE_ROLE_KEY }}
+
       - name: Run auth confirm seam spec
         run: npx cypress run --spec "cypress/e2e/auth-confirm-seam.cy.ts" --browser chrome --headless
         env:
