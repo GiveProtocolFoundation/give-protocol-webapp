@@ -149,6 +149,7 @@ jobs:
                 'This issue was opened automatically by the `auth-confirm-seam` workflow.',
               ].join('\n'),
               labels: ['bug', 'auth', 'e2e'],
+            });
 
   # ------------------------------------------------------------------
   # GIV-931: Fast HTTP-level signup smoke test (no browser, no build).
@@ -178,10 +179,14 @@ jobs:
         run: npm ci
 
       - name: Run signup smoke spec
+        # No dev server is started for this job — the spec only calls cy.request()
+        # against Supabase directly, so cypress.config.ts's baseUrl (localhost:5173)
+        # must be cleared or Cypress will fail waiting for a server that never starts.
         run: npx cypress run --spec "cypress/e2e/auth-signup-smoke.cy.ts" --headless --browser chrome
         env:
           CYPRESS_SUPABASE_URL: ${{ secrets.CYPRESS_SUPABASE_URL }}
           CYPRESS_SUPABASE_ANON_KEY: ${{ secrets.CYPRESS_SUPABASE_ANON_KEY }}
+          CYPRESS_BASE_URL: ""
 
       - name: Create failure issue on scheduled run
         if: failure() && github.event_name == 'schedule'
@@ -211,5 +216,4 @@ jobs:
                 'This issue was opened automatically by the `auth-confirm-seam` workflow.',
               ].join('\n'),
               labels: ['bug', 'auth', 'critical'],
-            });
             });
