@@ -28,6 +28,7 @@ import {
   createClient,
   SupabaseClient,
 } from "https://esm.sh/@supabase/supabase-js@2";
+import { gpfBrandHeader } from "../_shared/email-brand.ts";
 
 const DEFAULT_ADMIN_EMAIL = "support@giveprotocol.io";
 const ADMIN_DASHBOARD_URL = "https://giveprotocol.io/admin";
@@ -120,7 +121,8 @@ function buildEmailHtml(
     .join("");
 
   return (
-    `<div style="font-family:sans-serif;max-width:600px;">` +
+    `${gpfBrandHeader()}` +
+    `<div style="font-family:sans-serif;max-width:600px;border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;">` +
     `<h2>High-priority admin matters need your attention</h2>` +
     `<p>The following ${newAlerts.length === 1 ? "matter has" : `${newAlerts.length} matters have`} ` +
     `been waiting for admin action for more than 3 days:</p>` +

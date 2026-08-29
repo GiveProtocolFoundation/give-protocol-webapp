@@ -17,6 +17,7 @@ import {
   getEmailStrings,
   resolveLocale,
 } from "../_shared/email-i18n.ts";
+import { gpfBrandHeader } from "../_shared/email-brand.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -75,9 +76,7 @@ function wrapHtml(title: string, bodyHtml: string, locale?: string): string {
   <title>${title}</title>
 </head>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#333;">
-  <div style="background:#10b981;padding:20px;border-radius:8px 8px 0 0;">
-    <h1 style="color:white;margin:0;font-size:20px;">Give Protocol</h1>
-  </div>
+  ${gpfBrandHeader()}
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;">
     ${bodyHtml}
     ${LEGAL_FOOTER_HTML}
