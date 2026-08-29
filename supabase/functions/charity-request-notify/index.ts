@@ -17,6 +17,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { gpfBrandHeader } from "../_shared/email-brand.ts";
 
 const corsHeaders = {
   "Access-Control-Allow-Origin": "*",
@@ -193,9 +194,7 @@ serve(async (req: Request) => {
 <html>
 <head><meta charset="utf-8"><title>${adminSubject}</title></head>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#333;">
-  <div style="background:#10b981;padding:20px;border-radius:8px 8px 0 0;">
-    <h1 style="color:white;margin:0;font-size:20px;">Give Protocol — Admin Alert</h1>
-  </div>
+  ${gpfBrandHeader()}
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;">
     <h2 style="color:#111827;">New unclaimed charity request</h2>
     <p>A user has asked us to reach out to an unclaimed charity.</p>
@@ -245,9 +244,7 @@ serve(async (req: Request) => {
 <html>
 <head><meta charset="utf-8"><title>${confirmSubject}</title></head>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#333;">
-  <div style="background:#10b981;padding:20px;border-radius:8px 8px 0 0;">
-    <h1 style="color:white;margin:0;font-size:20px;">Give Protocol</h1>
-  </div>
+  ${gpfBrandHeader()}
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;">
     <h2 style="color:#111827;">We received your claim request</h2>
     <p>Thank you for reaching out. We have received your request to claim the organization with EIN <strong>${safeEin}</strong> on Give Protocol.</p>

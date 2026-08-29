@@ -10,6 +10,7 @@
  */
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { gpfBrandHeader } from "./email-brand.ts";
 
 const CONFIRMATION_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -34,9 +35,7 @@ function emailShell(title: string, bodyHtml: string): string {
   return `<!DOCTYPE html>
 <html><head><meta charset="utf-8"><title>${title}</title></head>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#333;">
-  <div style="background:#10b981;padding:20px;border-radius:8px 8px 0 0;">
-    <h1 style="color:white;margin:0;font-size:20px;">Give Protocol</h1>
-  </div>
+  ${gpfBrandHeader()}
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;">
     ${bodyHtml}
     <hr style="border:none;border-top:1px solid #e5e7eb;margin:24px 0;">

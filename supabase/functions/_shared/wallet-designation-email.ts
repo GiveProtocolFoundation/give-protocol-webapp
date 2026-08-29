@@ -7,6 +7,7 @@
  */
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
+import { gpfBrandHeader } from "./email-brand.ts";
 
 const CONFIRMATION_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -96,9 +97,7 @@ export async function sendWalletDesignationConfirmation(
 <html>
 <head><meta charset="utf-8"><title>${subject}</title></head>
 <body style="font-family:Arial,sans-serif;max-width:600px;margin:0 auto;padding:24px;color:#333;">
-  <div style="background:#10b981;padding:20px;border-radius:8px 8px 0 0;">
-    <h1 style="color:white;margin:0;font-size:20px;">Give Protocol</h1>
-  </div>
+  ${gpfBrandHeader()}
   <div style="border:1px solid #e5e7eb;border-top:none;padding:24px;border-radius:0 0 8px 8px;">
     <h2 style="color:#111827;margin-top:0;">Confirm your charity's official wallet</h2>
     <p>A signed request was submitted to set the following wallet as the official

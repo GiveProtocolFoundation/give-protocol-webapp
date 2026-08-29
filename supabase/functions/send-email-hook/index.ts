@@ -11,6 +11,7 @@
 
 import { serve } from "https://deno.land/std@0.168.0/http/server.ts";
 import { Webhook } from "npm:standardwebhooks@1.0.0";
+import { gpfLogoImg } from "../_shared/email-brand.ts";
 
 const SITE_URL = "https://giveprotocol.io";
 const FROM_EMAIL = "Give Protocol <support@giveprotocol.io>";
@@ -131,7 +132,7 @@ function renderEmail(config: EmailConfig, confirmUrl: string): string {
     body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Helvetica, Arial, sans-serif; background-color: #f9fafb; color: #111827; margin: 0; padding: 0; }
     .wrapper { width: 100%; padding: 40px 0; background-color: #f9fafb; }
     .container { max-width: 540px; margin: 0 auto; background: #ffffff; padding: 32px; border-radius: 8px; box-shadow: 0 1px 3px rgba(0,0,0,0.1); border: 1px solid #e5e7eb; }
-    .logo { font-size: 20px; font-weight: 700; color: #000000; margin-bottom: 24px; text-transform: uppercase; }
+    .logo { margin-bottom: 24px; }
     h1 { font-size: 22px; font-weight: 600; color: #111827; margin-top: 0; margin-bottom: 12px; }
     p { font-size: 15px; line-height: 1.6; color: #4b5563; margin-top: 0; margin-bottom: 20px; }
     .btn-container { margin: 28px 0; text-align: left; }
@@ -143,7 +144,7 @@ function renderEmail(config: EmailConfig, confirmUrl: string): string {
 <body>
   <div class="wrapper">
     <div class="container">
-      <div class="logo">Give Protocol</div>
+      <div class="logo">${gpfLogoImg(64)}</div>
       <h1>${config.heading}</h1>
       <p>${config.body}</p>
       <div class="btn-container">
