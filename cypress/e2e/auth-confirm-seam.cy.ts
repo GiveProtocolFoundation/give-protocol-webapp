@@ -155,6 +155,63 @@ function describeAuthError(error: {
   return parts.join(", ");
 }
 
+/** A Supabase auth error shape, as returned by every `auth.admin.*` call. */
+interface AuthError {
+  message: string;
+  status?: number;
+  code?: string | null;
+}
+
+/**
+ * Whether an auth error looks like a transient infra hiccup worth retrying —
+ * a 5xx, or GoTrue's "Database error finding users" (it reached the DB but
+ * the query itself failed) — rather than a real bug (bad key, bad request).
+ */
+function isTransientAuthError(error: AuthError): boolean {
+  if (typeof error.status === "number" && error.status >= 500) return true;
+  return error.message.includes("Database error");
+}
+
+/**
+ * Thrown by withAuthRetry once retries are exhausted (or the error was
+ * non-transient). Carries the raw AuthError so callers can build their own
+ * status-specific hint without re-parsing a message string.
+ */
+class AuthApiError extends Error {
+  constructor(
+    operation: string,
+    public readonly cause: AuthError,
+  ) {
+    super(`${operation} failed: ${describeAuthError(cause)}`);
+  }
+}
+
+/**
+ * Retries a Supabase admin-API call when it fails with a transient error
+ * (see isTransientAuthError), per the infra incident on run 33267858413 where
+ * one project-side database hiccup surfaced as three opaque, unrelated-looking
+ * failures. Non-transient errors (401, 429, validation) throw immediately —
+ * retrying those would just mask a real bug for 3x the timeout.
+ */
+async function withAuthRetry<T>(
+  operation: () => Promise<{ data: T; error: AuthError | null }>,
+  describeOperation: string,
+  attempt = 1,
+  attempts = 3,
+): Promise<T> {
+  const { data, error } = await operation();
+  if (!error) return data;
+  if (!isTransientAuthError(error) || attempt >= attempts) {
+    throw new AuthApiError(describeOperation, error);
+  }
+  Cypress.log({
+    name: "retry",
+    message: `${describeOperation} attempt ${attempt} failed (${describeAuthError(error)}), retrying...`,
+  });
+  await new Promise((resolve) => setTimeout(resolve, 1000 * attempt));
+  return withAuthRetry(operation, describeOperation, attempt + 1, attempts);
+}
+
 /**
  * Pre-flight check: prove the auth API, the service-role key, and the auth
  * database are all usable BEFORE the suite starts creating accounts.
@@ -168,25 +225,27 @@ function describeAuthError(error: {
  *            auth.users query failed: check project health/pauses/incidents
  */
 function preflightAuthApi(): Promise<void> {
-  return buildAdminClient()
-    .auth.admin.listUsers({ page: 1, perPage: 1 })
-    .then(({ error }) => {
-      if (!error) return;
+  return withAuthRetry(
+    () => buildAdminClient().auth.admin.listUsers({ page: 1, perPage: 1 }),
+    "Pre-flight admin listUsers",
+  )
+    .then(() => undefined)
+    .catch((err: unknown) => {
+      if (!(err instanceof AuthApiError)) throw err;
+      const { cause } = err;
       let hint =
         "Check that SUPABASE_URL points at the intended project and the project is not paused.";
-      if (error.status === 401) {
+      if (cause.status === 401) {
         hint =
           "The service-role key is invalid, rotated, or from a different project than SUPABASE_URL. Update the CYPRESS_SUPABASE_SERVICE_ROLE_KEY secret.";
-      } else if (error.status === 429) {
+      } else if (cause.status === 429) {
         hint =
           "The project is rate-limited (likely auth email budget exhausted — production signups fail too). Raise the email rate limit in the Supabase dashboard or wait for the window to reset.";
-      } else if (error.message.includes("Database error")) {
+      } else if (cause.message.includes("Database error")) {
         hint =
-          "GoTrue reached the database but the auth.users query failed. Check the Supabase project's database health (pause, incident, auth schema drift).";
+          "GoTrue reached the database but the auth.users query failed after retries. Check the Supabase project's database health (pause, incident, auth schema drift).";
       }
-      throw new Error(
-        `Pre-flight failed: admin listUsers returned ${describeAuthError(error)}. ${hint}`,
-      );
+      throw new Error(`Pre-flight failed: ${describeAuthError(cause)}. ${hint}`);
     });
 }
 
@@ -306,18 +365,17 @@ describeSuite(
       const admin = buildAdminClient();
       /** Deletes the Step-1 user, if present, so generateLink can re-create it unconfirmed. */
       const deleteExistingUser = async (): Promise<void> => {
-        const { data, error } = await admin.auth.admin.listUsers();
-        if (error) {
-          // Surface status + code (not just message) so the failure class is
-          // identifiable in CI logs — see preflightAuthApi for the mapping.
-          console.error(
-            "Supabase error details:",
-            describeAuthError(error),
-          );
-          throw new Error(
-            `listUsers failed: ${describeAuthError(error)}`,
-          );
-        }
+        const data = await withAuthRetry(
+          () => admin.auth.admin.listUsers(),
+          "listUsers",
+        ).catch((err: unknown) => {
+          if (err instanceof AuthApiError) {
+            // Surface status + code (not just message) so the failure class
+            // is identifiable in CI logs — see preflightAuthApi for the mapping.
+            console.error("Supabase error details:", err.message);
+          }
+          throw err;
+        });
         const existing = data.users.find((u) => u.email === testEmail);
         if (existing) {
           const del = await admin.auth.admin.deleteUser(existing.id);
