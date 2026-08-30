@@ -51,6 +51,12 @@ interface Profile {
   name: string | null;
 }
 
+/** Row shape returned by the get_auth_user_by_email RPC. */
+interface AuthUserRow {
+  id: string;
+  raw_user_meta_data: Record<string, unknown> | null;
+}
+
 /** Escape HTML special characters to prevent XSS in email bodies */
 function escapeHtml(text: string): string {
   return text.replace(/[<>]/g, (char) => (char === "<" ? "&lt;" : "&gt;"));
@@ -165,29 +171,37 @@ serve(async (req: Request) => {
     auth: { autoRefreshToken: false, persistSession: false },
   });
 
-  // Look up the user by email. If not found, return 200 silently to prevent email enumeration.
-  const { data: listData, error: listError } =
-    await supabase.auth.admin.listUsers({ perPage: 1000 });
+  // Skip wallet placeholder emails before any lookup — they never receive
+  // username reminders.
+  if (email.endsWith("@wallet.giveprotocol.io")) {
+    return jsonResponse({ success: true, skipped: true }, 200);
+  }
 
-  if (listError) {
-    console.error("Failed to list users:", listError);
+  // Look up the user by email with a targeted query instead of enumerating the
+  // whole auth.users table. listUsers() is O(n) and, worse, returns a 500
+  // ("Database error finding users") for the entire page if any auth.users row
+  // has a NULL token column — which this function silently swallowed as a 200,
+  // sending no reminder. The service-role-only get_auth_user_by_email RPC
+  // fetches just the single row we need.
+  const { data: lookupRows, error: lookupError } = await supabase.rpc(
+    "get_auth_user_by_email",
+    { p_email: email },
+  );
+
+  if (lookupError) {
+    console.error("Failed to look up user:", lookupError);
     // Return 200 to not leak server errors externally
     return jsonResponse({ success: true }, 200);
   }
 
-  const authUser = listData?.users?.find(
-    (u) => u.email?.toLowerCase() === email,
-  );
+  const authUser: AuthUserRow | null = Array.isArray(lookupRows)
+    ? (lookupRows[0] ?? null)
+    : ((lookupRows as AuthUserRow | null) ?? null);
 
   if (!authUser) {
     // No account found — return 200 silently (no email enumeration)
     console.log(`No account found for email: ${email}`);
     return jsonResponse({ success: true }, 200);
-  }
-
-  // Skip wallet placeholder emails
-  if (authUser.email?.endsWith("@wallet.giveprotocol.io")) {
-    return jsonResponse({ success: true, skipped: true }, 200);
   }
 
   // Fetch profile type for sign-in URL routing
@@ -197,9 +211,13 @@ serve(async (req: Request) => {
     .eq("user_id", authUser.id)
     .single<Profile>();
 
+  const userMeta = (authUser.raw_user_meta_data ?? {}) as Record<
+    string,
+    unknown
+  >;
   const accountType =
     (profileData?.type as string | null) ??
-    (authUser.user_metadata?.type as string | null) ??
+    (userMeta.type as string | null) ??
     "donor";
 
   const signInPath = SIGN_IN_PATHS[accountType] ?? SIGN_IN_PATHS["donor"];
