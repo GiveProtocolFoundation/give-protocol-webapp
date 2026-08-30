@@ -307,6 +307,7 @@ describe("CharityClaimForm", () => {
               organizationName: "Test Charity Foundation",
               ein: "12-3456789",
             },
+            emailRedirectTo: `${window.location.origin}/auth/callback?email=jane%40example.com`,
           },
         });
       });

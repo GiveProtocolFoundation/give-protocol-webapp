@@ -57,6 +57,7 @@ describe("auth utils", () => {
         password: "pass123",
         options: {
           data: { type: "donor", firstName: "John" },
+          emailRedirectTo: `${window.location.origin}/auth/callback?email=new%40example.com`,
         },
       });
       expect(result).toHaveProperty("user");

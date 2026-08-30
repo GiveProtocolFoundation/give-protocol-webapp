@@ -181,6 +181,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
                 organizationName: organization.name,
                 ein: organization.ein,
               },
+              emailRedirectTo: `${window.location.origin}/auth/callback?email=${encodeURIComponent(formData.contactEmail)}`,
             },
           });
 
