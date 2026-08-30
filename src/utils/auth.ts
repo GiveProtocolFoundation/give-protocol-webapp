@@ -67,6 +67,7 @@ export async function signUpWithEmail(
         type,
         ...metadata,
       },
+      emailRedirectTo: `${window.location.origin}/auth/callback?email=${encodeURIComponent(email)}`,
     },
   });
 
