@@ -109,8 +109,11 @@ function getEmailConfig(actionType: string): EmailConfig {
 }
 
 function buildConfirmationUrl(emailData: HookPayload["email_data"]): string {
-  const siteUrl = emailData.site_url || SITE_URL;
-  const base = siteUrl.replace(/\/$/, "");
+  // GoTrue's hook payload can hand back site_url pointing at the Supabase API
+  // host (VITE_SUPABASE_URL) instead of the app's own domain, which produces
+  // a confirm link the browser can't hit directly (no apikey attached). Always
+  // build off our known app domain instead of trusting emailData.site_url.
+  const base = SITE_URL.replace(/\/$/, "");
   const params = new URLSearchParams({
     token_hash: emailData.token_hash,
     type: emailData.email_action_type,
