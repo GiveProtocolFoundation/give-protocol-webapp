@@ -305,6 +305,13 @@ describeSuite(
     /* ---------------------------------------------------------------- */
 
     it("Step 1: signs up with a fresh address via the UI signup form", () => {
+      // Capture the user id GoTrue assigns at signup so Step 2 can delete this
+      // exact account by id, rather than enumerating auth.users with
+      // listUsers() — that scan returns a 500 ("Database error finding users")
+      // for the whole page if any row has a NULL token column (see the
+      // 20260830000000 repair migration and get_auth_user_by_email RPC).
+      cy.intercept("POST", "**/auth/v1/signup*").as("giv921Signup");
+
       visitEnglish("/auth/signup");
 
       // The signup form is passkey-first: email is always visible, but the
@@ -348,6 +355,20 @@ describeSuite(
       // After signup GoTrue triggers the send-email-hook and the app navigates
       // to /auth/registration-success.
       cy.url({ timeout: 15_000 }).should("include", "registration-success");
+
+      // Record the created user's id from the signup response. GoTrue returns
+      // the user object at the top level when email confirmation is pending
+      // (no session yet); older/other shapes nest it under `user`.
+      cy.wait("@giv921Signup").then((interception) => {
+        const respBody = (interception.response?.body ?? {}) as {
+          id?: string;
+          user?: { id?: string };
+        };
+        Cypress.env(
+          "__giv921_signupUserId",
+          respBody.id ?? respBody.user?.id ?? "",
+        );
+      });
     });
 
     /* ---------------------------------------------------------------- */
@@ -365,26 +386,20 @@ describeSuite(
       // *unconfirmed* state — exactly the state a real user is in after
       // signing up in production (where MAILER_AUTOCONFIRM is off).
       const admin = buildAdminClient();
-      /** Deletes the Step-1 user, if present, so generateLink can re-create it unconfirmed. */
+      const signupUserId: string = Cypress.env("__giv921_signupUserId") ?? "";
+      /**
+       * Deletes the Step-1 user so generateLink can re-create it unconfirmed.
+       * Deletes by the id captured from Step 1's signup response instead of
+       * enumerating auth.users with listUsers() — that scan 500s outright
+       * ("Database error finding users") if any row in the table has a NULL
+       * token column, which is the failure this spec kept hitting.
+       */
       const deleteExistingUser = async (): Promise<void> => {
-        const data = await withAuthRetry(
-          () => admin.auth.admin.listUsers(),
-          "listUsers",
-        ).catch((err: unknown) => {
-          if (err instanceof AuthApiError) {
-            // Surface status + code (not just message) so the failure class
-            // is identifiable in CI logs — see preflightAuthApi for the mapping.
-            console.error("Supabase error details:", err.message);
-          }
-          throw err;
-        });
-        const existing = data.users.find((u) => u.email === testEmail);
-        if (existing) {
-          const del = await admin.auth.admin.deleteUser(existing.id);
-          if (del.error)
-            throw new Error(
-              `deleteUser failed: ${describeAuthError(del.error)}`,
-            );
+        if (!signupUserId) return;
+        const del = await admin.auth.admin.deleteUser(signupUserId);
+        // A 404 (user already gone) is fine; anything else is a real failure.
+        if (del.error && del.error.status !== 404) {
+          throw new Error(`deleteUser failed: ${describeAuthError(del.error)}`);
         }
       };
 
