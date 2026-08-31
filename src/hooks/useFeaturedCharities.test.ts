@@ -100,10 +100,10 @@ describe("useFeaturedCharities", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     expect(result.current.charities[0].imageUrl).toBe(
-      "/images/charities/99-1230003.svg",
+      "/images/charities/99-1230003.jpg",
     );
     expect(result.current.charities[1].imageUrl).toBe(
-      "/images/charities/99-1230005.svg",
+      "/images/charities/99-1230005.jpg",
     );
   });
 

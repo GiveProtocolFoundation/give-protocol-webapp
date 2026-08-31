@@ -5,14 +5,16 @@
  * storage project, which left featured organizations on /browse and
  * profile pages without images (GIV-936).
  *
- * Instead of depending on those hosts, branded cover images are
- * self-hosted under /images/charities/. This module rewrites any
- * logo/photo URL that points at a known-dead placeholder host to the
- * matching self-hosted asset.
+ * Instead of depending on those hosts, cover photos are self-hosted
+ * under /images/charities/. Real images (sourced from Wikimedia
+ * Commons, see ATTRIBUTION.md) are used so the featured organizations
+ * sell donors on the mission. This module rewrites any logo/photo URL
+ * that points at a known-dead placeholder host to the matching
+ * self-hosted asset.
  */
 
 /** Fallback cover used when no org-specific asset exists. */
-export const DEFAULT_CHARITY_COVER = "/images/charities/default.svg";
+export const DEFAULT_CHARITY_COVER = "/images/charities/default.jpg";
 
 /** Hosts that only ever served seed placeholder images and are now dead. */
 const PLACEHOLDER_IMAGE_HOSTS = new Set([
@@ -60,7 +62,7 @@ function einToAssetName(ein: string | null | undefined): string | null {
  * @example
  * ```typescript
  * repairCharityImageUrl("https://picsum.photos/seed/x/400/300", "99-1230003")
- * // "/images/charities/99-1230003.svg"
+ * // "/images/charities/99-1230003.jpg"
  *
  * repairCharityImageUrl(null, "99-1230003") // null
  * ```
@@ -74,7 +76,7 @@ export function repairCharityImageUrl(
   const host = hostnameOf(url);
   if (host && PLACEHOLDER_IMAGE_HOSTS.has(host)) {
     const asset = einToAssetName(ein);
-    return asset ? `${LOCAL_COVER_PREFIX}${asset}.svg` : DEFAULT_CHARITY_COVER;
+    return asset ? `${LOCAL_COVER_PREFIX}${asset}.jpg` : DEFAULT_CHARITY_COVER;
   }
 
   return url;
@@ -92,13 +94,13 @@ export function repairCharityImageUrl(
  * @example
  * ```typescript
  * resolveCharityImageUrl("https://picsum.photos/seed/x/400/300", "99-1230003")
- * // "/images/charities/99-1230003.svg"
+ * // "/images/charities/99-1230003.jpg"
  *
  * resolveCharityImageUrl("https://example.org/logo.png", "99-1230003")
  * // "https://example.org/logo.png"
  *
  * resolveCharityImageUrl(null, "99-1230003")
- * // "/images/charities/default.svg"
+ * // "/images/charities/default.jpg"
  * ```
  */
 export function resolveCharityImageUrl(
