@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Verified Nonprofit cover image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#064e3b"/>
+      <stop offset="0.55" stop-color="#047857"/>
+      <stop offset="1" stop-color="#059669"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glow)"/>
+  <circle cx="700" cy="60" r="190" fill="#ffffff" opacity="0.06"/>
+  <circle cx="740" cy="110" r="120" fill="#ffffff" opacity="0.05"/>
+  <circle cx="60" cy="410" r="150" fill="#ffffff" opacity="0.05"/>
+  <circle cx="120" cy="380" r="80" fill="#ffffff" opacity="0.05"/>
+  <g transform="translate(400 150)" fill="none" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M0 26 C-32 5 -36 -17 -21 -25 C-10 -31 -2 -25 0 -18 C2 -25 10 -31 21 -25 C36 -17 32 5 0 26 Z" stroke-width="3.5"/>
+  </g>
+  <text x="400" y="262" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="700" fill="#ffffff" letter-spacing="4">GP</text>
+  <rect x="370" y="288" width="60" height="2.5" rx="1.25" fill="#ffffff" opacity="0.55"/>
+  <text x="400" y="345" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="25" font-weight="600" fill="#ffffff" fill-opacity="0.97"><tspan x="400" dy="0">Verified Nonprofit</tspan></text>
+  <g>
+    <rect x="32" y="30" width="198.79999999999998" height="34" rx="17" fill="#ffffff" opacity="0.14"/>
+    <rect x="32" y="30" width="198.79999999999998" height="34" rx="17" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1"/>
+    <text x="131.39999999999998" y="52" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#ffffff" fill-opacity="0.92" letter-spacing="2.2">VERIFIED NONPROFIT</text>
+  </g>
+  <text x="768" y="428" text-anchor="end" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.55" letter-spacing="1.5">GIVE PROTOCOL</text>
+</svg>

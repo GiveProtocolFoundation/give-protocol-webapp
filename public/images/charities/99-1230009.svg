@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Global Mission International cover image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#1e3a8a"/>
+      <stop offset="0.55" stop-color="#1d4ed8"/>
+      <stop offset="1" stop-color="#2563eb"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glow)"/>
+  <circle cx="700" cy="60" r="190" fill="#ffffff" opacity="0.06"/>
+  <circle cx="740" cy="110" r="120" fill="#ffffff" opacity="0.05"/>
+  <circle cx="60" cy="410" r="150" fill="#ffffff" opacity="0.05"/>
+  <circle cx="120" cy="380" r="80" fill="#ffffff" opacity="0.05"/>
+  <g transform="translate(400 150)" fill="none" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="round" stroke-linejoin="round">
+    <circle cx="0" cy="0" r="24" stroke-width="3.5"/><ellipse cx="0" cy="0" rx="10.5" ry="24" stroke-width="3.5"/><line x1="-24" y1="0" x2="24" y2="0" stroke-width="3.5"/><path d="M-3 -24 C8 -14 8 14 -3 24 M3 -24 C-8 -14 -8 14 3 24" stroke-width="3.5"/>
+  </g>
+  <text x="400" y="262" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="700" fill="#ffffff" letter-spacing="4">GM</text>
+  <rect x="370" y="288" width="60" height="2.5" rx="1.25" fill="#ffffff" opacity="0.55"/>
+  <text x="400" y="345" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="25" font-weight="600" fill="#ffffff" fill-opacity="0.97"><tspan x="400" dy="0">Global Mission International</tspan></text>
+  <g>
+    <rect x="32" y="30" width="155.8" height="34" rx="17" fill="#ffffff" opacity="0.14"/>
+    <rect x="32" y="30" width="155.8" height="34" rx="17" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1"/>
+    <text x="109.9" y="52" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#ffffff" fill-opacity="0.92" letter-spacing="2.2">INTERNATIONAL</text>
+  </g>
+  <text x="768" y="428" text-anchor="end" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.55" letter-spacing="1.5">GIVE PROTOCOL</text>
+</svg>

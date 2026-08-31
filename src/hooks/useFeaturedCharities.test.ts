@@ -83,4 +83,42 @@ describe("useFeaturedCharities", () => {
     expect(result.current.charities).toHaveLength(0);
     expect(result.current.error).toBeNull();
   });
+
+  it("rewrites dead placeholder logo URLs to self-hosted covers", async () => {
+    const rows = [
+      makeRow("99-1230003", {
+        logo_url: "https://picsum.photos/seed/gecn2024/400/300",
+      }),
+      makeRow("99-1230005", {
+        logo_url: "https://fastly.picsum.photos/seed/mac2024/800/600.jpg",
+      }),
+    ];
+    setMockResult("charity_profiles", { data: rows, error: null });
+
+    const { result } = renderHook(() => useFeaturedCharities());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.charities[0].imageUrl).toBe(
+      "/images/charities/99-1230003.svg",
+    );
+    expect(result.current.charities[1].imageUrl).toBe(
+      "/images/charities/99-1230005.svg",
+    );
+  });
+
+  it("keeps healthy logo URLs unchanged", async () => {
+    const rows = [
+      makeRow("12-3456789", { logo_url: "https://example.com/logo.png" }),
+    ];
+    setMockResult("charity_profiles", { data: rows, error: null });
+
+    const { result } = renderHook(() => useFeaturedCharities());
+
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.charities[0].imageUrl).toBe(
+      "https://example.com/logo.png",
+    );
+  });
 });

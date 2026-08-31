@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
+import { resolveCharityImageUrl } from "@/utils/charityAssets";
 
 /** Display shape for a featured charity in the carousel. */
 export interface FeaturedCharity {
@@ -86,7 +87,7 @@ async function loadFeaturedCharities(): Promise<FeaturedCharity[]> {
     name: row.name,
     description: row.mission ?? "",
     category: nteeToCategory(row.ntee_code),
-    imageUrl: row.logo_url ?? "",
+    imageUrl: resolveCharityImageUrl(row.logo_url, row.ein),
     location: row.location !== null ? row.location : undefined,
   }));
 }

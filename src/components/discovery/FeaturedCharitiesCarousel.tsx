@@ -15,6 +15,7 @@ import {
 } from "@/hooks/useFeaturedCharities";
 import { cn } from "@/utils/cn";
 import { useTranslation } from "@/hooks/useTranslation";
+import { DEFAULT_CHARITY_COVER } from "@/utils/charityAssets";
 
 const AUTO_ADVANCE_MS = 6000;
 const CARDS_PER_PAGE = 3;
@@ -29,18 +30,30 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
+/** Cover image that swaps to the branded default cover when loading fails. */
+function CharityCoverImage({ charity }: { charity: FeaturedCharity }) {
+  const [failed, setFailed] = useState(false);
+
+  const handleError = useCallback(() => setFailed(true), []);
+
+  return (
+    <img
+      src={failed ? DEFAULT_CHARITY_COVER : charity.imageUrl}
+      alt={`${charity.name} cover`}
+      loading="lazy"
+      onError={failed ? undefined : handleError}
+      className="absolute inset-0 h-full w-full object-cover"
+    />
+  );
+}
+
 /** Single featured-charity card rendered inside a carousel page. */
 function FeaturedCharityCard({ charity }: { charity: FeaturedCharity }) {
   const { t } = useTranslation();
   return (
     <Card className="flex flex-col h-full overflow-hidden">
       <div className="relative aspect-[16/9] bg-gray-100 dark:bg-gray-800">
-        <img
-          src={charity.imageUrl}
-          alt={`${charity.name} cover`}
-          loading="lazy"
-          className="absolute inset-0 h-full w-full object-cover"
-        />
+        <CharityCoverImage charity={charity} />
         <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/90 dark:bg-gray-900/90 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-full shadow-sm">
           <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
           {t("browse.verified", "Verified")}

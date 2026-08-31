@@ -26,6 +26,7 @@ import { getCharityRecordByEin } from "@/services/charityDataService";
 import type { CharityRecord } from "@/services/charityDataService";
 import type { CharityProfile } from "@/types/charityProfile";
 import { formatNteeCode, getNteeCategory } from "@/utils/nteeMap";
+import { repairCharityImageUrl } from "@/utils/charityAssets";
 import {
   lookupIrsCode,
   formatRulingYear,
@@ -247,6 +248,7 @@ function deriveDisplayData(
   profile: CharityProfile | null,
   charityRecord: CharityRecord | null,
 ): ProfileDisplayData {
+  const ein = profile?.ein ?? charityRecord?.ein ?? null;
   return {
     orgName: profile?.name ?? charityRecord?.name ?? "Unknown Organization",
     location:
@@ -261,10 +263,10 @@ function deriveDisplayData(
     nteeCategory: getNteeCategory(charityRecord?.ntee_cd ?? profile?.ntee_code),
     walletAddress: profile?.wallet_address ?? null,
     walletDesignationStatus: profile?.wallet_designation_status ?? null,
-    bannerImageUrl: profile?.banner_image_url,
-    logoUrl: profile?.logo_url,
-    photo1Url: profile?.photo_1_url,
-    photo2Url: profile?.photo_2_url,
+    bannerImageUrl: repairCharityImageUrl(profile?.banner_image_url, ein),
+    logoUrl: repairCharityImageUrl(profile?.logo_url, ein),
+    photo1Url: repairCharityImageUrl(profile?.photo_1_url, ein),
+    photo2Url: repairCharityImageUrl(profile?.photo_2_url, ein),
     description: profile?.description,
     missionStatement: profile?.mission_statement,
     contactEmail: profile?.contact_email,

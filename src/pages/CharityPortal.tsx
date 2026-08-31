@@ -20,6 +20,7 @@ import { WalletLinkModal } from "@/components/wallet/WalletLinkModal";
 import { useTranslation } from "@/hooks/useTranslation";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
+import { repairCharityImageUrl } from "@/utils/charityAssets";
 import { CharityOnboardingChecklist } from "@/components/charity/CharityOnboardingChecklist";
 import { VerificationStatusBanner } from "@/components/charity/VerificationStatusBanner";
 import { getCharityWalletAddress } from "@/services/charityProfileService";
@@ -524,14 +525,18 @@ export const CharityPortal: React.FC = () => {
     });
     supabase
       .from("charity_profiles")
-      .select("name, logo_url, banner_image_url")
+      .select("ein, name, logo_url, banner_image_url")
       .eq("claimed_by", userId)
       .maybeSingle()
       .then(({ data }) => {
         if (isMountedRef.current) {
           setCharityOrgName(data?.name ?? null);
-          setCharityLogoUrl(data?.logo_url ?? null);
-          setCharityBannerImageUrl(data?.banner_image_url ?? null);
+          setCharityLogoUrl(
+            repairCharityImageUrl(data?.logo_url, data?.ein),
+          );
+          setCharityBannerImageUrl(
+            repairCharityImageUrl(data?.banner_image_url, data?.ein),
+          );
         }
       });
   }, [userId]);

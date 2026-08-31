@@ -6,6 +6,7 @@ import {
 } from "@/components/charity/CharityPageTemplate";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
+import { resolveCharityImageUrl } from "@/utils/charityAssets";
 
 interface CharityRow {
   id: string;
@@ -57,9 +58,6 @@ function nteeToCategory(nteeCode: string | null | undefined): string {
   const major = nteeCode.charAt(0).toUpperCase();
   return NTEE_CATEGORY_MAP[major] ?? "Nonprofit";
 }
-
-const FALLBACK_IMAGE =
-  "https://images.unsplash.com/photo-1536825704610-e570ddf0f4b1?auto=format&fit=crop&w=800";
 
 /**
  * Dynamic charity detail page — loads real charity data from Supabase
@@ -113,7 +111,7 @@ const CharityDetail: React.FC = () => {
           name: row.name,
           description: row.mission ?? "",
           category: nteeToCategory(row.ntee_code),
-          image: row.logo_url ?? FALLBACK_IMAGE,
+          image: resolveCharityImageUrl(row.logo_url, row.ein),
           verified: row.status === "verified",
           country: row.location ?? "United States",
           stats: { totalDonated: 0, donorCount: 0, projectsCompleted: 0 },

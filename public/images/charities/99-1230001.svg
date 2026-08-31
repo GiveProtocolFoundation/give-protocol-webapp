@@ -1,0 +1,31 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="800" height="450" viewBox="0 0 800 450" role="img" aria-label="Bright Futures Education Fund cover image">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#312e81"/>
+      <stop offset="0.55" stop-color="#4f46e5"/>
+      <stop offset="1" stop-color="#6366f1"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="0.5" cy="0.42" r="0.75">
+      <stop offset="0" stop-color="#ffffff" stop-opacity="0.14"/>
+      <stop offset="1" stop-color="#ffffff" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="800" height="450" fill="url(#bg)"/>
+  <rect width="800" height="450" fill="url(#glow)"/>
+  <circle cx="700" cy="60" r="190" fill="#ffffff" opacity="0.06"/>
+  <circle cx="740" cy="110" r="120" fill="#ffffff" opacity="0.05"/>
+  <circle cx="60" cy="410" r="150" fill="#ffffff" opacity="0.05"/>
+  <circle cx="120" cy="380" r="80" fill="#ffffff" opacity="0.05"/>
+  <g transform="translate(400 150)" fill="none" stroke="#ffffff" stroke-opacity="0.9" stroke-linecap="round" stroke-linejoin="round">
+    <path d="M-26 -14 C-26 -22 -18 -26 -10 -22 C-4 -19 -2 -16 0 -12 C2 -16 4 -19 10 -22 C18 -26 26 -22 26 -14 L26 16 C26 20 22 22 18 20 C12 17 6 16 0 20 C-6 16 -12 17 -18 20 C-22 22 -26 20 -26 16 Z M0 -12 L0 20" stroke-width="3.5"/>
+  </g>
+  <text x="400" y="262" text-anchor="middle" font-family="Georgia, 'Times New Roman', serif" font-size="88" font-weight="700" fill="#ffffff" letter-spacing="4">BF</text>
+  <rect x="370" y="288" width="60" height="2.5" rx="1.25" fill="#ffffff" opacity="0.55"/>
+  <text x="400" y="330" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="25" font-weight="600" fill="#ffffff" fill-opacity="0.97"><tspan x="400" dy="0">Bright Futures</tspan><tspan x="400" dy="32">Education Fund</tspan></text>
+  <g>
+    <rect x="32" y="30" width="121.39999999999999" height="34" rx="17" fill="#ffffff" opacity="0.14"/>
+    <rect x="32" y="30" width="121.39999999999999" height="34" rx="17" fill="none" stroke="#ffffff" stroke-opacity="0.35" stroke-width="1"/>
+    <text x="92.69999999999999" y="52" text-anchor="middle" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="14" font-weight="600" fill="#ffffff" fill-opacity="0.92" letter-spacing="2.2">EDUCATION</text>
+  </g>
+  <text x="768" y="428" text-anchor="end" font-family="'Segoe UI', 'Helvetica Neue', Arial, sans-serif" font-size="13" fill="#ffffff" fill-opacity="0.55" letter-spacing="1.5">GIVE PROTOCOL</text>
+</svg>
