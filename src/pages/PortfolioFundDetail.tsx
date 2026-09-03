@@ -43,12 +43,37 @@ function PortfolioHero({
 }
 
 /** Card summarizing one charity that the portfolio fund supports. */
-function FundCharityCard({
+function FundCharityDetails({
   charity,
 }: {
   charity: PortfolioFundCharity;
 }): React.ReactElement {
   const { t } = useTranslation();
+  return (
+    <div className="p-6">
+      <div className="flex items-center mb-2">
+        {charity.verified && (
+          <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+            {t("browse.verified", "Verified")}
+          </span>
+        )}
+        <span className="ml-2 text-sm text-gray-500">
+          {charity.location}
+        </span>
+      </div>
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        {charity.name}
+      </h3>
+      <p className="text-gray-600 line-clamp-3">{charity.mission}</p>
+    </div>
+  );
+}
+
+function FundCharityCard({
+  charity,
+}: {
+  charity: PortfolioFundCharity;
+}): React.ReactElement {
   return (
     <Link to={`/charity/${charity.ein}`}>
       <Card className="overflow-hidden h-full transition-transform hover:scale-[1.02]">
@@ -58,22 +83,7 @@ function FundCharityCard({
           className="w-full h-48 object-cover"
           fallbackSrc={DEFAULT_COVER}
         />
-        <div className="p-6">
-          <div className="flex items-center mb-2">
-            {charity.verified && (
-              <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
-                {t("browse.verified", "Verified")}
-              </span>
-            )}
-            <span className="ml-2 text-sm text-gray-500">
-              {charity.location}
-            </span>
-          </div>
-          <h3 className="text-xl font-semibold text-gray-900 mb-2">
-            {charity.name}
-          </h3>
-          <p className="text-gray-600 line-clamp-3">{charity.mission}</p>
-        </div>
+        <FundCharityDetails charity={charity} />
       </Card>
     </Link>
   );

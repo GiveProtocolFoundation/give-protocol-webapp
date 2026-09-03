@@ -128,7 +128,7 @@ describe("usePortfolioFund", () => {
   });
 
   it("reports not-found without querying when the id is undefined", async () => {
-    const { result } = renderHook(() => usePortfolioFund(undefined));
+    const { result } = renderHook(() => usePortfolioFund());
 
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.fund).toBeNull();
