@@ -67,6 +67,13 @@ function FundCharityDetails({
   );
 }
 
+/**
+ * FundCharityCard component displays a card for a given charity in the portfolio fund.
+ *
+ * @param {object} props - Component props.
+ * @param {PortfolioFundCharity} props.charity - The charity data to render within the card.
+ * @returns {React.ReactElement} The rendered charity card element.
+ */
 function FundCharityCard({
   charity,
 }: {
