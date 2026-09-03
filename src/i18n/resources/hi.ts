@@ -1217,6 +1217,10 @@ export default {
     "browse.funds.charities": "संस्थाएँ",
     "browse.funds.donateCta": "फ़ंड में दान करें",
     "browse.funds.nextAria": "अगले पोर्टफोलियो फ़ंड",
+    "portfolio.notFound.title": "पोर्टफ़ोलियो फ़ंड नहीं मिला",
+    "portfolio.notFound.body":
+      "आप जिस पोर्टफ़ोलियो फ़ंड को खोज रहे हैं वह मौजूद नहीं है या अब सक्रिय नहीं है।",
+    "portfolio.supportedOrgs": "समर्थित संगठन",
     "browse.charity.einLabel": "कर पहचान संख्या",
     "browse.charity.einDisplay": "कर पहचान संख्या: {{value}}",
     "browse.charity.nteeLabel": "क्षेत्र कोड",

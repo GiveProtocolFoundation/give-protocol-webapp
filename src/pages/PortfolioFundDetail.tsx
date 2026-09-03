@@ -1,116 +1,163 @@
-import React from 'react';
-import { useParams } from 'react-router-dom';
-import { CharityCard } from '@/components/charity/CharityCard';
-import { GivingOptionsCard } from '@/components/web3/donation/GivingButtons';
-import { ImpactCalculator } from '@/components/impact/ImpactCalculator';
-import { FloatingSocialSidebar } from '@/components/social/FloatingSocialSidebar';
+import React from "react";
+import { Link, useParams } from "react-router-dom";
+import { Users } from "lucide-react";
+import { Card } from "@/components/ui/Card";
+import { ImageWithFallback } from "@/components/ui/ImageWithFallback";
+import { GivingOptionsCard } from "@/components/web3/donation/GivingButtons";
+import { ImpactCalculator } from "@/components/impact/ImpactCalculator";
+import { FloatingSocialSidebar } from "@/components/social/FloatingSocialSidebar";
+import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { useTranslation } from "@/hooks/useTranslation";
+import {
+  usePortfolioFund,
+  type PortfolioFundCharity,
+  type PortfolioFundDetails,
+} from "@/hooks/usePortfolioFund";
 
-// Sample data - replace with actual API calls
-const SAMPLE_PORTFOLIO = {
-  id: '1',
-  name: 'Environmental Impact Fund',
-  description: 'Supporting climate action and conservation projects across multiple organizations focused on environmental conservation, renewable energy, and sustainable practices.',
-  category: 'Environmental',
-  image: 'https://images.unsplash.com/photo-1498925008800-019c7d59d903?auto=format&fit=crop&w=800'
-};
+const DEFAULT_COVER = "/images/charities/default.jpg";
 
-const SAMPLE_CHARITIES = [
-  {
-    id: '1',
-    name: 'Ocean Conservation Alliance',
-    description: 'Protecting marine ecosystems and promoting sustainable ocean practices',
-    category: 'Environmental',
-    image: 'https://images.unsplash.com/photo-1583212292454-1fe6229603b7?auto=format&fit=crop&w=800',
-    verified: true,
-    country: 'United States',
-    causes: []
-  },
-  {
-    id: '2',
-    name: 'Rainforest Protection Initiative',
-    description: 'Preserving rainforests and supporting indigenous communities',
-    category: 'Environmental',
-    image: 'https://images.unsplash.com/photo-1516026672322-bc52d61a55d5?auto=format&fit=crop&w=800',
-    verified: true,
-    country: 'Brazil',
-    causes: []
-  },
-  {
-    id: '3',
-    name: 'Clean Energy Foundation',
-    description: 'Accelerating the transition to renewable energy sources',
-    category: 'Environmental',
-    image: 'https://images.unsplash.com/photo-1509391366360-2e959784a276?auto=format&fit=crop&w=800',
-    verified: true,
-    country: 'Germany',
-    causes: []
-  },
-  {
-    id: '4',
-    name: 'Wildlife Conservation Trust',
-    description: 'Protecting endangered species and their habitats',
-    category: 'Environmental',
-    image: 'https://images.unsplash.com/photo-1474511320723-9a56873867b5?auto=format&fit=crop&w=800',
-    verified: true,
-    country: 'Kenya',
-    causes: []
-  },
-  {
-    id: '5',
-    name: 'Sustainable Agriculture Project',
-    description: 'Promoting eco-friendly farming practices and food security',
-    category: 'Environmental',
-    image: 'https://images.unsplash.com/photo-1495107334309-fcf20504a5ab?auto=format&fit=crop&w=800',
-    verified: true,
-    country: 'India',
-    causes: []
-  }
-];
-
-/** Hero banner displaying the portfolio fund image, name, and description. */
-function PortfolioHero({ portfolio }: {
-  portfolio: typeof SAMPLE_PORTFOLIO;
+/** Hero banner displaying the portfolio fund cover, name, and description. */
+function PortfolioHero({
+  fund,
+}: {
+  fund: PortfolioFundDetails;
 }): React.ReactElement {
+  const { t } = useTranslation();
   return (
-    <div className="relative h-64 rounded-xl overflow-hidden mb-6 bg-black bg-opacity-40">
-      <img
-        src={portfolio.image}
-        alt={portfolio.name}
+    <div className="relative h-64 rounded-xl overflow-hidden mb-6 bg-gray-900">
+      <ImageWithFallback
+        src={fund.imageUrl || DEFAULT_COVER}
+        alt={`${fund.name} cover`}
         className="w-full h-full object-cover opacity-60"
+        fallbackSrc={DEFAULT_COVER}
       />
-      <div className="absolute bottom-0 left-0 right-0 p-6 text-gray-900">
-        <h1 className="text-3xl font-bold mb-2">{portfolio.name}</h1>
-        <p className="text-lg opacity-90">{portfolio.description}</p>
+      <div className="absolute bottom-0 left-0 right-0 p-6 text-white">
+        <span className="inline-flex items-center gap-1 px-2 py-1 mb-2 bg-white/90 text-emerald-700 text-xs font-medium rounded-full">
+          {t("browse.funds.badge", "Portfolio Fund")}
+        </span>
+        <h1 className="text-3xl font-bold mb-2">{fund.name}</h1>
+        <p className="text-lg opacity-90">{fund.description}</p>
       </div>
     </div>
   );
 }
 
-/** Detail page for a single portfolio fund showing charities and giving options. */
+/** Card summarizing one charity that the portfolio fund supports. */
+function FundCharityDetails({
+  charity,
+}: {
+  charity: PortfolioFundCharity;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div className="p-6">
+      <div className="flex items-center mb-2">
+        {charity.verified && (
+          <span className="px-2 py-1 bg-green-100 text-green-800 text-xs font-medium rounded-full">
+            {t("browse.verified", "Verified")}
+          </span>
+        )}
+        <span className="ml-2 text-sm text-gray-500">{charity.location}</span>
+      </div>
+      <h3 className="text-xl font-semibold text-gray-900 mb-2">
+        {charity.name}
+      </h3>
+      <p className="text-gray-600 line-clamp-3">{charity.mission}</p>
+    </div>
+  );
+}
+
+/**
+ * FundCharityCard component displays a card for a given charity in the portfolio fund.
+ *
+ * @param {object} props - Component props.
+ * @param {PortfolioFundCharity} props.charity - The charity data to render within the card.
+ * @returns {React.ReactElement} The rendered charity card element.
+ */
+function FundCharityCard({
+  charity,
+}: {
+  charity: PortfolioFundCharity;
+}): React.ReactElement {
+  return (
+    <Link to={`/charity/${charity.ein}`}>
+      <Card className="overflow-hidden h-full transition-transform hover:scale-[1.02]">
+        <ImageWithFallback
+          src={charity.imageUrl || DEFAULT_COVER}
+          alt={`${charity.name} cover`}
+          className="w-full h-48 object-cover"
+          fallbackSrc={DEFAULT_COVER}
+        />
+        <FundCharityDetails charity={charity} />
+      </Card>
+    </Link>
+  );
+}
+
+/**
+ * Detail page for a single portfolio fund, loaded from Supabase by route id.
+ * Shows the fund hero, giving options, and every charity it distributes to.
+ * @returns The portfolio fund detail page
+ */
 const PortfolioFundDetail: React.FC = () => {
-  const { id: _id } = useParams<{ id: string }>(); // Prefixed as unused
+  const { id } = useParams<{ id: string }>();
+  const { t } = useTranslation();
+  const { fund, loading, error } = usePortfolioFund(id);
+
+  if (loading) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <LoadingSpinner size="lg" />
+      </div>
+    );
+  }
+
+  if (error !== null || !fund) {
+    return (
+      <div className="flex min-h-screen items-center justify-center">
+        <div className="text-center">
+          <h1 className="text-2xl font-semibold text-gray-900 mb-2">
+            {t("portfolio.notFound.title", "Portfolio Fund Not Found")}
+          </h1>
+          <p className="text-gray-500">
+            {t(
+              "portfolio.notFound.body",
+              "The portfolio fund you are looking for does not exist or is no longer active.",
+            )}
+          </p>
+        </div>
+      </div>
+    );
+  }
+
+  const charityCount = fund.charities.length;
 
   return (
     <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-      <FloatingSocialSidebar title={SAMPLE_PORTFOLIO.name} />
+      <FloatingSocialSidebar title={fund.name} />
       <div className="mb-8">
-        <PortfolioHero portfolio={SAMPLE_PORTFOLIO} />
+        <PortfolioHero fund={fund} />
 
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 mb-8">
-          <ImpactCalculator fundId={SAMPLE_PORTFOLIO.id} fundName={SAMPLE_PORTFOLIO.name} />
-          <GivingOptionsCard charityName={SAMPLE_PORTFOLIO.name} charityAddress={SAMPLE_PORTFOLIO.id} />
+          <ImpactCalculator fundId={fund.id} fundName={fund.name} />
+          <GivingOptionsCard charityName={fund.name} charityAddress={fund.id} />
         </div>
       </div>
 
-      <div>
-        <h2 className="text-2xl font-bold text-gray-900 mb-6">
-          Supported Organizations
-        </h2>
-        <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
-          {SAMPLE_CHARITIES.map((charity) => (
-            <CharityCard key={charity.id} charity={charity} />
-          ))}
-        </div>
+      <h2 className="flex items-center gap-2 text-2xl font-bold text-gray-900 mb-6">
+        {t("portfolio.supportedOrgs", "Supported Organizations")}
+        <span className="inline-flex items-center gap-1 text-sm font-normal text-gray-500">
+          <Users aria-hidden="true" className="h-4 w-4" />
+          {charityCount}{" "}
+          {charityCount === 1
+            ? t("browse.funds.charity", "charity")
+            : t("browse.funds.charities", "charities")}
+        </span>
+      </h2>
+      <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
+        {fund.charities.map((charity) => (
+          <FundCharityCard key={charity.id} charity={charity} />
+        ))}
       </div>
     </div>
   );

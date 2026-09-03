@@ -9,6 +9,12 @@
 --          public/images/charities/ (served at /images/charities/...) instead
 --          of the unreachable picsum.photos placeholder service. Uses real
 --          photography; see public/images/charities/ATTRIBUTION.md for credits.
+--
+-- GIV-937: Seeds causes (STEP 4) and portfolio funds (STEP 5) so the Causes and
+--          Portfolio Funds tabs on /browse have content. Also fixes the charity
+--          UUID literals, which used a 'seed...' prefix — 's' is not a hex digit,
+--          so every run failed with "invalid input syntax for type uuid" and no
+--          seed data was ever written. They now read '5eed...'.
 -- =============================================================================
 
 -- ─────────────────────────────────────────────────────────────────────────────
@@ -92,7 +98,7 @@ INSERT INTO charity_profiles (
 
 -- 1. Education / B
 (
-  'seed0001-0000-0000-0000-000000000001', '99-1230001',
+  '5eed0001-0000-0000-0000-000000000001', '99-1230001',
   'Bright Futures Education Fund',
   'Providing scholarships, tutoring programs, and after-school enrichment to underserved youth in New York City — empowering the next generation through quality education and mentorship.',
   'New York, NY', 'https://brightfuturesedu.example.org',
@@ -110,7 +116,7 @@ INSERT INTO charity_profiles (
 
 -- 2. Health / E
 (
-  'seed0002-0000-0000-0000-000000000002', '99-1230002',
+  '5eed0002-0000-0000-0000-000000000002', '99-1230002',
   'Healing Hearts Health Alliance',
   'Delivering free medical screenings, mental health support, and preventive care to uninsured and underinsured individuals across Maryland — because healthcare is a human right.',
   'Baltimore, MD', 'https://healinghearts.example.org',
@@ -128,7 +134,7 @@ INSERT INTO charity_profiles (
 
 -- 3. Environment / C
 (
-  'seed0003-0000-0000-0000-000000000003', '99-1230003',
+  '5eed0003-0000-0000-0000-000000000003', '99-1230003',
   'Green Earth Conservation Network',
   'Protecting Pacific Northwest ecosystems through habitat restoration, community education, and advocacy for sustainable land and water use practices that ensure a livable future.',
   'Portland, OR', 'https://greenearthconservation.example.org',
@@ -146,7 +152,7 @@ INSERT INTO charity_profiles (
 
 -- 4. Human Services / P
 (
-  'seed0004-0000-0000-0000-000000000004', '99-1230004',
+  '5eed0004-0000-0000-0000-000000000004', '99-1230004',
   'Families First Human Services',
   'Supporting vulnerable families in central Ohio with emergency assistance, job training, childcare subsidies, and wraparound social services that break the cycle of generational poverty.',
   'Columbus, OH', 'https://familiesfirstohio.example.org',
@@ -164,7 +170,7 @@ INSERT INTO charity_profiles (
 
 -- 5. Arts & Culture / A
 (
-  'seed0005-0000-0000-0000-000000000005', '99-1230005',
+  '5eed0005-0000-0000-0000-000000000005', '99-1230005',
   'Metropolitan Arts Council',
   'Fostering creative expression and cultural enrichment in Chicago through grants to local artists, free public performances, and arts education in under-resourced schools across the metro area.',
   'Chicago, IL', 'https://metroartscouncil.example.org',
@@ -182,7 +188,7 @@ INSERT INTO charity_profiles (
 
 -- 6. Food & Nutrition / K
 (
-  'seed0006-0000-0000-0000-000000000006', '99-1230006',
+  '5eed0006-0000-0000-0000-000000000006', '99-1230006',
   'Food Banks United Network',
   'Combating food insecurity across Dallas-Fort Worth by distributing over 2 million meals annually, operating mobile pantries, and advocating for policy changes to permanently end hunger.',
   'Dallas, TX', 'https://foodbanksunited.example.org',
@@ -200,7 +206,7 @@ INSERT INTO charity_profiles (
 
 -- 7. Youth Development / O
 (
-  'seed0007-0000-0000-0000-000000000007', '99-1230007',
+  '5eed0007-0000-0000-0000-000000000007', '99-1230007',
   'Youth Leaders Tomorrow Foundation',
   'Building the next generation of civic leaders through mentorship programs, leadership camps, and college preparation workshops for high school students across the Denver metro area.',
   'Denver, CO', 'https://youthleaderstomorrow.example.org',
@@ -218,7 +224,7 @@ INSERT INTO charity_profiles (
 
 -- 8. Animal Welfare / D
 (
-  'seed0008-0000-0000-0000-000000000008', '99-1230008',
+  '5eed0008-0000-0000-0000-000000000008', '99-1230008',
   'Paws & Claws Animal Rescue',
   'Rescuing abandoned and abused animals in Central Texas, providing veterinary care, rehabilitation, and permanent loving homes through a network of over 300 dedicated foster families.',
   'Austin, TX', 'https://pawsandclawsrescue.example.org',
@@ -236,7 +242,7 @@ INSERT INTO charity_profiles (
 
 -- 9. International / Q
 (
-  'seed0009-0000-0000-0000-000000000009', '99-1230009',
+  '5eed0009-0000-0000-0000-000000000009', '99-1230009',
   'Global Mission International',
   'Delivering humanitarian aid, clean water projects, and sustainable agriculture training to communities in 18 countries — partnering with local organizations to create lasting, self-sufficient change.',
   'Miami, FL', 'https://globalmissionintl.example.org',
@@ -254,7 +260,7 @@ INSERT INTO charity_profiles (
 
 -- 10. Housing / L
 (
-  'seed0010-0000-0000-0000-000000000010', '99-1230010',
+  '5eed0010-0000-0000-0000-000000000010', '99-1230010',
   'Shelter & Hope Housing Initiative',
   'Addressing the homelessness crisis in Seattle by providing transitional housing, case management, and workforce development programs that move people from the streets to stable, permanent homes.',
   'Seattle, WA', 'https://shelterandhope.example.org',
@@ -272,7 +278,7 @@ INSERT INTO charity_profiles (
 
 -- 11. Community Development / S
 (
-  'seed0011-0000-0000-0000-000000000011', '99-1230011',
+  '5eed0011-0000-0000-0000-000000000011', '99-1230011',
   'Neighborworks Community Development',
   'Revitalizing Phoenix neighborhoods through affordable housing construction, small business grants, resident leadership training, and community land trust stewardship for long-term stability.',
   'Phoenix, AZ', 'https://neighborworkspx.example.org',
@@ -290,7 +296,7 @@ INSERT INTO charity_profiles (
 
 -- 12. Mental Health / F
 (
-  'seed0012-0000-0000-0000-000000000012', '99-1230012',
+  '5eed0012-0000-0000-0000-000000000012', '99-1230012',
   'Mental Wellness Support Network',
   'Reducing the stigma of mental illness in Greater Boston through peer support groups, crisis counseling hotlines, and community training programs that build lasting mental health resilience.',
   'Boston, MA', 'https://mentalwellnessnetwork.example.org',
@@ -332,6 +338,202 @@ SELECT
 FROM charity_profiles cp
 WHERE cp.ein LIKE '99-123%';
 
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- STEP 4: Seed causes (one active cause per charity)
+--
+-- GIV-937: /browse?tab=causes reads `causes` WHERE status = 'active'
+-- (see src/hooks/useFeaturedCauses.ts). Without these rows the Causes tab
+-- renders its empty state. charity_id references charity_profiles.id, which
+-- is how useFeaturedCauses resolves the charity name.
+--
+-- Images reuse the self-hosted charity photos under public/images/charities/
+-- (served at /images/charities/...). Do NOT point these at picsum.photos or
+-- unsplash.com — that is exactly what broke featured organizations in GIV-936.
+-- ─────────────────────────────────────────────────────────────────────────────
+
+DELETE FROM causes
+WHERE charity_id IN (SELECT id FROM charity_profiles WHERE ein LIKE '99-123%');
+
+INSERT INTO causes (
+  id, charity_id, name, description, target_amount, raised_amount,
+  category, image_url, impact, timeline, location, partners, status
+)
+SELECT
+  v.id::uuid, cp.id, v.name, v.description,
+  v.target_amount, v.raised_amount,
+  v.category, '/images/charities/' || v.ein || '.jpg', v.impact, v.timeline, v.location, v.partners,
+  'active'
+FROM (VALUES
+  (
+    'c0a5e001-0000-4000-8000-000000000001', '99-1230001',
+    'Scholarships for 500 NYC Students',
+    'Fund a full year of tuition support, books, and one-on-one mentorship for 500 high-school students in underserved New York City neighborhoods. Every scholarship is paired with a volunteer mentor who stays with the student through graduation.',
+    250000.00, 187400.00, 'Education',
+    ARRAY['500 students receive full-year scholarships','Each student is paired with a trained mentor','Books and lab fees covered in full'],
+    'September 2026 – June 2027', 'New York, NY',
+    ARRAY['NYC Department of Education','Reading Partners']
+  ),
+  (
+    'c0a5e002-0000-4000-8000-000000000002', '99-1230002',
+    'Free Mobile Health Screenings',
+    'Put two fully equipped mobile clinics on the road across Baltimore, delivering free blood pressure, diabetes, and cancer screenings to uninsured residents in neighborhoods with no primary care provider within three miles.',
+    180000.00, 96250.00, 'Health',
+    ARRAY['12,000 free screenings per year','Two mobile clinics staffed five days a week','Same-day referral into follow-up care'],
+    'Rolling — year-round', 'Baltimore, MD',
+    ARRAY['Johns Hopkins Community Physicians','Maryland Dept. of Health']
+  ),
+  (
+    'c0a5e003-0000-4000-8000-000000000003', '99-1230003',
+    'Restore 1,000 Acres of Salmon Habitat',
+    'Replant native riparian forest and remove five obsolete culverts along Oregon tributaries to reopen spawning grounds that have been blocked for decades. Restored streambanks cool the water and bring salmon runs back.',
+    420000.00, 312900.00, 'Environment',
+    ARRAY['1,000 acres of riparian habitat restored','Five fish-passage barriers removed','40 miles of spawning stream reopened'],
+    'March 2026 – November 2027', 'Portland, OR',
+    ARRAY['Oregon Watershed Enhancement Board','Native Fish Society']
+  ),
+  (
+    'c0a5e004-0000-4000-8000-000000000004', '99-1230004',
+    'Emergency Rent Assistance Fund',
+    'Keep central Ohio families in their homes with one-time emergency grants that cover back rent and utility arrears, paired with job placement and childcare navigation so the crisis does not repeat next month.',
+    300000.00, 141800.00, 'Human Services',
+    ARRAY['600 families kept out of eviction','Average grant clears three months of arrears','Job placement offered to every household served'],
+    'Rolling — year-round', 'Columbus, OH',
+    ARRAY['Franklin County Job & Family Services','United Way of Central Ohio']
+  ),
+  (
+    'c0a5e005-0000-4000-8000-000000000005', '99-1230005',
+    'Arts Education in 40 Chicago Schools',
+    'Place teaching artists in forty under-resourced Chicago public schools that currently have no arts programming, covering instruments, studio materials, and a weekly residency for the full academic year.',
+    195000.00, 88600.00, 'Arts & Culture',
+    ARRAY['40 schools gain weekly arts instruction','9,000 students reached','Instruments and materials provided at no cost'],
+    'August 2026 – May 2027', 'Chicago, IL',
+    ARRAY['Chicago Public Schools','Ingenuity Inc.']
+  ),
+  (
+    'c0a5e006-0000-4000-8000-000000000006', '99-1230006',
+    'Two Million Meals for North Texas',
+    'Scale mobile pantry routes across Dallas–Fort Worth so that families in food deserts get fresh produce and protein weekly, not just shelf-stable staples. Covers refrigerated transport, warehouse capacity, and driver hours.',
+    500000.00, 388200.00, 'Food & Nutrition',
+    ARRAY['2,000,000 meals distributed annually','30 mobile pantry stops each week','Fresh produce in every distribution'],
+    'Rolling — year-round', 'Dallas, TX',
+    ARRAY['Feeding America','Tarrant Area Food Bank']
+  ),
+  (
+    'c0a5e007-0000-4000-8000-000000000007', '99-1230007',
+    'Summer Leadership Academy',
+    'A six-week paid summer academy for 300 Denver teens combining leadership training, financial literacy, and a stipended internship with a local employer — so a summer of growth does not cost a family its income.',
+    165000.00, 74300.00, 'Youth Development',
+    ARRAY['300 teens complete the academy','Every participant earns a paid stipend','Internship placement with 45 local employers'],
+    'June 2027 – August 2027', 'Denver, CO',
+    ARRAY['Denver Public Schools','Mile High United Way']
+  ),
+  (
+    'c0a5e008-0000-4000-8000-000000000008', '99-1230008',
+    'Spay, Neuter & Rehome 3,000 Animals',
+    'Fund a high-volume spay/neuter clinic and foster network in Austin, cutting shelter intake at the source while covering vaccination, microchipping, and adoption placement for 3,000 dogs and cats.',
+    140000.00, 102450.00, 'Animal Welfare',
+    ARRAY['3,000 animals spayed or neutered','Zero-cost service for low-income owners','Foster network expanded to 200 homes'],
+    'January 2027 – December 2027', 'Austin, TX',
+    ARRAY['Austin Pets Alive!','Emancipet']
+  ),
+  (
+    'c0a5e009-0000-4000-8000-000000000009', '99-1230009',
+    'Clean Water Wells in Rural Communities',
+    'Drill and maintain 60 borehole wells serving rural villages with no safe water source, training a local water committee at each site so repairs happen locally instead of waiting on an outside crew.',
+    360000.00, 219700.00, 'International',
+    ARRAY['60 wells serving 45,000 people','Local water committee trained at every site','Five-year maintenance fund included'],
+    'February 2026 – December 2027', 'Miami, FL',
+    ARRAY['Water Mission','Rotary International']
+  ),
+  (
+    'c0a5e010-0000-4000-8000-000000000010', '99-1230010',
+    'Transitional Housing for 120 Families',
+    'Convert a vacant Seattle building into 120 transitional apartments with on-site case management, moving families out of shelters and vehicles into stable housing with a path to a permanent lease.',
+    750000.00, 402150.00, 'Housing',
+    ARRAY['120 transitional apartments opened','On-site case management for every family','Average stay ends in a permanent lease'],
+    'May 2026 – October 2027', 'Seattle, WA',
+    ARRAY['King County Regional Homelessness Authority','Enterprise Community Partners']
+  ),
+  (
+    'c0a5e011-0000-4000-8000-000000000011', '99-1230011',
+    'Small Business Microloans in Phoenix',
+    'Provide 200 microloans averaging $7,500 to first-time entrepreneurs in Phoenix neighborhoods that banks have written off, bundled with bookkeeping and licensing support through the first year of trading.',
+    220000.00, 118900.00, 'Community Development',
+    ARRAY['200 microloans issued','Business coaching through year one','Focus on women- and minority-owned startups'],
+    'Rolling — year-round', 'Phoenix, AZ',
+    ARRAY['Local First Arizona','Accion Opportunity Fund']
+  ),
+  (
+    'c0a5e012-0000-4000-8000-000000000012', '99-1230012',
+    'Free Teen Counseling Hotline',
+    'Staff a 24/7 counseling line for Boston teens with licensed clinicians instead of volunteers, plus warm handoffs into ongoing therapy for callers who need more than a single conversation.',
+    210000.00, 155600.00, 'Mental Health',
+    ARRAY['24/7 coverage by licensed clinicians','30,000 calls answered per year','Warm handoff into ongoing care'],
+    'Rolling — year-round', 'Boston, MA',
+    ARRAY['Boston Children''s Hospital','NAMI Massachusetts']
+  )
+) AS v(
+  id, ein, name, description, target_amount, raised_amount,
+  category, impact, timeline, location, partners
+)
+JOIN charity_profiles cp ON cp.ein = v.ein;
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- STEP 5: Seed portfolio funds
+--
+-- GIV-937: /browse?tab=funds reads `portfolio_funds` WHERE status = 'active'
+-- (see src/hooks/useFeaturedPortfolioFunds.ts). charity_ids holds
+-- charity_profiles.id values; the carousel shows its length as the charity
+-- count and links to /portfolio/<fund id>.
+-- ─────────────────────────────────────────────────────────────────────────────
+
+DELETE FROM portfolio_funds
+WHERE id IN (
+  'fd000001-0000-4000-8000-000000000001',
+  'fd000002-0000-4000-8000-000000000002',
+  'fd000003-0000-4000-8000-000000000003',
+  'fd000004-0000-4000-8000-000000000004'
+);
+
+INSERT INTO portfolio_funds (id, name, description, category, image_url, charity_ids, status)
+VALUES
+(
+  'fd000001-0000-4000-8000-000000000001',
+  'Environmental Impact Fund',
+  'Supporting climate action and conservation across organizations working on habitat restoration, wildlife protection, and sustainable land use. One donation is split evenly across every charity in the portfolio.',
+  'Environment',
+  '/images/charities/99-1230003.jpg',
+  ARRAY(SELECT id FROM charity_profiles WHERE ein IN ('99-1230003','99-1230008')),
+  'active'
+),
+(
+  'fd000002-0000-4000-8000-000000000002',
+  'Education Impact Fund',
+  'Advancing access to quality learning worldwide — scholarships, arts education, and youth leadership programs bundled into a single portfolio so donors can back the whole pipeline rather than one school.',
+  'Education',
+  '/images/charities/99-1230001.jpg',
+  ARRAY(SELECT id FROM charity_profiles WHERE ein IN ('99-1230001','99-1230005','99-1230007')),
+  'active'
+),
+(
+  'fd000003-0000-4000-8000-000000000003',
+  'Poverty Relief Fund',
+  'Meeting immediate need and building a way out of it: emergency assistance, food security, transitional housing, and neighborhood economic development working together across four verified organizations.',
+  'Human Services',
+  '/images/charities/99-1230004.jpg',
+  ARRAY(SELECT id FROM charity_profiles WHERE ein IN ('99-1230004','99-1230006','99-1230010','99-1230011')),
+  'active'
+),
+(
+  'fd000004-0000-4000-8000-000000000004',
+  'Health & Wellness Fund',
+  'Preventive care, mental health support, and clean water access for communities that have been priced out of all three. Covers screening clinics, crisis counseling, and international water infrastructure.',
+  'Health',
+  '/images/charities/99-1230002.jpg',
+  ARRAY(SELECT id FROM charity_profiles WHERE ein IN ('99-1230002','99-1230009','99-1230012')),
+  'active'
+);
 COMMIT;
 
 -- ─────────────────────────────────────────────────────────────────────────────

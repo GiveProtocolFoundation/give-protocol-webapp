@@ -1207,6 +1207,10 @@ export default {
     "browse.funds.charities": "tổ chức",
     "browse.funds.donateCta": "Quyên góp cho quỹ",
     "browse.funds.nextAria": "Quỹ danh mục tiếp theo",
+    "portfolio.notFound.title": "Không tìm thấy quỹ danh mục",
+    "portfolio.notFound.body":
+      "Quỹ danh mục bạn đang tìm không tồn tại hoặc không còn hoạt động.",
+    "portfolio.supportedOrgs": "Các tổ chức được hỗ trợ",
     "browse.charity.einLabel": "Mã số thuế",
     "browse.charity.einDisplay": "Mã số thuế: {{value}}",
     "browse.charity.nteeLabel": "Mã ngành",

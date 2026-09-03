@@ -37,6 +37,7 @@ const EducationPortfolioDetail = lazy(
 const PovertyPortfolioDetail = lazy(
   () => import("@/pages/portfolio/PovertyPortfolioDetail"),
 );
+const PortfolioFundDetail = lazy(() => import("@/pages/PortfolioFundDetail"));
 const ContributionTracker = lazy(() => import("@/pages/ContributionTracker"));
 const VolunteerOpportunities = lazy(
   () => import("@/pages/VolunteerOpportunities"),
@@ -476,6 +477,18 @@ export function AppRoutes() {
             <RouteTransition>
               <Suspense fallback={<LoadingFallback />}>
                 <PovertyPortfolioDetail />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        {/* Admin-curated portfolio funds loaded from Supabase by id.
+            Declared after the legacy static routes above, which keep priority. */}
+        <Route
+          path="/portfolio/:id"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <PortfolioFundDetail />
               </Suspense>
             </RouteTransition>
           }
