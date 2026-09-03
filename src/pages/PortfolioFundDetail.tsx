@@ -57,9 +57,7 @@ function FundCharityDetails({
             {t("browse.verified", "Verified")}
           </span>
         )}
-        <span className="ml-2 text-sm text-gray-500">
-          {charity.location}
-        </span>
+        <span className="ml-2 text-sm text-gray-500">{charity.location}</span>
       </div>
       <h3 className="text-xl font-semibold text-gray-900 mb-2">
         {charity.name}
