@@ -1251,7 +1251,8 @@ export default {
     "browse.funds.donateCta": "Donar al Fondo",
     "browse.funds.nextAria": "Siguientes fondos de portafolio",
     "portfolio.notFound.title": "Fondo de portafolio no encontrado",
-    "portfolio.notFound.body": "El fondo de portafolio que buscas no existe o ya no está activo.",
+    "portfolio.notFound.body":
+      "El fondo de portafolio que buscas no existe o ya no está activo.",
     "portfolio.supportedOrgs": "Organizaciones apoyadas",
     "browse.charity.einLabel": "ID fiscal",
     "browse.charity.einDisplay": "ID fiscal: {{value}}",

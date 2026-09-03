@@ -113,7 +113,9 @@ async function loadPortfolioFund(
  * @param id - Portfolio fund UUID from the route params
  * @returns The fund detail record with loading and error state
  */
-export function usePortfolioFund(id: string | undefined): UsePortfolioFundReturn {
+export function usePortfolioFund(
+  id: string | undefined,
+): UsePortfolioFundReturn {
   const [fund, setFund] = useState<PortfolioFundDetails | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);

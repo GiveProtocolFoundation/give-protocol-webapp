@@ -37,9 +37,7 @@ const EducationPortfolioDetail = lazy(
 const PovertyPortfolioDetail = lazy(
   () => import("@/pages/portfolio/PovertyPortfolioDetail"),
 );
-const PortfolioFundDetail = lazy(
-  () => import("@/pages/PortfolioFundDetail"),
-);
+const PortfolioFundDetail = lazy(() => import("@/pages/PortfolioFundDetail"));
 const ContributionTracker = lazy(() => import("@/pages/ContributionTracker"));
 const VolunteerOpportunities = lazy(
   () => import("@/pages/VolunteerOpportunities"),

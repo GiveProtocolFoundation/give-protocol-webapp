@@ -1184,7 +1184,8 @@ export default {
     "browse.funds.donateCta": "펀드에 기부하기",
     "browse.funds.nextAria": "다음 포트폴리오 펀드",
     "portfolio.notFound.title": "포트폴리오 펀드를 찾을 수 없습니다",
-    "portfolio.notFound.body": "찾으시는 포트폴리오 펀드가 존재하지 않거나 더 이상 활성 상태가 아닙니다.",
+    "portfolio.notFound.body":
+      "찾으시는 포트폴리오 펀드가 존재하지 않거나 더 이상 활성 상태가 아닙니다.",
     "portfolio.supportedOrgs": "지원 단체",
     "browse.charity.einLabel": "납세자 번호",
     "browse.charity.einDisplay": "납세자 번호: {{value}}",

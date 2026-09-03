@@ -1503,7 +1503,8 @@ export default {
     "browse.funds.donateCta": "Donate to Fund",
     "browse.funds.nextAria": "Next portfolio funds",
     "portfolio.notFound.title": "Portfolio Fund Not Found",
-    "portfolio.notFound.body": "The portfolio fund you are looking for does not exist or is no longer active.",
+    "portfolio.notFound.body":
+      "The portfolio fund you are looking for does not exist or is no longer active.",
     "portfolio.supportedOrgs": "Supported Organizations",
     "browse.charity.einLabel": "Tax ID",
     "browse.charity.einDisplay": "Tax ID: {{value}}",

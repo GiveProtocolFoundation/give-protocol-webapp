@@ -1213,7 +1213,8 @@ export default {
     "browse.funds.donateCta": "ファンドに寄付",
     "browse.funds.nextAria": "次のポートフォリオファンド",
     "portfolio.notFound.title": "ポートフォリオファンドが見つかりません",
-    "portfolio.notFound.body": "お探しのポートフォリオファンドは存在しないか、現在有効ではありません。",
+    "portfolio.notFound.body":
+      "お探しのポートフォリオファンドは存在しないか、現在有効ではありません。",
     "portfolio.supportedOrgs": "支援団体",
     "browse.charity.einLabel": "納税者番号",
     "browse.charity.einDisplay": "納税者番号: {{value}}",

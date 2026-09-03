@@ -1178,7 +1178,8 @@ export default {
     "browse.funds.donateCta": "التبرع للصندوق",
     "browse.funds.nextAria": "صناديق المحافظ التالية",
     "portfolio.notFound.title": "صندوق المحفظة غير موجود",
-    "portfolio.notFound.body": "صندوق المحفظة الذي تبحث عنه غير موجود أو لم يعد نشطًا.",
+    "portfolio.notFound.body":
+      "صندوق المحفظة الذي تبحث عنه غير موجود أو لم يعد نشطًا.",
     "portfolio.supportedOrgs": "المنظمات المدعومة",
     "browse.charity.einLabel": "الرقم الضريبي",
     "browse.charity.einDisplay": "الرقم الضريبي: {{value}}",

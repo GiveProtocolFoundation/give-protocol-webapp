@@ -1200,7 +1200,8 @@ export default {
     "browse.funds.donateCta": "บริจาคให้กองทุน",
     "browse.funds.nextAria": "กองทุนพอร์ตโฟลิโอถัดไป",
     "portfolio.notFound.title": "ไม่พบกองทุนพอร์ตโฟลิโอ",
-    "portfolio.notFound.body": "กองทุนพอร์ตโฟลิโอที่คุณกำลังค้นหาไม่มีอยู่หรือไม่ได้ใช้งานแล้ว",
+    "portfolio.notFound.body":
+      "กองทุนพอร์ตโฟลิโอที่คุณกำลังค้นหาไม่มีอยู่หรือไม่ได้ใช้งานแล้ว",
     "portfolio.supportedOrgs": "องค์กรที่ได้รับการสนับสนุน",
     "browse.charity.einLabel": "เลขประจำตัวผู้เสียภาษี",
     "browse.charity.einDisplay": "เลขประจำตัวผู้เสียภาษี: {{value}}",
