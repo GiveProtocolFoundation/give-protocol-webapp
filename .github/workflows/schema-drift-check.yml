@@ -5,6 +5,9 @@ on:
     - cron: '0 0 * * *' # Daily at midnight UTC
   workflow_dispatch:
 
+permissions:
+  contents: read
+
 jobs:
   check-schema-drift:
     name: Check Schema Drift (${{ matrix.environment }})
