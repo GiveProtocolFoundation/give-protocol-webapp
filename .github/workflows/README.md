@@ -171,3 +171,27 @@ To manually trigger a workflow:
   - No auto-repair—manual triage is required to maintain a clear audit trail.
 - **Required Secrets**:
   - `SUPABASE_ACCESS_TOKEN` - To authenticate the Supabase CLI and allow `db dump` to execute.
+
+### 5. Database Deploy (`database-deploy.yml`) — GIV-937
+
+- **Triggers**: Manual dispatch only
+- **Purpose**: Apply Supabase migrations and seed data to a hosted project. Nothing else in CI writes to a database — merging to `main` never mutates one.
+- **Safety model**:
+  - `workflow_dispatch` only, gated on a GitHub Environment so a reviewer approves each run
+  - **Defaults to a dry run** — `dry_run` must be unchecked deliberately to write anything
+  - A migration-history preflight (`scripts/ci/migration-preflight.sh`) runs first and aborts unless the remote history is *in-sync* or cleanly *ahead*. It refuses when history is empty, has gaps, or records migrations absent from the repo — the cases where `supabase db push` would replay old migrations against a live schema
+  - `concurrency` serialises runs per environment and never cancels one midway
+  - The dry run prints every `INSERT`/`DELETE`/`DDL` statement the chosen seed contains, so a reviewer sees destructive statements before approving
+  - After applying, it verifies `causes` and `portfolio_funds` are non-empty and fails the job if a seed silently wrote nothing
+- **Inputs**:
+  - `environment` — `staging` or `production`
+  - `dry_run` — report without writing (default **true**)
+  - `apply_migrations` — run `supabase db push` (default true)
+  - `seed` — `none` (default), `causes-and-funds`, or `full-charity-seed`
+  - `allow_full_replay` — override the empty-history refusal. Only correct for a genuinely fresh project
+- **Seed options**:
+  - `causes-and-funds` → `supabase/seed_causes_and_funds.sql`. Additive: writes only `causes` and `portfolio_funds`, joins charities by EIN, safe against a database that already holds charity data. This is what populates `/browse?tab=causes` and `?tab=funds`.
+  - `full-charity-seed` → `supabase/seed.sql`. **Destructive**: DELETEs and recreates `charity_profiles` / `charity_organizations` rows with EIN like `99-123%` under fixed UUIDs, discarding their existing ids and any `claimed_by` / `verified_at` state. Fresh or disposable projects only.
+- **Required Secrets** (scoped per GitHub Environment, not repo-wide):
+  - `SUPABASE_DB_URL` — Postgres connection string for that project, percent-encoded. Dashboard → Project Settings → Database → Connection string → URI. Use the **direct (non-pooler)** URI; the session pooler cannot run DDL transactions.
+- **First run**: dispatch against `staging` with the defaults (dry run, `seed: none`) to read the preflight's report of the remote migration state before changing anything.
