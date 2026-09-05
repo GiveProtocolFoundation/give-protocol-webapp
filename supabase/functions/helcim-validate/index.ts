@@ -364,14 +364,6 @@ serve(async (req: Request) => {
     return new Response("ok", { headers: corsHeaders });
   }
 
-/**
- * Parse and structurally validate the request body.
- * @returns The validated request, or a Response describing the failure.
- */
-async function parseAndValidateBody(
-  req: Request,
-): Promise<ValidateRequest | Response> {
-  let body: unknown;
   try {
     // Only allow POST requests
     if (req.method !== "POST") {
@@ -446,7 +438,6 @@ async function parseAndValidateBody(
       body.transactionData,
       session.secret_token,
     );
-  }
 
     if (computedHash !== body.hash) {
       console.error("Hash validation failed", {

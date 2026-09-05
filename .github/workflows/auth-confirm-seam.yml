@@ -167,17 +167,37 @@ jobs:
 
       # On scheduled runs, create a GitHub issue if the run fails.
       # This ensures failures in off-PR runs are not silently swallowed.
+      #
+      # GIV-945 hardening after runs 33864924559/33888060191: both scheduled
+      # runs failed at `npm ci` (tiptap peer-dep ERESOLVE, fixed in PR #587),
+      # yet the auto-issues claimed an auth-chain break and asked reviewers to
+      # chase Supabase config. The step now (1) detects whether the spec step
+      # actually ran and says so in the title/body, and (2) reuses today's
+      # still-open issue for the same failure mode instead of stacking
+      # duplicates (run 33888060191 opened three separate issues).
       - name: Create failure issue on scheduled run
         if: failure() && github.event_name == 'schedule'
         uses: actions/github-script@v7
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            await github.rest.issues.create({
+            const date = new Date().toISOString().slice(0,10);
+
+            // Did the spec step actually run? If the job died earlier
+            // (install/build/preflight), this is an infra failure, not an
+            // auth-chain regression.
+            const jobs = await github.rest.actions.listJobsForWorkflowRun({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `[AUTO] Auth confirm seam E2E failed — ${new Date().toISOString().slice(0,10)}`,
-              body: [
+              run_id: context.runId,
+            });
+            const job = jobs.data.jobs.find(j => j.name === 'Auth confirm seam E2E');
+            const specStep = job?.steps?.find(s => s.name === 'Run auth confirm seam spec');
+            const specRan = specStep?.status === 'completed' && specStep?.conclusion !== 'skipped';
+
+            const [title, body, labels] = specRan ? [
+              `[AUTO] Auth confirm seam E2E failed — ${date}`,
+              [
                 '## Auth confirm seam check failed',
                 '',
                 'The scheduled GIV-921 E2E run detected a broken link in the auth chain.',
@@ -192,8 +212,54 @@ jobs:
                 '',
                 'This issue was opened automatically by the `auth-confirm-seam` workflow.',
               ].join('\n'),
-              labels: ['bug', 'auth', 'e2e'],
+              ['bug', 'auth', 'e2e'],
+            ] : [
+              `[AUTO] Auth E2E job failed before the spec ran — ${date}`,
+              [
+                '## Auth confirm seam E2E job failed before the spec ran',
+                '',
+                'The scheduled GIV-921 job never reached the "Run auth confirm seam spec" step,',
+                'so this is **not** evidence of an auth-chain regression. The failure happened',
+                'during setup (checkout / Node / `npm ci` / build / preflight), which usually',
+                'means a dependency or lockfile problem on `main`.',
+                '',
+                `**Run:** ${runUrl}`,
+                '',
+                '### What to check',
+                '- Open the run log and find the first red step (commonly `npm ci` failing with ERESOLVE)',
+                '- If dependencies failed to install, check recent dependency/lockfile changes on `main`',
+                '- Do **not** chase Supabase/Resend config unless the spec step itself failed',
+                '',
+                'This issue was opened automatically by the `auth-confirm-seam` workflow.',
+              ].join('\n'),
+              ['bug', 'dependencies'],
+            ];
+
+            // Reuse today's still-open issue for this failure mode instead of
+            // stacking duplicate issues for every failed run.
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
             });
+            const dupe = existing.data.find(i => i.title === title);
+            if (dupe) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: dupe.number,
+                body: `Scheduled run failed again with the same failure mode: ${runUrl}`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels,
+              });
+            }
 
   # ------------------------------------------------------------------
   # GIV-931: Fast HTTP-level signup smoke test (no browser, no build).
@@ -237,11 +303,24 @@ jobs:
         with:
           script: |
             const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            await github.rest.issues.create({
+            const date = new Date().toISOString().slice(0,10);
+
+            // Did the spec step actually run? If the job died at install,
+            // this is an infra/deps failure, not a signup regression.
+            // (GIV-945: runs 33864924559/33888060191 failed at `npm ci` but
+            // the auto-issues told reviewers to check Supabase secrets.)
+            const jobs = await github.rest.actions.listJobsForWorkflowRun({
               owner: context.repo.owner,
               repo: context.repo.repo,
-              title: `[AUTO] Auth signup smoke test failed — ${new Date().toISOString().slice(0,10)}`,
-              body: [
+              run_id: context.runId,
+            });
+            const job = jobs.data.jobs.find(j => j.name === 'Auth signup smoke (password path)');
+            const specStep = job?.steps?.find(s => s.name === 'Run signup smoke spec');
+            const specRan = specStep?.status === 'completed' && specStep?.conclusion !== 'skipped';
+
+            const [title, body, labels] = specRan ? [
+              `[AUTO] Auth signup smoke test failed — ${date}`,
+              [
                 '## Auth signup smoke test failed',
                 '',
                 'The scheduled GIV-931 smoke test detected that password-based signups are failing.',
@@ -258,5 +337,52 @@ jobs:
                 '',
                 'This issue was opened automatically by the `auth-confirm-seam` workflow.',
               ].join('\n'),
-              labels: ['bug', 'auth', 'critical'],
+              ['bug', 'auth', 'critical'],
+            ] : [
+              `[AUTO] Auth smoke job failed before the spec ran — ${date}`,
+              [
+                '## Auth signup smoke job failed before the spec ran',
+                '',
+                'The scheduled GIV-931 job never reached the "Run signup smoke spec" step,',
+                'so this is **not** evidence of a signup/auth regression. The failure happened',
+                'during setup (checkout / Node / `npm ci`), which usually means a dependency',
+                'or lockfile problem on `main`.',
+                '',
+                `**Run:** ${runUrl}`,
+                '',
+                '### What to check',
+                '- Open the run log and find the first red step (commonly `npm ci` failing with ERESOLVE)',
+                '- If dependencies failed to install, check recent dependency/lockfile changes on `main`',
+                '- Do **not** chase Supabase/Resend secrets unless the spec step itself failed',
+                '',
+                'This issue was opened automatically by the `auth-confirm-seam` workflow.',
+              ].join('\n'),
+              ['bug', 'dependencies'],
+            ];
+
+            // Reuse today's still-open issue for this failure mode instead of
+            // stacking duplicate issues for every failed run (run 33888060191
+            // opened three separate issues for one failure).
+            const existing = await github.rest.issues.listForRepo({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              per_page: 100,
             });
+            const dupe = existing.data.find(i => i.title === title);
+            if (dupe) {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: dupe.number,
+                body: `Scheduled run failed again with the same failure mode: ${runUrl}`,
+              });
+            } else {
+              await github.rest.issues.create({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                title,
+                body,
+                labels,
+              });
+            }
