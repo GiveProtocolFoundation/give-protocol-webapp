@@ -2,59 +2,17 @@
 -- Give Protocol — Causes + Portfolio Funds seed (ADDITIVE, production-safe)
 -- GIV-937
 --
--- USAGE: Paste this entire file into the Supabase SQL Editor and click Run.
---        Safe to re-run: it replaces only the rows it owns.
+-- Paste the whole file into the Supabase SQL Editor and Run.
 --
--- WHY THIS FILE EXISTS, SEPARATE FROM seed.sql
---   seed.sql begins by DELETE-ing and re-INSERT-ing charity_profiles /
---   charity_organizations with fixed UUID literals ('5eed...'). Charities that
---   already live in a deployed database have their own gen_random_uuid() ids,
---   so running seed.sql there would delete those rows, recreate them under new
---   ids, and drop any claimed_by / verified_at state they had picked up —
---   orphaning anything that referenced the old ids.
+-- Writes ONLY `causes` and `portfolio_funds`. Never touches charity_profiles
+-- or charity_organizations — charities are matched by EIN, so their existing
+-- ids, claimed_by and verified_at are untouched. Safe to re-run.
 --
---   This file never touches charity_profiles or charity_organizations. It reads
---   them (by EIN) and only writes `causes` and `portfolio_funds`, so it is safe
---   to run against a database that already has charity data.
---
--- PREREQUISITES
---   - The seeded test charities (EIN 99-1230001 .. 99-1230012) exist in
---     charity_profiles. Rows are matched by EIN, whatever their id.
---   - Tables `causes` and `portfolio_funds` exist. If not, apply migrations
---     20251128000000_create_causes_table.sql and
---     20260426000000_create_portfolio_funds_table.sql first.
---
--- WHAT THE APP DOES WITH THESE ROWS
---   /browse?tab=causes -> src/hooks/useFeaturedCauses.ts  (causes, status='active')
---   /browse?tab=funds  -> src/hooks/useFeaturedPortfolioFunds.ts
---                                        (portfolio_funds, status='active')
---
--- Images reference the self-hosted covers under public/images/charities/
--- (served at /images/charities/...). Never point these at picsum.photos or
--- unsplash.com — dead placeholder hosts are what broke featured orgs in GIV-936.
+-- No dollar-quoted blocks and no escaped apostrophes, so the SQL Editor's
+-- statement splitter cannot break a string literal partway through.
 -- =============================================================================
 
 BEGIN;
-
--- ─────────────────────────────────────────────────────────────────────────────
--- Guard: stop early with a clear message if the charities are missing, rather
--- than silently inserting nothing and leaving the tabs empty.
--- ─────────────────────────────────────────────────────────────────────────────
-DO $$
-DECLARE
-  found INTEGER;
-BEGIN
-  SELECT count(*) INTO found
-  FROM charity_profiles
-  WHERE ein LIKE '99-123%';
-
-  IF found = 0 THEN
-    RAISE EXCEPTION
-      'No charity_profiles rows with EIN like 99-123%% were found. Seed the test charities first (supabase/seed.sql STEP 2), then re-run this file.';
-  END IF;
-
-  RAISE NOTICE 'Found % seeded charity profiles to attach causes and funds to.', found;
-END $$;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- STEP 1: Causes — one active cause per seeded charity
@@ -181,7 +139,7 @@ FROM (VALUES
     210000.00, 155600.00, 'Mental Health',
     ARRAY['24/7 coverage by licensed clinicians','30,000 calls answered per year','Warm handoff into ongoing care'],
     'Rolling — year-round', 'Boston, MA',
-    ARRAY['Boston Children''s Hospital','NAMI Massachusetts']
+    ARRAY['Boston Childrens Hospital','NAMI Massachusetts']
   )
 ) AS v(
   ein, name, description, target_amount, raised_amount,
