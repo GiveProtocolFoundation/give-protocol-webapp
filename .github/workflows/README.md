@@ -191,6 +191,7 @@ To manually trigger a workflow:
   - `allow_full_replay` — override the empty-history refusal. Only correct for a genuinely fresh project
 - **Seed options**:
   - `causes-and-funds` → `supabase/seed_causes_and_funds.sql`. Additive: writes only `causes` and `portfolio_funds`, joins charities by EIN, safe against a database that already holds charity data. This is what populates `/browse?tab=causes` and `?tab=funds`.
+    - **Running a seed by hand instead?** In the Supabase SQL Editor, run it **without RLS**. "With RLS" executes as the anon/authenticated role, which both mangles quoting partway through the file (producing a confusing error that names a word from inside a string literal) and would be denied by policy anyway — `causes` requires a matching `auth.uid()`, `portfolio_funds` requires an admin profile. This workflow is unaffected: it runs `psql` directly against `SUPABASE_DB_URL`, with no RLS wrapper.
   - `full-charity-seed` → `supabase/seed.sql`. **Destructive**: DELETEs and recreates `charity_profiles` / `charity_organizations` rows with EIN like `99-123%` under fixed UUIDs, discarding their existing ids and any `claimed_by` / `verified_at` state. Fresh or disposable projects only.
 - **Required Secrets** (scoped per GitHub Environment, not repo-wide):
   - `SUPABASE_DB_URL` — Postgres connection string for that project, percent-encoded. Dashboard → Project Settings → Database → Connection string → URI. Use the **direct (non-pooler)** URI; the session pooler cannot run DDL transactions.

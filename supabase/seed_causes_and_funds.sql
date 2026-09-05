@@ -1,15 +1,34 @@
 -- =============================================================================
--- Give Protocol — Causes + Portfolio Funds seed (ADDITIVE, production-safe)
+-- Give Protocol - Causes + Portfolio Funds seed (ADDITIVE, production-safe)
 -- GIV-937
 --
--- Paste the whole file into the Supabase SQL Editor and Run.
+-- HOW TO RUN IN THE SUPABASE SQL EDITOR
+--   Paste the whole file, then Run it WITHOUT RLS.
 --
--- Writes ONLY `causes` and `portfolio_funds`. Never touches charity_profiles
--- or charity_organizations — charities are matched by EIN, so their existing
--- ids, claimed_by and verified_at are untouched. Safe to re-run.
+--   The editor asks whether to run with or without RLS. "With RLS" executes as
+--   the anon / authenticated role, which fails twice over:
+--     1. The editor wraps the statements to impose the role, and that wrapping
+--        breaks quoting partway through the file. The symptom is a baffling
+--        error naming a word from inside a string literal, e.g.
+--        ERROR: 42P01: relation "follow" does not exist
+--        which comes from the text "referral into follow-up care".
+--     2. Even parsed correctly, the inserts would be denied: causes requires a
+--        matching auth.uid() and portfolio_funds requires an admin profile.
+--   A seed script is privileged work, so run it without RLS.
 --
--- No dollar-quoted blocks and no escaped apostrophes, so the SQL Editor's
--- statement splitter cannot break a string literal partway through.
+--   Applying it through .github/workflows/database-deploy.yml is unaffected -
+--   that runs psql directly against SUPABASE_DB_URL, with no RLS wrapper.
+--
+-- WHAT IT WRITES
+--   ONLY the causes and portfolio_funds tables. It never touches
+--   charity_profiles or charity_organizations - charities are matched by EIN,
+--   so their existing ids, claimed_by and verified_at are left alone.
+--   Safe to re-run: it replaces only the rows it owns.
+--
+-- STYLE CONSTRAINT
+--   Keep comments free of apostrophes and avoid dollar-quoted blocks. A client
+--   that tracks quotes without skipping comments desyncs on a lone apostrophe
+--   and corrupts every string literal after it.
 -- =============================================================================
 
 BEGIN;
