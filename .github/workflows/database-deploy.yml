@@ -1,0 +1,296 @@
+name: Database Deploy
+
+# Applies Supabase migrations and seed data to a hosted project.
+#
+# Manual dispatch only, and gated behind a GitHub Environment so a reviewer
+# approves each run — nothing merged to main can mutate a live database on its
+# own. Defaults to a dry run: you have to deliberately turn that off to write.
+#
+# Required secrets, scoped to each GitHub Environment (Settings → Environments):
+#   SUPABASE_DB_URL  Postgres connection string for that project, percent-encoded.
+#                    Supabase Dashboard → Project Settings → Database →
+#                    Connection string → URI. Use the direct (non-pooler) URI:
+#                    the session pooler cannot run DDL transactions.
+#
+# Set each environment's protection rules to require a reviewer before its jobs
+# run. Without that, "manual dispatch" still means any user with write access
+# can deploy unreviewed.
+
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: "Target environment (must exist under Settings → Environments)"
+        type: choice
+        required: true
+        options:
+          - staging
+          - production
+        default: staging
+      dry_run:
+        description: "Dry run — report what would change without writing"
+        type: boolean
+        required: true
+        default: true
+      apply_migrations:
+        description: "Apply pending migrations (supabase db push)"
+        type: boolean
+        required: true
+        default: true
+      seed:
+        description: "Seed data to apply"
+        type: choice
+        required: true
+        options:
+          - none
+          - causes-and-funds
+          - full-charity-seed
+        default: none
+      allow_full_replay:
+        description: "DANGER: allow pushing the entire migration history to a project with no recorded history. Only for a genuinely fresh project."
+        type: boolean
+        required: false
+        default: false
+
+permissions:
+  contents: read
+
+# One database deploy at a time per environment; never cancel one midway.
+concurrency:
+  group: database-deploy-${{ inputs.environment }}
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    name: "${{ inputs.dry_run && 'Dry run' || 'Deploy' }} → ${{ inputs.environment }}"
+    runs-on: ubuntu-latest
+    environment: ${{ inputs.environment }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Verify connection string is configured
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          if [ -z "${SUPABASE_DB_URL:-}" ]; then
+            echo "::error::SUPABASE_DB_URL is not set for the '${{ inputs.environment }}' environment."
+            echo "Add it under Settings → Environments → ${{ inputs.environment }} → Environment secrets."
+            exit 1
+          fi
+          echo "Connection string is present."
+
+      - name: Record run parameters
+        run: |
+          {
+            echo "## Database deploy — ${{ inputs.environment }}"
+            echo
+            echo "| Setting | Value |"
+            echo "| --- | --- |"
+            echo "| Mode | ${{ inputs.dry_run && '**dry run** (no writes)' || '**APPLY** (writes to the database)' }} |"
+            echo "| Migrations | ${{ inputs.apply_migrations }} |"
+            echo "| Seed | \`${{ inputs.seed }}\` |"
+            echo "| Full replay allowed | ${{ inputs.allow_full_replay }} |"
+            echo "| Commit | \`${GITHUB_SHA:0:7}\` |"
+            echo "| Actor | @${GITHUB_ACTOR} |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ── Safety gate ────────────────────────────────────────────────────────
+      # supabase db push applies every migration not recorded remotely. If the
+      # remote history is empty or has gaps, that means replaying old migrations
+      # against a live schema. Refuse unless a human has said otherwise.
+      - name: Preflight — migration history
+        id: preflight
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          ALLOW_FULL_REPLAY: ${{ inputs.allow_full_replay }}
+        run: |
+          set -o pipefail
+          supabase migration list --db-url "$SUPABASE_DB_URL" > migration-list.json 2>&1 || {
+            echo "::error::Could not read migration history. Check SUPABASE_DB_URL (use the direct connection URI, percent-encoded)."
+            sed -e "s#$SUPABASE_DB_URL#<redacted>#g" migration-list.json | tail -20
+            exit 1
+          }
+
+          set +e
+          ./scripts/ci/migration-preflight.sh migration-list.json | tee preflight.txt
+          status=${PIPESTATUS[0]}
+          set -e
+
+          {
+            echo
+            echo "### Migration history preflight"
+            echo '```'
+            cat preflight.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "$status" -ne 0 ]; then
+            echo "::error::Migration history preflight failed (exit $status). No changes were made."
+            exit "$status"
+          fi
+
+      - name: Show pending migrations (always a dry run)
+        if: inputs.apply_migrations
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -o pipefail
+          supabase db push --db-url "$SUPABASE_DB_URL" --dry-run 2>&1 \
+            | sed -e "s#$SUPABASE_DB_URL#<redacted>#g" \
+            | tee push-plan.txt
+          {
+            echo
+            echo "### Migrations that would be applied"
+            echo '```'
+            tail -40 push-plan.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apply migrations
+        if: ${{ !inputs.dry_run && inputs.apply_migrations }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -o pipefail
+          supabase db push --db-url "$SUPABASE_DB_URL" 2>&1 \
+            | sed -e "s#$SUPABASE_DB_URL#<redacted>#g"
+
+      # ── Seed data ──────────────────────────────────────────────────────────
+      # causes-and-funds is additive: it writes only `causes` and
+      # `portfolio_funds` and joins charities by EIN, so it is safe against a
+      # database that already holds charity data.
+      #
+      # full-charity-seed runs supabase/seed.sql, which DELETEs and recreates
+      # the 99-123% charity rows under fixed UUIDs. That discards their existing
+      # ids and any claimed_by / verified_at state. Intended for a fresh or
+      # disposable project only.
+      - name: Resolve seed file
+        if: inputs.seed != 'none'
+        id: seedfile
+        run: |
+          case "${{ inputs.seed }}" in
+            causes-and-funds)   f="supabase/seed_causes_and_funds.sql" ;;
+            full-charity-seed)  f="supabase/seed.sql" ;;
+            *) echo "::error::Unknown seed option '${{ inputs.seed }}'"; exit 1 ;;
+          esac
+          if [ ! -f "$f" ]; then
+            echo "::error::Seed file $f not found at this commit."
+            exit 1
+          fi
+          echo "path=$f" >> "$GITHUB_OUTPUT"
+          echo "Seed file: $f"
+
+      - name: Warn on destructive seed
+        if: ${{ inputs.seed == 'full-charity-seed' && !inputs.dry_run }}
+        run: |
+          {
+            echo
+            echo "> [!WARNING]"
+            echo "> \`full-charity-seed\` runs \`supabase/seed.sql\`, which DELETEs and recreates"
+            echo "> charity_profiles / charity_organizations rows with EIN like \`99-123%\` under"
+            echo "> fixed UUIDs. Existing ids and any claimed_by / verified_at state on those rows"
+            echo "> are lost, orphaning anything that referenced them."
+          } >> "$GITHUB_STEP_SUMMARY"
+          echo "::warning::Applying the destructive full charity seed to ${{ inputs.environment }}."
+
+      - name: Show seed plan (dry run)
+        if: ${{ inputs.dry_run && inputs.seed != 'none' }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SEED_FILE: ${{ steps.seedfile.outputs.path }}
+        run: |
+          echo "Would apply $SEED_FILE to ${{ inputs.environment }}."
+          echo "Statements it contains:"
+          grep -nE "^\s*(INSERT INTO|DELETE FROM|UPDATE|CREATE TABLE|ALTER TABLE|DROP)" "$SEED_FILE" \
+            | sed -e 's/^/  /' | head -40
+          {
+            echo
+            echo "### Seed plan — \`$SEED_FILE\` (not applied)"
+            echo '```sql'
+            grep -nE "^\s*(INSERT INTO|DELETE FROM|UPDATE|CREATE TABLE|ALTER TABLE|DROP)" "$SEED_FILE" | head -40
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Apply seed data
+        if: ${{ !inputs.dry_run && inputs.seed != 'none' }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SEED_FILE: ${{ steps.seedfile.outputs.path }}
+        run: |
+          set -o pipefail
+          # ON_ERROR_STOP so a failing statement fails the job instead of
+          # leaving the seed half-applied and the run green.
+          psql "$SUPABASE_DB_URL" \
+            --set ON_ERROR_STOP=1 \
+            --no-psqlrc \
+            -f "$SEED_FILE" 2>&1 \
+            | sed -e "s#$SUPABASE_DB_URL#<redacted>#g" \
+            | tee seed-output.txt
+          {
+            echo
+            echo "### Seed applied — \`$SEED_FILE\`"
+            echo '```'
+            tail -20 seed-output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      # ── Verification ───────────────────────────────────────────────────────
+      - name: Verify browse content
+        if: ${{ !inputs.dry_run }}
+        env:
+          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+        run: |
+          set -o pipefail
+          # Check the tables exist before counting: Postgres parses the whole
+          # statement, so a guard inside one query still errors on a missing
+          # relation. Two queries is the only way that actually works.
+          present="$(psql "$SUPABASE_DB_URL" --no-psqlrc -At -c \
+            "SELECT to_regclass('public.causes') IS NOT NULL
+                AND to_regclass('public.portfolio_funds') IS NOT NULL;")"
+
+          if [ "$present" != "t" ]; then
+            echo "::warning::causes / portfolio_funds tables are not present — nothing to verify."
+            exit 0
+          fi
+
+          # Counts behind /browse?tab=causes and ?tab=funds.
+          psql "$SUPABASE_DB_URL" --no-psqlrc -At -c \
+            "SELECT (SELECT count(*) FROM causes WHERE status='active')
+                    || '|' ||
+                    (SELECT count(*) FROM portfolio_funds WHERE status='active');" \
+            > counts.txt 2>&1 || { echo "Verification query failed:"; cat counts.txt; exit 1; }
+
+          causes="$(cut -d'|' -f1 counts.txt)"
+          funds="$(cut -d'|' -f2 counts.txt)"
+          echo "Active causes: $causes"
+          echo "Active portfolio funds: $funds"
+          {
+            echo
+            echo "### Verification"
+            echo "| Table | Active rows |"
+            echo "| --- | --- |"
+            echo "| causes | $causes |"
+            echo "| portfolio_funds | $funds |"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ "${{ inputs.seed }}" != "none" ] && { [ "$causes" -eq 0 ] || [ "$funds" -eq 0 ]; }; then
+            echo "::error::Seed ran but /browse would still be empty (causes=$causes, funds=$funds)."
+            exit 1
+          fi
+
+      - name: Dry run notice
+        if: inputs.dry_run
+        run: |
+          echo "Dry run complete — nothing was written."
+          {
+            echo
+            echo "> [!NOTE]"
+            echo "> Dry run: no changes were made. Re-run with **dry_run unchecked** to apply."
+          } >> "$GITHUB_STEP_SUMMARY"
