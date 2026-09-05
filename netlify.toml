@@ -4,6 +4,11 @@
 
 [build.environment]
   NODE_VERSION = "20"
+  # Cypress is a devDependency used only for e2e tests, never for the
+  # production build. Skip its binary download during install — the same
+  # workaround CI already applies (see .github/workflows/README.md) — so a
+  # flaky/blocked download from download.cypress.io can't fail the deploy.
+  CYPRESS_INSTALL_BINARY = "0"
 
 [[headers]]
   for = "/*"
