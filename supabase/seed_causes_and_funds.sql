@@ -46,6 +46,10 @@
 --     5. The verification query at the bottom is scoped to seed_key LIKE
 --        'give-protocol-%' rather than counting every active cause/fund in
 --        the database.
+--     6. A STEP 0.5 adoption pass backfills seed_key onto rows created by
+--        the previous delete/reinsert version of this script, so the first
+--        run of this version updates those rows in place instead of
+--        inserting duplicates beside them.
 --
 -- WHAT IT WRITES
 --   ONLY the causes and portfolio_funds tables. It never touches
@@ -73,6 +77,68 @@ WHERE ein IN (
   '99-1230001','99-1230002','99-1230003','99-1230004','99-1230005','99-1230006',
   '99-1230007','99-1230008','99-1230009','99-1230010','99-1230011','99-1230012'
 );
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- STEP 0.5: Adopt rows left behind by the previous delete/reinsert version of
+-- this script. Those rows carry no seed_key, so without this step the upserts
+-- below would insert a second copy of every cause and fund beside them.
+-- Adoption assigns the seed_key to the legacy row so the upsert updates it in
+-- place, keeping its id, its created_at, and any donation history attached.
+-- Runs as a no-op on a fresh database and on every rerun after adoption.
+-- ─────────────────────────────────────────────────────────────────────────────
+
+-- Pass 1: adopt causes that match a seeded charity by EIN and exact name.
+UPDATE causes c
+SET seed_key = v.seed_key
+FROM (VALUES
+  ('give-protocol-cause-99-1230001','99-1230001','Scholarships for 500 NYC Students'),
+  ('give-protocol-cause-99-1230002','99-1230002','Free Mobile Health Screenings'),
+  ('give-protocol-cause-99-1230003','99-1230003','Restore 1,000 Acres of Salmon Habitat'),
+  ('give-protocol-cause-99-1230004','99-1230004','Emergency Rent Assistance Fund'),
+  ('give-protocol-cause-99-1230005','99-1230005','Arts Education in 40 Chicago Schools'),
+  ('give-protocol-cause-99-1230006','99-1230006','Two Million Meals for North Texas'),
+  ('give-protocol-cause-99-1230007','99-1230007','Summer Leadership Academy'),
+  ('give-protocol-cause-99-1230008','99-1230008','Spay, Neuter & Rehome 3,000 Animals'),
+  ('give-protocol-cause-99-1230009','99-1230009','Clean Water Wells in Rural Communities'),
+  ('give-protocol-cause-99-1230010','99-1230010','Transitional Housing for 120 Families'),
+  ('give-protocol-cause-99-1230011','99-1230011','Small Business Microloans in Phoenix'),
+  ('give-protocol-cause-99-1230012','99-1230012','Free Teen Counseling Hotline')
+) AS v(seed_key, ein, name)
+JOIN charity_profiles cp ON cp.ein = v.ein
+WHERE c.charity_id = cp.id
+  AND c.name = v.name
+  AND c.seed_key IS NULL;
+
+-- Pass 2: a seeded charity that has exactly one legacy cause and no adopted
+-- cause yet gets that cause adopted even if its name was edited, mirroring
+-- the one-cause-per-seeded-charity model of the original script. A charity
+-- with several legacy causes is left alone: adopting one of them would be a
+-- guess, so the upsert inserts a fresh row and a human can clean up.
+UPDATE causes c
+SET seed_key = 'give-protocol-cause-' || cp.ein
+FROM charity_profiles cp
+WHERE c.charity_id = cp.id
+  AND cp.ein LIKE '99-123%'
+  AND c.seed_key IS NULL
+  AND NOT EXISTS (
+    SELECT 1 FROM causes x
+    WHERE x.charity_id = cp.id AND x.seed_key IS NOT NULL
+  )
+  AND (SELECT count(*) FROM causes y WHERE y.charity_id = cp.id) = 1;
+
+-- Funds: adopt by exact name. Same-named funds created by someone else are
+-- indistinguishable from seeded ones, which is unavoidable without a seed_key;
+-- the previous script deleted by name anyway, so adoption is strictly safer.
+UPDATE portfolio_funds pf
+SET seed_key = v.seed_key
+FROM (VALUES
+  ('give-protocol-fund-environmental','Environmental Impact Fund'),
+  ('give-protocol-fund-education','Education Impact Fund'),
+  ('give-protocol-fund-poverty-relief','Poverty Relief Fund'),
+  ('give-protocol-fund-health-wellness','Health & Wellness Fund')
+) AS v(seed_key, name)
+WHERE pf.name = v.name
+  AND pf.seed_key IS NULL;
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- STEP 1: Causes — one active cause per seeded charity
@@ -278,7 +344,7 @@ ON CONFLICT (seed_key) WHERE seed_key IS NOT NULL DO UPDATE SET
 COMMIT;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- Verify — scoped to this seed's rows only, so it stays meaningful once
+-- Verify — scoped to rows owned by this seed only, so it stays meaningful once
 -- other active causes/funds exist in the database.
 -- ─────────────────────────────────────────────────────────────────────────────
 SELECT
