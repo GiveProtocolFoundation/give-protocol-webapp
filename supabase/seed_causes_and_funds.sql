@@ -1,6 +1,6 @@
 -- =============================================================================
 -- Give Protocol - Causes + Portfolio Funds seed (ADDITIVE, production-safe)
--- GIV-937
+-- GIV-937 / GIV-947 (Supabase review follow-up)
 --
 -- HOW TO RUN IN THE SUPABASE SQL EDITOR
 --   Paste the whole file, then Run it WITHOUT RLS.
@@ -19,11 +19,38 @@
 --   Applying it through .github/workflows/database-deploy.yml is unaffected -
 --   that runs psql directly against SUPABASE_DB_URL, with no RLS wrapper.
 --
+-- PREREQUISITE MIGRATION
+--   Requires supabase/migrations/<timestamp>_add_seed_key_to_causes_and_funds.sql
+--   (adds causes.seed_key and portfolio_funds.seed_key with a partial unique
+--   index on each). Apply that migration before running this file.
+--
+-- WHAT CHANGED FROM THE PRIOR VERSION (Supabase review, GIV-947)
+--   The prior version deleted and reinserted every row on each run. That is
+--   fixed here:
+--     1. No more DELETE. Every cause and fund carries a stable seed_key and
+--        the insert is `ON CONFLICT (seed_key) DO UPDATE`, so ids never
+--        change across reruns and rows this script does not own are never
+--        touched (previously: DELETE ... WHERE charity_id IN (subquery on
+--        ein LIKE) removed every cause for those charities, not just the
+--        seeded ones; and funds were matched, and deleted, by name alone).
+--     2. raised_amount is written on first INSERT only and deliberately
+--        left out of the DO UPDATE SET list, so real donations accumulated
+--        against a seeded cause survive a reseed.
+--     3. status is likewise excluded from DO UPDATE, so an admin who pauses
+--        or archives a seeded cause/fund is not silently reverted to
+--        active on the next reseed.
+--     4. A precheck aborts the whole script (via a CHECK-constraint
+--        violation, not a DO block, to avoid dollar-quoting) if fewer than
+--        12 of the seeded EINs are present, instead of silently inserting
+--        fewer rows.
+--     5. The verification query at the bottom is scoped to seed_key LIKE
+--        'give-protocol-%' rather than counting every active cause/fund in
+--        the database.
+--
 -- WHAT IT WRITES
 --   ONLY the causes and portfolio_funds tables. It never touches
 --   charity_profiles or charity_organizations - charities are matched by EIN,
 --   so their existing ids, claimed_by and verified_at are left alone.
---   Safe to re-run: it replaces only the rows it owns.
 --
 -- STYLE CONSTRAINT
 --   Keep comments free of apostrophes and avoid dollar-quoted blocks. A client
@@ -34,26 +61,38 @@
 BEGIN;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- STEP 1: Causes — one active cause per seeded charity
+-- STEP 0: Precheck - abort if the seeded charities are not all present.
+-- Uses a CHECK-constraint violation instead of RAISE EXCEPTION so the guard
+-- needs no dollar-quoted function body and no string literal to break.
 -- ─────────────────────────────────────────────────────────────────────────────
 
--- Remove only the causes this script owns, so re-running does not duplicate.
-DELETE FROM causes
-WHERE charity_id IN (SELECT id FROM charity_profiles WHERE ein LIKE '99-123%');
+CREATE TEMP TABLE seed_precheck_causes (n int NOT NULL CHECK (n = 12)) ON COMMIT DROP;
+INSERT INTO seed_precheck_causes (n)
+SELECT count(DISTINCT ein) FROM charity_profiles
+WHERE ein IN (
+  '99-1230001','99-1230002','99-1230003','99-1230004','99-1230005','99-1230006',
+  '99-1230007','99-1230008','99-1230009','99-1230010','99-1230011','99-1230012'
+);
+
+-- ─────────────────────────────────────────────────────────────────────────────
+-- STEP 1: Causes — one active cause per seeded charity
+-- Idempotent via seed_key: reruns update in place, ids never change, and
+-- raised_amount / status are left alone once a row exists.
+-- ─────────────────────────────────────────────────────────────────────────────
 
 INSERT INTO causes (
-  charity_id, name, description, target_amount, raised_amount,
+  charity_id, seed_key, name, description, target_amount, raised_amount,
   category, image_url, impact, timeline, location, partners, status
 )
 SELECT
-  cp.id, v.name, v.description,
+  cp.id, v.seed_key, v.name, v.description,
   v.target_amount, v.raised_amount,
   v.category, '/images/charities/' || v.ein || '.jpg',
   v.impact, v.timeline, v.location, v.partners,
   'active'
 FROM (VALUES
   (
-    '99-1230001',
+    'give-protocol-cause-99-1230001', '99-1230001',
     'Scholarships for 500 NYC Students',
     'Fund a full year of tuition support, books, and one-on-one mentorship for 500 high-school students in underserved New York City neighborhoods. Every scholarship is paired with a volunteer mentor who stays with the student through graduation.',
     250000.00, 187400.00, 'Education',
@@ -62,7 +101,7 @@ FROM (VALUES
     ARRAY['NYC Department of Education','Reading Partners']
   ),
   (
-    '99-1230002',
+    'give-protocol-cause-99-1230002', '99-1230002',
     'Free Mobile Health Screenings',
     'Put two fully equipped mobile clinics on the road across Baltimore, delivering free blood pressure, diabetes, and cancer screenings to uninsured residents in neighborhoods with no primary care provider within three miles.',
     180000.00, 96250.00, 'Health',
@@ -71,7 +110,7 @@ FROM (VALUES
     ARRAY['Johns Hopkins Community Physicians','Maryland Dept. of Health']
   ),
   (
-    '99-1230003',
+    'give-protocol-cause-99-1230003', '99-1230003',
     'Restore 1,000 Acres of Salmon Habitat',
     'Replant native riparian forest and remove five obsolete culverts along Oregon tributaries to reopen spawning grounds that have been blocked for decades. Restored streambanks cool the water and bring salmon runs back.',
     420000.00, 312900.00, 'Environment',
@@ -80,7 +119,7 @@ FROM (VALUES
     ARRAY['Oregon Watershed Enhancement Board','Native Fish Society']
   ),
   (
-    '99-1230004',
+    'give-protocol-cause-99-1230004', '99-1230004',
     'Emergency Rent Assistance Fund',
     'Keep central Ohio families in their homes with one-time emergency grants that cover back rent and utility arrears, paired with job placement and childcare navigation so the crisis does not repeat next month.',
     300000.00, 141800.00, 'Human Services',
@@ -89,7 +128,7 @@ FROM (VALUES
     ARRAY['Franklin County Job & Family Services','United Way of Central Ohio']
   ),
   (
-    '99-1230005',
+    'give-protocol-cause-99-1230005', '99-1230005',
     'Arts Education in 40 Chicago Schools',
     'Place teaching artists in forty under-resourced Chicago public schools that currently have no arts programming, covering instruments, studio materials, and a weekly residency for the full academic year.',
     195000.00, 88600.00, 'Arts & Culture',
@@ -98,7 +137,7 @@ FROM (VALUES
     ARRAY['Chicago Public Schools','Ingenuity Inc.']
   ),
   (
-    '99-1230006',
+    'give-protocol-cause-99-1230006', '99-1230006',
     'Two Million Meals for North Texas',
     'Scale mobile pantry routes across Dallas–Fort Worth so that families in food deserts get fresh produce and protein weekly, not just shelf-stable staples. Covers refrigerated transport, warehouse capacity, and driver hours.',
     500000.00, 388200.00, 'Food & Nutrition',
@@ -107,7 +146,7 @@ FROM (VALUES
     ARRAY['Feeding America','Tarrant Area Food Bank']
   ),
   (
-    '99-1230007',
+    'give-protocol-cause-99-1230007', '99-1230007',
     'Summer Leadership Academy',
     'A six-week paid summer academy for 300 Denver teens combining leadership training, financial literacy, and a stipended internship with a local employer — so a summer of growth does not cost a family its income.',
     165000.00, 74300.00, 'Youth Development',
@@ -116,7 +155,7 @@ FROM (VALUES
     ARRAY['Denver Public Schools','Mile High United Way']
   ),
   (
-    '99-1230008',
+    'give-protocol-cause-99-1230008', '99-1230008',
     'Spay, Neuter & Rehome 3,000 Animals',
     'Fund a high-volume spay/neuter clinic and foster network in Austin, cutting shelter intake at the source while covering vaccination, microchipping, and adoption placement for 3,000 dogs and cats.',
     140000.00, 102450.00, 'Animal Welfare',
@@ -125,7 +164,7 @@ FROM (VALUES
     ARRAY['Austin Pets Alive!','Emancipet']
   ),
   (
-    '99-1230009',
+    'give-protocol-cause-99-1230009', '99-1230009',
     'Clean Water Wells in Rural Communities',
     'Drill and maintain 60 borehole wells serving rural villages with no safe water source, training a local water committee at each site so repairs happen locally instead of waiting on an outside crew.',
     360000.00, 219700.00, 'International',
@@ -134,7 +173,7 @@ FROM (VALUES
     ARRAY['Water Mission','Rotary International']
   ),
   (
-    '99-1230010',
+    'give-protocol-cause-99-1230010', '99-1230010',
     'Transitional Housing for 120 Families',
     'Convert a vacant Seattle building into 120 transitional apartments with on-site case management, moving families out of shelters and vehicles into stable housing with a path to a permanent lease.',
     750000.00, 402150.00, 'Housing',
@@ -143,7 +182,7 @@ FROM (VALUES
     ARRAY['King County Regional Homelessness Authority','Enterprise Community Partners']
   ),
   (
-    '99-1230011',
+    'give-protocol-cause-99-1230011', '99-1230011',
     'Small Business Microloans in Phoenix',
     'Provide 200 microloans averaging $7,500 to first-time entrepreneurs in Phoenix neighborhoods that banks have written off, bundled with bookkeeping and licensing support through the first year of trading.',
     220000.00, 118900.00, 'Community Development',
@@ -152,7 +191,7 @@ FROM (VALUES
     ARRAY['Local First Arizona','Accion Opportunity Fund']
   ),
   (
-    '99-1230012',
+    'give-protocol-cause-99-1230012', '99-1230012',
     'Free Teen Counseling Hotline',
     'Staff a 24/7 counseling line for Boston teens with licensed clinicians instead of volunteers, plus warm handoffs into ongoing therapy for callers who need more than a single conversation.',
     210000.00, 155600.00, 'Mental Health',
@@ -161,29 +200,36 @@ FROM (VALUES
     ARRAY['Boston Childrens Hospital','NAMI Massachusetts']
   )
 ) AS v(
-  ein, name, description, target_amount, raised_amount,
+  seed_key, ein, name, description, target_amount, raised_amount,
   category, impact, timeline, location, partners
 )
-JOIN charity_profiles cp ON cp.ein = v.ein;
+JOIN charity_profiles cp ON cp.ein = v.ein
+ON CONFLICT (seed_key) WHERE seed_key IS NOT NULL DO UPDATE SET
+  charity_id    = EXCLUDED.charity_id,
+  name          = EXCLUDED.name,
+  description   = EXCLUDED.description,
+  target_amount = EXCLUDED.target_amount,
+  category      = EXCLUDED.category,
+  image_url     = EXCLUDED.image_url,
+  impact        = EXCLUDED.impact,
+  timeline      = EXCLUDED.timeline,
+  location      = EXCLUDED.location,
+  partners      = EXCLUDED.partners,
+  updated_at    = NOW();
+  -- raised_amount and status are intentionally NOT in this list: leaving
+  -- them out of DO UPDATE SET means a reseed never touches live donation
+  -- totals or an admin-set paused/completed status.
 
 -- ─────────────────────────────────────────────────────────────────────────────
 -- STEP 2: Portfolio funds — themed groupings of the seeded charities
---
--- Matched by name so re-running replaces rather than duplicates, without
--- assuming any particular fund id.
+-- Idempotent via seed_key rather than name, so a same-named fund created by
+-- someone else is never at risk, and reruns update in place.
 -- ─────────────────────────────────────────────────────────────────────────────
 
-DELETE FROM portfolio_funds
-WHERE name IN (
-  'Environmental Impact Fund',
-  'Education Impact Fund',
-  'Poverty Relief Fund',
-  'Health & Wellness Fund'
-);
-
-INSERT INTO portfolio_funds (name, description, category, image_url, charity_ids, status)
+INSERT INTO portfolio_funds (seed_key, name, description, category, image_url, charity_ids, status)
 VALUES
 (
+  'give-protocol-fund-environmental',
   'Environmental Impact Fund',
   'Supporting climate action and conservation across organizations working on habitat restoration, wildlife protection, and sustainable land use. One donation is split evenly across every charity in the portfolio.',
   'Environment',
@@ -192,6 +238,7 @@ VALUES
   'active'
 ),
 (
+  'give-protocol-fund-education',
   'Education Impact Fund',
   'Advancing access to quality learning worldwide — scholarships, arts education, and youth leadership programs bundled into a single portfolio so donors can back the whole pipeline rather than one school.',
   'Education',
@@ -200,6 +247,7 @@ VALUES
   'active'
 ),
 (
+  'give-protocol-fund-poverty-relief',
   'Poverty Relief Fund',
   'Meeting immediate need and building a way out of it: emergency assistance, food security, transitional housing, and neighborhood economic development working together across four verified organizations.',
   'Human Services',
@@ -208,19 +256,33 @@ VALUES
   'active'
 ),
 (
+  'give-protocol-fund-health-wellness',
   'Health & Wellness Fund',
   'Preventive care, mental health support, and clean water access for communities that have been priced out of all three. Covers screening clinics, crisis counseling, and international water infrastructure.',
   'Health',
   '/images/charities/99-1230002.jpg',
   ARRAY(SELECT id FROM charity_profiles WHERE ein IN ('99-1230002','99-1230009','99-1230012')),
   'active'
-);
+)
+ON CONFLICT (seed_key) WHERE seed_key IS NOT NULL DO UPDATE SET
+  name        = EXCLUDED.name,
+  description = EXCLUDED.description,
+  category    = EXCLUDED.category,
+  image_url   = EXCLUDED.image_url,
+  charity_ids = EXCLUDED.charity_ids;
+  -- status excluded: an admin who pauses/archives a seeded fund is not
+  -- reverted to active on the next reseed. updated_at is handled by the
+  -- existing trg_portfolio_funds_updated_at trigger on UPDATE, so it is
+  -- not set explicitly here.
 
 COMMIT;
 
 -- ─────────────────────────────────────────────────────────────────────────────
--- Verify — should report 12 active causes and 4 active funds.
+-- Verify — scoped to this seed's rows only, so it stays meaningful once
+-- other active causes/funds exist in the database.
 -- ─────────────────────────────────────────────────────────────────────────────
 SELECT
-  (SELECT count(*) FROM causes          WHERE status = 'active') AS active_causes,
-  (SELECT count(*) FROM portfolio_funds WHERE status = 'active') AS active_funds;
+  (SELECT count(*) FROM causes
+     WHERE seed_key LIKE 'give-protocol-cause-%' AND status = 'active') AS seeded_active_causes,
+  (SELECT count(*) FROM portfolio_funds
+     WHERE seed_key LIKE 'give-protocol-fund-%' AND status = 'active') AS seeded_active_funds;
