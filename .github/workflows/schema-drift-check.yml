@@ -31,27 +31,7 @@ jobs:
       - name: Extract Expected Tables from Migrations
         id: expected
         run: |
-          node -e '
-            const fs = require("fs");
-            const path = require("path");
-            const dir = "supabase/migrations";
-            let tables = new Set();
-            for (const file of fs.readdirSync(dir)) {
-              if (!file.endsWith(".sql")) continue;
-              let content = fs.readFileSync(path.join(dir, file), "utf8");
-              // Remove comments
-              content = content.replace(/--.*$/gm, "");
-              content = content.replace(/\/\*[\s\S]*?\*\//g, "");
-              const regex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-zA-Z0-9_."]+)/ig;
-              let match;
-              while ((match = regex.exec(content)) !== null) {
-                let t = match[1].replace(/^public\./i, "").replace(/"/g, "");
-                tables.add(t);
-              }
-            }
-            const sorted = Array.from(tables).sort().join("\n");
-            fs.writeFileSync("expected_tables.txt", sorted + "\n");
-          '
+          node scripts/ci/extract-tables.mjs --dir supabase/migrations > expected_tables.txt
 
       - name: Dump Actual Schema from Supabase
         env:
@@ -59,20 +39,7 @@ jobs:
         run: |
           echo "Dumping schema for project ${{ env.PROJECT_ID }}..."
           supabase db dump --linked --schema public --project-ref ${{ env.PROJECT_ID }} > db_dump.sql
-          
-          node -e '
-            const fs = require("fs");
-            let content = fs.readFileSync("db_dump.sql", "utf8");
-            let tables = new Set();
-            const regex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-zA-Z0-9_."]+)/ig;
-            let match;
-            while ((match = regex.exec(content)) !== null) {
-               let t = match[1].replace(/^public\./i, "").replace(/"/g, "");
-               tables.add(t);
-            }
-            const sorted = Array.from(tables).sort().join("\n");
-            fs.writeFileSync("actual_tables.txt", sorted + "\n");
-          '
+          node scripts/ci/extract-tables.mjs --file db_dump.sql > actual_tables.txt
 
       - name: Detect Drift (Diff Expected vs Actual)
         run: |
