@@ -19,15 +19,11 @@ import { readFileSync, readdirSync } from "node:fs";
 import { join, resolve } from "node:path";
 
 function stripComments(content) {
-  return content
-    .replace(/--.*$/gm, "")
-    .replace(/\/\*[\s\S]*?\*\//g, "");
+  return content.replace(/--.*$/gm, "").replace(/\/\*[\s\S]*?\*\//g, "");
 }
 
 function normalizedTableName(raw) {
-  return raw
-    .replace(/"/g, "")
-    .replace(/^public\./i, "");
+  return raw.replace(/"/g, "").replace(/^public\./i, "");
 }
 
 function extractTables(content) {
@@ -42,7 +38,9 @@ function extractTables(content) {
 }
 
 function printWrongUsage() {
-  console.error('Usage: node scripts/ci/extract-tables.mjs --dir <migrations-dir> | --file <dump.sql>');
+  console.error(
+    "Usage: node scripts/ci/extract-tables.mjs --dir <migrations-dir> | --file <dump.sql>",
+  );
 }
 
 const args = process.argv.slice(2);
@@ -54,7 +52,9 @@ if (args.length !== 2 || (args[0] !== "--dir" && args[0] !== "--file")) {
 let tables;
 if (args[0] === "--dir") {
   const dir = resolve(args[1]);
-  const names = readdirSync(dir).filter((f) => f.endsWith(".sql")).sort();
+  const names = readdirSync(dir)
+    .filter((f) => f.endsWith(".sql"))
+    .sort();
   tables = new Set();
   for (const name of names) {
     for (const t of extractTables(readFileSync(join(dir, name), "utf8"))) {
