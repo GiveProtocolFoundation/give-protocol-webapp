@@ -184,6 +184,104 @@ jobs:
             echo '```'
           } >> "$GITHUB_STEP_SUMMARY"
 
+      # ── GIV-959 registry backfill ─────────────────────────────────────────
+      # The charity_organizations.id backfill cannot run as a single migration
+      # statement through the Management API: `db push --linked` enforces a
+      # 120-second server-side statement timeout (SQLSTATE 57014 — run
+      # 34148039710 was cancelled at exactly 120s). Migration 20260907000001
+      # is already recorded remotely while rows may still hold NULL ids, so
+      # phase 3 (NOT NULL) fails until the data catches up with the history.
+      # This step completes the idempotent backfill in small committed batches
+      # via `supabase db query --linked` (one short statement per request —
+      # no statement can approach the timeout) and asserts completion before
+      # any push applies phase 3.
+      - name: Complete registry id backfill (idempotent, GIV-959)
+        if: inputs.apply_migrations
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_REF: ${{ steps.target.outputs.ref }}
+        run: |
+          set -o pipefail
+
+          query() {
+            supabase db query --linked --project-ref "$PROJECT_REF" "$1"
+          }
+
+          id_column="$(query "SELECT CASE WHEN EXISTS (
+              SELECT 1 FROM information_schema.columns
+              WHERE table_schema = 'public'
+                AND table_name = 'charity_organizations'
+                AND column_name = 'id'
+            ) THEN 'present' ELSE 'missing' END AS id_column;")"
+
+          if ! printf '%s' "$id_column" | grep -q 'present'; then
+            echo "charity_organizations.id does not exist yet — phase 1 has not been applied."
+            echo "Nothing to backfill; the push below will apply the phases in order."
+            {
+              echo
+              echo "### Registry id backfill (GIV-959)"
+              echo "Skipped: \`charity_organizations.id\` column not present yet."
+            } >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          count_nulls() {
+            query "SELECT to_char(count(*), 'FM999999999') AS remaining_null_ids
+                   FROM charity_organizations
+                   WHERE id IS NULL;" \
+              | grep -oE '[0-9]+' | tail -1
+          }
+
+          remaining="$(count_nulls || true)"
+          echo "Rows still missing an id: ${remaining:-unknown}"
+          {
+            echo
+            echo "### Registry id backfill (GIV-959)"
+            echo "- Rows still missing an id: \`${remaining:-unknown}\`"
+          } >> "$GITHUB_STEP_SUMMARY"
+
+          if [ -z "${remaining:-}" ] || ! printf '%s' "$remaining" | grep -qE '^[0-9]+$'; then
+            echo "::error::Could not determine how many rows are missing an id."
+            exit 1
+          fi
+
+          if [ "$remaining" -eq 0 ]; then
+            echo "Backfill already complete — nothing to do."
+            echo "- Backfill already complete." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          if [ "${{ inputs.dry_run }}" = "true" ]; then
+            echo "Dry run — reporting only. An apply run completes the backfill before pushing migrations."
+            echo "- Dry run: not backfilled. The apply run completes it before pushing migrations." >> "$GITHUB_STEP_SUMMARY"
+            exit 0
+          fi
+
+          echo "Backfilling $remaining row(s) in batches of 50000 — each batch is a separate committed statement..."
+          batch=0
+          while [ "$remaining" -gt 0 ]; do
+            batch=$((batch + 1))
+            if [ "$batch" -gt 120 ]; then
+              echo "::error::Safety cap reached (120 batches = 6M rows) with $remaining row(s) still missing an id. Aborting."
+              exit 1
+            fi
+            query "WITH batch AS (
+              SELECT ctid FROM charity_organizations WHERE id IS NULL LIMIT 50000
+            )
+            UPDATE charity_organizations co
+            SET id = gen_random_uuid()
+            WHERE co.ctid IN (SELECT ctid FROM batch);" > /dev/null
+            remaining="$(count_nulls || true)"
+            echo "Batch $batch done — rows still missing an id: ${remaining:-unknown}"
+            if [ -z "${remaining:-}" ] || ! printf '%s' "$remaining" | grep -qE '^[0-9]+$'; then
+              echo "::error::Lost count of rows missing an id after batch $batch. Aborting."
+              exit 1
+            fi
+          done
+
+          echo "Backfill complete: every charity_organizations row now has an id ($batch batch(es))."
+          echo "- Backfilled in $batch batch(es) of up to 50000 rows; 0 rows missing an id." >> "$GITHUB_STEP_SUMMARY"
+
       - name: Apply migrations
         if: ${{ !inputs.dry_run && inputs.apply_migrations }}
         env:
