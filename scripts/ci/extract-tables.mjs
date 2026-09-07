@@ -66,7 +66,9 @@ function printWrongUsage() {
 const args = process.argv.slice(2);
 if (args.length !== 2 || (args[0] !== "--dir" && args[0] !== "--file")) {
   printWrongUsage();
-  throw new Error("Invalid arguments. Usage: node scripts/ci/extract-tables.mjs --dir <migrations-dir> | --file <dump.sql>");
+  throw new Error(
+    "Invalid arguments. Usage: node scripts/ci/extract-tables.mjs --dir <migrations-dir> | --file <dump.sql>",
+  );
 }
 
 let tables = [];
