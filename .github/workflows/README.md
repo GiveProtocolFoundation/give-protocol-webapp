@@ -184,15 +184,22 @@ To manually trigger a workflow:
   - The dry run prints every `INSERT`/`DELETE`/`DDL` statement the chosen seed contains, so a reviewer sees destructive statements before approving
   - After applying, it verifies `causes` and `portfolio_funds` are non-empty and fails the job if a seed silently wrote nothing
 - **Inputs**:
-  - `environment` — `staging` or `production`
+  - `environment` — `production` only. The org has a single Supabase project (`lhbyfidtlhojnrewpstp`), which is production; there is no staging project. (The `staging` GitHub Environment's `SUPABASE_DB_URL` secret pointed at production and was removed as a choice — a "Deploy → staging" run would have written to prod behind a mislabeled approval. Re-add staging only when a real staging project exists.)
   - `dry_run` — report without writing (default **true**)
   - `apply_migrations` — run `supabase db push` (default true)
   - `seed` — `none` (default), `causes-and-funds`, or `full-charity-seed`
   - `allow_full_replay` — override the empty-history refusal. Only correct for a genuinely fresh project
+- **Connectivity**: every step connects through the Supabase Management API (`--linked`), not the direct database URI. The direct host `db.<ref>.supabase.co` is **IPv6-only** for this project (no A record), so GitHub-hosted runners cannot reach it — `psql`/`--db-url` connections fail with `ECONNREFUSED`. The Management API path is the same one the scheduled schema drift check already uses.
 - **Seed options**:
   - `causes-and-funds` → `supabase/seed_causes_and_funds.sql`. Additive: writes only `causes` and `portfolio_funds`, joins charities by EIN, safe against a database that already holds charity data. This is what populates `/browse?tab=causes` and `?tab=funds`.
-    - **Running a seed by hand instead?** In the Supabase SQL Editor, run it **without RLS**. "With RLS" executes as the anon/authenticated role, which both mangles quoting partway through the file (producing a confusing error that names a word from inside a string literal) and would be denied by policy anyway — `causes` requires a matching `auth.uid()`, `portfolio_funds` requires an admin profile. This workflow is unaffected: it runs `psql` directly against `SUPABASE_DB_URL`, with no RLS wrapper.
   - `full-charity-seed` → `supabase/seed.sql`. **Destructive**: DELETEs and recreates `charity_profiles` / `charity_organizations` rows with EIN like `99-123%` under fixed UUIDs, discarding their existing ids and any `claimed_by` / `verified_at` state. Fresh or disposable projects only.
-- **Required Secrets** (scoped per GitHub Environment, not repo-wide):
-  - `SUPABASE_DB_URL` — Postgres connection string for that project, percent-encoded. Dashboard → Project Settings → Database → Connection string → URI. Use the **direct (non-pooler)** URI; the session pooler cannot run DDL transactions.
-- **First run**: dispatch against `staging` with the defaults (dry run, `seed: none`) to read the preflight's report of the remote migration state before changing anything.
+- **Required Secrets** (repository-level, shared with the schema drift check — the old per-environment `SUPABASE_DB_URL` secrets are unused and can be removed):
+  - `SUPABASE_ACCESS_TOKEN` — Supabase platform token with access to the target project. Authenticates the CLI's `--linked` commands against the Management API.
+- **First run**: dispatch against `production` with the defaults (dry run, `seed: none`) to read the preflight's report of the remote migration state before changing anything. The read-only **Migration Status** workflow reports the same information without needing an environment approval.
+
+### 6. Migration Status (`migration-status.yml`)
+
+- **Triggers**: Manual dispatch only
+- **Purpose**: Read-only report of production migration history: the raw `supabase migration list --linked` JSON, the preflight classification from `scripts/ci/migration-preflight.sh`, the `supabase db push --dry-run` pending set, and the GIV-959 registry drift columns. Use it to check what a Database Deploy run would do **before** requesting an environment approval.
+- **Required Secrets**:
+  - `SUPABASE_ACCESS_TOKEN` — same repository secret as the schema drift check.

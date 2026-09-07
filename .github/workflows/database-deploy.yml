@@ -6,15 +6,29 @@ name: Database Deploy
 # approves each run — nothing merged to main can mutate a live database on its
 # own. Defaults to a dry run: you have to deliberately turn that off to write.
 #
-# Required secrets, scoped to each GitHub Environment (Settings → Environments):
-#   SUPABASE_DB_URL  Postgres connection string for that project, percent-encoded.
-#                    Supabase Dashboard → Project Settings → Database →
-#                    Connection string → URI. Use the direct (non-pooler) URI:
-#                    the session pooler cannot run DDL transactions.
+# Database connectivity: the direct connection host db.<ref>.supabase.co is
+# IPv6-only for this project (no A record), so GitHub-hosted runners cannot
+# reach it (ECONNREFUSED). Every step below therefore connects through the
+# Supabase Management API (--linked) with the repository-level
+# SUPABASE_ACCESS_TOKEN secret — the same path the scheduled schema drift
+# check and the Migration Status workflow already use.
 #
-# Set each environment's protection rules to require a reviewer before its jobs
-# run. Without that, "manual dispatch" still means any user with write access
-# can deploy unreviewed.
+# Required secret (repository-level, not per environment):
+#   SUPABASE_ACCESS_TOKEN  Supabase platform token with access to the target
+#                          project. Already configured for the schema drift
+#                          check. The old per-environment SUPABASE_DB_URL
+#                          secrets are no longer used and can be removed.
+#
+# Only `production` is a valid target: `supabase projects list` shows this org
+# has a single Supabase project (lhbyfidtlhojnrewpstp) and it is production.
+# There is no staging project — the `staging` GitHub Environment's
+# SUPABASE_DB_URL secret pointed at production, which made a "Deploy →
+# staging" run write to prod behind a mislabeled approval. It was removed as
+# a choice; re-add it only when a real staging project exists.
+#
+# Set the production environment's protection rules to require a reviewer
+# before its jobs run. Without that, "manual dispatch" still means any user
+# with write access can deploy unreviewed.
 
 on:
   workflow_dispatch:
@@ -24,9 +38,8 @@ on:
         type: choice
         required: true
         options:
-          - staging
           - production
-        default: staging
+        default: production
       dry_run:
         description: "Dry run — report what would change without writing"
         type: boolean
@@ -55,7 +68,7 @@ on:
 permissions:
   contents: read
 
-# One database deploy at a time per environment; never cancel one midway.
+# One database deploy at a time; never cancel one midway.
 concurrency:
   group: database-deploy-${{ inputs.environment }}
   cancel-in-progress: false
@@ -75,16 +88,31 @@ jobs:
         with:
           version: latest
 
-      - name: Verify connection string is configured
-        env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+      - name: Resolve target project
+        id: target
         run: |
-          if [ -z "${SUPABASE_DB_URL:-}" ]; then
-            echo "::error::SUPABASE_DB_URL is not set for the '${{ inputs.environment }}' environment."
-            echo "Add it under Settings → Environments → ${{ inputs.environment }} → Environment secrets."
+          case "${{ inputs.environment }}" in
+            production)
+              echo "ref=lhbyfidtlhojnrewpstp" >> "$GITHUB_OUTPUT"
+              echo "Target project: lhbyfidtlhojnrewpstp (production)"
+              ;;
+            *)
+              echo "::error::No Supabase project is mapped for environment '${{ inputs.environment }}'."
+              echo "This org has a single Supabase project (lhbyfidtlhojnrewpstp, production); there is no staging project."
+              exit 1
+              ;;
+          esac
+
+      - name: Verify access token is configured
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          if [ -z "${SUPABASE_ACCESS_TOKEN:-}" ]; then
+            echo "::error::SUPABASE_ACCESS_TOKEN is not set as a repository secret."
+            echo "Add it under Settings → Secrets and variables → Actions → Repository secrets."
             exit 1
           fi
-          echo "Connection string is present."
+          echo "Access token is present."
 
       - name: Record run parameters
         run: |
@@ -94,6 +122,7 @@ jobs:
             echo "| Setting | Value |"
             echo "| --- | --- |"
             echo "| Mode | ${{ inputs.dry_run && '**dry run** (no writes)' || '**APPLY** (writes to the database)' }} |"
+            echo "| Project | \`${{ steps.target.outputs.ref }}\` |"
             echo "| Migrations | ${{ inputs.apply_migrations }} |"
             echo "| Seed | \`${{ inputs.seed }}\` |"
             echo "| Full replay allowed | ${{ inputs.allow_full_replay }} |"
@@ -108,14 +137,16 @@ jobs:
       - name: Preflight — migration history
         id: preflight
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_REF: ${{ steps.target.outputs.ref }}
           ALLOW_FULL_REPLAY: ${{ inputs.allow_full_replay }}
         run: |
           set -o pipefail
-          supabase migration list --db-url "$SUPABASE_DB_URL" > migration-list.json 2>&1 || {
-            echo "::error::Could not read migration history. Check SUPABASE_DB_URL (use the direct connection URI, percent-encoded)."
-            sed -e "s#$SUPABASE_DB_URL#<redacted>#g" migration-list.json | tail -20
-            exit 1
+          supabase migration list --linked --project-ref "$PROJECT_REF" --output-format json \
+            > migration-list.json 2> migration-list.err || {
+              echo "::error::Could not read migration history via the Management API. Check SUPABASE_ACCESS_TOKEN."
+              cat migration-list.err
+              exit 1
           }
 
           set +e
@@ -139,11 +170,11 @@ jobs:
       - name: Show pending migrations (always a dry run)
         if: inputs.apply_migrations
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db push --db-url "$SUPABASE_DB_URL" --dry-run 2>&1 \
-            | sed -e "s#$SUPABASE_DB_URL#<redacted>#g" \
+          supabase db push --linked --project-ref "$PROJECT_REF" --dry-run 2>&1 \
             | tee push-plan.txt
           {
             echo
@@ -156,21 +187,34 @@ jobs:
       - name: Apply migrations
         if: ${{ !inputs.dry_run && inputs.apply_migrations }}
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db push --db-url "$SUPABASE_DB_URL" 2>&1 \
-            | sed -e "s#$SUPABASE_DB_URL#<redacted>#g"
+          supabase db push --linked --project-ref "$PROJECT_REF" 2>&1 | tee apply-output.txt
+          {
+            echo
+            echo "### Applied migrations"
+            echo '```'
+            tail -40 apply-output.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
 
       # ── Seed data ──────────────────────────────────────────────────────────
       # causes-and-funds is additive: it writes only `causes` and
-      # `portfolio_funds` and joins charities by EIN, so it is safe against a
+      # portfolio_funds and joins charities by EIN, so it is safe against a
       # database that already holds charity data.
       #
       # full-charity-seed runs supabase/seed.sql, which DELETEs and recreates
       # the 99-123% charity rows under fixed UUIDs. That discards their existing
       # ids and any claimed_by / verified_at state. Intended for a fresh or
       # disposable project only.
+      #
+      # Seeds run through `supabase db query --linked` (Management API), which
+      # executes statements as submitted. Unlike psql there is no single
+      # ON_ERROR_STOP transaction wrapping the whole file: a failure stops the
+      # job, but statements before it have already run. Both seed files are
+      # written to be safe to re-run.
       - name: Resolve seed file
         if: inputs.seed != 'none'
         id: seedfile
@@ -203,7 +247,6 @@ jobs:
       - name: Show seed plan (dry run)
         if: ${{ inputs.dry_run && inputs.seed != 'none' }}
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
           SEED_FILE: ${{ steps.seedfile.outputs.path }}
         run: |
           echo "Would apply $SEED_FILE to ${{ inputs.environment }}."
@@ -221,17 +264,12 @@ jobs:
       - name: Apply seed data
         if: ${{ !inputs.dry_run && inputs.seed != 'none' }}
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_REF: ${{ steps.target.outputs.ref }}
           SEED_FILE: ${{ steps.seedfile.outputs.path }}
         run: |
           set -o pipefail
-          # ON_ERROR_STOP so a failing statement fails the job instead of
-          # leaving the seed half-applied and the run green.
-          psql "$SUPABASE_DB_URL" \
-            --set ON_ERROR_STOP=1 \
-            --no-psqlrc \
-            -f "$SEED_FILE" 2>&1 \
-            | sed -e "s#$SUPABASE_DB_URL#<redacted>#g" \
+          supabase db query --linked --project-ref "$PROJECT_REF" -f "$SEED_FILE" 2>&1 \
             | tee seed-output.txt
           {
             echo
@@ -245,15 +283,17 @@ jobs:
       - name: Verify browse content
         if: ${{ !inputs.dry_run }}
         env:
-          SUPABASE_DB_URL: ${{ secrets.SUPABASE_DB_URL }}
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+          PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          # Check the tables exist before counting: Postgres parses the whole
-          # statement, so a guard inside one query still errors on a missing
-          # relation. Two queries is the only way that actually works.
-          present="$(psql "$SUPABASE_DB_URL" --no-psqlrc -At -c \
+          # Check the tables exist before counting: two queries, because a guard
+          # inside one statement still errors on a missing relation at parse
+          # time.
+          present="$(supabase db query --linked --project-ref "$PROJECT_REF" \
             "SELECT to_regclass('public.causes') IS NOT NULL
-                AND to_regclass('public.portfolio_funds') IS NOT NULL;")"
+                AND to_regclass('public.portfolio_funds') IS NOT NULL AS present;" \
+            | tee present.txt | grep -qiE 't(rue)?|1' && echo t || echo f)"
 
           if [ "$present" != "t" ]; then
             echo "::warning::causes / portfolio_funds tables are not present — nothing to verify."
@@ -261,14 +301,14 @@ jobs:
           fi
 
           # Counts behind /browse?tab=causes and ?tab=funds.
-          psql "$SUPABASE_DB_URL" --no-psqlrc -At -c \
-            "SELECT (SELECT count(*) FROM causes WHERE status='active')
-                    || '|' ||
-                    (SELECT count(*) FROM portfolio_funds WHERE status='active');" \
+          supabase db query --linked --project-ref "$PROJECT_REF" \
+            "SELECT (SELECT count(*) FROM causes WHERE status='active') AS causes,
+                    (SELECT count(*) FROM portfolio_funds WHERE status='active') AS funds;" \
             > counts.txt 2>&1 || { echo "Verification query failed:"; cat counts.txt; exit 1; }
 
-          causes="$(cut -d'|' -f1 counts.txt)"
-          funds="$(cut -d'|' -f2 counts.txt)"
+          cat counts.txt
+          causes="$(grep -oE '[0-9]+' counts.txt | head -1 || echo 0)"
+          funds="$(grep -oE '[0-9]+' counts.txt | tail -1 || echo 0)"
           echo "Active causes: $causes"
           echo "Active portfolio funds: $funds"
           {
