@@ -1,8 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import {
-  validateSelfReportedHoursForm,
-  isFormValid,
-} from "../validation";
+import { validateSelfReportedHoursForm, isFormValid } from "../validation";
 import type { ValidationErrors } from "../validation";
 import {
   ActivityType,
@@ -151,9 +148,12 @@ describe("validateSelfReportedHoursForm", () => {
   });
 
   describe("organization validation (verified mode)", () => {
-    it("returns error when no charityOrgId is provided in verified mode", () => {
+    it("returns error when no org is selected in verified mode", () => {
       const errors = validateSelfReportedHoursForm(
-        makeValidInput({ charityOrgId: undefined }),
+        makeValidInput({
+          charityOrgId: undefined,
+          organizationName: undefined,
+        }),
         "verified",
       );
       expect(errors.organization).toBe(
@@ -164,6 +164,17 @@ describe("validateSelfReportedHoursForm", () => {
     it("returns no error when charityOrgId is provided in verified mode", () => {
       const errors = validateSelfReportedHoursForm(
         makeValidInput({ charityOrgId: "org-123" }),
+        "verified",
+      );
+      expect(errors.organization).toBeUndefined();
+    });
+
+    it("returns no error when only organizationName is set in verified mode (GIV-959)", () => {
+      // The live search RPC may omit `id` (schema drift), leaving the
+      // selection recorded only by name — a completed selection must still
+      // pass client-side validation.
+      const errors = validateSelfReportedHoursForm(
+        makeValidInput({ charityOrgId: undefined }),
         "verified",
       );
       expect(errors.organization).toBeUndefined();
@@ -198,10 +209,7 @@ describe("validateSelfReportedHoursForm", () => {
 
   describe("full form validation", () => {
     it("returns empty errors for fully valid form in other mode", () => {
-      const errors = validateSelfReportedHoursForm(
-        makeValidInput(),
-        "other",
-      );
+      const errors = validateSelfReportedHoursForm(makeValidInput(), "other");
       expect(Object.keys(errors)).toHaveLength(0);
     });
 
