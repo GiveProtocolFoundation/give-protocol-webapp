@@ -64,7 +64,7 @@ jobs:
             const fs = require("fs");
             let content = fs.readFileSync("db_dump.sql", "utf8");
             let tables = new Set();
-            const regex = /CREATE\s+TABLE\s+([a-zA-Z0-9_."]+)/ig;
+            const regex = /CREATE\s+TABLE\s+(?:IF\s+NOT\s+EXISTS\s+)?([a-zA-Z0-9_."]+)/ig;
             let match;
             while ((match = regex.exec(content)) !== null) {
                let t = match[1].replace(/^public\./i, "").replace(/"/g, "");
