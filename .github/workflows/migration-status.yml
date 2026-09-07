@@ -106,11 +106,18 @@ jobs:
                 WHERE table_schema = 'public'
                   AND table_name = 'charity_organizations'
                   AND column_name = 'id') AS org_id_column,
+              (SELECT is_nullable FROM information_schema.columns
+                WHERE table_schema = 'public'
+                  AND table_name = 'charity_organizations'
+                  AND column_name = 'id') AS org_id_nullable,
               (SELECT count(*) FROM information_schema.columns
                 WHERE table_schema = 'public'
                   AND table_name = 'self_reported_hours'
                   AND column_name = 'charity_org_id') AS hours_org_column,
-              (SELECT count(*) FROM public.charity_organizations) AS org_rows;
+              (SELECT to_char(count(*), 'FM999999999')
+                FROM public.charity_organizations) AS org_rows,
+              (SELECT to_char(count(*), 'FM999999999')
+                FROM public.charity_organizations WHERE id IS NULL) AS org_rows_missing_id;
           " | tee query-check.txt
           {
             echo
