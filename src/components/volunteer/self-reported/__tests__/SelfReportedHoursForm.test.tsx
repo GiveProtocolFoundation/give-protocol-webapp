@@ -519,6 +519,58 @@ describe("SelfReportedHoursForm", () => {
       expect(submittedData.organizationName).toBe(org.name);
       expect(submittedData.organizationId).toBeUndefined();
     });
+
+    it("still submits when the registry row has no id (GIV-959 RPC drift)", async () => {
+      // Production's search RPC was missing the `id` column, so selections
+      // arrived with org.id undefined — validation must not reject them.
+      const org = {
+        id: undefined,
+        name: "GIVE PROTOCOL FOUNDATION",
+        ein: "334916603",
+        city: "Annapolis",
+        state: "MD",
+        is_on_platform: false,
+        platform_charity_id: null,
+      };
+      mockUseCharityOrgSearch.mockReturnValue({
+        organizations: [org],
+        loading: false,
+        hasMore: false,
+        error: null,
+        loadMore: jest.fn(),
+      });
+      const { container } = renderForm();
+      fireEvent.click(screen.getByLabelText(/search registry/i));
+
+      fireEvent.change(screen.getByLabelText(/^date/i), {
+        target: { name: "activityDate", value: "2025-06-01" },
+      });
+      fireEvent.change(screen.getByLabelText(/^hours/i), {
+        target: { name: "hours", value: "2" },
+      });
+      fireEvent.change(
+        screen.getByPlaceholderText(/describe the activities/i),
+        { target: { name: "description", value: VALID_DESCRIPTION } },
+      );
+
+      const searchInput = screen.getByPlaceholderText(
+        /search charity registry/i,
+      );
+      fireEvent.change(searchInput, { target: { value: "GIVE" } });
+      const result = document.querySelector(`button[data-ein="${org.ein}"]`);
+      fireEvent.click(result as HTMLElement);
+
+      act(() => {
+        submitForm(container);
+      });
+
+      await waitFor(() => {
+        expect(mockOnSubmit).toHaveBeenCalledTimes(1);
+      });
+      const submittedData = mockOnSubmit.mock.calls[0][0];
+      expect(submittedData.charityOrgId).toBeUndefined();
+      expect(submittedData.organizationName).toBe(org.name);
+    });
   });
 
   describe("Validation preview banners", () => {

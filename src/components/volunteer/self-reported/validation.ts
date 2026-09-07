@@ -73,7 +73,15 @@ function validateOrganization(
 ): { organization?: string; organizationName?: string } {
   const errors: { organization?: string; organizationName?: string } = {};
 
-  if (orgMode === "verified" && !formData.charityOrgId) {
+  if (
+    orgMode === "verified" &&
+    !formData.charityOrgId &&
+    !formData.organizationName
+  ) {
+    // Accept either the registry row id or the selected org name: the live
+    // search RPC may omit `id` when the GIV-119 schema migration has not been
+    // applied, and a completed selection must not be rejected client-side
+    // (GIV-959).
     errors.organization = "Please select an organization from the registry";
   }
 

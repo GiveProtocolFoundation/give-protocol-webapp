@@ -151,9 +151,12 @@ describe("validateSelfReportedHoursForm", () => {
   });
 
   describe("organization validation (verified mode)", () => {
-    it("returns error when no charityOrgId is provided in verified mode", () => {
+    it("returns error when no org is selected in verified mode", () => {
       const errors = validateSelfReportedHoursForm(
-        makeValidInput({ charityOrgId: undefined }),
+        makeValidInput({
+          charityOrgId: undefined,
+          organizationName: undefined,
+        }),
         "verified",
       );
       expect(errors.organization).toBe(
@@ -164,6 +167,17 @@ describe("validateSelfReportedHoursForm", () => {
     it("returns no error when charityOrgId is provided in verified mode", () => {
       const errors = validateSelfReportedHoursForm(
         makeValidInput({ charityOrgId: "org-123" }),
+        "verified",
+      );
+      expect(errors.organization).toBeUndefined();
+    });
+
+    it("returns no error when only organizationName is set in verified mode (GIV-959)", () => {
+      // The live search RPC may omit `id` (schema drift), leaving the
+      // selection recorded only by name — a completed selection must still
+      // pass client-side validation.
+      const errors = validateSelfReportedHoursForm(
+        makeValidInput({ charityOrgId: undefined }),
         "verified",
       );
       expect(errors.organization).toBeUndefined();

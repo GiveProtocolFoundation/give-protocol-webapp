@@ -318,21 +318,30 @@ export async function createSelfReportedHours(
     }
   }
 
+  const insertPayload: Record<string, unknown> = {
+    volunteer_id: volunteerId,
+    activity_date: input.activityDate,
+    hours: input.hours,
+    activity_type: input.activityType,
+    description: input.description,
+    location: input.location || null,
+    organization_id: organizationId,
+    organization_name: organizationName,
+    organization_contact_email: input.organizationContactEmail || null,
+    validation_status: validationStatus,
+  };
+
+  // Only send charity_org_id when a registry row id exists. Sending the key
+  // with null against a database that has not applied the GIV-119 migration
+  // (charity_org_id column missing) makes PostgREST reject the whole insert
+  // with "Could not find the 'charity_org_id' column" (GIV-959).
+  if (input.charityOrgId) {
+    insertPayload.charity_org_id = input.charityOrgId;
+  }
+
   const { data, error } = await supabase
     .from("self_reported_hours")
-    .insert({
-      volunteer_id: volunteerId,
-      activity_date: input.activityDate,
-      hours: input.hours,
-      activity_type: input.activityType,
-      description: input.description,
-      location: input.location || null,
-      organization_id: organizationId,
-      charity_org_id: input.charityOrgId || null,
-      organization_name: organizationName,
-      organization_contact_email: input.organizationContactEmail || null,
-      validation_status: validationStatus,
-    })
+    .insert(insertPayload)
     .select()
     .single();
 

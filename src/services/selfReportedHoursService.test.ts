@@ -1157,4 +1157,99 @@ describe("selfReportedHoursService", () => {
       expect(result.organizationName).toBe("Fallback Name");
     });
   });
+
+  describe("insert payload drift safety (GIV-959)", () => {
+    const yesterday = new Date(Date.now() - 24 * 60 * 60 * 1000);
+    const activityDate = yesterday.toISOString().split("T")[0];
+    const description =
+      "This is a test description that meets the minimum character requirement for validation purposes.";
+
+    /** Returns the insert payload captured from the mocked supabase client. */
+    const captureInsertPayload = (): Record<string, unknown> => {
+      const fromMock = mockSupabase.from as unknown as {
+        mock: {
+          calls: unknown[][];
+          results: { value: { insert: { mock: { calls: unknown[][] } } } }[];
+        };
+      };
+      const calls = fromMock.mock.calls;
+      const results = fromMock.mock.results;
+      for (let i = calls.length - 1; i >= 0; i--) {
+        if (calls[i][0] === "self_reported_hours") {
+          const insertCalls =
+            results[i].value.insert.mock.calls;
+          if (insertCalls.length > 0) {
+            return insertCalls[0][0] as Record<string, unknown>;
+          }
+        }
+      }
+      throw new Error("No self_reported_hours insert captured");
+    };
+
+    it("omits charity_org_id from the insert payload when no registry id exists", async () => {
+      const now = new Date();
+      const mockRecord = {
+        id: "record-drift",
+        volunteer_id: "user-1",
+        activity_date: activityDate,
+        hours: 2,
+        activity_type: ActivityType.DIRECT_SERVICE,
+        description,
+        organization_id: null,
+        organization_name: "Give Protocol Foundation",
+        validation_status: ValidationStatus.UNVALIDATED,
+        created_at: now.toISOString(),
+        updated_at: now.toISOString(),
+      };
+      setMockAuthUser({ id: "user-1", email: "test@example.com" });
+      setMockResult("self_reported_hours", { data: mockRecord, error: null });
+
+      // Registry selection without an `id` (production RPC drift): the org is
+      // recorded by name only. Sending charity_org_id: null would make
+      // PostgREST reject the insert on databases missing the column.
+      await createSelfReportedHours("user-1", {
+        activityDate,
+        hours: 2,
+        activityType: ActivityType.DIRECT_SERVICE,
+        description,
+        organizationName: "Give Protocol Foundation",
+      });
+
+      const payload = captureInsertPayload();
+      expect(Object.keys(payload)).not.toContain("charity_org_id");
+      expect(payload.organization_name).toBe("Give Protocol Foundation");
+    });
+
+    it("includes charity_org_id when a registry id exists", async () => {
+      const now = new Date();
+      const mockRecord = {
+        id: "record-with-id",
+        volunteer_id: "user-1",
+        activity_date: activityDate,
+        hours: 2,
+        activity_type: ActivityType.DIRECT_SERVICE,
+        description,
+        organization_id: null,
+        charity_org_id: "co-uuid-9",
+        organization_name: "Registry Org",
+        validation_status: ValidationStatus.UNVALIDATED,
+        created_at: now.toISOString(),
+        updated_at: now.toISOString(),
+      };
+      setMockAuthUser({ id: "user-1", email: "test@example.com" });
+      setMockResult("self_reported_hours", { data: mockRecord, error: null });
+
+      await createSelfReportedHours("user-1", {
+        activityDate,
+        hours: 2,
+        activityType: ActivityType.DIRECT_SERVICE,
+        description,
+        charityOrgId: "co-uuid-9",
+        organizationName: "Registry Org",
+      });
+
+      const payload = captureInsertPayload();
+      expect(payload.charity_org_id).toBe("co-uuid-9");
+    });
+  });
 });

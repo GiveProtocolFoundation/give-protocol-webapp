@@ -44,6 +44,7 @@ CREATE OR REPLACE FUNCTION search_charity_organizations(
   result_offset INT DEFAULT 0
 )
 RETURNS TABLE (
+  id                 UUID,
   ein                TEXT,
   name               TEXT,
   city               TEXT,
@@ -81,6 +82,7 @@ BEGIN
     -- ── EIN lookup: uses btree index on ein ──────────────────────────────
     RETURN QUERY
     SELECT
+      co.id,
       co.ein, co.name, co.city, co.state, co.zip, co.ntee_cd,
       co.deductibility, co.is_on_platform,
       co.platform_charity_id::TEXT,
@@ -100,6 +102,7 @@ BEGIN
     -- ── Full-text search via GIN index on search_vector ──────────────────
     RETURN QUERY
     SELECT
+      co.id,
       co.ein, co.name, co.city, co.state, co.zip, co.ntee_cd,
       co.deductibility, co.is_on_platform,
       co.platform_charity_id::TEXT,
@@ -119,6 +122,7 @@ BEGIN
     -- ── Filter-only (no search term) ─────────────────────────────────────
     RETURN QUERY
     SELECT
+      co.id,
       co.ein, co.name, co.city, co.state, co.zip, co.ntee_cd,
       co.deductibility, co.is_on_platform,
       co.platform_charity_id::TEXT,
