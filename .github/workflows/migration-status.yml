@@ -1,0 +1,121 @@
+name: Migration Status
+
+# Read-only report of production migration history vs this branch.
+#
+# Connects through the Supabase Management API (`--linked` + repo-level
+# SUPABASE_ACCESS_TOKEN), the same path the scheduled schema drift check uses.
+# The direct connection URI (db.<ref>.supabase.co:5432) is IPv6-only for this
+# project (no A record), so it is NOT reachable from GitHub-hosted runners —
+# nothing here uses --db-url.
+#
+# Safe to run any time: every command is read-only
+#   - supabase migration list   reads supabase_migrations.schema_migrations
+#   - supabase db push --dry-run  prints what would apply, writes nothing
+#   - supabase db query         runs SELECTs only
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  status:
+    name: Migration status (prod)
+    runs-on: ubuntu-latest
+    env:
+      PROJECT_REF: lhbyfidtlhojnrewpstp
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+
+      - name: Install Supabase CLI
+        uses: supabase/setup-cli@v1
+        with:
+          version: latest
+
+      - name: Verify access token is configured
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          if [ -z "${SUPABASE_ACCESS_TOKEN:-}" ]; then
+            echo "::error::SUPABASE_ACCESS_TOKEN is not set as a repository secret."
+            exit 1
+          fi
+          echo "Access token is present."
+
+      - name: Migration list (linked, JSON)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -o pipefail
+          supabase migration list --linked --project-ref "$PROJECT_REF" --output-format json \
+            > migration-list.json 2> migration-list.err || {
+              echo "::error::Could not read remote migration history via the Management API."
+              cat migration-list.err
+              exit 1
+            }
+          echo "--- raw migration list output ---"
+          cat migration-list.json
+          {
+            echo
+            echo "### Remote migration history (raw)"
+            echo '```json'
+            cat migration-list.json
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Preflight classification
+        env:
+          ALLOW_FULL_REPLAY: "false"
+        run: |
+          set -o pipefail
+          ./scripts/ci/migration-preflight.sh migration-list.json | tee preflight.txt
+          status=${PIPESTATUS[0]}
+          {
+            echo
+            echo "### Migration history preflight"
+            echo '```'
+            cat preflight.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+          exit "$status"
+
+      - name: Pending migrations (db push --dry-run)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -o pipefail
+          supabase db push --linked --project-ref "$PROJECT_REF" --dry-run 2>&1 | tee push-plan.txt
+          {
+            echo
+            echo "### Migrations that would be applied"
+            echo '```'
+            tail -60 push-plan.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Registry drift check (linked query)
+        env:
+          SUPABASE_ACCESS_TOKEN: ${{ secrets.SUPABASE_ACCESS_TOKEN }}
+        run: |
+          set -o pipefail
+          supabase db query --linked --project-ref "$PROJECT_REF" "
+            SELECT
+              (SELECT count(*) FROM information_schema.columns
+                WHERE table_schema = 'public'
+                  AND table_name = 'charity_organizations'
+                  AND column_name = 'id') AS org_id_column,
+              (SELECT count(*) FROM information_schema.columns
+                WHERE table_schema = 'public'
+                  AND table_name = 'self_reported_hours'
+                  AND column_name = 'charity_org_id') AS hours_org_column,
+              (SELECT count(*) FROM public.charity_organizations) AS org_rows;
+          " | tee query-check.txt
+          {
+            echo
+            echo "### Registry drift check"
+            echo '```'
+            cat query-check.txt
+            echo '```'
+          } >> "$GITHUB_STEP_SUMMARY"
