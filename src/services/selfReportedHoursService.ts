@@ -35,7 +35,9 @@ function mapRowToSelfReportedHours(
     description: row.description as string,
     location: row.location as string | undefined,
     organizationId: row.organization_id as string | undefined,
-    charityOrgId: row.charity_org_id ? (row.charity_org_id as string) : undefined,
+    charityOrgId: row.charity_org_id
+      ? (row.charity_org_id as string)
+      : undefined,
     organizationName: row.organization_name as string | undefined,
     organizationContactEmail: row.organization_contact_email as
       | string
