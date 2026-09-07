@@ -180,6 +180,13 @@ export interface SelfReportedHoursInput {
   location?: string;
   organizationId?: UUID;
   charityOrgId?: UUID;
+  /**
+   * charity_profiles.id of a registry org flagged is_on_platform. The DB's
+   * organization_id column references profiles(id) instead, so the service
+   * resolves this to the charity account's profiles.id at insert time
+   * (GIV-959).
+   */
+  platformCharityId?: UUID;
   organizationName?: string;
   organizationContactEmail?: string;
 }
