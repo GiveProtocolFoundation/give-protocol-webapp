@@ -1176,8 +1176,7 @@ describe("selfReportedHoursService", () => {
       const results = fromMock.mock.results;
       for (let i = calls.length - 1; i >= 0; i--) {
         if (calls[i][0] === "self_reported_hours") {
-          const insertCalls =
-            results[i].value.insert.mock.calls;
+          const insertCalls = results[i].value.insert.mock.calls;
           if (insertCalls.length > 0) {
             return insertCalls[0][0] as Record<string, unknown>;
           }

@@ -1,8 +1,5 @@
 import { describe, it, expect } from "@jest/globals";
-import {
-  validateSelfReportedHoursForm,
-  isFormValid,
-} from "../validation";
+import { validateSelfReportedHoursForm, isFormValid } from "../validation";
 import type { ValidationErrors } from "../validation";
 import {
   ActivityType,
@@ -212,10 +209,7 @@ describe("validateSelfReportedHoursForm", () => {
 
   describe("full form validation", () => {
     it("returns empty errors for fully valid form in other mode", () => {
-      const errors = validateSelfReportedHoursForm(
-        makeValidInput(),
-        "other",
-      );
+      const errors = validateSelfReportedHoursForm(makeValidInput(), "other");
       expect(Object.keys(errors)).toHaveLength(0);
     });
 
