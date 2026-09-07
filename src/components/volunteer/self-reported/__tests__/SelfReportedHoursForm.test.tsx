@@ -412,7 +412,7 @@ describe("SelfReportedHoursForm", () => {
   });
 
   describe("Verified mode submission", () => {
-    it("submits with charityOrgId and platform organizationId when org is on platform", async () => {
+    it("submits with charityOrgId and platformCharityId when org is on platform", async () => {
       const org = {
         id: "charity-org-2",
         name: "Beta Charity",
@@ -461,8 +461,12 @@ describe("SelfReportedHoursForm", () => {
       });
       const submittedData = mockOnSubmit.mock.calls[0][0];
       expect(submittedData.charityOrgId).toBe(org.id);
-      expect(submittedData.organizationId).toBe(org.platform_charity_id);
-      expect(submittedData.organizationName).toBeUndefined();
+      // GIV-959: the registry's platform_charity_id is a charity_profiles.id,
+      // not the profiles.id the DB expects, so it must be sent separately for
+      // the service to resolve — never as organizationId.
+      expect(submittedData.platformCharityId).toBe(org.platform_charity_id);
+      expect(submittedData.organizationId).toBeUndefined();
+      expect(submittedData.organizationName).toBe(org.name);
     });
 
     it("submits with org name when registry org is not on platform", async () => {

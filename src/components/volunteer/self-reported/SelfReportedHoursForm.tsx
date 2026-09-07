@@ -373,6 +373,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
     location: initialData?.location || "",
     organizationId: initialData?.organizationId,
     charityOrgId: initialData?.charityOrgId,
+    platformCharityId: initialData?.platformCharityId,
     organizationName: initialData?.organizationName,
     organizationContactEmail: initialData?.organizationContactEmail,
   });
@@ -453,17 +454,16 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
         setFormData((prev) => ({
           ...prev,
           charityOrgId: org.id,
-          // When the registry org is also a platform account, use its profile UUID
-          // for the validation flow; organizationName must be null per DB constraint.
-          // When not on platform, store the display name in organizationName.
-          organizationId:
+          // GIV-959: platform_charity_id references charity_profiles.id, NOT
+          // the profiles.id that self_reported_hours.organization_id expects.
+          // Pass it separately; the service resolves the charity account and
+          // falls back to the registry name when none exists.
+          organizationId: undefined,
+          platformCharityId:
             org.is_on_platform && org.platform_charity_id
               ? org.platform_charity_id
               : undefined,
-          organizationName:
-            org.is_on_platform && org.platform_charity_id
-              ? undefined
-              : org.name,
+          organizationName: org.name,
           organizationContactEmail: undefined,
         }));
         setSelectedOrgName(org.name);
@@ -472,6 +472,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
           ...prev,
           charityOrgId: undefined,
           organizationId: undefined,
+          platformCharityId: undefined,
           organizationName: undefined,
         }));
         setSelectedOrgName(null);
@@ -492,6 +493,7 @@ export const SelfReportedHoursForm: React.FC<SelfReportedHoursFormProps> = ({
       ...prev,
       charityOrgId: undefined,
       organizationId: undefined,
+      platformCharityId: undefined,
       organizationName: mode === "other" ? "" : undefined,
       organizationContactEmail: undefined,
     }));

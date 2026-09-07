@@ -124,11 +124,24 @@ function validateInput(input: SelfReportedHoursInput): {
   }
 
   // Validate organization
-  if (!input.organizationId && !input.organizationName) {
-    errors.push("Either organization ID or organization name is required");
-  }
-  if (input.organizationId && input.organizationName) {
-    errors.push("Cannot specify both organization ID and organization name");
+  if (input.platformCharityId) {
+    if (input.organizationId) {
+      errors.push(
+        "Cannot specify both platform charity ID and organization ID",
+      );
+    }
+    if (!input.organizationName) {
+      errors.push(
+        "Organization name is required when logging hours for an on-platform organization",
+      );
+    }
+  } else {
+    if (!input.organizationId && !input.organizationName) {
+      errors.push("Either organization ID or organization name is required");
+    }
+    if (input.organizationId && input.organizationName) {
+      errors.push("Cannot specify both organization ID and organization name");
+    }
   }
 
   return {
@@ -179,6 +192,58 @@ async function createValidationRequest(
 }
 
 /**
+ * Resolves a registry on-platform charity reference to the charity's
+ * profiles.id (GIV-959).
+ *
+ * The organization autocomplete reports platform orgs by their
+ * charity_profiles.id, while self_reported_hours.organization_id (and
+ * validation_requests.organization_id) reference profiles(id). Map between
+ * them via charity_profiles.claimed_by → profiles.user_id.
+ *
+ * @param platformCharityId - charity_profiles.id of the selected org
+ * @returns The charity account's profiles.id, or null when the charity
+ * profile is unclaimed (no charity account exists to validate hours)
+ */
+async function resolveCharityProfileId(
+  platformCharityId: string,
+): Promise<string | null> {
+  const { data: charityProfile, error: charityProfileError } = await supabase
+    .from("charity_profiles")
+    .select("claimed_by")
+    .eq("id", platformCharityId)
+    .maybeSingle();
+
+  if (charityProfileError) {
+    Logger.warn("Failed to look up charity profile for platform org", {
+      error: charityProfileError,
+      platformCharityId,
+    });
+    return null;
+  }
+
+  if (!charityProfile?.claimed_by) {
+    return null;
+  }
+
+  const { data: profile, error: profileError } = await supabase
+    .from("profiles")
+    .select("id")
+    .eq("user_id", charityProfile.claimed_by)
+    .eq("type", "charity")
+    .maybeSingle();
+
+  if (profileError) {
+    Logger.warn("Failed to look up charity account profile for platform org", {
+      error: profileError,
+      platformCharityId,
+    });
+    return null;
+  }
+
+  return profile?.id ?? null;
+}
+
+/**
  * Creates a new self-reported volunteer hours record
  * @param volunteerId - The user ID of the volunteer
  * @param input - The hours record input
@@ -216,10 +281,32 @@ export async function createSelfReportedHours(
     throw new Error(validation.errors.join("; "));
   }
 
+  // Determine the persisted organization reference (GIV-959).
+  // Registry on-platform orgs arrive as platformCharityId (charity_profiles.id);
+  // resolve that to the charity account's profiles.id so the insert satisfies
+  // the organization_id → profiles(id) foreign key. Unclaimed platform
+  // charities have no charity account, so fall back to the organization name
+  // (the table's valid_org_reference XOR constraint requires exactly one).
+  let organizationId: string | null = input.organizationId ?? null;
+  let organizationName: string | null = input.organizationName ?? null;
+
+  if (input.platformCharityId) {
+    const charityProfileId = await resolveCharityProfileId(
+      input.platformCharityId,
+    );
+
+    if (charityProfileId) {
+      organizationId = charityProfileId;
+      organizationName = null;
+    } else {
+      organizationId = null;
+    }
+  }
+
   // Determine initial validation status
   let validationStatus: ValidationStatus = ValidationStatus.UNVALIDATED;
 
-  if (input.organizationId) {
+  if (organizationId) {
     // Check if validation window is still open
     const daysLeft = calculateDaysUntilExpiration(input.activityDate);
     if (daysLeft !== undefined && daysLeft > 0) {
@@ -238,9 +325,9 @@ export async function createSelfReportedHours(
       activity_type: input.activityType,
       description: input.description,
       location: input.location || null,
-      organization_id: input.organizationId || null,
+      organization_id: organizationId,
       charity_org_id: input.charityOrgId || null,
-      organization_name: input.organizationName || null,
+      organization_name: organizationName,
       organization_contact_email: input.organizationContactEmail || null,
       validation_status: validationStatus,
     })
@@ -255,11 +342,11 @@ export async function createSelfReportedHours(
   const record = mapRowToSelfReportedHours(data);
 
   // If verified org and not expired, create validation request
-  if (input.organizationId && validationStatus === ValidationStatus.PENDING) {
+  if (organizationId && validationStatus === ValidationStatus.PENDING) {
     try {
       await createValidationRequest(
         record.id,
-        input.organizationId,
+        organizationId,
         volunteerId,
         input.activityDate,
       );
