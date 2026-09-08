@@ -844,10 +844,10 @@ interface ProgressStep {
 }
 
 /** Persistent vertical progress rail marking completed and current application steps. */
-const ProgressRail: React.FC<{ steps: ProgressStep[]; activeIndex: number }> = ({
-  steps,
-  activeIndex,
-}) => (
+const ProgressRail: React.FC<{
+  steps: ProgressStep[];
+  activeIndex: number;
+}> = ({ steps, activeIndex }) => (
   <nav
     aria-label="Application progress"
     className="hidden sm:flex flex-col w-20 shrink-0 border-r border-gray-200 dark:border-gray-700 py-8 px-3"
