@@ -1155,7 +1155,7 @@ export const VolunteerApplicationForm: React.FC<
 
   // Autosave a draft of the form (excluding consent) shortly after the applicant edits it
   useEffect(() => {
-    if (!isDirtyRef.current) return;
+    if (!isDirtyRef.current) return null;
     const timeoutId = setTimeout(() => {
       saveDraft(draftKey, pickDraftFields(formData));
       setDraftSavedAt(new Date());
