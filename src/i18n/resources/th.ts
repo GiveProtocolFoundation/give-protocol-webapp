@@ -1170,6 +1170,8 @@ export default {
     "auth.signup.privacyPolicy": "นโยบายความเป็นส่วนตัว",
     "auth.signup.panel.headline": "การให้ที่คุณตรวจสอบได้",
     "browse.hero.title": "การให้ ยืนยันบนบล็อกเชน",
+    "browse.hero.subtitle":
+      "ค้นพบสาเหตุที่ผ่านการคัดเลือก บริจาคด้วยบัตรหรือสินทรัพย์ดิจิทัล และเห็นผลกระทบที่จับต้องได้จากเวลาและทรัพยากรของคุณ",
     "browse.stats.networks": "เครือข่ายที่รองรับ",
     "browse.stats.sectors": "ภาคการกุศล",
     "browse.stats.verifiedOrgs": "องค์กรที่ผ่านการตรวจสอบ",

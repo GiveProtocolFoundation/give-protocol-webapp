@@ -9,7 +9,9 @@ describe("PublicDiscoveryView", () => {
         <PublicDiscoveryView />
       </MemoryRouter>,
     );
-    expect(screen.getByText("Giving, verified on-chain.")).toBeInTheDocument();
+    expect(
+      screen.getByText("Transparent giving. Measurable change."),
+    ).toBeInTheDocument();
   });
 
   it("renders hero stat tiles", () => {

@@ -1221,6 +1221,8 @@ export default {
     "auth.signup.privacyPolicy": "Política de Privacidad",
     "auth.signup.panel.headline": "Donaciones que puede verificar.",
     "browse.hero.title": "Donaciones verificadas on-chain.",
+    "browse.hero.subtitle":
+      "Descubre causas verificadas, dona con tarjeta o activos digitales y ve el impacto tangible de tu tiempo y recursos.",
     "browse.stats.networks": "Redes compatibles",
     "browse.stats.sectors": "Sectores benéficos",
     "browse.stats.verifiedOrgs": "Organizaciones verificadas",
