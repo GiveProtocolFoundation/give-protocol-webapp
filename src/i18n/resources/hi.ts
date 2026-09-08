@@ -1183,6 +1183,8 @@ export default {
     "auth.signup.privacyPolicy": "गोपनीयता नीति",
     "auth.signup.panel.headline": "दान जो आप सत्यापित कर सकते हैं।",
     "browse.hero.title": "दान, ऑन-चेन सत्यापित।",
+    "browse.hero.subtitle":
+      "जाँचे हुए कारणों को खोजें, कार्ड या डिजिटल संपत्तियों से योगदान करें, और अपने समय व संसाधनों का ठोस प्रभाव देखें।",
     "browse.stats.networks": "समर्थित नेटवर्क",
     "browse.stats.sectors": "परोपकारी क्षेत्र",
     "browse.stats.verifiedOrgs": "सत्यापित संगठन",

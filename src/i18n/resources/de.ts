@@ -1232,6 +1232,8 @@ export default {
     "auth.signup.privacyPolicy": "Datenschutzrichtlinie",
     "auth.signup.panel.headline": "Spenden, die Sie verifizieren können.",
     "browse.hero.title": "Spenden, on-chain verifiziert.",
+    "browse.hero.subtitle":
+      "Entdecken Sie geprüfte Anliegen, spenden Sie per Karte oder digitalen Vermögenswerten und sehen Sie den greifbaren Einfluss Ihrer Zeit und Ressourcen.",
     "browse.stats.networks": "Unterstützte Netzwerke",
     "browse.stats.sectors": "Gemeinnützige Bereiche",
     "browse.stats.verifiedOrgs": "Verifizierte Organisationen",

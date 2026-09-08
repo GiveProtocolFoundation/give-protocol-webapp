@@ -1149,6 +1149,8 @@ export default {
     "auth.signup.privacyPolicy": "개인정보처리방침",
     "auth.signup.panel.headline": "검증 가능한 기부.",
     "browse.hero.title": "온체인으로 검증된 기부.",
+    "browse.hero.subtitle":
+      "검증된 기부처를 발견하고 카드나 디지털 자산으로 기부하며 내 시간과 자원이 만드는 실질적인 변화를 확인하세요.",
     "browse.stats.networks": "지원 네트워크",
     "browse.stats.sectors": "자선 분야",
     "browse.stats.verifiedOrgs": "인증된 단체",

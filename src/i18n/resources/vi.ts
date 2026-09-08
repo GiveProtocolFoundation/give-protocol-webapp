@@ -1173,6 +1173,8 @@ export default {
     "auth.signup.privacyPolicy": "Chính sách quyền riêng tư",
     "auth.signup.panel.headline": "Quyên góp mà bạn có thể xác minh.",
     "browse.hero.title": "Quyên góp, xác minh on-chain.",
+    "browse.hero.subtitle":
+      "Khám phá các tổ chức đã được kiểm duyệt, đóng góp qua thẻ hoặc tài sản kỹ thuật số và thấy tác động cụ thể từ thời gian và nguồn lực của bạn.",
     "browse.stats.networks": "Mạng được hỗ trợ",
     "browse.stats.sectors": "Lĩnh vực từ thiện",
     "browse.stats.verifiedOrgs": "Tổ chức đã xác minh",

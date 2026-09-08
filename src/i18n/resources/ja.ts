@@ -1178,6 +1178,8 @@ export default {
     "auth.signup.privacyPolicy": "プライバシーポリシー",
     "auth.signup.panel.headline": "検証できる寄付を。",
     "browse.hero.title": "オンチェーンで検証される寄付。",
+    "browse.hero.subtitle":
+      "審査済みの寄付先を発見し、カードまたはデジタル資産で寄付して、あなたの時間とリソースが生み出す確かな変化を確認できます。",
     "browse.stats.networks": "対応ネットワーク",
     "browse.stats.sectors": "慈善分野",
     "browse.stats.verifiedOrgs": "認証済み団体",

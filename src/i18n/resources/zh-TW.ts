@@ -1110,6 +1110,8 @@ export default {
     "auth.signup.privacyPolicy": "隱私權政策",
     "auth.signup.panel.headline": "可驗證的捐贈。",
     "browse.hero.title": "鏈上驗證的捐贈。",
+    "browse.hero.subtitle":
+      "發掘經過篩選的事業，透過卡片或數位資產捐款，並看到你的時間和資源帶來的具體影響。",
     "browse.stats.networks": "支援的網路",
     "browse.stats.sectors": "慈善領域",
     "browse.stats.verifiedOrgs": "已驗證組織",

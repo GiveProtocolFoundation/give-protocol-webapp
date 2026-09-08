@@ -1143,6 +1143,8 @@ export default {
     "auth.signup.privacyPolicy": "سياسة الخصوصية",
     "auth.signup.panel.headline": "عطاء يمكنك التحقق منه.",
     "browse.hero.title": "عطاء موثّق على السلسلة.",
+    "browse.hero.subtitle":
+      "اكتشف قضايا موثّقة، وتبرّع بالبطاقة أو الأصول الرقمية، وشاهد الأثر الملموس لوقتك ومواردك.",
     "browse.stats.networks": "شبكات مدعومة",
     "browse.stats.sectors": "قطاعات خيرية",
     "browse.stats.verifiedOrgs": "منظمات معتمدة",

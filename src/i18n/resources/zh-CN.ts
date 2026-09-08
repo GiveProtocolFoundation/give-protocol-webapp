@@ -1109,6 +1109,8 @@ export default {
     "auth.signup.privacyPolicy": "隐私政策",
     "auth.signup.panel.headline": "可验证的捐赠。",
     "browse.hero.title": "链上验证的捐赠。",
+    "browse.hero.subtitle":
+      "发现经过筛选的事业，通过银行卡或数字资产捐款，并看到你的时间和资源带来的切实影响。",
     "browse.stats.networks": "支持的网络",
     "browse.stats.sectors": "慈善领域",
     "browse.stats.verifiedOrgs": "已认证组织",
