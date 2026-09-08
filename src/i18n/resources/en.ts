@@ -1467,7 +1467,9 @@ export default {
     "auth.signup.panel.headline": "Giving that you can verify.",
 
     // Browse - Discovery (GIV-264)
-    "browse.hero.title": "Giving, verified on-chain.",
+    "browse.hero.title": "Transparent giving. Measurable change.",
+    "browse.hero.subtitle":
+      "Discover vetted causes, contribute via card or digital assets, and see the tangible footprint of your time and resources.",
     "browse.stats.networks": "Networks supported",
     "browse.stats.sectors": "Charitable sectors",
     "browse.stats.verifiedOrgs": "Verified organizations",

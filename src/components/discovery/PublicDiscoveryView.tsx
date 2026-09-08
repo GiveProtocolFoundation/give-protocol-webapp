@@ -61,12 +61,12 @@ export const PublicDiscoveryView: React.FC = () => {
           Give Protocol
         </p>
         <h1 className="mt-2 text-4xl md:text-5xl font-semibold text-gray-900 dark:text-gray-100 tracking-tight leading-[1.1]">
-          {t("browse.hero.title", "Giving, verified on-chain.")}
+          {t("browse.hero.title", "Transparent giving. Measurable change.")}
         </h1>
         <p className="mt-4 text-lg text-gray-600 dark:text-gray-400 max-w-xl">
           {t(
             "browse.hero.subtitle",
-            "Discover verified nonprofits, donate with crypto or card, and trace your impact from wallet to cause.",
+            "Discover vetted causes, contribute via card or digital assets, and see the tangible footprint of your time and resources.",
           )}
         </p>
       </div>
