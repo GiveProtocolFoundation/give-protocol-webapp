@@ -283,6 +283,11 @@ export default {
       "Candidature pour une Opportunité de Bénévolat",
     "volunteer.applicationSubtitle":
       "Contribuez à un impact durable grâce à des contributions vérifiées",
+    "volunteer.progress.info": "Infos",
+    "volunteer.progress.skills": "Compétences",
+    "volunteer.progress.consent": "Consentement",
+    "volunteer.fieldValid": "C'est bon",
+    "volunteer.draftSaved": "Brouillon enregistré",
     "volunteer.personalInfo": "Informations Personnelles",
     "volunteer.firstName": "Prénom",
     "volunteer.lastName": "Nom",

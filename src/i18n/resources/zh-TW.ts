@@ -254,6 +254,11 @@ export default {
     // Volunteer - VolunteerApplicationForm
     "volunteer.applicationTitle": "志工機會申請",
     "volunteer.applicationSubtitle": "透過經驗證的貢獻幫助創造永續的影響",
+    "volunteer.progress.info": "資訊",
+    "volunteer.progress.skills": "技能",
+    "volunteer.progress.consent": "同意",
+    "volunteer.fieldValid": "看起來不錯",
+    "volunteer.draftSaved": "草稿已儲存",
     "volunteer.personalInfo": "個人資訊",
     "volunteer.firstName": "名",
     "volunteer.lastName": "姓",

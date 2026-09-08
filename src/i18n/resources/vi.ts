@@ -269,6 +269,11 @@ export default {
     "volunteer.applicationTitle": "Đơn đăng ký cơ hội tình nguyện",
     "volunteer.applicationSubtitle":
       "Giúp tạo tác động bền vững thông qua các đóng góp được xác minh",
+    "volunteer.progress.info": "Thông tin",
+    "volunteer.progress.skills": "Kỹ năng",
+    "volunteer.progress.consent": "Đồng ý",
+    "volunteer.fieldValid": "Trông ổn",
+    "volunteer.draftSaved": "Đã lưu bản nháp",
     "volunteer.personalInfo": "Thông tin cá nhân",
     "volunteer.firstName": "Họ",
     "volunteer.lastName": "Tên",

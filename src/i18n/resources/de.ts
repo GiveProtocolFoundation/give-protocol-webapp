@@ -280,6 +280,11 @@ export default {
     "volunteer.applicationTitle": "Bewerbung als Freiwillige/r",
     "volunteer.applicationSubtitle":
       "Helfen Sie mit, durch verifizierte Beiträge nachhaltige Wirkung zu erzielen",
+    "volunteer.progress.info": "Info",
+    "volunteer.progress.skills": "Fähigkeiten",
+    "volunteer.progress.consent": "Zustimmung",
+    "volunteer.fieldValid": "Sieht gut aus",
+    "volunteer.draftSaved": "Entwurf gespeichert",
     "volunteer.personalInfo": "Persönliche Informationen",
     "volunteer.firstName": "Vorname",
     "volunteer.lastName": "Nachname",

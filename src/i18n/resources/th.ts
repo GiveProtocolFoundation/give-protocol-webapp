@@ -266,6 +266,11 @@ export default {
     "volunteer.applicationTitle": "ใบสมัครอาสาสมัคร",
     "volunteer.applicationSubtitle":
       "ช่วยสร้างผลกระทบอย่างยั่งยืนผ่านการมีส่วนร่วมที่ผ่านการตรวจสอบ",
+    "volunteer.progress.info": "ข้อมูล",
+    "volunteer.progress.skills": "ทักษะ",
+    "volunteer.progress.consent": "ความยินยอม",
+    "volunteer.fieldValid": "ดูดี",
+    "volunteer.draftSaved": "บันทึกฉบับร่างแล้ว",
     "volunteer.personalInfo": "ข้อมูลส่วนบุคคล",
     "volunteer.firstName": "ชื่อ",
     "volunteer.lastName": "นามสกุล",

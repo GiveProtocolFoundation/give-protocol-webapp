@@ -269,6 +269,11 @@ export default {
     "volunteer.applicationTitle": "ボランティア機会への応募",
     "volunteer.applicationSubtitle":
       "検証済みの貢献を通じて持続可能なインパクトを創出しましょう",
+    "volunteer.progress.info": "情報",
+    "volunteer.progress.skills": "スキル",
+    "volunteer.progress.consent": "同意",
+    "volunteer.fieldValid": "問題ありません",
+    "volunteer.draftSaved": "下書きを保存しました",
     "volunteer.personalInfo": "個人情報",
     "volunteer.firstName": "名",
     "volunteer.lastName": "姓",

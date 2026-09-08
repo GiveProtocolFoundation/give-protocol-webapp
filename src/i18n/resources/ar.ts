@@ -262,6 +262,11 @@ export default {
     "volunteer.applicationTitle": "طلب فرصة تطوع",
     "volunteer.applicationSubtitle":
       "ساعد في إحداث أثر مستدام من خلال مساهمات موثقة",
+    "volunteer.progress.info": "معلومات",
+    "volunteer.progress.skills": "مهارات",
+    "volunteer.progress.consent": "موافقة",
+    "volunteer.fieldValid": "يبدو جيدًا",
+    "volunteer.draftSaved": "تم حفظ المسودة",
     "volunteer.personalInfo": "المعلومات الشخصية",
     "volunteer.firstName": "الاسم الأول",
     "volunteer.lastName": "اسم العائلة",
