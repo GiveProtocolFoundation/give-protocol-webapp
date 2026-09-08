@@ -274,6 +274,11 @@ export default {
     "volunteer.applicationTitle": "स्वयंसेवक अवसर आवेदन",
     "volunteer.applicationSubtitle":
       "सत्यापित योगदान के माध्यम से सतत प्रभाव बनाने में सहायता करें",
+    "volunteer.progress.info": "जानकारी",
+    "volunteer.progress.skills": "कौशल",
+    "volunteer.progress.consent": "सहमति",
+    "volunteer.fieldValid": "ठीक लग रहा है",
+    "volunteer.draftSaved": "ड्राफ़्ट सहेजा गया",
     "volunteer.personalInfo": "व्यक्तिगत जानकारी",
     "volunteer.firstName": "पहला नाम",
     "volunteer.lastName": "उपनाम",

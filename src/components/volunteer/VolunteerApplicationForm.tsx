@@ -10,10 +10,16 @@ import {
   validateName,
   validatePhoneNumber,
 } from "@/utils/validation";
-import { AlertCircle, X, Mail } from "lucide-react";
+import { AlertCircle, X, Mail, Check } from "lucide-react";
 import { useToast } from "@/contexts/ToastContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import { AGE_AFFIRMATION_COPY } from "@/constants/ageAffirmation";
+import {
+  volunteerDraftKey,
+  loadDraft,
+  saveDraft,
+  clearDraft,
+} from "@/utils/volunteerApplicationDraft";
 
 type CommitmentType = "one-time" | "short-term" | "long-term";
 
@@ -23,10 +29,10 @@ interface SectionHeaderProps {
   title: string;
 }
 
-/** Numbered section header with gradient badge for form sections. */
+/** Numbered section header with a badge for form sections. */
 const SectionHeader: React.FC<SectionHeaderProps> = ({ number, title }) => (
   <h2 className="text-xl font-semibold text-gray-900 dark:text-gray-100 mb-6 flex items-center">
-    <span className="w-7 h-7 bg-gradient-to-r from-emerald-600 to-teal-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3 shadow-md">
+    <span className="w-7 h-7 bg-emerald-600 text-white rounded-full flex items-center justify-center text-sm font-bold mr-3">
       {number}
     </span>{" "}
     {title}
@@ -88,7 +94,7 @@ interface SkillTagProps {
 
 /** Removable pill tag displaying a selected skill. */
 const SkillTag: React.FC<SkillTagProps> = ({ skill, onRemove }) => (
-  <span className="inline-flex items-center gap-2 bg-gradient-to-r from-emerald-600 to-teal-600 text-white px-4 py-2 rounded-full mr-2 mb-2 animate-fadeIn">
+  <span className="inline-flex items-center gap-2 bg-emerald-600 text-white px-4 py-2 rounded-full mr-2 mb-2 animate-fadeIn">
     <span className="text-sm">{skill}</span>
     <button
       type="button"
@@ -125,7 +131,7 @@ const CommitmentOption: React.FC<CommitmentOptionProps> = ({
     aria-label={`${title} commitment level`}
     className={`relative border-2 rounded-xl p-4 cursor-pointer transition-all duration-200 ${
       selectedValue === value
-        ? "border-emerald-600 bg-gradient-to-r from-emerald-50 to-teal-50 dark:from-emerald-900/30 dark:to-teal-900/30"
+        ? "border-emerald-600 bg-emerald-50 dark:bg-emerald-900/30"
         : "border-gray-200 dark:border-gray-600 hover:border-gray-300 dark:hover:border-gray-500"
     }`}
   >
@@ -159,9 +165,10 @@ interface FormFieldProps {
   className: string;
   placeholder?: string;
   error?: string;
+  valid?: boolean;
 }
 
-/** Labeled input field with validation error display. */
+/** Labeled input field with validation error display and an inline valid-state check. */
 const FormField: React.FC<FormFieldProps> = ({
   id,
   label,
@@ -172,26 +179,39 @@ const FormField: React.FC<FormFieldProps> = ({
   className,
   placeholder,
   error,
-}) => (
-  <div>
-    <label
-      htmlFor={id}
-      className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2"
-    >
-      {label} {required && <span className="text-red-500 text-base">*</span>}
-    </label>
-    <input
-      id={id}
-      type={type}
-      value={value}
-      onChange={onChange}
-      className={className}
-      placeholder={placeholder}
-      required={required}
-    />
-    {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
-  </div>
-);
+  valid,
+}) => {
+  const { t } = useTranslation();
+  const showValid = Boolean(valid) && !error && value.trim() !== "";
+  return (
+    <div>
+      <label
+        htmlFor={id}
+        className="block text-sm font-medium text-gray-800 dark:text-gray-200 mb-2"
+      >
+        {label} {required && <span className="text-red-500 text-base">*</span>}
+      </label>
+      <div className="relative">
+        <input
+          id={id}
+          type={type}
+          value={value}
+          onChange={onChange}
+          className={`${className}${showValid ? " pr-10" : ""}`}
+          placeholder={placeholder}
+          required={required}
+        />
+        {showValid && (
+          <Check
+            className="absolute right-3 top-1/2 -translate-y-1/2 w-4 h-4 text-emerald-600 dark:text-emerald-400"
+            aria-label={t("volunteer.fieldValid", "Looks good")}
+          />
+        )}
+      </div>
+      {error && <p className="text-sm text-red-600 mt-1">{error}</p>}
+    </div>
+  );
+};
 
 interface FormSelectFieldProps {
   id: string;
@@ -420,6 +440,7 @@ const PersonalInfoSection: React.FC<{
           onChange={handleFieldChange("firstName")}
           className={inputClasses}
           error={validationErrors.firstName}
+          valid={validateName(formData.firstName)}
         />
         <FormField
           id="lastName"
@@ -429,6 +450,7 @@ const PersonalInfoSection: React.FC<{
           onChange={handleFieldChange("lastName")}
           className={inputClasses}
           error={validationErrors.lastName}
+          valid={validateName(formData.lastName)}
         />
         <FormField
           id="email"
@@ -439,6 +461,7 @@ const PersonalInfoSection: React.FC<{
           onChange={handleFieldChange("email")}
           className={inputClasses}
           error={validationErrors.email}
+          valid={validateEmail(formData.email)}
         />
         <FormField
           id="phoneNumber"
@@ -448,6 +471,7 @@ const PersonalInfoSection: React.FC<{
           onChange={handleFieldChange("phoneNumber")}
           className={inputClasses}
           error={validationErrors.phoneNumber}
+          valid={validatePhoneNumber(formData.phoneNumber)}
         />
         <FormField
           id="location"
@@ -755,15 +779,24 @@ const ConsentAndAgreementSection: React.FC<{
   );
 };
 
-/** Submit button and disclaimer footer for the application form. */
-const FormFooter: React.FC<{ loading: boolean }> = ({ loading }) => {
+/** Submit button, autosave indicator, and disclaimer footer for the application form. */
+const FormFooter: React.FC<{ loading: boolean; draftSavedAt: Date | null }> = ({
+  loading,
+  draftSavedAt,
+}) => {
   const { t } = useTranslation();
   return (
     <div className="border-t border-gray-200 dark:border-gray-700 pt-8 mt-8 pb-4">
+      {draftSavedAt && (
+        <p className="flex items-center justify-center gap-1.5 mb-4 text-xs text-emerald-700 dark:text-emerald-400">
+          <Check className="w-3.5 h-3.5" aria-hidden="true" />
+          {t("volunteer.draftSaved", "Draft saved")}
+        </p>
+      )}
       <Button
         type="submit"
         disabled={loading}
-        className="w-full py-3 bg-gradient-to-r from-emerald-600 to-teal-600 hover:from-emerald-700 hover:to-teal-700 text-white font-semibold rounded-full transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-lg hover:shadow-xl"
+        className="w-full py-3 bg-emerald-600 hover:bg-emerald-700 text-white font-semibold rounded-full transition-all duration-200 disabled:opacity-60 disabled:cursor-not-allowed shadow-md hover:shadow-lg"
       >
         {loading
           ? t("volunteer.submitting", "Submitting...")
@@ -778,6 +811,80 @@ const FormFooter: React.FC<{ loading: boolean }> = ({ loading }) => {
     </div>
   );
 };
+
+/** Whether the personal information section's required fields are all valid. */
+function isPersonalInfoComplete(formData: FormData): boolean {
+  return (
+    validateName(formData.firstName) &&
+    validateName(formData.lastName) &&
+    validateEmail(formData.email) &&
+    formData.ageRange !== "" &&
+    (formData.phoneNumber === "" || validatePhoneNumber(formData.phoneNumber))
+  );
+}
+
+/** Whether the skills & interests section's required fields are filled in. */
+function isSkillsComplete(formData: FormData): boolean {
+  return formData.skills.length > 0 && formData.experience.trim() !== "";
+}
+
+/** Whether all required consent checkboxes have been acknowledged. */
+function isConsentComplete(formData: FormData): boolean {
+  return (
+    formData.essentialProcessing &&
+    formData.ageConfirmation &&
+    formData.privacyNotice
+  );
+}
+
+interface ProgressStep {
+  key: string;
+  label: string;
+  done: boolean;
+}
+
+/** Persistent vertical progress rail marking completed and current application steps. */
+const ProgressRail: React.FC<{
+  steps: ProgressStep[];
+  activeIndex: number;
+}> = ({ steps, activeIndex }) => (
+  <nav
+    aria-label="Application progress"
+    className="hidden sm:flex flex-col w-20 shrink-0 border-r border-gray-200 dark:border-gray-700 py-8 px-3"
+  >
+    {steps.map((step, index) => (
+      <div key={step.key} className="flex flex-col items-center flex-1">
+        <span
+          className={`w-2.5 h-2.5 rounded-full shrink-0 ${
+            step.done
+              ? "bg-emerald-600"
+              : index === activeIndex
+                ? "bg-white dark:bg-gray-800 border-2 border-emerald-600"
+                : "bg-gray-200 dark:bg-gray-600"
+          }`}
+          aria-hidden="true"
+        />
+        <span
+          className={`mt-1.5 text-[10px] font-medium uppercase tracking-wide text-center leading-tight ${
+            step.done || index === activeIndex
+              ? "text-emerald-700 dark:text-emerald-400"
+              : "text-gray-400 dark:text-gray-500"
+          }`}
+        >
+          {step.label}
+        </span>
+        {index < steps.length - 1 && (
+          <span
+            className={`w-px flex-1 min-h-[16px] mt-1.5 ${
+              step.done ? "bg-emerald-600" : "bg-gray-200 dark:bg-gray-600"
+            }`}
+            aria-hidden="true"
+          />
+        )}
+      </div>
+    ))}
+  </nav>
+);
 
 interface ApplicationDialogProps {
   handleSubmit: (_e: React.FormEvent) => void;
@@ -805,6 +912,7 @@ interface ApplicationDialogProps {
   textareaClasses: string;
   selectClasses: string;
   loading: boolean;
+  draftSavedAt: Date | null;
 }
 
 /** Dialog containing the volunteer application form with personal info, skills, and consent sections. */
@@ -824,8 +932,31 @@ const ApplicationDialog: React.FC<ApplicationDialogProps> = ({
   textareaClasses,
   selectClasses,
   loading,
+  draftSavedAt,
 }) => {
   const { t } = useTranslation();
+
+  const steps: ProgressStep[] = [
+    {
+      key: "info",
+      label: t("volunteer.progress.info", "Info"),
+      done: isPersonalInfoComplete(formData),
+    },
+    {
+      key: "skills",
+      label: t("volunteer.progress.skills", "Skills"),
+      done: isSkillsComplete(formData),
+    },
+    {
+      key: "consent",
+      label: t("volunteer.progress.consent", "Consent"),
+      done: isConsentComplete(formData),
+    },
+  ];
+  const firstIncompleteIndex = steps.findIndex((step) => !step.done);
+  const activeIndex =
+    firstIncompleteIndex === -1 ? steps.length - 1 : firstIncompleteIndex;
+
   return (
     <dialog
       className="fixed top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 bg-white dark:bg-gray-800 rounded-2xl max-w-4xl w-[95%] max-h-[90dvh] overflow-hidden z-50 p-0 m-0 transition-all duration-300 ease-out animate-in fade-in zoom-in-95"
@@ -834,15 +965,11 @@ const ApplicationDialog: React.FC<ApplicationDialogProps> = ({
       aria-modal="true"
       aria-labelledby="modal-title"
     >
-      <header className="bg-gradient-to-br from-emerald-500 via-teal-600 to-emerald-700 text-white p-8 text-center rounded-t-2xl relative overflow-hidden">
-        <div
-          className="absolute inset-0 bg-gradient-to-tr from-transparent via-white/10 to-transparent"
-          aria-hidden="true"
-        />
-        <h1 id="modal-title" className="relative z-10 text-3xl font-light mb-2">
+      <header className="bg-emerald-700 text-white p-8 text-center rounded-t-2xl">
+        <h1 id="modal-title" className="text-3xl font-light mb-2">
           {t("volunteer.applicationTitle", "Volunteer Opportunity Application")}
         </h1>
-        <p className="relative z-10 text-lg opacity-90 pb-2">
+        <p className="text-lg opacity-90 pb-2">
           {t(
             "volunteer.applicationSubtitle",
             "Help create sustainable impact through verified contributions",
@@ -850,40 +977,43 @@ const ApplicationDialog: React.FC<ApplicationDialogProps> = ({
         </p>
       </header>
 
-      <form
-        onSubmit={handleSubmit}
-        className="px-8 py-6 overflow-y-auto max-h-[calc(90vh-200px)]"
-      >
-        {/* Personal Information Section */}
-        <PersonalInfoSection
-          formData={formData}
-          validationErrors={validationErrors}
-          handleFieldChange={handleFieldChange}
-          inputClasses={inputClasses}
-          selectClasses={selectClasses}
-        />
+      <div className="flex overflow-hidden max-h-[calc(90vh-200px)]">
+        <ProgressRail steps={steps} activeIndex={activeIndex} />
+        <form
+          onSubmit={handleSubmit}
+          className="flex-1 px-8 py-6 overflow-y-auto"
+        >
+          {/* Personal Information Section */}
+          <PersonalInfoSection
+            formData={formData}
+            validationErrors={validationErrors}
+            handleFieldChange={handleFieldChange}
+            inputClasses={inputClasses}
+            selectClasses={selectClasses}
+          />
 
-        {/* Skills & Interests Section */}
-        <SkillsAndInterestsSection
-          formData={formData}
-          validationErrors={validationErrors}
-          handleFieldChange={handleFieldChange}
-          handleSkillInputChange={handleSkillInputChange}
-          handleSkillInputKeyDown={handleSkillInputKeyDown}
-          createRemoveSkillHandler={createRemoveSkillHandler}
-          currentSkillInput={currentSkillInput}
-          showSkillPlaceholder={showSkillPlaceholder}
-          tagInputRef={tagInputRef}
-          textareaClasses={textareaClasses}
-        />
+          {/* Skills & Interests Section */}
+          <SkillsAndInterestsSection
+            formData={formData}
+            validationErrors={validationErrors}
+            handleFieldChange={handleFieldChange}
+            handleSkillInputChange={handleSkillInputChange}
+            handleSkillInputKeyDown={handleSkillInputKeyDown}
+            createRemoveSkillHandler={createRemoveSkillHandler}
+            currentSkillInput={currentSkillInput}
+            showSkillPlaceholder={showSkillPlaceholder}
+            tagInputRef={tagInputRef}
+            textareaClasses={textareaClasses}
+          />
 
-        <ConsentAndAgreementSection
-          formData={formData}
-          validationErrors={validationErrors}
-          handleCheckboxChange={handleCheckboxChange}
-        />
-        <FormFooter loading={loading} />
-      </form>
+          <ConsentAndAgreementSection
+            formData={formData}
+            validationErrors={validationErrors}
+            handleCheckboxChange={handleCheckboxChange}
+          />
+          <FormFooter loading={loading} draftSavedAt={draftSavedAt} />
+        </form>
+      </div>
     </dialog>
   );
 };
@@ -944,6 +1074,37 @@ const initialFormData: FormData = {
   privacyNotice: false,
 };
 
+/** The subset of form data safe to autosave as a draft — consent acknowledgments are excluded. */
+type PersistedDraft = Pick<
+  FormData,
+  | "firstName"
+  | "lastName"
+  | "email"
+  | "phoneNumber"
+  | "location"
+  | "timezone"
+  | "ageRange"
+  | "skills"
+  | "commitmentType"
+  | "experience"
+>;
+
+/** Extracts the fields of the form that are safe to persist as an autosaved draft. */
+function pickDraftFields(formData: FormData): PersistedDraft {
+  return {
+    firstName: formData.firstName,
+    lastName: formData.lastName,
+    email: formData.email,
+    phoneNumber: formData.phoneNumber,
+    location: formData.location,
+    timezone: formData.timezone,
+    ageRange: formData.ageRange,
+    skills: formData.skills,
+    commitmentType: formData.commitmentType,
+    experience: formData.experience,
+  };
+}
+
 /** Modal form for submitting volunteer applications to charity opportunities. */
 export const VolunteerApplicationForm: React.FC<
   VolunteerApplicationFormProps
@@ -958,23 +1119,30 @@ export const VolunteerApplicationForm: React.FC<
   const { profile } = useProfile();
   const { showToast } = useToast();
   const tagInputRef = useRef<HTMLInputElement>(null);
+  const draftKey = volunteerDraftKey(opportunityId);
+  const autosaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const isMountedRef = useRef(true);
 
-  const [formData, setFormData] = useState<FormData>(initialFormData);
+  const [formData, setFormData] = useState<FormData>(() => {
+    const draft = loadDraft<PersistedDraft>(draftKey);
+    return draft ? { ...initialFormData, ...draft } : initialFormData;
+  });
   const [validationErrors, setValidationErrors] = useState<
     Record<string, string>
   >({});
   const [loading, setLoading] = useState(false);
   const [currentSkillInput, setCurrentSkillInput] = useState("");
   const [showSkillPlaceholder, setShowSkillPlaceholder] = useState(true);
+  const [draftSavedAt, setDraftSavedAt] = useState<Date | null>(null);
   const { t } = useTranslation();
 
-  // Initialize form with user profile data
+  // Initialize form with user profile data (without overwriting a restored draft)
   useEffect(() => {
     if (profile) {
       setFormData((prev) => ({
         ...prev,
-        email: profile.email || "",
-        phoneNumber: profile.phone_number || "",
+        email: prev.email || profile.email || "",
+        phoneNumber: prev.phoneNumber || profile.phone_number || "",
       }));
     }
   }, [profile]);
@@ -986,6 +1154,32 @@ export const VolunteerApplicationForm: React.FC<
     );
   }, [formData.skills.length, currentSkillInput.length]);
 
+  // Cancel any pending autosave and mark unmounted on teardown (mount-only, never re-runs)
+  useEffect(() => {
+    return () => {
+      isMountedRef.current = false;
+      if (autosaveTimeoutRef.current) {
+        clearTimeout(autosaveTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Debounces persisting a draft of the form (excluding consent) after an edit
+  const scheduleDraftSave = useCallback(
+    (next: FormData) => {
+      if (autosaveTimeoutRef.current) {
+        clearTimeout(autosaveTimeoutRef.current);
+      }
+      autosaveTimeoutRef.current = setTimeout(() => {
+        saveDraft(draftKey, pickDraftFields(next));
+        if (isMountedRef.current) {
+          setDraftSavedAt(new Date());
+        }
+      }, 600);
+    },
+    [draftKey],
+  );
+
   // Form field handlers
   const handleFieldChange = useCallback(
     (field: keyof FormData) =>
@@ -995,7 +1189,9 @@ export const VolunteerApplicationForm: React.FC<
         >,
       ) => {
         const value = e.target.value;
-        setFormData((prev) => ({ ...prev, [field]: value }));
+        const next = { ...formData, [field]: value };
+        setFormData(next);
+        scheduleDraftSave(next);
 
         // Clear validation error for the field
         if (validationErrors[field]) {
@@ -1007,7 +1203,7 @@ export const VolunteerApplicationForm: React.FC<
           });
         }
       },
-    [validationErrors],
+    [formData, validationErrors, scheduleDraftSave],
   );
 
   const handleCheckboxChange = useCallback(
@@ -1037,10 +1233,9 @@ export const VolunteerApplicationForm: React.FC<
     (skillText: string) => {
       const trimmed = skillText.trim();
       if (trimmed && !formData.skills.includes(trimmed)) {
-        setFormData((prev) => ({
-          ...prev,
-          skills: [...prev.skills, trimmed],
-        }));
+        const next = { ...formData, skills: [...formData.skills, trimmed] };
+        setFormData(next);
+        scheduleDraftSave(next);
         setCurrentSkillInput("");
 
         // Clear skills validation error
@@ -1052,15 +1247,20 @@ export const VolunteerApplicationForm: React.FC<
         }
       }
     },
-    [formData.skills, validationErrors],
+    [formData, validationErrors, scheduleDraftSave],
   );
 
-  const removeSkill = useCallback((index: number) => {
-    setFormData((prev) => ({
-      ...prev,
-      skills: prev.skills.filter((_, i) => i !== index),
-    }));
-  }, []);
+  const removeSkill = useCallback(
+    (index: number) => {
+      const next = {
+        ...formData,
+        skills: formData.skills.filter((_, i) => i !== index),
+      };
+      setFormData(next);
+      scheduleDraftSave(next);
+    },
+    [formData, scheduleDraftSave],
+  );
 
   const createRemoveSkillHandler = useCallback(
     (index: number) => {
@@ -1222,6 +1422,10 @@ export const VolunteerApplicationForm: React.FC<
           userId: user.id,
         });
 
+        if (autosaveTimeoutRef.current) {
+          clearTimeout(autosaveTimeoutRef.current);
+        }
+        clearDraft(draftKey);
         showToast(
           "success",
           t(
@@ -1251,6 +1455,7 @@ export const VolunteerApplicationForm: React.FC<
       profile,
       opportunityId,
       charityId,
+      draftKey,
       showToast,
       onSuccess,
       onClose,
@@ -1305,6 +1510,7 @@ export const VolunteerApplicationForm: React.FC<
         textareaClasses={textareaClasses}
         selectClasses={selectClasses}
         loading={loading}
+        draftSavedAt={draftSavedAt}
       />
     </>
   );

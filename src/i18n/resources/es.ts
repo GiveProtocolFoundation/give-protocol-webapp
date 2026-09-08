@@ -280,6 +280,11 @@ export default {
     "volunteer.applicationTitle": "Solicitud de Oportunidad de Voluntariado",
     "volunteer.applicationSubtitle":
       "Ayude a crear un impacto sostenible a través de contribuciones verificadas",
+    "volunteer.progress.info": "Info",
+    "volunteer.progress.skills": "Habilidades",
+    "volunteer.progress.consent": "Consentimiento",
+    "volunteer.fieldValid": "Se ve bien",
+    "volunteer.draftSaved": "Borrador guardado",
     "volunteer.personalInfo": "Información Personal",
     "volunteer.firstName": "Nombre",
     "volunteer.lastName": "Apellido",

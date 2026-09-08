@@ -271,6 +271,11 @@ export default {
     "volunteer.applicationTitle": "Volunteer Opportunity Application",
     "volunteer.applicationSubtitle":
       "Help create sustainable impact through verified contributions",
+    "volunteer.progress.info": "Info",
+    "volunteer.progress.skills": "Skills",
+    "volunteer.progress.consent": "Consent",
+    "volunteer.fieldValid": "Looks good",
+    "volunteer.draftSaved": "Draft saved",
     "volunteer.personalInfo": "Personal Information",
     "volunteer.firstName": "First Name",
     "volunteer.lastName": "Last Name",

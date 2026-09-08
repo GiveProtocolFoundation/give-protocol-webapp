@@ -254,6 +254,11 @@ export default {
     // Volunteer - VolunteerApplicationForm
     "volunteer.applicationTitle": "志愿服务机会申请",
     "volunteer.applicationSubtitle": "通过经验证的贡献帮助创造可持续的影响",
+    "volunteer.progress.info": "信息",
+    "volunteer.progress.skills": "技能",
+    "volunteer.progress.consent": "同意",
+    "volunteer.fieldValid": "看起来不错",
+    "volunteer.draftSaved": "草稿已保存",
     "volunteer.personalInfo": "个人信息",
     "volunteer.firstName": "名",
     "volunteer.lastName": "姓",

@@ -266,6 +266,11 @@ export default {
     "volunteer.applicationTitle": "봉사 기회 신청서",
     "volunteer.applicationSubtitle":
       "검증된 기여를 통해 지속 가능한 영향력을 만들어 보세요",
+    "volunteer.progress.info": "정보",
+    "volunteer.progress.skills": "기술",
+    "volunteer.progress.consent": "동의",
+    "volunteer.fieldValid": "좋습니다",
+    "volunteer.draftSaved": "임시 저장됨",
     "volunteer.personalInfo": "개인 정보",
     "volunteer.firstName": "이름",
     "volunteer.lastName": "성",
