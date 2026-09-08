@@ -844,10 +844,10 @@ interface ProgressStep {
 }
 
 /** Persistent vertical progress rail marking completed and current application steps. */
-const ProgressRail: React.FC<{ steps: ProgressStep[]; activeIndex: number }> = ({
-  steps,
-  activeIndex,
-}) => (
+const ProgressRail: React.FC<{
+  steps: ProgressStep[];
+  activeIndex: number;
+}> = ({ steps, activeIndex }) => (
   <nav
     aria-label="Application progress"
     className="hidden sm:flex flex-col w-20 shrink-0 border-r border-gray-200 dark:border-gray-700 py-8 px-3"
@@ -1120,9 +1120,7 @@ export const VolunteerApplicationForm: React.FC<
   const { showToast } = useToast();
   const tagInputRef = useRef<HTMLInputElement>(null);
   const draftKey = volunteerDraftKey(opportunityId);
-  const autosaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
-    null,
-  );
+  const autosaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
   const isMountedRef = useRef(true);
 
   const [formData, setFormData] = useState<FormData>(() => {
