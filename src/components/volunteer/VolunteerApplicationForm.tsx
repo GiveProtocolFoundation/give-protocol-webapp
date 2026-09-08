@@ -1120,7 +1120,10 @@ export const VolunteerApplicationForm: React.FC<
   const { showToast } = useToast();
   const tagInputRef = useRef<HTMLInputElement>(null);
   const draftKey = volunteerDraftKey(opportunityId);
-  const isDirtyRef = useRef(false);
+  const autosaveTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(
+    null,
+  );
+  const isMountedRef = useRef(true);
 
   const [formData, setFormData] = useState<FormData>(() => {
     const draft = loadDraft<PersistedDraft>(draftKey);
@@ -1153,15 +1156,31 @@ export const VolunteerApplicationForm: React.FC<
     );
   }, [formData.skills.length, currentSkillInput.length]);
 
-  // Autosave a draft of the form (excluding consent) shortly after the applicant edits it
+  // Cancel any pending autosave and mark unmounted on teardown (mount-only, never re-runs)
   useEffect(() => {
-    if (!isDirtyRef.current) return;
-    const timeoutId = setTimeout(() => {
-      saveDraft(draftKey, pickDraftFields(formData));
-      setDraftSavedAt(new Date());
-    }, 600);
-    return () => clearTimeout(timeoutId);
-  }, [formData, draftKey]);
+    return () => {
+      isMountedRef.current = false;
+      if (autosaveTimeoutRef.current) {
+        clearTimeout(autosaveTimeoutRef.current);
+      }
+    };
+  }, []);
+
+  // Debounces persisting a draft of the form (excluding consent) after an edit
+  const scheduleDraftSave = useCallback(
+    (next: FormData) => {
+      if (autosaveTimeoutRef.current) {
+        clearTimeout(autosaveTimeoutRef.current);
+      }
+      autosaveTimeoutRef.current = setTimeout(() => {
+        saveDraft(draftKey, pickDraftFields(next));
+        if (isMountedRef.current) {
+          setDraftSavedAt(new Date());
+        }
+      }, 600);
+    },
+    [draftKey],
+  );
 
   // Form field handlers
   const handleFieldChange = useCallback(
@@ -1172,8 +1191,9 @@ export const VolunteerApplicationForm: React.FC<
         >,
       ) => {
         const value = e.target.value;
-        isDirtyRef.current = true;
-        setFormData((prev) => ({ ...prev, [field]: value }));
+        const next = { ...formData, [field]: value };
+        setFormData(next);
+        scheduleDraftSave(next);
 
         // Clear validation error for the field
         if (validationErrors[field]) {
@@ -1185,7 +1205,7 @@ export const VolunteerApplicationForm: React.FC<
           });
         }
       },
-    [validationErrors],
+    [formData, validationErrors, scheduleDraftSave],
   );
 
   const handleCheckboxChange = useCallback(
@@ -1215,11 +1235,9 @@ export const VolunteerApplicationForm: React.FC<
     (skillText: string) => {
       const trimmed = skillText.trim();
       if (trimmed && !formData.skills.includes(trimmed)) {
-        isDirtyRef.current = true;
-        setFormData((prev) => ({
-          ...prev,
-          skills: [...prev.skills, trimmed],
-        }));
+        const next = { ...formData, skills: [...formData.skills, trimmed] };
+        setFormData(next);
+        scheduleDraftSave(next);
         setCurrentSkillInput("");
 
         // Clear skills validation error
@@ -1231,16 +1249,20 @@ export const VolunteerApplicationForm: React.FC<
         }
       }
     },
-    [formData.skills, validationErrors],
+    [formData, validationErrors, scheduleDraftSave],
   );
 
-  const removeSkill = useCallback((index: number) => {
-    isDirtyRef.current = true;
-    setFormData((prev) => ({
-      ...prev,
-      skills: prev.skills.filter((_, i) => i !== index),
-    }));
-  }, []);
+  const removeSkill = useCallback(
+    (index: number) => {
+      const next = {
+        ...formData,
+        skills: formData.skills.filter((_, i) => i !== index),
+      };
+      setFormData(next);
+      scheduleDraftSave(next);
+    },
+    [formData, scheduleDraftSave],
+  );
 
   const createRemoveSkillHandler = useCallback(
     (index: number) => {
@@ -1402,6 +1424,9 @@ export const VolunteerApplicationForm: React.FC<
           userId: user.id,
         });
 
+        if (autosaveTimeoutRef.current) {
+          clearTimeout(autosaveTimeoutRef.current);
+        }
         clearDraft(draftKey);
         showToast(
           "success",
