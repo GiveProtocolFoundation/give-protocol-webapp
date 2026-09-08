@@ -45,3 +45,17 @@ jobs:
         run: |
           echo "Comparing expected tables (from migrations) against actual tables (from db dump)..."
           diff -u expected_tables.txt actual_tables.txt
+
+      # The dump is schema-only (no data) and is what reconciliation work
+      # (GIV-972 and later) needs: without it, a red run shows only the table
+      # name diff, not the DDL behind it. Keep the artifact short-lived.
+      - name: Upload schema dump artifact
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: schema-drift-dump-${{ github.run_id }}
+          retention-days: 7
+          path: |
+            db_dump.sql
+            expected_tables.txt
+            actual_tables.txt
