@@ -28,6 +28,26 @@ export function validateAmount(amount: number): boolean {
   return amount > 0 && amount <= 1000000 && Number.isFinite(amount);
 }
 
+/** Maximum accepted donation amount on every payment path (GIV-984). */
+export const MAX_DONATION_AMOUNT = 1000000;
+
+/**
+ * Returns the live validation error for a donation amount, or null when valid.
+ * Shared by the crypto and fiat donation paths so both enforce the same
+ * 0 < amount <= 1,000,000 bound (GIV-984).
+ * @param amount - The numeric amount to validate
+ * @returns Error message when invalid, null when valid
+ */
+export function getDonationAmountError(amount: number): string | null {
+  if (Number.isNaN(amount) || amount <= 0) {
+    return "Please enter an amount greater than 0";
+  }
+  if (!Number.isFinite(amount) || amount > MAX_DONATION_AMOUNT) {
+    return `Maximum donation amount is ${MAX_DONATION_AMOUNT.toLocaleString("en-US")}`;
+  }
+  return null;
+}
+
 /**
  * Validates authentication input and throws errors for invalid data
  * @param email - The email address to validate

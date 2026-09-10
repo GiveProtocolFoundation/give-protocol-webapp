@@ -329,37 +329,41 @@ export function loadHelcimScript(): Promise<void> {
   ) as HTMLScriptElement | null;
 
   if (existingScript) {
-    helcimScriptPromise = new Promise((resolve, reject) => {
-      if (isHelcimReady()) {
-        resolve();
-        return;
-      }
+    const promise = new Promise<void>((resolve, reject) => {
+      // GIV-984: the existing script tag may have already fired its
+      // load/error events before these listeners attach (e.g. after a
+      // retry reset), which would leave this promise pending forever.
+      // Poll for the global immediately instead of relying on the load
+      // event alone.
+      const fail = (err: unknown): void => {
+        // Only clear the cache if this promise is still the current one —
+        // a late timeout from a superseded attempt must not clobber it.
+        if (helcimScriptPromise === promise) {
+          helcimScriptPromise = null;
+        }
+        reject(err);
+      };
+
+      waitForHelcimGlobal().then(resolve).catch(fail);
 
       /** Handles the script load event and waits for the HelcimPay.js global to become available. */
       const handleLoad = (): void => {
         Logger.info(
           "HelcimPay.js script loaded (existing), waiting for global",
         );
-        waitForHelcimGlobal()
-          .then(() => {
-            resolve();
-          })
-          .catch((err) => {
-            helcimScriptPromise = null;
-            reject(err);
-          });
+        waitForHelcimGlobal().then(resolve).catch(fail);
       };
 
       /** Handles the script error event when the HelcimPay.js script fails to load. */
       const handleError = (): void => {
-        helcimScriptPromise = null;
-        reject(new Error("Failed to load payment processor"));
+        fail(new Error("Failed to load payment processor"));
       };
 
       existingScript.addEventListener("load", handleLoad);
       existingScript.addEventListener("error", handleError);
     });
 
+    helcimScriptPromise = promise;
     return helcimScriptPromise;
   }
 
