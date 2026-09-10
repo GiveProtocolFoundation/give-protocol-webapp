@@ -148,6 +148,8 @@ export function useFiatDonation(): UseFiatDonationReturn {
       }
     }, SCRIPT_LOAD_TIMEOUT_MS);
 
+    // skipcq: JS-0045 -- React requires the effect cleanup arrow; the rule
+    // misreads the void|Destructor EffectCallback return type here.
     return () => {
       clearTimeout(timer);
     };
