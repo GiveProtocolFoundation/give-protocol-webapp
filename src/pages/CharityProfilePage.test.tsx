@@ -133,9 +133,7 @@ describe("CharityProfilePage — verified-but-unclaimed charity (GIV-986)", () =
       await screen.findByTestId("request-charity-widget"),
     ).toBeInTheDocument();
     expect(screen.queryByTestId("donate-widget")).not.toBeInTheDocument();
-    expect(
-      screen.getByTestId("unclaimed-profile-banner"),
-    ).toBeInTheDocument();
+    expect(screen.getByTestId("unclaimed-profile-banner")).toBeInTheDocument();
   });
 });
 

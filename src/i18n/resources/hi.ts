@@ -1311,7 +1311,8 @@ export default {
     "charity.profile.statusUnclaimed":
       "दावा नहीं किया गया — केवल सार्वजनिक रजिस्ट्री डेटा",
     "charity.profile.statusIrsVerified": "IRS-सत्यापित गैर-लाभकारी संगठन",
-    "charity.profile.requestWidget.unclaimedBody": "इस संगठन ने अभी तक Give Protocol पर अपनी प्रोफ़ाइल का दावा नहीं किया है। संगठन द्वारा प्रोफ़ाइल का दावा करने और वॉलेट सेटअप पूरा करने के बाद दान उपलब्ध हो जाएँगे।",
+    "charity.profile.requestWidget.unclaimedBody":
+      "इस संगठन ने अभी तक Give Protocol पर अपनी प्रोफ़ाइल का दावा नहीं किया है। संगठन द्वारा प्रोफ़ाइल का दावा करने और वॉलेट सेटअप पूरा करने के बाद दान उपलब्ध हो जाएँगे।",
     "charity.profile.rowEin": "कर पहचान संख्या",
     "charity.profile.rowName": "नाम",
     "charity.profile.rowLocation": "स्थान",

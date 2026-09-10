@@ -1292,8 +1292,10 @@ export default {
     "charity.profile.statusClaimed": "อ้างสิทธิ์แล้ว",
     "charity.profile.statusUnclaimed":
       "ยังไม่อ้างสิทธิ์ — ข้อมูลจากทะเบียนสาธารณะเท่านั้น",
-    "charity.profile.statusIrsVerified": "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบโดย IRS",
-    "charity.profile.requestWidget.unclaimedBody": "องค์กรนี้ยังไม่ได้อ้างสิทธิ์โปรไฟล์บน Give Protocol การบริจาคจะพร้อมใช้งานเมื่อองค์กรอ้างสิทธิ์โปรไฟล์และตั้งค่ากระเป๋าเงินเรียบร้อยแล้ว",
+    "charity.profile.statusIrsVerified":
+      "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบโดย IRS",
+    "charity.profile.requestWidget.unclaimedBody":
+      "องค์กรนี้ยังไม่ได้อ้างสิทธิ์โปรไฟล์บน Give Protocol การบริจาคจะพร้อมใช้งานเมื่อองค์กรอ้างสิทธิ์โปรไฟล์และตั้งค่ากระเป๋าเงินเรียบร้อยแล้ว",
     "charity.profile.rowEin": "เลขประจำตัวผู้เสียภาษี",
     "charity.profile.rowName": "ชื่อ",
     "charity.profile.rowLocation": "ที่ตั้ง",

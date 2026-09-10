@@ -1269,8 +1269,10 @@ export default {
     "charity.profile.statusClaimed": "مُطالَب بها",
     "charity.profile.statusUnclaimed":
       "غير مُطالَب بها — بيانات السجل العام فقط",
-    "charity.profile.statusIrsVerified": "مؤسسة غير ربحية معتمدة من مصلحة الضرائب (IRS)",
-    "charity.profile.requestWidget.unclaimedBody": "لم تطالب هذه المنظمة بعد بملفها على Give Protocol. ستتوفر التبرعات بمجرد أن تطالب المنظمة بملفها ويكتمل إعداد المحفظة.",
+    "charity.profile.statusIrsVerified":
+      "مؤسسة غير ربحية معتمدة من مصلحة الضرائب (IRS)",
+    "charity.profile.requestWidget.unclaimedBody":
+      "لم تطالب هذه المنظمة بعد بملفها على Give Protocol. ستتوفر التبرعات بمجرد أن تطالب المنظمة بملفها ويكتمل إعداد المحفظة.",
     "charity.profile.rowEin": "الرقم الضريبي",
     "charity.profile.rowName": "الاسم",
     "charity.profile.rowLocation": "الموقع",

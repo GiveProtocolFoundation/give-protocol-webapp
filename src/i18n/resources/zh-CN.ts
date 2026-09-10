@@ -1234,7 +1234,8 @@ export default {
     "charity.profile.statusClaimed": "已认领",
     "charity.profile.statusUnclaimed": "未认领 — 仅含公共登记数据",
     "charity.profile.statusIrsVerified": "IRS已认证非营利组织",
-    "charity.profile.requestWidget.unclaimedBody": "该组织尚未在 Give Protocol 上认领其主页。该组织完成主页认领和钱包设置后，即可接受捐赠。",
+    "charity.profile.requestWidget.unclaimedBody":
+      "该组织尚未在 Give Protocol 上认领其主页。该组织完成主页认领和钱包设置后，即可接受捐赠。",
     "charity.profile.rowEin": "税务编号",
     "charity.profile.rowName": "名称",
     "charity.profile.rowLocation": "所在地",

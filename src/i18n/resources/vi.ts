@@ -1301,8 +1301,10 @@ export default {
     "charity.profile.statusClaimed": "Đã được nhận",
     "charity.profile.statusUnclaimed":
       "Chưa được nhận — chỉ có dữ liệu đăng ký công khai",
-    "charity.profile.statusIrsVerified": "Tổ chức phi lợi nhuận đã được IRS xác minh",
-    "charity.profile.requestWidget.unclaimedBody": "Tổ chức này chưa nhận quyền quản lý hồ sơ trên Give Protocol. Quyên góp sẽ khả dụng sau khi tổ chức nhận quyền quản lý hồ sơ và hoàn tất thiết lập ví.",
+    "charity.profile.statusIrsVerified":
+      "Tổ chức phi lợi nhuận đã được IRS xác minh",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Tổ chức này chưa nhận quyền quản lý hồ sơ trên Give Protocol. Quyên góp sẽ khả dụng sau khi tổ chức nhận quyền quản lý hồ sơ và hoàn tất thiết lập ví.",
     "charity.profile.rowEin": "Mã số thuế",
     "charity.profile.rowName": "Tên",
     "charity.profile.rowLocation": "Địa điểm",

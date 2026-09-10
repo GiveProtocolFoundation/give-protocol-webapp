@@ -1361,8 +1361,10 @@ export default {
     "charity.profile.statusClaimed": "Beansprucht",
     "charity.profile.statusUnclaimed":
       "Nicht beansprucht — nur öffentliche Registerdaten",
-    "charity.profile.statusIrsVerified": "IRS-verifizierte gemeinnützige Organisation",
-    "charity.profile.requestWidget.unclaimedBody": "Diese Organisation hat ihr Profil bei Give Protocol noch nicht beansprucht. Spenden werden verfügbar, sobald die Organisation ihr Profil beansprucht und die Wallet-Einrichtung abgeschlossen hat.",
+    "charity.profile.statusIrsVerified":
+      "IRS-verifizierte gemeinnützige Organisation",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Diese Organisation hat ihr Profil bei Give Protocol noch nicht beansprucht. Spenden werden verfügbar, sobald die Organisation ihr Profil beansprucht und die Wallet-Einrichtung abgeschlossen hat.",
     "charity.profile.rowEin": "Steuer-ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Standort",

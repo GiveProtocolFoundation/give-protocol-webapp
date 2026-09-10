@@ -1364,8 +1364,10 @@ export default {
     "charity.profile.statusClaimed": "Revendiqué",
     "charity.profile.statusUnclaimed":
       "Non revendiqué — données du registre public uniquement",
-    "charity.profile.statusIrsVerified": "Organisme à but non lucratif vérifié par l'IRS",
-    "charity.profile.requestWidget.unclaimedBody": "Cette organisation n'a pas encore revendiqué son profil sur Give Protocol. Les dons seront disponibles une fois que l'organisation aura revendiqué son profil et terminé la configuration de son portefeuille.",
+    "charity.profile.statusIrsVerified":
+      "Organisme à but non lucratif vérifié par l'IRS",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Cette organisation n'a pas encore revendiqué son profil sur Give Protocol. Les dons seront disponibles une fois que l'organisation aura revendiqué son profil et terminé la configuration de son portefeuille.",
     "charity.profile.rowEin": "ID fiscal",
     "charity.profile.rowName": "Nom",
     "charity.profile.rowLocation": "Localisation",

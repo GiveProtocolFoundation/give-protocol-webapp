@@ -1343,8 +1343,10 @@ export default {
     "charity.profile.statusClaimed": "Reclamada",
     "charity.profile.statusUnclaimed":
       "No reclamada — solo datos del registro público",
-    "charity.profile.statusIrsVerified": "Organización sin fines de lucro verificada por el IRS",
-    "charity.profile.requestWidget.unclaimedBody": "Esta organización todavía no ha reclamado su perfil en Give Protocol. Las donaciones estarán disponibles cuando la organización reclame su perfil y complete la configuración de su billetera.",
+    "charity.profile.statusIrsVerified":
+      "Organización sin fines de lucro verificada por el IRS",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Esta organización todavía no ha reclamado su perfil en Give Protocol. Las donaciones estarán disponibles cuando la organización reclame su perfil y complete la configuración de su billetera.",
     "charity.profile.rowEin": "ID fiscal",
     "charity.profile.rowName": "Nombre",
     "charity.profile.rowLocation": "Ubicación",
