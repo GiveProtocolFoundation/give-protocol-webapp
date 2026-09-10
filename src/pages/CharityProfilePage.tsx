@@ -72,6 +72,16 @@ function ProfileSkeleton() {
 function StatusPill({ profile }: { profile: CharityProfile }) {
   const { t } = useTranslation();
   if (profile.status === "verified") {
+    // A verified profile with no claimant is an IRS-registry placeholder —
+    // surface the registry verification without implying donation readiness.
+    if (!profile.claimed_by) {
+      return (
+        <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
+          <CheckCircle className="h-3.5 w-3.5" />
+          {t("charity.profile.statusIrsVerified", "IRS-verified nonprofit")}
+        </span>
+      );
+    }
     return (
       <span className="inline-flex items-center gap-1.5 px-2.5 py-1 rounded-full text-xs font-medium bg-emerald-100 text-emerald-700">
         <CheckCircle className="h-3.5 w-3.5" />
@@ -256,9 +266,16 @@ function deriveDisplayData(
       [charityRecord?.city, charityRecord?.state].filter(Boolean).join(", ") ??
       "",
     rulingYear: formatRulingYear(charityRecord?.ruling),
-    isUnclaimed: !profile || profile.status === "unclaimed",
+    isUnclaimed:
+      !profile ||
+      profile.status === "unclaimed" ||
+      // Seeded/registry placeholders can carry status='verified' without a
+      // claimant — donations are gated on claim + wallet designation, so they
+      // must render the unclaimed path (request widget + claim banner).
+      (profile.status === "verified" && !profile.claimed_by),
     isClaimed:
-      profile?.status === "claimed-pending" || profile?.status === "verified",
+      profile?.status === "claimed-pending" ||
+      (profile?.status === "verified" && Boolean(profile.claimed_by)),
     isVerified: profile?.status === "verified",
     nteeCategory: getNteeCategory(charityRecord?.ntee_cd ?? profile?.ntee_code),
     walletAddress: profile?.wallet_address ?? null,

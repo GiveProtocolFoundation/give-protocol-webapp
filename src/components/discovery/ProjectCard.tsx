@@ -41,7 +41,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ organization }) => {
         {organization.is_on_platform && (
           <span className="shrink-0 inline-flex items-center gap-1 px-2 py-1 bg-emerald-50 text-emerald-700 dark:bg-emerald-900/30 dark:text-emerald-300 text-xs font-medium rounded-full">
             <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
-            Verified
+            {t("browse.irsVerified", "IRS-verified")}
           </span>
         )}
       </div>

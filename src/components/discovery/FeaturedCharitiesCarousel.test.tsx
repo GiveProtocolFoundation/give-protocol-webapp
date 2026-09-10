@@ -15,6 +15,7 @@ interface FeaturedCharity {
   category: string;
   imageUrl: string;
   location?: string;
+  isClaimed?: boolean;
 }
 
 function makeCharity(
@@ -28,6 +29,7 @@ function makeCharity(
     category: "Environment",
     imageUrl: `https://example.com/${id}.jpg`,
     location: "Boston, MA",
+    isClaimed: true,
     ...overrides,
   };
 }
@@ -123,6 +125,20 @@ describe("FeaturedCharitiesCarousel", () => {
     });
     renderCarousel();
     expect(screen.getByText("Verified")).toBeInTheDocument();
+    expect(screen.queryByText("IRS-verified")).not.toBeInTheDocument();
+  });
+
+  it("shows IRS-verified badge for unclaimed charities (GIV-986)", () => {
+    // Seeded charities are status='verified' with no claimant — the card badge
+    // must not imply donation-ready platform verification.
+    mockUseFeaturedCharities.mockReturnValue({
+      charities: [makeCharity("c1", { isClaimed: false })] as never,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    expect(screen.getByText("IRS-verified")).toBeInTheDocument();
+    expect(screen.queryByText("Verified")).not.toBeInTheDocument();
   });
 
   it("shows category and location on cards", () => {

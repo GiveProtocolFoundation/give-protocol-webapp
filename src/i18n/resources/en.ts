@@ -1481,6 +1481,7 @@ export default {
     "browse.stats.onChain": "On-chain",
     "browse.stats.volunteerHours": "Volunteer hours",
     "browse.verified": "Verified",
+    "browse.irsVerified": "IRS-verified",
     "browse.donate": "Donate",
     "browse.filter.ariaLabel": "Filter charities",
     "browse.filter.searchAria": "Search charities",
@@ -1609,6 +1610,9 @@ export default {
     "charity.profile.statusClaimed": "Claimed",
     "charity.profile.statusUnclaimed":
       "Unclaimed \u2014 public registry data only",
+    "charity.profile.statusIrsVerified": "IRS-verified nonprofit",
+    "charity.profile.requestWidget.unclaimedBody":
+      "This organization has not yet claimed their profile on Give Protocol. Donations become available once the organization claims its profile and completes wallet setup.",
     "charity.profile.rowEin": "Tax ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Location",
