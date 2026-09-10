@@ -134,9 +134,13 @@ describe("Donation form validation (GIV-984)", () => {
       // Accept Art.9 consent so only the amount gates the button
       cy.get("#art9-consent").check();
 
+      /** Crypto amount input element */
       const amountInput = () => cy.get("#donation-amount-input");
+      /** Donate Now submit button */
       const donateButton = () => cy.contains("button", /donate now/i);
-      const amountError = () => cy.get('[data-testid="donation-amount-error"]');
+      /** Live inline amount error element */
+      const amountError = () =>
+        cy.get('[data-testid="donation-amount-error"]');
 
       // $0 — live error + disabled Donate
       amountInput().clear().type("0");
@@ -181,9 +185,13 @@ describe("Donation form validation (GIV-984)", () => {
       // EUR routes to PayPal so the submit button can be ready without Helcim
       cy.get("#fiat-currency-select").select("EUR");
 
+      /** Custom fiat amount input element */
       const customInput = () =>
         cy.get('input[aria-label^="Custom donation amount"]');
-      const amountError = () => cy.get('[data-testid="donation-amount-error"]');
+      /** Live inline amount error element */
+      const amountError = () =>
+        cy.get('[data-testid="donation-amount-error"]');
+      /** Fiat pay submit button */
       const payButton = () => cy.get("form").contains("button", /^Donate/);
 
       // $0 — live error

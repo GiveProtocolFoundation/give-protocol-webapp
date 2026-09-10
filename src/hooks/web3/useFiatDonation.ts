@@ -148,7 +148,9 @@ export function useFiatDonation(): UseFiatDonationReturn {
       }
     }, SCRIPT_LOAD_TIMEOUT_MS);
 
-    return () => clearTimeout(timer);
+    return () => {
+      clearTimeout(timer);
+    };
   }, [scriptReady, loadEpoch]);
 
   const clearError = useCallback(() => {

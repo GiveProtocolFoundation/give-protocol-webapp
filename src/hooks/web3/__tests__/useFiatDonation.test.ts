@@ -32,7 +32,7 @@ describe("useFiatDonation script-load watchdog (GIV-984)", () => {
     jest.useRealTimers();
   });
 
-  it("surfaces an error after ~20s when the script never becomes ready", async () => {
+  it("surfaces an error after ~20s when the script never becomes ready", () => {
     // Simulate the hang: the load promise never settles, like a missing
     // HELCIM_API_TOKEN in prod.
     mockedLoadHelcimScript.mockReturnValue(new Promise(() => undefined));
@@ -56,7 +56,7 @@ describe("useFiatDonation script-load watchdog (GIV-984)", () => {
   });
 
   it("does not fire the watchdog when the script becomes ready", async () => {
-    mockedLoadHelcimScript.mockResolvedValue(undefined);
+    mockedLoadHelcimScript.mockImplementation(() => Promise.resolve());
 
     const { result } = renderHook(() => useFiatDonation());
 
@@ -92,7 +92,7 @@ describe("useFiatDonation script-load watchdog (GIV-984)", () => {
     expect(result.current.error).toBe("Failed to load payment processor");
   });
 
-  it("re-arms the watchdog after a user-initiated retry", async () => {
+  it("re-arms the watchdog after a user-initiated retry", () => {
     mockedLoadHelcimScript.mockReturnValue(new Promise(() => undefined));
 
     const { result } = renderHook(() => useFiatDonation());
