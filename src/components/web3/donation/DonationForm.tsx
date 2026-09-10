@@ -1,10 +1,7 @@
 import React, { useState, useCallback, useMemo, useRef } from "react";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { Button } from "@/components/ui/Button";
-import {
-  getDonationAmountError,
-  validateAmount,
-} from "@/utils/validation";
+import { getDonationAmountError, validateAmount } from "@/utils/validation";
 import { useDonation, DonationType } from "@/hooks/web3/useDonation";
 import { useTokenBalance } from "@/hooks/web3/useTokenBalance";
 import { useGasEstimate } from "@/hooks/web3/useGasEstimate";

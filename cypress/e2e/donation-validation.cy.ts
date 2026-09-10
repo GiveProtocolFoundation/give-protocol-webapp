@@ -31,10 +31,7 @@ function stubEthereum(win: Window & typeof globalThis): void {
     chainId: HEX_ID,
     selectedAddress: null as string | null,
 
-    request(args: {
-      method: string;
-      params?: unknown[];
-    }): Promise<unknown> {
+    request(args: { method: string; params?: unknown[] }): Promise<unknown> {
       switch (args.method) {
         case "eth_requestAccounts":
         case "eth_accounts":
@@ -53,8 +50,7 @@ function stubEthereum(win: Window & typeof globalThis): void {
           return Promise.resolve("0x608060405234");
 
         case "eth_call": {
-          const callParams =
-            (args.params as Array<{ data?: string }>)[0] ?? {};
+          const callParams = (args.params as Array<{ data?: string }>)[0] ?? {};
           const data = callParams.data ?? "";
           if (data.startsWith("0x70a08231")) {
             // balanceOf(address) → 2,000,000 tokens (18 decimals) so the
@@ -133,17 +129,14 @@ describe("Donation form validation (GIV-984)", () => {
       cy.contains("button", /^wallet$/i).click();
       cy.contains("button", /connect wallet/i).click();
 
-      cy.contains("button", /donate now/i, { timeout: 10_000 }).should(
-        "exist",
-      );
+      cy.contains("button", /donate now/i, { timeout: 10_000 }).should("exist");
 
       // Accept Art.9 consent so only the amount gates the button
       cy.get("#art9-consent").check();
 
       const amountInput = () => cy.get("#donation-amount-input");
       const donateButton = () => cy.contains("button", /donate now/i);
-      const amountError = () =>
-        cy.get('[data-testid="donation-amount-error"]');
+      const amountError = () => cy.get('[data-testid="donation-amount-error"]');
 
       // $0 — live error + disabled Donate
       amountInput().clear().type("0");
@@ -190,8 +183,7 @@ describe("Donation form validation (GIV-984)", () => {
 
       const customInput = () =>
         cy.get('input[aria-label^="Custom donation amount"]');
-      const amountError = () =>
-        cy.get('[data-testid="donation-amount-error"]');
+      const amountError = () => cy.get('[data-testid="donation-amount-error"]');
       const payButton = () => cy.get("form").contains("button", /^Donate/);
 
       // $0 — live error

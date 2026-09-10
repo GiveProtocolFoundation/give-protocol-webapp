@@ -26,7 +26,8 @@ export const validateUrl = jest.fn((url) => {
   }
 });
 export const validatePhoneNumber = jest.fn(
-  (phone) => typeof phone === "string" && phone.replaceAll(/\D/g, "").length >= 7,
+  (phone) =>
+    typeof phone === "string" && phone.replaceAll(/\D/g, "").length >= 7,
 );
 export const validateAmount = jest.fn(
   (amount) => amount > 0 && amount <= 1000000 && Number.isFinite(amount),

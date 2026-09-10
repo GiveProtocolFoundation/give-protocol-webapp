@@ -140,9 +140,10 @@ export function useFiatDonation(): UseFiatDonationReturn {
 
     const timer = setTimeout(() => {
       if (mountedRef.current) {
-        setError((prev) =>
-          prev ??
-          "The payment form is taking too long to load. Please retry, or use crypto payment instead.",
+        setError(
+          (prev) =>
+            prev ??
+            "The payment form is taking too long to load. Please retry, or use crypto payment instead.",
         );
       }
     }, SCRIPT_LOAD_TIMEOUT_MS);

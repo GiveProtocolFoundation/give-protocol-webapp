@@ -10,7 +10,10 @@ import { renderHook, act } from "@testing-library/react";
 import { useFiatDonation } from "../useFiatDonation";
 // Alias import resolves to the moduleNameMapper mock (helcimServiceMock.js),
 // so the script loader can be stubbed per-test in ESM mode (GIV-984).
-import { loadHelcimScript, resetHelcimScriptState } from "@/services/helcimService";
+import {
+  loadHelcimScript,
+  resetHelcimScriptState,
+} from "@/services/helcimService";
 
 const mockedLoadHelcimScript = loadHelcimScript as jest.MockedFunction<
   typeof loadHelcimScript
