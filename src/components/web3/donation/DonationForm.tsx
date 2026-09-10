@@ -1,7 +1,10 @@
 import React, { useState, useCallback, useMemo, useRef } from "react";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { Button } from "@/components/ui/Button";
-import { validateAmount } from "@/utils/validation";
+import {
+  getDonationAmountError,
+  validateAmount,
+} from "@/utils/validation";
 import { useDonation, DonationType } from "@/hooks/web3/useDonation";
 import { useTokenBalance } from "@/hooks/web3/useTokenBalance";
 import { useGasEstimate } from "@/hooks/web3/useGasEstimate";
@@ -133,13 +136,10 @@ export function DonationForm({
         return;
       }
 
-      if (!validateAmount(amount)) {
-        setError("Please enter a valid amount between 0 and 1,000,000");
-        return;
-      }
-
-      if (amount <= 0) {
-        setError("Please enter an amount greater than 0");
+      // GIV-984: 0 < amount <= 1,000,000 on the crypto path too
+      const amountError = getDonationAmountError(amount);
+      if (amountError) {
+        setError(amountError);
         return;
       }
 
@@ -337,7 +337,7 @@ export function DonationForm({
         disabled={
           loading ||
           approving ||
-          amount <= 0 ||
+          !validateAmount(amount) ||
           !art9Consented ||
           isLoadingBalance ||
           (balance !== null && amount > balance)

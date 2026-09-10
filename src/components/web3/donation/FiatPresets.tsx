@@ -1,6 +1,7 @@
-import React, { useCallback, useState, useRef } from "react";
+import React, { useCallback, useMemo, useState, useRef } from "react";
 import { TokenConfig } from "@/config/tokens";
 import { useCurrencyContext } from "@/contexts/CurrencyContext";
+import { getDonationAmountError } from "@/utils/validation";
 import { formatFiat } from "@/utils/formatters";
 import { cn } from "@/utils/cn";
 
@@ -80,8 +81,10 @@ export function FiatPresets({
     (e: React.ChangeEvent<HTMLInputElement>) => {
       const raw = e.target.value;
 
-      // Validate based on currency decimal rules
-      const pattern = zeroDecimal ? /^\d*$/ : /^\d*\.?\d{0,2}$/;
+      // Validate based on currency decimal rules. A leading "-" is allowed
+      // through (GIV-984) so negative input renders an explicit inline
+      // error instead of being silently swallowed.
+      const pattern = zeroDecimal ? /^-?\d*$/ : /^-?\d*\.?\d{0,2}$/;
       if (raw !== "" && !pattern.test(raw)) return;
 
       setCustomValue(raw);
@@ -99,6 +102,15 @@ export function FiatPresets({
   );
 
   const symbol = currencySymbol ?? "$";
+
+  // GIV-984: live inline error for the fiat (card) path — same
+  // 0 < amount <= 1,000,000 bound as the crypto path. In crypto mode the
+  // converted crypto amount is validated by DualAmountInput instead.
+  const customAmountError = useMemo(() => {
+    if (!directFiat || customValue.trim() === "") return null;
+    return getDonationAmountError(Number.parseFloat(customValue));
+  }, [directFiat, customValue]);
+  const hasCustomAmountError = customAmountError !== null;
 
   /** Format a preset amount for display */
   const formatPreset = useCallback(
@@ -175,18 +187,32 @@ export function FiatPresets({
           value={customValue}
           onChange={handleCustomChange}
           aria-label={`Custom donation amount in ${symbol}`}
+          aria-invalid={hasCustomAmountError}
           className={cn(
             "w-full pl-7 pr-4 py-3 text-sm font-medium rounded-xl",
             "border-2 transition-all duration-200",
-            "focus:outline-none focus:ring-3 focus:ring-offset-2 focus:ring-emerald-500",
+            "focus:outline-none focus:ring-3 focus:ring-offset-2",
+            hasCustomAmountError
+              ? "focus:ring-red-500 border-red-400"
+              : "focus:ring-emerald-500",
             "bg-white dark:bg-slate-800",
             "placeholder:text-gray-400 dark:placeholder:text-gray-500",
-            isCustomActive
+            isCustomActive && !hasCustomAmountError
               ? "border-emerald-500 dark:border-emerald-400 text-gray-900 dark:text-white"
               : "border-gray-300 dark:border-slate-600 text-gray-700 dark:text-gray-300",
           )}
         />
       </div>
+
+      {customAmountError && (
+        <div
+          className="text-sm text-red-600 font-medium"
+          role="alert"
+          data-testid="donation-amount-error"
+        >
+          {customAmountError}
+        </div>
+      )}
     </div>
   );
 }

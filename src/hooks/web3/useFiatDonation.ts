@@ -14,6 +14,8 @@ import type {
 
 const MAX_RETRIES = 3;
 const RETRY_DELAY = 1000; // 1 second base delay
+// GIV-984: give up on the loading state after ~20s instead of spinning forever
+const SCRIPT_LOAD_TIMEOUT_MS = 20000;
 
 /**
  * Calculates retry delay with exponential backoff
@@ -76,6 +78,8 @@ export function useFiatDonation(): UseFiatDonationReturn {
   const [error, setError] = useState<string | null>(null);
   const [scriptReady, setScriptReady] = useState(false);
   const [retryCount, setRetryCount] = useState(0);
+  /** Bumped on every user-initiated retry so the watchdog re-arms (GIV-984) */
+  const [loadEpoch, setLoadEpoch] = useState(0);
 
   const mountedRef = useRef(true);
   const retryTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
@@ -128,6 +132,23 @@ export function useFiatDonation(): UseFiatDonationReturn {
       }
     };
   }, [attemptScriptLoad]);
+
+  // GIV-984 watchdog: if the script never becomes ready, surface a real
+  // error (with a retry path) after ~20s instead of loading forever.
+  useEffect(() => {
+    if (scriptReady) return;
+
+    const timer = setTimeout(() => {
+      if (mountedRef.current) {
+        setError((prev) =>
+          prev ??
+          "The payment form is taking too long to load. Please retry, or use crypto payment instead.",
+        );
+      }
+    }, SCRIPT_LOAD_TIMEOUT_MS);
+
+    return () => clearTimeout(timer);
+  }, [scriptReady, loadEpoch]);
 
   const clearError = useCallback(() => {
     setError(null);
@@ -235,6 +256,7 @@ export function useFiatDonation(): UseFiatDonationReturn {
     setError(null);
     setScriptReady(false);
     setRetryCount(0);
+    setLoadEpoch((epoch) => epoch + 1);
     resetHelcimScriptState();
 
     if (retryTimeoutRef.current) {

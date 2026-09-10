@@ -28,7 +28,19 @@ export const validateUrl = jest.fn((url) => {
 export const validatePhoneNumber = jest.fn(
   (phone) => typeof phone === "string" && phone.replaceAll(/\D/g, "").length >= 7,
 );
-export const validateAmount = jest.fn((amount) => amount > 0);
+export const validateAmount = jest.fn(
+  (amount) => amount > 0 && amount <= 1000000 && Number.isFinite(amount),
+);
+export const MAX_DONATION_AMOUNT = 1000000;
+export const getDonationAmountError = jest.fn((amount) => {
+  if (Number.isNaN(amount) || amount <= 0) {
+    return "Please enter an amount greater than 0";
+  }
+  if (!Number.isFinite(amount) || amount > MAX_DONATION_AMOUNT) {
+    return `Maximum donation amount is ${MAX_DONATION_AMOUNT.toLocaleString("en-US")}`;
+  }
+  return null;
+});
 export const sanitizeInput = jest.fn((input) => input);
 export const validateAuthInput = jest.fn();
 export const validateFileUpload = jest.fn();
