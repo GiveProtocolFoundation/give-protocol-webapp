@@ -139,8 +139,7 @@ describe("Donation form validation (GIV-984)", () => {
       /** Donate Now submit button */
       const donateButton = () => cy.contains("button", /donate now/i);
       /** Live inline amount error element */
-      const amountError = () =>
-        cy.get('[data-testid="donation-amount-error"]');
+      const amountError = () => cy.get('[data-testid="donation-amount-error"]');
 
       // $0 — live error + disabled Donate
       amountInput().clear().type("0");
@@ -189,8 +188,7 @@ describe("Donation form validation (GIV-984)", () => {
       const customInput = () =>
         cy.get('input[aria-label^="Custom donation amount"]');
       /** Live inline amount error element */
-      const amountError = () =>
-        cy.get('[data-testid="donation-amount-error"]');
+      const amountError = () => cy.get('[data-testid="donation-amount-error"]');
       /** Fiat pay submit button */
       const payButton = () => cy.get("form").contains("button", /^Donate/);
 
