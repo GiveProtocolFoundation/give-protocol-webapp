@@ -127,6 +127,11 @@ const CauseDetail = lazy(() => import("@/pages/causes/CauseDetail"));
  * renders without a chunk-fetch delay (GIV-988).
  */
 const prefetchStaticPageChunks = (): void => {
+  /**
+   * Best-effort prefetch of a single lazy route chunk.
+   * @param loader - Dynamic-import loader for the chunk to prefetch.
+   * @returns Nothing; prefetch failures are swallowed and retried on navigation.
+   */
   const prefetchChunk = (loader: () => Promise<unknown>): void => {
     loader().catch(() => {
       // Best-effort prefetch: on failure, the route-level lazy import
