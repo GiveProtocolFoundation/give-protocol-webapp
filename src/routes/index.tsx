@@ -126,7 +126,18 @@ const CauseDetail = lazy(() => import("@/pages/causes/CauseDetail"));
  * idle, so navigating to FAQ/Legal/Privacy/About from the footer or navbar
  * renders without a chunk-fetch delay (GIV-988).
  */
+/**
+ * Prefetches static page chunks for specific routes.
+ *
+ * @returns {void} Nothing.
+ */
 const prefetchStaticPageChunks = (): void => {
+  /**
+   * Prefetches a page chunk using the provided loader function.
+   *
+   * @param {() => Promise<unknown>} loader - A function that returns a promise resolving to the module to prefetch.
+   * @returns {void} Nothing.
+   */
   const prefetchChunk = (loader: () => Promise<unknown>): void => {
     loader().catch(() => {
       // Best-effort prefetch: on failure, the route-level lazy import
