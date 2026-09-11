@@ -1162,6 +1162,7 @@ export default {
     "browse.stats.onChain": "온체인",
     "browse.stats.volunteerHours": "봉사 시간",
     "browse.verified": "인증됨",
+    "browse.irsVerified": "IRS 인증됨",
     "browse.donate": "기부하기",
     "browse.filter.ariaLabel": "자선단체 필터",
     "browse.filter.searchAria": "자선단체 검색",
@@ -1273,6 +1274,9 @@ export default {
       "등록된 501(c)(3) — 미국에서 기부금이 세금 공제 대상이 될 수 있습니다",
     "charity.profile.statusClaimed": "인수됨",
     "charity.profile.statusUnclaimed": "미인수 — 공공 등록 데이터만 제공",
+    "charity.profile.statusIrsVerified": "IRS 인증 비영리단체",
+    "charity.profile.requestWidget.unclaimedBody":
+      "이 단체는 아직 Give Protocol에서 프로필을 인수하지 않았습니다. 단체가 프로필을 인수하고 지갑 설정을 완료하면 기부할 수 있습니다.",
     "charity.profile.rowEin": "납세자 번호",
     "charity.profile.rowName": "이름",
     "charity.profile.rowLocation": "위치",

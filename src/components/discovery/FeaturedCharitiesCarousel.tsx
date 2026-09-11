@@ -56,7 +56,9 @@ function FeaturedCharityCard({ charity }: { charity: FeaturedCharity }) {
         <CharityCoverImage charity={charity} />
         <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/90 dark:bg-gray-900/90 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-full shadow-sm">
           <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
-          {t("browse.verified", "Verified")}
+          {charity.isClaimed
+            ? t("browse.verified", "Verified")
+            : t("browse.irsVerified", "IRS-verified")}
         </span>
       </div>
 

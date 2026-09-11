@@ -1191,6 +1191,7 @@ export default {
     "browse.stats.onChain": "オンチェーン",
     "browse.stats.volunteerHours": "ボランティア時間",
     "browse.verified": "認証済み",
+    "browse.irsVerified": "IRS認証済み",
     "browse.donate": "寄付する",
     "browse.filter.ariaLabel": "チャリティを絞り込む",
     "browse.filter.searchAria": "チャリティを検索",
@@ -1303,6 +1304,9 @@ export default {
       "登録済み501(c)(3) — 米国では寄付が税控除の対象となる場合があります",
     "charity.profile.statusClaimed": "申請済み",
     "charity.profile.statusUnclaimed": "未申請 — 公的登録データのみ",
+    "charity.profile.statusIrsVerified": "IRS認証済み非営利団体",
+    "charity.profile.requestWidget.unclaimedBody":
+      "この組織はまだGive Protocol上でプロフィールの所有権を登録していません。プロフィールの所有権登録とウォレット設定が完了すると、寄付できるようになります。",
     "charity.profile.rowEin": "納税者番号",
     "charity.profile.rowName": "名称",
     "charity.profile.rowLocation": "所在地",

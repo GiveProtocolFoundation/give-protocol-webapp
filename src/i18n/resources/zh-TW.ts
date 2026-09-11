@@ -1123,6 +1123,7 @@ export default {
     "browse.stats.onChain": "鏈上",
     "browse.stats.volunteerHours": "志工時數",
     "browse.verified": "已驗證",
+    "browse.irsVerified": "IRS已驗證",
     "browse.donate": "捐贈",
     "browse.filter.ariaLabel": "篩選慈善機構",
     "browse.filter.searchAria": "搜尋慈善機構",
@@ -1233,6 +1234,9 @@ export default {
       "已註冊 501(c)(3) — 在美國捐款可能可以抵扣稅款",
     "charity.profile.statusClaimed": "已認領",
     "charity.profile.statusUnclaimed": "未認領 — 僅有公共登記資料",
+    "charity.profile.statusIrsVerified": "IRS已驗證非營利組織",
+    "charity.profile.requestWidget.unclaimedBody":
+      "此組織尚未在 Give Protocol 上認領其檔案。此組織完成檔案認領與錢包設定後，即可接受捐贈。",
     "charity.profile.rowEin": "稅務編號",
     "charity.profile.rowName": "名稱",
     "charity.profile.rowLocation": "所在地",
