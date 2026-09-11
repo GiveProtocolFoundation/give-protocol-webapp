@@ -22,6 +22,10 @@ export default {
     "nav.legal": "कानूनी",
     "nav.launchApp": "ऐप लॉन्च करें",
 
+    // FAQ page (GIV-988)
+    "faq.title": "अक्सर पूछे जाने वाले प्रश्न",
+    "faq.subtitle": "दान, स्वयंसेवा और ब्लॉकचेन पारदर्शिता के बारे में आपको जो कुछ भी जानना चाहिए।",
+
     // Settings
     "settings.title": "सेटिंग्स",
     "settings.language": "भाषा",

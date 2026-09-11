@@ -23,6 +23,10 @@ export default {
     "nav.legal": "Mentions Légales",
     "nav.launchApp": "Lancer l'Application",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Foire aux questions",
+    "faq.subtitle": "Tout ce que vous devez savoir sur les dons, le bénévolat et la transparence de la blockchain.",
+
     // Settings
     "settings.title": "Paramètres",
     "settings.language": "Langue",

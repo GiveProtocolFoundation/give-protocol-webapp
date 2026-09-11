@@ -22,6 +22,10 @@ export default {
     "nav.legal": "법적 정보",
     "nav.launchApp": "앱 실행",
 
+    // FAQ page (GIV-988)
+    "faq.title": "자주 묻는 질문",
+    "faq.subtitle": "기부, 자원봉사, 블록체인 투명성에 대해 알아야 할 모든 것.",
+
     // Settings
     "settings.title": "설정",
     "settings.language": "언어",

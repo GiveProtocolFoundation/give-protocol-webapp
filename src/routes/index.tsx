@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { RouteTransition } from "./RouteTransition";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { LoadingFallback } from "./LoadingFallback";
 
 // Eagerly load critical routes
 import Register from "@/pages/Register";
@@ -121,12 +121,25 @@ const ReforestationProject = lazy(
 );
 const CauseDetail = lazy(() => import("@/pages/causes/CauseDetail"));
 
-/** Full-screen centered loading spinner used as a Suspense fallback. */
-const LoadingFallback = () => (
-  <div className="flex min-h-screen items-center justify-center">
-    <LoadingSpinner size="lg" />
-  </div>
-);
+/**
+ * Prefetches the lazy chunks for the static info pages once the browser is
+ * idle, so navigating to FAQ/Legal/Privacy/About from the footer or navbar
+ * renders without a chunk-fetch delay (GIV-988).
+ */
+const prefetchStaticPageChunks = (): void => {
+  void import("@/pages/FAQ");
+  void import("@/pages/Legal");
+  void import("@/pages/Privacy");
+  void import("@/pages/About");
+};
+
+if (typeof window !== "undefined") {
+  const scheduleIdle =
+    typeof window.requestIdleCallback === "function"
+      ? window.requestIdleCallback
+      : (callback: () => void) => window.setTimeout(callback, 1500);
+  scheduleIdle(() => prefetchStaticPageChunks());
+}
 
 /**
  * Main application routing component that defines all routes and navigation.
@@ -683,9 +696,7 @@ export function AppRoutes() {
           path="/about"
           element={
             <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <About />
-              </Suspense>
+              <About />
             </RouteTransition>
           }
         />
@@ -693,9 +704,7 @@ export function AppRoutes() {
           path="/faq"
           element={
             <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <FAQ />
-              </Suspense>
+              <FAQ />
             </RouteTransition>
           }
         />
@@ -717,9 +726,7 @@ export function AppRoutes() {
           path="/legal"
           element={
             <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <Legal />
-              </Suspense>
+              <Legal />
             </RouteTransition>
           }
         />

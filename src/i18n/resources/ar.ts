@@ -22,6 +22,10 @@ export default {
     "nav.legal": "المعلومات القانونية",
     "nav.launchApp": "تشغيل التطبيق",
 
+    // FAQ page (GIV-988)
+    "faq.title": "الأسئلة الشائعة",
+    "faq.subtitle": "كل ما تحتاج معرفته عن التبرع والعمل التطوعي وشفافية البلوك تشين.",
+
     // Settings
     "settings.title": "الإعدادات",
     "settings.language": "اللغة",

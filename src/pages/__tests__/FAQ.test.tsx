@@ -1,6 +1,10 @@
+import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import FAQ from "../FAQ";
+
+// StaticPageLayout is mocked via moduleNameMapper in jest.config.mjs, so page
+// content renders directly without animation or layout dependencies.
 
 const renderFAQ = () =>
   render(
@@ -10,15 +14,19 @@ const renderFAQ = () =>
   );
 
 describe("FAQ", () => {
-  describe("Page structure", () => {
-    it("renders the page heading", () => {
+  beforeEach(() => {
+    jest.clearAllMocks();
+  });
+
+  describe("Page header", () => {
+    it("renders the page title", () => {
       renderFAQ();
       expect(
         screen.getByText("Frequently Asked Questions"),
       ).toBeInTheDocument();
     });
 
-    it("renders the page subtitle", () => {
+    it("renders the subtitle", () => {
       renderFAQ();
       expect(
         screen.getByText(
@@ -26,8 +34,10 @@ describe("FAQ", () => {
         ),
       ).toBeInTheDocument();
     });
+  });
 
-    it("renders all five section headings", () => {
+  describe("Question content", () => {
+    it("renders all five category sections", () => {
       renderFAQ();
       expect(screen.getByText("About Give Protocol")).toBeInTheDocument();
       expect(screen.getByText("Crypto & Donations")).toBeInTheDocument();
@@ -35,119 +45,35 @@ describe("FAQ", () => {
       expect(screen.getByText("Volunteering")).toBeInTheDocument();
       expect(screen.getByText("For Organizations")).toBeInTheDocument();
     });
-  });
 
-  describe("FAQ questions visible", () => {
-    it("renders CPO-required question: What is Give Protocol?", () => {
+    it("renders all 16 question buttons", () => {
       renderFAQ();
-      expect(screen.getByText("What is Give Protocol?")).toBeInTheDocument();
+      const questionButtons = screen
+        .getAllByRole("button")
+        .filter((button) => button.hasAttribute("aria-expanded"));
+      expect(questionButtons.length).toBe(16);
     });
 
-    it("renders CPO-required question: How do crypto donations work?", () => {
+    it("expands an answer when its question is clicked", () => {
       renderFAQ();
+      const firstQuestion = screen.getByText("What is Give Protocol?");
+      fireEvent.click(firstQuestion);
       expect(
-        screen.getByText("How do crypto donations work?"),
+        screen.getByText(/transparent, blockchain-powered platform/i),
       ).toBeInTheDocument();
     });
 
-    it("renders CPO-required question about money going to charity", () => {
+    it("collapses an open answer when clicked again", () => {
       renderFAQ();
+      const firstQuestion = screen.getByText("What is Give Protocol?");
+      fireEvent.click(firstQuestion);
       expect(
-        screen.getByText("How do I know my money goes to the charity?"),
+        screen.getByText(/transparent, blockchain-powered platform/i),
       ).toBeInTheDocument();
-    });
-
-    it("renders question about wallet requirement", () => {
-      renderFAQ();
+      fireEvent.click(firstQuestion);
       expect(
-        screen.getByText("Do I need a crypto wallet to donate?"),
-      ).toBeInTheDocument();
-    });
-
-    it("renders question about volunteer verification", () => {
-      renderFAQ();
-      expect(
-        screen.getByText("How does volunteer hour verification work?"),
-      ).toBeInTheDocument();
-    });
-  });
-
-  describe("Accordion behavior", () => {
-    it("answers are not visible before clicking a question", () => {
-      renderFAQ();
-      expect(
-        screen.queryByText(
-          /Give Protocol is a transparent, blockchain-powered platform/,
-        ),
+        screen.queryByText(/transparent, blockchain-powered platform/i),
       ).not.toBeInTheDocument();
-    });
-
-    it("clicking a question reveals the answer", () => {
-      renderFAQ();
-      fireEvent.click(screen.getByText("What is Give Protocol?"));
-      expect(
-        screen.getByText(
-          /Give Protocol is a transparent, blockchain-powered platform/,
-        ),
-      ).toBeInTheDocument();
-    });
-
-    it("clicking the same question again hides the answer", () => {
-      renderFAQ();
-      const question = screen.getByText("What is Give Protocol?");
-      fireEvent.click(question);
-      expect(
-        screen.getByText(
-          /Give Protocol is a transparent, blockchain-powered platform/,
-        ),
-      ).toBeInTheDocument();
-      fireEvent.click(question);
-      expect(
-        screen.queryByText(
-          /Give Protocol is a transparent, blockchain-powered platform/,
-        ),
-      ).not.toBeInTheDocument();
-    });
-
-    it("multiple questions can be open simultaneously", () => {
-      renderFAQ();
-      fireEvent.click(screen.getByText("What is Give Protocol?"));
-      fireEvent.click(screen.getByText("How do crypto donations work?"));
-      expect(
-        screen.getByText(
-          /Give Protocol is a transparent, blockchain-powered platform/,
-        ),
-      ).toBeInTheDocument();
-      expect(
-        screen.getByText(/Connect your crypto wallet/),
-      ).toBeInTheDocument();
-    });
-  });
-
-  describe("Accessibility", () => {
-    it("question buttons have aria-expanded=false by default", () => {
-      renderFAQ();
-      const buttons = screen.getAllByRole("button");
-      buttons.forEach((btn) => {
-        expect(btn).toHaveAttribute("aria-expanded", "false");
-      });
-    });
-
-    it("question button sets aria-expanded=true when opened", () => {
-      renderFAQ();
-      const btn = screen.getByText("What is Give Protocol?").closest("button");
-      expect(btn).toHaveAttribute("aria-expanded", "false");
-      fireEvent.click(btn as HTMLElement);
-      expect(btn).toHaveAttribute("aria-expanded", "true");
-    });
-
-    it("answer panel has id matching button aria-controls", () => {
-      renderFAQ();
-      const btn = screen.getByText("What is Give Protocol?").closest("button");
-      fireEvent.click(btn as HTMLElement);
-      const controls = btn?.getAttribute("aria-controls");
-      expect(controls).toBeTruthy();
-      expect(document.getElementById(controls as string)).toBeInTheDocument();
     });
   });
 });

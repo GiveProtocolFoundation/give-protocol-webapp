@@ -1,5 +1,12 @@
-import { describe, it, expect, beforeEach, jest } from "@jest/globals";
-import { renderHook, act } from "@testing-library/react";
+import {
+  describe,
+  it,
+  expect,
+  beforeEach,
+  jest,
+} from "@jest/globals";
+import React from "react";
+import { renderHook, render, act } from "@testing-library/react";
 import {
   useScrollAnimation,
   useScrollDirection,
@@ -10,21 +17,27 @@ import {
 const mockObserve = jest.fn();
 const mockUnobserve = jest.fn();
 const mockDisconnect = jest.fn();
+let observerCallback: ((entries: Array<{ isIntersecting: boolean }>) => void) | null =
+  null;
 
 beforeEach(() => {
   mockObserve.mockClear();
   mockUnobserve.mockClear();
   mockDisconnect.mockClear();
+  observerCallback = null;
 
   (
     global as unknown as { IntersectionObserver: unknown }
-  ).IntersectionObserver = jest.fn((_callback: unknown) => {
-    return {
-      observe: mockObserve,
-      unobserve: mockUnobserve,
-      disconnect: mockDisconnect,
-    };
-  });
+  ).IntersectionObserver = jest.fn(
+    (callback: (entries: Array<{ isIntersecting: boolean }>) => void) => {
+      observerCallback = callback;
+      return {
+        observe: mockObserve,
+        unobserve: mockUnobserve,
+        disconnect: mockDisconnect,
+      };
+    },
+  );
 });
 
 describe("useScrollAnimation", () => {
@@ -51,6 +64,67 @@ describe("useScrollAnimation", () => {
     // Unmount should not throw
     unmount();
     expect(result.current.elementRef).toBeDefined();
+  });
+
+  it("should become visible when the observer reports intersection", () => {
+    const Probe: React.FC = () => {
+      const { elementRef, isVisible } = useScrollAnimation({
+        threshold: 0,
+        triggerOnce: true,
+      });
+      return <div ref={elementRef} data-visible={String(isVisible)} />;
+    };
+    const { container } = render(<Probe />);
+    expect(observerCallback).not.toBeNull();
+    expect(container.firstChild).toHaveAttribute("data-visible", "false");
+
+    act(() => {
+      observerCallback?.([{ isIntersecting: true }]);
+    });
+    expect(container.firstChild).toHaveAttribute("data-visible", "true");
+  });
+
+  it("should reveal immediately when IntersectionObserver is unavailable (GIV-988)", () => {
+    const globalScope = global as unknown as {
+      IntersectionObserver?: unknown;
+    };
+    const savedObserver = globalScope.IntersectionObserver;
+    delete globalScope.IntersectionObserver;
+
+    const Probe: React.FC = () => {
+      const { elementRef, isVisible } = useScrollAnimation();
+      return <div ref={elementRef} data-visible={String(isVisible)} />;
+    };
+    const { container, unmount } = render(<Probe />);
+    expect(container.firstChild).toHaveAttribute("data-visible", "true");
+    unmount();
+
+    globalScope.IntersectionObserver = savedObserver;
+  });
+
+  it("should reveal via failsafe timer when the observer callback is never delivered (GIV-988)", () => {
+    jest.useFakeTimers();
+    try {
+      const Probe: React.FC = () => {
+        const { elementRef, isVisible } = useScrollAnimation({
+          threshold: 0,
+          triggerOnce: true,
+        });
+        return <div ref={elementRef} data-visible={String(isVisible)} />;
+      };
+      const { container } = render(<Probe />);
+      // Observer was set up but its callback never fires (hidden or
+      // embedded rendering surfaces).
+      expect(mockObserve).toHaveBeenCalled();
+      expect(container.firstChild).toHaveAttribute("data-visible", "false");
+
+      act(() => {
+        jest.advanceTimersByTime(4000);
+      });
+      expect(container.firstChild).toHaveAttribute("data-visible", "true");
+    } finally {
+      jest.useRealTimers();
+    }
   });
 });
 
