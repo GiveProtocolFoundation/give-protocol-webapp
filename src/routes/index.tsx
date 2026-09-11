@@ -127,10 +127,16 @@ const CauseDetail = lazy(() => import("@/pages/causes/CauseDetail"));
  * renders without a chunk-fetch delay (GIV-988).
  */
 const prefetchStaticPageChunks = (): void => {
-  void import("@/pages/FAQ");
-  void import("@/pages/Legal");
-  void import("@/pages/Privacy");
-  void import("@/pages/About");
+  const prefetchChunk = (loader: () => Promise<unknown>): void => {
+    loader().catch(() => {
+      // Best-effort prefetch: on failure, the route-level lazy import
+      // simply retries when the user navigates to the page.
+    });
+  };
+  prefetchChunk(() => import("@/pages/FAQ"));
+  prefetchChunk(() => import("@/pages/Legal"));
+  prefetchChunk(() => import("@/pages/Privacy"));
+  prefetchChunk(() => import("@/pages/About"));
 };
 
 if (typeof window !== "undefined") {
