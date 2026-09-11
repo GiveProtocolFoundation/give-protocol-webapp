@@ -24,7 +24,8 @@ export default {
 
     // FAQ page (GIV-988)
     "faq.title": "Câu hỏi thường gặp",
-    "faq.subtitle": "Tất cả những gì bạn cần biết về quyên góp, tình nguyện và tính minh bạch của blockchain.",
+    "faq.subtitle":
+      "Tất cả những gì bạn cần biết về quyên góp, tình nguyện và tính minh bạch của blockchain.",
 
     // Settings
     "settings.title": "Cài đặt",

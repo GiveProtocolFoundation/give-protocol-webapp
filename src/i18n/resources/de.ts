@@ -24,7 +24,8 @@ export default {
 
     // FAQ page (GIV-988)
     "faq.title": "Häufig gestellte Fragen",
-    "faq.subtitle": "Alles, was Sie über Spenden, Freiwilligenarbeit und Blockchain-Transparenz wissen müssen.",
+    "faq.subtitle":
+      "Alles, was Sie über Spenden, Freiwilligenarbeit und Blockchain-Transparenz wissen müssen.",
 
     // Settings
     "settings.title": "Einstellungen",

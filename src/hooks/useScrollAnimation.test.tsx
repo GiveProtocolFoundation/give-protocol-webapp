@@ -1,10 +1,4 @@
-import {
-  describe,
-  it,
-  expect,
-  beforeEach,
-  jest,
-} from "@jest/globals";
+import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import React from "react";
 import { renderHook, render, act } from "@testing-library/react";
 import {
@@ -17,8 +11,9 @@ import {
 const mockObserve = jest.fn();
 const mockUnobserve = jest.fn();
 const mockDisconnect = jest.fn();
-let observerCallback: ((entries: Array<{ isIntersecting: boolean }>) => void) | null =
-  null;
+let observerCallback:
+  | ((entries: Array<{ isIntersecting: boolean }>) => void)
+  | null = null;
 
 beforeEach(() => {
   mockObserve.mockClear();

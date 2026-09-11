@@ -24,7 +24,8 @@ export default {
 
     // FAQ page (GIV-988)
     "faq.title": "よくある質問",
-    "faq.subtitle": "寄付、ボランティア、ブロックチェーンの透明性について知っておくべきことをすべてご紹介します。",
+    "faq.subtitle":
+      "寄付、ボランティア、ブロックチェーンの透明性について知っておくべきことをすべてご紹介します。",
 
     // Settings
     "settings.title": "設定",
