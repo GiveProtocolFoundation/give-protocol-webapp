@@ -2,6 +2,7 @@ import React, { useState, useCallback } from "react";
 import { ChevronDown } from "lucide-react";
 import { StaticPageLayout } from "@/components/layout/StaticPageLayout";
 import { usePageTitle } from "@/hooks/usePageTitle";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface FAQEntry {
   id: string;
@@ -451,6 +452,7 @@ const FAQSection: React.FC<FAQSectionProps> = ({
 /** Frequently Asked Questions page covering Give Protocol basics, crypto donations, and trust. */
 const FAQ: React.FC = () => {
   usePageTitle("FAQ");
+  const { t } = useTranslation();
   const [openIds, setOpenIds] = useState<Set<string>>(new Set());
 
   const handleToggle = useCallback((id: string) => {
@@ -467,8 +469,11 @@ const FAQ: React.FC = () => {
 
   return (
     <StaticPageLayout
-      title="Frequently Asked Questions"
-      subtitle="Everything you need to know about giving, volunteering, and blockchain transparency."
+      title={t("faq.title", "Frequently Asked Questions")}
+      subtitle={t(
+        "faq.subtitle",
+        "Everything you need to know about giving, volunteering, and blockchain transparency.",
+      )}
     >
       <div className="space-y-12">
         {FAQ_SECTIONS.map((section) => (

@@ -22,6 +22,11 @@ export default {
     "nav.legal": "ข้อมูลทางกฎหมาย",
     "nav.launchApp": "เปิดแอป",
 
+    // FAQ page (GIV-988)
+    "faq.title": "คำถามที่พบบ่อย",
+    "faq.subtitle":
+      "ทุกสิ่งที่คุณต้องรู้เกี่ยวกับการบริจาค การเป็นอาสาสมัคร และความโปร่งใสของบล็อกเชน",
+
     // Settings
     "settings.title": "การตั้งค่า",
     "settings.language": "ภาษา",

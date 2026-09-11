@@ -22,6 +22,10 @@ export default {
     "nav.legal": "法律",
     "nav.launchApp": "启动应用",
 
+    // FAQ page (GIV-988)
+    "faq.title": "常见问题",
+    "faq.subtitle": "关于捐赠、志愿服务和区块链透明度，您需要了解的一切。",
+
     // Settings
     "settings.title": "设置",
     "settings.language": "语言",

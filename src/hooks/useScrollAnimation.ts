@@ -7,6 +7,13 @@ interface ScrollAnimationOptions {
 }
 
 /**
+ * Failsafe reveal window (ms). Some embedded/automated rendering surfaces never
+ * deliver IntersectionObserver callbacks; content must not stay opacity:0
+ * forever in those environments (GIV-988, previously PR #466).
+ */
+const FAILSAFE_REVEAL_MS = 4000;
+
+/**
  * Custom hook for scroll-based animations
  * @param options - Configuration options for the intersection observer
  * @returns Object containing ref to attach to element and visibility state
@@ -18,6 +25,13 @@ export const useScrollAnimation = (options: ScrollAnimationOptions = {}) => {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
+    // Environments without IntersectionObserver must never gate content
+    // behind the reveal animation.
+    if (typeof IntersectionObserver === "undefined") {
+      setIsVisible(true);
+      return undefined;
+    }
+
     const element = elementRef.current;
     if (!element) {
       return undefined;
@@ -39,7 +53,15 @@ export const useScrollAnimation = (options: ScrollAnimationOptions = {}) => {
 
     observer.observe(element);
 
+    // Failsafe: if the observer callback is never delivered (e.g. hidden or
+    // embedded rendering surfaces), reveal anyway so content cannot stay
+    // invisible indefinitely.
+    const failsafe = setTimeout(() => {
+      setIsVisible(true);
+    }, FAILSAFE_REVEAL_MS);
+
     return () => {
+      clearTimeout(failsafe);
       observer.disconnect();
     };
   }, [threshold, rootMargin, triggerOnce]);

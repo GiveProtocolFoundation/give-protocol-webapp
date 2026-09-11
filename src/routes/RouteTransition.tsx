@@ -1,7 +1,7 @@
 import React from "react";
 import { useLocation } from "react-router-dom";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { Logger } from "@/utils/logger";
+import { LoadingFallback } from "./LoadingFallback";
 
 interface RouteTransitionProps {
   children: React.ReactNode;
@@ -31,13 +31,7 @@ export const RouteTransition: React.FC<RouteTransitionProps> = ({
   }, [location]);
 
   return (
-    <React.Suspense
-      fallback={
-        <div className="flex min-h-screen items-center justify-center">
-          <LoadingSpinner size="lg" />
-        </div>
-      }
-    >
+    <React.Suspense fallback={<LoadingFallback />}>
       <div className="animate-fadeIn">{children}</div>
     </React.Suspense>
   );

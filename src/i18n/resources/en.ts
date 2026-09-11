@@ -22,6 +22,11 @@ export default {
     "nav.legal": "Legal",
     "nav.launchApp": "Launch App",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Frequently Asked Questions",
+    "faq.subtitle":
+      "Everything you need to know about giving, volunteering, and blockchain transparency.",
+
     // Settings
     "settings.title": "Settings",
     "settings.language": "Language",

@@ -3,7 +3,7 @@ import { Routes, Route, Navigate } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { RouteTransition } from "./RouteTransition";
 import { ProtectedRoute } from "./ProtectedRoute";
-import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { LoadingFallback } from "./LoadingFallback";
 
 // Eagerly load critical routes
 import Register from "@/pages/Register";
@@ -121,12 +121,36 @@ const ReforestationProject = lazy(
 );
 const CauseDetail = lazy(() => import("@/pages/causes/CauseDetail"));
 
-/** Full-screen centered loading spinner used as a Suspense fallback. */
-const LoadingFallback = () => (
-  <div className="flex min-h-screen items-center justify-center">
-    <LoadingSpinner size="lg" />
-  </div>
-);
+/**
+ * Prefetches the lazy chunks for the static info pages once the browser is
+ * idle, so navigating to FAQ/Legal/Privacy/About from the footer or navbar
+ * renders without a chunk-fetch delay (GIV-988).
+ */
+const prefetchStaticPageChunks = (): void => {
+  /**
+   * Best-effort prefetch of a single lazy route chunk.
+   * @param loader - Dynamic-import loader for the chunk to prefetch.
+   * @returns Nothing; prefetch failures are swallowed and retried on navigation.
+   */
+  const prefetchChunk = (loader: () => Promise<unknown>): void => {
+    loader().catch(() => {
+      // Best-effort prefetch: on failure, the route-level lazy import
+      // simply retries when the user navigates to the page.
+    });
+  };
+  prefetchChunk(() => import("@/pages/FAQ"));
+  prefetchChunk(() => import("@/pages/Legal"));
+  prefetchChunk(() => import("@/pages/Privacy"));
+  prefetchChunk(() => import("@/pages/About"));
+};
+
+if (typeof window !== "undefined") {
+  const scheduleIdle =
+    typeof window.requestIdleCallback === "function"
+      ? window.requestIdleCallback
+      : (callback: () => void) => window.setTimeout(callback, 1500);
+  scheduleIdle(() => prefetchStaticPageChunks());
+}
 
 /**
  * Main application routing component that defines all routes and navigation.
@@ -683,9 +707,7 @@ export function AppRoutes() {
           path="/about"
           element={
             <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <About />
-              </Suspense>
+              <About />
             </RouteTransition>
           }
         />
@@ -693,9 +715,7 @@ export function AppRoutes() {
           path="/faq"
           element={
             <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <FAQ />
-              </Suspense>
+              <FAQ />
             </RouteTransition>
           }
         />
@@ -717,9 +737,7 @@ export function AppRoutes() {
           path="/legal"
           element={
             <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <Legal />
-              </Suspense>
+              <Legal />
             </RouteTransition>
           }
         />

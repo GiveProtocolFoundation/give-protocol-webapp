@@ -22,6 +22,11 @@ export default {
     "nav.legal": "Pháp lý",
     "nav.launchApp": "Khởi động ứng dụng",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Câu hỏi thường gặp",
+    "faq.subtitle":
+      "Tất cả những gì bạn cần biết về quyên góp, tình nguyện và tính minh bạch của blockchain.",
+
     // Settings
     "settings.title": "Cài đặt",
     "settings.language": "Ngôn ngữ",
