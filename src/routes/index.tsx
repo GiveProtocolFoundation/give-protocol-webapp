@@ -127,17 +127,6 @@ const CauseDetail = lazy(() => import("@/pages/causes/CauseDetail"));
  * renders without a chunk-fetch delay (GIV-988).
  */
 /**
- * Prefetches static page chunks for faster route navigation.
- *
- * @returns void
- */
-/**
-  /**
-   * Executes the loader function to prefetch a chunk and handles errors gracefully.
-   *
-   * @param loader A function that returns a Promise for dynamic import.
-   * @returns void
-   */
  * Prefetches static page chunks for specific routes.
  *
  * @returns {void} Nothing.
