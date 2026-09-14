@@ -154,6 +154,19 @@ describe("FeaturedPortfolioFundsCarousel", () => {
     expect(hrefs).toContain("/portfolio/1");
   });
 
+  it("should link fund name to correct portfolio detail page", () => {
+    mockHook.mockReturnValue({
+      funds: [MOCK_FUNDS[0], MOCK_FUNDS[1]],
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    const climateLink = screen.getByText("Climate Fund");
+    const educationLink = screen.getByText("Education Fund");
+    expect(climateLink.closest("a")).toHaveAttribute("href", "/portfolio/1");
+    expect(educationLink.closest("a")).toHaveAttribute("href", "/portfolio/2");
+  });
+
   it("renders slide ARIA attributes on each card wrapper", () => {
     mockHook.mockReturnValue({
       funds: MOCK_FUNDS.slice(0, 3),

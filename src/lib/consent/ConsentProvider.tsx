@@ -127,6 +127,7 @@ export function ConsentProvider({ children }: { children: React.ReactNode }) {
  * @returns ConsentContextValue
  * @throws Error if called outside ConsentProvider
  */
+// eslint-disable-next-line react-refresh/only-export-components
 export function useConsent(): ConsentContextValue {
   const ctx = useContext(ConsentContext);
   if (!ctx) {

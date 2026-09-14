@@ -7,6 +7,15 @@ import { AdminErrorPanel } from "@/components/admin/AdminErrorPanel";
 import { useTranslation } from "@/hooks/useTranslation";
 import { useAdminDonations } from "@/hooks/useAdminDonations";
 import { logRead } from "@/services/adminAuditService";
+import {
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+  CartesianGrid,
+  Tooltip as RechartsTooltip,
+  ResponsiveContainer,
+} from "recharts";
 import type {
   AdminDonationListFilters,
   AdminDonationListItem,
@@ -15,6 +24,44 @@ import type {
 } from "@/types/adminDonation";
 
 // ─── Sub-components ───────────────────────────────────────────────────────────
+
+/** Volume chart visualizing summary report */
+function DonationVolumeChart({ summary }: { summary: AdminDonationSummaryRow[] }): React.ReactElement | null {
+  if (summary.length === 0) return null;
+  // Format data for Recharts
+  const chartData = summary.map(row => ({
+    name: row.charityName || row.groupKey,
+    amount: row.totalAmountUsd,
+    method: row.paymentMethod
+  }));
+
+  return (
+    <div className="h-64 w-full mb-6 mt-4">
+      <ResponsiveContainer width="100%" height="100%">
+        <BarChart data={chartData} margin={{ top: 10, right: 30, left: 0, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e5e7eb" />
+          <XAxis 
+            dataKey="name" 
+            tick={{ fontSize: 12, fill: '#6b7280' }}
+            tickLine={false}
+            axisLine={{ stroke: '#e5e7eb' }}
+          />
+          <YAxis 
+            tick={{ fontSize: 12, fill: '#6b7280' }}
+            tickLine={false}
+            axisLine={false}
+            tickFormatter={(value) => `$${value}`}
+          />
+          <RechartsTooltip 
+            formatter={(value: number) => [`$${value.toFixed(2)}`, "Amount"]}
+            contentStyle={{ borderRadius: '8px', border: '1px solid #e5e7eb', fontSize: '14px' }}
+          />
+          <Bar dataKey="amount" fill="#10b981" radius={[4, 4, 0, 0]} maxBarSize={50} />
+        </BarChart>
+      </ResponsiveContainer>
+    </div>
+  );
+}
 
 /** Badge for payment method (crypto / fiat) */
 function PaymentBadge({
@@ -717,8 +764,11 @@ const AdminDonationMonitoring: React.FC = () => {
             )}
           </div>
           {summary.length > 0 && (
-            <div className="mt-4 overflow-x-auto">
-              <SummaryTable summary={summary} />
+            <div className="mt-4">
+              <DonationVolumeChart summary={summary} />
+              <div className="overflow-x-auto">
+                <SummaryTable summary={summary} />
+              </div>
             </div>
           )}
         </Card>

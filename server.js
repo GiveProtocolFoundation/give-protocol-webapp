@@ -195,9 +195,10 @@ const COINGECKO_ALLOWED_PATHS = new Set([
   "coins/markets",
 ]);
 
-app.get("/api/coingecko/*", async (req, res) => {
+app.get("/api/coingecko/{*path}", async (req, res) => {
   try {
-    const path = req.params[0];
+    const rawPath = req.params.path;
+    const path = Array.isArray(rawPath) ? rawPath.join("/") : (rawPath || req.params[0]);
     // Validate path: must be non-empty, no traversal, only safe characters
     if (!path || !/^[a-zA-Z0-9/_-]+$/.test(path)) {
       res.status(400).json({ error: "Invalid path" });
@@ -230,9 +231,10 @@ app.get("/api/coingecko/*", async (req, res) => {
   }
 });
 
-app.get("/api/exchangerate/*", async (req, res) => {
+app.get("/api/exchangerate/{*path}", async (req, res) => {
   try {
-    const path = req.params[0];
+    const rawPath = req.params.path;
+    const path = Array.isArray(rawPath) ? rawPath.join("/") : (rawPath || req.params[0]);
     // Validate path to prevent SSRF - should only be currency codes (3 uppercase letters)
     if (!path || !/^[A-Z]{3}$/.test(path)) {
       res.status(400).json({ error: "Invalid currency code" });
@@ -276,7 +278,7 @@ if (!isProduction) {
 }
 
 // Serve HTML
-app.use("*", async (req, res) => {
+app.use(async (req, res) => {
   try {
     let url = req.originalUrl.replace(base, "");
     // Ensure URL starts with / so StaticRouter can match routes
