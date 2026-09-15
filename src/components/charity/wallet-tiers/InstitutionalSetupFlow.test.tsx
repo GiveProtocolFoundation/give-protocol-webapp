@@ -283,5 +283,14 @@ describe("InstitutionalSetupFlow", () => {
         screen.getByText(/email within 3 business days/),
       ).toBeInTheDocument();
     });
+
+    // onComplete should NOT be called immediately upon submission
+    expect(mockOnComplete).not.toHaveBeenCalled();
+
+    // Clicking Back to wallets on the confirmation screen triggers onComplete
+    await act(() => {
+      fireEvent.click(screen.getByText("Back to wallets"));
+    });
+    expect(mockOnComplete).toHaveBeenCalledWith(mockWallet);
   });
 });

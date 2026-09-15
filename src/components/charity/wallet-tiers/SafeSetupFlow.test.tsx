@@ -246,6 +246,8 @@ describe("SafeSetupFlow", () => {
           charity_profile_id: CHARITY_ID,
           wallet_address: "0x1234567890123456789012345678901234567890",
           wallet_type: "safe",
+          signer_count: 2,
+          signer_threshold: 1,
         }),
       );
     });
@@ -253,5 +255,161 @@ describe("SafeSetupFlow", () => {
     await waitFor(() => {
       expect(mockOnComplete).toHaveBeenCalledWith(mockWallet);
     });
+  });
+
+  it("passes custom signer count and threshold to addVerifiedWallet", async () => {
+    const mockSignMessage = jest.fn();
+    mockSignMessage.mockResolvedValue("0xsignature123");
+    const mockWallet = {
+      id: "new-wallet-3-of-5",
+      wallet_type: "safe",
+      wallet_address: "0x1234567890123456789012345678901234567890",
+      signer_count: 5,
+      signer_threshold: 3,
+    };
+    mockAddVerifiedWallet.mockResolvedValue(mockWallet);
+
+    (useWeb3 as jest.Mock).mockReturnValue({
+      provider: {},
+      signer: { signMessage: mockSignMessage },
+      address: "0xABCDEF1234567890abcdef1234567890ABCDEF12",
+      chainId: 8453,
+      isConnected: true,
+      isConnecting: false,
+      error: null,
+      connect: jest.fn(),
+      disconnect: jest.fn(),
+      switchChain: jest.fn(),
+    });
+
+    render(
+      <SafeSetupFlow
+        charityProfileId={CHARITY_ID}
+        onBack={mockOnBack}
+        onComplete={mockOnComplete}
+      />,
+    );
+
+    await act(() => {
+      fireEvent.click(screen.getByText("I already have a Safe"));
+    });
+    await act(() => {
+      fireEvent.change(screen.getByLabelText("Safe address"), {
+        target: { value: "0x1234567890123456789012345678901234567890" },
+      });
+      fireEvent.change(screen.getByLabelText(/Total signers/), {
+        target: { value: "5" },
+      });
+      fireEvent.change(screen.getByLabelText(/Threshold/), {
+        target: { value: "3" },
+      });
+    });
+    await act(() => {
+      fireEvent.click(screen.getByText("Sign to verify control"));
+    });
+
+    await waitFor(() => {
+      expect(mockAddVerifiedWallet).toHaveBeenCalledWith(
+        expect.objectContaining({
+          signer_count: 5,
+          signer_threshold: 3,
+        }),
+      );
+    });
+  });
+
+  it("shows error when signer count is less than 2", async () => {
+    (useWeb3 as jest.Mock).mockReturnValue({
+      provider: {},
+      signer: { signMessage: jest.fn() },
+      address: "0xABCDEF1234567890abcdef1234567890ABCDEF12",
+      chainId: 8453,
+      isConnected: true,
+      isConnecting: false,
+      error: null,
+      connect: jest.fn(),
+      disconnect: jest.fn(),
+      switchChain: jest.fn(),
+    });
+
+    render(
+      <SafeSetupFlow
+        charityProfileId={CHARITY_ID}
+        onBack={mockOnBack}
+        onComplete={mockOnComplete}
+      />,
+    );
+
+    await act(() => {
+      fireEvent.click(screen.getByText("I already have a Safe"));
+    });
+    await act(() => {
+      fireEvent.change(screen.getByLabelText("Safe address"), {
+        target: { value: "0x1234567890123456789012345678901234567890" },
+      });
+      fireEvent.change(screen.getByLabelText(/Total signers/), {
+        target: { value: "1" },
+      });
+    });
+    await act(() => {
+      fireEvent.click(screen.getByText("Sign to verify control"));
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText("Safe multisigs require at least 2 signers."),
+      ).toBeInTheDocument();
+    });
+    expect(mockAddVerifiedWallet).not.toHaveBeenCalled();
+  });
+
+  it("shows error when threshold is greater than signer count", async () => {
+    (useWeb3 as jest.Mock).mockReturnValue({
+      provider: {},
+      signer: { signMessage: jest.fn() },
+      address: "0xABCDEF1234567890abcdef1234567890ABCDEF12",
+      chainId: 8453,
+      isConnected: true,
+      isConnecting: false,
+      error: null,
+      connect: jest.fn(),
+      disconnect: jest.fn(),
+      switchChain: jest.fn(),
+    });
+
+    render(
+      <SafeSetupFlow
+        charityProfileId={CHARITY_ID}
+        onBack={mockOnBack}
+        onComplete={mockOnComplete}
+      />,
+    );
+
+    await act(() => {
+      fireEvent.click(screen.getByText("I already have a Safe"));
+    });
+    await act(() => {
+      fireEvent.change(screen.getByLabelText("Safe address"), {
+        target: { value: "0x1234567890123456789012345678901234567890" },
+      });
+      fireEvent.change(screen.getByLabelText(/Total signers/), {
+        target: { value: "3" },
+      });
+      fireEvent.change(screen.getByLabelText(/Threshold/), {
+        target: { value: "4" },
+      });
+    });
+    await act(() => {
+      fireEvent.click(screen.getByText("Sign to verify control"));
+    });
+
+    await waitFor(() => {
+      expect(
+        screen.getByText(
+          "Signer threshold must be between 1 and the total number of signers.",
+        ),
+      ).toBeInTheDocument();
+    });
+    expect(mockAddVerifiedWallet).not.toHaveBeenCalled();
   });
 });

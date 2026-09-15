@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback, useMemo, useEffect } from "react";
 import {
   ArrowLeft,
   ArrowRight,
@@ -7,17 +7,25 @@ import {
   Loader2,
   CheckCircle2,
   AlertCircle,
+  Info,
 } from "lucide-react";
+import { ethers } from "ethers";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useCharityWallets } from "@/hooks/useCharityWallets";
 import { useTranslation } from "@/hooks/useTranslation";
 import {
   getAvailableEVMChains,
+  getEVMChainConfig,
   DEFAULT_EVM_CHAIN_ID,
 } from "@/config/chains/evm";
 import type { CharityWallet } from "@/types/charityWallet";
 
 type Step = "source" | "verify";
+
+const SAFE_INFO_ABI = [
+  "function getOwners() view returns (address[])",
+  "function getThreshold() view returns (uint256)",
+];
 
 interface SafeSetupFlowProps {
   charityProfileId: string;
@@ -28,7 +36,7 @@ interface SafeSetupFlowProps {
 /**
  * Two-step Safe multisig setup wizard.
  * Step 1: "Create new Safe" (external link) or "I already have a Safe"
- * Step 2: Chain selector, Safe address, connect signer, verify via EIP-1271
+ * Step 2: Chain selector, Safe address, signer count & threshold, connect signer, verify via EIP-1271
  * @param props - Component props
  * @returns The Safe setup flow component
  */
@@ -44,6 +52,10 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
   const [step, setStep] = useState<Step>("source");
   const [chainId, setChainId] = useState<number>(DEFAULT_EVM_CHAIN_ID);
   const [safeAddress, setSafeAddress] = useState("");
+  const [signerCount, setSignerCount] = useState<number>(2);
+  const [signerThreshold, setSignerThreshold] = useState<number>(1);
+  const [detectedOwners, setDetectedOwners] = useState<string[] | null>(null);
+  const [isDetecting, setIsDetecting] = useState<boolean>(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
   const chains = useMemo(() => getAvailableEVMChains(false), []);
@@ -67,6 +79,77 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
     [],
   );
 
+  const handleSignerCountChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const val = parseInt(e.target.value, 10);
+      setSignerCount(isNaN(val) ? 2 : val);
+      setLocalError(null);
+    },
+    [],
+  );
+
+  const handleThresholdChange = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      const val = parseInt(e.target.value, 10);
+      setSignerThreshold(isNaN(val) ? 1 : val);
+      setLocalError(null);
+    },
+    [],
+  );
+
+  // On-chain Safe configuration detection
+  useEffect(() => {
+    let active = true;
+    if (!/^0x[a-fA-F0-9]{40}$/.test(safeAddress)) {
+      setDetectedOwners(null);
+      return;
+    }
+
+    const chainConfig = getEVMChainConfig(chainId);
+    const rpcUrl = chainConfig?.rpcUrls?.[0];
+    if (!rpcUrl) return;
+
+    const detectSafe = async () => {
+      try {
+        setIsDetecting(true);
+        const provider = new ethers.JsonRpcProvider(rpcUrl);
+        const contract = new ethers.Contract(
+          safeAddress,
+          SAFE_INFO_ABI,
+          provider,
+        );
+        const [owners, threshold] = await Promise.all([
+          contract.getOwners() as Promise<string[]>,
+          contract.getThreshold() as Promise<bigint>,
+        ]);
+        if (!active) return;
+        const normalizedOwners = owners.map((o) => o.toLowerCase());
+        setDetectedOwners(normalizedOwners);
+        setSignerCount(normalizedOwners.length);
+        setSignerThreshold(Number(threshold));
+      } catch {
+        if (active) {
+          setDetectedOwners(null);
+        }
+      } finally {
+        if (active) {
+          setIsDetecting(false);
+        }
+      }
+    };
+
+    detectSafe();
+
+    return () => {
+      active = false;
+    };
+  }, [safeAddress, chainId]);
+
+  const isOwnerConnected = useMemo(() => {
+    if (!address || !detectedOwners) return null;
+    return detectedOwners.includes(address.toLowerCase());
+  }, [address, detectedOwners]);
+
   const handleConnect = useCallback(async () => {
     try {
       await connect();
@@ -83,6 +166,26 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
         t(
           "wallet.safe.invalidAddress",
           "Please enter a valid Ethereum address (0x...)",
+        ),
+      );
+      return;
+    }
+
+    if (signerCount < 2) {
+      setLocalError(
+        t(
+          "wallet.safe.minSigners",
+          "Safe multisigs require at least 2 signers.",
+        ),
+      );
+      return;
+    }
+
+    if (signerThreshold < 1 || signerThreshold > signerCount) {
+      setLocalError(
+        t(
+          "wallet.safe.invalidThreshold",
+          "Signer threshold must be between 1 and the total number of signers.",
         ),
       );
       return;
@@ -111,6 +214,8 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
         wallet_type: "safe",
         signature,
         message,
+        signer_count: signerCount,
+        signer_threshold: signerThreshold,
       });
 
       if (wallet) {
@@ -136,6 +241,8 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
     }
   }, [
     safeAddress,
+    signerCount,
+    signerThreshold,
     signer,
     address,
     charityProfileId,
@@ -265,12 +372,20 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
 
         {/* Safe address */}
         <div>
-          <label
-            htmlFor="safe-address"
-            className="block text-sm font-medium text-content-primary mb-1"
-          >
-            {t("wallet.safe.address", "Safe address")}
-          </label>
+          <div className="flex items-center justify-between mb-1">
+            <label
+              htmlFor="safe-address"
+              className="block text-sm font-medium text-content-primary"
+            >
+              {t("wallet.safe.address", "Safe address")}
+            </label>
+            {isDetecting && (
+              <span className="flex items-center gap-1 text-xs text-content-muted">
+                <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
+                {t("wallet.safe.detecting", "Detecting Safe configuration...")}
+              </span>
+            )}
+          </div>
           <input
             id="safe-address"
             type="text"
@@ -279,6 +394,75 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
             placeholder="0x..."
             className="w-full px-3 py-2 text-sm font-mono bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary placeholder:text-content-muted focus:outline-none focus:ring-2 focus:ring-accent-base/30"
           />
+        </div>
+
+        {/* Detected Safe info */}
+        {detectedOwners && (
+          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 rounded-lg text-xs space-y-1">
+            <div className="flex items-center gap-1.5 font-medium text-emerald-800 dark:text-emerald-300">
+              <CheckCircle2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+              <span>
+                {t(
+                  "wallet.safe.detectedConfig",
+                  `Detected Safe configuration: ${signerThreshold} of ${signerCount} signers`,
+                )}
+              </span>
+            </div>
+            {address && isOwnerConnected === true && (
+              <p className="text-emerald-700 dark:text-emerald-400">
+                {t(
+                  "wallet.safe.ownerConfirmed",
+                  "Connected wallet is a confirmed owner of this Safe.",
+                )}
+              </p>
+            )}
+            {address && isOwnerConnected === false && (
+              <p className="text-amber-700 dark:text-amber-400 flex items-center gap-1">
+                <Info className="h-3 w-3 shrink-0" aria-hidden="true" />
+                {t(
+                  "wallet.safe.notOwner",
+                  "Connected wallet is not listed as an owner. Verification requires an owner signature or Safe contract approval.",
+                )}
+              </p>
+            )}
+          </div>
+        )}
+
+        {/* Signer configuration inputs */}
+        <div className="grid grid-cols-2 gap-3">
+          <div>
+            <label
+              htmlFor="safe-signer-count"
+              className="block text-xs font-medium text-content-primary mb-1"
+            >
+              {t("wallet.safe.signerCount", "Total signers (min 2)")}
+            </label>
+            <input
+              id="safe-signer-count"
+              type="number"
+              min={2}
+              value={signerCount}
+              onChange={handleSignerCountChange}
+              className="w-full px-3 py-1.5 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+            />
+          </div>
+          <div>
+            <label
+              htmlFor="safe-signer-threshold"
+              className="block text-xs font-medium text-content-primary mb-1"
+            >
+              {t("wallet.safe.signerThreshold", "Threshold (min 1)")}
+            </label>
+            <input
+              id="safe-signer-threshold"
+              type="number"
+              min={1}
+              max={signerCount}
+              value={signerThreshold}
+              onChange={handleThresholdChange}
+              className="w-full px-3 py-1.5 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+            />
+          </div>
         </div>
 
         {/* Connect signer wallet */}

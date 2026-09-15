@@ -101,8 +101,15 @@ function validateBody(body: unknown): body is RequestBody {
   if (typeof b.message !== "string") return false;
   if (
     b.wallet_type === "safe" &&
-    (typeof b.signer_count !== "number" ||
-      typeof b.signer_threshold !== "number")
+    b.signer_count !== undefined &&
+    typeof b.signer_count !== "number"
+  ) {
+    return false;
+  }
+  if (
+    b.wallet_type === "safe" &&
+    b.signer_threshold !== undefined &&
+    typeof b.signer_threshold !== "number"
   ) {
     return false;
   }
@@ -329,25 +336,7 @@ serve(async (req: Request) => {
       );
     }
   } else {
-    // Safe (EIP-1271) path
-    const valid = await verifySafeSignature(
-      rpcUrl,
-      body.wallet_address,
-      body.message,
-      body.signature,
-    );
-    if (!valid) {
-      return errorResponse(
-        {
-          code: "INVALID_SIGNATURE",
-          message:
-            "Safe EIP-1271 signature verification failed. Ensure the Safe has approved this message.",
-        },
-        401,
-      );
-    }
-
-    // Fetch on-chain Safe info and validate against submitted values
+    // Safe path: fetch on-chain Safe info and validate configuration
     const safeInfo = await fetchSafeInfo(rpcUrl, body.wallet_address);
     if (!safeInfo) {
       return errorResponse(
@@ -360,19 +349,70 @@ serve(async (req: Request) => {
       );
     }
 
+    const resolvedSignerCount = body.signer_count ?? safeInfo.owners.length;
+    const resolvedSignerThreshold = body.signer_threshold ?? safeInfo.threshold;
+
     if (
-      safeInfo.owners.length !== body.signer_count ||
-      safeInfo.threshold !== body.signer_threshold
+      safeInfo.owners.length !== resolvedSignerCount ||
+      safeInfo.threshold !== resolvedSignerThreshold
     ) {
       return errorResponse(
         {
           code: "SAFE_CONFIG_MISMATCH",
-          message: `On-chain Safe has ${safeInfo.owners.length} owners with threshold ${safeInfo.threshold}, but submitted signer_count=${body.signer_count} and signer_threshold=${body.signer_threshold}`,
+          message: `On-chain Safe has ${safeInfo.owners.length} owners with threshold ${safeInfo.threshold}, but submitted signer_count=${resolvedSignerCount} and signer_threshold=${resolvedSignerThreshold}`,
         },
         400,
       );
     }
+
+    // Verify Safe signature: first attempt EIP-1271 isValidSignature on contract
+    let valid = await verifySafeSignature(
+      rpcUrl,
+      body.wallet_address,
+      body.message,
+      body.signature,
+    );
+
+    // Fallback: If EIP-1271 is not yet approved on-chain or threshold is pending,
+    // verify if the message was signed by an on-chain owner of this Safe
+    if (!valid) {
+      try {
+        const recovered = ethers
+          .verifyMessage(body.message, body.signature)
+          .toLowerCase();
+        if (safeInfo.owners.includes(recovered)) {
+          valid = true;
+        }
+      } catch (err) {
+        console.warn("Safe owner fallback signature recovery failed:", err);
+      }
+    }
+
+    if (!valid) {
+      return errorResponse(
+        {
+          code: "INVALID_SIGNATURE",
+          message:
+            "Safe signature verification failed. Ensure the signature is approved via EIP-1271 or signed by a confirmed Safe owner.",
+        },
+        401,
+      );
+    }
+
+    // Update body with resolved values for database insertion
+    body.signer_count = resolvedSignerCount;
+    body.signer_threshold = resolvedSignerThreshold;
   }
+
+  // ── Determine if this should be the primary wallet on this chain ──────
+  const { count: primaryCount } = await serviceClient
+    .from("charity_wallets")
+    .select("id", { count: "exact", head: true })
+    .eq("charity_profile_id", body.charity_profile_id)
+    .eq("chain_id", body.chain_id)
+    .eq("is_primary", true);
+
+  const isPrimary = (primaryCount ?? 0) === 0;
 
   // ── Insert into charity_wallets ──────────────────────────────────────
   const now = new Date().toISOString();
@@ -384,6 +424,7 @@ serve(async (req: Request) => {
     proof_of_control_signature: body.signature,
     proof_of_control_message: body.message,
     proof_of_control_verified_at: now,
+    is_primary: isPrimary,
     created_at: now,
     updated_at: now,
   };
@@ -401,7 +442,7 @@ serve(async (req: Request) => {
   const { data: inserted, error: insertError } = await serviceClient
     .from("charity_wallets")
     .insert(insertPayload)
-    .select("id, wallet_address, chain_id, wallet_type, proof_of_control_verified_at, is_primary")
+    .select("*")
     .single();
 
   if (insertError) {

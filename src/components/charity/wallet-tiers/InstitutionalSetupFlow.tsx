@@ -55,6 +55,7 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
   const [file, setFile] = useState<File | null>(null);
   const [localError, setLocalError] = useState<string | null>(null);
   const [submitted, setSubmitted] = useState(false);
+  const [createdWallet, setCreatedWallet] = useState<CharityWallet | null>(null);
 
   const chains = useMemo(() => getAvailableEVMChains(false), []);
 
@@ -122,6 +123,14 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
     fileInputRef.current?.click();
   }, []);
 
+  const handleDone = useCallback(() => {
+    if (createdWallet) {
+      onComplete(createdWallet);
+    } else {
+      onBack();
+    }
+  }, [createdWallet, onComplete, onBack]);
+
   const handleSubmit = useCallback(
     async (e: React.FormEvent) => {
       e.preventDefault();
@@ -166,8 +175,8 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
       });
 
       if (wallet) {
+        setCreatedWallet(wallet);
         setSubmitted(true);
-        onComplete(wallet);
       }
     },
     [
@@ -177,7 +186,6 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
       addInstitutionalWallet,
       charityProfileId,
       chainId,
-      onComplete,
       t,
     ],
   );
@@ -205,8 +213,8 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
           )}
         </p>
         <button
-          onClick={onBack}
-          className="mt-6 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-accent-base hover:text-accent-hover transition-colors"
+          onClick={handleDone}
+          className="mt-6 inline-flex items-center gap-1.5 px-4 py-2 text-sm font-medium text-white bg-accent-base hover:bg-accent-hover rounded-lg transition-colors"
         >
           <ArrowLeft className="h-4 w-4" aria-hidden="true" />
           {t("wallet.institutional.backToWallets", "Back to wallets")}
