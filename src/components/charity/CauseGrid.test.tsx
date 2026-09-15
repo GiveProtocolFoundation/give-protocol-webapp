@@ -36,10 +36,12 @@ describe("CauseGrid", () => {
     expect(screen.getByText(/No causes found/)).toBeTruthy();
   });
 
-  it("should render links with cause slug URLs", () => {
+  it("should render links with cause id URLs", () => {
     renderGrid();
     const links = screen.getAllByRole("link");
     const hrefs = links.map((l) => l.getAttribute("href"));
-    expect(hrefs).toContain("/causes/clean-water-initiative");
+    expect(hrefs).toContain("/causes/1");
+    expect(hrefs).toContain("/causes/2");
+    expect(hrefs).toContain("/causes/3");
   });
 });

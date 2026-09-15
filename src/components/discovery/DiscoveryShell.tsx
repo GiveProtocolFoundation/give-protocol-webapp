@@ -38,7 +38,7 @@ export const DiscoveryShell: React.FC<DiscoveryShellProps> = ({
           rail ? "lg:grid-cols-[minmax(0,1fr)_360px]" : "",
         )}
       >
-        <div className="min-w-0 space-y-8">{main}</div>
+        <div className="min-w-0 space-y-8 overflow-x-hidden">{main}</div>
         {rail !== undefined && rail !== null && (
           <aside className="min-w-0 space-y-6">{rail}</aside>
         )}

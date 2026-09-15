@@ -57,11 +57,6 @@ export const CauseGrid: React.FC<CauseGridProps> = ({
     },
   ];
 
-  /** Convert a cause name to a URL-friendly slug */
-  const getCauseSlug = (name: string): string => {
-    return name.toLowerCase().replaceAll(/\s+/g, "-");
-  };
-
   const filteredCauses = causes.filter((cause) => {
     const matchesSearch =
       cause.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
@@ -88,7 +83,7 @@ export const CauseGrid: React.FC<CauseGridProps> = ({
       {filteredCauses.map((cause) => (
         <Link
           key={cause.id}
-          to={`/causes/${getCauseSlug(cause.name)}`}
+          to={`/causes/${cause.id}`}
           className="block bg-white rounded-lg shadow-card border border-gray-100 overflow-hidden transition-all duration-200 ease-in-out hover:shadow-card-hover"
         >
           <img

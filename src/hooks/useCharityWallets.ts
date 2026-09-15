@@ -149,9 +149,19 @@ export const useCharityWallets = () => {
           );
 
         if (invokeError) {
-          const msg = parseError(
-            invokeError as { message?: string; code?: string },
-          );
+          let code = (invokeError as { code?: string }).code;
+          let message = (invokeError as { message?: string }).message;
+          try {
+            const ctx = (invokeError as { context?: Response }).context;
+            if (ctx && typeof ctx.json === "function") {
+              const body = await ctx.json();
+              if (body?.error) code = body.error;
+              if (body?.message) message = body.message;
+            }
+          } catch {
+            // Context not JSON or already consumed
+          }
+          const msg = parseError({ message, code });
           setError(msg);
           Logger.error("useCharityWallets.addVerifiedWallet", invokeError);
           return null;
@@ -178,7 +188,9 @@ export const useCharityWallets = () => {
 
   /**
    * Adds an institutional wallet via direct insert + attestation file upload.
-   * @param params - Wallet details and attestation file
+   * Uploads the PDF to the charity-attestations bucket, then writes the
+   * metadata record to charity_wallets.
+   * @param params - Profile ID, wallet address, chain, custodian, and file
    * @returns The created CharityWallet or null on failure
    */
   const addInstitutionalWallet = useCallback(
@@ -210,6 +222,16 @@ export const useCharityWallets = () => {
           .from("charity-attestations")
           .getPublicUrl(filePath);
 
+        // Check if there is an existing primary wallet for this charity + chain
+        const { count: primaryCount } = await supabase
+          .from("charity_wallets")
+          .select("id", { count: "exact", head: true })
+          .eq("charity_profile_id", params.charity_profile_id)
+          .eq("chain_id", params.chain_id)
+          .eq("is_primary", true);
+
+        const isPrimary = (primaryCount ?? 0) === 0;
+
         const { data, error: insertError } = await supabase
           .from("charity_wallets")
           .insert({
@@ -219,6 +241,7 @@ export const useCharityWallets = () => {
             wallet_type: "institutional" as const,
             custodian_name: params.custodian_name,
             custodian_attestation_doc_url: urlData.publicUrl,
+            is_primary: isPrimary,
           })
           .select("*")
           .single();

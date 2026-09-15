@@ -723,6 +723,9 @@ export default {
     "wallet.safe.rejected": "Signature request was rejected.",
     "wallet.safe.signError":
       "Failed to sign verification message. Please try again.",
+    "wallet.safe.detecting": "Detecting Safe configuration...",
+    "wallet.safe.signerCount": "Total signers (min 2)",
+    "wallet.safe.signerThreshold": "Threshold (min 1)",
 
     // Wallet - Institutional flow (GIV-289)
     "wallet.institutional.title": "Register an institutional custody wallet",
@@ -1734,5 +1737,13 @@ export default {
     // Privacy Policy §6 — Admin access audit log (GIV-416)
     "privacy.security.auditLog":
       "As a technical measure under GDPR Article 32, we log and monitor administrative access to personal data \u2014 including the action taken and when it occurred \u2014 to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a personal data breach (Article 34). Donor personal data is not duplicated into these administrative-access logs. Administrative-access logs are distinct from the authentication and security logs described in \u00a77.1; their retention period is governed by our internal Record of Processing Activities.",
+
+    // Team page
+    "team.title": "Our Team",
+    "team.subtitle":
+      "Give Protocol is built by a dedicated team of engineers, nonprofit leaders, and blockchain experts working to bring transparency and efficiency to charitable giving.",
+    "team.comingSoon": "Team Profiles Coming Soon",
+    "team.comingSoonDesc":
+      "We are updating our team directory. Check back shortly to meet the people behind Give Protocol.",
   },
 };

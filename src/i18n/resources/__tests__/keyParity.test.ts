@@ -55,6 +55,15 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "common.or",
   // GIV-894: age-affirmation validation error — translations pending
   "auth.validation.ageAffirmationRequired",
+  // Team page — translations pending
+  "team.title",
+  "team.subtitle",
+  "team.comingSoon",
+  "team.comingSoonDesc",
+  // GIV-286: Charity wallet tier keys — translations pending
+  "wallet.safe.detecting",
+  "wallet.safe.signerCount",
+  "wallet.safe.signerThreshold",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;

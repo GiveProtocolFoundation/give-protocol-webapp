@@ -5,14 +5,23 @@ import { RouteTransition } from "./RouteTransition";
 import { ProtectedRoute } from "./ProtectedRoute";
 import { LoadingFallback } from "./LoadingFallback";
 
-// Eagerly load critical routes
+// Eagerly load critical routes (SSR needs these in the initial bundle to avoid Suspense fallback rendering)
 import Register from "@/pages/Register";
 import Auth from "@/pages/Auth";
+
+// Eagerly load static content pages — SSR renders Suspense fallback for lazy() components,
+// causing hydration mismatches that can leave content empty (GIV-988)
+import FAQ from "@/pages/FAQ";
+import Legal from "@/pages/Legal";
+import Privacy from "@/pages/Privacy";
+import About from "@/pages/About";
+import Governance from "@/pages/Governance";
 
 // Lazy load unified auth routes
 const AuthCallback = lazy(() => import("@/pages/AuthCallback"));
 const RegistrationSuccess = lazy(() => import("@/pages/RegistrationSuccess"));
 const ResetPassword = lazy(() => import("@/pages/ResetPassword"));
+const Team = lazy(() => import("@/pages/Team"));
 
 // Lazy load other routes
 const Home = lazy(() => import("@/pages/Home"));
@@ -42,10 +51,6 @@ const ContributionTracker = lazy(() => import("@/pages/ContributionTracker"));
 const VolunteerOpportunities = lazy(
   () => import("@/pages/VolunteerOpportunities"),
 );
-const About = lazy(() => import("@/pages/About"));
-const Legal = lazy(() => import("@/pages/Legal"));
-const Privacy = lazy(() => import("@/pages/Privacy"));
-const Governance = lazy(() => import("@/pages/Governance"));
 const GiveDashboard = lazy(() => import("@/pages/GiveDashboard"));
 const CharityPortal = lazy(() => import("@/pages/CharityPortal"));
 const CreateOpportunity = lazy(
@@ -66,7 +71,6 @@ const ScheduledDonationsPage = lazy(
   () => import("@/pages/donor/ScheduledDonationsPage"),
 );
 const Documentation = lazy(() => import("@/pages/Documentation"));
-const FAQ = lazy(() => import("@/pages/FAQ"));
 const DashboardSettings = lazy(() => import("@/pages/DashboardSettings"));
 
 // Admin routes
@@ -369,8 +373,12 @@ export function AppRoutes() {
           }
         />
 
-        {/* Cause Routes */}
-        <Route
+{/* Cause Routes */}
+<Route
+  path="/causes"
+  element={<Navigate to="/browse?tab=causes" replace />}
+/>
+<Route
           path="/causes/clean-water-initiative"
           element={
             <RouteTransition>
@@ -697,9 +705,7 @@ export function AppRoutes() {
           path="/governance"
           element={
             <RouteTransition>
-              <Suspense fallback={<LoadingFallback />}>
-                <Governance />
-              </Suspense>
+              <Governance />
             </RouteTransition>
           }
         />
@@ -708,6 +714,16 @@ export function AppRoutes() {
           element={
             <RouteTransition>
               <About />
+            </RouteTransition>
+          }
+        />
+        <Route
+          path="/team"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <Team />
+              </Suspense>
             </RouteTransition>
           }
         />
