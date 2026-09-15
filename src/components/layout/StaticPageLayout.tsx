@@ -1,5 +1,4 @@
 import React from "react";
-import { ScrollReveal } from "@/components/ui/ScrollReveal";
 
 interface StaticPageLayoutProps {
   children: React.ReactNode;
@@ -42,8 +41,13 @@ export const StaticPageLayout: React.FC<StaticPageLayoutProps> = ({
         )}
       </div>
 
-      {/* Content with proper typography */}
-      <ScrollReveal direction="up" delay={100} threshold={0}>
+      {/* Content with proper typography.
+          GIV-988: the body must never be gated behind IntersectionObserver-driven
+          scroll-reveal — environments that never deliver the observer callback
+          (embedded/automated rendering surfaces) left the body at opacity:0
+          forever while the header above stayed visible. Keep a pure-CSS entrance
+          animation instead, which always completes without JS observers. */}
+      <div className="animate-fade-in-up">
         <div className="max-w-4xl mx-auto">
           <div
             className="prose prose-lg max-w-none
@@ -59,7 +63,7 @@ export const StaticPageLayout: React.FC<StaticPageLayoutProps> = ({
             {children}
           </div>
         </div>
-      </ScrollReveal>
+      </div>
     </div>
   );
 };

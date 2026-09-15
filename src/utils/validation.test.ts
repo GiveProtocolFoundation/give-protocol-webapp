@@ -3,6 +3,8 @@ import {
   validatePassword,
   validateAuthInput,
   validateAmount,
+  getDonationAmountError,
+  MAX_DONATION_AMOUNT,
   isValidAmount,
   sanitizeInput,
   validateUrl,
@@ -187,6 +189,60 @@ describe("validateAmount", () => {
   it("should accept amount exactly at boundary", () => {
     expect(validateAmount(1000000)).toBe(true);
     expect(validateAmount(0.000000000000000001)).toBe(true);
+  });
+});
+
+describe("getDonationAmountError (GIV-984)", () => {
+  it("should return null for valid amounts", () => {
+    expect(getDonationAmountError(1)).toBeNull();
+    expect(getDonationAmountError(100)).toBeNull();
+    expect(getDonationAmountError(0.01)).toBeNull();
+    expect(getDonationAmountError(MAX_DONATION_AMOUNT)).toBeNull();
+  });
+
+  it("should return an error for zero", () => {
+    expect(getDonationAmountError(0)).toBe(
+      "Please enter an amount greater than 0",
+    );
+  });
+
+  it("should return an explicit error for negative amounts (never silent)", () => {
+    expect(getDonationAmountError(-5)).toBe(
+      "Please enter an amount greater than 0",
+    );
+    expect(getDonationAmountError(-0.01)).toBe(
+      "Please enter an amount greater than 0",
+    );
+  });
+
+  it("should return an error for amounts above the maximum", () => {
+    expect(getDonationAmountError(1000001)).toBe(
+      "Maximum donation amount is 1,000,000",
+    );
+    expect(getDonationAmountError(10000000)).toBe(
+      "Maximum donation amount is 1,000,000",
+    );
+  });
+
+  it("should return an error for NaN and Infinity", () => {
+    expect(getDonationAmountError(Number.NaN)).toBe(
+      "Please enter an amount greater than 0",
+    );
+    expect(getDonationAmountError(Infinity)).toBe(
+      "Maximum donation amount is 1,000,000",
+    );
+    expect(getDonationAmountError(-Infinity)).toBe(
+      "Please enter an amount greater than 0",
+    );
+  });
+
+  it("should agree with validateAmount on the shared bound", () => {
+    const samples = [0, -5, 0.01, 1, 999999.99, 1000000, 1000001, Number.NaN];
+    for (const sample of samples) {
+      expect(getDonationAmountError(sample) === null).toBe(
+        validateAmount(sample),
+      );
+    }
   });
 });
 

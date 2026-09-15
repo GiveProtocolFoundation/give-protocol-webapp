@@ -22,6 +22,10 @@ export default {
     "nav.legal": "法律",
     "nav.launchApp": "启动应用",
 
+    // FAQ page (GIV-988)
+    "faq.title": "常见问题",
+    "faq.subtitle": "关于捐赠、志愿服务和区块链透明度，您需要了解的一切。",
+
     // Settings
     "settings.title": "设置",
     "settings.language": "语言",
@@ -254,6 +258,11 @@ export default {
     // Volunteer - VolunteerApplicationForm
     "volunteer.applicationTitle": "志愿服务机会申请",
     "volunteer.applicationSubtitle": "通过经验证的贡献帮助创造可持续的影响",
+    "volunteer.progress.info": "信息",
+    "volunteer.progress.skills": "技能",
+    "volunteer.progress.consent": "同意",
+    "volunteer.fieldValid": "看起来不错",
+    "volunteer.draftSaved": "草稿已保存",
     "volunteer.personalInfo": "个人信息",
     "volunteer.firstName": "名",
     "volunteer.lastName": "姓",
@@ -1117,6 +1126,7 @@ export default {
     "browse.stats.onChain": "链上",
     "browse.stats.volunteerHours": "志愿服务时长",
     "browse.verified": "已认证",
+    "browse.irsVerified": "IRS已认证",
     "browse.donate": "捐赠",
     "browse.filter.ariaLabel": "筛选慈善机构",
     "browse.filter.searchAria": "搜索慈善机构",
@@ -1227,6 +1237,9 @@ export default {
       "已注册 501(c)(3) — 在美国捐款可能可以抵扣税款",
     "charity.profile.statusClaimed": "已认领",
     "charity.profile.statusUnclaimed": "未认领 — 仅含公共登记数据",
+    "charity.profile.statusIrsVerified": "IRS已认证非营利组织",
+    "charity.profile.requestWidget.unclaimedBody":
+      "该组织尚未在 Give Protocol 上认领其主页。该组织完成主页认领和钱包设置后，即可接受捐赠。",
     "charity.profile.rowEin": "税务编号",
     "charity.profile.rowName": "名称",
     "charity.profile.rowLocation": "所在地",

@@ -11,6 +11,8 @@ export interface FeaturedCharity {
   category: string;
   imageUrl: string;
   location?: string;
+  /** True when an organization representative has claimed the profile. */
+  isClaimed: boolean;
 }
 
 /** NTEE major-code to human-readable category label. */
@@ -60,6 +62,7 @@ interface CharityProfileRow {
   location: string | null;
   logo_url: string | null;
   ntee_code: string | null;
+  claimed_by: string | null;
 }
 
 const FEATURED_LIMIT = 12;
@@ -72,7 +75,7 @@ const FEATURED_LIMIT = 12;
 async function loadFeaturedCharities(): Promise<FeaturedCharity[]> {
   const { data, error } = await supabase
     .from("charity_profiles")
-    .select("ein, name, mission, location, logo_url, ntee_code")
+    .select("ein, name, mission, location, logo_url, ntee_code, claimed_by")
     .eq("status", "verified")
     .not("logo_url", "is", null)
     .limit(FEATURED_LIMIT);
@@ -89,6 +92,7 @@ async function loadFeaturedCharities(): Promise<FeaturedCharity[]> {
     category: nteeToCategory(row.ntee_code),
     imageUrl: resolveCharityImageUrl(row.logo_url, row.ein),
     location: row.location !== null ? row.location : undefined,
+    isClaimed: row.claimed_by !== null,
   }));
 }
 

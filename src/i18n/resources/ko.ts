@@ -22,6 +22,10 @@ export default {
     "nav.legal": "법적 정보",
     "nav.launchApp": "앱 실행",
 
+    // FAQ page (GIV-988)
+    "faq.title": "자주 묻는 질문",
+    "faq.subtitle": "기부, 자원봉사, 블록체인 투명성에 대해 알아야 할 모든 것.",
+
     // Settings
     "settings.title": "설정",
     "settings.language": "언어",
@@ -266,6 +270,11 @@ export default {
     "volunteer.applicationTitle": "봉사 기회 신청서",
     "volunteer.applicationSubtitle":
       "검증된 기여를 통해 지속 가능한 영향력을 만들어 보세요",
+    "volunteer.progress.info": "정보",
+    "volunteer.progress.skills": "기술",
+    "volunteer.progress.consent": "동의",
+    "volunteer.fieldValid": "좋습니다",
+    "volunteer.draftSaved": "임시 저장됨",
     "volunteer.personalInfo": "개인 정보",
     "volunteer.firstName": "이름",
     "volunteer.lastName": "성",
@@ -1157,6 +1166,7 @@ export default {
     "browse.stats.onChain": "온체인",
     "browse.stats.volunteerHours": "봉사 시간",
     "browse.verified": "인증됨",
+    "browse.irsVerified": "IRS 인증됨",
     "browse.donate": "기부하기",
     "browse.filter.ariaLabel": "자선단체 필터",
     "browse.filter.searchAria": "자선단체 검색",
@@ -1268,6 +1278,9 @@ export default {
       "등록된 501(c)(3) — 미국에서 기부금이 세금 공제 대상이 될 수 있습니다",
     "charity.profile.statusClaimed": "인수됨",
     "charity.profile.statusUnclaimed": "미인수 — 공공 등록 데이터만 제공",
+    "charity.profile.statusIrsVerified": "IRS 인증 비영리단체",
+    "charity.profile.requestWidget.unclaimedBody":
+      "이 단체는 아직 Give Protocol에서 프로필을 인수하지 않았습니다. 단체가 프로필을 인수하고 지갑 설정을 완료하면 기부할 수 있습니다.",
     "charity.profile.rowEin": "납세자 번호",
     "charity.profile.rowName": "이름",
     "charity.profile.rowLocation": "위치",

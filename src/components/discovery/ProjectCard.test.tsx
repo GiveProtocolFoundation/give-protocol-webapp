@@ -54,22 +54,22 @@ describe("ProjectCard", () => {
     );
   });
 
-  it("shows Verified badge when on platform", () => {
+  it("shows IRS-verified badge when on platform (GIV-986)", () => {
     const onPlatformOrg = { ...BASE_ORG, is_on_platform: true };
     render(
       <MemoryRouter>
         <ProjectCard organization={onPlatformOrg} />
       </MemoryRouter>,
     );
-    expect(screen.getByText("Verified")).toBeInTheDocument();
+    expect(screen.getByText("IRS-verified")).toBeInTheDocument();
   });
 
-  it("does not show Verified badge when not on platform", () => {
+  it("does not show IRS-verified badge when not on platform", () => {
     render(
       <MemoryRouter>
         <ProjectCard organization={BASE_ORG} />
       </MemoryRouter>,
     );
-    expect(screen.queryByText("Verified")).not.toBeInTheDocument();
+    expect(screen.queryByText("IRS-verified")).not.toBeInTheDocument();
   });
 });

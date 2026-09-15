@@ -22,6 +22,11 @@ export default {
     "nav.legal": "Rechtliches",
     "nav.launchApp": "App starten",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Häufig gestellte Fragen",
+    "faq.subtitle":
+      "Alles, was Sie über Spenden, Freiwilligenarbeit und Blockchain-Transparenz wissen müssen.",
+
     // Settings
     "settings.title": "Einstellungen",
     "settings.language": "Sprache",
@@ -280,6 +285,11 @@ export default {
     "volunteer.applicationTitle": "Bewerbung als Freiwillige/r",
     "volunteer.applicationSubtitle":
       "Helfen Sie mit, durch verifizierte Beiträge nachhaltige Wirkung zu erzielen",
+    "volunteer.progress.info": "Info",
+    "volunteer.progress.skills": "Fähigkeiten",
+    "volunteer.progress.consent": "Zustimmung",
+    "volunteer.fieldValid": "Sieht gut aus",
+    "volunteer.draftSaved": "Entwurf gespeichert",
     "volunteer.personalInfo": "Persönliche Informationen",
     "volunteer.firstName": "Vorname",
     "volunteer.lastName": "Nachname",
@@ -1240,6 +1250,7 @@ export default {
     "browse.stats.onChain": "On-Chain",
     "browse.stats.volunteerHours": "Freiwilligenstunden",
     "browse.verified": "Verifiziert",
+    "browse.irsVerified": "IRS-verifiziert",
     "browse.donate": "Spenden",
     "browse.filter.ariaLabel": "Organisationen filtern",
     "browse.filter.searchAria": "Organisationen suchen",
@@ -1355,6 +1366,10 @@ export default {
     "charity.profile.statusClaimed": "Beansprucht",
     "charity.profile.statusUnclaimed":
       "Nicht beansprucht — nur öffentliche Registerdaten",
+    "charity.profile.statusIrsVerified":
+      "IRS-verifizierte gemeinnützige Organisation",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Diese Organisation hat ihr Profil bei Give Protocol noch nicht beansprucht. Spenden werden verfügbar, sobald die Organisation ihr Profil beansprucht und die Wallet-Einrichtung abgeschlossen hat.",
     "charity.profile.rowEin": "Steuer-ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Standort",

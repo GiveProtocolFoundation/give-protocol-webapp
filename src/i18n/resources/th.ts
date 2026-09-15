@@ -22,6 +22,11 @@ export default {
     "nav.legal": "ข้อมูลทางกฎหมาย",
     "nav.launchApp": "เปิดแอป",
 
+    // FAQ page (GIV-988)
+    "faq.title": "คำถามที่พบบ่อย",
+    "faq.subtitle":
+      "ทุกสิ่งที่คุณต้องรู้เกี่ยวกับการบริจาค การเป็นอาสาสมัคร และความโปร่งใสของบล็อกเชน",
+
     // Settings
     "settings.title": "การตั้งค่า",
     "settings.language": "ภาษา",
@@ -266,6 +271,11 @@ export default {
     "volunteer.applicationTitle": "ใบสมัครอาสาสมัคร",
     "volunteer.applicationSubtitle":
       "ช่วยสร้างผลกระทบอย่างยั่งยืนผ่านการมีส่วนร่วมที่ผ่านการตรวจสอบ",
+    "volunteer.progress.info": "ข้อมูล",
+    "volunteer.progress.skills": "ทักษะ",
+    "volunteer.progress.consent": "ความยินยอม",
+    "volunteer.fieldValid": "ดูดี",
+    "volunteer.draftSaved": "บันทึกฉบับร่างแล้ว",
     "volunteer.personalInfo": "ข้อมูลส่วนบุคคล",
     "volunteer.firstName": "ชื่อ",
     "volunteer.lastName": "นามสกุล",
@@ -1173,6 +1183,7 @@ export default {
     "browse.stats.onChain": "บนบล็อกเชน",
     "browse.stats.volunteerHours": "ชั่วโมงอาสาสมัคร",
     "browse.verified": "ผ่านการตรวจสอบ",
+    "browse.irsVerified": "ผ่านการตรวจสอบโดย IRS",
     "browse.donate": "บริจาค",
     "browse.filter.ariaLabel": "กรององค์กรการกุศล",
     "browse.filter.searchAria": "ค้นหาองค์กรการกุศล",
@@ -1286,6 +1297,10 @@ export default {
     "charity.profile.statusClaimed": "อ้างสิทธิ์แล้ว",
     "charity.profile.statusUnclaimed":
       "ยังไม่อ้างสิทธิ์ — ข้อมูลจากทะเบียนสาธารณะเท่านั้น",
+    "charity.profile.statusIrsVerified":
+      "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบโดย IRS",
+    "charity.profile.requestWidget.unclaimedBody":
+      "องค์กรนี้ยังไม่ได้อ้างสิทธิ์โปรไฟล์บน Give Protocol การบริจาคจะพร้อมใช้งานเมื่อองค์กรอ้างสิทธิ์โปรไฟล์และตั้งค่ากระเป๋าเงินเรียบร้อยแล้ว",
     "charity.profile.rowEin": "เลขประจำตัวผู้เสียภาษี",
     "charity.profile.rowName": "ชื่อ",
     "charity.profile.rowLocation": "ที่ตั้ง",

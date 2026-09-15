@@ -398,6 +398,48 @@ describe("helcimService", () => {
 
       await expect(loadHelcimScript()).resolves.toBeUndefined();
     });
+
+    it("should resolve for an already-settled script tag when the global appears later (GIV-984)", async () => {
+      jest.useFakeTimers();
+
+      // Simulate a script tag whose load event fired long ago (e.g. after a
+      // retry reset) — attaching load/error listeners now would never fire,
+      // which previously left the promise pending forever.
+      const existingScript = document.createElement("script");
+      existingScript.src =
+        "https://secure.helcim.app/helcim-pay/services/start.js";
+      document.head.appendChild(existingScript);
+
+      const promise = loadHelcimScript();
+
+      // Global becomes available without any load event on the stale tag
+      window.appendHelcimPayIframe =
+        jest.fn() as unknown as typeof window.appendHelcimPayIframe;
+
+      jest.advanceTimersByTime(300);
+
+      await expect(promise).resolves.toBeUndefined();
+      jest.useRealTimers();
+    });
+
+    it("should reject for an already-settled script tag when the global never appears (GIV-984)", async () => {
+      jest.useFakeTimers();
+
+      const existingScript = document.createElement("script");
+      existingScript.src =
+        "https://secure.helcim.app/helcim-pay/services/start.js";
+      document.head.appendChild(existingScript);
+
+      const promise = loadHelcimScript();
+
+      // No load/error events ever fire; the poll must time out on its own
+      jest.advanceTimersByTime(5100);
+
+      await expect(promise).rejects.toThrow(
+        "HelcimPay.js not ready after 5000ms",
+      );
+      jest.useRealTimers();
+    });
   });
 
   describe("resetHelcimScriptState", () => {

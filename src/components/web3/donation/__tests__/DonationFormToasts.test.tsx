@@ -82,7 +82,7 @@ describe("DonationForm GIV-300 toast call sites", () => {
     fireEvent.click(consentCheckbox);
 
     // Set amount
-    const amountInput = screen.getByRole("spinbutton");
+    const amountInput = screen.getByLabelText("Donation Amount");
     fireEvent.change(amountInput, { target: { value: "10" } });
 
     const submitButton = screen.getByRole("button", { name: /donate now/i });
@@ -122,7 +122,7 @@ describe("DonationForm GIV-300 toast call sites", () => {
     const consentCheckbox = screen.getByRole("checkbox");
     fireEvent.click(consentCheckbox);
 
-    const amountInput = screen.getByRole("spinbutton");
+    const amountInput = screen.getByLabelText("Donation Amount");
     fireEvent.change(amountInput, { target: { value: "5" } });
 
     const submitButton = screen.getByRole("button", { name: /donate now/i });

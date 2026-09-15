@@ -22,6 +22,11 @@ export default {
     "nav.legal": "Pháp lý",
     "nav.launchApp": "Khởi động ứng dụng",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Câu hỏi thường gặp",
+    "faq.subtitle":
+      "Tất cả những gì bạn cần biết về quyên góp, tình nguyện và tính minh bạch của blockchain.",
+
     // Settings
     "settings.title": "Cài đặt",
     "settings.language": "Ngôn ngữ",
@@ -269,6 +274,11 @@ export default {
     "volunteer.applicationTitle": "Đơn đăng ký cơ hội tình nguyện",
     "volunteer.applicationSubtitle":
       "Giúp tạo tác động bền vững thông qua các đóng góp được xác minh",
+    "volunteer.progress.info": "Thông tin",
+    "volunteer.progress.skills": "Kỹ năng",
+    "volunteer.progress.consent": "Đồng ý",
+    "volunteer.fieldValid": "Trông ổn",
+    "volunteer.draftSaved": "Đã lưu bản nháp",
     "volunteer.personalInfo": "Thông tin cá nhân",
     "volunteer.firstName": "Họ",
     "volunteer.lastName": "Tên",
@@ -1181,6 +1191,7 @@ export default {
     "browse.stats.onChain": "On-chain",
     "browse.stats.volunteerHours": "Giờ tình nguyện",
     "browse.verified": "Đã xác minh",
+    "browse.irsVerified": "Đã xác minh bởi IRS",
     "browse.donate": "Quyên góp",
     "browse.filter.ariaLabel": "Lọc tổ chức từ thiện",
     "browse.filter.searchAria": "Tìm kiếm tổ chức từ thiện",
@@ -1295,6 +1306,10 @@ export default {
     "charity.profile.statusClaimed": "Đã được nhận",
     "charity.profile.statusUnclaimed":
       "Chưa được nhận — chỉ có dữ liệu đăng ký công khai",
+    "charity.profile.statusIrsVerified":
+      "Tổ chức phi lợi nhuận đã được IRS xác minh",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Tổ chức này chưa nhận quyền quản lý hồ sơ trên Give Protocol. Quyên góp sẽ khả dụng sau khi tổ chức nhận quyền quản lý hồ sơ và hoàn tất thiết lập ví.",
     "charity.profile.rowEin": "Mã số thuế",
     "charity.profile.rowName": "Tên",
     "charity.profile.rowLocation": "Địa điểm",

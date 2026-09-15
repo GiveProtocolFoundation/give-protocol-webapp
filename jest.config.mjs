@@ -92,6 +92,10 @@ export default {
     "^@/hooks/useWallet$": "<rootDir>/src/test-utils/useWalletMock.js",
     "(.*)/hooks/useWallet(\\.tsx?)?$":
       "<rootDir>/src/test-utils/useWalletMock.js",
+    // Helcim service mock (GIV-984): alias-only so useFiatDonation tests can
+    // stub script loading; helcimService.test.ts imports relatively and stays real.
+    "^@/services/helcimService$":
+      "<rootDir>/src/test-utils/helcimServiceMock.js",
     "^@/hooks/useSafeAutoConnect$":
       "<rootDir>/src/test-utils/safeAutoConnectMock.js",
     "(.*)/hooks/useSafeAutoConnect(\\.tsx?)?$":

@@ -23,6 +23,11 @@ export default {
     "nav.legal": "Mentions Légales",
     "nav.launchApp": "Lancer l'Application",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Foire aux questions",
+    "faq.subtitle":
+      "Tout ce que vous devez savoir sur les dons, le bénévolat et la transparence de la blockchain.",
+
     // Settings
     "settings.title": "Paramètres",
     "settings.language": "Langue",
@@ -283,6 +288,11 @@ export default {
       "Candidature pour une Opportunité de Bénévolat",
     "volunteer.applicationSubtitle":
       "Contribuez à un impact durable grâce à des contributions vérifiées",
+    "volunteer.progress.info": "Infos",
+    "volunteer.progress.skills": "Compétences",
+    "volunteer.progress.consent": "Consentement",
+    "volunteer.fieldValid": "C'est bon",
+    "volunteer.draftSaved": "Brouillon enregistré",
     "volunteer.personalInfo": "Informations Personnelles",
     "volunteer.firstName": "Prénom",
     "volunteer.lastName": "Nom",
@@ -1243,6 +1253,7 @@ export default {
     "browse.stats.onChain": "On-chain",
     "browse.stats.volunteerHours": "Heures de bénévolat",
     "browse.verified": "Vérifié",
+    "browse.irsVerified": "Vérifié par l'IRS",
     "browse.donate": "Donner",
     "browse.filter.ariaLabel": "Filtrer les organisations",
     "browse.filter.searchAria": "Rechercher des organisations",
@@ -1358,6 +1369,10 @@ export default {
     "charity.profile.statusClaimed": "Revendiqué",
     "charity.profile.statusUnclaimed":
       "Non revendiqué — données du registre public uniquement",
+    "charity.profile.statusIrsVerified":
+      "Organisme à but non lucratif vérifié par l'IRS",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Cette organisation n'a pas encore revendiqué son profil sur Give Protocol. Les dons seront disponibles une fois que l'organisation aura revendiqué son profil et terminé la configuration de son portefeuille.",
     "charity.profile.rowEin": "ID fiscal",
     "charity.profile.rowName": "Nom",
     "charity.profile.rowLocation": "Localisation",

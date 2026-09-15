@@ -22,6 +22,11 @@ export default {
     "nav.legal": "المعلومات القانونية",
     "nav.launchApp": "تشغيل التطبيق",
 
+    // FAQ page (GIV-988)
+    "faq.title": "الأسئلة الشائعة",
+    "faq.subtitle":
+      "كل ما تحتاج معرفته عن التبرع والعمل التطوعي وشفافية البلوك تشين.",
+
     // Settings
     "settings.title": "الإعدادات",
     "settings.language": "اللغة",
@@ -262,6 +267,11 @@ export default {
     "volunteer.applicationTitle": "طلب فرصة تطوع",
     "volunteer.applicationSubtitle":
       "ساعد في إحداث أثر مستدام من خلال مساهمات موثقة",
+    "volunteer.progress.info": "معلومات",
+    "volunteer.progress.skills": "مهارات",
+    "volunteer.progress.consent": "موافقة",
+    "volunteer.fieldValid": "يبدو جيدًا",
+    "volunteer.draftSaved": "تم حفظ المسودة",
     "volunteer.personalInfo": "المعلومات الشخصية",
     "volunteer.firstName": "الاسم الأول",
     "volunteer.lastName": "اسم العائلة",
@@ -1151,6 +1161,7 @@ export default {
     "browse.stats.onChain": "على السلسلة",
     "browse.stats.volunteerHours": "ساعات تطوعية",
     "browse.verified": "معتمد",
+    "browse.irsVerified": "معتمد من مصلحة الضرائب (IRS)",
     "browse.donate": "تبرع",
     "browse.filter.ariaLabel": "تصفية الجمعيات الخيرية",
     "browse.filter.searchAria": "البحث عن جمعيات خيرية",
@@ -1263,6 +1274,10 @@ export default {
     "charity.profile.statusClaimed": "مُطالَب بها",
     "charity.profile.statusUnclaimed":
       "غير مُطالَب بها — بيانات السجل العام فقط",
+    "charity.profile.statusIrsVerified":
+      "مؤسسة غير ربحية معتمدة من مصلحة الضرائب (IRS)",
+    "charity.profile.requestWidget.unclaimedBody":
+      "لم تطالب هذه المنظمة بعد بملفها على Give Protocol. ستتوفر التبرعات بمجرد أن تطالب المنظمة بملفها ويكتمل إعداد المحفظة.",
     "charity.profile.rowEin": "الرقم الضريبي",
     "charity.profile.rowName": "الاسم",
     "charity.profile.rowLocation": "الموقع",

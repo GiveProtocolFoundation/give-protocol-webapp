@@ -12,6 +12,7 @@ import {
 } from "lucide-react";
 import { Button } from "@/components/ui/Button";
 import { cn } from "@/utils/cn";
+import { getDonationAmountError, validateAmount } from "@/utils/validation";
 import { useFiatDonation } from "@/hooks/web3/useFiatDonation";
 import { usePayPalPayment } from "@/hooks/web3/usePayPalPayment";
 import { useToast } from "@/contexts/ToastContext";
@@ -83,8 +84,13 @@ function ScriptStatus({
         <span className="text-sm font-medium text-center">
           Payment System Offline
         </span>
-        <span className="text-xs text-gray-500 dark:text-gray-400">
-          Please try again or use crypto payment
+        {/* GIV-984: surface the concrete failure (watchdog timeout or load
+            error) instead of only generic copy */}
+        <span
+          className="text-xs text-gray-500 dark:text-gray-400 text-center"
+          data-testid="fiat-script-error"
+        >
+          {paymentError}
         </span>
         <Button
           type="button"
@@ -290,8 +296,10 @@ export function FiatDonationForm({
       setEmailError("");
     }
 
-    if (amount <= 0) {
-      setFormError("Please enter a donation amount");
+    // GIV-984: fiat path enforces the same 0 < amount <= 1,000,000 bound
+    const amountError = getDonationAmountError(amount);
+    if (amountError) {
+      setFormError(amountError);
       isValid = false;
     } else {
       setFormError("");
@@ -648,7 +656,11 @@ export function FiatDonationForm({
       <Button
         type="submit"
         disabled={
-          isBusy || !isReady || amount <= 0 || !ageAffirmed || !art9Consented
+          isBusy ||
+          !isReady ||
+          !validateAmount(amount) ||
+          !ageAffirmed ||
+          !art9Consented
         }
         fullWidth
         size="lg"

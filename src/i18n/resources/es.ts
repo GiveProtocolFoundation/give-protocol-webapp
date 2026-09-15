@@ -23,6 +23,11 @@ export default {
     "nav.legal": "Legal",
     "nav.launchApp": "Iniciar Aplicación",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Preguntas Frecuentes",
+    "faq.subtitle":
+      "Todo lo que necesitas saber sobre donar, ser voluntario y la transparencia blockchain.",
+
     // Settings
     "settings.title": "Configuración",
     "settings.language": "Idioma",
@@ -280,6 +285,11 @@ export default {
     "volunteer.applicationTitle": "Solicitud de Oportunidad de Voluntariado",
     "volunteer.applicationSubtitle":
       "Ayude a crear un impacto sostenible a través de contribuciones verificadas",
+    "volunteer.progress.info": "Info",
+    "volunteer.progress.skills": "Habilidades",
+    "volunteer.progress.consent": "Consentimiento",
+    "volunteer.fieldValid": "Se ve bien",
+    "volunteer.draftSaved": "Borrador guardado",
     "volunteer.personalInfo": "Información Personal",
     "volunteer.firstName": "Nombre",
     "volunteer.lastName": "Apellido",
@@ -1224,6 +1234,7 @@ export default {
     "browse.stats.onChain": "On-chain",
     "browse.stats.volunteerHours": "Horas de voluntariado",
     "browse.verified": "Verificada",
+    "browse.irsVerified": "Verificada por el IRS",
     "browse.donate": "Donar",
     "browse.filter.ariaLabel": "Filtrar organizaciones",
     "browse.filter.searchAria": "Buscar organizaciones",
@@ -1337,6 +1348,10 @@ export default {
     "charity.profile.statusClaimed": "Reclamada",
     "charity.profile.statusUnclaimed":
       "No reclamada — solo datos del registro público",
+    "charity.profile.statusIrsVerified":
+      "Organización sin fines de lucro verificada por el IRS",
+    "charity.profile.requestWidget.unclaimedBody":
+      "Esta organización todavía no ha reclamado su perfil en Give Protocol. Las donaciones estarán disponibles cuando la organización reclame su perfil y complete la configuración de su billetera.",
     "charity.profile.rowEin": "ID fiscal",
     "charity.profile.rowName": "Nombre",
     "charity.profile.rowLocation": "Ubicación",

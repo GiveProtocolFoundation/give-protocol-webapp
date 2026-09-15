@@ -2,7 +2,6 @@ import React from "react";
 import { StaticPageLayout } from "@/components/layout/StaticPageLayout";
 import { ImportantNotice } from "@/components/ui/ImportantNotice";
 import { usePageTitle } from "@/hooks/usePageTitle";
-import { useTranslation } from "@/hooks/useTranslation";
 
 /** Renders the introduction section of the privacy policy. */
 const SectionIntroduction: React.FC = () => (
@@ -355,26 +354,28 @@ const SectionHowWeShare: React.FC = () => (
 );
 
 /** Renders the data security section of the privacy policy. */
-const SectionDataSecurity: React.FC = () => {
-  const { t } = useTranslation();
-  return (
-    <section>
-      <h2>6. Data Security</h2>
-      <p>
-        We implement appropriate technical and organizational measures to
-        protect your personal data against unauthorized access, alteration,
-        disclosure, or destruction. However, no method of transmission over the
-        internet or electronic storage is 100% secure.
-      </p>
-      <p>
-        {t(
-          "privacy.security.auditLog",
-          "As a technical measure under GDPR Article 32, we log and monitor administrative access to personal data \u2014 including the action taken and when it occurred \u2014 to detect unauthorized access, demonstrate accountability, and reconstruct events in the unlikely event of a personal data breach (Article 34). Donor personal data is not duplicated into these administrative-access logs. Administrative-access logs are distinct from the authentication and security logs described in \u00a77.1; their retention period is governed by our internal Record of Processing Activities.",
-        )}
-      </p>
-    </section>
-  );
-};
+const SectionDataSecurity: React.FC = () => (
+  <section>
+    <h2>6. Data Security</h2>
+    <p>
+      We implement appropriate technical and organizational measures to protect
+      your personal data against unauthorized access, alteration, disclosure, or
+      destruction. However, no method of transmission over the internet or
+      electronic storage is 100% secure.
+    </p>
+    <p>
+      As a technical measure under GDPR Article 32, we log and monitor
+      administrative access to personal data &mdash; including the action taken
+      and when it occurred &mdash; to detect unauthorized access, demonstrate
+      accountability, and reconstruct events in the unlikely event of a personal
+      data breach (Article 34). Donor personal data is not duplicated into these
+      administrative-access logs. Administrative-access logs are distinct from
+      the authentication and security logs described in &sect;7.1; their
+      retention period is governed by our internal Record of Processing
+      Activities.
+    </p>
+  </section>
+);
 
 /** Renders the data retention section of the privacy policy. */
 const SectionDataRetention: React.FC = () => (

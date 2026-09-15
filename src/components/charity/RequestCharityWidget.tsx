@@ -4,6 +4,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/hooks/useToast";
+import { useTranslation } from "@/hooks/useTranslation";
 import {
   submitCharityRequest,
   hasUserRequestedCharity,
@@ -27,6 +28,7 @@ export const RequestCharityWidget: React.FC<RequestCharityWidgetProps> = ({
 }) => {
   const { user } = useAuth();
   const { showToast } = useToast();
+  const { t } = useTranslation();
   const [requested, setRequested] = useState(false);
   const [submitting, setSubmitting] = useState(false);
 
@@ -82,8 +84,10 @@ export const RequestCharityWidget: React.FC<RequestCharityWidgetProps> = ({
       </h3>
       <div className="space-y-4">
         <p className="text-sm text-gray-600 leading-relaxed">
-          This organization has not yet claimed their profile on Give Protocol.
-          Donations are not available until the charity is verified.
+          {t(
+            "charity.profile.requestWidget.unclaimedBody",
+            "This organization has not yet claimed their profile on Give Protocol. Donations become available once the organization claims its profile and completes wallet setup.",
+          )}
         </p>
         <p className="text-sm text-gray-600 leading-relaxed">
           Let us know you&apos;re interested and we&apos;ll reach out to them on

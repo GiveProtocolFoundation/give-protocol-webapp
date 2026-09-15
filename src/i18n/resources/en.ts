@@ -22,6 +22,11 @@ export default {
     "nav.legal": "Legal",
     "nav.launchApp": "Launch App",
 
+    // FAQ page (GIV-988)
+    "faq.title": "Frequently Asked Questions",
+    "faq.subtitle":
+      "Everything you need to know about giving, volunteering, and blockchain transparency.",
+
     // Settings
     "settings.title": "Settings",
     "settings.language": "Language",
@@ -271,6 +276,11 @@ export default {
     "volunteer.applicationTitle": "Volunteer Opportunity Application",
     "volunteer.applicationSubtitle":
       "Help create sustainable impact through verified contributions",
+    "volunteer.progress.info": "Info",
+    "volunteer.progress.skills": "Skills",
+    "volunteer.progress.consent": "Consent",
+    "volunteer.fieldValid": "Looks good",
+    "volunteer.draftSaved": "Draft saved",
     "volunteer.personalInfo": "Personal Information",
     "volunteer.firstName": "First Name",
     "volunteer.lastName": "Last Name",
@@ -1476,6 +1486,7 @@ export default {
     "browse.stats.onChain": "On-chain",
     "browse.stats.volunteerHours": "Volunteer hours",
     "browse.verified": "Verified",
+    "browse.irsVerified": "IRS-verified",
     "browse.donate": "Donate",
     "browse.filter.ariaLabel": "Filter charities",
     "browse.filter.searchAria": "Search charities",
@@ -1604,6 +1615,9 @@ export default {
     "charity.profile.statusClaimed": "Claimed",
     "charity.profile.statusUnclaimed":
       "Unclaimed \u2014 public registry data only",
+    "charity.profile.statusIrsVerified": "IRS-verified nonprofit",
+    "charity.profile.requestWidget.unclaimedBody":
+      "This organization has not yet claimed their profile on Give Protocol. Donations become available once the organization claims its profile and completes wallet setup.",
     "charity.profile.rowEin": "Tax ID",
     "charity.profile.rowName": "Name",
     "charity.profile.rowLocation": "Location",

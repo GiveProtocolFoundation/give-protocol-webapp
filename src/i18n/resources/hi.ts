@@ -22,6 +22,11 @@ export default {
     "nav.legal": "कानूनी",
     "nav.launchApp": "ऐप लॉन्च करें",
 
+    // FAQ page (GIV-988)
+    "faq.title": "अक्सर पूछे जाने वाले प्रश्न",
+    "faq.subtitle":
+      "दान, स्वयंसेवा और ब्लॉकचेन पारदर्शिता के बारे में आपको जो कुछ भी जानना चाहिए।",
+
     // Settings
     "settings.title": "सेटिंग्स",
     "settings.language": "भाषा",
@@ -274,6 +279,11 @@ export default {
     "volunteer.applicationTitle": "स्वयंसेवक अवसर आवेदन",
     "volunteer.applicationSubtitle":
       "सत्यापित योगदान के माध्यम से सतत प्रभाव बनाने में सहायता करें",
+    "volunteer.progress.info": "जानकारी",
+    "volunteer.progress.skills": "कौशल",
+    "volunteer.progress.consent": "सहमति",
+    "volunteer.fieldValid": "ठीक लग रहा है",
+    "volunteer.draftSaved": "ड्राफ़्ट सहेजा गया",
     "volunteer.personalInfo": "व्यक्तिगत जानकारी",
     "volunteer.firstName": "पहला नाम",
     "volunteer.lastName": "उपनाम",
@@ -1191,6 +1201,7 @@ export default {
     "browse.stats.onChain": "ऑन-चेन",
     "browse.stats.volunteerHours": "स्वयंसेवक घंटे",
     "browse.verified": "सत्यापित",
+    "browse.irsVerified": "IRS-सत्यापित",
     "browse.donate": "दान करें",
     "browse.filter.ariaLabel": "संस्थाएँ फ़िल्टर करें",
     "browse.filter.searchAria": "संस्थाएँ खोजें",
@@ -1304,6 +1315,9 @@ export default {
     "charity.profile.statusClaimed": "दावा किया गया",
     "charity.profile.statusUnclaimed":
       "दावा नहीं किया गया — केवल सार्वजनिक रजिस्ट्री डेटा",
+    "charity.profile.statusIrsVerified": "IRS-सत्यापित गैर-लाभकारी संगठन",
+    "charity.profile.requestWidget.unclaimedBody":
+      "इस संगठन ने अभी तक Give Protocol पर अपनी प्रोफ़ाइल का दावा नहीं किया है। संगठन द्वारा प्रोफ़ाइल का दावा करने और वॉलेट सेटअप पूरा करने के बाद दान उपलब्ध हो जाएँगे।",
     "charity.profile.rowEin": "कर पहचान संख्या",
     "charity.profile.rowName": "नाम",
     "charity.profile.rowLocation": "स्थान",

@@ -1,6 +1,7 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { TokenConfig } from "@/config/tokens";
 import { useCurrencyContext } from "@/contexts/CurrencyContext";
+import { getDonationAmountError } from "@/utils/validation";
 import { ArrowLeftRight } from "lucide-react";
 import { cn } from "@/utils/cn";
 
@@ -40,7 +41,14 @@ export function DualAmountInput({
 
   // Update display value when value or mode changes
   useEffect(() => {
-    if (value === 0) {
+    // GIV-984: never clobber in-progress input for non-positive amounts
+    // (e.g. "-", "-5", "0.") — live validation errors are rendered below
+    // the input instead of silently rewriting the field.
+    if (value <= 0) {
+      const parsedDisplay = Number.parseFloat(displayValue);
+      if (!(parsedDisplay > 0)) {
+        return;
+      }
       setDisplayValue("");
       return;
     }
@@ -51,7 +59,7 @@ export function DualAmountInput({
       const fiatValue = convertToFiat(value, token.coingeckoId);
       setDisplayValue(fiatValue > 0 ? fiatValue.toFixed(2) : "");
     }
-  }, [value, inputMode, convertToFiat, token.coingeckoId]);
+  }, [value, inputMode, displayValue, convertToFiat, token.coingeckoId]);
 
   const handleInputChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -59,8 +67,15 @@ export function DualAmountInput({
       setDisplayValue(newValue);
 
       const numValue = Number.parseFloat(newValue);
-      if (Number.isNaN(numValue) || numValue <= 0) {
+      if (Number.isNaN(numValue) || numValue === 0) {
         onChange(0);
+        return;
+      }
+
+      if (numValue < 0) {
+        // GIV-984: pass negatives through so an explicit error is shown —
+        // never silently rewrite them to a positive amount.
+        onChange(numValue);
         return;
       }
 
@@ -87,6 +102,21 @@ export function DualAmountInput({
 
   const fiatEquivalent = convertToFiat(value, token.coingeckoId);
   const hasPrice = tokenPrice !== undefined && tokenPrice > 0;
+
+  // GIV-984: live validation — explicit inline error for invalid amounts.
+  // Applies to the raw typed input (negative/zero) and to the resulting
+  // crypto amount (upper bound).
+  const amountError = useMemo(() => {
+    if (displayValue.trim() === "") return null;
+    const parsed = Number.parseFloat(displayValue);
+    if (!Number.isNaN(parsed) && parsed <= 0) {
+      return getDonationAmountError(parsed);
+    }
+    return getDonationAmountError(value);
+  }, [displayValue, value]);
+  const hasAmountError = amountError !== null;
+  const hasInsufficientBalance =
+    value > 0 && maxBalance !== undefined && value > maxBalance;
 
   return (
     <div className="space-y-2">
@@ -115,12 +145,12 @@ export function DualAmountInput({
       <div className="relative">
         <input
           id="donation-amount-input"
-          type="number"
+          type="text"
+          inputMode="decimal"
           value={displayValue}
           onChange={handleInputChange}
           placeholder="0.00"
-          min="0"
-          step="any"
+          aria-invalid={hasAmountError}
           className={cn(
             "w-full py-4 border-2 rounded-xl transition-all duration-200",
             "focus:outline-none focus:ring-3 focus:ring-emerald-500/30 focus:border-emerald-500",
@@ -129,7 +159,7 @@ export function DualAmountInput({
             "[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
             // Left padding for input, right padding for suffix (symbol + MAX button)
             "pl-4 pr-32",
-            value > 0 && maxBalance !== undefined && value > maxBalance
+            hasInsufficientBalance || hasAmountError
               ? "border-red-400 focus:border-red-500 focus:ring-red-500/30"
               : "border-gray-300",
           )}
@@ -180,10 +210,20 @@ export function DualAmountInput({
         )}
       </div>
 
-      {value > 0 && maxBalance !== undefined && value > maxBalance && (
+      {hasInsufficientBalance && maxBalance !== undefined && (
         <div className="text-sm text-red-600 font-medium">
           Insufficient balance. Maximum available: {maxBalance.toFixed(6)}{" "}
           {token.symbol}
+        </div>
+      )}
+
+      {amountError && (
+        <div
+          className="text-sm text-red-600 font-medium"
+          role="alert"
+          data-testid="donation-amount-error"
+        >
+          {amountError}
         </div>
       )}
 
