@@ -197,6 +197,24 @@ const RunsOnTags: React.FC = () => {
   );
 };
 
+/** Value propositions displayed on the left panel. */
+const AuthValueProps: React.FC = () => (
+  <div className="space-y-3 mb-8">
+    <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
+      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+      <span>100% on-chain transparency & direct funding</span>
+    </div>
+    <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
+      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+      <span>Donate seamlessly via credit card or Web3 wallet</span>
+    </div>
+    <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
+      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
+      <span>Automated instant tax receipts for all donors</span>
+    </div>
+  </div>
+);
+
 /** Dark left panel for the auth page. */
 const AuthLeftPanel: React.FC = () => {
   const { t } = useTranslation();
@@ -286,20 +304,7 @@ const AuthLeftPanel: React.FC = () => {
         </p>
 
         {/* Value props list */}
-        <div className="space-y-3 mb-8">
-          <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>100% on-chain transparency & direct funding</span>
-          </div>
-          <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Donate seamlessly via credit card or Web3 wallet</span>
-          </div>
-          <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
-            <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-            <span>Automated instant tax receipts for all donors</span>
-          </div>
-        </div>
+        <AuthValueProps />
 
         <div
           className="space-y-4 animate-fadeUp"
@@ -316,6 +321,25 @@ const AuthLeftPanel: React.FC = () => {
     </div>
   );
 };
+
+/** Show/hide toggle button for password fields. */
+const PasswordToggle: React.FC<{
+  showPassword: boolean;
+  onToggle: () => void;
+}> = ({ showPassword, onToggle }) => (
+  <button
+    type="button"
+    onClick={onToggle}
+    aria-label={showPassword ? "Hide password" : "Show password"}
+    className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none p-1 transition-colors"
+  >
+    {showPassword ? (
+      <EyeOff className="h-4 w-4" />
+    ) : (
+      <Eye className="h-4 w-4" />
+    )}
+  </button>
+);
 
 /** Sign-in form fields extracted to reduce JSX nesting depth. */
 const SignInFormFields: React.FC<{
@@ -391,18 +415,10 @@ const SignInFormFields: React.FC<{
           aria-describedby={hasError ? "signin-form-error" : undefined}
           aria-invalid={hasError}
           rightElement={
-            <button
-              type="button"
-              onClick={() => setShowPassword((prev) => !prev)}
-              aria-label={showPassword ? "Hide password" : "Show password"}
-              className="text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none p-1 transition-colors"
-            >
-              {showPassword ? (
-                <EyeOff className="h-4 w-4" />
-              ) : (
-                <Eye className="h-4 w-4" />
-              )}
-            </button>
+            <PasswordToggle
+              showPassword={showPassword}
+              onToggle={() => setShowPassword((prev) => !prev)}
+            />
           }
         />
       </div>
@@ -436,9 +452,186 @@ function walletStepKey(step: WalletAuthStep): string {
   }
 }
 
+/** Heading and optional error banner for the sign-in card. */
+const SignInCardHeader: React.FC<{
+  formError: string | null;
+}> = ({ formError }) => {
+  const { t } = useTranslation();
+  return (
+    <>
+      <div className="mb-6">
+        <h1
+          className="font-serif text-slate-900 dark:text-white"
+          style={{
+            fontSize: "1.875rem",
+            letterSpacing: "-0.02em",
+            lineHeight: 1.15,
+            marginBottom: "0.35rem",
+          }}
+        >
+          {t("auth.signin.welcomeBack")}
+        </h1>
+        <p className="text-sm text-gray-500 dark:text-gray-400">
+          {t("auth.signin.subtitle")}
+        </p>
+      </div>
+
+      {formError && (
+        <div
+          id="signin-form-error"
+          className="flex items-center gap-2 p-3 mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm"
+          role="alert"
+        >
+          {formError}
+        </div>
+      )}
+    </>
+  );
+};
+
+/** 1-Click Fast Auth buttons for Google and Passkey. */
+const FastAuthButtons: React.FC<{
+  isPasskeySupported: boolean;
+  loading: boolean;
+  onGoogleSignIn: () => void;
+  onPasskeySignIn: () => void;
+}> = ({ isPasskeySupported, loading, onGoogleSignIn, onPasskeySignIn }) => {
+  const { t } = useTranslation();
+  return (
+    <div
+      className={`grid gap-3 mb-5 ${
+        isPasskeySupported ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"
+      }`}
+    >
+      <Button
+        type="button"
+        onClick={onGoogleSignIn}
+        variant="secondary"
+        fullWidth
+        size="md"
+        disabled={loading}
+        icon={<GoogleIcon />}
+        className="font-medium text-xs sm:text-sm border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+      >
+        {t("auth.signin.withGoogle")}
+      </Button>
+
+      {isPasskeySupported && (
+        <Button
+          type="button"
+          onClick={onPasskeySignIn}
+          variant="secondary"
+          fullWidth
+          size="md"
+          disabled={loading}
+          icon={
+            <Fingerprint className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+          }
+          className="font-medium text-xs sm:text-sm border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
+        >
+          {t("auth.signin.withPasskey")}
+        </Button>
+      )}
+    </div>
+  );
+};
+
+/** Visual separator between auth options. */
+const AuthDivider: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center gap-3 my-5">
+      <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+      <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">
+        {t("auth.signin.or")}
+      </span>
+      <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
+    </div>
+  );
+};
+
+/** Web3 wallet sign-in button. */
+const WalletSignInButton: React.FC<{
+  loading: boolean;
+  walletAuthStep: WalletAuthStep;
+  onClick: () => void;
+}> = ({ loading, walletAuthStep, onClick }) => {
+  const { t } = useTranslation();
+  return (
+    <Button
+      onClick={onClick}
+      variant="secondary"
+      fullWidth
+      size="lg"
+      icon={
+        walletAuthStep !== null ? (
+          <LoadingSpinner size="sm" color="secondary" />
+        ) : (
+          <Wallet className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
+        )
+      }
+      disabled={loading}
+      className="font-semibold border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/40 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100/50 dark:hover:bg-emerald-900/40 transition-colors"
+    >
+      {t(walletStepKey(walletAuthStep))}
+    </Button>
+  );
+};
+
+/** Sign-up prompt linking to the registration page. */
+const SignUpPrompt: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
+      {t("auth.signin.newToProtocol")}{" "}
+      <Link
+        to="/auth/signup"
+        className="font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:underline decoration-emerald-500 decoration-2 underline-offset-4"
+      >
+        {t("auth.signin.createAccount")}
+      </Link>
+    </p>
+  );
+};
+
+/** Trust signal footer with SSL notice and terms/privacy links. */
+const AuthTrustFooter: React.FC = () => {
+  const { t } = useTranslation();
+  return (
+    <p
+      className="text-center mt-5"
+      style={{
+        fontSize: "0.75rem",
+        color: "var(--slate-400)",
+        lineHeight: 1.5,
+      }}
+    >
+      <ShieldCheck
+        aria-hidden="true"
+        className="inline h-3.5 w-3.5 mr-1 align-text-bottom text-emerald-600 dark:text-emerald-400"
+      />
+      {t("auth.signin.sslEncrypted")} &middot;{" "}
+      <Link
+        to="/legal"
+        className="underline hover:text-gray-700 dark:hover:text-gray-300"
+        style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
+      >
+        {t("auth.signin.terms")}
+      </Link>{" "}
+      &middot;{" "}
+      <Link
+        to="/privacy"
+        className="underline hover:text-gray-700 dark:hover:text-gray-300"
+        style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
+      >
+        {t("auth.signin.privacy")}
+      </Link>
+    </p>
+  );
+};
+
 /** Right panel content with sign-in form and wallet authentication. */
 const AuthRightPanel: React.FC = () => {
-  const { t } = useTranslation();
   const [view, setView] = useState<View>("signin");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -616,71 +809,14 @@ const AuthRightPanel: React.FC = () => {
 
         {/* Elevated Form Card */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800 shadow-xl shadow-emerald-950/5 p-6 sm:p-8">
-          {/* Heading */}
-          <div className="mb-6">
-            <h1
-              className="font-serif text-slate-900 dark:text-white"
-              style={{
-                fontSize: "1.875rem",
-                letterSpacing: "-0.02em",
-                lineHeight: 1.15,
-                marginBottom: "0.35rem",
-              }}
-            >
-              {t("auth.signin.welcomeBack")}
-            </h1>
-            <p className="text-sm text-gray-500 dark:text-gray-400">
-              {t("auth.signin.subtitle")}
-            </p>
-          </div>
+          <SignInCardHeader formError={formError} />
 
-          {/* Error alert */}
-          {formError && (
-            <div
-              id="signin-form-error"
-              className="flex items-center gap-2 p-3 mb-4 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm"
-              role="alert"
-            >
-              {formError}
-            </div>
-          )}
-
-          {/* 1-Click Fast Auth: Google & Passkey side-by-side */}
-          <div
-            className={`grid gap-3 mb-5 ${
-              isPasskeySupported ? "grid-cols-1 sm:grid-cols-2" : "grid-cols-1"
-            }`}
-          >
-            <Button
-              type="button"
-              onClick={handleGoogleSignIn}
-              variant="secondary"
-              fullWidth
-              size="md"
-              disabled={loading}
-              icon={<GoogleIcon />}
-              className="font-medium text-xs sm:text-sm border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-            >
-              {t("auth.signin.withGoogle")}
-            </Button>
-
-            {isPasskeySupported && (
-              <Button
-                type="button"
-                onClick={handlePasskeySignIn}
-                variant="secondary"
-                fullWidth
-                size="md"
-                disabled={loading}
-                icon={
-                  <Fingerprint className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-                }
-                className="font-medium text-xs sm:text-sm border-gray-200 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-800 transition-colors"
-              >
-                {t("auth.signin.withPasskey")}
-              </Button>
-            )}
-          </div>
+          <FastAuthButtons
+            isPasskeySupported={isPasskeySupported}
+            loading={loading}
+            onGoogleSignIn={handleGoogleSignIn}
+            onPasskeySignIn={handlePasskeySignIn}
+          />
 
           {/* Email/Password form with integrated forgot password and show/hide toggle */}
           <SignInFormFields
@@ -694,33 +830,13 @@ const AuthRightPanel: React.FC = () => {
             onSubmit={handleEmailSignIn}
           />
 
-          {/* Divider */}
-          <div className="flex items-center gap-3 my-5">
-            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-            <span className="text-xs text-gray-400 font-medium uppercase tracking-wider">
-              {t("auth.signin.or")}
-            </span>
-            <div className="flex-1 h-px bg-gray-200 dark:bg-gray-700" />
-          </div>
+          <AuthDivider />
 
-          {/* Wallet sign in */}
-          <Button
+          <WalletSignInButton
+            loading={loading}
+            walletAuthStep={walletAuthStep}
             onClick={handleWalletButtonClick}
-            variant="secondary"
-            fullWidth
-            size="lg"
-            icon={
-              walletAuthStep !== null ? (
-                <LoadingSpinner size="sm" color="secondary" />
-              ) : (
-                <Wallet className="h-4 w-4 text-emerald-600 dark:text-emerald-400" />
-              )
-            }
-            disabled={loading}
-            className="font-semibold border-emerald-200/80 dark:border-emerald-800/60 bg-emerald-50/40 dark:bg-emerald-950/20 text-emerald-800 dark:text-emerald-300 hover:bg-emerald-100/50 dark:hover:bg-emerald-900/40 transition-colors"
-          >
-            {t(walletStepKey(walletAuthStep))}
-          </Button>
+          />
 
           <WalletModal
             isOpen={showWalletModal}
@@ -730,48 +846,10 @@ const AuthRightPanel: React.FC = () => {
             initialChainType="evm"
           />
 
-          {/* Sign up prompt */}
-          <p className="mt-6 text-center text-sm text-gray-500 dark:text-gray-400">
-            {t("auth.signin.newToProtocol")}{" "}
-            <Link
-              to="/auth/signup"
-              className="font-semibold text-emerald-600 dark:text-emerald-400 hover:text-emerald-700 dark:hover:text-emerald-300 hover:underline decoration-emerald-500 decoration-2 underline-offset-4"
-            >
-              {t("auth.signin.createAccount")}
-            </Link>
-          </p>
+          <SignUpPrompt />
         </div>
 
-        {/* Trust signal footer */}
-        <p
-          className="text-center mt-5"
-          style={{
-            fontSize: "0.75rem",
-            color: "var(--slate-400)",
-            lineHeight: 1.5,
-          }}
-        >
-          <ShieldCheck
-            aria-hidden="true"
-            className="inline h-3.5 w-3.5 mr-1 align-text-bottom text-emerald-600 dark:text-emerald-400"
-          />
-          {t("auth.signin.sslEncrypted")} &middot;{" "}
-          <Link
-            to="/legal"
-            className="underline hover:text-gray-700 dark:hover:text-gray-300"
-            style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
-          >
-            {t("auth.signin.terms")}
-          </Link>{" "}
-          &middot;{" "}
-          <Link
-            to="/privacy"
-            className="underline hover:text-gray-700 dark:hover:text-gray-300"
-            style={{ color: "var(--slate-500)", textUnderlineOffset: 2 }}
-          >
-            {t("auth.signin.privacy")}
-          </Link>
-        </p>
+        <AuthTrustFooter />
       </div>
     </div>
   );

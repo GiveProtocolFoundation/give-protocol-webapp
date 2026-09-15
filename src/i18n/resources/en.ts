@@ -723,6 +723,9 @@ export default {
     "wallet.safe.rejected": "Signature request was rejected.",
     "wallet.safe.signError":
       "Failed to sign verification message. Please try again.",
+    "wallet.safe.detecting": "Detecting Safe configuration...",
+    "wallet.safe.signerCount": "Total signers (min 2)",
+    "wallet.safe.signerThreshold": "Threshold (min 1)",
 
     // Wallet - Institutional flow (GIV-289)
     "wallet.institutional.title": "Register an institutional custody wallet",

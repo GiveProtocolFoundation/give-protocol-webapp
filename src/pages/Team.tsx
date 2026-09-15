@@ -1,6 +1,10 @@
 import React from 'react';
 import { useTranslation } from '@/hooks/useTranslation';
 
+/**
+ * Team page showcasing the leadership, engineers, and contributors
+ * behind Give Protocol.
+ */
 export const Team: React.FC = () => {
   const { t } = useTranslation();
   return (

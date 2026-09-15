@@ -27,6 +27,226 @@ const SAFE_INFO_ABI = [
   "function getThreshold() view returns (uint256)",
 ];
 
+/** Network / chain dropdown selector. */
+const SafeChainSelector: React.FC<{
+  chainId: number;
+  chains: Array<{ id: number; name: string }>;
+  onChainChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
+  t: (key: string, fallback?: string) => string;
+}> = ({ chainId, chains, onChainChange, t }) => (
+  <div>
+    <label
+      htmlFor="safe-chain"
+      className="block text-sm font-medium text-content-primary mb-1"
+    >
+      {t("wallet.safe.chain", "Network")}
+    </label>
+    <select
+      id="safe-chain"
+      value={chainId}
+      onChange={onChainChange}
+      className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+    >
+      {chains.map((chain) => (
+        <option key={chain.id} value={chain.id}>
+          {chain.name}
+        </option>
+      ))}
+    </select>
+  </div>
+);
+
+/** Safe address input with detection indicator. */
+const SafeAddressInput: React.FC<{
+  safeAddress: string;
+  isDetecting: boolean;
+  onAddressChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  t: (key: string, fallback?: string) => string;
+}> = ({ safeAddress, isDetecting, onAddressChange, t }) => (
+  <div>
+    <div className="flex items-center justify-between mb-1">
+      <label
+        htmlFor="safe-address"
+        className="block text-sm font-medium text-content-primary"
+      >
+        {t("wallet.safe.address", "Safe address")}
+      </label>
+      {isDetecting && (
+        <span className="flex items-center gap-1 text-xs text-content-muted">
+          <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
+          {t("wallet.safe.detecting", "Detecting Safe configuration...")}
+        </span>
+      )}
+    </div>
+    <input
+      id="safe-address"
+      type="text"
+      value={safeAddress}
+      onChange={onAddressChange}
+      placeholder="0x..."
+      className="w-full px-3 py-2 text-sm font-mono bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary placeholder:text-content-muted focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+    />
+  </div>
+);
+
+/** Displays detected on-chain Safe configuration and signer match status. */
+const SafeDetectedInfo: React.FC<{
+  detectedOwners: string[] | null;
+  signerCount: number;
+  signerThreshold: number;
+  address?: string;
+  isOwnerConnected: boolean | null;
+  t: (key: string, fallback?: string) => string;
+}> = ({
+  detectedOwners,
+  signerCount,
+  signerThreshold,
+  address,
+  isOwnerConnected,
+  t,
+}) => {
+  if (!detectedOwners) return null;
+  return (
+    <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 rounded-lg text-xs space-y-1">
+      <div className="flex items-center gap-1.5 font-medium text-emerald-800 dark:text-emerald-300">
+        <CheckCircle2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
+        <span>
+          {t(
+            "wallet.safe.detectedConfig",
+            `Detected Safe configuration: ${signerThreshold} of ${signerCount} signers`,
+          )}
+        </span>
+      </div>
+      {address && isOwnerConnected === true && (
+        <p className="text-emerald-700 dark:text-emerald-400">
+          {t(
+            "wallet.safe.ownerConfirmed",
+            "Connected wallet is a confirmed owner of this Safe.",
+          )}
+        </p>
+      )}
+      {address && isOwnerConnected === false && (
+        <p className="text-amber-700 dark:text-amber-400 flex items-center gap-1">
+          <Info className="h-3 w-3 shrink-0" aria-hidden="true" />
+          {t(
+            "wallet.safe.notOwner",
+            "Connected wallet is not listed as an owner. Verification requires an owner signature or Safe contract approval.",
+          )}
+        </p>
+      )}
+    </div>
+  );
+};
+
+/** Signer count and threshold inputs. */
+const SafeSignerInputs: React.FC<{
+  signerCount: number;
+  signerThreshold: number;
+  onSignerCountChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onThresholdChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  t: (key: string, fallback?: string) => string;
+}> = ({
+  signerCount,
+  signerThreshold,
+  onSignerCountChange,
+  onThresholdChange,
+  t,
+}) => (
+  <div className="grid grid-cols-2 gap-3">
+    <div>
+      <label
+        htmlFor="safe-signer-count"
+        className="block text-xs font-medium text-content-primary mb-1"
+      >
+        {t("wallet.safe.signerCount", "Total signers (min 2)")}
+      </label>
+      <input
+        id="safe-signer-count"
+        type="number"
+        min={2}
+        value={signerCount}
+        onChange={onSignerCountChange}
+        className="w-full px-3 py-1.5 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+      />
+    </div>
+    <div>
+      <label
+        htmlFor="safe-signer-threshold"
+        className="block text-xs font-medium text-content-primary mb-1"
+      >
+        {t("wallet.safe.signerThreshold", "Threshold (min 1)")}
+      </label>
+      <input
+        id="safe-signer-threshold"
+        type="number"
+        min={1}
+        max={signerCount}
+        value={signerThreshold}
+        onChange={onThresholdChange}
+        className="w-full px-3 py-1.5 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
+      />
+    </div>
+  </div>
+);
+
+/** Connected signer wallet status and connect action. */
+const SafeSignerStatus: React.FC<{
+  isConnected: boolean;
+  address?: string;
+  onConnect: () => void;
+  t: (key: string, fallback?: string) => string;
+}> = ({ isConnected, address, onConnect, t }) => (
+  <div>
+    <p className="text-sm font-medium text-content-primary mb-1">
+      {t("wallet.safe.signerWallet", "Signer wallet")}
+    </p>
+    {isConnected && address ? (
+      <div className="flex items-center gap-2 text-sm">
+        <CheckCircle2
+          className="h-4 w-4 text-emerald-600"
+          aria-hidden="true"
+        />
+        <code className="font-mono text-content-primary">
+          {address.slice(0, 6)}&hellip;{address.slice(-4)}
+        </code>
+      </div>
+    ) : (
+      <button
+        onClick={onConnect}
+        className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent-base hover:bg-accent-hover rounded-lg transition-colors"
+      >
+        {t("wallet.safe.connectSigner", "Connect signer wallet")}
+      </button>
+    )}
+  </div>
+);
+
+/** Verify action button for Safe ownership. */
+const SafeVerifyButton: React.FC<{
+  loading: boolean;
+  disabled: boolean;
+  onVerify: () => void;
+  t: (key: string, fallback?: string) => string;
+}> = ({ loading, disabled, onVerify, t }) => (
+  <button
+    onClick={onVerify}
+    disabled={disabled}
+    className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
+  >
+    {loading ? (
+      <>
+        <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
+        {t("wallet.safe.verifying", "Verifying...")}
+      </>
+    ) : (
+      <>
+        <ArrowRight className="h-4 w-4" aria-hidden="true" />
+        {t("wallet.safe.signVerify", "Sign to verify control")}
+      </>
+    )}
+  </button>
+);
+
 interface SafeSetupFlowProps {
   charityProfileId: string;
   onBack: () => void;
@@ -100,16 +320,20 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
   // On-chain Safe configuration detection
   useEffect(() => {
     let active = true;
-    if (!/^0x[a-fA-F0-9]{40}$/.test(safeAddress)) {
-      setDetectedOwners(null);
-      return;
-    }
 
-    const chainConfig = getEVMChainConfig(chainId);
-    const rpcUrl = chainConfig?.rpcUrls?.[0];
-    if (!rpcUrl) return;
-
+    /**
+     * Inspects the on-chain Safe contract to fetch owners and threshold.
+     */
     const detectSafe = async () => {
+      if (!/^0x[a-fA-F0-9]{40}$/.test(safeAddress)) {
+        setDetectedOwners(null);
+        return;
+      }
+
+      const chainConfig = getEVMChainConfig(chainId);
+      const rpcUrl = chainConfig?.rpcUrls?.[0];
+      if (!rpcUrl) return;
+
       try {
         setIsDetecting(true);
         const provider = new ethers.JsonRpcProvider(rpcUrl);
@@ -348,166 +572,50 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
       )}
 
       <div className="space-y-4">
-        {/* Chain selector */}
-        <div>
-          <label
-            htmlFor="safe-chain"
-            className="block text-sm font-medium text-content-primary mb-1"
-          >
-            {t("wallet.safe.chain", "Network")}
-          </label>
-          <select
-            id="safe-chain"
-            value={chainId}
-            onChange={handleChainChange}
-            className="w-full px-3 py-2 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-          >
-            {chains.map((chain) => (
-              <option key={chain.id} value={chain.id}>
-                {chain.name}
-              </option>
-            ))}
-          </select>
-        </div>
+        <SafeChainSelector
+          chainId={chainId}
+          chains={chains}
+          onChainChange={handleChainChange}
+          t={t}
+        />
 
-        {/* Safe address */}
-        <div>
-          <div className="flex items-center justify-between mb-1">
-            <label
-              htmlFor="safe-address"
-              className="block text-sm font-medium text-content-primary"
-            >
-              {t("wallet.safe.address", "Safe address")}
-            </label>
-            {isDetecting && (
-              <span className="flex items-center gap-1 text-xs text-content-muted">
-                <Loader2 className="h-3 w-3 animate-spin" aria-hidden="true" />
-                {t("wallet.safe.detecting", "Detecting Safe configuration...")}
-              </span>
-            )}
-          </div>
-          <input
-            id="safe-address"
-            type="text"
-            value={safeAddress}
-            onChange={handleAddressChange}
-            placeholder="0x..."
-            className="w-full px-3 py-2 text-sm font-mono bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary placeholder:text-content-muted focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-          />
-        </div>
+        <SafeAddressInput
+          safeAddress={safeAddress}
+          isDetecting={isDetecting}
+          onAddressChange={handleAddressChange}
+          t={t}
+        />
 
-        {/* Detected Safe info */}
-        {detectedOwners && (
-          <div className="p-3 bg-emerald-50 dark:bg-emerald-950/20 border border-emerald-200 dark:border-emerald-800/40 rounded-lg text-xs space-y-1">
-            <div className="flex items-center gap-1.5 font-medium text-emerald-800 dark:text-emerald-300">
-              <CheckCircle2 className="h-3.5 w-3.5 shrink-0" aria-hidden="true" />
-              <span>
-                {t(
-                  "wallet.safe.detectedConfig",
-                  `Detected Safe configuration: ${signerThreshold} of ${signerCount} signers`,
-                )}
-              </span>
-            </div>
-            {address && isOwnerConnected === true && (
-              <p className="text-emerald-700 dark:text-emerald-400">
-                {t(
-                  "wallet.safe.ownerConfirmed",
-                  "Connected wallet is a confirmed owner of this Safe.",
-                )}
-              </p>
-            )}
-            {address && isOwnerConnected === false && (
-              <p className="text-amber-700 dark:text-amber-400 flex items-center gap-1">
-                <Info className="h-3 w-3 shrink-0" aria-hidden="true" />
-                {t(
-                  "wallet.safe.notOwner",
-                  "Connected wallet is not listed as an owner. Verification requires an owner signature or Safe contract approval.",
-                )}
-              </p>
-            )}
-          </div>
-        )}
+        <SafeDetectedInfo
+          detectedOwners={detectedOwners}
+          signerCount={signerCount}
+          signerThreshold={signerThreshold}
+          address={address}
+          isOwnerConnected={isOwnerConnected}
+          t={t}
+        />
 
-        {/* Signer configuration inputs */}
-        <div className="grid grid-cols-2 gap-3">
-          <div>
-            <label
-              htmlFor="safe-signer-count"
-              className="block text-xs font-medium text-content-primary mb-1"
-            >
-              {t("wallet.safe.signerCount", "Total signers (min 2)")}
-            </label>
-            <input
-              id="safe-signer-count"
-              type="number"
-              min={2}
-              value={signerCount}
-              onChange={handleSignerCountChange}
-              className="w-full px-3 py-1.5 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-            />
-          </div>
-          <div>
-            <label
-              htmlFor="safe-signer-threshold"
-              className="block text-xs font-medium text-content-primary mb-1"
-            >
-              {t("wallet.safe.signerThreshold", "Threshold (min 1)")}
-            </label>
-            <input
-              id="safe-signer-threshold"
-              type="number"
-              min={1}
-              max={signerCount}
-              value={signerThreshold}
-              onChange={handleThresholdChange}
-              className="w-full px-3 py-1.5 text-sm bg-surface-base border border-line-subtle dark:border-line-subtle/20 rounded-lg text-content-primary focus:outline-none focus:ring-2 focus:ring-accent-base/30"
-            />
-          </div>
-        </div>
+        <SafeSignerInputs
+          signerCount={signerCount}
+          signerThreshold={signerThreshold}
+          onSignerCountChange={handleSignerCountChange}
+          onThresholdChange={handleThresholdChange}
+          t={t}
+        />
 
-        {/* Connect signer wallet */}
-        <div>
-          <p className="text-sm font-medium text-content-primary mb-1">
-            {t("wallet.safe.signerWallet", "Signer wallet")}
-          </p>
-          {isConnected && address ? (
-            <div className="flex items-center gap-2 text-sm">
-              <CheckCircle2
-                className="h-4 w-4 text-emerald-600"
-                aria-hidden="true"
-              />
-              <code className="font-mono text-content-primary">
-                {address.slice(0, 6)}&hellip;{address.slice(-4)}
-              </code>
-            </div>
-          ) : (
-            <button
-              onClick={handleConnect}
-              className="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium text-white bg-accent-base hover:bg-accent-hover rounded-lg transition-colors"
-            >
-              {t("wallet.safe.connectSigner", "Connect signer wallet")}
-            </button>
-          )}
-        </div>
+        <SafeSignerStatus
+          isConnected={isConnected}
+          address={address}
+          onConnect={handleConnect}
+          t={t}
+        />
 
-        {/* Verify button */}
-        <button
-          onClick={handleVerify}
+        <SafeVerifyButton
+          loading={loading}
           disabled={loading || !isConnected || !safeAddress}
-          className="w-full inline-flex items-center justify-center gap-2 px-4 py-2.5 text-sm font-medium text-white bg-emerald-600 hover:bg-emerald-700 disabled:opacity-50 disabled:cursor-not-allowed rounded-lg transition-colors"
-        >
-          {loading ? (
-            <>
-              <Loader2 className="h-4 w-4 animate-spin" aria-hidden="true" />
-              {t("wallet.safe.verifying", "Verifying...")}
-            </>
-          ) : (
-            <>
-              <ArrowRight className="h-4 w-4" aria-hidden="true" />
-              {t("wallet.safe.signVerify", "Sign to verify control")}
-            </>
-          )}
-        </button>
+          onVerify={handleVerify}
+          t={t}
+        />
       </div>
     </div>
   );
