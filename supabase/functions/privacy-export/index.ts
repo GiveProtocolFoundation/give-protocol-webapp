@@ -85,6 +85,8 @@ async function assembleExportPackage(
     selfReportedResult,
     volunteerVerifResult,
     fiatDonationsResult,
+    cryptoDonationsResult,
+    cryptoDonationConsentsResult,
     charityWalletsResult,
     passkeysResult,
   ] = await Promise.all([
@@ -110,6 +112,12 @@ async function assembleExportPackage(
     supabase.from('fiat_donations').select(
       'donor_name, donor_email, charity_id, amount_cents, currency, payment_method, card_type, card_last_four, cause_name, fund_name, created_at'
     ).eq('donor_id', userId),
+    supabase.from('donations').select(
+      'charity_id, amount, tx_hash, created_at'
+    ).eq('donor_id', userId),
+    supabase.from('donation_consents').select(
+      'charity_id, charity_wallet_address, donation_ref, consent_text_version, locale, consented_at'
+    ).eq('user_id', userId).eq('donation_type', 'crypto'),
     charityProfileIds.length > 0
       ? supabase
           .from('charity_wallets')
