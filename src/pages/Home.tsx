@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
+import { Link } from "react-router-dom";
 import {
   Heart,
   TrendingUp,
@@ -104,13 +105,13 @@ function HeroSection({
 
       {/* CTA Buttons */}
       <div className="flex flex-col sm:flex-row gap-4 justify-center items-center">
-        <button
-          disabled
-          className="bg-gradient-to-r from-emerald-500/50 to-teal-500/50 px-8 py-4 rounded-full font-semibold text-lg cursor-not-allowed opacity-60 flex items-center space-x-2"
+        <Link
+          to="/browse"
+          className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-8 py-4 rounded-full font-semibold text-lg shadow-lg hover:shadow-[0_0_20px_rgba(16,185,129,0.4)] transition-all flex items-center space-x-2"
         >
-          <span>{t("home.comingSoon")}</span>
+          <span>{t("home.startDonating", "Start Donating")}</span>
           <ArrowRight className="w-5 h-5" />
-        </button>
+        </Link>
         <a
           href="https://docs.giveprotocol.io/"
           target="_blank"
@@ -342,12 +343,12 @@ function CTASection() {
           {t("home.cta.subtitle")}
         </p>
         <div className="flex flex-col sm:flex-row gap-4 justify-center">
-          <button
-            disabled
-            className="bg-white/50 text-emerald-600/70 px-8 py-4 rounded-full font-semibold text-lg cursor-not-allowed opacity-60"
+          <Link
+            to="/browse"
+            className="bg-white text-emerald-600 hover:bg-emerald-50 px-8 py-4 rounded-full font-semibold text-lg shadow-md transition-all"
           >
-            {t("home.comingSoon")}
-          </button>
+            {t("home.cta.explore", "Explore Causes")}
+          </Link>
           <a
             href="https://docs.giveprotocol.io/"
             target="_blank"
@@ -551,12 +552,12 @@ const Home: React.FC = () => {
             {t("home.nav.volunteer")}
           </a>
         </div>
-        <button
-          disabled
-          className="bg-gradient-to-r from-emerald-500/50 to-teal-500/50 px-6 py-2 rounded-full font-semibold cursor-not-allowed opacity-60"
+        <Link
+          to="/browse"
+          className="bg-gradient-to-r from-emerald-500 to-teal-500 hover:from-emerald-600 hover:to-teal-600 text-white px-6 py-2 rounded-full font-semibold transition-all"
         >
-          {t("home.comingSoon")}
-        </button>
+          {t("nav.launchApp", "Launch App")}
+        </Link>
       </nav>
 
       {/* Anchor target for skip-to-main-content link */}
