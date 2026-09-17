@@ -736,6 +736,101 @@ function QuickActionCard({
 // GDPR Erasure Cron Indicator (GIV-864 F4 / Finding #23)
 // ---------------------------------------------------------------------------
 
+/** Loading indicator badge for GDPR cron check. */
+function GdprLoadingBadge({ message }: { message: string }): React.ReactElement {
+  return (
+    <div
+      data-testid="gdpr-cron-status-loading"
+      className="flex items-center gap-2 rounded-[10px] border border-[#e4e8e6] bg-white px-3.5 py-2.5 text-xs text-[#6b7873] shadow-[0_1px_2px_#0b1f1a07]"
+    >
+      <LoadingSpinner size="sm" />
+      <span>{message}</span>
+    </div>
+  );
+}
+
+/** Animated status dot showing cron liveness. */
+function GdprStatusDot({
+  pingDot,
+  dotClass,
+}: {
+  pingDot: boolean;
+  dotClass: string;
+}): React.ReactElement {
+  return (
+    <span className="relative flex h-2.5 w-2.5 shrink-0">
+      {pingDot && (
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#1fae7f] opacity-75" />
+      )}
+      <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${dotClass}`} />
+    </span>
+  );
+}
+
+/** Title, schedule, and execution summary for GDPR cron status. */
+function GdprStatusDetails({
+  badgeText,
+  badgeClass,
+  lastRunTime,
+  totalErasures,
+}: {
+  badgeText: string;
+  badgeClass: string;
+  lastRunTime: string | null;
+  totalErasures: number | undefined;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <div className="flex items-center gap-2">
+        <span className="text-[13px] font-semibold text-[#16201c]">
+          {t("admin.dashboard.gdprCronTitle", "GDPR Erasure Cron")}
+        </span>
+        <span className={`rounded-md border px-2 py-0.5 text-[11px] font-semibold ${badgeClass}`}>
+          {badgeText}
+        </span>
+      </div>
+      <div className="text-[11.5px] text-[#6b7873]">
+        {t("admin.dashboard.gdprCronScheduleDesc", "Nightly at 02:00 UTC (pg_cron · Art. 17 & Art. 5(1)(e))")}
+        {lastRunTime && (
+          <> · {t("admin.dashboard.gdprCronLastRun", "Last run: {{time}}", { time: lastRunTime })}</>
+        )}
+        {totalErasures !== undefined && totalErasures > 0 && (
+          <> · {t("admin.dashboard.gdprTotalErasures", "{{count}} erased total", { count: totalErasures })}</>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** Action link and pending count queue badge for GDPR cron status. */
+function GdprStatusActions({
+  pendingCount,
+}: {
+  pendingCount: number | undefined;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center gap-3 text-[12px] text-[#6b7873]">
+      {pendingCount !== undefined && pendingCount > 0 ? (
+        <span className="rounded bg-[#fff8ec] px-2 py-0.5 font-medium text-[#b37400]">
+          {t("admin.dashboard.gdprPendingDue", "{{count}} erasure due", { count: pendingCount })}
+        </span>
+      ) : (
+        <span className="text-[#8a948f]">
+          {t("admin.dashboard.gdprZeroPending", "0 pending erasures")}
+        </span>
+      )}
+      <Link
+        to="/admin/reports?tab=platform-health"
+        className="font-medium text-[#1b8a6b] hover:underline"
+      >
+        {t("admin.dashboard.viewHealthReport", "Platform Health →")}
+      </Link>
+    </div>
+  );
+}
+
 /**
  * GDPR Erasure Cron Status Indicator
  * Satisfies GIV-864 F4 / Audit Finding #23.
@@ -752,13 +847,9 @@ function GdprCronIndicator({
 
   if (loading && !status) {
     return (
-      <div
-        data-testid="gdpr-cron-status-loading"
-        className="flex items-center gap-2 rounded-[10px] border border-[#e4e8e6] bg-white px-3.5 py-2.5 text-xs text-[#6b7873] shadow-[0_1px_2px_#0b1f1a07]"
-      >
-        <LoadingSpinner size="sm" />
-        <span>{t("admin.dashboard.gdprCronChecking", "Checking GDPR erasure cron status...")}</span>
-      </div>
+      <GdprLoadingBadge
+        message={t("admin.dashboard.gdprCronChecking", "Checking GDPR erasure cron status...")}
+      />
     );
   }
 
@@ -788,52 +879,16 @@ function GdprCronIndicator({
       className="flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#e4e8e6] bg-white px-4 py-3 shadow-[0_1px_2px_#0b1f1a07]"
     >
       <div className="flex items-center gap-3">
-        <span className="relative flex h-2.5 w-2.5 shrink-0">
-          {pingDot && (
-            <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#1fae7f] opacity-75" />
-          )}
-          <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${dotClass}`} />
-        </span>
-        <div>
-          <div className="flex items-center gap-2">
-            <span className="text-[13px] font-semibold text-[#16201c]">
-              {t("admin.dashboard.gdprCronTitle", "GDPR Erasure Cron")}
-            </span>
-            <span
-              className={`rounded-md border px-2 py-0.5 text-[11px] font-semibold ${badgeClass}`}
-            >
-              {badgeText}
-            </span>
-          </div>
-          <div className="text-[11.5px] text-[#6b7873]">
-            {t("admin.dashboard.gdprCronScheduleDesc", "Nightly at 02:00 UTC (pg_cron · Art. 17 & Art. 5(1)(e))")}
-            {lastRunTime && (
-              <> · {t("admin.dashboard.gdprCronLastRun", "Last run: {{time}}", { time: lastRunTime })}</>
-            )}
-            {status?.totalErasuresProcessed !== undefined && status.totalErasuresProcessed > 0 && (
-              <> · {t("admin.dashboard.gdprTotalErasures", "{{count}} erased total", { count: status.totalErasuresProcessed })}</>
-            )}
-          </div>
-        </div>
+        <GdprStatusDot pingDot={pingDot} dotClass={dotClass} />
+        <GdprStatusDetails
+          badgeText={badgeText}
+          badgeClass={badgeClass}
+          lastRunTime={lastRunTime}
+          totalErasures={status?.totalErasuresProcessed}
+        />
       </div>
 
-      <div className="flex items-center gap-3 text-[12px] text-[#6b7873]">
-        {status?.pendingErasuresCount !== undefined && status.pendingErasuresCount > 0 ? (
-          <span className="rounded bg-[#fff8ec] px-2 py-0.5 font-medium text-[#b37400]">
-            {t("admin.dashboard.gdprPendingDue", "{{count}} erasure due", { count: status.pendingErasuresCount })}
-          </span>
-        ) : (
-          <span className="text-[#8a948f]">
-            {t("admin.dashboard.gdprZeroPending", "0 pending erasures")}
-          </span>
-        )}
-        <Link
-          to="/admin/reports?tab=platform-health"
-          className="font-medium text-[#1b8a6b] hover:underline"
-        >
-          {t("admin.dashboard.viewHealthReport", "Platform Health →")}
-        </Link>
-      </div>
+      <GdprStatusActions pendingCount={status?.pendingErasuresCount} />
     </div>
   );
 }
