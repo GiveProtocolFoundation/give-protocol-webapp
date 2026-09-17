@@ -928,6 +928,7 @@ export default {
     "home.cta.title": "Sẵn sàng thay đổi cách quyên góp?",
     "home.cta.subtitle":
       "Hãy là một trong những người đầu tiên trải nghiệm hoạt động từ thiện minh bạch, được hỗ trợ bởi blockchain. Tham gia cộng đồng của chúng tôi để xây dựng một tương lai tốt đẹp hơn cho hoạt động từ thiện.",
+    "home.cta.explore": "Khám phá mục đích",
     "home.nav.features": "Tính năng",
     "home.nav.impact": "Tác động",
     "home.nav.charities": "Tổ chức từ thiện",

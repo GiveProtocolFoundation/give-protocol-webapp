@@ -928,6 +928,7 @@ export default {
     "home.cta.title": "寄付を変革する準備はできましたか？",
     "home.cta.subtitle":
       "透明でブロックチェーンを活用したフィランソロピーをいち早く体験しましょう。慈善活動のより良い未来を築くコミュニティにご参加ください。",
+    "home.cta.explore": "活動を探す",
     "home.nav.features": "特長",
     "home.nav.impact": "インパクト",
     "home.nav.charities": "チャリティ",

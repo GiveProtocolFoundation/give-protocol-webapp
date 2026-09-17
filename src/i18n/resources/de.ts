@@ -967,6 +967,7 @@ export default {
     "home.cta.title": "Bereit, das Spenden zu transformieren?",
     "home.cta.subtitle":
       "Gehören Sie zu den Ersten, die transparente, blockchain-gestützte Philanthropie erleben. Werden Sie Teil unserer Gemeinschaft, die eine bessere Zukunft für gemeinnütziges Spenden gestaltet.",
+    "home.cta.explore": "Anliegen erkunden",
     "home.nav.features": "Funktionen",
     "home.nav.impact": "Wirkung",
     "home.nav.charities": "Organisationen",
