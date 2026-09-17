@@ -1253,6 +1253,7 @@ export default {
     "browse.verified": "Verifiziert",
     "browse.irsVerified": "IRS-verifiziert",
     "browse.donate": "Spenden",
+    "browse.viewProfile": "Profil ansehen",
     "browse.filter.ariaLabel": "Organisationen filtern",
     "browse.filter.searchAria": "Organisationen suchen",
     "browse.filter.locationAria": "Standort suchen",

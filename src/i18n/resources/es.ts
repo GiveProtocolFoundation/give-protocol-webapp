@@ -1237,6 +1237,7 @@ export default {
     "browse.verified": "Verificada",
     "browse.irsVerified": "Verificada por el IRS",
     "browse.donate": "Donar",
+    "browse.viewProfile": "Ver perfil",
     "browse.filter.ariaLabel": "Filtrar organizaciones",
     "browse.filter.searchAria": "Buscar organizaciones",
     "browse.filter.locationAria": "Buscar ubicación",

@@ -1204,6 +1204,7 @@ export default {
     "browse.verified": "सत्यापित",
     "browse.irsVerified": "IRS-सत्यापित",
     "browse.donate": "दान करें",
+    "browse.viewProfile": "प्रोफ़ाइल देखें",
     "browse.filter.ariaLabel": "संस्थाएँ फ़िल्टर करें",
     "browse.filter.searchAria": "संस्थाएँ खोजें",
     "browse.filter.locationAria": "स्थान खोजें",

@@ -1130,6 +1130,7 @@ export default {
     "browse.verified": "已驗證",
     "browse.irsVerified": "IRS已驗證",
     "browse.donate": "捐贈",
+    "browse.viewProfile": "查看檔案",
     "browse.filter.ariaLabel": "篩選慈善機構",
     "browse.filter.searchAria": "搜尋慈善機構",
     "browse.filter.locationAria": "搜尋地點",

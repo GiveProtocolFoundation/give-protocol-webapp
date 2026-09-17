@@ -164,7 +164,7 @@ describe("FeaturedCharitiesCarousel", () => {
     expect(screen.queryByText("Boston, MA")).not.toBeInTheDocument();
   });
 
-  it("renders Donate link for each charity", () => {
+  it("renders Donate link for claimed charities (GIV-1012)", () => {
     mockUseFeaturedCharities.mockReturnValue({
       charities: [makeCharity("c1")] as never,
       loading: false,
@@ -176,6 +176,24 @@ describe("FeaturedCharitiesCarousel", () => {
       "href",
       "/charity/c1?action=donate",
     );
+    expect(donateLink.className).toContain("bg-emerald-600");
+    expect(screen.queryByText("View profile")).not.toBeInTheDocument();
+  });
+
+  it("renders View profile link instead of Donate for unclaimed charities (GIV-1012)", () => {
+    // Unclaimed profiles cannot receive donations until the org claims and
+    // designates a wallet — the card CTA must not look like a donate path.
+    mockUseFeaturedCharities.mockReturnValue({
+      charities: [makeCharity("c1", { isClaimed: false })] as never,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    const viewLink = screen.getByText("View profile");
+    expect(viewLink.closest("a")).toHaveAttribute("href", "/charity/c1");
+    expect(screen.queryByText("Donate")).not.toBeInTheDocument();
+    expect(viewLink.className).not.toContain("bg-emerald-600");
+    expect(viewLink.className).toContain("border");
   });
 
   it("renders charity name as a link to the profile", () => {
