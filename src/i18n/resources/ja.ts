@@ -1199,6 +1199,7 @@ export default {
     "browse.verified": "認証済み",
     "browse.irsVerified": "IRS認証済み",
     "browse.donate": "寄付する",
+    "browse.viewProfile": "プロフィールを見る",
     "browse.filter.ariaLabel": "チャリティを絞り込む",
     "browse.filter.searchAria": "チャリティを検索",
     "browse.filter.locationAria": "地域を検索",

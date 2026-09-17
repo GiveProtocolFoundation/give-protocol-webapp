@@ -1194,6 +1194,7 @@ export default {
     "browse.verified": "Đã xác minh",
     "browse.irsVerified": "Đã xác minh bởi IRS",
     "browse.donate": "Quyên góp",
+    "browse.viewProfile": "Xem hồ sơ",
     "browse.filter.ariaLabel": "Lọc tổ chức từ thiện",
     "browse.filter.searchAria": "Tìm kiếm tổ chức từ thiện",
     "browse.filter.locationAria": "Tìm kiếm địa điểm",

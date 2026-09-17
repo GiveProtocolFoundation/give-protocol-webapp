@@ -1186,6 +1186,7 @@ export default {
     "browse.verified": "ผ่านการตรวจสอบ",
     "browse.irsVerified": "ผ่านการตรวจสอบโดย IRS",
     "browse.donate": "บริจาค",
+    "browse.viewProfile": "ดูโปรไฟล์",
     "browse.filter.ariaLabel": "กรององค์กรการกุศล",
     "browse.filter.searchAria": "ค้นหาองค์กรการกุศล",
     "browse.filter.locationAria": "ค้นหาสถานที่",

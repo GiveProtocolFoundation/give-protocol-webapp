@@ -16,6 +16,12 @@ export interface CharityOrganization {
   data_source: string | null;
   data_vintage: string | null;
   last_synced_at: string | null;
+  /**
+   * True when a charity_profiles row exists for this EIN with a claimant.
+   * Enriched client-side (GIV-1012); the search RPC does not return it.
+   * Absent/false means unclaimed — the honest default for donation gating.
+   */
+  is_claimed?: boolean;
 }
 
 /** Parameters for the search_charity_organizations RPC call. */

@@ -47,7 +47,20 @@ function CharityCoverImage({ charity }: { charity: FeaturedCharity }) {
   );
 }
 
-/** Single featured-charity card rendered inside a carousel page. */
+/** Primary full-width CTA treatment for donation-ready (claimed) charities. */
+const PRIMARY_CTA_CLASS =
+  "w-full inline-flex items-center justify-center rounded-[10px] bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2";
+
+/** De-emphasized secondary CTA for unclaimed charities (GIV-1012). */
+const SECONDARY_CTA_CLASS =
+  "w-full inline-flex items-center justify-center rounded-[10px] border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 text-sm font-medium px-4 py-2.5 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2";
+
+/**
+ * Single featured-charity card rendered inside a carousel page. Claimed
+ * charities get the primary Donate CTA; unclaimed ones (no `claimed_by` on
+ * their profile) get a de-emphasized View profile CTA instead, because their
+ * profile cannot receive donations until claimed (GIV-1012).
+ */
 function FeaturedCharityCard({ charity }: { charity: FeaturedCharity }) {
   const { t } = useTranslation();
   return (
@@ -87,12 +100,21 @@ function FeaturedCharityCard({ charity }: { charity: FeaturedCharity }) {
         </p>
 
         <div className="mt-auto pt-5">
-          <Link
-            to={`/charity/${charity.profileId}?action=donate`}
-            className="w-full inline-flex items-center justify-center rounded-[10px] bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2"
-          >
-            {t("browse.donate", "Donate")}
-          </Link>
+          {charity.isClaimed ? (
+            <Link
+              to={`/charity/${charity.profileId}?action=donate`}
+              className={PRIMARY_CTA_CLASS}
+            >
+              {t("browse.donate", "Donate")}
+            </Link>
+          ) : (
+            <Link
+              to={`/charity/${charity.profileId}`}
+              className={SECONDARY_CTA_CLASS}
+            >
+              {t("browse.viewProfile", "View profile")}
+            </Link>
+          )}
         </div>
       </div>
     </Card>

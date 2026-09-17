@@ -1169,6 +1169,7 @@ export default {
     "browse.verified": "인증됨",
     "browse.irsVerified": "IRS 인증됨",
     "browse.donate": "기부하기",
+    "browse.viewProfile": "프로필 보기",
     "browse.filter.ariaLabel": "자선단체 필터",
     "browse.filter.searchAria": "자선단체 검색",
     "browse.filter.locationAria": "위치 검색",

@@ -1164,6 +1164,7 @@ export default {
     "browse.verified": "معتمد",
     "browse.irsVerified": "معتمد من مصلحة الضرائب (IRS)",
     "browse.donate": "تبرع",
+    "browse.viewProfile": "عرض الملف",
     "browse.filter.ariaLabel": "تصفية الجمعيات الخيرية",
     "browse.filter.searchAria": "البحث عن جمعيات خيرية",
     "browse.filter.locationAria": "البحث عن موقع",

@@ -41,10 +41,11 @@ describe("ProjectCard", () => {
     expect(screen.getByText("San Francisco, CA, 94105")).toBeInTheDocument();
   });
 
-  it("renders Donate link with action param", () => {
+  it("renders Donate link with action param for claimed charities (GIV-1012)", () => {
+    const claimedOrg = { ...BASE_ORG, is_claimed: true };
     render(
       <MemoryRouter>
-        <ProjectCard organization={BASE_ORG} />
+        <ProjectCard organization={claimedOrg} />
       </MemoryRouter>,
     );
     const donateLink = screen.getByText("Donate").closest("a");
@@ -52,6 +53,30 @@ describe("ProjectCard", () => {
       "href",
       "/charity/12-3456789?action=donate",
     );
+    expect(donateLink?.className).toContain("bg-emerald-600");
+    expect(screen.queryByText("View profile")).not.toBeInTheDocument();
+  });
+
+  it("renders View profile link instead of Donate for unclaimed charities (GIV-1012)", () => {
+    render(
+      <MemoryRouter>
+        <ProjectCard organization={BASE_ORG} />
+      </MemoryRouter>,
+    );
+    const viewLink = screen.getByText("View profile").closest("a");
+    expect(viewLink).toHaveAttribute("href", "/charity/12-3456789");
+    expect(screen.queryByText("Donate")).not.toBeInTheDocument();
+  });
+
+  it("de-emphasizes the View profile CTA for unclaimed charities (GIV-1012)", () => {
+    render(
+      <MemoryRouter>
+        <ProjectCard organization={BASE_ORG} />
+      </MemoryRouter>,
+    );
+    const viewLink = screen.getByText("View profile").closest("a");
+    expect(viewLink?.className).not.toContain("bg-emerald-600");
+    expect(viewLink?.className).toContain("border");
   });
 
   it("shows IRS-verified badge when on platform (GIV-986)", () => {

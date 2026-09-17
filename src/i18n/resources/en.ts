@@ -1506,6 +1506,7 @@ export default {
     "browse.verified": "Verified",
     "browse.irsVerified": "IRS-verified",
     "browse.donate": "Donate",
+    "browse.viewProfile": "View profile",
     "browse.filter.ariaLabel": "Filter charities",
     "browse.filter.searchAria": "Search charities",
     "browse.filter.locationAria": "Search location",

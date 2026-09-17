@@ -1129,6 +1129,7 @@ export default {
     "browse.verified": "已认证",
     "browse.irsVerified": "IRS已认证",
     "browse.donate": "捐赠",
+    "browse.viewProfile": "查看档案",
     "browse.filter.ariaLabel": "筛选慈善机构",
     "browse.filter.searchAria": "搜索慈善机构",
     "browse.filter.locationAria": "搜索地区",
