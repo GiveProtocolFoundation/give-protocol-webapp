@@ -605,4 +605,24 @@ describe("AdminReports", () => {
     expect(screen.getByText(/7d: \+500/)).toBeInTheDocument();
     expect(screen.getByText(/30d: \+2000/)).toBeInTheDocument();
   });
+
+  it("platform health tab renders GDPR erasure cron status (GIV-864 F4 / Audit Finding #23)", async () => {
+    mockGetPlatformHealthSummary.mockResolvedValue(mockPlatformHealthData);
+    renderReports();
+    await waitFor(() => {
+      expect(screen.getByText("Platform Health")).toBeInTheDocument();
+    });
+    fireEvent.click(screen.getByText("Platform Health"));
+    await waitFor(() => {
+      expect(screen.getByTestId("gdpr-cron-health-section")).toBeInTheDocument();
+    });
+    expect(
+      screen.getByText("GDPR Erasure Cron Job (Art. 17 & Art. 5(1)(e))"),
+    ).toBeInTheDocument();
+    await waitFor(() => {
+      expect(screen.getByText("Active / Scheduled")).toBeInTheDocument();
+    });
+    expect(screen.getByText("Pending Erasures Due")).toBeInTheDocument();
+    expect(screen.getByText("Total Erased to Date")).toBeInTheDocument();
+  });
 });

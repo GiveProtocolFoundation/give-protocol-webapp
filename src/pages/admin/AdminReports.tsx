@@ -34,6 +34,8 @@ import type {
   AdminDonationSummaryRow,
   DonationSummaryGroupBy,
 } from "@/types/adminDonation";
+import { getGdprCronStatus } from "@/services/adminDashboardService";
+import type { GdprCronStatus } from "@/types/adminDashboard";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -1269,6 +1271,7 @@ function PlatformHealthTab({
   preset,
 }: Readonly<PresetProps>): React.ReactElement {
   const [rows, setRows] = useState<PlatformHealthRow[]>([]);
+  const [cronStatus, setCronStatus] = useState<GdprCronStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -1284,16 +1287,24 @@ function PlatformHealthTab({
   useEffect(() => {
     setLoading(true);
     setError(null);
-    getPlatformHealthSummary(period)
-      .then((data) => {
-        setRows(data);
-      })
-      .catch((err: unknown) => {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load platform health summary.",
-        );
+    Promise.allSettled([
+      getPlatformHealthSummary(period),
+      getGdprCronStatus(),
+    ])
+      .then(([summaryResult, cronResult]) => {
+        if (summaryResult.status === "fulfilled") {
+          setRows(summaryResult.value);
+        } else {
+          setError(
+            summaryResult.reason instanceof Error
+              ? summaryResult.reason.message
+              : "Failed to load platform health summary.",
+          );
+        }
+
+        if (cronResult.status === "fulfilled") {
+          setCronStatus(cronResult.value);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -1306,6 +1317,65 @@ function PlatformHealthTab({
 
   return (
     <div className="space-y-4">
+      {/* GDPR Erasure Cron Status (Audit Finding #23 / GIV-864 F4) */}
+      <div
+        data-testid="gdpr-cron-health-section"
+        className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm"
+      >
+        <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3 mb-4">
+          <div className="flex items-center gap-2.5">
+            <span
+              className={`inline-block h-3 w-3 rounded-full ${
+                cronStatus?.isActive && cronStatus.lastRun?.status !== "failed"
+                  ? "bg-emerald-500"
+                  : "bg-red-500"
+              }`}
+            />
+            <h3 className="text-sm font-semibold text-gray-900">
+              GDPR Erasure Cron Job (Art. 17 & Art. 5(1)(e))
+            </h3>
+            <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-200">
+              {cronStatus?.isActive ? "Active / Scheduled" : "Inactive"}
+            </span>
+          </div>
+          <span className="text-xs text-gray-500">
+            Schedule: <span className="font-mono text-gray-700">0 2 * * *</span> (Nightly 02:00 UTC)
+          </span>
+        </div>
+
+        <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+          <div className="rounded-md bg-gray-50 p-3">
+            <span className="text-gray-500">Last Execution</span>
+            <p className="mt-1 font-medium text-gray-900">
+              {cronStatus?.lastRun?.startedAt
+                ? new Date(cronStatus.lastRun.startedAt).toLocaleString()
+                : "Scheduled (Nightly 02:00 UTC)"}
+            </p>
+            {cronStatus?.lastRun && (
+              <p className="text-gray-400 mt-0.5">
+                Status: <span className={cronStatus.lastRun.status === "failed" ? "text-red-600 font-semibold" : "text-emerald-600 font-medium"}>
+                  {cronStatus.lastRun.status}
+                </span>
+              </p>
+            )}
+          </div>
+          <div className="rounded-md bg-gray-50 p-3">
+            <span className="text-gray-500">Pending Erasures Due</span>
+            <p className="mt-1 text-lg font-bold text-gray-900">
+              {cronStatus?.pendingErasuresCount ?? 0}
+            </p>
+            <p className="text-gray-400 mt-0.5">Awaiting next nightly cycle</p>
+          </div>
+          <div className="rounded-md bg-gray-50 p-3">
+            <span className="text-gray-500">Total Erased to Date</span>
+            <p className="mt-1 text-lg font-bold text-gray-900">
+              {cronStatus?.totalErasuresProcessed ?? 0}
+            </p>
+            <p className="text-gray-400 mt-0.5">Article 17 compliance log</p>
+          </div>
+        </div>
+      </div>
+
       {rows.length > 0 && (
         <div className="flex justify-end">
           <Button variant="secondary" size="sm" onClick={handleExport}>

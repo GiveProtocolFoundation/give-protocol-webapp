@@ -13,3 +13,20 @@ export const getAdminRecentActivity = jest.fn(() =>
   }),
 );
 export const getAdminAlerts = jest.fn(() => Promise.resolve([]));
+
+export const DEFAULT_GDPR_CRON_STATUS = {
+  jobName: "gdpr-erasure-nightly",
+  isScheduled: true,
+  isActive: true,
+  schedule: "0 2 * * *",
+  lastRun: null,
+  recentRuns: [],
+  pendingErasuresCount: 0,
+  totalErasuresProcessed: 0,
+  lastErasureAt: null,
+  checkedAt: new Date().toISOString(),
+};
+
+export const getGdprCronStatus = jest.fn(() =>
+  Promise.resolve(DEFAULT_GDPR_CRON_STATUS)
+);

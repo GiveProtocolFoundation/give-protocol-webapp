@@ -564,6 +564,22 @@ serve(async (req: Request) => {
   const runStart = new Date().toISOString();
   console.log(`[gdpr-erasure-cron] Run started at ${runStart}`);
 
+  let runId: string | null = null;
+  try {
+    const { data: runData } = await supabase
+      .from('cron_job_runs')
+      .insert({
+        job_name: 'gdpr-erasure-nightly',
+        status: 'running',
+        started_at: runStart,
+      })
+      .select('id')
+      .single();
+    runId = runData?.id ?? null;
+  } catch (runErr) {
+    console.warn('[gdpr-erasure-cron] Failed to record run start in cron_job_runs:', runErr);
+  }
+
   try {
     const targets = await findErasureTargets(supabase);
     console.log(`[gdpr-erasure-cron] Found ${targets.length} account(s) due for erasure`);
@@ -624,6 +640,30 @@ serve(async (req: Request) => {
 
     console.log(`[gdpr-erasure-cron] Run complete`);
 
+    if (runId) {
+      try {
+        await supabase
+          .from('cron_job_runs')
+          .update({
+            status: failCount > 0 && successCount === 0 ? 'failed' : 'succeeded',
+            completed_at: new Date().toISOString(),
+            items_processed: successCount,
+            details: {
+              processed: results.length,
+              succeeded: successCount,
+              failed: failCount,
+              cleanup: {
+                expiredPasskeyChallenges,
+                staleExportRequests,
+              },
+            },
+          })
+          .eq('id', runId);
+      } catch (logErr) {
+        console.warn('[gdpr-erasure-cron] Failed to update cron_job_runs on completion:', logErr);
+      }
+    }
+
     return new Response(
       JSON.stringify({
         processed: results.length,
@@ -646,6 +686,22 @@ serve(async (req: Request) => {
   } catch (err) {
     const message = err instanceof Error ? err.message : 'Internal server error';
     console.error(`[gdpr-erasure-cron] Fatal error: ${message}`);
+
+    if (runId) {
+      try {
+        await supabase
+          .from('cron_job_runs')
+          .update({
+            status: 'failed',
+            completed_at: new Date().toISOString(),
+            error_message: message,
+          })
+          .eq('id', runId);
+      } catch (logErr) {
+        console.warn('[gdpr-erasure-cron] Failed to update cron_job_runs on error:', logErr);
+      }
+    }
+
     return new Response(JSON.stringify({ error: message, runStart }), {
       status: 500,
       headers: { 'Content-Type': 'application/json' },

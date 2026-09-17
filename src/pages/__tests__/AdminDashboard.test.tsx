@@ -11,12 +11,14 @@ import {
   getAdminDashboardStats,
   getAdminRecentActivity,
   getAdminAlerts,
+  getGdprCronStatus,
 } from "@/services/adminDashboardService";
 import type { AdminAlert } from "@/types/adminDashboard";
 
 const mockGetStats = jest.mocked(getAdminDashboardStats);
 const mockGetActivity = jest.mocked(getAdminRecentActivity);
 const mockGetAlerts = jest.mocked(getAdminAlerts);
+const mockGetCronStatus = jest.mocked(getGdprCronStatus);
 const mockUseAuth = jest.mocked(useAuth);
 
 const mockStats = {
@@ -289,6 +291,67 @@ describe("AdminDashboard", () => {
         .map((el) => el.closest("a")?.getAttribute("href"));
       expect(links).toContain("/admin/donations");
       expect(links).toContain("/admin/donors");
+    });
+  });
+
+  describe("GDPR Erasure Cron status indicator (GIV-864 F4)", () => {
+    it("renders the active GDPR erasure cron indicator", async () => {
+      mockGetCronStatus.mockResolvedValue({
+        jobName: "gdpr-erasure-nightly",
+        isScheduled: true,
+        isActive: true,
+        schedule: "0 2 * * *",
+        lastRun: {
+          jobName: "gdpr-erasure-nightly",
+          status: "succeeded",
+          startedAt: new Date(Date.now() - 3600000).toISOString(),
+          completedAt: new Date(Date.now() - 3500000).toISOString(),
+          itemsProcessed: 2,
+        },
+        recentRuns: [],
+        pendingErasuresCount: 0,
+        totalErasuresProcessed: 14,
+        checkedAt: new Date().toISOString(),
+      });
+
+      renderDashboard();
+
+      await waitFor(() => {
+        expect(
+          screen.getByTestId("gdpr-cron-status-indicator"),
+        ).toBeInTheDocument();
+      });
+
+      expect(screen.getByText("GDPR Erasure Cron")).toBeInTheDocument();
+      expect(screen.getByText("Active / Scheduled")).toBeInTheDocument();
+      expect(screen.getByText(/Nightly at 02:00 UTC/)).toBeInTheDocument();
+      expect(screen.getByText("Platform Health →")).toBeInTheDocument();
+    });
+
+    it("displays failed badge when the last cron run failed", async () => {
+      mockGetCronStatus.mockResolvedValue({
+        jobName: "gdpr-erasure-nightly",
+        isScheduled: true,
+        isActive: false,
+        schedule: "0 2 * * *",
+        lastRun: {
+          jobName: "gdpr-erasure-nightly",
+          status: "failed",
+          startedAt: new Date(Date.now() - 7200000).toISOString(),
+          errorMessage: "Timeout",
+        },
+        recentRuns: [],
+        pendingErasuresCount: 1,
+        totalErasuresProcessed: 5,
+        checkedAt: new Date().toISOString(),
+      });
+
+      renderDashboard();
+
+      await waitFor(() => {
+        expect(screen.getByText("Last Run Failed")).toBeInTheDocument();
+      });
+      expect(screen.getByText("1 erasure due")).toBeInTheDocument();
     });
   });
 });

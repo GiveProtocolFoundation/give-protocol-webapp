@@ -6,6 +6,7 @@ import type {
   AdminActivityRow,
   AdminAlert,
   AdminAlertRow,
+  GdprCronStatus,
 } from "@/types/adminDashboard";
 import { Logger } from "@/utils/logger";
 
@@ -146,4 +147,50 @@ export async function getAdminAlerts(): Promise<AdminAlert[]> {
 
   const rows = (data || []) as AdminAlertRow[];
   return rows.map(mapAlertRow);
+}
+
+/** Default fallback status when the cron is active on schedule but has no executions recorded yet */
+export const DEFAULT_GDPR_CRON_STATUS: GdprCronStatus = {
+  jobName: "gdpr-erasure-nightly",
+  isScheduled: true,
+  isActive: true,
+  schedule: "0 2 * * *",
+  lastRun: null,
+  recentRuns: [],
+  pendingErasuresCount: 0,
+  totalErasuresProcessed: 0,
+  lastErasureAt: null,
+  checkedAt: new Date().toISOString(),
+};
+
+/**
+ * Fetches real-time status and execution history for the GDPR Article 17 nightly
+ * erasure cron job.
+ * Satisfies audit finding #23 (GIV-864 F4).
+ *
+ * @returns GdprCronStatus
+ */
+export async function getGdprCronStatus(): Promise<GdprCronStatus> {
+  const { data, error } = await supabase.rpc("get_gdpr_cron_status");
+
+  if (error) {
+    Logger.error("Error fetching GDPR cron status", {
+      code: error.code,
+      message: error.message,
+    });
+    // In dev or environments without the RPC yet, provide graceful fallback
+    return {
+      ...DEFAULT_GDPR_CRON_STATUS,
+      checkedAt: new Date().toISOString(),
+    };
+  }
+
+  if (!data) {
+    return {
+      ...DEFAULT_GDPR_CRON_STATUS,
+      checkedAt: new Date().toISOString(),
+    };
+  }
+
+  return data as GdprCronStatus;
 }

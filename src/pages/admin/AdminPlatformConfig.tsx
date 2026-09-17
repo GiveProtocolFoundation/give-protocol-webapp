@@ -9,7 +9,10 @@ import {
   configKeyLabel,
   configValueInputType,
 } from "@/services/adminPlatformConfigService";
-import { getAdminDashboardStats } from "@/services/adminDashboardService";
+import {
+  getAdminDashboardStats,
+  getGdprCronStatus,
+} from "@/services/adminDashboardService";
 import { listAdminUsers } from "@/services/adminSettingsService";
 import { TokenNetworkSettings } from "@/components/admin/TokenNetworkSettings";
 import type {
@@ -23,7 +26,10 @@ import type {
   AdminAuditLogEntry,
   AdminAuditLogFilters,
 } from "@/types/adminAudit";
-import type { AdminDashboardStats } from "@/types/adminDashboard";
+import type {
+  AdminDashboardStats,
+  GdprCronStatus,
+} from "@/types/adminDashboard";
 import type { AdminUserEntry } from "@/services/adminSettingsService";
 
 // ─── Tab Types ────────────────────────────────────────────────────────────────
@@ -951,14 +957,20 @@ function StatCard({
 /** System Health tab — platform health indicators and key metrics. */
 function SystemHealthTab(): React.ReactElement {
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
+  const [cronStatus, setCronStatus] = useState<GdprCronStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [fetchedAt, setFetchedAt] = useState<Date | null>(null);
 
   useEffect(() => {
     setLoading(true);
-    getAdminDashboardStats()
-      .then((data) => {
-        setStats(data);
+    Promise.allSettled([getAdminDashboardStats(), getGdprCronStatus()])
+      .then(([statsResult, cronResult]) => {
+        if (statsResult.status === "fulfilled") {
+          setStats(statsResult.value);
+        }
+        if (cronResult.status === "fulfilled") {
+          setCronStatus(cronResult.value);
+        }
         setFetchedAt(new Date());
       })
       .finally(() => {
@@ -977,6 +989,17 @@ function SystemHealthTab(): React.ReactElement {
 
   const pendingStatus =
     stats !== null && stats.pendingCharities > 0 ? "warn" : "ok";
+
+  const cronIndicatorStatus: "ok" | "warn" | "unknown" = loading
+    ? "unknown"
+    : cronStatus?.isActive && cronStatus.isScheduled && cronStatus.lastRun?.status !== "failed"
+      ? "ok"
+      : "warn";
+
+  const cronDetail =
+    cronStatus !== null
+      ? `Active · Nightly at 02:00 UTC${cronStatus.lastRun?.status === "failed" ? " · Last run failed" : ""}`
+      : "Active · Nightly at 02:00 UTC";
 
   const checkedAt = fetchedAt !== null ? fetchedAt.toLocaleTimeString() : "—";
 
@@ -1005,6 +1028,11 @@ function SystemHealthTab(): React.ReactElement {
               label="Platform Config"
               status={dbStatus}
               detail={stats !== null ? "Config RPC responding" : "Unavailable"}
+            />
+            <HealthIndicator
+              label="GDPR Erasure Cron"
+              status={cronIndicatorStatus}
+              detail={cronDetail}
             />
             <HealthIndicator
               label="Pending Verifications"
