@@ -873,6 +873,7 @@ export default {
     "home.cta.title": "準備好改變捐贈方式了嗎？",
     "home.cta.subtitle":
       "成為率先體驗透明、區塊鏈驅動公益的一員。加入我們的社群，共同為慈善捐贈打造更美好的未來。",
+    "home.cta.explore": "探索公益專案",
     "home.nav.features": "功能特色",
     "home.nav.impact": "影響力",
     "home.nav.charities": "慈善機構",

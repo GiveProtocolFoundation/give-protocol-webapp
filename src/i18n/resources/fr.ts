@@ -971,6 +971,7 @@ export default {
     "home.cta.title": "Prêt à Transformer la Générosité ?",
     "home.cta.subtitle":
       "Soyez parmi les premiers à découvrir une philanthropie transparente, propulsée par la blockchain. Rejoignez notre communauté qui bâtit un avenir meilleur pour les dons caritatifs.",
+    "home.cta.explore": "Explorer les Causes",
     "home.nav.features": "Fonctionnalités",
     "home.nav.impact": "Impact",
     "home.nav.charities": "Organisations",

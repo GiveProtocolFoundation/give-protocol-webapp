@@ -906,6 +906,7 @@ export default {
     "home.cta.title": "기부를 혁신할 준비가 되셨나요?",
     "home.cta.subtitle":
       "투명하고 블록체인 기반의 자선 활동을 먼저 경험하세요. 더 나은 자선 기부의 미래를 함께 만들어 나갈 커뮤니티에 참여하세요.",
+    "home.cta.explore": "대의 탐색하기",
     "home.nav.features": "기능",
     "home.nav.impact": "임팩트",
     "home.nav.charities": "자선단체",

@@ -1185,6 +1185,7 @@ export default {
     "home.cta.title": "Ready to Transform Giving?",
     "home.cta.subtitle":
       "Be among the first to experience transparent, blockchain-powered philanthropy. Join our community building a better future for charitable giving.",
+    "home.cta.explore": "Explore Causes",
 
     // Home - Navigation
     "home.nav.features": "Features",

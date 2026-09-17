@@ -125,6 +125,31 @@ describe("Home", () => {
         screen.getByText("Ready to Transform Giving?"),
       ).toBeInTheDocument();
     });
+
+    it("renders the bottom CTA as an active link to /browse", () => {
+      renderHome();
+      const link = screen.getByText("Explore Causes").closest("a");
+      expect(link).toHaveAttribute("href", "/browse");
+      expect(link).not.toHaveAttribute("disabled");
+    });
+  });
+
+  describe("Hero CTA", () => {
+    it("renders the hero CTA as an active link to /browse", () => {
+      renderHome();
+      const link = screen.getByText("Start Donating").closest("a");
+      expect(link).toHaveAttribute("href", "/browse");
+      expect(link).not.toHaveAttribute("disabled");
+    });
+  });
+
+  describe("Navigation CTA", () => {
+    it("renders the nav Launch App button as an active link to /browse", () => {
+      renderHome();
+      const link = screen.getByText("Launch App").closest("a");
+      expect(link).toHaveAttribute("href", "/browse");
+      expect(link).not.toHaveAttribute("disabled");
+    });
   });
 
   describe("Footer", () => {

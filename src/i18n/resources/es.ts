@@ -956,6 +956,7 @@ export default {
     "home.cta.title": "¿Listo para Transformar la Forma de Donar?",
     "home.cta.subtitle":
       "Sea de los primeros en experimentar la filantropía transparente impulsada por blockchain. Únase a nuestra comunidad que construye un mejor futuro para las donaciones benéficas.",
+    "home.cta.explore": "Explorar Causas",
     "home.nav.features": "Características",
     "home.nav.impact": "Impacto",
     "home.nav.charities": "Organizaciones",

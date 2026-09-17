@@ -873,6 +873,7 @@ export default {
     "home.cta.title": "准备好变革捐赠方式了吗？",
     "home.cta.subtitle":
       "率先体验透明的区块链公益。加入我们的社区，共同为慈善捐赠构建更美好的未来。",
+    "home.cta.explore": "探索公益事业",
     "home.nav.features": "功能",
     "home.nav.impact": "影响力",
     "home.nav.charities": "慈善机构",
