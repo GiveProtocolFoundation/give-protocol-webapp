@@ -114,3 +114,29 @@ export interface AdminAlertRow {
   created_at: string;
   count: number;
 }
+
+/** A single run entry for background cron jobs */
+export interface CronJobRun {
+  id?: string;
+  jobName: string;
+  status: "running" | "succeeded" | "failed";
+  startedAt: string;
+  completedAt?: string | null;
+  itemsProcessed?: number;
+  details?: Record<string, unknown> | null;
+  errorMessage?: string | null;
+}
+
+/** Status payload for GDPR erasure cron job */
+export interface GdprCronStatus {
+  jobName: string;
+  isScheduled: boolean;
+  isActive: boolean;
+  schedule: string;
+  lastRun: CronJobRun | null;
+  recentRuns: CronJobRun[];
+  pendingErasuresCount: number;
+  totalErasuresProcessed: number;
+  lastErasureAt?: string | null;
+  checkedAt: string;
+}

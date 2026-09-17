@@ -26,12 +26,14 @@ import {
   getAdminDashboardStats,
   getAdminRecentActivity,
   getAdminAlerts,
+  getGdprCronStatus,
 } from "@/services/adminDashboardService";
 import { getDonationSummary } from "@/services/adminDonationService";
 import type {
   AdminDashboardStats,
   AdminActivityEvent,
   AdminAlert,
+  GdprCronStatus,
 } from "@/types/adminDashboard";
 import type { DonationSummaryGroupBy } from "@/types/adminDonation";
 
@@ -731,6 +733,167 @@ function QuickActionCard({
 }
 
 // ---------------------------------------------------------------------------
+// GDPR Erasure Cron Indicator (GIV-864 F4 / Finding #23)
+// ---------------------------------------------------------------------------
+
+/** Loading indicator badge for GDPR cron check. */
+function GdprLoadingBadge({ message }: { message: string }): React.ReactElement {
+  return (
+    <div
+      data-testid="gdpr-cron-status-loading"
+      className="flex items-center gap-2 rounded-[10px] border border-[#e4e8e6] bg-white px-3.5 py-2.5 text-xs text-[#6b7873] shadow-[0_1px_2px_#0b1f1a07]"
+    >
+      <LoadingSpinner size="sm" />
+      <span>{message}</span>
+    </div>
+  );
+}
+
+/** Animated status dot showing cron liveness. */
+function GdprStatusDot({
+  pingDot,
+  dotClass,
+}: {
+  pingDot: boolean;
+  dotClass: string;
+}): React.ReactElement {
+  return (
+    <span className="relative flex h-2.5 w-2.5 shrink-0">
+      {pingDot && (
+        <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-[#1fae7f] opacity-75" />
+      )}
+      <span className={`relative inline-flex h-2.5 w-2.5 rounded-full ${dotClass}`} />
+    </span>
+  );
+}
+
+/** Title, schedule, and execution summary for GDPR cron status. */
+function GdprStatusDetails({
+  badgeText,
+  badgeClass,
+  lastRunTime,
+  totalErasures,
+}: {
+  badgeText: string;
+  badgeClass: string;
+  lastRunTime: string | null;
+  totalErasures: number | undefined;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div>
+      <div className="flex items-center gap-2">
+        <span className="text-[13px] font-semibold text-[#16201c]">
+          {t("admin.dashboard.gdprCronTitle", "GDPR Erasure Cron")}
+        </span>
+        <span className={`rounded-md border px-2 py-0.5 text-[11px] font-semibold ${badgeClass}`}>
+          {badgeText}
+        </span>
+      </div>
+      <div className="text-[11.5px] text-[#6b7873]">
+        {t("admin.dashboard.gdprCronScheduleDesc", "Nightly at 02:00 UTC (pg_cron · Art. 17 & Art. 5(1)(e))")}
+        {lastRunTime && (
+          <> · {t("admin.dashboard.gdprCronLastRun", "Last run: {{time}}", { time: lastRunTime })}</>
+        )}
+        {totalErasures !== undefined && totalErasures > 0 && (
+          <> · {t("admin.dashboard.gdprTotalErasures", "{{count}} erased total", { count: totalErasures })}</>
+        )}
+      </div>
+    </div>
+  );
+}
+
+/** Action link and pending count queue badge for GDPR cron status. */
+function GdprStatusActions({
+  pendingCount,
+}: {
+  pendingCount: number | undefined;
+}): React.ReactElement {
+  const { t } = useTranslation();
+  return (
+    <div className="flex items-center gap-3 text-[12px] text-[#6b7873]">
+      {pendingCount !== undefined && pendingCount > 0 ? (
+        <span className="rounded bg-[#fff8ec] px-2 py-0.5 font-medium text-[#b37400]">
+          {t("admin.dashboard.gdprPendingDue", "{{count}} erasure due", { count: pendingCount })}
+        </span>
+      ) : (
+        <span className="text-[#8a948f]">
+          {t("admin.dashboard.gdprZeroPending", "0 pending erasures")}
+        </span>
+      )}
+      <Link
+        to="/admin/reports?tab=platform-health"
+        className="font-medium text-[#1b8a6b] hover:underline"
+      >
+        {t("admin.dashboard.viewHealthReport", "Platform Health →")}
+      </Link>
+    </div>
+  );
+}
+
+/**
+ * GDPR Erasure Cron Status Indicator
+ * Satisfies GIV-864 F4 / Audit Finding #23.
+ * Shows that the GDPR Article 17 nightly erasure cron job is actively running/scheduled.
+ */
+function GdprCronIndicator({
+  status,
+  loading,
+}: {
+  status: GdprCronStatus | null;
+  loading: boolean;
+}): React.ReactElement {
+  const { t } = useTranslation();
+
+  if (loading && !status) {
+    return (
+      <GdprLoadingBadge
+        message={t("admin.dashboard.gdprCronChecking", "Checking GDPR erasure cron status...")}
+      />
+    );
+  }
+
+  const isHealthy = status ? status.isActive && status.isScheduled : true;
+  const lastRunFailed = status?.lastRun?.status === "failed";
+  const lastRunTime = status?.lastRun?.startedAt
+    ? formatRelativeTime(status.lastRun.startedAt)
+    : null;
+
+  let badgeText = t("admin.dashboard.cronActive", "Active / Scheduled");
+  let badgeClass = "bg-[#eef8f4] text-[#1b8a6b] border-[#c4e8da]";
+  let dotClass = "bg-[#1b8a6b]";
+  let pingDot = true;
+
+  if (!isHealthy || lastRunFailed) {
+    badgeText = lastRunFailed
+      ? t("admin.dashboard.cronFailed", "Last Run Failed")
+      : t("admin.dashboard.cronInactive", "Inactive");
+    badgeClass = "bg-[#fdf2f0] text-[#c8412b] border-[#f8cfc8]";
+    dotClass = "bg-[#c8412b]";
+    pingDot = false;
+  }
+
+  return (
+    <div
+      data-testid="gdpr-cron-status-indicator"
+      className="flex flex-wrap items-center justify-between gap-3 rounded-[12px] border border-[#e4e8e6] bg-white px-4 py-3 shadow-[0_1px_2px_#0b1f1a07]"
+    >
+      <div className="flex items-center gap-3">
+        <GdprStatusDot pingDot={pingDot} dotClass={dotClass} />
+        <GdprStatusDetails
+          badgeText={badgeText}
+          badgeClass={badgeClass}
+          lastRunTime={lastRunTime}
+          totalErasures={status?.totalErasuresProcessed}
+        />
+      </div>
+
+      <GdprStatusActions pendingCount={status?.pendingErasuresCount} />
+    </div>
+  );
+}
+
+// ---------------------------------------------------------------------------
 // Main page
 // ---------------------------------------------------------------------------
 
@@ -742,6 +905,8 @@ const AdminDashboard: React.FC = () => {
   const [stats, setStats] = useState<AdminDashboardStats | null>(null);
   const [activity, setActivity] = useState<AdminActivityEvent[]>([]);
   const [alerts, setAlerts] = useState<AdminAlert[]>([]);
+  const [cronStatus, setCronStatus] = useState<GdprCronStatus | null>(null);
+  const [cronLoading, setCronLoading] = useState(true);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState<string | null>(null);
   const [activityError, setActivityError] = useState<string | null>(null);
@@ -752,15 +917,17 @@ const AdminDashboard: React.FC = () => {
 
   const fetchAll = useCallback(async () => {
     setLoading(true);
+    setCronLoading(true);
     setError(null);
     setActivityError(null);
     setAlertsError(null);
 
-    const [statsResult, activityResult, alertsResult] =
+    const [statsResult, activityResult, alertsResult, cronResult] =
       await Promise.allSettled([
         getAdminDashboardStats(),
         getAdminRecentActivity(1, 10),
         getAdminAlerts(),
+        getGdprCronStatus(),
       ]);
 
     if (statsResult.status === "fulfilled") {
@@ -793,6 +960,11 @@ const AdminDashboard: React.FC = () => {
           : "Failed to load alerts.",
       );
     }
+
+    if (cronResult.status === "fulfilled") {
+      setCronStatus(cronResult.value);
+    }
+    setCronLoading(false);
 
     setLoading(false);
   }, [user?.id]);
@@ -921,6 +1093,9 @@ const AdminDashboard: React.FC = () => {
       {alertGroups.map((group) => (
         <AlertBanner key={group.alertType} group={group} />
       ))}
+
+      {/* GDPR Erasure Cron Liveness Indicator (GIV-864 F4 / Finding #23) */}
+      <GdprCronIndicator status={cronStatus} loading={cronLoading} />
 
       {/* KPI row */}
       <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 lg:grid-cols-4">

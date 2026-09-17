@@ -936,6 +936,20 @@ export default {
     "admin.dashboard.activitySubtitle": "Platform events as they happen",
     "admin.dashboard.viewAllActivity": "View all activity",
 
+    // Admin - GDPR erasure cron status (GIV-864 F4 / Finding #23)
+    "admin.dashboard.gdprCronTitle": "GDPR Erasure Cron",
+    "admin.dashboard.gdprCronScheduleDesc":
+      "Nightly at 02:00 UTC (pg_cron · Art. 17 & Art. 5(1)(e))",
+    "admin.dashboard.gdprCronLastRun": "Last run: {{time}}",
+    "admin.dashboard.gdprTotalErasures": "{{count}} erased total",
+    "admin.dashboard.gdprPendingDue": "{{count}} erasure due",
+    "admin.dashboard.gdprZeroPending": "0 pending erasures",
+    "admin.dashboard.viewHealthReport": "Platform Health →",
+    "admin.dashboard.gdprCronChecking": "Checking GDPR erasure cron status...",
+    "admin.dashboard.cronActive": "Active / Scheduled",
+    "admin.dashboard.cronFailed": "Last Run Failed",
+    "admin.dashboard.cronInactive": "Inactive",
+
     // Admin console redesign — Charity list view
     "admin.charity.tabAll": "All",
     "admin.charity.review": "Review",

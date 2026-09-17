@@ -34,6 +34,8 @@ import type {
   AdminDonationSummaryRow,
   DonationSummaryGroupBy,
 } from "@/types/adminDonation";
+import { getGdprCronStatus } from "@/services/adminDashboardService";
+import type { GdprCronStatus } from "@/types/adminDashboard";
 
 // ─── Types ────────────────────────────────────────────────────────────────────
 
@@ -1259,6 +1261,114 @@ function AuditTrailTab({
 
 // ─── Platform Health Tab ──────────────────────────────────────────────────────
 
+/** Header displaying GDPR cron status indicator, title, badge, and schedule. */
+function GdprCronHeader({
+  isActive,
+  isFailed,
+}: {
+  isActive: boolean;
+  isFailed: boolean;
+}): React.ReactElement {
+  return (
+    <div className="flex flex-wrap items-center justify-between gap-2 border-b border-gray-100 pb-3 mb-4">
+      <div className="flex items-center gap-2.5">
+        <span
+          className={`inline-block h-3 w-3 rounded-full ${
+            isActive && !isFailed ? "bg-emerald-500" : "bg-red-500"
+          }`}
+        />
+        <h3 className="text-sm font-semibold text-gray-900">
+          GDPR Erasure Cron Job (Art. 17 & Art. 5(1)(e))
+        </h3>
+        <span className="rounded-full bg-emerald-50 px-2.5 py-0.5 text-xs font-medium text-emerald-700 border border-emerald-200">
+          {isActive ? "Active / Scheduled" : "Inactive"}
+        </span>
+      </div>
+      <span className="text-xs text-gray-500">
+        Schedule: <span className="font-mono text-gray-700">0 2 * * *</span> (Nightly 02:00 UTC)
+      </span>
+    </div>
+  );
+}
+
+/** Individual metric tile within the GDPR cron health card. */
+function GdprCronMetricCard({
+  title,
+  mainValue,
+  subtext,
+  isStatus,
+  statusValue,
+  isFailed,
+}: {
+  title: string;
+  mainValue: string | number;
+  subtext?: string;
+  isStatus?: boolean;
+  statusValue?: string;
+  isFailed?: boolean;
+}): React.ReactElement {
+  return (
+    <div className="rounded-md bg-gray-50 p-3">
+      <span className="text-gray-500">{title}</span>
+      <p className={`mt-1 ${typeof mainValue === "number" ? "text-lg font-bold" : "font-medium"} text-gray-900`}>
+        {mainValue}
+      </p>
+      {isStatus && statusValue && (
+        <p className="text-gray-400 mt-0.5">
+          Status:{" "}
+          <span className={isFailed ? "text-red-600 font-semibold" : "text-emerald-600 font-medium"}>
+            {statusValue}
+          </span>
+        </p>
+      )}
+      {subtext && <p className="text-gray-400 mt-0.5">{subtext}</p>}
+    </div>
+  );
+}
+
+/** Card section displaying GDPR Article 17 erasure cron status and queue metrics. */
+function GdprCronHealthSection({
+  cronStatus,
+}: {
+  cronStatus: GdprCronStatus | null;
+}): React.ReactElement {
+  const isFailed = cronStatus?.lastRun?.status === "failed";
+  const lastRunDisplay = cronStatus?.lastRun?.startedAt
+    ? new Date(cronStatus.lastRun.startedAt).toLocaleString()
+    : "Scheduled (Nightly 02:00 UTC)";
+
+  return (
+    <div
+      data-testid="gdpr-cron-health-section"
+      className="rounded-lg border border-gray-200 bg-white p-5 shadow-sm"
+    >
+      <GdprCronHeader
+        isActive={cronStatus?.isActive ?? true}
+        isFailed={isFailed}
+      />
+      <div className="grid grid-cols-1 sm:grid-cols-3 gap-4 text-xs">
+        <GdprCronMetricCard
+          title="Last Execution"
+          mainValue={lastRunDisplay}
+          isStatus={Boolean(cronStatus?.lastRun)}
+          statusValue={cronStatus?.lastRun?.status}
+          isFailed={isFailed}
+        />
+        <GdprCronMetricCard
+          title="Pending Erasures Due"
+          mainValue={cronStatus?.pendingErasuresCount ?? 0}
+          subtext="Awaiting next nightly cycle"
+        />
+        <GdprCronMetricCard
+          title="Total Erased to Date"
+          mainValue={cronStatus?.totalErasuresProcessed ?? 0}
+          subtext="Article 17 compliance log"
+        />
+      </div>
+    </div>
+  );
+}
+
 /**
  * Renders the platform health report tab summarizing system-level metrics.
  * @param props - Component props.
@@ -1269,6 +1379,7 @@ function PlatformHealthTab({
   preset,
 }: Readonly<PresetProps>): React.ReactElement {
   const [rows, setRows] = useState<PlatformHealthRow[]>([]);
+  const [cronStatus, setCronStatus] = useState<GdprCronStatus | null>(null);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -1284,16 +1395,24 @@ function PlatformHealthTab({
   useEffect(() => {
     setLoading(true);
     setError(null);
-    getPlatformHealthSummary(period)
-      .then((data) => {
-        setRows(data);
-      })
-      .catch((err: unknown) => {
-        setError(
-          err instanceof Error
-            ? err.message
-            : "Failed to load platform health summary.",
-        );
+    Promise.allSettled([
+      getPlatformHealthSummary(period),
+      getGdprCronStatus(),
+    ])
+      .then(([summaryResult, cronResult]) => {
+        if (summaryResult.status === "fulfilled") {
+          setRows(summaryResult.value);
+        } else {
+          setError(
+            summaryResult.reason instanceof Error
+              ? summaryResult.reason.message
+              : "Failed to load platform health summary.",
+          );
+        }
+
+        if (cronResult.status === "fulfilled") {
+          setCronStatus(cronResult.value);
+        }
       })
       .finally(() => {
         setLoading(false);
@@ -1306,6 +1425,9 @@ function PlatformHealthTab({
 
   return (
     <div className="space-y-4">
+      {/* GDPR Erasure Cron Status (Audit Finding #23 / GIV-864 F4) */}
+      <GdprCronHealthSection cronStatus={cronStatus} />
+
       {rows.length > 0 && (
         <div className="flex justify-end">
           <Button variant="secondary" size="sm" onClick={handleExport}>

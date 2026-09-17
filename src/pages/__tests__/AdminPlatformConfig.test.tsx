@@ -11,7 +11,10 @@ import {
   configKeyLabel,
   configValueInputType,
 } from "@/services/adminPlatformConfigService";
-import { getAdminDashboardStats } from "@/services/adminDashboardService";
+import {
+  getAdminDashboardStats,
+  getGdprCronStatus,
+} from "@/services/adminDashboardService";
 import { listAdminUsers } from "@/services/adminSettingsService";
 
 const mockUseAdminPlatformConfig = jest.mocked(useAdminPlatformConfig);
@@ -19,6 +22,7 @@ const mockUseAdminAuditLog = jest.mocked(useAdminAuditLog);
 const _mockConfigKeyLabel = jest.mocked(configKeyLabel);
 const _mockConfigValueInputType = jest.mocked(configValueInputType);
 const mockGetAdminDashboardStats = jest.mocked(getAdminDashboardStats);
+const mockGetGdprCronStatus = jest.mocked(getGdprCronStatus);
 const mockListAdminUsers = jest.mocked(listAdminUsers);
 
 const mockFetchConfig = jest.fn<() => Promise<unknown>>().mockResolvedValue([]);
@@ -109,6 +113,18 @@ describe("AdminPlatformConfig", () => {
     });
 
     mockGetAdminDashboardStats.mockResolvedValue(mockStats);
+    mockGetGdprCronStatus.mockResolvedValue({
+      jobName: "gdpr-erasure-nightly",
+      isScheduled: true,
+      isActive: true,
+      schedule: "0 2 * * *",
+      lastRun: null,
+      recentRuns: [],
+      pendingErasuresCount: 0,
+      totalErasuresProcessed: 0,
+      lastErasureAt: null,
+      checkedAt: new Date().toISOString(),
+    });
     mockListAdminUsers.mockResolvedValue(mockAdminUsers);
   });
 
@@ -193,6 +209,9 @@ describe("AdminPlatformConfig", () => {
       fireEvent.click(screen.getByText("System Health"));
       await waitFor(() => {
         expect(screen.getByText("Service Status")).toBeInTheDocument();
+      });
+      await waitFor(() => {
+        expect(screen.getByText("GDPR Erasure Cron")).toBeInTheDocument();
       });
       await waitFor(() => {
         expect(screen.getByText("Total Donors")).toBeInTheDocument();

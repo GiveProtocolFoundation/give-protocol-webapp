@@ -64,6 +64,18 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "wallet.safe.detecting",
   "wallet.safe.signerCount",
   "wallet.safe.signerThreshold",
+  // GIV-864 F4: GDPR erasure cron status indicators — translations pending
+  "admin.dashboard.gdprCronTitle",
+  "admin.dashboard.gdprCronScheduleDesc",
+  "admin.dashboard.gdprCronLastRun",
+  "admin.dashboard.gdprTotalErasures",
+  "admin.dashboard.gdprPendingDue",
+  "admin.dashboard.gdprZeroPending",
+  "admin.dashboard.viewHealthReport",
+  "admin.dashboard.gdprCronChecking",
+  "admin.dashboard.cronActive",
+  "admin.dashboard.cronFailed",
+  "admin.dashboard.cronInactive",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;
