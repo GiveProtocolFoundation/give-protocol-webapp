@@ -52,7 +52,7 @@ interface ChainRpcConfig {
 const CHAIN_RPC_CONFIGS: Partial<Record<ChainId, ChainRpcConfig>> = {
   [CHAIN_IDS.ETHEREUM]: {
     envVar: "VITE_ETHEREUM_RPC_URL",
-    publicUrl: "https://eth.llamarpc.com",
+    publicUrl: "https://rpc.ankr.com/eth",
     proxyName: "ethereum",
   },
   [CHAIN_IDS.BASE]: {
@@ -72,7 +72,7 @@ const CHAIN_RPC_CONFIGS: Partial<Record<ChainId, ChainRpcConfig>> = {
   },
   [CHAIN_IDS.POLYGON]: {
     envVar: "VITE_POLYGON_RPC_URL",
-    publicUrl: "https://polygon-rpc.com",
+    publicUrl: "https://polygon-bor-rpc.publicnode.com",
     proxyName: "polygon",
   },
   [CHAIN_IDS.AVALANCHE]: {
