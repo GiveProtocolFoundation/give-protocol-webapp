@@ -49,30 +49,17 @@ describe("Auth", () => {
   });
 
   describe("Page layout", () => {
-    it("renders the auth page with left and right panels", () => {
+    it("renders the sign-in card", () => {
       renderAuth();
-      expect(screen.getByText(/Smart giving/)).toBeInTheDocument();
       expect(screen.getByText("Welcome back")).toBeInTheDocument();
     });
 
-    it("renders protocol status banner with Genesis Phase text", () => {
+    it("renders the Email/Wallet mode toggle defaulting to Email", () => {
       renderAuth();
-      expect(screen.getByText(/Protocol Status/)).toBeInTheDocument();
-    });
-
-    it("renders Runs On trust tags", () => {
-      renderAuth();
-      expect(screen.getByText("Arbitrum")).toBeInTheDocument();
-      expect(screen.getByText("Base")).toBeInTheDocument();
-      expect(screen.getByText("Optimism")).toBeInTheDocument();
-      expect(screen.getByText("Open Source")).toBeInTheDocument();
-      expect(screen.getByText("501(c)(3)")).toBeInTheDocument();
-    });
-
-    it("renders the transparent impact tagline", () => {
-      renderAuth();
-      expect(screen.getByText(/transparent impact/)).toBeInTheDocument();
-      expect(screen.getByText(/impact/)).toBeInTheDocument();
+      const emailTab = screen.getByRole("tab", { name: "Email" });
+      const walletTab = screen.getByRole("tab", { name: "Wallet" });
+      expect(emailTab).toHaveAttribute("aria-selected", "true");
+      expect(walletTab).toHaveAttribute("aria-selected", "false");
     });
   });
 
@@ -200,9 +187,19 @@ describe("Auth", () => {
   });
 
   describe("Wallet authentication", () => {
-    it("renders Connect Wallet button", () => {
+    const switchToWalletTab = () => {
+      fireEvent.click(screen.getByRole("tab", { name: "Wallet" }));
+    };
+
+    it("renders Connect Wallet button on the Wallet tab", () => {
       renderAuth();
+      switchToWalletTab();
       expect(screen.getByText("Connect Wallet")).toBeInTheDocument();
+    });
+
+    it("does not render Connect Wallet button on the Email tab", () => {
+      renderAuth();
+      expect(screen.queryByText("Connect Wallet")).not.toBeInTheDocument();
     });
 
     it("shows wallet step label when connecting", () => {
@@ -211,6 +208,7 @@ describe("Auth", () => {
         walletAuthStep: "connecting",
       });
       renderAuth();
+      switchToWalletTab();
       expect(screen.getByText(/Connecting wallet/)).toBeInTheDocument();
     });
 
@@ -220,6 +218,7 @@ describe("Auth", () => {
         walletAuthStep: "signing",
       });
       renderAuth();
+      switchToWalletTab();
       expect(screen.getByText(/Signing message/)).toBeInTheDocument();
     });
 
@@ -229,6 +228,7 @@ describe("Auth", () => {
         walletAuthStep: "verifying",
       });
       renderAuth();
+      switchToWalletTab();
       expect(screen.getByText(/Verifying/)).toBeInTheDocument();
     });
 
@@ -238,17 +238,20 @@ describe("Auth", () => {
         walletAuthStep: "session",
       });
       renderAuth();
+      switchToWalletTab();
       expect(screen.getByText(/Opening session/)).toBeInTheDocument();
     });
 
     it("opens wallet modal when Connect Wallet button is clicked", () => {
       renderAuth();
+      switchToWalletTab();
       fireEvent.click(screen.getByText("Connect Wallet"));
       expect(screen.getByTestId("wallet-modal")).toBeInTheDocument();
     });
 
     it("closes wallet modal when modal close is triggered", () => {
       renderAuth();
+      switchToWalletTab();
       fireEvent.click(screen.getByText("Connect Wallet"));
       expect(screen.getByTestId("wallet-modal")).toBeInTheDocument();
 
@@ -277,6 +280,7 @@ describe("Auth", () => {
       });
 
       renderAuth();
+      switchToWalletTab();
       fireEvent.click(screen.getByText("Connect Wallet"));
 
       // Invoke the onConnect callback captured by the WalletModal mock
@@ -311,6 +315,7 @@ describe("Auth", () => {
       mockUseUnifiedAuth.mockReturnValue({ ...defaultAuthState });
 
       renderAuth();
+      switchToWalletTab();
       fireEvent.click(screen.getByText("Connect Wallet"));
 
       const onConnect = __walletModalRef.onConnect as (
@@ -345,6 +350,7 @@ describe("Auth", () => {
       mockUseUnifiedAuth.mockReturnValue({ ...defaultAuthState });
 
       renderAuth();
+      switchToWalletTab();
       fireEvent.click(screen.getByText("Connect Wallet"));
 
       const onConnect = __walletModalRef.onConnect as (
@@ -446,9 +452,9 @@ describe("Auth", () => {
   });
 
   describe("Trust signal", () => {
-    it("renders SSL encryption note", () => {
+    it("renders TLS encryption note", () => {
       renderAuth();
-      expect(screen.getByText(/256-bit SSL encrypted/)).toBeInTheDocument();
+      expect(screen.getByText(/TLS encrypted/)).toBeInTheDocument();
     });
   });
 });

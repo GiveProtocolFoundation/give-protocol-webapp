@@ -10,10 +10,7 @@ import {
   Fingerprint,
   Eye,
   EyeOff,
-  CheckCircle2,
-  Sparkles,
 } from "lucide-react";
-import { Logo } from "@/components/Logo";
 import { Button } from "@/components/ui/Button";
 import { FormInput } from "@/components/ui/FormInput";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -55,272 +52,6 @@ const GoogleIcon: React.FC = () => (
     />
   </svg>
 );
-
-/** Radial gradient atmosphere for dark panels */
-const ATMOSPHERE_STYLE: React.CSSProperties = {
-  backgroundImage:
-    "radial-gradient(ellipse 80% 60% at 10% 100%, rgba(16,185,129,0.18) 0%, transparent 60%), " +
-    "radial-gradient(ellipse 50% 50% at 90% 10%, rgba(52,211,153,0.1) 0%, transparent 55%)",
-};
-
-/** 48px emerald-tinted grid overlay for dark panels */
-const GRID_STYLE: React.CSSProperties = {
-  backgroundImage:
-    "linear-gradient(rgba(52,211,153,0.04) 1px, transparent 1px), " +
-    "linear-gradient(90deg, rgba(52,211,153,0.04) 1px, transparent 1px)",
-  backgroundSize: "48px 48px",
-};
-
-/** Protocol status banner with pulse indicator. */
-const ProtocolStatusBanner: React.FC = () => {
-  const { t } = useTranslation();
-  return (
-    <div
-      className="relative flex items-center gap-4 overflow-hidden"
-      style={{
-        background: "rgba(255,255,255,0.04)",
-        border: "1px solid rgba(52,211,153,0.2)",
-        borderRadius: 12,
-        padding: "1rem 1.25rem",
-        backdropFilter: "blur(12px)",
-        WebkitBackdropFilter: "blur(12px)",
-      }}
-    >
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={{
-          background:
-            "linear-gradient(90deg, rgba(52,211,153,0.06) 0%, transparent 70%)",
-        }}
-      />
-      <div className="relative shrink-0" style={{ width: 10, height: 10 }}>
-        <div
-          className="rounded-full relative z-10"
-          style={{
-            width: 10,
-            height: 10,
-            background: "var(--emerald-400)",
-            boxShadow: "0 0 8px var(--emerald-400)",
-          }}
-        />
-        <span
-          className="absolute rounded-full animate-ripple"
-          style={{ inset: -5, border: "1.5px solid var(--emerald-400)" }}
-        />
-        <span
-          className="absolute rounded-full animate-ripple"
-          style={{
-            inset: -5,
-            border: "1.5px solid var(--emerald-400)",
-            animationDelay: "0.8s",
-          }}
-        />
-      </div>
-      <div
-        className="shrink-0"
-        style={{ width: 1, height: 32, background: "rgba(52,211,153,0.2)" }}
-      />
-      <div className="relative z-10">
-        <p
-          style={{
-            fontSize: "0.67rem",
-            fontWeight: 600,
-            color: "var(--emerald-400)",
-            textTransform: "uppercase",
-            letterSpacing: "0.1em",
-            marginBottom: "0.2rem",
-          }}
-        >
-          {t("auth.panel.statusLabel")}
-        </p>
-        <p
-          style={{
-            fontSize: "0.85rem",
-            color: "rgba(255,255,255,0.75)",
-            lineHeight: 1.4,
-          }}
-        >
-          {t("auth.panel.statusDesc")}
-        </p>
-      </div>
-    </div>
-  );
-};
-
-/** "Runs on" trust tags row. */
-const RunsOnTags: React.FC = () => {
-  const { t } = useTranslation();
-  return (
-    <div>
-      <div
-        className="flex items-center gap-2"
-        style={{ marginBottom: "0.6rem" }}
-      >
-        <span
-          style={{
-            fontSize: "0.68rem",
-            color: "rgba(255,255,255,0.7)",
-            textTransform: "uppercase",
-            letterSpacing: "0.08em",
-            fontWeight: 500,
-            whiteSpace: "nowrap",
-          }}
-        >
-          {t("auth.panel.runsOn")}
-        </span>
-        <div
-          className="flex-1"
-          style={{ height: 1, background: "rgba(255,255,255,0.07)" }}
-        />
-      </div>
-      <div className="flex flex-wrap" style={{ gap: "0.4rem" }}>
-        {["Arbitrum", "Base", "Optimism", "Open Source", "501(c)(3)"].map(
-          (tag) => (
-            <span
-              key={tag}
-              style={{
-                color: "rgba(255,255,255,0.7)",
-                background: "rgba(255,255,255,0.08)",
-                border: "1px solid rgba(255,255,255,0.08)",
-                borderRadius: 6,
-                padding: "0.25rem 0.6rem",
-                fontSize: "0.68rem",
-                fontWeight: 500,
-              }}
-            >
-              {tag}
-            </span>
-          ),
-        )}
-      </div>
-    </div>
-  );
-};
-
-/** Value propositions displayed on the left panel. */
-const AuthValueProps: React.FC = () => (
-  <div className="space-y-3 mb-8">
-    <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
-      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-      <span>100% on-chain transparency & direct funding</span>
-    </div>
-    <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
-      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-      <span>Donate seamlessly via credit card or Web3 wallet</span>
-    </div>
-    <div className="flex items-center gap-3 text-white/85 text-xs sm:text-sm">
-      <CheckCircle2 className="w-4 h-4 text-emerald-400 shrink-0" />
-      <span>Automated instant tax receipts for all donors</span>
-    </div>
-  </div>
-);
-
-/** Dark left panel for the auth page. */
-const AuthLeftPanel: React.FC = () => {
-  const { t } = useTranslation();
-  return (
-    <div
-      className="hidden lg:flex relative flex-col justify-between overflow-hidden"
-      style={{ backgroundColor: "#064e3b", padding: "3rem 3.5rem" }}
-    >
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={ATMOSPHERE_STYLE}
-      />
-      <div
-        className="absolute inset-0 pointer-events-none"
-        style={GRID_STYLE}
-      />
-      <div
-        className="absolute rounded-full animate-orbDrift pointer-events-none"
-        style={{
-          width: 240,
-          height: 240,
-          top: -60,
-          right: -40,
-          background: "var(--emerald-400)",
-          filter: "blur(70px)",
-          opacity: 0.2,
-        }}
-      />
-      <div
-        className="absolute rounded-full animate-orbDrift pointer-events-none"
-        style={{
-          width: 200,
-          height: 200,
-          bottom: 60,
-          left: -40,
-          background: "var(--emerald-600)",
-          filter: "blur(70px)",
-          opacity: 0.25,
-          animationDelay: "-3s",
-        }}
-      />
-
-      {/* Brand anchor at top */}
-      <div className="relative z-10">
-        <Link
-          to="/"
-          className="inline-flex items-center gap-3 group"
-          aria-label="Go to homepage"
-        >
-          <Logo className="h-9 w-9 transition-transform group-hover:scale-105" />
-          <span className="text-white text-xl font-bold tracking-tight">
-            Give Protocol
-          </span>
-        </Link>
-      </div>
-
-      {/* Hero content in center */}
-      <div className="relative z-10 max-w-md my-auto py-8">
-        <div className="inline-flex items-center gap-2 px-3 py-1 rounded-full bg-emerald-500/10 border border-emerald-400/20 text-emerald-300 text-xs font-semibold mb-6">
-          <Sparkles className="w-3.5 h-3.5 text-emerald-400" />
-          <span>Web3 Philanthropy Reimagined</span>
-        </div>
-        <h2
-          className="font-serif text-white animate-fadeUp"
-          style={{
-            fontSize: "clamp(2rem, 3.2vw, 2.75rem)",
-            lineHeight: 1.15,
-            letterSpacing: "-0.02em",
-            marginBottom: "1rem",
-          }}
-        >
-          {t("auth.panel.headline")}
-        </h2>
-        <p
-          className="animate-fadeUp"
-          style={{
-            fontSize: "0.95rem",
-            color: "rgba(255,255,255,0.78)",
-            lineHeight: 1.6,
-            maxWidth: 380,
-            fontWeight: 300,
-            animationDelay: "0.2s",
-            marginBottom: "1.75rem",
-          }}
-        >
-          {t("auth.panel.subheadline")}
-        </p>
-
-        {/* Value props list */}
-        <AuthValueProps />
-
-        <div
-          className="space-y-4 animate-fadeUp"
-          style={{ animationDelay: "0.4s" }}
-        >
-          <ProtocolStatusBanner />
-        </div>
-      </div>
-
-      {/* Bottom tags */}
-      <div className="relative z-10 pt-4">
-        <RunsOnTags />
-      </div>
-    </div>
-  );
-};
 
 /** Show/hide toggle button for password fields. */
 const PasswordToggle: React.FC<{
@@ -489,6 +220,56 @@ const SignInCardHeader: React.FC<{
   );
 };
 
+type AuthMode = "email" | "wallet";
+
+/** Segmented control switching between email and wallet sign-in. */
+const AuthModeToggle: React.FC<{
+  mode: AuthMode;
+  onChange: (_mode: AuthMode) => void;
+}> = ({ mode, onChange }) => {
+  const { t } = useTranslation();
+
+  const handleEmailClick = useCallback(() => onChange("email"), [onChange]);
+  const handleWalletClick = useCallback(() => onChange("wallet"), [onChange]);
+
+  /** Tailwind classes for a tab button, active or inactive. */
+  const tabClass = (active: boolean) =>
+    `flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-semibold transition-colors ${
+      active
+        ? "bg-white dark:bg-gray-800 text-slate-900 dark:text-white shadow-sm"
+        : "text-gray-500 dark:text-gray-400 hover:text-slate-700 dark:hover:text-gray-200"
+    }`;
+
+  return (
+    <div
+      role="tablist"
+      aria-label={t("auth.signin.modeToggleLabel")}
+      className="flex gap-1 p-1 mb-5 rounded-xl bg-gray-100 dark:bg-gray-800/60"
+    >
+      <button
+        type="button"
+        role="tab"
+        aria-selected={mode === "email"}
+        onClick={handleEmailClick}
+        className={tabClass(mode === "email")}
+      >
+        <Mail className="h-3.5 w-3.5" />
+        {t("common.email")}
+      </button>
+      <button
+        type="button"
+        role="tab"
+        aria-selected={mode === "wallet"}
+        onClick={handleWalletClick}
+        className={tabClass(mode === "wallet")}
+      >
+        <Wallet className="h-3.5 w-3.5" />
+        {t("wallet.eoa.walletConnection")}
+      </button>
+    </div>
+  );
+};
+
 /** 1-Click Fast Auth buttons for Google and Passkey. */
 const FastAuthButtons: React.FC<{
   isPasskeySupported: boolean;
@@ -633,6 +414,7 @@ const AuthTrustFooter: React.FC = () => {
 /** Right panel content with sign-in form and wallet authentication. */
 const AuthRightPanel: React.FC = () => {
   const [view, setView] = useState<View>("signin");
+  const [authMode, setAuthMode] = useState<AuthMode>("email");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [formError, setFormError] = useState<string | null>(null);
@@ -764,6 +546,11 @@ const AuthRightPanel: React.FC = () => {
     [],
   );
 
+  const handleAuthModeChange = useCallback((newMode: AuthMode) => {
+    setFormError(null);
+    setAuthMode(newMode);
+  }, []);
+
   const handleShowForgotPassword = useCallback(() => {
     setView("forgotPassword");
   }, []);
@@ -779,7 +566,7 @@ const AuthRightPanel: React.FC = () => {
 
   if (view === "forgotPassword") {
     return (
-      <div className="flex items-center justify-center bg-slate-50/70 dark:bg-[#050A09] px-4 py-8 sm:px-6 lg:px-8">
+      <div className="min-h-[calc(100vh-60px)] flex items-center justify-center bg-slate-50/70 dark:bg-[#050A09] px-4 py-8 sm:px-6 lg:px-8">
         <div className="w-full max-w-md bg-white dark:bg-gray-900 rounded-2xl border border-gray-100 dark:border-gray-800 shadow-xl shadow-emerald-950/5 p-6 sm:p-8">
           <ForgotPassword onBack={handleBackToSignIn} />
         </div>
@@ -790,53 +577,47 @@ const AuthRightPanel: React.FC = () => {
   const animClass = visible ? "animate-fadeUp" : "opacity-0";
 
   return (
-    <div className="flex items-center justify-center bg-slate-50/70 dark:bg-[#050A09] px-4 py-8 sm:px-6 lg:px-8">
+    <div className="min-h-[calc(100vh-60px)] flex items-center justify-center bg-slate-50/70 dark:bg-[#050A09] px-4 py-8 sm:px-6 lg:px-8">
       <div
         className={`w-full max-w-md ${animClass}`}
         style={{ animationDelay: "0.1s" }}
       >
-        {/* Mobile-only logo */}
-        <Link
-          to="/"
-          className="lg:hidden mb-6 inline-flex items-center gap-3"
-          aria-label="Go to homepage"
-        >
-          <Logo className="h-9 w-9" />
-          <span className="text-gray-900 dark:text-white text-lg font-bold tracking-tight">
-            Give Protocol
-          </span>
-        </Link>
-
         {/* Elevated Form Card */}
         <div className="bg-white dark:bg-gray-900 rounded-2xl border border-gray-200/80 dark:border-gray-800 shadow-xl shadow-emerald-950/5 p-6 sm:p-8">
           <SignInCardHeader formError={formError} />
 
-          <FastAuthButtons
-            isPasskeySupported={isPasskeySupported}
-            loading={loading}
-            onGoogleSignIn={handleGoogleSignIn}
-            onPasskeySignIn={handlePasskeySignIn}
-          />
+          <AuthModeToggle mode={authMode} onChange={handleAuthModeChange} />
 
-          {/* Email/Password form with integrated forgot password and show/hide toggle */}
-          <SignInFormFields
-            email={email}
-            password={password}
-            loading={loading}
-            hasError={formError !== null}
-            onEmailChange={handleEmailChange}
-            onPasswordChange={handlePasswordChange}
-            onForgotPassword={handleShowForgotPassword}
-            onSubmit={handleEmailSignIn}
-          />
+          {authMode === "email" ? (
+            <>
+              {/* Email/Password form with integrated forgot password and show/hide toggle */}
+              <SignInFormFields
+                email={email}
+                password={password}
+                loading={loading}
+                hasError={formError !== null}
+                onEmailChange={handleEmailChange}
+                onPasswordChange={handlePasswordChange}
+                onForgotPassword={handleShowForgotPassword}
+                onSubmit={handleEmailSignIn}
+              />
 
-          <AuthDivider />
+              <AuthDivider />
 
-          <WalletSignInButton
-            loading={loading}
-            walletAuthStep={walletAuthStep}
-            onClick={handleWalletButtonClick}
-          />
+              <FastAuthButtons
+                isPasskeySupported={isPasskeySupported}
+                loading={loading}
+                onGoogleSignIn={handleGoogleSignIn}
+                onPasskeySignIn={handlePasskeySignIn}
+              />
+            </>
+          ) : (
+            <WalletSignInButton
+              loading={loading}
+              walletAuthStep={walletAuthStep}
+              onClick={handleWalletButtonClick}
+            />
+          )}
 
           <WalletModal
             isOpen={showWalletModal}
@@ -858,12 +639,7 @@ const AuthRightPanel: React.FC = () => {
 /** Unified sign-in page with email and wallet authentication. */
 const Auth: React.FC = () => {
   usePageTitle("Sign In");
-  return (
-    <div className="min-h-[calc(100vh-60px)] grid grid-cols-1 lg:grid-cols-[5fr_6fr]">
-      <AuthLeftPanel />
-      <AuthRightPanel />
-    </div>
-  );
+  return <AuthRightPanel />;
 };
 
 export default Auth;
