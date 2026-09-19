@@ -232,6 +232,7 @@ const AuthModeToggle: React.FC<{
   const handleEmailClick = useCallback(() => onChange("email"), [onChange]);
   const handleWalletClick = useCallback(() => onChange("wallet"), [onChange]);
 
+  /** Tailwind classes for a tab button, active or inactive. */
   const tabClass = (active: boolean) =>
     `flex-1 flex items-center justify-center gap-1.5 py-2 rounded-lg text-sm font-semibold transition-colors ${
       active
