@@ -1221,9 +1221,10 @@ export default {
     "auth.signin.newToProtocol": "New to Give Protocol?",
     "auth.signin.createAccount": "Create an account \u2192",
     "auth.signin.forgotPasswordLink": "Forgot password? \u2192",
-    "auth.signin.sslEncrypted": "256-bit SSL encrypted",
+    "auth.signin.sslEncrypted": "TLS encrypted",
     "auth.signin.terms": "Terms",
     "auth.signin.privacy": "Privacy",
+    "auth.signin.modeToggleLabel": "Sign-in method",
 
     // Auth - Left panel
     "auth.panel.headline": "Smart giving, transparent impact.",
