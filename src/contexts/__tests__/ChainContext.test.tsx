@@ -1,7 +1,8 @@
 import React from "react";
 import { jest } from "@jest/globals";
-import { render, screen, act } from "@testing-library/react";
+import { render, screen, act, waitFor } from "@testing-library/react";
 import { ChainProvider, useChain, CHAIN_IDS } from "../ChainContext";
+import { supabase } from "@/lib/supabase";
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -143,6 +144,34 @@ describe("ChainContext", () => {
       expect(availableChains).toContain("8453"); // Base
       expect(availableChains).toContain("10"); // Optimism
       expect(availableChains).toContain("42161"); // Arbitrum
+    });
+
+    it("shows all chains when admin config returns an empty supported_networks list", async () => {
+      (
+        supabase.rpc as unknown as jest.Mock<
+          () => Promise<{
+            data: { supported_networks: number[]; supported_tokens: string[] };
+            error: null;
+          }>
+        >
+      ).mockResolvedValueOnce({
+        data: { supported_networks: [], supported_tokens: [] },
+        error: null,
+      });
+
+      render(
+        <ChainProvider>
+          <TestComponent />
+        </ChainProvider>,
+      );
+
+      await waitFor(() => {
+        const availableChains =
+          screen.getByTestId("available-chains").textContent;
+        expect(availableChains).toContain("8453"); // Base
+        expect(availableChains).toContain("10"); // Optimism
+        expect(availableChains).toContain("42161"); // Arbitrum
+      });
     });
 
     it("checks if chain is supported", () => {

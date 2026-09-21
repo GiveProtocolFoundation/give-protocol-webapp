@@ -87,9 +87,11 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
 
   // Get available chains filtered by admin-enabled networks.
   // supportedNetworks is null while loading or on fetch error — show all.
+  // An empty array means no networks are configured (e.g. admin misconfiguration)
+  // rather than an intentional block-everything state, so show all in that case too.
   const availableChains = React.useMemo(() => {
     const allChains = getAvailableChains(showTestnets);
-    if (!supportedNetworks) return allChains;
+    if (!supportedNetworks || supportedNetworks.length === 0) return allChains;
     return allChains.filter((c) => supportedNetworks.includes(c.chainId));
   }, [showTestnets, supportedNetworks]);
 
