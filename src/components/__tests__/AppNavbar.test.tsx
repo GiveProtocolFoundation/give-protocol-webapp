@@ -317,6 +317,40 @@ describe("AppNavbar", () => {
       renderNavbar();
       expect(screen.queryByTestId("connect-button")).not.toBeInTheDocument();
     });
+
+    it("updates selected network in UI when wallet is on Polygon (137)", () => {
+      mockUseWeb3.mockReturnValue({
+        provider: null,
+        signer: null,
+        address: "0x1234567890abcdef1234567890abcdef12345678",
+        chainId: 137,
+        isConnected: true,
+        isConnecting: false,
+        error: null,
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        switchChain: jest.fn(),
+      });
+      renderNavbar();
+      expect(screen.getByLabelText("Current network: Polygon")).toBeInTheDocument();
+    });
+
+    it("updates selected network in UI when wallet is on Avalanche (43114)", () => {
+      mockUseWeb3.mockReturnValue({
+        provider: null,
+        signer: null,
+        address: "0x1234567890abcdef1234567890abcdef12345678",
+        chainId: 43114,
+        isConnected: true,
+        isConnecting: false,
+        error: null,
+        connect: jest.fn(),
+        disconnect: jest.fn(),
+        switchChain: jest.fn(),
+      });
+      renderNavbar();
+      expect(screen.getByLabelText("Current network: Avalanche")).toBeInTheDocument();
+    });
   });
 
   describe("handleDisconnect", () => {

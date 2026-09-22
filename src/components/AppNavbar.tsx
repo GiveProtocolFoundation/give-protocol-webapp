@@ -363,8 +363,12 @@ export const AppNavbar: React.FC = () => {
   // EVM chain ID to NetworkType mapping
   const chainIdToNetwork: Record<number, NetworkType> = useMemo(
     () => ({
+      1: "ethereum",
       8453: "base",
       10: "optimism",
+      42161: "arbitrum",
+      137: "polygon",
+      43114: "avalanche",
       84532: "base-sepolia",
       11155420: "optimism-sepolia",
     }),
