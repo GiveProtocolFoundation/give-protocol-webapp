@@ -92,7 +92,7 @@ export const ChainProvider: React.FC<ChainProviderProps> = ({ children }) => {
   const availableChains = React.useMemo(() => {
     const allChains = getAvailableChains(showTestnets);
     if (!supportedNetworks || supportedNetworks.length === 0) return allChains;
-    return allChains.filter((c) => supportedNetworks.includes(c.chainId));
+    return allChains.filter((c) => supportedNetworks.includes(c.id));
   }, [showTestnets, supportedNetworks]);
 
   // Get selected chain config

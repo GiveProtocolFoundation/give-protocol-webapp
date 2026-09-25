@@ -3,6 +3,17 @@ import { jest } from "@jest/globals";
 import { render, screen, act, waitFor } from "@testing-library/react";
 import { ChainProvider, useChain, CHAIN_IDS } from "../ChainContext";
 import { supabase } from "@/lib/supabase";
+import { usePlatformConfig } from "../../hooks/usePlatformConfig";
+
+// ChainContext imports the hook via a relative path, which bypasses the
+// moduleNameMapper mock, so mock it here to control supported networks.
+jest.mock("../../hooks/usePlatformConfig", () => ({
+  usePlatformConfig: jest.fn(() => ({
+    supportedNetworks: null,
+    supportedTokens: null,
+    loading: false,
+  })),
+}));
 
 // Mock localStorage
 const localStorageMock = (() => {
@@ -171,6 +182,40 @@ describe("ChainContext", () => {
         expect(availableChains).toContain("8453"); // Base
         expect(availableChains).toContain("10"); // Optimism
         expect(availableChains).toContain("42161"); // Arbitrum
+      });
+    });
+
+    it("filters chains to the admin-configured supported_networks list", () => {
+      const platformConfigMock = usePlatformConfig as unknown as jest.Mock<
+        () => {
+          supportedNetworks: number[] | null;
+          supportedTokens: string[] | null;
+          loading: boolean;
+        }
+      >;
+      platformConfigMock.mockReturnValue({
+        supportedNetworks: [CHAIN_IDS.BASE],
+        supportedTokens: [],
+        loading: false,
+      });
+
+      render(
+        <ChainProvider>
+          <TestComponent />
+        </ChainProvider>,
+      );
+
+      expect(screen.getByTestId("available-chains")).toHaveTextContent(
+        String(CHAIN_IDS.BASE),
+      );
+      expect(screen.getByTestId("available-chains")).not.toHaveTextContent(
+        String(CHAIN_IDS.ARBITRUM),
+      );
+
+      platformConfigMock.mockReturnValue({
+        supportedNetworks: null,
+        supportedTokens: null,
+        loading: false,
       });
     });
 
