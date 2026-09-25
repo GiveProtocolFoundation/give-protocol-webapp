@@ -3,17 +3,7 @@ import { jest } from "@jest/globals";
 import { render, screen, act, waitFor } from "@testing-library/react";
 import { ChainProvider, useChain, CHAIN_IDS } from "../ChainContext";
 import { supabase } from "@/lib/supabase";
-import { usePlatformConfig } from "../../hooks/usePlatformConfig";
-
-// ChainContext imports the hook via a relative path, which bypasses the
-// moduleNameMapper mock, so mock it here to control supported networks.
-jest.mock("../../hooks/usePlatformConfig", () => ({
-  usePlatformConfig: jest.fn(() => ({
-    supportedNetworks: null,
-    supportedTokens: null,
-    loading: false,
-  })),
-}));
+import { usePlatformConfig } from "@/hooks/usePlatformConfig";
 
 // Mock localStorage
 const localStorageMock = (() => {

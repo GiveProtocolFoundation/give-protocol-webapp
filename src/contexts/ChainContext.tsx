@@ -15,7 +15,7 @@ import {
   isChainSupported,
 } from "../config/contracts";
 import { ENV } from "../config/env";
-import { usePlatformConfig } from "../hooks/usePlatformConfig";
+import { usePlatformConfig } from "@/hooks/usePlatformConfig";
 
 const STORAGE_KEY = "giveprotocol_selected_chain";
 
