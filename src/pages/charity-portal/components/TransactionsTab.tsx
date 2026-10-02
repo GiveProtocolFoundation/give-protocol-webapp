@@ -416,18 +416,10 @@ export const TransactionsTab: React.FC<TransactionsTabProps> = ({
   if (transactions.length === 0) {
     return (
       <div className="bg-white rounded-xl shadow-md border border-gray-200 mb-8">
-        <div className="p-6 border-b border-gray-200 flex justify-between items-center">
+        <div className="p-6 border-b border-gray-200">
           <h2 className="text-xl font-semibold text-gray-900">
             {t("charity.transactions")}
           </h2>
-          <Button
-            onClick={onShowExportModal}
-            variant="secondary"
-            className="flex items-center gap-2 border border-gray-300 hover:bg-gray-50 hover:border-gray-400 transition-all duration-200"
-          >
-            <Download className="h-4 w-4 text-emerald-600" />
-            {t("contributions.export")}
-          </Button>
         </div>
         <div className="py-16 px-6 text-center">
           <SharedTokenIllustration />

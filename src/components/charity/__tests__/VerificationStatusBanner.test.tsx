@@ -3,6 +3,7 @@ import { render, screen, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { getCharityVerificationStatus } from "@/services/charityVerificationService";
 import {
+  VerificationBanner,
   VerificationStatusBanner,
   VerificationSuccessBanner,
 } from "../VerificationStatusBanner";
@@ -245,6 +246,27 @@ describe("VerificationStatusBanner", () => {
         );
       });
     });
+  });
+});
+
+describe("VerificationBanner", () => {
+  it("uses an assertive alert role for rejected status", () => {
+    render(<VerificationBanner status="rejected" reviewNotes="Bad EIN" />);
+    const alert = screen.getByRole("alert");
+    expect(alert).toHaveAttribute("aria-live", "assertive");
+    expect(alert).toHaveTextContent("Reason: Bad EIN");
+  });
+
+  it("uses a polite status role for pending status", () => {
+    render(<VerificationBanner status="pending" reviewNotes={null} />);
+    expect(screen.getByRole("status")).toHaveAttribute("aria-live", "polite");
+  });
+
+  it("renders nothing for approved status", () => {
+    const { container } = render(
+      <VerificationBanner status="approved" reviewNotes={null} />,
+    );
+    expect(container).toBeEmptyDOMElement();
   });
 });
 

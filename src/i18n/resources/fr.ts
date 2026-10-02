@@ -690,6 +690,62 @@ export default {
       "Connectez un portefeuille pour recevoir des dons on-chain.",
     "charity.portal.setupWallet": "Configurer le Portefeuille",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "Liste d'intégration",
+    "charity.onboarding.title": "Premiers pas",
+    "charity.onboarding.progress":
+      "{{completed}} étapes sur {{total}} terminées",
+    "charity.onboarding.optional": "Facultatif",
+    "charity.onboarding.allComplete":
+      "Toutes les étapes sont terminées ! Vous pouvez fermer cette liste.",
+    "charity.onboarding.expand": "Développer la liste",
+    "charity.onboarding.collapse": "Réduire la liste",
+    "charity.onboarding.dismiss": "Fermer la liste d'intégration",
+    "charity.onboarding.check": "Cocher {{label}}",
+    "charity.onboarding.uncheck": "Décocher {{label}}",
+    "charity.onboarding.stepDone": "{{label}} (terminé)",
+    "charity.onboarding.stepAuto": "{{label}} (se termine automatiquement)",
+    "charity.onboarding.goToOrganization": "Aller à l'organisation",
+    "charity.onboarding.setupWallet": "Configurer le portefeuille",
+    "charity.onboarding.item.completeProfile.label":
+      "Compléter le profil de l'organisation",
+    "charity.onboarding.item.completeProfile.description":
+      "Ajoutez le nom, la description, l'adresse et les coordonnées de votre organisation.",
+    "charity.onboarding.item.uploadLogo.label":
+      "Téléverser un logo ou une bannière",
+    "charity.onboarding.item.uploadLogo.description":
+      "Ajoutez un logo ou une bannière pour aider les donateurs à reconnaître votre association.",
+    "charity.onboarding.item.connectWallet.label":
+      "Configurer le portefeuille de réception",
+    "charity.onboarding.item.connectWallet.description":
+      "Choisissez un Safe multisig, une garde institutionnelle ou un portefeuille à signataire unique pour recevoir les dons. Prouvez-en le contrôle en signant un message.",
+    "charity.onboarding.item.bankDetails.label":
+      "Configurer les coordonnées bancaires pour la conversion en monnaie fiduciaire",
+    "charity.onboarding.item.bankDetails.description":
+      "Renseignez vos informations bancaires si vous souhaitez accepter les dons par carte.",
+    "charity.onboarding.item.acceptTerms.label":
+      "Lire et accepter les conditions d'utilisation",
+    "charity.onboarding.item.acceptTerms.description":
+      "Lisez et confirmez les conditions générales de Give Protocol pour les associations.",
+    "charity.verification.pendingTitle": "Demande en cours d'examen",
+    "charity.verification.pendingBody":
+      "Notre équipe examine la demande de votre association. Cela prend généralement de 3 à 5 jours ouvrés. Nous vous enverrons un e-mail dès qu'une décision sera prise.",
+    "charity.verification.rejectedTitle": "Demande non approuvée",
+    "charity.verification.reason": "Motif : {{notes}}",
+    "charity.verification.rejectedDefault":
+      "Votre demande n'a pas été approuvée pour le moment.",
+    "charity.verification.contactSupport": "Contacter l'assistance",
+    "charity.verification.suspendedTitle": "Compte suspendu",
+    "charity.verification.suspendedDefault":
+      "Le compte de votre association a été suspendu.",
+    "charity.verification.appealSuspension": "Contester la suspension",
+    "charity.verification.verifiedTitle": "Association vérifiée",
+    "charity.verification.verifiedBody":
+      "Votre organisation est vérifiée et les donateurs peuvent désormais soutenir vos causes.",
+    "charity.portal.receivingWallet": "Portefeuille de réception : {{address}}",
+    "charity.portal.loadError":
+      "Impossible de charger les données de l'association. Veuillez réessayer.",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "À l'instant",
     "timestamp.oneMinuteAgo": "Il y a 1 minute",

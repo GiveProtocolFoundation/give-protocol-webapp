@@ -672,6 +672,59 @@ export default {
       "Connect a wallet to receive on-chain donations.",
     "charity.portal.setupWallet": "Set Up Wallet",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "Onboarding checklist",
+    "charity.onboarding.title": "Getting Started",
+    "charity.onboarding.progress": "{{completed}} of {{total}} steps complete",
+    "charity.onboarding.optional": "Optional",
+    "charity.onboarding.allComplete":
+      "All steps complete! You can dismiss this checklist.",
+    "charity.onboarding.expand": "Expand checklist",
+    "charity.onboarding.collapse": "Collapse checklist",
+    "charity.onboarding.dismiss": "Dismiss onboarding checklist",
+    "charity.onboarding.check": "Check {{label}}",
+    "charity.onboarding.uncheck": "Uncheck {{label}}",
+    "charity.onboarding.stepDone": "{{label}} (completed)",
+    "charity.onboarding.stepAuto": "{{label}} (completes automatically)",
+    "charity.onboarding.goToOrganization": "Go to Organization",
+    "charity.onboarding.setupWallet": "Set up wallet",
+    "charity.onboarding.item.completeProfile.label":
+      "Complete organization profile",
+    "charity.onboarding.item.completeProfile.description":
+      "Add your organization name, description, address, and contact info.",
+    "charity.onboarding.item.uploadLogo.label": "Upload logo or banner image",
+    "charity.onboarding.item.uploadLogo.description":
+      "Add a logo or banner to help donors recognize your charity.",
+    "charity.onboarding.item.connectWallet.label": "Set up receiving wallet",
+    "charity.onboarding.item.connectWallet.description":
+      "Choose a multisig Safe, institutional custody, or single-signer wallet to receive donations. Prove control by signing a message.",
+    "charity.onboarding.item.bankDetails.label":
+      "Set up bank details for fiat off-ramp",
+    "charity.onboarding.item.bankDetails.description":
+      "Configure banking info if you want to accept card donations.",
+    "charity.onboarding.item.acceptTerms.label":
+      "Review and accept terms of service",
+    "charity.onboarding.item.acceptTerms.description":
+      "Read and confirm the Give Protocol charity terms and conditions.",
+    "charity.verification.pendingTitle": "Application Under Review",
+    "charity.verification.pendingBody":
+      "Your charity application is being reviewed by our team. This typically takes 3–5 business days. We will email you when a decision is made.",
+    "charity.verification.rejectedTitle": "Application Not Approved",
+    "charity.verification.reason": "Reason: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "Your application was not approved at this time.",
+    "charity.verification.contactSupport": "Contact Support",
+    "charity.verification.suspendedTitle": "Account Suspended",
+    "charity.verification.suspendedDefault":
+      "Your charity account has been suspended.",
+    "charity.verification.appealSuspension": "Appeal Suspension",
+    "charity.verification.verifiedTitle": "Charity Verified",
+    "charity.verification.verifiedBody":
+      "Your organization is verified and donors can now support your causes.",
+    "charity.portal.receivingWallet": "Receiving wallet: {{address}}",
+    "charity.portal.loadError":
+      "Failed to load charity data. Please try again.",
+
     // Wallet Setup (GIV-289)
     "wallet.setup.title": "Set up your receiving wallet",
     "wallet.setup.subtitle":

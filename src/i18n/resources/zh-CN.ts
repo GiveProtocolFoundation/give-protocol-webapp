@@ -614,6 +614,52 @@ export default {
     "charity.portal.walletDonationNote": "连接钱包以接收链上捐赠。",
     "charity.portal.setupWallet": "设置钱包",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "入驻清单",
+    "charity.onboarding.title": "开始使用",
+    "charity.onboarding.progress": "已完成 {{completed}}/{{total}} 步",
+    "charity.onboarding.optional": "可选",
+    "charity.onboarding.allComplete": "所有步骤已完成！您可以关闭此清单。",
+    "charity.onboarding.expand": "展开清单",
+    "charity.onboarding.collapse": "收起清单",
+    "charity.onboarding.dismiss": "关闭入驻清单",
+    "charity.onboarding.check": "勾选{{label}}",
+    "charity.onboarding.uncheck": "取消勾选{{label}}",
+    "charity.onboarding.stepDone": "{{label}}（已完成）",
+    "charity.onboarding.stepAuto": "{{label}}（自动完成）",
+    "charity.onboarding.goToOrganization": "前往组织",
+    "charity.onboarding.setupWallet": "设置钱包",
+    "charity.onboarding.item.completeProfile.label": "完善组织资料",
+    "charity.onboarding.item.completeProfile.description":
+      "添加您的组织名称、简介、地址和联系方式。",
+    "charity.onboarding.item.uploadLogo.label": "上传徽标或横幅图片",
+    "charity.onboarding.item.uploadLogo.description":
+      "添加徽标或横幅，帮助捐赠者识别您的慈善机构。",
+    "charity.onboarding.item.connectWallet.label": "设置收款钱包",
+    "charity.onboarding.item.connectWallet.description":
+      "选择多签 Safe、机构托管或单签名钱包来接收捐款，并通过签名消息证明您的控制权。",
+    "charity.onboarding.item.bankDetails.label": "设置法币提现的银行信息",
+    "charity.onboarding.item.bankDetails.description":
+      "如需接受银行卡捐款，请配置银行信息。",
+    "charity.onboarding.item.acceptTerms.label": "查看并接受服务条款",
+    "charity.onboarding.item.acceptTerms.description":
+      "阅读并确认 Give Protocol 慈善机构条款和条件。",
+    "charity.verification.pendingTitle": "申请审核中",
+    "charity.verification.pendingBody":
+      "我们的团队正在审核您的慈善机构申请，通常需要 3–5 个工作日。作出决定后我们会通过电子邮件通知您。",
+    "charity.verification.rejectedTitle": "申请未获批准",
+    "charity.verification.reason": "原因：{{notes}}",
+    "charity.verification.rejectedDefault": "您的申请暂未获批准。",
+    "charity.verification.contactSupport": "联系支持",
+    "charity.verification.suspendedTitle": "账户已被暂停",
+    "charity.verification.suspendedDefault": "您的慈善机构账户已被暂停。",
+    "charity.verification.appealSuspension": "申诉暂停",
+    "charity.verification.verifiedTitle": "慈善机构已认证",
+    "charity.verification.verifiedBody":
+      "您的组织已通过认证，捐赠者现在可以支持您的项目。",
+    "charity.portal.receivingWallet": "收款钱包：{{address}}",
+    "charity.portal.loadError": "无法加载慈善机构数据，请重试。",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "刚刚",
     "timestamp.oneMinuteAgo": "1 分钟前",

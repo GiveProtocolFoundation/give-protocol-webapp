@@ -667,6 +667,59 @@ export default {
       "ऑन-चेन दान प्राप्त करने के लिए वॉलेट कनेक्ट करें।",
     "charity.portal.setupWallet": "वॉलेट सेट अप करें",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "ऑनबोर्डिंग चेकलिस्ट",
+    "charity.onboarding.title": "शुरू करें",
+    "charity.onboarding.progress": "{{total}} में से {{completed}} चरण पूरे",
+    "charity.onboarding.optional": "वैकल्पिक",
+    "charity.onboarding.allComplete":
+      "सभी चरण पूरे हो गए! आप इस चेकलिस्ट को बंद कर सकते हैं।",
+    "charity.onboarding.expand": "चेकलिस्ट खोलें",
+    "charity.onboarding.collapse": "चेकलिस्ट छोटी करें",
+    "charity.onboarding.dismiss": "ऑनबोर्डिंग चेकलिस्ट बंद करें",
+    "charity.onboarding.check": "{{label}} पर निशान लगाएँ",
+    "charity.onboarding.uncheck": "{{label}} से निशान हटाएँ",
+    "charity.onboarding.stepDone": "{{label}} (पूरा हुआ)",
+    "charity.onboarding.stepAuto": "{{label}} (अपने-आप पूरा होता है)",
+    "charity.onboarding.goToOrganization": "संगठन पर जाएँ",
+    "charity.onboarding.setupWallet": "वॉलेट सेट अप करें",
+    "charity.onboarding.item.completeProfile.label":
+      "संगठन की प्रोफ़ाइल पूरी करें",
+    "charity.onboarding.item.completeProfile.description":
+      "अपने संगठन का नाम, विवरण, पता और संपर्क जानकारी जोड़ें।",
+    "charity.onboarding.item.uploadLogo.label": "लोगो या बैनर छवि अपलोड करें",
+    "charity.onboarding.item.uploadLogo.description":
+      "दानदाताओं को आपकी चैरिटी पहचानने में मदद के लिए लोगो या बैनर जोड़ें।",
+    "charity.onboarding.item.connectWallet.label": "प्राप्ति वॉलेट सेट अप करें",
+    "charity.onboarding.item.connectWallet.description":
+      "दान प्राप्त करने के लिए मल्टीसिग Safe, संस्थागत कस्टडी या सिंगल-साइनर वॉलेट चुनें। संदेश पर हस्ताक्षर करके नियंत्रण साबित करें।",
+    "charity.onboarding.item.bankDetails.label":
+      "फ़िएट ऑफ़-रैंप के लिए बैंक विवरण सेट अप करें",
+    "charity.onboarding.item.bankDetails.description":
+      "यदि आप कार्ड से दान स्वीकार करना चाहते हैं तो बैंक जानकारी कॉन्फ़िगर करें।",
+    "charity.onboarding.item.acceptTerms.label":
+      "सेवा की शर्तें पढ़ें और स्वीकार करें",
+    "charity.onboarding.item.acceptTerms.description":
+      "चैरिटी के लिए Give Protocol के नियम और शर्तें पढ़ें और पुष्टि करें।",
+    "charity.verification.pendingTitle": "आवेदन की समीक्षा जारी है",
+    "charity.verification.pendingBody":
+      "हमारी टीम आपकी चैरिटी के आवेदन की समीक्षा कर रही है। इसमें आमतौर पर 3–5 कार्य दिवस लगते हैं। निर्णय होने पर हम आपको ईमेल करेंगे।",
+    "charity.verification.rejectedTitle": "आवेदन स्वीकृत नहीं हुआ",
+    "charity.verification.reason": "कारण: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "आपका आवेदन इस समय स्वीकृत नहीं किया गया।",
+    "charity.verification.contactSupport": "सहायता से संपर्क करें",
+    "charity.verification.suspendedTitle": "खाता निलंबित",
+    "charity.verification.suspendedDefault":
+      "आपकी चैरिटी का खाता निलंबित कर दिया गया है।",
+    "charity.verification.appealSuspension": "निलंबन के विरुद्ध अपील करें",
+    "charity.verification.verifiedTitle": "चैरिटी सत्यापित",
+    "charity.verification.verifiedBody":
+      "आपका संगठन सत्यापित है और दानदाता अब आपके अभियानों का समर्थन कर सकते हैं।",
+    "charity.portal.receivingWallet": "प्राप्ति वॉलेट: {{address}}",
+    "charity.portal.loadError":
+      "चैरिटी डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "अभी अभी",
     "timestamp.oneMinuteAgo": "1 मिनट पहले",

@@ -691,6 +691,61 @@ export default {
       "Verbinden Sie ein Wallet, um On-Chain-Spenden zu erhalten.",
     "charity.portal.setupWallet": "Wallet einrichten",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "Einrichtungs-Checkliste",
+    "charity.onboarding.title": "Erste Schritte",
+    "charity.onboarding.progress":
+      "{{completed}} von {{total}} Schritten abgeschlossen",
+    "charity.onboarding.optional": "Optional",
+    "charity.onboarding.allComplete":
+      "Alle Schritte abgeschlossen! Sie können diese Checkliste schließen.",
+    "charity.onboarding.expand": "Checkliste erweitern",
+    "charity.onboarding.collapse": "Checkliste einklappen",
+    "charity.onboarding.dismiss": "Einrichtungs-Checkliste schließen",
+    "charity.onboarding.check": "{{label}} abhaken",
+    "charity.onboarding.uncheck": "Haken bei {{label}} entfernen",
+    "charity.onboarding.stepDone": "{{label}} (abgeschlossen)",
+    "charity.onboarding.stepAuto": "{{label}} (wird automatisch abgeschlossen)",
+    "charity.onboarding.goToOrganization": "Zur Organisation",
+    "charity.onboarding.setupWallet": "Wallet einrichten",
+    "charity.onboarding.item.completeProfile.label":
+      "Organisationsprofil vervollständigen",
+    "charity.onboarding.item.completeProfile.description":
+      "Fügen Sie Name, Beschreibung, Adresse und Kontaktdaten Ihrer Organisation hinzu.",
+    "charity.onboarding.item.uploadLogo.label":
+      "Logo oder Bannerbild hochladen",
+    "charity.onboarding.item.uploadLogo.description":
+      "Fügen Sie ein Logo oder Banner hinzu, damit Spender Ihre Wohltätigkeitsorganisation wiedererkennen.",
+    "charity.onboarding.item.connectWallet.label": "Empfangs-Wallet einrichten",
+    "charity.onboarding.item.connectWallet.description":
+      "Wählen Sie ein Multisig-Safe, eine institutionelle Verwahrung oder eine Wallet mit einem einzelnen Unterzeichner, um Spenden zu empfangen. Weisen Sie die Kontrolle nach, indem Sie eine Nachricht signieren.",
+    "charity.onboarding.item.bankDetails.label":
+      "Bankdaten für die Fiat-Auszahlung einrichten",
+    "charity.onboarding.item.bankDetails.description":
+      "Hinterlegen Sie Bankdaten, wenn Sie Kartenspenden annehmen möchten.",
+    "charity.onboarding.item.acceptTerms.label":
+      "Nutzungsbedingungen prüfen und akzeptieren",
+    "charity.onboarding.item.acceptTerms.description":
+      "Lesen und bestätigen Sie die Bedingungen von Give Protocol für Wohltätigkeitsorganisationen.",
+    "charity.verification.pendingTitle": "Antrag in Prüfung",
+    "charity.verification.pendingBody":
+      "Ihr Antrag als Wohltätigkeitsorganisation wird von unserem Team geprüft. Das dauert in der Regel 3–5 Werktage. Wir informieren Sie per E-Mail, sobald eine Entscheidung vorliegt.",
+    "charity.verification.rejectedTitle": "Antrag nicht genehmigt",
+    "charity.verification.reason": "Grund: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "Ihr Antrag wurde derzeit nicht genehmigt.",
+    "charity.verification.contactSupport": "Support kontaktieren",
+    "charity.verification.suspendedTitle": "Konto gesperrt",
+    "charity.verification.suspendedDefault":
+      "Das Konto Ihrer Wohltätigkeitsorganisation wurde gesperrt.",
+    "charity.verification.appealSuspension": "Sperrung anfechten",
+    "charity.verification.verifiedTitle": "Organisation verifiziert",
+    "charity.verification.verifiedBody":
+      "Ihre Organisation ist verifiziert und Spender können jetzt Ihre Projekte unterstützen.",
+    "charity.portal.receivingWallet": "Empfangs-Wallet: {{address}}",
+    "charity.portal.loadError":
+      "Daten der Wohltätigkeitsorganisation konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "Gerade eben",
     "timestamp.oneMinuteAgo": "Vor 1 Minute",

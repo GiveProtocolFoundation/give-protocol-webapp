@@ -20,10 +20,9 @@ import { WalletLinkModal } from "@/components/wallet/WalletLinkModal";
 import { useTranslation } from "@/hooks/useTranslation";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
-import { repairCharityImageUrl } from "@/utils/charityAssets";
 import { CharityOnboardingChecklist } from "@/components/charity/CharityOnboardingChecklist";
-import { VerificationStatusBanner } from "@/components/charity/VerificationStatusBanner";
-import { getCharityWalletAddress } from "@/services/charityProfileService";
+import { VerificationBanner } from "@/components/charity/VerificationStatusBanner";
+import { useCharityDashboardMeta } from "@/hooks/useCharityDashboardMeta";
 
 // Type definitions for Supabase data structures
 interface DonationData {
@@ -325,10 +324,12 @@ function OverviewHeader({
 function CharityPortalHeader({
   displayName,
   logoUrl,
+  showActions,
   t,
 }: {
   displayName?: string;
   logoUrl?: string | null;
+  showActions: boolean;
   t: (_key: string, _fallback?: string) => string;
 }) {
   const name = displayName || t("charity.dashboard", "Charity Dashboard");
@@ -346,39 +347,41 @@ function CharityPortalHeader({
           <img
             src={logoUrl}
             alt={`${name} logo`}
-            className="w-10 h-10 rounded-full object-cover border border-white shadow-sm flex-shrink-0"
+            className="w-10 h-10 rounded-full object-cover border border-line-subtle shadow-sm flex-shrink-0"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-bold text-sm select-none">
+          <div className="w-10 h-10 rounded-full bg-accent-base flex items-center justify-center flex-shrink-0">
+            <span className="text-accent-on font-bold text-sm select-none">
               {initials}
             </span>
           </div>
         )}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
-          <p className="mt-1 text-gray-600">
+          <h1 className="text-3xl font-bold text-content-primary">{name}</h1>
+          <p className="mt-1 text-content-secondary">
             {t("charity.subtitle", "Manage your charity dashboard")}
           </p>
         </div>
       </div>
-      <nav className="mt-4 md:mt-0 flex flex-wrap gap-3">
-        <Link to="/charity-portal/create-opportunity">
-          <Button variant="primary" className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            {t("volunteer.createOpportunity", "Create Opportunity")}
-          </Button>
-        </Link>
-        <Link to="/charity-portal/create-cause">
-          <Button
-            variant="ghost"
-            className="flex items-center gap-2 border border-line-accent/40 text-accent-base hover:bg-accent-subtle/40 dark:hover:bg-accent-subtle/20"
-          >
-            <Heart className="h-4 w-4" />
-            {t("cause.createCause", "Create Cause")}
-          </Button>
-        </Link>
-      </nav>
+      {showActions && (
+        <nav className="mt-4 md:mt-0 flex flex-wrap gap-3">
+          <Link to="/charity-portal/create-opportunity">
+            <Button variant="primary" className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              {t("volunteer.createOpportunity", "Create Opportunity")}
+            </Button>
+          </Link>
+          <Link to="/charity-portal/create-cause">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 border border-line-accent/40 text-accent-base hover:bg-accent-subtle/40 dark:hover:bg-accent-subtle/20"
+            >
+              <Heart className="h-4 w-4" />
+              {t("cause.createCause", "Create Cause")}
+            </Button>
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }
@@ -417,6 +420,111 @@ function ConfirmDeleteModal({
       </div>
     </div>
   );
+}
+
+type TransactionsTabProps = React.ComponentProps<typeof TransactionsTab>;
+type HoursTabProps = React.ComponentProps<typeof HoursVerificationTab>;
+type OrganizationTabProps = React.ComponentProps<typeof OrganizationProfileTab>;
+
+interface CharityTabPanelProps {
+  activeTab: TabKey;
+  profileId?: string;
+  transactions: Transaction[];
+  sortConfig: TransactionsTabProps["sortConfig"];
+  onSort: TransactionsTabProps["onSort"];
+  onShowExportModal: () => void;
+  pendingHours: VolunteerHours[];
+  onVerifyHours: HoursTabProps["onVerify"];
+  onRejectHours: HoursTabProps["onReject"];
+  onExportHours: HoursTabProps["onExport"];
+  pendingApplications: VolunteerApplication[];
+  opportunities: CharityOpportunity[];
+  onEditOpportunity: (_id: string) => void;
+  onDeleteOpportunity: (_id: string) => void;
+  causes: CharityCause[];
+  onEditCause: (_id: string) => void;
+  onDeleteCause: (_id: string) => void;
+  onLogoUploaded: OrganizationTabProps["onLogoUploaded"];
+  onBannerUploaded: OrganizationTabProps["onBannerUploaded"];
+}
+
+/**
+ * Renders the content for the selected charity portal tab.
+ * @param props - The active tab plus the data and handlers each tab needs
+ * @returns The active tab's panel, or null when it needs a profile that is missing
+ */
+function CharityTabPanel({
+  activeTab,
+  profileId,
+  transactions,
+  sortConfig,
+  onSort,
+  onShowExportModal,
+  pendingHours,
+  onVerifyHours,
+  onRejectHours,
+  onExportHours,
+  pendingApplications,
+  opportunities,
+  onEditOpportunity,
+  onDeleteOpportunity,
+  causes,
+  onEditCause,
+  onDeleteCause,
+  onLogoUploaded,
+  onBannerUploaded,
+}: CharityTabPanelProps) {
+  switch (activeTab) {
+    case "transactions":
+      return (
+        <TransactionsTab
+          transactions={transactions}
+          sortConfig={sortConfig}
+          onSort={onSort}
+          onShowExportModal={onShowExportModal}
+        />
+      );
+    case "hours":
+      return profileId ? (
+        <HoursVerificationTab
+          pendingHours={pendingHours}
+          profileId={profileId}
+          onVerify={onVerifyHours}
+          onReject={onRejectHours}
+          onExport={onExportHours}
+        />
+      ) : null;
+    case "applications":
+      return <ApplicationsTab pendingApplications={pendingApplications} />;
+    case "opportunities":
+      return (
+        <OpportunitiesTab
+          opportunities={opportunities}
+          onEdit={onEditOpportunity}
+          onDelete={onDeleteOpportunity}
+        />
+      );
+    case "causes":
+      return (
+        <CausesTab
+          causes={causes}
+          onEdit={onEditCause}
+          onDelete={onDeleteCause}
+        />
+      );
+    case "impact":
+      return profileId ? <ImpactProfileTab profileId={profileId} /> : null;
+    case "organization":
+      return profileId ? (
+        <OrganizationProfileTab
+          profileId={profileId}
+          onLogoUploaded={onLogoUploaded}
+          onBannerUploaded={onBannerUploaded}
+        />
+      ) : null;
+    default:
+      return null;
+  }
 }
 
 /** Integrated notice shown when the charity has no receiving wallet configured. */
@@ -477,9 +585,6 @@ export const CharityPortal: React.FC = () => {
   } | null>(null);
   const [showExportModal, setShowExportModal] = useState(false);
   const [showWalletModal, setShowWalletModal] = useState(false);
-  const [charityWalletAddress, setCharityWalletAddress] = useState<
-    string | null | undefined
-  >();
   const [sortConfig, setSortConfig] = useState<{
     key: "date" | "type" | "status" | "organization" | null;
     direction: "asc" | "desc";
@@ -503,12 +608,22 @@ export const CharityPortal: React.FC = () => {
   const [opportunities, setOpportunities] = useState<CharityOpportunity[]>([]);
   const [causes, setCauses] = useState<CharityCause[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [charityLogoUrl, setCharityLogoUrl] = useState<string | null>(null);
-  const [charityBannerImageUrl, setCharityBannerImageUrl] = useState<
-    string | null
-  >(null);
-  const [charityOrgName, setCharityOrgName] = useState<string | null>(null);
+  const [error, setError] = useState(false);
+  const {
+    ready: metaReady,
+    walletAddress: charityWalletAddress,
+    verification,
+    onboardingState,
+    orgName: charityOrgName,
+    logoUrl: charityLogoUrl,
+    bannerImageUrl: charityBannerImageUrl,
+    isRestricted,
+    showChecklist,
+    showWalletBanner,
+    dismissChecklist,
+    setLogoUrl: setCharityLogoUrl,
+    setBannerImageUrl: setCharityBannerImageUrl,
+  } = useCharityDashboardMeta(userId, profile?.id);
   const isMountedRef = useRef(true);
 
   useEffect(() => {
@@ -517,37 +632,19 @@ export const CharityPortal: React.FC = () => {
     };
   }, []);
 
-  // Fetch wallet address and charity profile header data whenever the user changes
-  useEffect(() => {
-    if (!userId) return;
-    getCharityWalletAddress(userId).then((addr) => {
-      if (isMountedRef.current) setCharityWalletAddress(addr);
-    });
-    supabase
-      .from("charity_profiles")
-      .select("ein, name, logo_url, banner_image_url")
-      .eq("claimed_by", userId)
-      .maybeSingle()
-      .then(({ data }) => {
-        if (isMountedRef.current) {
-          setCharityOrgName(data?.name ?? null);
-          setCharityLogoUrl(
-            repairCharityImageUrl(data?.logo_url, data?.ein),
-          );
-          setCharityBannerImageUrl(
-            repairCharityImageUrl(data?.banner_image_url, data?.ein),
-          );
-        }
-      });
-  }, [userId]);
+  const handleLogoUploaded = useCallback(
+    (url: string | null) => {
+      setCharityLogoUrl(url);
+    },
+    [setCharityLogoUrl],
+  );
 
-  const handleLogoUploaded = useCallback((url: string | null) => {
-    setCharityLogoUrl(url);
-  }, []);
-
-  const handleBannerUploaded = useCallback((url: string | null) => {
-    setCharityBannerImageUrl(url);
-  }, []);
+  const handleBannerUploaded = useCallback(
+    (url: string | null) => {
+      setCharityBannerImageUrl(url);
+    },
+    [setCharityBannerImageUrl],
+  );
 
   // Helper function to fetch basic statistics data
   const fetchBasicStats = useCallback(
@@ -972,7 +1069,7 @@ export const CharityPortal: React.FC = () => {
 
     try {
       setLoading(true);
-      setError(null);
+      setError(false);
 
       Logger.info("Fetching charity data", { profileId: profile.id });
 
@@ -1016,7 +1113,7 @@ export const CharityPortal: React.FC = () => {
         state: { profileId: profile?.id },
       });
 
-      setError("Failed to load charity data. Please try again.");
+      setError(true);
     } finally {
       if (isMountedRef.current) {
         setLoading(false);
@@ -1040,7 +1137,7 @@ export const CharityPortal: React.FC = () => {
   }, [profile?.id, fetchCharityData]);
 
   const handleRetry = useCallback(() => {
-    setError(null);
+    setError(false);
     fetchCharityData();
   }, [fetchCharityData]);
 
@@ -1231,7 +1328,7 @@ export const CharityPortal: React.FC = () => {
     return <Navigate to="/login?type=charity" />;
   }
 
-  if (profileLoading || loading) {
+  if (profileLoading || loading || !metaReady) {
     return <CharityPortalSkeleton />;
   }
 
@@ -1239,9 +1336,12 @@ export const CharityPortal: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-status-danger/10 p-4 rounded-md text-status-danger">
-          {error}
+          {t(
+            "charity.portal.loadError",
+            "Failed to load charity data. Please try again.",
+          )}
           <Button onClick={handleRetry} variant="secondary" className="mt-4">
-            Retry
+            {t("common.retry", "Retry")}
           </Button>
         </div>
       </div>
@@ -1264,14 +1364,20 @@ export const CharityPortal: React.FC = () => {
         <CharityPortalHeader
           displayName={charityOrgName ?? profile?.display_name}
           logoUrl={charityLogoUrl}
+          showActions={!isRestricted}
           t={t}
         />
 
         {/* Verification status banner for pending/rejected/suspended charities */}
-        <VerificationStatusBanner userId={user.id} />
+        {verification && (
+          <VerificationBanner
+            status={verification.status}
+            reviewNotes={verification.reviewNotes}
+          />
+        )}
 
         {/* Wallet setup banner when no receiving wallet is configured */}
-        {charityWalletAddress === null && (
+        {showWalletBanner && (
           <CharityWalletBanner onOpen={handleOpenWalletModal} />
         )}
 
@@ -1287,24 +1393,16 @@ export const CharityPortal: React.FC = () => {
           <div className="flex items-center gap-2 mb-4 text-xs text-accent-base">
             <Wallet className="h-3.5 w-3.5" />
             <span>
-              Receiving wallet: {charityWalletAddress.slice(0, 6)}&hellip;
-              {charityWalletAddress.slice(-4)}
+              {t(
+                "charity.portal.receivingWallet",
+                "Receiving wallet: {{address}}",
+                {
+                  address: `${charityWalletAddress.slice(0, 6)}…${charityWalletAddress.slice(-4)}`,
+                },
+              )}
             </span>
           </div>
         )}
-
-        {/* Onboarding checklist for newly approved charities */}
-        {profile?.id && (
-          <CharityOnboardingChecklist
-            profileId={profile.id}
-            onNavigateTab={handleOnboardingNavigate}
-            logoUrl={charityLogoUrl}
-            bannerImageUrl={charityBannerImageUrl}
-          />
-        )}
-
-        {/* Quick-nav search */}
-        <DashboardSearch t={t} />
 
         {/* Enhanced Metrics Grid */}
         <StatsCards
@@ -1312,6 +1410,21 @@ export const CharityPortal: React.FC = () => {
           onTransactionsClick={handleTransactionsTab}
           onVolunteersClick={handleHoursTab}
         />
+
+        {/* Onboarding checklist for newly approved charities */}
+        {showChecklist && profile?.id && (
+          <CharityOnboardingChecklist
+            profileId={profile.id}
+            onNavigateTab={handleOnboardingNavigate}
+            logoUrl={charityLogoUrl}
+            bannerImageUrl={charityBannerImageUrl}
+            initialState={onboardingState}
+            onDismiss={dismissChecklist}
+          />
+        )}
+
+        {/* Quick-nav search */}
+        <DashboardSearch t={t} />
 
         {/* Tab Navigation */}
         <CharityTabNav
@@ -1358,63 +1471,28 @@ export const CharityPortal: React.FC = () => {
           onTabChange={handleTabChange}
         />
 
-        {/* Transaction History */}
-        {activeTab === "transactions" && (
-          <TransactionsTab
-            transactions={transactions}
-            sortConfig={sortConfig}
-            onSort={handleSort}
-            onShowExportModal={handleShowExportModal}
-          />
-        )}
-
-        {/* Hours Verification (unified) */}
-        {activeTab === "hours" && profile?.id && (
-          <HoursVerificationTab
-            pendingHours={pendingHours}
-            profileId={profile.id}
-            onVerify={handleVerifyHours}
-            onReject={handleRejectHours}
-            onExport={handleExportHours}
-          />
-        )}
-
-        {/* Volunteer Applications */}
-        {activeTab === "applications" && (
-          <ApplicationsTab pendingApplications={pendingApplications} />
-        )}
-
-        {/* Volunteer Opportunities Management */}
-        {activeTab === "opportunities" && (
-          <OpportunitiesTab
-            opportunities={opportunities}
-            onEdit={handleEditOpportunity}
-            onDelete={handleRequestDeleteOpportunity}
-          />
-        )}
-
-        {/* Causes Tab */}
-        {activeTab === "causes" && (
-          <CausesTab
-            causes={causes}
-            onEdit={handleEditCause}
-            onDelete={handleRequestDeleteCause}
-          />
-        )}
-
-        {/* Impact Profile */}
-        {activeTab === "impact" && profile?.id && (
-          <ImpactProfileTab profileId={profile.id} />
-        )}
-
-        {/* Organization Profile */}
-        {activeTab === "organization" && profile?.id && (
-          <OrganizationProfileTab
-            profileId={profile.id}
-            onLogoUploaded={handleLogoUploaded}
-            onBannerUploaded={handleBannerUploaded}
-          />
-        )}
+        {/* Active tab content */}
+        <CharityTabPanel
+          activeTab={activeTab}
+          profileId={profile?.id}
+          transactions={transactions}
+          sortConfig={sortConfig}
+          onSort={handleSort}
+          onShowExportModal={handleShowExportModal}
+          pendingHours={pendingHours}
+          onVerifyHours={handleVerifyHours}
+          onRejectHours={handleRejectHours}
+          onExportHours={handleExportHours}
+          pendingApplications={pendingApplications}
+          opportunities={opportunities}
+          onEditOpportunity={handleEditOpportunity}
+          onDeleteOpportunity={handleRequestDeleteOpportunity}
+          causes={causes}
+          onEditCause={handleEditCause}
+          onDeleteCause={handleRequestDeleteCause}
+          onLogoUploaded={handleLogoUploaded}
+          onBannerUploaded={handleBannerUploaded}
+        />
 
         {/* Export Modal */}
         {showExportModal && (

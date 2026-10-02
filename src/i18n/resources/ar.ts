@@ -631,6 +631,57 @@ export default {
       "اربط محفظة لاستقبال التبرعات على السلسلة.",
     "charity.portal.setupWallet": "إعداد المحفظة",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "قائمة التهيئة",
+    "charity.onboarding.title": "البدء",
+    "charity.onboarding.progress": "اكتملت {{completed}} من {{total}} خطوات",
+    "charity.onboarding.optional": "اختياري",
+    "charity.onboarding.allComplete":
+      "اكتملت جميع الخطوات! يمكنك إغلاق هذه القائمة.",
+    "charity.onboarding.expand": "توسيع القائمة",
+    "charity.onboarding.collapse": "طي القائمة",
+    "charity.onboarding.dismiss": "إغلاق قائمة التهيئة",
+    "charity.onboarding.check": "تحديد {{label}}",
+    "charity.onboarding.uncheck": "إلغاء تحديد {{label}}",
+    "charity.onboarding.stepDone": "{{label}} (مكتمل)",
+    "charity.onboarding.stepAuto": "{{label}} (يكتمل تلقائيًا)",
+    "charity.onboarding.goToOrganization": "الانتقال إلى المنظمة",
+    "charity.onboarding.setupWallet": "إعداد المحفظة",
+    "charity.onboarding.item.completeProfile.label": "إكمال ملف المنظمة",
+    "charity.onboarding.item.completeProfile.description":
+      "أضف اسم منظمتك ووصفها وعنوانها ومعلومات الاتصال.",
+    "charity.onboarding.item.uploadLogo.label": "رفع الشعار أو صورة الغلاف",
+    "charity.onboarding.item.uploadLogo.description":
+      "أضف شعارًا أو صورة غلاف لمساعدة المتبرعين على التعرف على جمعيتك الخيرية.",
+    "charity.onboarding.item.connectWallet.label": "إعداد محفظة الاستلام",
+    "charity.onboarding.item.connectWallet.description":
+      "اختر محفظة Safe متعددة التوقيعات أو حفظًا مؤسسيًا أو محفظة بتوقيع واحد لاستلام التبرعات. أثبت سيطرتك بتوقيع رسالة.",
+    "charity.onboarding.item.bankDetails.label":
+      "إعداد البيانات المصرفية للتحويل إلى العملة الورقية",
+    "charity.onboarding.item.bankDetails.description":
+      "قم بإعداد المعلومات المصرفية إذا كنت ترغب في قبول التبرعات بالبطاقات.",
+    "charity.onboarding.item.acceptTerms.label":
+      "مراجعة شروط الخدمة والموافقة عليها",
+    "charity.onboarding.item.acceptTerms.description":
+      "اقرأ شروط وأحكام Give Protocol الخاصة بالجمعيات الخيرية وأكّد موافقتك عليها.",
+    "charity.verification.pendingTitle": "الطلب قيد المراجعة",
+    "charity.verification.pendingBody":
+      "يراجع فريقنا طلب جمعيتك الخيرية. يستغرق ذلك عادةً من 3 إلى 5 أيام عمل. سنرسل إليك بريدًا إلكترونيًا عند اتخاذ القرار.",
+    "charity.verification.rejectedTitle": "لم تتم الموافقة على الطلب",
+    "charity.verification.reason": "السبب: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "لم تتم الموافقة على طلبك في الوقت الحالي.",
+    "charity.verification.contactSupport": "التواصل مع الدعم",
+    "charity.verification.suspendedTitle": "الحساب موقوف",
+    "charity.verification.suspendedDefault": "تم إيقاف حساب جمعيتك الخيرية.",
+    "charity.verification.appealSuspension": "الطعن في الإيقاف",
+    "charity.verification.verifiedTitle": "تم التحقق من الجمعية الخيرية",
+    "charity.verification.verifiedBody":
+      "تم التحقق من منظمتك ويمكن للمتبرعين الآن دعم قضاياك.",
+    "charity.portal.receivingWallet": "محفظة الاستلام: {{address}}",
+    "charity.portal.loadError":
+      "تعذر تحميل بيانات الجمعية الخيرية. يرجى المحاولة مرة أخرى.",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "الآن",
     "timestamp.oneMinuteAgo": "منذ دقيقة واحدة",

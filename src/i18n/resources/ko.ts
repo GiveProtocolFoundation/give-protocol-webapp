@@ -639,6 +639,56 @@ export default {
       "온체인 기부를 받으려면 지갑을 연결하세요.",
     "charity.portal.setupWallet": "지갑 설정",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "온보딩 체크리스트",
+    "charity.onboarding.title": "시작하기",
+    "charity.onboarding.progress": "{{total}}단계 중 {{completed}}단계 완료",
+    "charity.onboarding.optional": "선택 사항",
+    "charity.onboarding.allComplete":
+      "모든 단계를 완료했습니다! 이 체크리스트를 닫아도 됩니다.",
+    "charity.onboarding.expand": "체크리스트 펼치기",
+    "charity.onboarding.collapse": "체크리스트 접기",
+    "charity.onboarding.dismiss": "온보딩 체크리스트 닫기",
+    "charity.onboarding.check": "{{label}} 체크",
+    "charity.onboarding.uncheck": "{{label}} 체크 해제",
+    "charity.onboarding.stepDone": "{{label}} (완료)",
+    "charity.onboarding.stepAuto": "{{label}} (자동으로 완료됨)",
+    "charity.onboarding.goToOrganization": "조직으로 이동",
+    "charity.onboarding.setupWallet": "지갑 설정",
+    "charity.onboarding.item.completeProfile.label": "조직 프로필 완성",
+    "charity.onboarding.item.completeProfile.description":
+      "조직 이름, 설명, 주소, 연락처 정보를 추가하세요.",
+    "charity.onboarding.item.uploadLogo.label": "로고 또는 배너 이미지 업로드",
+    "charity.onboarding.item.uploadLogo.description":
+      "기부자가 자선단체를 쉽게 알아볼 수 있도록 로고나 배너를 추가하세요.",
+    "charity.onboarding.item.connectWallet.label": "수령 지갑 설정",
+    "charity.onboarding.item.connectWallet.description":
+      "기부금을 받을 멀티시그 Safe, 기관 수탁 또는 단일 서명 지갑을 선택하세요. 메시지에 서명하여 통제권을 증명합니다.",
+    "charity.onboarding.item.bankDetails.label":
+      "법정화폐 출금용 은행 정보 설정",
+    "charity.onboarding.item.bankDetails.description":
+      "카드 기부를 받으려면 은행 정보를 설정하세요.",
+    "charity.onboarding.item.acceptTerms.label": "서비스 약관 검토 및 동의",
+    "charity.onboarding.item.acceptTerms.description":
+      "Give Protocol 자선단체 이용 약관을 읽고 확인하세요.",
+    "charity.verification.pendingTitle": "신청 검토 중",
+    "charity.verification.pendingBody":
+      "저희 팀이 자선단체 신청서를 검토하고 있습니다. 보통 영업일 기준 3~5일이 걸리며, 결정이 나면 이메일로 알려드리겠습니다.",
+    "charity.verification.rejectedTitle": "신청이 승인되지 않았습니다",
+    "charity.verification.reason": "사유: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "이번에는 신청이 승인되지 않았습니다.",
+    "charity.verification.contactSupport": "지원팀 문의",
+    "charity.verification.suspendedTitle": "계정이 정지되었습니다",
+    "charity.verification.suspendedDefault": "자선단체 계정이 정지되었습니다.",
+    "charity.verification.appealSuspension": "정지 이의 신청",
+    "charity.verification.verifiedTitle": "자선단체 인증 완료",
+    "charity.verification.verifiedBody":
+      "조직이 인증되었으며 이제 기부자가 귀하의 캠페인을 후원할 수 있습니다.",
+    "charity.portal.receivingWallet": "수령 지갑: {{address}}",
+    "charity.portal.loadError":
+      "자선단체 데이터를 불러오지 못했습니다. 다시 시도해 주세요.",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "방금 전",
     "timestamp.oneMinuteAgo": "1분 전",

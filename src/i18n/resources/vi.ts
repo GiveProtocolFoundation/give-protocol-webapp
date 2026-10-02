@@ -655,6 +655,60 @@ export default {
       "Kết nối ví để nhận quyên góp on-chain.",
     "charity.portal.setupWallet": "Thiết lập ví",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "Danh sách kiểm tra bắt đầu",
+    "charity.onboarding.title": "Bắt đầu",
+    "charity.onboarding.progress": "Đã hoàn thành {{completed}}/{{total}} bước",
+    "charity.onboarding.optional": "Tùy chọn",
+    "charity.onboarding.allComplete":
+      "Đã hoàn thành tất cả các bước! Bạn có thể đóng danh sách này.",
+    "charity.onboarding.expand": "Mở rộng danh sách",
+    "charity.onboarding.collapse": "Thu gọn danh sách",
+    "charity.onboarding.dismiss": "Đóng danh sách kiểm tra bắt đầu",
+    "charity.onboarding.check": "Đánh dấu {{label}}",
+    "charity.onboarding.uncheck": "Bỏ đánh dấu {{label}}",
+    "charity.onboarding.stepDone": "{{label}} (đã hoàn thành)",
+    "charity.onboarding.stepAuto": "{{label}} (tự động hoàn thành)",
+    "charity.onboarding.goToOrganization": "Đến trang Tổ chức",
+    "charity.onboarding.setupWallet": "Thiết lập ví",
+    "charity.onboarding.item.completeProfile.label": "Hoàn thiện hồ sơ tổ chức",
+    "charity.onboarding.item.completeProfile.description":
+      "Thêm tên, mô tả, địa chỉ và thông tin liên hệ của tổ chức.",
+    "charity.onboarding.item.uploadLogo.label":
+      "Tải lên logo hoặc ảnh biểu ngữ",
+    "charity.onboarding.item.uploadLogo.description":
+      "Thêm logo hoặc biểu ngữ để giúp nhà tài trợ nhận ra tổ chức từ thiện của bạn.",
+    "charity.onboarding.item.connectWallet.label":
+      "Thiết lập ví nhận quyên góp",
+    "charity.onboarding.item.connectWallet.description":
+      "Chọn Safe đa chữ ký, dịch vụ lưu ký tổ chức hoặc ví một chữ ký để nhận quyên góp. Chứng minh quyền kiểm soát bằng cách ký một thông điệp.",
+    "charity.onboarding.item.bankDetails.label":
+      "Thiết lập thông tin ngân hàng để quy đổi sang tiền pháp định",
+    "charity.onboarding.item.bankDetails.description":
+      "Cấu hình thông tin ngân hàng nếu bạn muốn nhận quyên góp qua thẻ.",
+    "charity.onboarding.item.acceptTerms.label":
+      "Xem và chấp nhận điều khoản dịch vụ",
+    "charity.onboarding.item.acceptTerms.description":
+      "Đọc và xác nhận điều khoản và điều kiện của Give Protocol dành cho tổ chức từ thiện.",
+    "charity.verification.pendingTitle": "Đơn đăng ký đang được xem xét",
+    "charity.verification.pendingBody":
+      "Đội ngũ của chúng tôi đang xem xét đơn đăng ký của tổ chức từ thiện của bạn. Việc này thường mất 3–5 ngày làm việc. Chúng tôi sẽ gửi email khi có quyết định.",
+    "charity.verification.rejectedTitle": "Đơn đăng ký chưa được phê duyệt",
+    "charity.verification.reason": "Lý do: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "Đơn đăng ký của bạn chưa được phê duyệt vào lúc này.",
+    "charity.verification.contactSupport": "Liên hệ hỗ trợ",
+    "charity.verification.suspendedTitle": "Tài khoản bị tạm ngưng",
+    "charity.verification.suspendedDefault":
+      "Tài khoản tổ chức từ thiện của bạn đã bị tạm ngưng.",
+    "charity.verification.appealSuspension": "Khiếu nại việc tạm ngưng",
+    "charity.verification.verifiedTitle": "Tổ chức từ thiện đã được xác minh",
+    "charity.verification.verifiedBody":
+      "Tổ chức của bạn đã được xác minh và các nhà tài trợ hiện có thể ủng hộ các hoạt động của bạn.",
+    "charity.portal.receivingWallet": "Ví nhận quyên góp: {{address}}",
+    "charity.portal.loadError":
+      "Không thể tải dữ liệu tổ chức từ thiện. Vui lòng thử lại.",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "Vừa xong",
     "timestamp.oneMinuteAgo": "1 phút trước",
