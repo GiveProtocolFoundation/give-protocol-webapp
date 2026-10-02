@@ -11,6 +11,9 @@ import { MemoryRouter } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useProfile } from "@/hooks/useProfile";
 import { useTranslation } from "@/hooks/useTranslation";
+import { getCharityVerificationStatus } from "@/services/charityVerificationService";
+import { getCharityWalletAddress } from "@/services/charityProfileService";
+import { loadOnboardingState } from "@/components/charity/charityDashboardState";
 
 // Use jest.mocked() — mapper provides jest.fn() mocks for these hooks
 const mockUseAuth = jest.mocked(useAuth);
@@ -95,6 +98,20 @@ jest.mock("../charity-portal/components", () => ({
     </div>
   ),
 }));
+
+// Onboarding state is loaded up front by the portal; control it per test
+jest.mock("@/components/charity/charityDashboardState", () => ({
+  ...jest.requireActual<
+    typeof import("@/components/charity/charityDashboardState")
+  >("@/components/charity/charityDashboardState"),
+  loadOnboardingState: jest.fn(() =>
+    Promise.resolve({ dismissed: false, completedItems: [] }),
+  ),
+}));
+
+const mockGetVerification = jest.mocked(getCharityVerificationStatus);
+const mockGetWallet = jest.mocked(getCharityWalletAddress);
+const mockLoadOnboarding = jest.mocked(loadOnboardingState);
 
 // Mock export modal component
 jest.mock("@/components/contribution/DonationExportModal", () => ({
@@ -488,6 +505,110 @@ describe("CharityPortal", () => {
       expect(
         screen.getByRole("button", { name: /refresh data/i }),
       ).toBeInTheDocument();
+    });
+  });
+
+  describe("Verification gating and status loading", () => {
+    beforeEach(() => {
+      mockGetVerification.mockResolvedValue(null);
+      mockGetWallet.mockResolvedValue("0x1234567890abcdef");
+      mockLoadOnboarding.mockResolvedValue({
+        dismissed: false,
+        completedItems: [],
+      });
+    });
+
+    it("shows only the status banner for a rejected charity", async () => {
+      mockGetVerification.mockResolvedValue({
+        status: "rejected",
+        reviewNotes: "Test rejection",
+      });
+      mockGetWallet.mockResolvedValue(null);
+      renderWithRouter();
+
+      expect(await screen.findByRole("alert")).toHaveTextContent(
+        "Application Not Approved",
+      );
+      expect(screen.queryByText("Getting Started")).not.toBeInTheDocument();
+      expect(screen.queryByText("Create Cause")).not.toBeInTheDocument();
+      expect(screen.queryByText("Create Opportunity")).not.toBeInTheDocument();
+      expect(
+        screen.queryByText("charity.portal.setupWallet"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("hides onboarding and create actions for pending charities", async () => {
+      mockGetVerification.mockResolvedValue({
+        status: "pending",
+        reviewNotes: null,
+      });
+      renderWithRouter();
+
+      expect(await screen.findByRole("status")).toHaveTextContent(
+        "Application Under Review",
+      );
+      expect(screen.queryByText("Getting Started")).not.toBeInTheDocument();
+      expect(screen.queryByText("Create Cause")).not.toBeInTheDocument();
+    });
+
+    it("shows checklist and create actions for an approved charity", async () => {
+      mockGetVerification.mockResolvedValue({
+        status: "approved",
+        reviewNotes: null,
+      });
+      renderWithRouter();
+
+      expect(await screen.findByText("Getting Started")).toBeInTheDocument();
+      expect(screen.getByText("Create Cause")).toBeInTheDocument();
+      expect(screen.queryByRole("alert")).not.toBeInTheDocument();
+    });
+
+    it("does not duplicate the wallet prompt while the checklist is shown", async () => {
+      mockGetWallet.mockResolvedValue(null);
+      renderWithRouter();
+
+      expect(await screen.findByText("Getting Started")).toBeInTheDocument();
+      expect(
+        screen.queryByText("charity.portal.walletNotConfigured"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("shows the wallet banner once the checklist is dismissed", async () => {
+      mockGetWallet.mockResolvedValue(null);
+      mockLoadOnboarding.mockResolvedValue({
+        dismissed: true,
+        completedItems: [],
+      });
+      renderWithRouter();
+
+      expect(
+        await screen.findByText("charity.portal.walletNotConfigured"),
+      ).toBeInTheDocument();
+      expect(screen.queryByText("Getting Started")).not.toBeInTheDocument();
+    });
+
+    it("keeps the skeleton until status data has loaded", async () => {
+      let resolveStatus: (v: null) => void = () => {
+        // replaced below
+      };
+      mockGetVerification.mockReturnValue(
+        new Promise((resolve) => {
+          resolveStatus = resolve;
+        }),
+      );
+      renderWithRouter();
+
+      await act(async () => {
+        await new Promise<void>((resolve) => setTimeout(resolve, 50));
+      });
+      expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
+
+      await act(async () => {
+        resolveStatus(null);
+      });
+      expect(await screen.findByRole("tablist")).toBeInTheDocument();
+      // Checklist is present in the same render as the page, not popped in later
+      expect(screen.getByText("Getting Started")).toBeInTheDocument();
     });
   });
 });

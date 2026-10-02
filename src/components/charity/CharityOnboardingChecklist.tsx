@@ -3,11 +3,8 @@ import { X, CheckCircle2, Circle, ChevronDown, ChevronUp } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { getDesignationState } from "@/services/walletDesignationService";
-
-interface OnboardingMeta {
-  dismissed?: boolean;
-  completedItems?: string[];
-}
+import { META_KEY, loadOnboardingState } from "./charityDashboardState";
+import type { OnboardingState } from "./charityDashboardState";
 
 interface ChecklistItemDef {
   id: string;
@@ -55,8 +52,6 @@ const CHECKLIST_ITEMS: ChecklistItemDef[] = [
   },
 ];
 
-const META_KEY = "onboarding_checklist";
-
 interface CharityOnboardingChecklistProps {
   /** The profile row ID from the `profiles` table */
   profileId: string;
@@ -68,6 +63,14 @@ interface CharityOnboardingChecklistProps {
   logoUrl?: string | null;
   /** The charity's uploaded banner image URL — auto-completes upload_logo step when present */
   bannerImageUrl?: string | null;
+  /**
+   * Pre-loaded state from the parent. When provided (including null for a
+   * failed load) the checklist skips its own fetch and renders immediately,
+   * avoiding a layout shift after the page has loaded.
+   */
+  initialState?: OnboardingState | null;
+  /** Called after the user dismisses the checklist */
+  onDismiss?: () => void;
 }
 
 /**
@@ -79,6 +82,8 @@ interface CharityOnboardingChecklistProps {
  * @param props.onNavigateTab - Optional callback to navigate to a portal tab
  * @param props.logoUrl - The charity's uploaded logo URL
  * @param props.bannerImageUrl - The charity's uploaded banner image URL
+ * @param props.initialState - Optional pre-loaded state that skips the internal fetch
+ * @param props.onDismiss - Optional callback fired after the checklist is dismissed
  * @returns The onboarding checklist panel, or null when dismissed/complete
  */
 export const CharityOnboardingChecklist: React.FC<
@@ -89,51 +94,31 @@ export const CharityOnboardingChecklist: React.FC<
   onNavigateTab,
   logoUrl,
   bannerImageUrl,
+  initialState,
+  onDismiss,
 }) => {
-  const [completedItems, setCompletedItems] = useState<Set<string>>(new Set());
-  const [dismissed, setDismissed] = useState(false);
+  const [completedItems, setCompletedItems] = useState<Set<string>>(
+    () => new Set(initialState?.completedItems ?? []),
+  );
+  const [dismissed, setDismissed] = useState(initialState?.dismissed ?? false);
   const [collapsed, setCollapsed] = useState(false);
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(initialState === undefined);
+  const hasInitialState = initialState !== undefined;
 
-  // Load persisted state from profiles.meta
+  // Load persisted state from profiles.meta unless the parent supplied it
   useEffect(() => {
+    if (hasInitialState) return;
     let isMounted = true;
 
-    /** Fetches onboarding state from profiles.meta in Supabase. */
+    /** Fetches onboarding state and applies it to local state. */
     const loadState = async () => {
-      try {
-        const { data, error } = await supabase
-          .from("profiles")
-          .select("meta")
-          .eq("id", profileId)
-          .single();
-
-        if (!isMounted) return;
-
-        if (error) {
-          Logger.warn("Could not load onboarding state", { error, profileId });
-          return;
-        }
-
-        const meta = (data?.meta as Record<string, unknown>) || {};
-        const checklist = (meta[META_KEY] as OnboardingMeta) || {};
-
-        if (checklist.dismissed) {
-          setDismissed(true);
-        }
-        if (Array.isArray(checklist.completedItems)) {
-          setCompletedItems(new Set(checklist.completedItems));
-        }
-      } catch (err) {
-        Logger.warn("Exception loading onboarding state", {
-          error: err,
-          profileId,
-        });
-      } finally {
-        if (isMounted) {
-          setLoading(false);
-        }
+      const state = await loadOnboardingState(profileId);
+      if (!isMounted) return;
+      if (state) {
+        setDismissed(state.dismissed);
+        setCompletedItems(new Set(state.completedItems));
       }
+      setLoading(false);
     };
 
     loadState();
@@ -141,7 +126,7 @@ export const CharityOnboardingChecklist: React.FC<
     return () => {
       isMounted = false;
     };
-  }, [profileId]);
+  }, [profileId, hasInitialState]);
 
   // Auto-mark "connect_wallet" complete once the wallet designation has been
   // activated (status = 'active' in charity_profiles).
@@ -249,7 +234,8 @@ export const CharityOnboardingChecklist: React.FC<
   const handleDismiss = useCallback(() => {
     setDismissed(true);
     persistState(completedItems, true);
-  }, [completedItems, persistState]);
+    onDismiss?.();
+  }, [completedItems, persistState, onDismiss]);
 
   const handleToggleCollapse = useCallback(() => {
     setCollapsed((prev) => !prev);

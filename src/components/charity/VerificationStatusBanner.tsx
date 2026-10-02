@@ -68,6 +68,54 @@ interface VerificationStatusBannerProps {
   userId: string;
 }
 
+interface VerificationBannerProps {
+  /** Verification status to display */
+  status: CharityVerificationStatus;
+  /** Admin review notes, shown for rejected/suspended */
+  reviewNotes: string | null;
+}
+
+/**
+ * Presentational verification banner for an already-loaded status.
+ *
+ * @param props.status - The charity's verification status
+ * @param props.reviewNotes - Admin review notes, if any
+ * @returns Status banner, or null when status needs no action
+ */
+export const VerificationBanner: React.FC<VerificationBannerProps> = ({
+  status,
+  reviewNotes,
+}) => {
+  const config = getBannerConfig(status, reviewNotes);
+  if (config === null) return null;
+
+  const { bg, border, Icon, iconColor, title, body, actionLabel, actionHref } =
+    config;
+  const isUrgent = status === "rejected" || status === "suspended";
+
+  return (
+    <div
+      className={`${bg} border ${border} rounded-xl p-4 mb-6 flex gap-3`}
+      role={isUrgent ? "alert" : "status"}
+      aria-live={isUrgent ? "assertive" : "polite"}
+    >
+      <Icon className={`h-5 w-5 mt-0.5 flex-shrink-0 ${iconColor}`} />
+      <div className="flex-1 min-w-0">
+        <p className="text-sm font-semibold text-content-primary">{title}</p>
+        <p className="text-sm text-content-secondary mt-0.5">{body}</p>
+        {actionLabel && actionHref && (
+          <a
+            href={actionHref}
+            className="mt-2 inline-block text-sm font-medium underline text-content-secondary hover:text-content-primary"
+          >
+            {actionLabel}
+          </a>
+        )}
+      </div>
+    </div>
+  );
+};
+
 /**
  * Banner shown in the charity portal when the charity's verification status
  * requires attention (pending review, rejected, or suspended).
@@ -99,33 +147,7 @@ export const VerificationStatusBanner: React.FC<
 
   if (!loaded || status === null) return null;
 
-  const config = getBannerConfig(status, reviewNotes);
-  if (config === null) return null;
-
-  const { bg, border, Icon, iconColor, title, body, actionLabel, actionHref } =
-    config;
-
-  return (
-    <div
-      className={`${bg} border ${border} rounded-xl p-4 mb-6 flex gap-3`}
-      role="status"
-      aria-live="polite"
-    >
-      <Icon className={`h-5 w-5 mt-0.5 flex-shrink-0 ${iconColor}`} />
-      <div className="flex-1 min-w-0">
-        <p className="text-sm font-semibold text-content-primary">{title}</p>
-        <p className="text-sm text-content-secondary mt-0.5">{body}</p>
-        {actionLabel && actionHref && (
-          <a
-            href={actionHref}
-            className="mt-2 inline-block text-sm font-medium underline text-content-secondary hover:text-content-primary"
-          >
-            {actionLabel}
-          </a>
-        )}
-      </div>
-    </div>
-  );
+  return <VerificationBanner status={status} reviewNotes={reviewNotes} />;
 };
 
 /** Shown when the charity is fully verified — success confirmation banner. */

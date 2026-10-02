@@ -22,8 +22,15 @@ import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { repairCharityImageUrl } from "@/utils/charityAssets";
 import { CharityOnboardingChecklist } from "@/components/charity/CharityOnboardingChecklist";
-import { VerificationStatusBanner } from "@/components/charity/VerificationStatusBanner";
+import { VerificationBanner } from "@/components/charity/VerificationStatusBanner";
+import {
+  isRestrictedVerificationStatus,
+  loadOnboardingState,
+} from "@/components/charity/charityDashboardState";
+import type { OnboardingState } from "@/components/charity/charityDashboardState";
 import { getCharityWalletAddress } from "@/services/charityProfileService";
+import { getCharityVerificationStatus } from "@/services/charityVerificationService";
+import type { CharityVerificationResult } from "@/services/charityVerificationService";
 
 // Type definitions for Supabase data structures
 interface DonationData {
@@ -325,10 +332,12 @@ function OverviewHeader({
 function CharityPortalHeader({
   displayName,
   logoUrl,
+  showActions,
   t,
 }: {
   displayName?: string;
   logoUrl?: string | null;
+  showActions: boolean;
   t: (_key: string, _fallback?: string) => string;
 }) {
   const name = displayName || t("charity.dashboard", "Charity Dashboard");
@@ -362,23 +371,25 @@ function CharityPortalHeader({
           </p>
         </div>
       </div>
-      <nav className="mt-4 md:mt-0 flex flex-wrap gap-3">
-        <Link to="/charity-portal/create-opportunity">
-          <Button variant="primary" className="flex items-center gap-2">
-            <Plus className="h-4 w-4" />
-            {t("volunteer.createOpportunity", "Create Opportunity")}
-          </Button>
-        </Link>
-        <Link to="/charity-portal/create-cause">
-          <Button
-            variant="ghost"
-            className="flex items-center gap-2 border border-line-accent/40 text-accent-base hover:bg-accent-subtle/40 dark:hover:bg-accent-subtle/20"
-          >
-            <Heart className="h-4 w-4" />
-            {t("cause.createCause", "Create Cause")}
-          </Button>
-        </Link>
-      </nav>
+      {showActions && (
+        <nav className="mt-4 md:mt-0 flex flex-wrap gap-3">
+          <Link to="/charity-portal/create-opportunity">
+            <Button variant="primary" className="flex items-center gap-2">
+              <Plus className="h-4 w-4" />
+              {t("volunteer.createOpportunity", "Create Opportunity")}
+            </Button>
+          </Link>
+          <Link to="/charity-portal/create-cause">
+            <Button
+              variant="ghost"
+              className="flex items-center gap-2 border border-line-accent/40 text-accent-base hover:bg-accent-subtle/40 dark:hover:bg-accent-subtle/20"
+            >
+              <Heart className="h-4 w-4" />
+              {t("cause.createCause", "Create Cause")}
+            </Button>
+          </Link>
+        </nav>
+      )}
     </header>
   );
 }
@@ -509,6 +520,15 @@ export const CharityPortal: React.FC = () => {
     string | null
   >(null);
   const [charityOrgName, setCharityOrgName] = useState<string | null>(null);
+  // undefined = still loading; null = loaded but unavailable
+  const [verification, setVerification] = useState<
+    CharityVerificationResult | null | undefined
+  >();
+  const [onboardingState, setOnboardingState] = useState<
+    OnboardingState | null | undefined
+  >();
+  const [checklistDismissed, setChecklistDismissed] = useState(false);
+  const [walletLoaded, setWalletLoaded] = useState(false);
   const isMountedRef = useRef(true);
 
   useEffect(() => {
@@ -520,8 +540,22 @@ export const CharityPortal: React.FC = () => {
   // Fetch wallet address and charity profile header data whenever the user changes
   useEffect(() => {
     if (!userId) return;
-    getCharityWalletAddress(userId).then((addr) => {
-      if (isMountedRef.current) setCharityWalletAddress(addr);
+    // Load wallet + verification status together so the banners render with
+    // the rest of the page instead of popping in afterwards.
+    Promise.allSettled([
+      getCharityWalletAddress(userId),
+      getCharityVerificationStatus(userId),
+    ]).then(([walletResult, verificationResult]) => {
+      if (!isMountedRef.current) return;
+      if (walletResult.status === "fulfilled") {
+        setCharityWalletAddress(walletResult.value);
+      }
+      setVerification(
+        verificationResult.status === "fulfilled"
+          ? verificationResult.value
+          : null,
+      );
+      setWalletLoaded(true);
     });
     supabase
       .from("charity_profiles")
@@ -531,15 +565,29 @@ export const CharityPortal: React.FC = () => {
       .then(({ data }) => {
         if (isMountedRef.current) {
           setCharityOrgName(data?.name ?? null);
-          setCharityLogoUrl(
-            repairCharityImageUrl(data?.logo_url, data?.ein),
-          );
+          setCharityLogoUrl(repairCharityImageUrl(data?.logo_url, data?.ein));
           setCharityBannerImageUrl(
             repairCharityImageUrl(data?.banner_image_url, data?.ein),
           );
         }
       });
   }, [userId]);
+
+  // Load onboarding checklist state up front for the same reason
+  const profileId = profile?.id;
+  useEffect(() => {
+    if (!profileId) return;
+    loadOnboardingState(profileId).then((state) => {
+      if (!isMountedRef.current) return;
+      setOnboardingState(state);
+      setChecklistDismissed(state?.dismissed ?? false);
+    });
+  }, [profileId]);
+
+  const handleChecklistDismiss = useCallback(
+    () => setChecklistDismissed(true),
+    [],
+  );
 
   const handleLogoUploaded = useCallback((url: string | null) => {
     setCharityLogoUrl(url);
@@ -1231,7 +1279,10 @@ export const CharityPortal: React.FC = () => {
     return <Navigate to="/login?type=charity" />;
   }
 
-  if (profileLoading || loading) {
+  const statusReady =
+    walletLoaded && (!profileId || onboardingState !== undefined);
+
+  if (profileLoading || loading || !statusReady) {
     return <CharityPortalSkeleton />;
   }
 
@@ -1257,6 +1308,16 @@ export const CharityPortal: React.FC = () => {
   const pendingApplicationsCount = pendingApplications.length;
   const pendingHoursCount = pendingHours.length;
 
+  // Pending/rejected/suspended charities only see their status — no onboarding
+  // checklist, wallet prompt, or create actions.
+  const isRestricted = isRestrictedVerificationStatus(verification?.status);
+  const showChecklist =
+    Boolean(profileId) && !isRestricted && !checklistDismissed;
+  // The checklist already covers wallet setup, so the standalone banner is
+  // only needed once the checklist is gone.
+  const showWalletBanner =
+    charityWalletAddress === null && !isRestricted && !showChecklist;
+
   return (
     <main className="min-h-screen bg-surface-base">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
@@ -1264,14 +1325,20 @@ export const CharityPortal: React.FC = () => {
         <CharityPortalHeader
           displayName={charityOrgName ?? profile?.display_name}
           logoUrl={charityLogoUrl}
+          showActions={!isRestricted}
           t={t}
         />
 
         {/* Verification status banner for pending/rejected/suspended charities */}
-        <VerificationStatusBanner userId={user.id} />
+        {verification && (
+          <VerificationBanner
+            status={verification.status}
+            reviewNotes={verification.reviewNotes}
+          />
+        )}
 
         {/* Wallet setup banner when no receiving wallet is configured */}
-        {charityWalletAddress === null && (
+        {showWalletBanner && (
           <CharityWalletBanner onOpen={handleOpenWalletModal} />
         )}
 
@@ -1294,12 +1361,14 @@ export const CharityPortal: React.FC = () => {
         )}
 
         {/* Onboarding checklist for newly approved charities */}
-        {profile?.id && (
+        {showChecklist && profile?.id && (
           <CharityOnboardingChecklist
             profileId={profile.id}
             onNavigateTab={handleOnboardingNavigate}
             logoUrl={charityLogoUrl}
             bannerImageUrl={charityBannerImageUrl}
+            initialState={onboardingState}
+            onDismiss={handleChecklistDismiss}
           />
         )}
 

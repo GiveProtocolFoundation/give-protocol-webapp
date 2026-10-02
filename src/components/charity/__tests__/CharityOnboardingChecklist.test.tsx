@@ -318,4 +318,52 @@ describe("CharityOnboardingChecklist", () => {
       expect(screen.getByText("1 of 5 steps complete")).toBeInTheDocument();
     });
   });
+
+  describe("with initialState from the parent", () => {
+    it("renders immediately without fetching profiles.meta", () => {
+      render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          initialState={{ dismissed: false, completedItems: ["upload_logo"] }}
+        />,
+      );
+      expect(screen.getByText("Getting Started")).toBeInTheDocument();
+      expect(screen.getByText("1 of 5 steps complete")).toBeInTheDocument();
+      expect(
+        fromMock.mock.calls.filter(([t]) => t === "profiles"),
+      ).toHaveLength(0);
+    });
+
+    it("renders nothing when initialState is dismissed", () => {
+      const { container } = render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          initialState={{ dismissed: true, completedItems: [] }}
+        />,
+      );
+      expect(container).toBeEmptyDOMElement();
+    });
+
+    it("calls onDismiss when the checklist is dismissed", () => {
+      const onDismiss = jest.fn();
+      render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          initialState={{
+            dismissed: false,
+            completedItems: [
+              "complete_profile",
+              "upload_logo",
+              "connect_wallet",
+              "bank_details",
+              "accept_terms",
+            ],
+          }}
+          onDismiss={onDismiss}
+        />,
+      );
+      fireEvent.click(screen.getByLabelText("Dismiss onboarding checklist"));
+      expect(onDismiss).toHaveBeenCalledTimes(1);
+    });
+  });
 });
