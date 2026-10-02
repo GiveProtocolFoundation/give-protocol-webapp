@@ -21,7 +21,7 @@ import type { OnboardingState } from "@/components/charity/charityDashboardState
  */
 export function useCharityDashboardMeta(
   userId: string | null,
-  profileId: string | undefined,
+  profileId?: string,
 ) {
   // undefined = still loading; null = loaded but unavailable
   const [walletAddress, setWalletAddress] = useState<

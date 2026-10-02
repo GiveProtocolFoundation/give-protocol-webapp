@@ -34,9 +34,7 @@ describe("useCharityDashboardMeta", () => {
   });
 
   it("is not ready without a signed-in user", () => {
-    const { result } = renderHook(() =>
-      useCharityDashboardMeta(null, undefined),
-    );
+    const { result } = renderHook(() => useCharityDashboardMeta(null));
     expect(result.current.ready).toBe(false);
     expect(mockGetWallet).not.toHaveBeenCalled();
   });
@@ -64,9 +62,7 @@ describe("useCharityDashboardMeta", () => {
   });
 
   it("is ready without waiting for onboarding when there is no profile", async () => {
-    const { result } = renderHook(() =>
-      useCharityDashboardMeta(USER_ID, undefined),
-    );
+    const { result } = renderHook(() => useCharityDashboardMeta(USER_ID));
     await waitFor(() => {
       expect(result.current.ready).toBe(true);
     });
