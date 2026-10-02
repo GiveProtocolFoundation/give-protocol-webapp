@@ -172,7 +172,6 @@ export const CharityOnboardingChecklist: React.FC<
 
   // Load persisted state from profiles.meta unless the parent supplied it
   useEffect(() => {
-    if (hasInitialState) return;
     let isMounted = true;
 
     /** Fetches onboarding state and applies it to local state. */
@@ -187,7 +186,9 @@ export const CharityOnboardingChecklist: React.FC<
       setLoading(false);
     };
 
-    loadState();
+    if (!hasInitialState) {
+      loadState();
+    }
 
     return () => {
       isMounted = false;

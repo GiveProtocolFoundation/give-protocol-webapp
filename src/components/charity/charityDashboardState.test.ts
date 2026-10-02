@@ -40,7 +40,7 @@ describe("isRestrictedVerificationStatus", () => {
 
   it("does not restrict when status is unknown", () => {
     expect(isRestrictedVerificationStatus(null)).toBe(false);
-    expect(isRestrictedVerificationStatus(undefined)).toBe(false);
+    expect(isRestrictedVerificationStatus()).toBe(false);
   });
 });
 

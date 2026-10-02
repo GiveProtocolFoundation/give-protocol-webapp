@@ -636,7 +636,7 @@ describe("CharityPortal", () => {
       });
       expect(screen.queryByRole("tablist")).not.toBeInTheDocument();
 
-      await act(async () => {
+      act(() => {
         resolveStatus(null);
       });
       expect(await screen.findByRole("tablist")).toBeInTheDocument();

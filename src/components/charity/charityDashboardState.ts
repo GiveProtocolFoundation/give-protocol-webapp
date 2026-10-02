@@ -67,7 +67,7 @@ const RESTRICTED_STATUSES: CharityVerificationStatus[] = [
  * @returns True for pending, rejected, or suspended charities
  */
 export function isRestrictedVerificationStatus(
-  status: CharityVerificationStatus | null | undefined,
+  status?: CharityVerificationStatus | null,
 ): boolean {
   return status !== null && status !== undefined
     ? RESTRICTED_STATUSES.includes(status)
