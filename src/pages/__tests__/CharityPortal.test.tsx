@@ -13,7 +13,7 @@ import { useProfile } from "@/hooks/useProfile";
 import { useTranslation } from "@/hooks/useTranslation";
 import { getCharityVerificationStatus } from "@/services/charityVerificationService";
 import { getCharityWalletAddress } from "@/services/charityProfileService";
-import { loadOnboardingState } from "@/components/charity/charityDashboardState";
+import { setMockResult, resetMockState } from "@/lib/supabase";
 
 // Use jest.mocked() — mapper provides jest.fn() mocks for these hooks
 const mockUseAuth = jest.mocked(useAuth);
@@ -99,19 +99,8 @@ jest.mock("../charity-portal/components", () => ({
   ),
 }));
 
-// Onboarding state is loaded up front by the portal; control it per test
-jest.mock("@/components/charity/charityDashboardState", () => ({
-  ...jest.requireActual<
-    typeof import("@/components/charity/charityDashboardState")
-  >("@/components/charity/charityDashboardState"),
-  loadOnboardingState: jest.fn(() =>
-    Promise.resolve({ dismissed: false, completedItems: [] }),
-  ),
-}));
-
 const mockGetVerification = jest.mocked(getCharityVerificationStatus);
 const mockGetWallet = jest.mocked(getCharityWalletAddress);
-const mockLoadOnboarding = jest.mocked(loadOnboardingState);
 
 // Mock export modal component
 jest.mock("@/components/contribution/DonationExportModal", () => ({
@@ -512,10 +501,10 @@ describe("CharityPortal", () => {
     beforeEach(() => {
       mockGetVerification.mockResolvedValue(null);
       mockGetWallet.mockResolvedValue("0x1234567890abcdef");
-      mockLoadOnboarding.mockResolvedValue({
-        dismissed: false,
-        completedItems: [],
-      });
+    });
+
+    afterEach(() => {
+      resetMockState();
     });
 
     it("shows only the status banner for a rejected charity", async () => {
@@ -575,9 +564,14 @@ describe("CharityPortal", () => {
 
     it("shows the wallet banner once the checklist is dismissed", async () => {
       mockGetWallet.mockResolvedValue(null);
-      mockLoadOnboarding.mockResolvedValue({
-        dismissed: true,
-        completedItems: [],
+      // The portal reads the checklist state from profiles.meta
+      setMockResult("profiles", {
+        data: {
+          meta: {
+            onboarding_checklist: { dismissed: true, completedItems: [] },
+          },
+        },
+        error: null,
       });
       renderWithRouter();
 
