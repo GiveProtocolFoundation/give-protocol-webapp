@@ -587,6 +587,45 @@ describe("CharityPortal", () => {
       expect(screen.queryByText("Getting Started")).not.toBeInTheDocument();
     });
 
+    it("renders stats and checklist before the tabs", async () => {
+      renderWithRouter();
+
+      const stats = await screen.findByTestId("stats-cards");
+      const checklist = await screen.findByText("Getting Started");
+      const tabs = screen.getByRole("tablist");
+
+      expect(
+        stats.compareDocumentPosition(checklist) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+      expect(
+        checklist.compareDocumentPosition(tabs) &
+          Node.DOCUMENT_POSITION_FOLLOWING,
+      ).toBeTruthy();
+    });
+
+    it("shows a translated error with a retry button when loading fails", async () => {
+      const { supabase } = await import("@/lib/supabase");
+      const fromMock = jest.mocked(supabase.from);
+      const defaultImpl = fromMock.getMockImplementation();
+      fromMock.mockImplementation((table: string) => {
+        if (table === "donations") throw new Error("boom");
+        return defaultImpl ? defaultImpl(table) : undefined;
+      });
+      try {
+        renderWithRouter();
+
+        expect(
+          await screen.findByText(/Failed to load charity data/i),
+        ).toBeInTheDocument();
+        expect(
+          screen.getByRole("button", { name: "Retry" }),
+        ).toBeInTheDocument();
+      } finally {
+        if (defaultImpl) fromMock.mockImplementation(defaultImpl);
+      }
+    });
+
     it("keeps the skeleton until status data has loaded", async () => {
       let resolveStatus: (v: null) => void = () => {
         // replaced below

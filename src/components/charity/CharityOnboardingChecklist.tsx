@@ -2,55 +2,116 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { X, CheckCircle2, Circle, ChevronDown, ChevronUp } from "lucide-react";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
+import { useTranslation } from "@/hooks/useTranslation";
 import { getDesignationState } from "@/services/walletDesignationService";
 import { META_KEY, loadOnboardingState } from "./charityDashboardState";
 import type { OnboardingState } from "./charityDashboardState";
 
 interface ChecklistItemDef {
   id: string;
-  label: string;
-  description: string;
-  actionLabel?: string;
+  labelKey: string;
+  labelDefault: string;
+  descriptionKey: string;
+  descriptionDefault: string;
+  actionLabelKey?: string;
+  actionLabelDefault?: string;
   actionTab?: string;
+  /** Completed automatically from account data; cannot be toggled by hand */
+  auto?: boolean;
+  /** Not required: excluded from the progress total */
+  optional?: boolean;
 }
 
 const CHECKLIST_ITEMS: ChecklistItemDef[] = [
   {
     id: "complete_profile",
-    label: "Complete organization profile",
-    description:
+    labelKey: "charity.onboarding.item.completeProfile.label",
+    labelDefault: "Complete organization profile",
+    descriptionKey: "charity.onboarding.item.completeProfile.description",
+    descriptionDefault:
       "Add your organization name, description, address, and contact info.",
-    actionLabel: "Go to Organization",
+    actionLabelKey: "charity.onboarding.goToOrganization",
+    actionLabelDefault: "Go to Organization",
     actionTab: "organization",
   },
   {
     id: "upload_logo",
-    label: "Upload logo or banner image",
-    description: "Add a logo or banner to help donors recognize your charity.",
-    actionLabel: "Go to Organization",
+    labelKey: "charity.onboarding.item.uploadLogo.label",
+    labelDefault: "Upload logo or banner image",
+    descriptionKey: "charity.onboarding.item.uploadLogo.description",
+    descriptionDefault:
+      "Add a logo or banner to help donors recognize your charity.",
+    actionLabelKey: "charity.onboarding.goToOrganization",
+    actionLabelDefault: "Go to Organization",
     actionTab: "organization",
+    auto: true,
   },
   {
     id: "connect_wallet",
-    label: "Set up receiving wallet",
-    description:
+    labelKey: "charity.onboarding.item.connectWallet.label",
+    labelDefault: "Set up receiving wallet",
+    descriptionKey: "charity.onboarding.item.connectWallet.description",
+    descriptionDefault:
       "Choose a multisig Safe, institutional custody, or single-signer wallet to receive donations. Prove control by signing a message.",
-    actionLabel: "Set up wallet",
+    actionLabelKey: "charity.onboarding.setupWallet",
+    actionLabelDefault: "Set up wallet",
     actionTab: "organization",
+    auto: true,
   },
   {
     id: "bank_details",
-    label: "Set up bank details for fiat off-ramp",
-    description:
-      "Optional: configure banking info if you want to accept card donations.",
+    labelKey: "charity.onboarding.item.bankDetails.label",
+    labelDefault: "Set up bank details for fiat off-ramp",
+    descriptionKey: "charity.onboarding.item.bankDetails.description",
+    descriptionDefault:
+      "Configure banking info if you want to accept card donations.",
+    optional: true,
   },
   {
     id: "accept_terms",
-    label: "Review and accept terms of service",
-    description:
+    labelKey: "charity.onboarding.item.acceptTerms.label",
+    labelDefault: "Review and accept terms of service",
+    descriptionKey: "charity.onboarding.item.acceptTerms.description",
+    descriptionDefault:
       "Read and confirm the Give Protocol charity terms and conditions.",
   },
 ];
+
+const ITEMS_ID = "onboarding-checklist-items";
+
+const REQUIRED_ITEMS = CHECKLIST_ITEMS.filter((item) => !item.optional);
+
+/**
+ * Counts completed required steps (optional steps never count toward progress).
+ * @param completed - IDs of completed checklist items
+ * @returns Number of required steps completed
+ */
+function countRequiredComplete(completed: Iterable<string>): number {
+  const done = new Set(completed);
+  return REQUIRED_ITEMS.filter((item) => done.has(item.id)).length;
+}
+
+/**
+ * Picks the rows that should show an action link, so the same action
+ * (e.g. "Go to Organization") is only offered once.
+ * @param completed - IDs of completed checklist items
+ * @returns IDs of items that render their action link
+ */
+function getActionItemIds(completed: Set<string>): Set<string> {
+  const seen = new Set<string>();
+  const ids = new Set<string>();
+  for (const item of CHECKLIST_ITEMS) {
+    if (completed.has(item.id) || !item.actionLabelKey || !item.actionTab) {
+      continue;
+    }
+    const signature = `${item.actionTab}:${item.actionLabelKey}`;
+    if (!seen.has(signature)) {
+      seen.add(signature);
+      ids.add(item.id);
+    }
+  }
+  return ids;
+}
 
 interface CharityOnboardingChecklistProps {
   /** The profile row ID from the `profiles` table */
@@ -97,11 +158,15 @@ export const CharityOnboardingChecklist: React.FC<
   initialState,
   onDismiss,
 }) => {
+  const { t } = useTranslation();
   const [completedItems, setCompletedItems] = useState<Set<string>>(
     () => new Set(initialState?.completedItems ?? []),
   );
   const [dismissed, setDismissed] = useState(initialState?.dismissed ?? false);
-  const [collapsed, setCollapsed] = useState(false);
+  // Compact by default once the charity has made progress
+  const [collapsed, setCollapsed] = useState(
+    () => countRequiredComplete(initialState?.completedItems ?? []) > 0,
+  );
   const [loading, setLoading] = useState(initialState === undefined);
   const hasInitialState = initialState !== undefined;
 
@@ -117,6 +182,7 @@ export const CharityOnboardingChecklist: React.FC<
       if (state) {
         setDismissed(state.dismissed);
         setCompletedItems(new Set(state.completedItems));
+        setCollapsed(countRequiredComplete(state.completedItems) > 0);
       }
       setLoading(false);
     };
@@ -242,22 +308,26 @@ export const CharityOnboardingChecklist: React.FC<
   }, []);
 
   const completedCount = useMemo(
-    () => CHECKLIST_ITEMS.filter((item) => completedItems.has(item.id)).length,
+    () => countRequiredComplete(completedItems),
+    [completedItems],
+  );
+  const actionItemIds = useMemo(
+    () => getActionItemIds(completedItems),
     [completedItems],
   );
 
-  const allComplete = completedCount === CHECKLIST_ITEMS.length;
+  const allComplete = completedCount === REQUIRED_ITEMS.length;
 
   if (loading || dismissed) return null;
 
   return (
     <section
       className="bg-accent-subtle/40 dark:bg-accent-subtle/20 border border-line-accent/40 rounded-xl mb-6 overflow-hidden"
-      aria-label="Onboarding checklist"
+      aria-label={t("charity.onboarding.ariaLabel", "Onboarding checklist")}
     >
       <ChecklistHeader
         completedCount={completedCount}
-        totalCount={CHECKLIST_ITEMS.length}
+        totalCount={REQUIRED_ITEMS.length}
         allComplete={allComplete}
         collapsed={collapsed}
         onToggleCollapse={handleToggleCollapse}
@@ -265,13 +335,14 @@ export const CharityOnboardingChecklist: React.FC<
       />
 
       {!collapsed && (
-        <div className="px-5 pb-5">
+        <div id={ITEMS_ID} className="px-5 pb-5">
           <ul className="space-y-3">
             {CHECKLIST_ITEMS.map((item) => (
               <ChecklistRow
                 key={item.id}
                 item={item}
                 completed={completedItems.has(item.id)}
+                showAction={actionItemIds.has(item.id)}
                 onToggle={toggleItem}
                 onNavigateTab={onNavigateTab}
               />
@@ -279,7 +350,10 @@ export const CharityOnboardingChecklist: React.FC<
           </ul>
           {allComplete && (
             <p className="mt-4 text-sm text-accent-base font-medium text-center">
-              All steps complete! You can dismiss this checklist.
+              {t(
+                "charity.onboarding.allComplete",
+                "All steps complete! You can dismiss this checklist.",
+              )}
             </p>
           )}
         </div>
@@ -288,7 +362,7 @@ export const CharityOnboardingChecklist: React.FC<
   );
 };
 
-/** Header row with progress bar, collapse toggle, and dismiss button. */
+/** Compact header: title, progress, expand toggle, and dismiss once complete. */
 function ChecklistHeader({
   completedCount,
   totalCount,
@@ -304,46 +378,59 @@ function ChecklistHeader({
   onToggleCollapse: () => void;
   onDismiss: () => void;
 }) {
+  const { t } = useTranslation();
   const progressPercent = Math.round((completedCount / totalCount) * 100);
+  const iconClass = "h-4 w-4 shrink-0 text-accent-base";
 
   return (
-    <div className="px-5 pt-4 pb-3">
-      <div className="flex items-center justify-between mb-2">
-        <div>
-          <h2 className="text-base font-semibold text-content-primary">
-            Getting Started
+    <div className="px-5 pt-3 pb-3">
+      <div className="flex items-center gap-2 mb-2">
+        <button
+          type="button"
+          onClick={onToggleCollapse}
+          aria-expanded={!collapsed}
+          aria-controls={ITEMS_ID}
+          aria-label={
+            collapsed
+              ? t("charity.onboarding.expand", "Expand checklist")
+              : t("charity.onboarding.collapse", "Collapse checklist")
+          }
+          className="flex flex-1 min-w-0 items-center gap-3 text-left rounded hover:text-accent-hover transition-colors"
+        >
+          <h2 className="text-sm font-semibold text-content-primary">
+            {t("charity.onboarding.title", "Getting Started")}
           </h2>
-          <p className="text-xs text-content-secondary mt-0.5">
-            {completedCount} of {totalCount} steps complete
-          </p>
-        </div>
-        <div className="flex items-center gap-2">
-          <button
-            onClick={onToggleCollapse}
-            className="p-1 rounded hover:bg-accent-subtle/60 dark:hover:bg-accent-subtle/40 text-accent-base hover:text-accent-hover transition-colors"
-            aria-label={collapsed ? "Expand checklist" : "Collapse checklist"}
-          >
-            {collapsed ? (
-              <ChevronDown className="h-4 w-4" />
-            ) : (
-              <ChevronUp className="h-4 w-4" />
+          <span className="text-xs text-content-secondary">
+            {t(
+              "charity.onboarding.progress",
+              "{{completed}} of {{total}} steps complete",
+              { completed: completedCount, total: totalCount },
             )}
-          </button>
-          {allComplete && (
-            <button
-              onClick={onDismiss}
-              className="p-1 rounded hover:bg-accent-subtle/60 dark:hover:bg-accent-subtle/40 text-accent-base hover:text-accent-hover transition-colors"
-              aria-label="Dismiss onboarding checklist"
-            >
-              <X className="h-4 w-4" />
-            </button>
+          </span>
+          {collapsed ? (
+            <ChevronDown className={`${iconClass} ml-auto`} />
+          ) : (
+            <ChevronUp className={`${iconClass} ml-auto`} />
           )}
-        </div>
+        </button>
+        {allComplete && (
+          <button
+            type="button"
+            onClick={onDismiss}
+            className="p-1 rounded hover:bg-accent-subtle/60 dark:hover:bg-accent-subtle/40 text-accent-base hover:text-accent-hover transition-colors"
+            aria-label={t(
+              "charity.onboarding.dismiss",
+              "Dismiss onboarding checklist",
+            )}
+          >
+            <X className="h-4 w-4" />
+          </button>
+        )}
       </div>
-      <div className="w-full bg-line-subtle/60 dark:bg-line-subtle/15 rounded-full h-1.5">
+      <div className="w-full bg-line-subtle/60 dark:bg-line-subtle/15 rounded-full h-1">
         <progress className="sr-only" value={progressPercent} max={100} />
         <div
-          className="bg-accent-base h-1.5 rounded-full transition-all duration-300"
+          className="bg-accent-base h-1 rounded-full transition-all duration-300"
           style={{ width: `${progressPercent}%` }}
           aria-hidden="true"
         />
@@ -352,18 +439,74 @@ function ChecklistHeader({
   );
 }
 
-/** A single checklist row with checkbox, label, description, and optional action link. */
+/** Status icon: a toggle for manual steps, a read-only mark for auto-detected ones. */
+function ChecklistStatusIcon({
+  item,
+  label,
+  completed,
+  onToggle,
+}: {
+  item: ChecklistItemDef;
+  label: string;
+  completed: boolean;
+  onToggle: () => void;
+}) {
+  const { t } = useTranslation();
+  const Icon = completed ? CheckCircle2 : Circle;
+
+  if (item.auto) {
+    const autoLabel = completed
+      ? t("charity.onboarding.stepDone", "{{label}} (completed)", { label })
+      : t(
+          "charity.onboarding.stepAuto",
+          "{{label}} (completes automatically)",
+          { label },
+        );
+    return (
+      <span
+        role="img"
+        aria-label={autoLabel}
+        className="mt-0.5 flex-shrink-0 text-accent-base"
+      >
+        <Icon className="h-5 w-5" />
+      </span>
+    );
+  }
+
+  return (
+    <button
+      type="button"
+      onClick={onToggle}
+      className="mt-0.5 flex-shrink-0 text-accent-base hover:text-accent-hover transition-colors"
+      aria-label={
+        completed
+          ? t("charity.onboarding.uncheck", "Uncheck {{label}}", { label })
+          : t("charity.onboarding.check", "Check {{label}}", { label })
+      }
+      aria-pressed={completed}
+    >
+      <Icon className="h-5 w-5" />
+    </button>
+  );
+}
+
+/** A single checklist row with status icon, label, description, and optional action link. */
 function ChecklistRow({
   item,
   completed,
+  showAction,
   onToggle,
   onNavigateTab,
 }: {
   item: ChecklistItemDef;
   completed: boolean;
+  showAction: boolean;
   onToggle: (_id: string) => void;
   onNavigateTab?: (_tab: string) => void;
 }) {
+  const { t } = useTranslation();
+  const label = t(item.labelKey, item.labelDefault);
+
   const handleToggle = useCallback(() => {
     onToggle(item.id);
   }, [item.id, onToggle]);
@@ -380,36 +523,36 @@ function ChecklistRow({
 
   return (
     <li className="flex items-start gap-3">
-      <button
-        onClick={handleToggle}
-        className="mt-0.5 flex-shrink-0 text-accent-base hover:text-accent-hover transition-colors"
-        aria-label={completed ? `Uncheck ${item.label}` : `Check ${item.label}`}
-        aria-pressed={completed}
-      >
-        {completed ? (
-          <CheckCircle2 className="h-5 w-5" />
-        ) : (
-          <Circle className="h-5 w-5" />
-        )}
-      </button>
+      <ChecklistStatusIcon
+        item={item}
+        label={label}
+        completed={completed}
+        onToggle={handleToggle}
+      />
       <div className="flex-1 min-w-0">
         <p
           className={`text-sm font-medium ${completed ? "line-through text-content-muted" : "text-content-primary"}`}
         >
-          {item.label}
+          {label}
+          {item.optional && (
+            <span className="ml-2 inline-block px-1.5 py-0.5 text-[10px] font-medium uppercase tracking-wide text-content-muted bg-surface-sunken rounded">
+              {t("charity.onboarding.optional", "Optional")}
+            </span>
+          )}
         </p>
         {!completed && (
           <p className="text-xs text-content-muted mt-0.5">
-            {item.description}
+            {t(item.descriptionKey, item.descriptionDefault)}
           </p>
         )}
       </div>
-      {item.actionLabel && item.actionTab && onNavigateTab && !completed && (
+      {showAction && item.actionLabelKey && onNavigateTab && (
         <button
+          type="button"
           onClick={handleAction}
           className="flex-shrink-0 text-xs text-accent-base hover:text-accent-hover underline transition-colors"
         >
-          {item.actionLabel}
+          {t(item.actionLabelKey, item.actionLabelDefault)}
         </button>
       )}
     </li>

@@ -92,10 +92,10 @@ describe("CharityOnboardingChecklist", () => {
     });
   });
 
-  it("shows 0 of 5 steps complete by default", async () => {
+  it("shows 0 of 4 steps complete by default", async () => {
     renderChecklist();
     await waitFor(() => {
-      expect(screen.getByText("0 of 5 steps complete")).toBeInTheDocument();
+      expect(screen.getByText("0 of 4 steps complete")).toBeInTheDocument();
     });
   });
 
@@ -132,7 +132,7 @@ describe("CharityOnboardingChecklist", () => {
     );
     renderChecklist();
     await waitFor(() => {
-      expect(screen.getByText("2 of 5 steps complete")).toBeInTheDocument();
+      expect(screen.getByText("2 of 4 steps complete")).toBeInTheDocument();
     });
   });
 
@@ -146,8 +146,8 @@ describe("CharityOnboardingChecklist", () => {
     renderChecklist();
     await waitFor(() => {
       expect(
-        screen.getByRole("button", {
-          name: /uncheck set up receiving wallet/i,
+        screen.getByRole("img", {
+          name: /set up receiving wallet \(completed\)/i,
         }),
       ).toBeInTheDocument();
     });
@@ -162,7 +162,7 @@ describe("CharityOnboardingChecklist", () => {
     });
     renderChecklist();
     await waitFor(() => {
-      expect(screen.getByText("0 of 5 steps complete")).toBeInTheDocument();
+      expect(screen.getByText("0 of 4 steps complete")).toBeInTheDocument();
     });
   });
 
@@ -175,7 +175,7 @@ describe("CharityOnboardingChecklist", () => {
     });
     renderChecklist();
     await waitFor(() => {
-      expect(screen.getByText("0 of 5 steps complete")).toBeInTheDocument();
+      expect(screen.getByText("0 of 4 steps complete")).toBeInTheDocument();
     });
   });
 
@@ -252,11 +252,9 @@ describe("CharityOnboardingChecklist", () => {
     const mockNavigate = jest.fn();
     renderChecklist({ onNavigateTab: mockNavigate });
     await waitFor(() => {
-      expect(screen.getAllByText("Go to Organization").length).toBeGreaterThan(
-        0,
-      );
+      expect(screen.getByText("Go to Organization")).toBeInTheDocument();
     });
-    fireEvent.click(screen.getAllByText("Go to Organization")[0]);
+    fireEvent.click(screen.getByText("Go to Organization"));
     expect(mockNavigate).toHaveBeenCalledWith("organization");
   });
 
@@ -282,8 +280,8 @@ describe("CharityOnboardingChecklist", () => {
     renderChecklist({ logoUrl: "https://example.com/logo.png" });
     await waitFor(() => {
       expect(
-        screen.getByRole("button", {
-          name: /uncheck upload logo or banner image/i,
+        screen.getByRole("img", {
+          name: /upload logo or banner image \(completed\)/i,
         }),
       ).toBeInTheDocument();
     });
@@ -293,8 +291,8 @@ describe("CharityOnboardingChecklist", () => {
     renderChecklist({ bannerImageUrl: "https://example.com/banner.png" });
     await waitFor(() => {
       expect(
-        screen.getByRole("button", {
-          name: /uncheck upload logo or banner image/i,
+        screen.getByRole("img", {
+          name: /upload logo or banner image \(completed\)/i,
         }),
       ).toBeInTheDocument();
     });
@@ -303,7 +301,7 @@ describe("CharityOnboardingChecklist", () => {
   it("does not auto-mark upload_logo complete when neither logoUrl nor bannerImageUrl is provided", async () => {
     renderChecklist();
     await waitFor(() => {
-      expect(screen.getByText("0 of 5 steps complete")).toBeInTheDocument();
+      expect(screen.getByText("0 of 4 steps complete")).toBeInTheDocument();
     });
     expect(
       screen.queryByRole("button", {
@@ -315,7 +313,7 @@ describe("CharityOnboardingChecklist", () => {
   it("counts upload_logo in completion total when logoUrl is provided", async () => {
     renderChecklist({ logoUrl: "https://example.com/logo.png" });
     await waitFor(() => {
-      expect(screen.getByText("1 of 5 steps complete")).toBeInTheDocument();
+      expect(screen.getByText("1 of 4 steps complete")).toBeInTheDocument();
     });
   });
 
@@ -328,7 +326,7 @@ describe("CharityOnboardingChecklist", () => {
         />,
       );
       expect(screen.getByText("Getting Started")).toBeInTheDocument();
-      expect(screen.getByText("1 of 5 steps complete")).toBeInTheDocument();
+      expect(screen.getByText("1 of 4 steps complete")).toBeInTheDocument();
       expect(
         fromMock.mock.calls.filter(([t]) => t === "profiles"),
       ).toHaveLength(0);
@@ -364,6 +362,141 @@ describe("CharityOnboardingChecklist", () => {
       );
       fireEvent.click(screen.getByLabelText("Dismiss onboarding checklist"));
       expect(onDismiss).toHaveBeenCalledTimes(1);
+    });
+  });
+
+  describe("compact layout and step types", () => {
+    it("shows a single 'Go to Organization' link", async () => {
+      renderChecklist({ onNavigateTab: jest.fn() });
+      await waitFor(() => {
+        expect(screen.getByText("Getting Started")).toBeInTheDocument();
+      });
+      expect(screen.getAllByText("Go to Organization")).toHaveLength(1);
+    });
+
+    it("moves the 'Go to Organization' link to the next incomplete step", () => {
+      render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          onNavigateTab={jest.fn()}
+          initialState={{ dismissed: false, completedItems: [] }}
+        />,
+      );
+      fireEvent.click(
+        screen.getByRole("button", {
+          name: /check complete organization profile/i,
+        }),
+      );
+      expect(screen.getAllByText("Go to Organization")).toHaveLength(1);
+    });
+
+    it("renders auto-detected steps as read-only", async () => {
+      renderChecklist();
+      await waitFor(() => {
+        expect(screen.getByText("Getting Started")).toBeInTheDocument();
+      });
+      expect(
+        screen.getByRole("img", {
+          name: /upload logo or banner image \(completes automatically\)/i,
+        }),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /upload logo or banner image/i }),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.queryByRole("button", { name: /set up receiving wallet/i }),
+      ).not.toBeInTheDocument();
+    });
+
+    it("marks bank details optional and excludes it from the total", () => {
+      render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          initialState={{ dismissed: false, completedItems: ["bank_details"] }}
+        />,
+      );
+      expect(screen.getByText("Optional")).toBeInTheDocument();
+      expect(screen.getByText("0 of 4 steps complete")).toBeInTheDocument();
+    });
+
+    it("only offers dismiss once all required steps are done", () => {
+      render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          initialState={{
+            dismissed: false,
+            completedItems: [
+              "complete_profile",
+              "upload_logo",
+              "connect_wallet",
+              "accept_terms",
+            ],
+          }}
+        />,
+      );
+      expect(
+        screen.getByRole("button", { name: /dismiss onboarding checklist/i }),
+      ).toBeInTheDocument();
+    });
+
+    it("starts expanded when no steps are complete", () => {
+      render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          initialState={{ dismissed: false, completedItems: [] }}
+        />,
+      );
+      expect(
+        screen.getByRole("button", { name: /collapse checklist/i }),
+      ).toHaveAttribute("aria-expanded", "true");
+      expect(
+        screen.getByText("Complete organization profile"),
+      ).toBeInTheDocument();
+    });
+
+    it("starts collapsed once any step is complete and expands on click", () => {
+      render(
+        <CharityOnboardingChecklist
+          profileId={PROFILE_ID}
+          initialState={{
+            dismissed: false,
+            completedItems: ["complete_profile"],
+          }}
+        />,
+      );
+      expect(screen.getByText("1 of 4 steps complete")).toBeInTheDocument();
+      expect(
+        screen.queryByText("Upload logo or banner image"),
+      ).not.toBeInTheDocument();
+      fireEvent.click(
+        screen.getByRole("button", { name: /expand checklist/i }),
+      );
+      expect(
+        screen.getByText("Upload logo or banner image"),
+      ).toBeInTheDocument();
+    });
+
+    it("starts collapsed after loading persisted progress", async () => {
+      fromMock.mockImplementation(() =>
+        makeChain({
+          data: {
+            meta: {
+              onboarding_checklist: {
+                dismissed: false,
+                completedItems: ["complete_profile"],
+              },
+            },
+          },
+          error: null,
+        }),
+      );
+      renderChecklist();
+      await waitFor(() => {
+        expect(screen.getByText("1 of 4 steps complete")).toBeInTheDocument();
+      });
+      expect(
+        screen.queryByText("Upload logo or banner image"),
+      ).not.toBeInTheDocument();
     });
   });
 });

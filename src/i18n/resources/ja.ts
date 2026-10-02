@@ -656,6 +656,60 @@ export default {
       "オンチェーン寄付を受け取るにはウォレットを接続してください。",
     "charity.portal.setupWallet": "ウォレットを設定",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "オンボーディングチェックリスト",
+    "charity.onboarding.title": "はじめに",
+    "charity.onboarding.progress":
+      "{{total}}ステップ中{{completed}}ステップ完了",
+    "charity.onboarding.optional": "任意",
+    "charity.onboarding.allComplete":
+      "すべてのステップが完了しました。このチェックリストは閉じて構いません。",
+    "charity.onboarding.expand": "チェックリストを展開",
+    "charity.onboarding.collapse": "チェックリストを折りたたむ",
+    "charity.onboarding.dismiss": "オンボーディングチェックリストを閉じる",
+    "charity.onboarding.check": "{{label}}にチェックを付ける",
+    "charity.onboarding.uncheck": "{{label}}のチェックを外す",
+    "charity.onboarding.stepDone": "{{label}}（完了）",
+    "charity.onboarding.stepAuto": "{{label}}（自動的に完了します）",
+    "charity.onboarding.goToOrganization": "組織ページへ",
+    "charity.onboarding.setupWallet": "ウォレットを設定",
+    "charity.onboarding.item.completeProfile.label":
+      "組織プロフィールを完成させる",
+    "charity.onboarding.item.completeProfile.description":
+      "組織名、説明、住所、連絡先情報を追加してください。",
+    "charity.onboarding.item.uploadLogo.label":
+      "ロゴまたはバナー画像をアップロード",
+    "charity.onboarding.item.uploadLogo.description":
+      "寄付者が団体を見分けやすいよう、ロゴまたはバナーを追加してください。",
+    "charity.onboarding.item.connectWallet.label": "受取用ウォレットを設定",
+    "charity.onboarding.item.connectWallet.description":
+      "寄付を受け取るために、マルチシグSafe、機関カストディ、または単独署名ウォレットを選択してください。メッセージに署名して管理権限を証明します。",
+    "charity.onboarding.item.bankDetails.label":
+      "法定通貨への換金用の銀行情報を設定",
+    "charity.onboarding.item.bankDetails.description":
+      "カード寄付を受け付ける場合は、銀行情報を設定してください。",
+    "charity.onboarding.item.acceptTerms.label": "利用規約を確認して同意",
+    "charity.onboarding.item.acceptTerms.description":
+      "Give Protocolの慈善団体向け利用規約を読み、内容に同意してください。",
+    "charity.verification.pendingTitle": "申請を審査中",
+    "charity.verification.pendingBody":
+      "チームが貴団体の申請を審査しています。通常、3〜5営業日かかります。結果が出次第、メールでお知らせします。",
+    "charity.verification.rejectedTitle": "申請は承認されませんでした",
+    "charity.verification.reason": "理由：{{notes}}",
+    "charity.verification.rejectedDefault":
+      "今回は申請が承認されませんでした。",
+    "charity.verification.contactSupport": "サポートに問い合わせる",
+    "charity.verification.suspendedTitle": "アカウントが停止されています",
+    "charity.verification.suspendedDefault":
+      "貴団体のアカウントは停止されています。",
+    "charity.verification.appealSuspension": "停止に異議を申し立てる",
+    "charity.verification.verifiedTitle": "慈善団体の認証済み",
+    "charity.verification.verifiedBody":
+      "貴団体は認証されました。寄付者が活動を支援できるようになりました。",
+    "charity.portal.receivingWallet": "受取用ウォレット：{{address}}",
+    "charity.portal.loadError":
+      "慈善団体のデータを読み込めませんでした。もう一度お試しください。",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "たった今",
     "timestamp.oneMinuteAgo": "1分前",

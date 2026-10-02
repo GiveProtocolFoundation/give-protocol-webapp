@@ -677,6 +677,62 @@ export default {
       "Conecte una billetera para recibir donaciones on-chain.",
     "charity.portal.setupWallet": "Configurar Billetera",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "Lista de incorporación",
+    "charity.onboarding.title": "Primeros pasos",
+    "charity.onboarding.progress":
+      "{{completed}} de {{total}} pasos completados",
+    "charity.onboarding.optional": "Opcional",
+    "charity.onboarding.allComplete":
+      "¡Todos los pasos completados! Puede cerrar esta lista.",
+    "charity.onboarding.expand": "Expandir lista",
+    "charity.onboarding.collapse": "Contraer lista",
+    "charity.onboarding.dismiss": "Cerrar lista de incorporación",
+    "charity.onboarding.check": "Marcar {{label}}",
+    "charity.onboarding.uncheck": "Desmarcar {{label}}",
+    "charity.onboarding.stepDone": "{{label}} (completado)",
+    "charity.onboarding.stepAuto": "{{label}} (se completa automáticamente)",
+    "charity.onboarding.goToOrganization": "Ir a Organización",
+    "charity.onboarding.setupWallet": "Configurar billetera",
+    "charity.onboarding.item.completeProfile.label":
+      "Completar el perfil de la organización",
+    "charity.onboarding.item.completeProfile.description":
+      "Agregue el nombre, la descripción, la dirección y la información de contacto de su organización.",
+    "charity.onboarding.item.uploadLogo.label":
+      "Subir logotipo o imagen de banner",
+    "charity.onboarding.item.uploadLogo.description":
+      "Agregue un logotipo o banner para que los donantes reconozcan su organización benéfica.",
+    "charity.onboarding.item.connectWallet.label":
+      "Configurar la billetera receptora",
+    "charity.onboarding.item.connectWallet.description":
+      "Elija una Safe multifirma, una custodia institucional o una billetera de un solo firmante para recibir donaciones. Demuestre el control firmando un mensaje.",
+    "charity.onboarding.item.bankDetails.label":
+      "Configurar datos bancarios para la conversión a moneda fiduciaria",
+    "charity.onboarding.item.bankDetails.description":
+      "Configure la información bancaria si desea aceptar donaciones con tarjeta.",
+    "charity.onboarding.item.acceptTerms.label":
+      "Revisar y aceptar los términos de servicio",
+    "charity.onboarding.item.acceptTerms.description":
+      "Lea y confirme los términos y condiciones de Give Protocol para organizaciones benéficas.",
+    "charity.verification.pendingTitle": "Solicitud en revisión",
+    "charity.verification.pendingBody":
+      "Nuestro equipo está revisando la solicitud de su organización benéfica. Normalmente tarda de 3 a 5 días hábiles. Le enviaremos un correo electrónico cuando se tome una decisión.",
+    "charity.verification.rejectedTitle": "Solicitud no aprobada",
+    "charity.verification.reason": "Motivo: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "Su solicitud no fue aprobada en este momento.",
+    "charity.verification.contactSupport": "Contactar con soporte",
+    "charity.verification.suspendedTitle": "Cuenta suspendida",
+    "charity.verification.suspendedDefault":
+      "La cuenta de su organización benéfica ha sido suspendida.",
+    "charity.verification.appealSuspension": "Apelar la suspensión",
+    "charity.verification.verifiedTitle": "Organización benéfica verificada",
+    "charity.verification.verifiedBody":
+      "Su organización está verificada y los donantes ya pueden apoyar sus causas.",
+    "charity.portal.receivingWallet": "Billetera receptora: {{address}}",
+    "charity.portal.loadError":
+      "No se pudieron cargar los datos de la organización benéfica. Inténtelo de nuevo.",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "Justo ahora",
     "timestamp.oneMinuteAgo": "Hace 1 minuto",

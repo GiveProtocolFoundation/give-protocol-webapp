@@ -614,6 +614,52 @@ export default {
     "charity.portal.walletDonationNote": "連接錢包以接收鏈上捐款。",
     "charity.portal.setupWallet": "設定錢包",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "入駐清單",
+    "charity.onboarding.title": "開始使用",
+    "charity.onboarding.progress": "已完成 {{completed}}/{{total}} 個步驟",
+    "charity.onboarding.optional": "選填",
+    "charity.onboarding.allComplete": "所有步驟皆已完成！您可以關閉此清單。",
+    "charity.onboarding.expand": "展開清單",
+    "charity.onboarding.collapse": "收合清單",
+    "charity.onboarding.dismiss": "關閉入駐清單",
+    "charity.onboarding.check": "勾選{{label}}",
+    "charity.onboarding.uncheck": "取消勾選{{label}}",
+    "charity.onboarding.stepDone": "{{label}}（已完成）",
+    "charity.onboarding.stepAuto": "{{label}}（自動完成）",
+    "charity.onboarding.goToOrganization": "前往組織",
+    "charity.onboarding.setupWallet": "設定錢包",
+    "charity.onboarding.item.completeProfile.label": "完善組織資料",
+    "charity.onboarding.item.completeProfile.description":
+      "新增您的組織名稱、簡介、地址與聯絡資訊。",
+    "charity.onboarding.item.uploadLogo.label": "上傳標誌或橫幅圖片",
+    "charity.onboarding.item.uploadLogo.description":
+      "新增標誌或橫幅，協助捐款者辨識您的慈善機構。",
+    "charity.onboarding.item.connectWallet.label": "設定收款錢包",
+    "charity.onboarding.item.connectWallet.description":
+      "選擇多重簽章 Safe、機構託管或單一簽署者錢包來接收捐款，並透過簽署訊息證明您的控制權。",
+    "charity.onboarding.item.bankDetails.label": "設定法幣提領的銀行資訊",
+    "charity.onboarding.item.bankDetails.description":
+      "若要接受信用卡捐款，請設定銀行資訊。",
+    "charity.onboarding.item.acceptTerms.label": "檢視並接受服務條款",
+    "charity.onboarding.item.acceptTerms.description":
+      "閱讀並確認 Give Protocol 慈善機構條款與條件。",
+    "charity.verification.pendingTitle": "申請審核中",
+    "charity.verification.pendingBody":
+      "我們的團隊正在審核您的慈善機構申請，通常需要 3–5 個工作天。作出決定後我們會以電子郵件通知您。",
+    "charity.verification.rejectedTitle": "申請未獲核准",
+    "charity.verification.reason": "原因：{{notes}}",
+    "charity.verification.rejectedDefault": "您的申請目前未獲核准。",
+    "charity.verification.contactSupport": "聯絡支援",
+    "charity.verification.suspendedTitle": "帳戶已被停權",
+    "charity.verification.suspendedDefault": "您的慈善機構帳戶已被停權。",
+    "charity.verification.appealSuspension": "申訴停權",
+    "charity.verification.verifiedTitle": "慈善機構已驗證",
+    "charity.verification.verifiedBody":
+      "您的組織已通過驗證，捐款者現在可以支持您的專案。",
+    "charity.portal.receivingWallet": "收款錢包：{{address}}",
+    "charity.portal.loadError": "無法載入慈善機構資料，請再試一次。",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "剛剛",
     "timestamp.oneMinuteAgo": "1 分鐘前",

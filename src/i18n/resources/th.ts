@@ -649,6 +649,60 @@ export default {
       "เชื่อมต่อกระเป๋าเงินเพื่อรับการบริจาคบนเชน",
     "charity.portal.setupWallet": "ตั้งค่ากระเป๋าเงิน",
 
+    // Charity dashboard onboarding & verification
+    "charity.onboarding.ariaLabel": "รายการตรวจสอบการเริ่มต้นใช้งาน",
+    "charity.onboarding.title": "เริ่มต้นใช้งาน",
+    "charity.onboarding.progress":
+      "เสร็จสิ้น {{completed}} จาก {{total}} ขั้นตอน",
+    "charity.onboarding.optional": "ไม่บังคับ",
+    "charity.onboarding.allComplete":
+      "เสร็จสิ้นทุกขั้นตอนแล้ว! คุณสามารถปิดรายการนี้ได้",
+    "charity.onboarding.expand": "ขยายรายการตรวจสอบ",
+    "charity.onboarding.collapse": "ย่อรายการตรวจสอบ",
+    "charity.onboarding.dismiss": "ปิดรายการตรวจสอบการเริ่มต้นใช้งาน",
+    "charity.onboarding.check": "ทำเครื่องหมาย {{label}}",
+    "charity.onboarding.uncheck": "ยกเลิกเครื่องหมาย {{label}}",
+    "charity.onboarding.stepDone": "{{label}} (เสร็จสิ้น)",
+    "charity.onboarding.stepAuto": "{{label}} (เสร็จสิ้นโดยอัตโนมัติ)",
+    "charity.onboarding.goToOrganization": "ไปที่องค์กร",
+    "charity.onboarding.setupWallet": "ตั้งค่ากระเป๋าเงิน",
+    "charity.onboarding.item.completeProfile.label":
+      "กรอกโปรไฟล์องค์กรให้สมบูรณ์",
+    "charity.onboarding.item.completeProfile.description":
+      "เพิ่มชื่อองค์กร คำอธิบาย ที่อยู่ และข้อมูลติดต่อ",
+    "charity.onboarding.item.uploadLogo.label": "อัปโหลดโลโก้หรือภาพแบนเนอร์",
+    "charity.onboarding.item.uploadLogo.description":
+      "เพิ่มโลโก้หรือแบนเนอร์เพื่อช่วยให้ผู้บริจาคจดจำองค์กรการกุศลของคุณ",
+    "charity.onboarding.item.connectWallet.label":
+      "ตั้งค่ากระเป๋าเงินรับบริจาค",
+    "charity.onboarding.item.connectWallet.description":
+      "เลือก Safe แบบหลายลายเซ็น การดูแลสินทรัพย์ระดับสถาบัน หรือกระเป๋าเงินแบบลายเซ็นเดียวเพื่อรับเงินบริจาค และพิสูจน์การควบคุมด้วยการลงนามข้อความ",
+    "charity.onboarding.item.bankDetails.label":
+      "ตั้งค่าข้อมูลธนาคารสำหรับการแปลงเป็นเงินสกุลท้องถิ่น",
+    "charity.onboarding.item.bankDetails.description":
+      "ตั้งค่าข้อมูลธนาคารหากต้องการรับเงินบริจาคผ่านบัตร",
+    "charity.onboarding.item.acceptTerms.label":
+      "ตรวจสอบและยอมรับข้อกำหนดการให้บริการ",
+    "charity.onboarding.item.acceptTerms.description":
+      "อ่านและยืนยันข้อกำหนดและเงื่อนไขของ Give Protocol สำหรับองค์กรการกุศล",
+    "charity.verification.pendingTitle": "ใบสมัครอยู่ระหว่างการตรวจสอบ",
+    "charity.verification.pendingBody":
+      "ทีมงานกำลังตรวจสอบใบสมัครองค์กรการกุศลของคุณ โดยปกติใช้เวลา 3–5 วันทำการ เราจะส่งอีเมลแจ้งเมื่อมีการตัดสินใจ",
+    "charity.verification.rejectedTitle": "ใบสมัครไม่ได้รับการอนุมัติ",
+    "charity.verification.reason": "เหตุผล: {{notes}}",
+    "charity.verification.rejectedDefault":
+      "ใบสมัครของคุณไม่ได้รับการอนุมัติในขณะนี้",
+    "charity.verification.contactSupport": "ติดต่อฝ่ายสนับสนุน",
+    "charity.verification.suspendedTitle": "บัญชีถูกระงับ",
+    "charity.verification.suspendedDefault": "บัญชีองค์กรการกุศลของคุณถูกระงับ",
+    "charity.verification.appealSuspension": "อุทธรณ์การระงับ",
+    "charity.verification.verifiedTitle": "องค์กรการกุศลได้รับการยืนยันแล้ว",
+    "charity.verification.verifiedBody":
+      "องค์กรของคุณได้รับการยืนยันแล้ว ผู้บริจาคสามารถสนับสนุนโครงการของคุณได้แล้ว",
+    "charity.portal.receivingWallet": "กระเป๋าเงินรับบริจาค: {{address}}",
+    "charity.portal.loadError":
+      "ไม่สามารถโหลดข้อมูลองค์กรการกุศลได้ กรุณาลองอีกครั้ง",
+
     // Timestamps (GIV-254)
     "timestamp.justNow": "เมื่อสักครู่",
     "timestamp.oneMinuteAgo": "1 นาทีที่แล้ว",

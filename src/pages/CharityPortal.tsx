@@ -355,18 +355,18 @@ function CharityPortalHeader({
           <img
             src={logoUrl}
             alt={`${name} logo`}
-            className="w-10 h-10 rounded-full object-cover border border-white shadow-sm flex-shrink-0"
+            className="w-10 h-10 rounded-full object-cover border border-line-subtle shadow-sm flex-shrink-0"
           />
         ) : (
-          <div className="w-10 h-10 rounded-full bg-emerald-600 flex items-center justify-center flex-shrink-0">
-            <span className="text-white font-bold text-sm select-none">
+          <div className="w-10 h-10 rounded-full bg-accent-base flex items-center justify-center flex-shrink-0">
+            <span className="text-accent-on font-bold text-sm select-none">
               {initials}
             </span>
           </div>
         )}
         <div>
-          <h1 className="text-3xl font-bold text-gray-900">{name}</h1>
-          <p className="mt-1 text-gray-600">
+          <h1 className="text-3xl font-bold text-content-primary">{name}</h1>
+          <p className="mt-1 text-content-secondary">
             {t("charity.subtitle", "Manage your charity dashboard")}
           </p>
         </div>
@@ -514,7 +514,7 @@ export const CharityPortal: React.FC = () => {
   const [opportunities, setOpportunities] = useState<CharityOpportunity[]>([]);
   const [causes, setCauses] = useState<CharityCause[]>([]);
   const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
+  const [error, setError] = useState(false);
   const [charityLogoUrl, setCharityLogoUrl] = useState<string | null>(null);
   const [charityBannerImageUrl, setCharityBannerImageUrl] = useState<
     string | null
@@ -1020,7 +1020,7 @@ export const CharityPortal: React.FC = () => {
 
     try {
       setLoading(true);
-      setError(null);
+      setError(false);
 
       Logger.info("Fetching charity data", { profileId: profile.id });
 
@@ -1064,7 +1064,7 @@ export const CharityPortal: React.FC = () => {
         state: { profileId: profile?.id },
       });
 
-      setError("Failed to load charity data. Please try again.");
+      setError(true);
     } finally {
       if (isMountedRef.current) {
         setLoading(false);
@@ -1088,7 +1088,7 @@ export const CharityPortal: React.FC = () => {
   }, [profile?.id, fetchCharityData]);
 
   const handleRetry = useCallback(() => {
-    setError(null);
+    setError(false);
     fetchCharityData();
   }, [fetchCharityData]);
 
@@ -1290,9 +1290,12 @@ export const CharityPortal: React.FC = () => {
     return (
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
         <div className="bg-status-danger/10 p-4 rounded-md text-status-danger">
-          {error}
+          {t(
+            "charity.portal.loadError",
+            "Failed to load charity data. Please try again.",
+          )}
           <Button onClick={handleRetry} variant="secondary" className="mt-4">
-            Retry
+            {t("common.retry", "Retry")}
           </Button>
         </div>
       </div>
@@ -1354,11 +1357,23 @@ export const CharityPortal: React.FC = () => {
           <div className="flex items-center gap-2 mb-4 text-xs text-accent-base">
             <Wallet className="h-3.5 w-3.5" />
             <span>
-              Receiving wallet: {charityWalletAddress.slice(0, 6)}&hellip;
-              {charityWalletAddress.slice(-4)}
+              {t(
+                "charity.portal.receivingWallet",
+                "Receiving wallet: {{address}}",
+                {
+                  address: `${charityWalletAddress.slice(0, 6)}…${charityWalletAddress.slice(-4)}`,
+                },
+              )}
             </span>
           </div>
         )}
+
+        {/* Enhanced Metrics Grid */}
+        <StatsCards
+          stats={charityStats}
+          onTransactionsClick={handleTransactionsTab}
+          onVolunteersClick={handleHoursTab}
+        />
 
         {/* Onboarding checklist for newly approved charities */}
         {showChecklist && profile?.id && (
@@ -1374,13 +1389,6 @@ export const CharityPortal: React.FC = () => {
 
         {/* Quick-nav search */}
         <DashboardSearch t={t} />
-
-        {/* Enhanced Metrics Grid */}
-        <StatsCards
-          stats={charityStats}
-          onTransactionsClick={handleTransactionsTab}
-          onVolunteersClick={handleHoursTab}
-        />
 
         {/* Tab Navigation */}
         <CharityTabNav
