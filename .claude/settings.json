@@ -1,0 +1,15 @@
+{
+  "permissions": {
+    "allow": [
+      "WebFetch(domain:giveprotocol.io)"
+    ]
+  },
+  "sandbox": {
+    "network": {
+      "allowedDomains": [
+        "giveprotocol.io",
+        "*.giveprotocol.io"
+      ]
+    }
+  }
+}
