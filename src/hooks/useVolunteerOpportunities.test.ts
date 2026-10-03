@@ -9,6 +9,7 @@ import {
 
 // supabase is mocked globally via moduleNameMapper — setMockResult controls per-table responses.
 
+/** Builds a volunteer_opportunities row fixture with optional overrides. */
 const makeRow = (id: string, overrides: Record<string, unknown> = {}) => ({
   id,
   charity_id: `charity-${id}`,
@@ -241,7 +242,7 @@ describe("useVolunteerOpportunity", () => {
   });
 
   it("does not load when there is no id", () => {
-    const { result } = renderHook(() => useVolunteerOpportunity(undefined));
+    const { result } = renderHook(() => useVolunteerOpportunity());
     expect(result.current.loading).toBe(false);
     expect(result.current.opportunity).toBeNull();
   });

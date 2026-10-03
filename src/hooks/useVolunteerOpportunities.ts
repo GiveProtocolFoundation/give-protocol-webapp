@@ -286,7 +286,7 @@ interface UseVolunteerOpportunityReturn {
  * @returns The opportunity (null when not found) with loading and error state
  */
 export function useVolunteerOpportunity(
-  id: string | undefined,
+  id?: string,
 ): UseVolunteerOpportunityReturn {
   const [opportunity, setOpportunity] =
     useState<VolunteerOpportunityItem | null>(null);

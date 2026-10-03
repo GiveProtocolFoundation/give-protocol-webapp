@@ -17,6 +17,7 @@ const mockShowToast = jest.fn();
 
 // supabase is mocked globally via moduleNameMapper; fixtures mirror
 // volunteer_opportunities rows plus the charity_profiles join.
+/** Builds a volunteer_opportunities row fixture with optional overrides. */
 const opportunityRow = (
   n: number,
   title: string,
@@ -77,6 +78,7 @@ const CHARITY_ROWS = [
   { id: "charity-6", ein: "99-1230006", name: "Global Learning Foundation" },
 ];
 
+/** Renders the page and waits for the opportunity cards to load. */
 const renderPage = async () => {
   render(
     <MemoryRouter>

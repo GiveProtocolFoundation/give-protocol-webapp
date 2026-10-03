@@ -77,7 +77,7 @@ export function htmlToPlainText(html: string): string {
  * @param value - Multi-line text, or null when unset
  * @returns Non-empty trimmed lines
  */
-export function splitLines(value: string | null | undefined): string[] {
+export function splitLines(value?: string | null): string[] {
   if (!value) return [];
   return value
     .split("\n")

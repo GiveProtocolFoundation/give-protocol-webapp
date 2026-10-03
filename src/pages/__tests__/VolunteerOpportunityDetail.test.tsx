@@ -37,6 +37,7 @@ const baseRow = {
   training_provided: true,
 };
 
+/** Renders the detail route for the given opportunity id. */
 const renderDetail = (id = "opp-1") => {
   render(
     <MemoryRouter initialEntries={[`/opportunities/${id}`]}>
