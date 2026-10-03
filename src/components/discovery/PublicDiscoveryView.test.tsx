@@ -106,6 +106,7 @@ describe("PublicDiscoveryView", () => {
       });
     });
 
+    /** Renders the discovery view inside a router. */
     function renderView() {
       return render(
         <MemoryRouter>

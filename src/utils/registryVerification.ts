@@ -40,7 +40,7 @@ function cleanDisplayName(source: string): string {
  * @returns Registry info, or null when the source is missing or blank
  */
 export function getRegistryInfo(
-  registrySource: string | null | undefined,
+  registrySource?: string | null,
 ): RegistryInfo | null {
   if (!registrySource || registrySource.trim().length === 0) return null;
 

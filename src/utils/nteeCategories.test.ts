@@ -1,4 +1,7 @@
-import { DEFAULT_NTEE_CATEGORY, getTranslatableNteeCategory } from "./nteeCategories";
+import {
+  DEFAULT_NTEE_CATEGORY,
+  getTranslatableNteeCategory,
+} from "./nteeCategories";
 
 describe("getTranslatableNteeCategory", () => {
   it("maps the major NTEE letter to a translatable category", () => {
@@ -14,7 +17,7 @@ describe("getTranslatableNteeCategory", () => {
 
   it("falls back to the generic category for missing or unknown codes", () => {
     expect(getTranslatableNteeCategory(null)).toBe(DEFAULT_NTEE_CATEGORY);
-    expect(getTranslatableNteeCategory(undefined)).toBe(DEFAULT_NTEE_CATEGORY);
+    expect(getTranslatableNteeCategory()).toBe(DEFAULT_NTEE_CATEGORY);
     expect(getTranslatableNteeCategory("")).toBe(DEFAULT_NTEE_CATEGORY);
     expect(getTranslatableNteeCategory("Z99")).toBe(DEFAULT_NTEE_CATEGORY);
   });

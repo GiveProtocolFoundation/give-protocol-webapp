@@ -2,6 +2,7 @@ import { jest } from "@jest/globals";
 import { renderHook, act } from "@testing-library/react";
 import { usePrefersReducedMotion } from "./usePrefersReducedMotion";
 
+/** Stubs matchMedia and returns the registered change listeners. */
 function mockMatchMedia(matches: boolean) {
   const listeners: Array<(e: MediaQueryListEvent) => void> = [];
   (window.matchMedia as unknown as jest.Mock).mockImplementation(() => ({

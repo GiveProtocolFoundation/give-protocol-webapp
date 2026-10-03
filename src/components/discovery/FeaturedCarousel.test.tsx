@@ -10,9 +10,12 @@ interface Item {
 const items: Item[] = Array.from({ length: 6 }, (_, i) => ({
   id: `i${i + 1}`,
 }));
+/** Key accessor for test items. */
 const getKey = (item: Item) => item.id;
+/** Minimal card renderer for test items. */
 const renderCard = (item: Item) => <div>{`Card ${item.id}`}</div>;
 
+/** Renders the carousel with defaults that individual tests can override. */
 function renderCarousel(
   overrides?: Partial<React.ComponentProps<typeof FeaturedCarousel<Item>>>,
 ) {
@@ -35,6 +38,7 @@ function renderCarousel(
   );
 }
 
+/** Makes matchMedia report the given prefers-reduced-motion value. */
 function mockReducedMotion(reduce: boolean) {
   (window.matchMedia as unknown as jest.Mock).mockImplementation(
     (query: unknown) => ({

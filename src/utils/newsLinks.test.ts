@@ -22,7 +22,7 @@ describe("classifyNewsLink", () => {
     expect(classifyNewsLink("")).toBe("none");
     expect(classifyNewsLink("   ")).toBe("none");
     expect(classifyNewsLink(null)).toBe("none");
-    expect(classifyNewsLink(undefined)).toBe("none");
+    expect(classifyNewsLink()).toBe("none");
   });
 });
 

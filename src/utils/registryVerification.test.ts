@@ -25,7 +25,7 @@ describe("getRegistryInfo", () => {
 
   it("returns null when there is no source", () => {
     expect(getRegistryInfo(null)).toBeNull();
-    expect(getRegistryInfo(undefined)).toBeNull();
+    expect(getRegistryInfo()).toBeNull();
     expect(getRegistryInfo("   ")).toBeNull();
     expect(getRegistryInfo("<>")).toBeNull();
   });

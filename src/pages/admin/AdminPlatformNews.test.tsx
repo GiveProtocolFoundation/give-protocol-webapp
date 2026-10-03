@@ -23,6 +23,7 @@ const NEWS_ROW = {
   updated_at: "2026-10-01T00:00:00Z",
 };
 
+/** Renders the page and waits for the seeded news item to appear. */
 async function renderPage() {
   render(<AdminPlatformNews />);
   await screen.findByText("Testnet is live");
