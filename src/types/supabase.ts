@@ -175,6 +175,16 @@ export interface Database {
           status: "active" | "inactive" | "completed";
           created_at: string;
           updated_at: string;
+          requirements: string | null;
+          benefits: string | null;
+          schedule: string | null;
+          start_date: string | null;
+          end_date: string | null;
+          application_deadline: string | null;
+          volunteers_needed: number | null;
+          minimum_age: number | null;
+          background_check_required: boolean;
+          training_provided: boolean;
         };
         Insert: {
           id?: string;
@@ -189,6 +199,16 @@ export interface Database {
           status?: "active" | "inactive" | "completed";
           created_at?: string;
           updated_at?: string;
+          requirements?: string | null;
+          benefits?: string | null;
+          schedule?: string | null;
+          start_date?: string | null;
+          end_date?: string | null;
+          application_deadline?: string | null;
+          volunteers_needed?: number | null;
+          minimum_age?: number | null;
+          background_check_required?: boolean;
+          training_provided?: boolean;
         };
         Update: {
           id?: string;
@@ -203,6 +223,16 @@ export interface Database {
           status?: "active" | "inactive" | "completed";
           created_at?: string;
           updated_at?: string;
+          requirements?: string | null;
+          benefits?: string | null;
+          schedule?: string | null;
+          start_date?: string | null;
+          end_date?: string | null;
+          application_deadline?: string | null;
+          volunteers_needed?: number | null;
+          minimum_age?: number | null;
+          background_check_required?: boolean;
+          training_provided?: boolean;
         };
       };
       volunteer_applications: {
