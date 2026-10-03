@@ -18,6 +18,17 @@ export interface VolunteerOpportunityItem {
   type: "onsite" | "remote" | "hybrid";
   workLanguage: WorkLanguage;
   imageUrl: string;
+  requirements: string | null;
+  benefits: string | null;
+  schedule: string | null;
+  /** ISO dates (YYYY-MM-DD). A null end date means ongoing. */
+  startDate: string | null;
+  endDate: string | null;
+  applicationDeadline: string | null;
+  volunteersNeeded: number | null;
+  minimumAge: number | null;
+  backgroundCheckRequired: boolean;
+  trainingProvided: boolean;
 }
 
 interface UseVolunteerOpportunitiesReturn {
@@ -37,6 +48,16 @@ interface OpportunityRow {
   type: string;
   work_language: string;
   image_url: string | null;
+  requirements: string | null;
+  benefits: string | null;
+  schedule: string | null;
+  start_date: string | null;
+  end_date: string | null;
+  application_deadline: string | null;
+  volunteers_needed: number | null;
+  minimum_age: number | null;
+  background_check_required: boolean | null;
+  training_provided: boolean | null;
 }
 
 interface CharityRef {
@@ -46,6 +67,9 @@ interface CharityRef {
 
 /** Shown when an opportunity has no uploaded header image. */
 export const DEFAULT_OPPORTUNITY_IMAGE = "/images/charities/default.jpg";
+
+const OPPORTUNITY_COLUMNS =
+  "id, charity_id, title, description, skills, commitment, location, type, work_language, image_url, requirements, benefits, schedule, start_date, end_date, application_deadline, volunteers_needed, minimum_age, background_check_required, training_provided";
 
 const WORK_TYPES = new Set(["onsite", "remote", "hybrid"]);
 const WORK_LANGUAGES = new Set<string>(Object.values(WorkLanguage));
@@ -118,25 +142,13 @@ async function resolveCharities(
 }
 
 /**
- * Fetches active, visible volunteer opportunities and attaches charity info.
- * @returns Opportunity display objects, newest first
+ * Converts opportunity rows to display objects, attaching charity info.
+ * @param rows - Rows from volunteer_opportunities
+ * @returns Display objects in the same order
  */
-async function loadOpportunities(): Promise<VolunteerOpportunityItem[]> {
-  const { data, error } = await supabase
-    .from("volunteer_opportunities")
-    .select(
-      "id, charity_id, title, description, skills, commitment, location, type, work_language, image_url",
-    )
-    .eq("status", "active")
-    .eq("moderation_status", "visible")
-    .order("created_at", { ascending: false });
-
-  if (error) {
-    Logger.error("Error fetching volunteer opportunities", { error });
-    throw error;
-  }
-
-  const rows = (data ?? []) as OpportunityRow[];
+async function toItems(
+  rows: OpportunityRow[],
+): Promise<VolunteerOpportunityItem[]> {
   if (rows.length === 0) return [];
 
   let charities = new Map<string, CharityRef>();
@@ -167,8 +179,64 @@ async function loadOpportunities(): Promise<VolunteerOpportunityItem[]> {
         ? (row.work_language as WorkLanguage)
         : WorkLanguage.ENGLISH,
       imageUrl: row.image_url ?? DEFAULT_OPPORTUNITY_IMAGE,
+      requirements: row.requirements ?? null,
+      benefits: row.benefits ?? null,
+      schedule: row.schedule ?? null,
+      startDate: row.start_date ?? null,
+      endDate: row.end_date ?? null,
+      applicationDeadline: row.application_deadline ?? null,
+      volunteersNeeded: row.volunteers_needed ?? null,
+      minimumAge: row.minimum_age ?? null,
+      backgroundCheckRequired: row.background_check_required === true,
+      trainingProvided: row.training_provided === true,
     };
   });
+}
+
+/**
+ * Fetches active, visible volunteer opportunities and attaches charity info.
+ * @returns Opportunity display objects, newest first
+ */
+async function loadOpportunities(): Promise<VolunteerOpportunityItem[]> {
+  const { data, error } = await supabase
+    .from("volunteer_opportunities")
+    .select(OPPORTUNITY_COLUMNS)
+    .eq("status", "active")
+    .eq("moderation_status", "visible")
+    .order("created_at", { ascending: false });
+
+  if (error) {
+    Logger.error("Error fetching volunteer opportunities", { error });
+    throw error;
+  }
+
+  return toItems((data ?? []) as OpportunityRow[]);
+}
+
+/**
+ * Fetches one active, visible opportunity by id.
+ * @param id - volunteer_opportunities.id
+ * @returns The opportunity, or null when it does not exist or is not public
+ */
+async function loadOpportunity(
+  id: string,
+): Promise<VolunteerOpportunityItem | null> {
+  const { data, error } = await supabase
+    .from("volunteer_opportunities")
+    .select(OPPORTUNITY_COLUMNS)
+    .eq("id", id)
+    .eq("status", "active")
+    .eq("moderation_status", "visible")
+    .maybeSingle();
+
+  if (error) {
+    Logger.error("Error fetching volunteer opportunity", { error, id });
+    throw error;
+  }
+  if (!data) return null;
+
+  const [item] = await toItems([data as OpportunityRow]);
+  return item ?? null;
 }
 
 /**
@@ -204,4 +272,52 @@ export function useVolunteerOpportunities(): UseVolunteerOpportunitiesReturn {
   }, []);
 
   return { opportunities, loading, error };
+}
+
+interface UseVolunteerOpportunityReturn {
+  opportunity: VolunteerOpportunityItem | null;
+  loading: boolean;
+  error: string | null;
+}
+
+/**
+ * Hook that loads a single opportunity for the detail page.
+ * @param id - Opportunity id from the route, if present
+ * @returns The opportunity (null when not found) with loading and error state
+ */
+export function useVolunteerOpportunity(
+  id: string | undefined,
+): UseVolunteerOpportunityReturn {
+  const [opportunity, setOpportunity] =
+    useState<VolunteerOpportunityItem | null>(null);
+  const [loading, setLoading] = useState(id !== undefined);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (id === undefined) {
+      setLoading(false);
+      return undefined;
+    }
+    let cancelled = false;
+    setLoading(true);
+    setError(null);
+
+    loadOpportunity(id)
+      .then((data) => {
+        if (cancelled) return;
+        setOpportunity(data);
+        setLoading(false);
+      })
+      .catch(() => {
+        if (cancelled) return;
+        setError("Failed to load volunteer opportunity");
+        setLoading(false);
+      });
+
+    return () => {
+      cancelled = true;
+    };
+  }, [id]);
+
+  return { opportunity, loading, error };
 }

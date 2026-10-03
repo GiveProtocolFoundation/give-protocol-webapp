@@ -15,6 +15,7 @@ import { MAX_OPPORTUNITIES_PER_CHARITY } from "@/types/charity";
 import { useTranslation } from "@/hooks/useTranslation";
 import { Logger } from "@/utils/logger";
 import { AlertCircle, AlertTriangle } from "lucide-react";
+import { OpportunityDetailFields } from "./OpportunityDetailFields";
 
 interface FormSelectProps {
   label: string;
@@ -66,12 +67,22 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
     title: "",
     description: "<p></p>", // Empty paragraph for Tiptap editor
     skills: "",
-    commitment: CommitmentType.SHORT_TERM,
+    commitment: CommitmentType._SHORT_TERM,
     location: "",
-    type: OpportunityType.REMOTE,
+    type: OpportunityType._REMOTE,
     workLanguage: WorkLanguage.ENGLISH,
     imageUrl: "",
     imagePath: "",
+    schedule: "",
+    startDate: "",
+    endDate: "",
+    applicationDeadline: "",
+    volunteersNeeded: "",
+    minimumAge: "",
+    requirements: "",
+    benefits: "",
+    backgroundCheckRequired: false,
+    trainingProvided: false,
   });
 
   const [loading, setLoading] = useState(false);
@@ -171,8 +182,10 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
         HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement
       >,
     ) => {
-      const { name, value } = e.target;
-      setFormData((prev) => ({ ...prev, [name]: value }));
+      const { name, value, type } = e.target;
+      const nextValue =
+        type === "checkbox" ? (e.target as HTMLInputElement).checked : value;
+      setFormData((prev) => ({ ...prev, [name]: nextValue }));
 
       // Clear validation error for this field
       if (validationErrors[name]) {
@@ -241,6 +254,37 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
           }
         });
 
+        const volunteersNeeded = Number.parseInt(formData.volunteersNeeded, 10);
+        if (
+          formData.volunteersNeeded !== "" &&
+          (Number.isNaN(volunteersNeeded) || volunteersNeeded < 1)
+        ) {
+          errors.volunteersNeeded = t(
+            "volunteer.validation.volunteersNeeded",
+            "Enter a number of 1 or more",
+          );
+        }
+        const minimumAge = Number.parseInt(formData.minimumAge, 10);
+        if (
+          formData.minimumAge !== "" &&
+          (Number.isNaN(minimumAge) || minimumAge < 0 || minimumAge > 120)
+        ) {
+          errors.minimumAge = t(
+            "volunteer.validation.minimumAge",
+            "Enter an age between 0 and 120",
+          );
+        }
+        if (
+          formData.startDate !== "" &&
+          formData.endDate !== "" &&
+          formData.endDate < formData.startDate
+        ) {
+          errors.endDate = t(
+            "volunteer.validation.endDate",
+            "End date must be on or after the start date",
+          );
+        }
+
         // If there are validation errors, don't submit
         if (Object.keys(errors).length > 0) {
           setValidationErrors(errors);
@@ -274,6 +318,17 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
             status: "active",
             image_url: formData.imageUrl || null,
             image_path: formData.imagePath || null,
+            schedule: formData.schedule.trim() || null,
+            start_date: formData.startDate || null,
+            end_date: formData.endDate || null,
+            application_deadline: formData.applicationDeadline || null,
+            volunteers_needed:
+              formData.volunteersNeeded === "" ? null : volunteersNeeded,
+            minimum_age: formData.minimumAge === "" ? null : minimumAge,
+            requirements: formData.requirements.trim() || null,
+            benefits: formData.benefits.trim() || null,
+            background_check_required: formData.backgroundCheckRequired,
+            training_provided: formData.trainingProvided,
           });
 
         if (submitError) throw submitError;
@@ -428,13 +483,13 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
           value={formData.commitment}
           onChange={handleChange}
         >
-          <option value={CommitmentType.ONE_TIME}>
+          <option value={CommitmentType._ONE_TIME}>
             {t("volunteer.commitment.oneTime", "One-time")}
           </option>
-          <option value={CommitmentType.SHORT_TERM}>
+          <option value={CommitmentType._SHORT_TERM}>
             {t("volunteer.commitment.shortTerm", "Short-term")}
           </option>
-          <option value={CommitmentType.LONG_TERM}>
+          <option value={CommitmentType._LONG_TERM}>
             {t("volunteer.commitment.longTerm", "Long-term")}
           </option>
         </FormSelect>
@@ -445,13 +500,13 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
           value={formData.type}
           onChange={handleChange}
         >
-          <option value={OpportunityType.REMOTE}>
+          <option value={OpportunityType._REMOTE}>
             {t("volunteer.type.remote", "Remote")}
           </option>
-          <option value={OpportunityType.ONSITE}>
+          <option value={OpportunityType._ONSITE}>
             {t("volunteer.type.onsite", "Onsite")}
           </option>
-          <option value={OpportunityType.HYBRID}>
+          <option value={OpportunityType._HYBRID}>
             {t("volunteer.type.hybrid", "Hybrid")}
           </option>
         </FormSelect>
@@ -485,6 +540,12 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
           ))}
         </FormSelect>
       </div>
+
+      <OpportunityDetailFields
+        values={formData}
+        errors={validationErrors}
+        onChange={handleChange}
+      />
 
       <div className="flex justify-end space-x-3">
         {onCancel && (

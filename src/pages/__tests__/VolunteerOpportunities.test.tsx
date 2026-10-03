@@ -108,6 +108,34 @@ describe("VolunteerOpportunities", () => {
     });
   });
 
+  describe("Opportunity details link", () => {
+    it("links the title to the opportunity detail page", async () => {
+      await renderPage();
+      const link = screen.getByRole("link", {
+        name: "Environmental Data Analysis",
+      });
+      expect(link).toHaveAttribute("href", "/opportunities/opp-2");
+    });
+
+    it("offers a View details link on each card", async () => {
+      await renderPage();
+      expect(screen.getAllByText("View details")).toHaveLength(6);
+    });
+
+    it("shows a plain-text excerpt of rich-text descriptions", async () => {
+      setMockResult("volunteer_opportunities", {
+        data: [
+          opportunityRow(1, "Rich Opportunity", {
+            description: "<p>First <strong>para</strong></p><p>Second</p>",
+          }),
+        ],
+        error: null,
+      });
+      await renderPage();
+      expect(screen.getByText("First para Second")).toBeInTheDocument();
+    });
+  });
+
   describe("Organization link", () => {
     it("links the organization name to its charity profile", async () => {
       await renderPage();
@@ -120,7 +148,10 @@ describe("VolunteerOpportunities", () => {
     it("renders no link when the charity cannot be resolved", async () => {
       await renderPage();
       // 6 opportunities, 5 resolvable charities
-      expect(screen.getAllByRole("link")).toHaveLength(5);
+      const charityLinks = screen
+        .getAllByRole("link")
+        .filter((link) => link.getAttribute("href")?.startsWith("/charity/"));
+      expect(charityLinks).toHaveLength(5);
     });
   });
 

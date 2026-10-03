@@ -14,6 +14,7 @@ import { useToast } from "@/contexts/ToastContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { cn } from "@/utils/cn";
+import { htmlToPlainText } from "@/utils/opportunityText";
 
 /**
  * Segmented toggle for work type (Remote / On-site / Hybrid).
@@ -155,6 +156,10 @@ function OpportunityCard({
   onApply: () => void;
 }) {
   const { t } = useTranslation();
+  const excerpt = useMemo(
+    () => htmlToPlainText(opportunity.description),
+    [opportunity.description],
+  );
   return (
     <Card className="overflow-hidden">
       <img
@@ -164,7 +169,12 @@ function OpportunityCard({
       />
       <div className="p-6">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">
-          {opportunity.title}
+          <Link
+            to={`/opportunities/${opportunity.id}`}
+            className="hover:text-emerald-700 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+          >
+            {opportunity.title}
+          </Link>
         </h3>
         <p className="text-sm font-medium text-emerald-700 mb-2">
           {opportunity.organization !== "" &&
@@ -179,7 +189,7 @@ function OpportunityCard({
             opportunity.organization
           )}
         </p>
-        <p className="text-gray-600 mb-4">{opportunity.description}</p>
+        <p className="text-gray-600 mb-4 line-clamp-3">{excerpt}</p>
         <div className="flex items-center text-sm text-gray-500">
           <Clock aria-hidden="true" className="h-4 w-4 mr-2" />
           {opportunity.commitment}
@@ -206,6 +216,13 @@ function OpportunityCard({
             </span>
           ))}
         </div>
+        <Link
+          to={`/opportunities/${opportunity.id}`}
+          aria-label={`${t("volunteer.viewDetails", "View details")}: ${opportunity.title}`}
+          className="block w-full text-center mb-2 border border-emerald-700 text-emerald-700 px-4 py-2 rounded-md hover:bg-emerald-50 transition-colors"
+        >
+          {t("volunteer.viewDetails", "View details")}
+        </Link>
         <button
           type="button"
           onClick={onApply}
@@ -368,7 +385,7 @@ const VolunteerOpportunities: React.FC = () => {
         searchTermLower.length === 0 ||
         [
           opportunity.title,
-          opportunity.description,
+          htmlToPlainText(opportunity.description),
           opportunity.organization,
           ...opportunity.skills,
         ].some((field) => field.toLowerCase().includes(searchTermLower));

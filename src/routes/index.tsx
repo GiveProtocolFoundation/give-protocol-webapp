@@ -51,6 +51,9 @@ const ContributionTracker = lazy(() => import("@/pages/ContributionTracker"));
 const VolunteerOpportunities = lazy(
   () => import("@/pages/VolunteerOpportunities"),
 );
+const VolunteerOpportunityDetail = lazy(
+  () => import("@/pages/VolunteerOpportunityDetail"),
+);
 const GiveDashboard = lazy(() => import("@/pages/GiveDashboard"));
 const CharityPortal = lazy(() => import("@/pages/CharityPortal"));
 const CreateOpportunity = lazy(
@@ -687,6 +690,16 @@ export function AppRoutes() {
             <RouteTransition>
               <Suspense fallback={<LoadingFallback />}>
                 <VolunteerOpportunities />
+              </Suspense>
+            </RouteTransition>
+          }
+        />
+        <Route
+          path="/opportunities/:id"
+          element={
+            <RouteTransition>
+              <Suspense fallback={<LoadingFallback />}>
+                <VolunteerOpportunityDetail />
               </Suspense>
             </RouteTransition>
           }

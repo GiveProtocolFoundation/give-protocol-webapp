@@ -3,6 +3,7 @@ import { renderHook, waitFor } from "@testing-library/react";
 import { setMockResult, resetMockState } from "@/lib/supabase";
 import {
   useVolunteerOpportunities,
+  useVolunteerOpportunity,
   DEFAULT_OPPORTUNITY_IMAGE,
 } from "./useVolunteerOpportunities";
 
@@ -134,5 +135,114 @@ describe("useVolunteerOpportunities", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
     expect(result.current.error).toBe("Failed to load volunteer opportunities");
     expect(result.current.opportunities).toEqual([]);
+  });
+});
+
+describe("detail fields", () => {
+  beforeEach(() => {
+    resetMockState();
+  });
+
+  it("maps the structured detail columns", async () => {
+    setMockResult("volunteer_opportunities", {
+      data: [
+        makeRow("1", {
+          requirements: "A\nB",
+          benefits: "C",
+          schedule: "Tuesdays",
+          start_date: "2026-11-01",
+          end_date: null,
+          application_deadline: "2026-10-25",
+          volunteers_needed: 3,
+          minimum_age: 18,
+          background_check_required: true,
+          training_provided: true,
+        }),
+      ],
+      error: null,
+    });
+
+    const { result } = renderHook(() => useVolunteerOpportunities());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.opportunities[0]).toMatchObject({
+      requirements: "A\nB",
+      benefits: "C",
+      schedule: "Tuesdays",
+      startDate: "2026-11-01",
+      endDate: null,
+      applicationDeadline: "2026-10-25",
+      volunteersNeeded: 3,
+      minimumAge: 18,
+      backgroundCheckRequired: true,
+      trainingProvided: true,
+    });
+  });
+
+  it("defaults the detail columns when they are absent", async () => {
+    setMockResult("volunteer_opportunities", {
+      data: [makeRow("1")],
+      error: null,
+    });
+    const { result } = renderHook(() => useVolunteerOpportunities());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.opportunities[0]).toMatchObject({
+      requirements: null,
+      schedule: null,
+      startDate: null,
+      volunteersNeeded: null,
+      backgroundCheckRequired: false,
+      trainingProvided: false,
+    });
+  });
+});
+
+describe("useVolunteerOpportunity", () => {
+  beforeEach(() => {
+    resetMockState();
+  });
+
+  it("loads one opportunity with its charity", async () => {
+    setMockResult("volunteer_opportunities", {
+      data: makeRow("1"),
+      error: null,
+    });
+    setMockResult("charity_profiles", {
+      data: [{ id: "charity-1", ein: "99-1230001", name: "Charity One" }],
+      error: null,
+    });
+
+    const { result } = renderHook(() => useVolunteerOpportunity("1"));
+    expect(result.current.loading).toBe(true);
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.error).toBeNull();
+    expect(result.current.opportunity?.id).toBe("1");
+    expect(result.current.opportunity?.organization).toBe("Charity One");
+  });
+
+  it("returns null when the opportunity does not exist", async () => {
+    setMockResult("volunteer_opportunities", { data: null, error: null });
+    const { result } = renderHook(() => useVolunteerOpportunity("missing"));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.opportunity).toBeNull();
+    expect(result.current.error).toBeNull();
+  });
+
+  it("sets an error when the query fails", async () => {
+    setMockResult("volunteer_opportunities", {
+      data: null,
+      error: { message: "boom" },
+    });
+    const { result } = renderHook(() => useVolunteerOpportunity("1"));
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.error).toBe("Failed to load volunteer opportunity");
+  });
+
+  it("does not load when there is no id", () => {
+    const { result } = renderHook(() => useVolunteerOpportunity(undefined));
+    expect(result.current.loading).toBe(false);
+    expect(result.current.opportunity).toBeNull();
   });
 });
