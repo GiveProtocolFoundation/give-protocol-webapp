@@ -52,6 +52,38 @@ function CardCover({ url }: { url: string }) {
   );
 }
 
+interface CardMetaProps {
+  category?: NteeCategory;
+  onPlatform: boolean;
+  location?: string;
+}
+
+/** Category pill, "On Platform" pill and location shown above the card title. */
+function CardMeta({ category, onPlatform, location }: CardMetaProps) {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex items-center gap-2 flex-wrap">
+      {category && (
+        <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
+          {t(category.key, category.label)}
+        </span>
+      )}
+      {onPlatform && (
+        <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
+          {t("browse.charity.onPlatform", "On Platform")}
+        </span>
+      )}
+      {location && (
+        <span className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
+          <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
+          {location}
+        </span>
+      )}
+    </div>
+  );
+}
+
 /**
  * Shared charity card for the /browse discovery surfaces (featured carousel and
  * search results) so both read as the same product. Claimed charities get the
@@ -96,24 +128,11 @@ export const CharityDiscoveryCard: React.FC<CharityDiscoveryCardProps> = ({
       </div>
 
       <div className="flex flex-col flex-1 p-6">
-        <div className="flex items-center gap-2 flex-wrap">
-          {category && (
-            <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
-              {t(category.key, category.label)}
-            </span>
-          )}
-          {onPlatform && (
-            <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-gray-100 dark:bg-gray-800 text-gray-700 dark:text-gray-300">
-              {t("browse.charity.onPlatform", "On Platform")}
-            </span>
-          )}
-          {location && (
-            <span className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-              <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
-              {location}
-            </span>
-          )}
-        </div>
+        <CardMeta
+          category={category}
+          onPlatform={onPlatform}
+          location={location}
+        />
 
         <Link
           to={detailHref}

@@ -19,6 +19,56 @@ interface DiscoveryFiltersProps {
 /** Minimum characters before a search term is sent to the backend. */
 const MIN_SEARCH_CHARS = 2;
 
+interface LocationInputProps {
+  value: string;
+  onChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
+  onKeyDown: (_e: React.KeyboardEvent<HTMLInputElement>) => void;
+  onAdd: () => void;
+}
+
+/** Location text box with an explicit Add button (Enter also applies it). */
+function LocationInput({
+  value,
+  onChange,
+  onKeyDown,
+  onAdd,
+}: LocationInputProps) {
+  const { t } = useTranslation();
+
+  return (
+    <div className="flex gap-2 sm:flex-[3]">
+      <div className="relative flex-1">
+        <MapPin
+          aria-hidden="true"
+          className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
+        />
+        <input
+          type="text"
+          value={value}
+          onChange={onChange}
+          onKeyDown={onKeyDown}
+          placeholder={t(
+            "browse.filter.locationPlaceholder",
+            "City, state, or country...",
+          )}
+          aria-label={t("browse.filter.locationAria", "Search location")}
+          aria-describedby="browse-location-hint"
+          className="w-full h-11 pl-10 pr-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400"
+        />
+      </div>
+      <button
+        type="button"
+        onClick={onAdd}
+        disabled={value.trim().length === 0}
+        aria-label={t("browse.filter.addLocation", "Add location")}
+        className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
+      >
+        <Plus aria-hidden="true" className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
 /**
  * Composite filter block for the /browse Charities tab: search + location
  * dual-input and the GeographicFilter pill set with an "on platform only"
@@ -137,36 +187,12 @@ export const DiscoveryFilters: React.FC<DiscoveryFiltersProps> = ({
             className="w-full h-11 pl-10 pr-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400"
           />
         </div>
-        <div className="flex gap-2 sm:flex-[3]">
-          <div className="relative flex-1">
-            <MapPin
-              aria-hidden="true"
-              className="absolute left-3 top-1/2 -translate-y-1/2 h-4 w-4 text-gray-400"
-            />
-            <input
-              type="text"
-              value={locationInput}
-              onChange={handleLocationInputChange}
-              onKeyDown={handleLocationKeyDown}
-              placeholder={t(
-                "browse.filter.locationPlaceholder",
-                "City, state, or country...",
-              )}
-              aria-label={t("browse.filter.locationAria", "Search location")}
-              aria-describedby="browse-location-hint"
-              className="w-full h-11 pl-10 pr-4 border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm text-gray-900 dark:text-gray-100 placeholder-gray-400"
-            />
-          </div>
-          <button
-            type="button"
-            onClick={commitLocation}
-            disabled={locationInput.trim().length === 0}
-            aria-label={t("browse.filter.addLocation", "Add location")}
-            className="inline-flex h-11 w-11 shrink-0 items-center justify-center rounded-md border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 disabled:opacity-50 focus:outline-none focus:ring-2 focus:ring-emerald-500"
-          >
-            <Plus aria-hidden="true" className="h-4 w-4" />
-          </button>
-        </div>
+        <LocationInput
+          value={locationInput}
+          onChange={handleLocationInputChange}
+          onKeyDown={handleLocationKeyDown}
+          onAdd={commitLocation}
+        />
       </div>
 
       <p

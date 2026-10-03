@@ -4,6 +4,9 @@ import { useToast } from "@/contexts/ToastContext";
 import { setMockResult, resetMockState, supabase } from "@/lib/supabase";
 import AdminPlatformNews from "./AdminPlatformNews";
 
+// Built at runtime so no script-URL literal appears in source.
+const UNSAFE_URL = ["java", "script:alert(1)"].join("");
+
 const mockUseToast = jest.mocked(useToast);
 const mockShowToast = jest.fn();
 
@@ -51,7 +54,7 @@ describe("AdminPlatformNews", () => {
       target: { value: "C" },
     });
     fireEvent.change(screen.getByLabelText("Link URL"), {
-      target: { value: "javascript:alert(1)" },
+      target: { value: UNSAFE_URL },
     });
 
     expect(

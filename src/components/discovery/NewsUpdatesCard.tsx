@@ -62,6 +62,41 @@ function NewsItemBody({ item, language, showArrow }: NewsItemBodyProps) {
 
 const ROW_CLASS = "group flex items-start justify-between gap-3";
 
+interface NewsListItemProps {
+  item: NewsUpdate;
+  language: string;
+}
+
+/** One news row: internal link, external link (new tab), or plain text. */
+function NewsListItem({ item, language }: NewsListItemProps) {
+  const kind = classifyNewsLink(item.url);
+
+  return (
+    <li className="py-3 first:pt-0 last:pb-0">
+      {kind === "internal" && item.url !== null && (
+        <Link to={item.url} className={ROW_CLASS}>
+          <NewsItemBody item={item} language={language} showArrow />
+        </Link>
+      )}
+      {kind === "external" && item.url !== null && (
+        <a
+          href={item.url}
+          target="_blank"
+          rel="noopener noreferrer"
+          className={ROW_CLASS}
+        >
+          <NewsItemBody item={item} language={language} showArrow />
+        </a>
+      )}
+      {kind === "none" && (
+        <div className={ROW_CLASS}>
+          <NewsItemBody item={item} language={language} showArrow={false} />
+        </div>
+      )}
+    </li>
+  );
+}
+
 /**
  * Latest platform news shown on the browse page. Items come from the Supabase
  * platform_news table (managed at /admin/platform-news); the card renders
@@ -89,37 +124,9 @@ export const NewsUpdatesCard: React.FC<NewsUpdatesCardProps> = ({
       </div>
 
       <ul className="mt-4 divide-y divide-gray-200 dark:divide-gray-800">
-        {visible.map((item) => {
-          const kind = classifyNewsLink(item.url);
-          return (
-            <li key={item.id} className="py-3 first:pt-0 last:pb-0">
-              {kind === "internal" && item.url !== null && (
-                <Link to={item.url} className={ROW_CLASS}>
-                  <NewsItemBody item={item} language={language} showArrow />
-                </Link>
-              )}
-              {kind === "external" && item.url !== null && (
-                <a
-                  href={item.url}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className={ROW_CLASS}
-                >
-                  <NewsItemBody item={item} language={language} showArrow />
-                </a>
-              )}
-              {kind === "none" && (
-                <div className={ROW_CLASS}>
-                  <NewsItemBody
-                    item={item}
-                    language={language}
-                    showArrow={false}
-                  />
-                </div>
-              )}
-            </li>
-          );
-        })}
+        {visible.map((item) => (
+          <NewsListItem key={item.id} item={item} language={language} />
+        ))}
       </ul>
     </Card>
   );
