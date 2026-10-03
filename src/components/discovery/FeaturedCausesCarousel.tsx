@@ -1,33 +1,15 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
+import React, { useCallback, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, MapPin, Target } from "lucide-react";
+import { MapPin, Target } from "lucide-react";
 import { Card } from "@/components/ui/Card";
-import { Skeleton } from "@/components/ui/Skeleton";
 import {
   useFeaturedCauses,
   type FeaturedCause,
 } from "@/hooks/useFeaturedCauses";
-import { cn } from "@/utils/cn";
 import { useTranslation } from "@/hooks/useTranslation";
-
-const AUTO_ADVANCE_MS = 6000;
-const CARDS_PER_PAGE = 3;
-
-/** Splits an array into fixed-size groups for carousel pagination. */
-function chunk<T>(items: T[], size: number): T[][] {
-  if (items.length === 0) return [];
-  const out: T[][] = [];
-  for (let i = 0; i < items.length; i += size) {
-    out.push(items.slice(i, i + size));
-  }
-  return out;
-}
+import { matchesQuery } from "@/utils/matchesQuery";
+import { CarouselSearch } from "./CarouselSearch";
+import { FeaturedCarousel } from "./FeaturedCarousel";
 
 /** Progress bar showing raised vs target amount. */
 function ProgressBar({ raised, target }: { raised: number; target: number }) {
@@ -43,18 +25,12 @@ function ProgressBar({ raised, target }: { raised: number; target: number }) {
 }
 
 /** Cover image or placeholder shown at the top of a cause card. */
-function CauseCoverImage({
-  imageUrl,
-  name,
-}: {
-  imageUrl: string | null;
-  name: string;
-}) {
+function CauseCoverImage({ imageUrl }: { imageUrl: string | null }) {
   if (imageUrl) {
     return (
       <img
         src={imageUrl}
-        alt={`${name} cover`}
+        alt=""
         loading="lazy"
         className="absolute inset-0 h-full w-full object-cover"
       />
@@ -115,7 +91,7 @@ function FeaturedCauseCard({ cause }: { cause: FeaturedCause }) {
   return (
     <Card className="flex flex-col h-full overflow-hidden">
       <div className="relative aspect-[16/9] bg-gray-100 dark:bg-gray-800">
-        <CauseCoverImage imageUrl={cause.imageUrl} name={cause.name} />
+        <CauseCoverImage imageUrl={cause.imageUrl} />
         <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/90 dark:bg-gray-900/90 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-full shadow-sm">
           <Target aria-hidden="true" className="h-3.5 w-3.5" />
           {t("browse.causes.badge", "Cause")}
@@ -172,195 +148,89 @@ interface FeaturedCausesCarouselProps {
   subheading?: string;
 }
 
+const getCauseKey = (cause: FeaturedCause) => cause.id;
+
 /**
- * Auto-advancing carousel of active causes with progress indicators.
- * Pauses on hover/focus; supports arrow navigation and dot indicators.
+ * Carousel of active causes with progress indicators and a client-side search
+ * over the loaded causes.
  * @param props - Optional heading and subheading overrides
- * @returns Carousel component or null when no causes exist
+ * @returns The carousel with empty / error states
  */
 export const FeaturedCausesCarousel: React.FC<FeaturedCausesCarouselProps> = ({
   heading,
   subheading,
 }) => {
   const { t } = useTranslation();
-  const displayHeading =
-    heading ?? t("browse.causes.heading", "Featured causes");
-  const displaySubheading =
-    subheading ??
-    t(
-      "browse.causes.subheading",
-      "Support specific projects making real impact.",
-    );
-  const { causes, loading } = useFeaturedCauses();
-  const [pageIndex, setPageIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const { causes, loading, error } = useFeaturedCauses();
+  const [query, setQuery] = useState("");
 
-  const pages = useMemo(() => chunk(causes, CARDS_PER_PAGE), [causes]);
+  const filtered = useMemo(
+    () =>
+      causes.filter((cause) =>
+        matchesQuery(query, [
+          cause.name,
+          cause.description,
+          cause.category,
+          cause.charityName,
+          cause.location,
+        ]),
+      ),
+    [causes, query],
+  );
 
-  useEffect(() => {
-    setPageIndex((current) =>
-      pages.length === 0 ? 0 : current % pages.length,
-    );
-  }, [pages.length]);
-
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  useEffect(() => {
-    if (paused || pages.length <= 1) return undefined;
-    intervalRef.current = setInterval(() => {
-      setPageIndex((current) => (current + 1) % pages.length);
-    }, AUTO_ADVANCE_MS);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [paused, pages.length]);
-
-  const handlePrev = useCallback(() => {
-    setPageIndex((current) =>
-      pages.length === 0 ? 0 : (current - 1 + pages.length) % pages.length,
-    );
-  }, [pages.length]);
-
-  const handleNext = useCallback(() => {
-    setPageIndex((current) =>
-      pages.length === 0 ? 0 : (current + 1) % pages.length,
-    );
-  }, [pages.length]);
-
-  const handlePause = useCallback(() => setPaused(true), []);
-  const handleResume = useCallback(() => setPaused(false), []);
-
-  const handleDotClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      const index = Number.parseInt(
-        event.currentTarget.dataset.index ?? "0",
-        10,
-      );
-      if (!Number.isNaN(index)) setPageIndex(index);
-    },
+  const renderCard = useCallback(
+    (cause: FeaturedCause) => <FeaturedCauseCard cause={cause} />,
     [],
   );
 
-  if (loading) {
-    return (
-      <section aria-label={t("browse.causes.ariaLabel", "Featured causes")}>
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {displayHeading}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {displaySubheading}
-          </p>
-        </div>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
-          <Skeleton className="h-80" count={CARDS_PER_PAGE} />
-        </div>
-      </section>
-    );
-  }
-
-  if (pages.length === 0) {
-    return (
-      <section aria-label={t("browse.causes.ariaLabel", "Featured causes")}>
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {displayHeading}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {displaySubheading}
-          </p>
-        </div>
-        <div className="text-center py-16 text-gray-500 dark:text-gray-400">
-          <Target className="h-12 w-12 mx-auto mb-4 text-gray-300 dark:text-gray-600" />
-          <p>
-            {t(
-              "browse.causes.empty",
-              "No causes available yet. Check back soon!",
-            )}
-          </p>
-        </div>
-      </section>
-    );
-  }
-
-  const activePage = pages[pageIndex] ?? pages[0];
-  const showNav = pages.length > 1;
+  const searchPlaceholder = t(
+    "browse.causes.searchPlaceholder",
+    "Search causes...",
+  );
+  const hasQuery = query.trim().length > 0;
+  const toolbar =
+    causes.length > 0 ? (
+      <CarouselSearch
+        value={query}
+        onChange={setQuery}
+        placeholder={searchPlaceholder}
+      />
+    ) : undefined;
 
   return (
-    <section
-      aria-label={t("browse.causes.ariaLabel", "Featured causes")}
-      aria-roledescription="carousel"
-      aria-live="polite"
-      onMouseEnter={handlePause}
-      onMouseLeave={handleResume}
-      onFocus={handlePause}
-      onBlur={handleResume}
-    >
-      <div className="flex items-end justify-between gap-4 mb-4">
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {displayHeading}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {displaySubheading}
-          </p>
-        </div>
-        {showNav && (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label={t(
-                "browse.causes.prevAria",
-                "Previous featured causes",
-              )}
-              className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
-            >
-              <ChevronLeft aria-hidden="true" className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label={t("browse.causes.nextAria", "Next featured causes")}
-              className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
-            >
-              <ChevronRight aria-hidden="true" className="h-4 w-4" />
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
-        {activePage.map((cause, index) => (
-          <div
-            key={cause.id}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`Slide ${index + 1} of ${activePage.length}`}
-          >
-            <FeaturedCauseCard cause={cause} />
-          </div>
-        ))}
-      </div>
-
-      {showNav && (
-        <div className="mt-5 flex justify-center gap-2" aria-hidden="true">
-          {pages.map((page, index) => (
-            <button
-              key={`page-${page[0]?.id ?? index}`}
-              type="button"
-              data-index={index}
-              tabIndex={-1}
-              onClick={handleDotClick}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                index === pageIndex
-                  ? "bg-emerald-600 w-6"
-                  : "bg-gray-300 dark:bg-gray-700 w-1.5",
-              )}
-            />
-          ))}
-        </div>
-      )}
-    </section>
+    <FeaturedCarousel
+      items={filtered}
+      loading={loading}
+      error={error}
+      getKey={getCauseKey}
+      renderCard={renderCard}
+      heading={heading ?? t("browse.causes.heading", "Featured causes")}
+      subheading={
+        subheading ??
+        t(
+          "browse.causes.subheading",
+          "Support specific projects making real impact.",
+        )
+      }
+      ariaLabel={t("browse.causes.ariaLabel", "Featured causes")}
+      prevLabel={t("browse.causes.prevAria", "Previous featured causes")}
+      nextLabel={t("browse.causes.nextAria", "Next featured causes")}
+      emptyIcon={<Target className="h-12 w-12" />}
+      emptyMessage={
+        hasQuery
+          ? t(
+              "browse.search.noMatches",
+              "Nothing matches \u201c{{query}}\u201d.",
+              {
+                query: query.trim(),
+              },
+            )
+          : t(
+              "browse.causes.empty",
+              "No causes available yet. Check back soon!",
+            )
+      }
+      toolbar={toolbar}
+    />
   );
 };

@@ -2,7 +2,6 @@ import { describe, it, expect, beforeEach } from "@jest/globals";
 import { renderHook, waitFor, act } from "@testing-library/react";
 import { setMockResult, resetMockState } from "@/lib/supabase";
 import { usePlatformNews, useAdminPlatformNews } from "./usePlatformNews";
-import { NEWS_UPDATES } from "@/data/newsUpdates";
 
 // supabase is mocked globally via moduleNameMapper
 
@@ -64,7 +63,7 @@ describe("usePlatformNews", () => {
     expect(result.current.error).toBeNull();
   });
 
-  it("falls back to static NEWS_UPDATES on fetch error", async () => {
+  it("returns an empty list (no placeholder content) on fetch error", async () => {
     setMockResult("platform_news", {
       data: null,
       error: { message: "Network error" },
@@ -73,30 +72,28 @@ describe("usePlatformNews", () => {
     const { result } = renderHook(() => usePlatformNews());
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.news).toEqual(NEWS_UPDATES);
-    expect(result.current.error).toBe(
-      "Failed to load platform news, showing defaults",
-    );
+    expect(result.current.news).toEqual([]);
+    expect(result.current.error).toBe("Failed to load platform news");
   });
 
-  it("falls back to static NEWS_UPDATES when fetch returns empty", async () => {
+  it("returns an empty list when there is no news", async () => {
     setMockResult("platform_news", { data: [], error: null });
 
     const { result } = renderHook(() => usePlatformNews());
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.news).toEqual(NEWS_UPDATES);
+    expect(result.current.news).toEqual([]);
     expect(result.current.error).toBeNull();
   });
 
-  it("maps null url to '#' fallback", async () => {
+  it("keeps a null url as null so the item is not rendered as a link", async () => {
     const rows = [makeRow("1", { url: null })];
     setMockResult("platform_news", { data: rows, error: null });
 
     const { result } = renderHook(() => usePlatformNews());
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.news[0].url).toBe("#");
+    expect(result.current.news[0].url).toBeNull();
   });
 });
 

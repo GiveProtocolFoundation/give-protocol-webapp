@@ -60,4 +60,73 @@ describe("NewsUpdatesCard", () => {
     const link = screen.getByText("Test update one").closest("a");
     expect(link).toHaveAttribute("href", "/news/one");
   });
+
+  it("opens external links in a new tab safely", async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <NewsUpdatesCard
+            items={[
+              {
+                id: "x",
+                title: "External",
+                excerpt: "e",
+                url: "https://example.org/post",
+                publishedAt: "2026-04-10",
+              },
+            ]}
+          />
+        </MemoryRouter>,
+      );
+      await Promise.resolve();
+    });
+    const link = screen.getByText("External").closest("a");
+    expect(link).toHaveAttribute("href", "https://example.org/post");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  it("renders items without a usable link as plain text", async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <NewsUpdatesCard
+            items={[
+              {
+                id: "a",
+                title: "No link",
+                excerpt: "e",
+                url: null,
+                publishedAt: "2026-04-10",
+              },
+              {
+                id: "b",
+                title: "Unsafe link",
+                excerpt: "e",
+                url: "javascript:alert(1)",
+                publishedAt: "2026-04-10",
+              },
+            ]}
+          />
+        </MemoryRouter>,
+      );
+      await Promise.resolve();
+    });
+    expect(screen.getByText("No link").closest("a")).toBeNull();
+    expect(screen.getByText("Unsafe link").closest("a")).toBeNull();
+  });
+
+  it("renders nothing when there is no news", async () => {
+    let container: HTMLElement | undefined;
+    await act(async () => {
+      ({ container } = render(
+        <MemoryRouter>
+          <NewsUpdatesCard items={[]} />
+        </MemoryRouter>,
+      ));
+      await Promise.resolve();
+    });
+    expect(container?.firstChild).toBeNull();
+    expect(screen.queryByText("Platform News")).not.toBeInTheDocument();
+  });
 });

@@ -2,6 +2,7 @@ import { useState, useEffect, useRef } from "react";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { resolveCharityImageUrl } from "@/utils/charityAssets";
+import { getTranslatableNteeCategory } from "@/utils/nteeCategories";
 
 /** Display shape for a featured charity in the carousel. */
 export interface FeaturedCharity {
@@ -9,50 +10,14 @@ export interface FeaturedCharity {
   name: string;
   description: string;
   category: string;
+  /** i18n key for the category label (falls back to `category`). */
+  categoryKey: string;
   imageUrl: string;
   location?: string;
+  /** Registry the charity was verified against (e.g. "IRS_BMF"); null when unknown. */
+  registrySource: string | null;
   /** True when an organization representative has claimed the profile. */
   isClaimed: boolean;
-}
-
-/** NTEE major-code to human-readable category label. */
-const NTEE_CATEGORY_MAP: Record<string, string> = {
-  A: "Arts & Culture",
-  B: "Education",
-  C: "Environment",
-  D: "Animal Welfare",
-  E: "Health",
-  F: "Mental Health",
-  G: "Medical Research",
-  H: "Biomedical Research",
-  I: "Crime & Legal",
-  J: "Employment",
-  K: "Food & Nutrition",
-  L: "Housing",
-  M: "Public Safety",
-  N: "Recreation",
-  O: "Youth Development",
-  P: "Human Services",
-  Q: "International",
-  R: "Civil Rights",
-  S: "Community Development",
-  T: "Philanthropy",
-  U: "Science & Technology",
-  V: "Social Science",
-  W: "Public Policy",
-  X: "Religion",
-  Y: "Mutual Benefit",
-};
-
-/**
- * Maps an NTEE code prefix to a human-readable category name.
- * @param nteeCode - NTEE code string (e.g. "B20")
- * @returns Category label or "Nonprofit" as fallback
- */
-function nteeToCategory(nteeCode: string | null | undefined): string {
-  if (!nteeCode) return "Nonprofit";
-  const major = nteeCode.charAt(0).toUpperCase();
-  return NTEE_CATEGORY_MAP[major] ?? "Nonprofit";
 }
 
 interface CharityProfileRow {
@@ -65,7 +30,51 @@ interface CharityProfileRow {
   claimed_by: string | null;
 }
 
+/** Minimal charity_organizations row used for registry lookups. */
+interface RegistrySourceRow {
+  ein: string;
+  registry_source: string | null;
+}
+
 const FEATURED_LIMIT = 12;
+
+/** Strips hyphens so profile and registry identifiers compare equal. */
+function normalizeEin(ein: string): string {
+  return ein.trim().replace(/-/g, "");
+}
+
+/**
+ * Looks up which registry each charity was listed in. This is an enrichment:
+ * on failure the map is empty and cards fall back to a generic registry label.
+ * @param eins - Charity identifiers from charity_profiles
+ * @returns Map of hyphen-free identifier to registry_source
+ */
+async function fetchRegistrySources(
+  eins: string[],
+): Promise<Map<string, string>> {
+  const sources = new Map<string, string>();
+  const keys = Array.from(
+    new Set(eins.flatMap((ein) => [ein.trim(), normalizeEin(ein)])),
+  ).filter(Boolean);
+  if (keys.length === 0) return sources;
+
+  const { data, error } = await supabase
+    .from("charity_organizations")
+    .select("ein, registry_source")
+    .in("ein", keys);
+
+  if (error) {
+    Logger.warn("Registry source lookup failed", { error });
+    return sources;
+  }
+
+  for (const row of (data ?? []) as RegistrySourceRow[]) {
+    if (row.registry_source) {
+      sources.set(normalizeEin(row.ein), row.registry_source);
+    }
+  }
+  return sources;
+}
 
 /**
  * Fetches verified charity profiles with logos and transforms them into the
@@ -85,15 +94,23 @@ async function loadFeaturedCharities(): Promise<FeaturedCharity[]> {
     throw error;
   }
 
-  return ((data ?? []) as CharityProfileRow[]).map((row) => ({
-    profileId: row.ein,
-    name: row.name,
-    description: row.mission ?? "",
-    category: nteeToCategory(row.ntee_code),
-    imageUrl: resolveCharityImageUrl(row.logo_url, row.ein),
-    location: row.location !== null ? row.location : undefined,
-    isClaimed: row.claimed_by !== null,
-  }));
+  const rows = (data ?? []) as CharityProfileRow[];
+  const registrySources = await fetchRegistrySources(rows.map((r) => r.ein));
+
+  return rows.map((row) => {
+    const category = getTranslatableNteeCategory(row.ntee_code);
+    return {
+      profileId: row.ein,
+      name: row.name,
+      description: row.mission ?? "",
+      category: category.label,
+      categoryKey: category.key,
+      imageUrl: resolveCharityImageUrl(row.logo_url, row.ein),
+      location: row.location !== null ? row.location : undefined,
+      registrySource: registrySources.get(normalizeEin(row.ein)) ?? null,
+      isClaimed: row.claimed_by !== null,
+    };
+  });
 }
 
 interface UseFeaturedCharitiesReturn {

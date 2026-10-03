@@ -1,125 +1,12 @@
-import React, {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from "react";
-import { Link } from "react-router-dom";
-import { ChevronLeft, ChevronRight, MapPin, ShieldCheck } from "lucide-react";
-import { Card } from "@/components/ui/Card";
-import { Skeleton } from "@/components/ui/Skeleton";
+import React, { useCallback } from "react";
+import { Building2 } from "lucide-react";
 import {
   useFeaturedCharities,
   type FeaturedCharity,
 } from "@/hooks/useFeaturedCharities";
-import { cn } from "@/utils/cn";
 import { useTranslation } from "@/hooks/useTranslation";
-import { DEFAULT_CHARITY_COVER } from "@/utils/charityAssets";
-
-const AUTO_ADVANCE_MS = 6000;
-const CARDS_PER_PAGE = 3;
-
-/** Splits an array into fixed-size groups for carousel pagination. */
-function chunk<T>(items: T[], size: number): T[][] {
-  if (items.length === 0) return [];
-  const out: T[][] = [];
-  for (let i = 0; i < items.length; i += size) {
-    out.push(items.slice(i, i + size));
-  }
-  return out;
-}
-
-/** Cover image that swaps to the branded default cover when loading fails. */
-function CharityCoverImage({ charity }: { charity: FeaturedCharity }) {
-  const [failed, setFailed] = useState(false);
-
-  const handleError = useCallback(() => setFailed(true), []);
-
-  return (
-    <img
-      src={failed ? DEFAULT_CHARITY_COVER : charity.imageUrl}
-      alt={`${charity.name} cover`}
-      loading="lazy"
-      onError={failed ? undefined : handleError}
-      className="absolute inset-0 h-full w-full object-cover"
-    />
-  );
-}
-
-/** Primary full-width CTA treatment for donation-ready (claimed) charities. */
-const PRIMARY_CTA_CLASS =
-  "w-full inline-flex items-center justify-center rounded-[10px] bg-emerald-600 hover:bg-emerald-700 text-white text-sm font-medium px-4 py-2.5 transition-colors focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2";
-
-/** De-emphasized secondary CTA for unclaimed charities (GIV-1012). */
-const SECONDARY_CTA_CLASS =
-  "w-full inline-flex items-center justify-center rounded-[10px] border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 text-sm font-medium px-4 py-2.5 transition-colors hover:bg-gray-50 dark:hover:bg-gray-800 focus:outline-none focus:ring-2 focus:ring-emerald-500 focus:ring-offset-2";
-
-/**
- * Single featured-charity card rendered inside a carousel page. Claimed
- * charities get the primary Donate CTA; unclaimed ones (no `claimed_by` on
- * their profile) get a de-emphasized View profile CTA instead, because their
- * profile cannot receive donations until claimed (GIV-1012).
- */
-function FeaturedCharityCard({ charity }: { charity: FeaturedCharity }) {
-  const { t } = useTranslation();
-  return (
-    <Card className="flex flex-col h-full overflow-hidden">
-      <div className="relative aspect-[16/9] bg-gray-100 dark:bg-gray-800">
-        <CharityCoverImage charity={charity} />
-        <span className="absolute top-3 left-3 inline-flex items-center gap-1 px-2 py-1 bg-white/90 dark:bg-gray-900/90 text-emerald-700 dark:text-emerald-300 text-xs font-medium rounded-full shadow-sm">
-          <ShieldCheck aria-hidden="true" className="h-3.5 w-3.5" />
-          {charity.isClaimed
-            ? t("browse.verified", "Verified")
-            : t("browse.irsVerified", "IRS-verified")}
-        </span>
-      </div>
-
-      <div className="flex flex-col flex-1 p-6">
-        <div className="flex items-center gap-2">
-          <span className="inline-block px-2 py-0.5 text-xs font-medium rounded-full bg-emerald-50 dark:bg-emerald-900/30 text-emerald-700 dark:text-emerald-300">
-            {charity.category}
-          </span>
-          {charity.location && (
-            <span className="inline-flex items-center gap-1 text-xs text-gray-500 dark:text-gray-400">
-              <MapPin aria-hidden="true" className="h-3.5 w-3.5" />
-              {charity.location}
-            </span>
-          )}
-        </div>
-
-        <Link
-          to={`/charity/${charity.profileId}`}
-          className="mt-2 text-lg font-semibold text-gray-900 dark:text-gray-100 leading-tight hover:text-emerald-700 dark:hover:text-emerald-400 focus:outline-none focus:ring-2 focus:ring-emerald-500 rounded"
-        >
-          {charity.name}
-        </Link>
-
-        <p className="mt-2 text-sm text-gray-600 dark:text-gray-400 line-clamp-3">
-          {charity.description}
-        </p>
-
-        <div className="mt-auto pt-5">
-          {charity.isClaimed ? (
-            <Link
-              to={`/charity/${charity.profileId}?action=donate`}
-              className={PRIMARY_CTA_CLASS}
-            >
-              {t("browse.donate", "Donate")}
-            </Link>
-          ) : (
-            <Link
-              to={`/charity/${charity.profileId}`}
-              className={SECONDARY_CTA_CLASS}
-            >
-              {t("browse.viewProfile", "View profile")}
-            </Link>
-          )}
-        </div>
-      </div>
-    </Card>
-  );
-}
+import { CharityDiscoveryCard } from "./CharityDiscoveryCard";
+import { FeaturedCarousel } from "./FeaturedCarousel";
 
 interface FeaturedCharitiesCarouselProps {
   /** Copy shown above the carousel. */
@@ -127,180 +14,66 @@ interface FeaturedCharitiesCarouselProps {
   subheading?: string;
 }
 
+const getCharityKey = (charity: FeaturedCharity) => charity.profileId;
+
 /**
- * Auto-advancing carousel of verified platform charities with complete profiles.
- * Pauses on hover/focus; supports arrow navigation and dot indicators. When no
- * featured data is available, renders nothing — callers should gate on
- * `useFeaturedCharities` separately if they want a fallback UI.
+ * Carousel of verified platform charities with complete profiles. Shows an
+ * explicit empty or error state instead of rendering nothing, so a fresh
+ * database or failed fetch is never mistaken for a broken page.
+ * @param props - Optional heading and subheading overrides
+ * @returns The carousel
  */
 export const FeaturedCharitiesCarousel: React.FC<
   FeaturedCharitiesCarouselProps
 > = ({ heading, subheading }) => {
   const { t } = useTranslation();
-  const displayHeading =
-    heading ?? t("browse.featured.heading", "Featured organizations");
-  const displaySubheading =
-    subheading ??
-    t(
-      "browse.featured.subheading",
-      "A rotating look at verified charities on Give Protocol.",
-    );
-  const { charities, loading } = useFeaturedCharities();
-  const [pageIndex, setPageIndex] = useState(0);
-  const [paused, setPaused] = useState(false);
+  const { charities, loading, error } = useFeaturedCharities();
 
-  const pages = useMemo(() => chunk(charities, CARDS_PER_PAGE), [charities]);
-
-  // Reset page when data set changes.
-  useEffect(() => {
-    setPageIndex((current) =>
-      pages.length === 0 ? 0 : current % pages.length,
-    );
-  }, [pages.length]);
-
-  const intervalRef = useRef<ReturnType<typeof setInterval> | null>(null);
-  useEffect(() => {
-    if (paused || pages.length <= 1) return undefined;
-    intervalRef.current = setInterval(() => {
-      setPageIndex((current) => (current + 1) % pages.length);
-    }, AUTO_ADVANCE_MS);
-    return () => {
-      if (intervalRef.current) clearInterval(intervalRef.current);
-    };
-  }, [paused, pages.length]);
-
-  const handlePrev = useCallback(() => {
-    setPageIndex((current) =>
-      pages.length === 0 ? 0 : (current - 1 + pages.length) % pages.length,
-    );
-  }, [pages.length]);
-
-  const handleNext = useCallback(() => {
-    setPageIndex((current) =>
-      pages.length === 0 ? 0 : (current + 1) % pages.length,
-    );
-  }, [pages.length]);
-
-  const handlePause = useCallback(() => setPaused(true), []);
-  const handleResume = useCallback(() => setPaused(false), []);
-
-  const handleDotClick = useCallback(
-    (event: React.MouseEvent<HTMLButtonElement>) => {
-      const index = Number.parseInt(
-        event.currentTarget.dataset.index ?? "0",
-        10,
-      );
-      if (!Number.isNaN(index)) setPageIndex(index);
-    },
+  const renderCard = useCallback(
+    (charity: FeaturedCharity) => (
+      <CharityDiscoveryCard
+        name={charity.name}
+        detailHref={`/charity/${charity.profileId}`}
+        isClaimed={charity.isClaimed}
+        registrySource={charity.registrySource}
+        platformVerified
+        category={{ key: charity.categoryKey, label: charity.category }}
+        location={charity.location}
+        description={charity.description}
+        coverUrl={charity.imageUrl}
+      />
+    ),
     [],
   );
 
-  if (loading) {
-    return (
-      <section
-        aria-label={t("browse.featured.ariaLabel", "Featured organizations")}
-      >
-        <div className="mb-4">
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {displayHeading}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {displaySubheading}
-          </p>
-        </div>
-        <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
-          <Skeleton className="h-80" count={CARDS_PER_PAGE} />
-        </div>
-      </section>
-    );
-  }
-
-  if (pages.length === 0) {
-    return null;
-  }
-
-  const activePage = pages[pageIndex] ?? pages[0];
-  const showNav = pages.length > 1;
-
   return (
-    <section
-      aria-label={t("browse.featured.ariaLabel", "Featured organizations")}
-      aria-roledescription="carousel"
-      aria-live="polite"
-      onMouseEnter={handlePause}
-      onMouseLeave={handleResume}
-      onFocus={handlePause}
-      onBlur={handleResume}
-    >
-      <div className="flex items-end justify-between gap-4 mb-4">
-        <div>
-          <h2 className="text-lg font-semibold text-gray-900 dark:text-gray-100">
-            {displayHeading}
-          </h2>
-          <p className="text-sm text-gray-500 dark:text-gray-400">
-            {displaySubheading}
-          </p>
-        </div>
-        {showNav && (
-          <div className="flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label={t(
-                "browse.featured.prevAria",
-                "Previous featured organizations",
-              )}
-              className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
-            >
-              <ChevronLeft aria-hidden="true" className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label={t(
-                "browse.featured.nextAria",
-                "Next featured organizations",
-              )}
-              className="inline-flex items-center justify-center h-9 w-9 rounded-full border border-gray-300 dark:border-gray-700 bg-white dark:bg-gray-900 text-gray-700 dark:text-gray-200 hover:border-emerald-500 hover:text-emerald-700 dark:hover:text-emerald-400 transition-colors"
-            >
-              <ChevronRight aria-hidden="true" className="h-4 w-4" />
-            </button>
-          </div>
-        )}
-      </div>
-
-      <div className="grid grid-cols-[repeat(auto-fill,minmax(320px,1fr))] gap-6 md:gap-8">
-        {activePage.map((charity, index) => (
-          <div
-            key={charity.profileId}
-            role="group"
-            aria-roledescription="slide"
-            aria-label={`Slide ${index + 1} of ${activePage.length}`}
-          >
-            <FeaturedCharityCard charity={charity} />
-          </div>
-        ))}
-      </div>
-
-      {showNav && (
-        <div className="mt-5 flex justify-center gap-2" aria-hidden="true">
-          {pages.map((page, index) => (
-            <button
-              key={`page-${page[0]?.profileId ?? index}`}
-              type="button"
-              data-index={index}
-              tabIndex={-1}
-              onClick={handleDotClick}
-              className={cn(
-                "h-1.5 rounded-full transition-all",
-                index === pageIndex
-                  ? "bg-emerald-600 w-6"
-                  : "bg-gray-300 dark:bg-gray-700 w-1.5",
-              )}
-            />
-          ))}
-        </div>
+    <FeaturedCarousel
+      items={charities}
+      loading={loading}
+      error={error}
+      getKey={getCharityKey}
+      renderCard={renderCard}
+      heading={
+        heading ?? t("browse.featured.heading", "Featured organizations")
+      }
+      subheading={
+        subheading ??
+        t(
+          "browse.featured.subheading",
+          "A rotating look at verified charities on Give Protocol.",
+        )
+      }
+      ariaLabel={t("browse.featured.ariaLabel", "Featured organizations")}
+      prevLabel={t(
+        "browse.featured.prevAria",
+        "Previous featured organizations",
       )}
-    </section>
+      nextLabel={t("browse.featured.nextAria", "Next featured organizations")}
+      emptyIcon={<Building2 className="h-12 w-12" />}
+      emptyMessage={t(
+        "browse.featured.empty",
+        "No featured organizations yet. Use the search above to find a charity.",
+      )}
+    />
   );
 };

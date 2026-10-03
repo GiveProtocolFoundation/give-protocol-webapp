@@ -314,7 +314,7 @@ describe("FeaturedCausesCarousel", () => {
     expect(dots).toHaveLength(2);
   });
 
-  it("renders slide ARIA attributes on each card wrapper", () => {
+  it("renders slide ARIA attributes on the page wrapper", () => {
     const causes = [makeCause("1"), makeCause("2"), makeCause("3")];
     mockUseFeaturedCauses.mockReturnValue({
       causes: causes as never,
@@ -323,11 +323,9 @@ describe("FeaturedCausesCarousel", () => {
     });
     renderCarousel();
     const slides = screen.getAllByRole("group");
-    expect(slides).toHaveLength(3);
+    expect(slides).toHaveLength(1);
     expect(slides[0]).toHaveAttribute("aria-roledescription", "slide");
-    expect(slides[0]).toHaveAttribute("aria-label", "Slide 1 of 3");
-    expect(slides[1]).toHaveAttribute("aria-label", "Slide 2 of 3");
-    expect(slides[2]).toHaveAttribute("aria-label", "Slide 3 of 3");
+    expect(slides[0]).toHaveAttribute("aria-label", "Page 1 of 1");
   });
 
   it("navigates when a dot is clicked", () => {
@@ -349,5 +347,41 @@ describe("FeaturedCausesCarousel", () => {
 
     fireEvent.click(dots[1]);
     expect(screen.getByText("Cause 4")).toBeInTheDocument();
+  });
+
+  it("filters causes by the search box and shows a no-match message", () => {
+    mockUseFeaturedCauses.mockReturnValue({
+      causes: [
+        makeCause("1", { name: "Clean Water" }),
+        makeCause("2", { name: "School Meals", charityName: "Food Bank" }),
+      ] as never,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    const box = screen.getByRole("searchbox", { name: "Search causes..." });
+
+    fireEvent.change(box, { target: { value: "water" } });
+    expect(screen.getByText("Clean Water")).toBeInTheDocument();
+    expect(screen.queryByText("School Meals")).not.toBeInTheDocument();
+
+    fireEvent.change(box, { target: { value: "food bank" } });
+    expect(screen.getByText("School Meals")).toBeInTheDocument();
+
+    fireEvent.change(box, { target: { value: "zzz" } });
+    expect(screen.getByRole("status")).toHaveTextContent(
+      "Nothing matches \u201czzz\u201d.",
+    );
+  });
+
+  it("hides the search box when there are no causes at all", () => {
+    mockUseFeaturedCauses.mockReturnValue({
+      causes: [],
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    expect(screen.queryByRole("searchbox")).not.toBeInTheDocument();
+    expect(screen.getByText(/No causes available yet/)).toBeInTheDocument();
   });
 });

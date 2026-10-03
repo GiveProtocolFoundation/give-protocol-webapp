@@ -75,11 +75,7 @@ export const DonorHubView: React.FC = () => {
               : "Trending on the platform"}
           </p>
         </div>
-        <DiscoveryFilters
-          value={filters}
-          onChange={handleFiltersChange}
-          showViewToggle={false}
-        />
+        <DiscoveryFilters value={filters} onChange={handleFiltersChange} />
       </section>
 
       <section aria-label="Charity results">
