@@ -14,6 +14,7 @@ interface FeaturedCharitiesCarouselProps {
   subheading?: string;
 }
 
+/** Stable React key for a charity card. */
 const getCharityKey = (charity: FeaturedCharity) => charity.profileId;
 
 /**

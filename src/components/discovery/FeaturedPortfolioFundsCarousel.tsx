@@ -81,6 +81,7 @@ interface FeaturedPortfolioFundsCarouselProps {
   subheading?: string;
 }
 
+/** Stable React key for a portfolio fund card. */
 const getFundKey = (fund: FeaturedPortfolioFund) => fund.id;
 
 /**

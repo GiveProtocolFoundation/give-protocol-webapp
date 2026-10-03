@@ -148,6 +148,7 @@ interface FeaturedCausesCarouselProps {
   subheading?: string;
 }
 
+/** Stable React key for a cause card. */
 const getCauseKey = (cause: FeaturedCause) => cause.id;
 
 /**
