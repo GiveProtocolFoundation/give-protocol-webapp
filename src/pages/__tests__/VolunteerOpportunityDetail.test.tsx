@@ -4,7 +4,7 @@ import { MemoryRouter, Route, Routes } from "react-router-dom";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
 import { createMockAuth } from "@/test-utils/mockSetup";
-import { setMockResult, resetMockState } from "@/lib/supabase";
+import { supabase, setMockResult, resetMockState } from "@/lib/supabase";
 import VolunteerOpportunityDetail from "../VolunteerOpportunityDetail";
 
 // useTranslation, useAuth, useToast and VolunteerApplicationForm are mocked via moduleNameMapper.
@@ -20,7 +20,7 @@ const baseRow = {
   description:
     '<p>Analyze <strong>field data</strong>.</p><script>alert("x")</script><ul><li>Clean data</li></ul>',
   skills: ["Python", "Visualization"],
-  commitment: "8 hours/week",
+  commitment: "long-term",
   location: "Remote",
   type: "remote",
   work_language: "english",
@@ -56,10 +56,12 @@ describe("VolunteerOpportunityDetail", () => {
     jest.clearAllMocks();
     resetMockState();
     setMockResult("volunteer_opportunities", { data: baseRow, error: null });
-    setMockResult("charity_profiles", {
-      data: [{ id: "charity-1", ein: "99-1230003", name: "Green Earth" }],
+    jest.mocked(supabase.rpc).mockResolvedValue({
+      data: [
+        { profile_id: "charity-1", ein: "99-1230003", name: "Green Earth" },
+      ],
       error: null,
-    });
+    } as never);
     mockUseAuth.mockReturnValue(
       createMockAuth({ user: { id: "user-1", email: "t@example.com" } }),
     );
@@ -75,7 +77,7 @@ describe("VolunteerOpportunityDetail", () => {
       "href",
       "/charity/99-1230003",
     );
-    expect(screen.getByText("8 hours/week")).toBeInTheDocument();
+    expect(screen.getByText("Long-term")).toBeInTheDocument();
     expect(screen.getByText("Self-scheduled")).toBeInTheDocument();
     expect(screen.getByText("Ongoing")).toBeInTheDocument();
     expect(screen.getByText("18+")).toBeInTheDocument();
@@ -123,6 +125,15 @@ describe("VolunteerOpportunityDetail", () => {
     expect(
       screen.queryByText("Background check required"),
     ).not.toBeInTheDocument();
+  });
+
+  it("shows legacy free-text commitments unchanged", async () => {
+    setMockResult("volunteer_opportunities", {
+      data: { ...baseRow, commitment: "5 hours/week" },
+      error: null,
+    });
+    renderDetail();
+    expect(await screen.findByText("5 hours/week")).toBeInTheDocument();
   });
 
   it("opens the application form for a signed-in user", async () => {

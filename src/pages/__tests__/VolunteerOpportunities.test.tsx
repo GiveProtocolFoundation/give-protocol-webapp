@@ -1,7 +1,7 @@
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
-import { setMockResult, resetMockState } from "@/lib/supabase";
+import { supabase, setMockResult, resetMockState } from "@/lib/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
 import { createMockAuth } from "@/test-utils/mockSetup";
@@ -28,7 +28,7 @@ const opportunityRow = (
   title,
   description: `Description ${n}`,
   skills: [],
-  commitment: "5 hours/week",
+  commitment: "short-term",
   location: "Remote",
   type: "remote",
   work_language: "english",
@@ -40,7 +40,7 @@ const OPPORTUNITY_ROWS = [
   opportunityRow(1, "Web Development for Education Platform", {
     description: "Help build an educational platform. Looking for developers.",
     skills: ["React", "Node.js", "TypeScript"],
-    commitment: "5-10 hours/week",
+    commitment: "long-term",
   }),
   opportunityRow(2, "Environmental Data Analysis", {
     skills: ["Python", "Data Analysis"],
@@ -50,7 +50,7 @@ const OPPORTUNITY_ROWS = [
   opportunityRow(3, "Community Health App Development", {
     description: "Create a mobile app for community health workers.",
     skills: ["React Native"],
-    commitment: "15 hours/week",
+    commitment: "one-time",
     work_language: "spanish",
   }),
   opportunityRow(4, "Translation Services for Medical Documents", {
@@ -71,11 +71,27 @@ const OPPORTUNITY_ROWS = [
 
 // charity-2 is intentionally absent so its opportunity has no resolvable charity.
 const CHARITY_ROWS = [
-  { id: "charity-1", ein: "99-1230001", name: "Global Education Initiative" },
-  { id: "charity-3", ein: "99-1230003", name: "HealthBridge NGO" },
-  { id: "charity-4", ein: "13-3433452", name: "Doctors Without Borders" },
-  { id: "charity-5", ein: "99-1230005", name: "Global Relief Initiative" },
-  { id: "charity-6", ein: "99-1230006", name: "Global Learning Foundation" },
+  {
+    profile_id: "charity-1",
+    ein: "99-1230001",
+    name: "Global Education Initiative",
+  },
+  { profile_id: "charity-3", ein: "99-1230003", name: "HealthBridge NGO" },
+  {
+    profile_id: "charity-4",
+    ein: "13-3433452",
+    name: "Doctors Without Borders",
+  },
+  {
+    profile_id: "charity-5",
+    ein: "99-1230005",
+    name: "Global Relief Initiative",
+  },
+  {
+    profile_id: "charity-6",
+    ein: "99-1230006",
+    name: "Global Learning Foundation",
+  },
 ];
 
 /** Renders the page and waits for the opportunity cards to load. */
@@ -96,7 +112,9 @@ describe("VolunteerOpportunities", () => {
       data: OPPORTUNITY_ROWS,
       error: null,
     });
-    setMockResult("charity_profiles", { data: CHARITY_ROWS, error: null });
+    jest
+      .mocked(supabase.rpc)
+      .mockResolvedValue({ data: CHARITY_ROWS, error: null } as never);
     mockUseAuth.mockReturnValue(
       createMockAuth({ user: { id: "user-1", email: "test@example.com" } }),
     );
@@ -190,8 +208,9 @@ describe("VolunteerOpportunities", () => {
 
     it("renders commitment details", async () => {
       await renderPage();
-      expect(screen.getByText("5-10 hours/week")).toBeInTheDocument();
-      expect(screen.getByText("15 hours/week")).toBeInTheDocument();
+      expect(screen.getByText("Long-term")).toBeInTheDocument();
+      expect(screen.getByText("One-time")).toBeInTheDocument();
+      expect(screen.getAllByText("Short-term")).toHaveLength(4);
     });
 
     it("renders location information", async () => {

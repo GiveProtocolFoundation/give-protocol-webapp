@@ -75,11 +75,10 @@ const WORK_TYPES = new Set(["onsite", "remote", "hybrid"]);
 const WORK_LANGUAGES = new Set<string>(Object.values(WorkLanguage));
 
 /**
- * Resolves charity name and EIN for each charity_id. The id may be a
- * charity_profiles.id (seeded/unclaimed charities) or a profiles.id (charities
- * that signed up and post from the portal), so ids missing from
- * charity_profiles are mapped through profiles -> charity_profiles.claimed_by.
- * Resolution is an enrichment: failures yield an empty map, not an error.
+ * Resolves the name and EIN of each hosting charity. charity_id references
+ * profiles(id), which visitors cannot read directly, so this goes through the
+ * get_opportunity_charities function, which exposes only those two public
+ * fields. Resolution is an enrichment: a failure yields an empty map.
  * @param charityIds - Distinct charity_id values from the opportunity rows
  * @returns Map of charity_id to name and EIN
  */
@@ -88,55 +87,20 @@ async function resolveCharities(
 ): Promise<Map<string, CharityRef>> {
   const refs = new Map<string, CharityRef>();
 
-  const { data: direct } = await supabase
-    .from("charity_profiles")
-    .select("id, ein, name")
-    .in("id", charityIds);
-  for (const row of (direct ?? []) as Array<{
-    id: string;
-    ein: string;
-    name: string;
-  }>) {
-    refs.set(row.id, { name: row.name, ein: row.ein });
+  const { data, error } = await supabase.rpc("get_opportunity_charities", {
+    p_charity_ids: charityIds,
+  });
+  if (error) {
+    Logger.error("Error resolving opportunity charities", { error });
+    return refs;
   }
 
-  const unresolved = charityIds.filter((id) => !refs.has(id));
-  if (unresolved.length === 0) return refs;
-
-  const { data: profiles } = await supabase
-    .from("profiles")
-    .select("id, user_id, name")
-    .in("id", unresolved);
-  const profileRows = (profiles ?? []) as Array<{
-    id: string;
-    user_id: string;
+  for (const row of (data ?? []) as Array<{
+    profile_id: string;
     name: string | null;
-  }>;
-  if (profileRows.length === 0) return refs;
-
-  const { data: claimed } = await supabase
-    .from("charity_profiles")
-    .select("ein, name, claimed_by")
-    .in(
-      "claimed_by",
-      profileRows.map((p) => p.user_id),
-    );
-  const byUser = new Map<string, CharityRef>();
-  for (const row of (claimed ?? []) as Array<{
-    ein: string;
-    name: string;
-    claimed_by: string;
+    ein: string | null;
   }>) {
-    byUser.set(row.claimed_by, { name: row.name, ein: row.ein });
-  }
-
-  for (const p of profileRows) {
-    const ref = byUser.get(p.user_id);
-    if (ref) {
-      refs.set(p.id, ref);
-    } else if (p.name) {
-      refs.set(p.id, { name: p.name, ein: "" });
-    }
+    refs.set(row.profile_id, { name: row.name ?? "", ein: row.ein ?? "" });
   }
   return refs;
 }
