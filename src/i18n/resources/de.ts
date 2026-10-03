@@ -132,6 +132,12 @@ export default {
     "volunteer.workTypeFilter": "Arbeitstyp-Filter",
     "volunteer.searchLocation": "Stadt oder Region...",
     "volunteer.searchLocationAria": "Standort suchen",
+    "volunteer.filter.skill": "Fähigkeit: {{value}}",
+    "volunteer.filter.type": "Typ: {{value}}",
+    "volunteer.filter.language": "Sprache: {{value}}",
+    "volunteer.filter.location": "Standort: {{value}}",
+    "volunteer.loadingOpportunities": "Möglichkeiten werden geladen...",
+    "volunteer.loadOpportunitiesError": "Freiwilligenmöglichkeiten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
     "volunteer.signInToApply":
       "Bitte melden Sie sich an, um sich für Freiwilligenmöglichkeiten zu bewerben",
     "volunteer.applicationSuccess": "Bewerbung erfolgreich eingereicht!",

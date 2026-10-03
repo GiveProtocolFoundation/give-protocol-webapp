@@ -133,6 +133,12 @@ export default {
     "volunteer.workTypeFilter": "Filtre de type de travail",
     "volunteer.searchLocation": "Ville ou région...",
     "volunteer.searchLocationAria": "Rechercher un lieu",
+    "volunteer.filter.skill": "Compétence : {{value}}",
+    "volunteer.filter.type": "Type : {{value}}",
+    "volunteer.filter.language": "Langue : {{value}}",
+    "volunteer.filter.location": "Lieu : {{value}}",
+    "volunteer.loadingOpportunities": "Chargement des opportunités...",
+    "volunteer.loadOpportunitiesError": "Impossible de charger les opportunités de bénévolat. Veuillez réessayer plus tard.",
     "volunteer.signInToApply":
       "Connectez-vous pour postuler aux opportunités de bénévolat",
     "volunteer.applicationSuccess": "Candidature envoyée avec succès !",

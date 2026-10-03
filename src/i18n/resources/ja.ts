@@ -130,6 +130,12 @@ export default {
     "volunteer.workTypeFilter": "勤務形態フィルター",
     "volunteer.searchLocation": "市区町村または地域...",
     "volunteer.searchLocationAria": "場所を検索",
+    "volunteer.filter.skill": "スキル: {{value}}",
+    "volunteer.filter.type": "タイプ: {{value}}",
+    "volunteer.filter.language": "言語: {{value}}",
+    "volunteer.filter.location": "場所: {{value}}",
+    "volunteer.loadingOpportunities": "募集を読み込み中...",
+    "volunteer.loadOpportunitiesError": "ボランティア募集を読み込めませんでした。後でもう一度お試しください。",
     "volunteer.signInToApply":
       "ボランティア機会に応募するにはサインインしてください",
     "volunteer.applicationSuccess": "申請が正常に送信されました！",

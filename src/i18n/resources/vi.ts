@@ -130,6 +130,12 @@ export default {
     "volunteer.workTypeFilter": "Bộ lọc loại công việc",
     "volunteer.searchLocation": "Thành phố hoặc khu vực...",
     "volunteer.searchLocationAria": "Tìm kiếm địa điểm",
+    "volunteer.filter.skill": "Kỹ năng: {{value}}",
+    "volunteer.filter.type": "Loại: {{value}}",
+    "volunteer.filter.language": "Ngôn ngữ: {{value}}",
+    "volunteer.filter.location": "Địa điểm: {{value}}",
+    "volunteer.loadingOpportunities": "Đang tải cơ hội...",
+    "volunteer.loadOpportunitiesError": "Không thể tải các cơ hội tình nguyện. Vui lòng thử lại sau.",
     "volunteer.signInToApply":
       "Vui lòng đăng nhập để đăng ký cơ hội tình nguyện",
     "volunteer.applicationSuccess": "Đơn đăng ký đã được gửi thành công!",

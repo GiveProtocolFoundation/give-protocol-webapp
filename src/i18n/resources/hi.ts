@@ -132,6 +132,12 @@ export default {
     "volunteer.workTypeFilter": "कार्य प्रकार फ़िल्टर",
     "volunteer.searchLocation": "शहर या क्षेत्र...",
     "volunteer.searchLocationAria": "स्थान खोजें",
+    "volunteer.filter.skill": "कौशल: {{value}}",
+    "volunteer.filter.type": "प्रकार: {{value}}",
+    "volunteer.filter.language": "भाषा: {{value}}",
+    "volunteer.filter.location": "स्थान: {{value}}",
+    "volunteer.loadingOpportunities": "अवसर लोड हो रहे हैं...",
+    "volunteer.loadOpportunitiesError": "स्वयंसेवा अवसर लोड नहीं हो सके। कृपया बाद में पुनः प्रयास करें।",
     "volunteer.signInToApply":
       "स्वयंसेवक अवसरों के लिए आवेदन करने हेतु कृपया साइन इन करें",
     "volunteer.applicationSuccess": "आवेदन सफलतापूर्वक जमा किया गया!",

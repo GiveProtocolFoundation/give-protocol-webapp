@@ -6,128 +6,14 @@ import { VolunteerApplicationForm } from "../components/volunteer/VolunteerAppli
 import { useTranslation } from "@/hooks/useTranslation";
 import { usePageTitle } from "@/hooks/usePageTitle";
 import { WorkLanguage } from "@/types/volunteer";
+import {
+  useVolunteerOpportunities,
+  type VolunteerOpportunityItem as Opportunity,
+} from "@/hooks/useVolunteerOpportunities";
 import { useToast } from "@/contexts/ToastContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { cn } from "@/utils/cn";
-
-interface Opportunity {
-  id: string;
-  title: string;
-  organization: string;
-  /** Route to the hosting charity profile, when the charity is on the platform. */
-  charityPath?: string;
-  description: string;
-  skills: string[];
-  commitment: string;
-  location: string;
-  type: "onsite" | "remote" | "hybrid";
-  workLanguage: WorkLanguage;
-  image: string;
-}
-
-const SAMPLE_OPPORTUNITIES: Opportunity[] = [
-  {
-    id: "550e8400-e29b-41d4-a716-446655440001",
-    title: "Web Development for Education Platform",
-    organization: "Global Education Initiative",
-    description:
-      "Help build an educational platform for underprivileged students. Looking for React and Node.js developers.",
-    skills: ["React", "Node.js", "TypeScript"],
-    commitment: "5-10 hours/week",
-    location: "Remote",
-    type: "remote",
-    workLanguage: WorkLanguage.ENGLISH,
-    image:
-      "https://images.unsplash.com/photo-1517694712202-14dd9538aa97?auto=format&fit=crop&w=800",
-  },
-  {
-    id: "550e8400-e29b-41d4-a716-446655440002",
-    title: "Environmental Data Analysis",
-    organization: "EcoWatch Foundation",
-    description:
-      "Analyze environmental data to help track climate change impact. Need experience with data analysis and visualization.",
-    skills: ["Python", "Data Analysis", "Visualization"],
-    commitment: "8 hours/week",
-    location: "Hybrid - New York",
-    type: "hybrid",
-    workLanguage: WorkLanguage.ENGLISH,
-    image:
-      "https://images.unsplash.com/photo-1527474305487-b87b222841cc?auto=format&fit=crop&w=800",
-  },
-  {
-    id: "550e8400-e29b-41d4-a716-446655440003",
-    title: "Community Health App Development",
-    organization: "HealthBridge NGO",
-    description:
-      "Create a mobile app for community health workers. Seeking mobile developers with React Native experience.",
-    skills: ["React Native", "Mobile Development"],
-    commitment: "15 hours/week",
-    location: "Remote",
-    type: "remote",
-    workLanguage: WorkLanguage.SPANISH,
-    image:
-      "https://images.unsplash.com/photo-1576091160399-112ba8d25d1d?auto=format&fit=crop&w=800",
-  },
-  {
-    id: "550e8400-e29b-41d4-a716-446655440004",
-    title: "Translation Services for Medical Documents",
-    organization: "Doctors Without Borders",
-    charityPath: "/charity/13-3433452",
-    description:
-      "Help translate medical documents and patient information. Fluency in both English and Spanish required.",
-    skills: ["Translation", "Medical Terminology", "Spanish"],
-    commitment: "10 hours/week",
-    location: "Remote",
-    type: "remote",
-    workLanguage: WorkLanguage.SPANISH,
-    image:
-      "https://images.unsplash.com/photo-1532938911079-1b06ac7ceec7?auto=format&fit=crop&w=800",
-  },
-  {
-    id: "550e8400-e29b-41d4-a716-446655440005",
-    title: "Disaster Relief Coordination",
-    organization: "Global Relief Initiative",
-    description:
-      "Assist in coordinating disaster relief efforts. German language skills needed for communication with local teams.",
-    skills: ["Project Management", "Coordination", "German"],
-    commitment: "20 hours/week",
-    location: "Onsite - Berlin",
-    type: "onsite",
-    workLanguage: WorkLanguage.GERMAN,
-    image:
-      "https://images.unsplash.com/photo-1593113598332-cd288d649433?auto=format&fit=crop&w=800",
-  },
-  {
-    id: "550e8400-e29b-41d4-a716-446655440006",
-    title: "Educational Content Creation in Japanese",
-    organization: "Global Learning Foundation",
-    description:
-      "Create educational content for children in Japanese. Teaching experience preferred.",
-    skills: ["Content Creation", "Education", "Japanese"],
-    commitment: "8 hours/week",
-    location: "Remote",
-    type: "remote",
-    workLanguage: WorkLanguage.JAPANESE,
-    image:
-      "https://images.unsplash.com/photo-1503676260728-1c00da094a0b?auto=format&fit=crop&w=800",
-  },
-];
-
-const SKILLS = [
-  "React",
-  "Node.js",
-  "Python",
-  "Data Analysis",
-  "Mobile Development",
-  "UI/UX",
-  "Project Management",
-  "Translation",
-  "Content Creation",
-  "Japanese",
-  "Spanish",
-  "German",
-];
 
 /**
  * Segmented toggle for work type (Remote / On-site / Hybrid).
@@ -204,13 +90,16 @@ interface ActiveFilter {
  * @returns The rendered pill element
  */
 function FilterPill({ filter }: { filter: ActiveFilter }) {
+  const { t } = useTranslation();
   return (
     <span className="inline-flex items-center gap-1 px-2 py-0.5 rounded-full text-xs font-medium bg-emerald-50 text-emerald-700 border border-emerald-200">
       {filter.label}
       <button
         type="button"
         onClick={filter.onRemove}
-        aria-label={`Remove ${filter.label} filter`}
+        aria-label={t("volunteer.removeFilter", "Remove {{filter}} filter", {
+          filter: filter.label,
+        })}
         className="ml-0.5 hover:text-emerald-900 transition-colors"
       >
         <X className="h-3 w-3" aria-hidden="true" />
@@ -269,7 +158,7 @@ function OpportunityCard({
   return (
     <Card className="overflow-hidden">
       <img
-        src={opportunity.image}
+        src={opportunity.imageUrl}
         alt=""
         className="w-full h-48 object-cover"
       />
@@ -278,7 +167,8 @@ function OpportunityCard({
           {opportunity.title}
         </h3>
         <p className="text-sm font-medium text-emerald-700 mb-2">
-          {opportunity.charityPath !== undefined ? (
+          {opportunity.organization !== "" &&
+          opportunity.charityPath !== undefined ? (
             <Link
               to={opportunity.charityPath}
               className="hover:text-emerald-900 underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
@@ -337,6 +227,7 @@ function OpportunityFilters({
   selectedType,
   selectedLanguage,
   activeFilters,
+  skillOptions,
   onSearchChange,
   onLocationChange,
   onSkillChange,
@@ -351,6 +242,7 @@ function OpportunityFilters({
   selectedType: string;
   selectedLanguage: string;
   activeFilters: ActiveFilter[];
+  skillOptions: string[];
   onSearchChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onLocationChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   onSkillChange: (_e: React.ChangeEvent<HTMLSelectElement>) => void;
@@ -405,7 +297,7 @@ function OpportunityFilters({
           aria-label={t("volunteer.selectSkill", "Select skill")}
         >
           <option value="">{t("volunteer.allSkills", "All Skills")}</option>
-          {SKILLS.map((skill) => (
+          {skillOptions.map((skill) => (
             <option key={skill} value={skill}>
               {skill}
             </option>
@@ -458,15 +350,28 @@ const VolunteerOpportunities: React.FC = () => {
   const { showToast } = useToast();
   const { user } = useAuth();
   const navigate = useNavigate();
+  const { opportunities, loading, error } = useVolunteerOpportunities();
+
+  const skillOptions = useMemo(
+    () =>
+      [...new Set(opportunities.flatMap((o) => o.skills))].sort((a, b) =>
+        a.localeCompare(b),
+      ),
+    [opportunities],
+  );
 
   const filteredOpportunities = useMemo(() => {
     const locationTerm = locationSearch.trim().toLowerCase();
-    return SAMPLE_OPPORTUNITIES.filter((opportunity) => {
+    const searchTermLower = searchTerm.trim().toLowerCase();
+    return opportunities.filter((opportunity) => {
       const matchesSearch =
-        opportunity.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
-        opportunity.description
-          .toLowerCase()
-          .includes(searchTerm.toLowerCase());
+        searchTermLower.length === 0 ||
+        [
+          opportunity.title,
+          opportunity.description,
+          opportunity.organization,
+          ...opportunity.skills,
+        ].some((field) => field.toLowerCase().includes(searchTermLower));
       const matchesSkill =
         !selectedSkill || opportunity.skills.includes(selectedSkill);
       const matchesType = !selectedType || opportunity.type === selectedType;
@@ -485,6 +390,7 @@ const VolunteerOpportunities: React.FC = () => {
       );
     });
   }, [
+    opportunities,
     searchTerm,
     locationSearch,
     selectedSkill,
@@ -597,7 +503,9 @@ const VolunteerOpportunities: React.FC = () => {
     if (selectedSkill) {
       filters.push({
         key: "skill",
-        label: `Skill: ${selectedSkill}`,
+        label: t("volunteer.filter.skill", "Skill: {{value}}", {
+          value: selectedSkill,
+        }),
         onRemove: clearSkill,
       });
     }
@@ -605,7 +513,9 @@ const VolunteerOpportunities: React.FC = () => {
       const typeKey = `volunteer.type.${selectedType}`;
       filters.push({
         key: "type",
-        label: `Type: ${t(typeKey, selectedType)}`,
+        label: t("volunteer.filter.type", "Type: {{value}}", {
+          value: t(typeKey, selectedType),
+        }),
         onRemove: clearType,
       });
     }
@@ -613,14 +523,18 @@ const VolunteerOpportunities: React.FC = () => {
       const langKey = `language.${selectedLanguage}`;
       filters.push({
         key: "language",
-        label: `Lang: ${t(langKey, formatLanguageName(selectedLanguage))}`,
+        label: t("volunteer.filter.language", "Language: {{value}}", {
+          value: t(langKey, formatLanguageName(selectedLanguage)),
+        }),
         onRemove: clearLanguage,
       });
     }
     if (locationSearch.trim()) {
       filters.push({
         key: "location",
-        label: `Location: ${locationSearch.trim()}`,
+        label: t("volunteer.filter.location", "Location: {{value}}", {
+          value: locationSearch.trim(),
+        }),
         onRemove: clearLocation,
       });
     }
@@ -650,6 +564,7 @@ const VolunteerOpportunities: React.FC = () => {
         selectedType={selectedType}
         selectedLanguage={selectedLanguage}
         activeFilters={activeFilters}
+        skillOptions={skillOptions}
         onSearchChange={handleSearchChange}
         onLocationChange={handleLocationChange}
         onSkillChange={handleSkillChange}
@@ -658,6 +573,21 @@ const VolunteerOpportunities: React.FC = () => {
         onHybridClick={handleHybridClick}
         onLanguageChange={handleLanguageChange}
       />
+
+      {loading && (
+        <div role="status" className="text-center py-12 text-gray-500">
+          {t("volunteer.loadingOpportunities", "Loading opportunities...")}
+        </div>
+      )}
+
+      {error !== null && (
+        <div role="alert" className="text-center py-12 text-red-700">
+          {t(
+            "volunteer.loadOpportunitiesError",
+            "We couldn't load volunteer opportunities. Please try again later.",
+          )}
+        </div>
+      )}
 
       <ScrollReveal direction="up" delay={200}>
         <div className="grid gap-6 md:grid-cols-2 lg:grid-cols-3">
@@ -671,7 +601,7 @@ const VolunteerOpportunities: React.FC = () => {
         </div>
       </ScrollReveal>
 
-      {filteredOpportunities.length === 0 && (
+      {!loading && error === null && filteredOpportunities.length === 0 && (
         <div className="text-center py-12 text-gray-500">
           {t(
             "volunteer.noOpportunitiesFound",
@@ -684,7 +614,7 @@ const VolunteerOpportunities: React.FC = () => {
         <VolunteerApplicationForm
           opportunityId={selectedOpportunity.id}
           opportunityTitle={selectedOpportunity.title}
-          charityId="550e8400-e29b-41d4-a716-446655440000"
+          charityId={selectedOpportunity.charityId}
           onClose={handleApplicationClose}
           onSuccess={handleApplicationSuccess}
         />

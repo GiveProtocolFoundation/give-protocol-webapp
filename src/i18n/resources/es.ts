@@ -134,6 +134,12 @@ export default {
     "volunteer.workTypeFilter": "Filtro de tipo de trabajo",
     "volunteer.searchLocation": "Ciudad o región...",
     "volunteer.searchLocationAria": "Buscar ubicación",
+    "volunteer.filter.skill": "Habilidad: {{value}}",
+    "volunteer.filter.type": "Tipo: {{value}}",
+    "volunteer.filter.language": "Idioma: {{value}}",
+    "volunteer.filter.location": "Ubicación: {{value}}",
+    "volunteer.loadingOpportunities": "Cargando oportunidades...",
+    "volunteer.loadOpportunitiesError": "No pudimos cargar las oportunidades de voluntariado. Inténtalo de nuevo más tarde.",
     "volunteer.signInToApply":
       "Inicie sesión para postularse a oportunidades de voluntariado",
     "volunteer.applicationSuccess": "¡Solicitud enviada exitosamente!",

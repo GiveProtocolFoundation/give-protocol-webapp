@@ -130,6 +130,12 @@ export default {
     "volunteer.workTypeFilter": "Work type filter",
     "volunteer.searchLocation": "City or region...",
     "volunteer.searchLocationAria": "Search location",
+    "volunteer.filter.skill": "Skill: {{value}}",
+    "volunteer.filter.type": "Type: {{value}}",
+    "volunteer.filter.language": "Language: {{value}}",
+    "volunteer.filter.location": "Location: {{value}}",
+    "volunteer.loadingOpportunities": "Loading opportunities...",
+    "volunteer.loadOpportunitiesError": "We couldn't load volunteer opportunities. Please try again later.",
     "volunteer.signInToApply":
       "Please sign in to apply for volunteer opportunities",
     "volunteer.applicationSuccess": "Application submitted successfully!",

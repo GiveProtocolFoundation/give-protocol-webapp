@@ -1,6 +1,7 @@
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { setMockResult, resetMockState } from "@/lib/supabase";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
 import { createMockAuth } from "@/test-utils/mockSetup";
@@ -14,16 +15,86 @@ const mockUseToast = jest.mocked(useToast);
 
 const mockShowToast = jest.fn();
 
-const renderPage = () =>
+// supabase is mocked globally via moduleNameMapper; fixtures mirror
+// volunteer_opportunities rows plus the charity_profiles join.
+const opportunityRow = (
+  n: number,
+  title: string,
+  overrides: Record<string, unknown> = {},
+) => ({
+  id: `opp-${n}`,
+  charity_id: `charity-${n}`,
+  title,
+  description: `Description ${n}`,
+  skills: [],
+  commitment: "5 hours/week",
+  location: "Remote",
+  type: "remote",
+  work_language: "english",
+  image_url: null,
+  ...overrides,
+});
+
+const OPPORTUNITY_ROWS = [
+  opportunityRow(1, "Web Development for Education Platform", {
+    description: "Help build an educational platform. Looking for developers.",
+    skills: ["React", "Node.js", "TypeScript"],
+    commitment: "5-10 hours/week",
+  }),
+  opportunityRow(2, "Environmental Data Analysis", {
+    skills: ["Python", "Data Analysis"],
+    location: "Hybrid - New York",
+    type: "hybrid",
+  }),
+  opportunityRow(3, "Community Health App Development", {
+    description: "Create a mobile app for community health workers.",
+    skills: ["React Native"],
+    commitment: "15 hours/week",
+    work_language: "spanish",
+  }),
+  opportunityRow(4, "Translation Services for Medical Documents", {
+    skills: ["Translation", "Spanish"],
+    work_language: "spanish",
+  }),
+  opportunityRow(5, "Disaster Relief Coordination", {
+    skills: ["Project Management", "German"],
+    location: "Onsite - Berlin",
+    type: "onsite",
+    work_language: "german",
+  }),
+  opportunityRow(6, "Educational Content Creation in Japanese", {
+    skills: ["Content Creation", "Japanese"],
+    work_language: "japanese",
+  }),
+];
+
+// charity-2 is intentionally absent so its opportunity has no resolvable charity.
+const CHARITY_ROWS = [
+  { id: "charity-1", ein: "99-1230001", name: "Global Education Initiative" },
+  { id: "charity-3", ein: "99-1230003", name: "HealthBridge NGO" },
+  { id: "charity-4", ein: "13-3433452", name: "Doctors Without Borders" },
+  { id: "charity-5", ein: "99-1230005", name: "Global Relief Initiative" },
+  { id: "charity-6", ein: "99-1230006", name: "Global Learning Foundation" },
+];
+
+const renderPage = async () => {
   render(
     <MemoryRouter>
       <VolunteerOpportunities />
     </MemoryRouter>,
   );
+  await screen.findAllByText("Apply Now");
+};
 
 describe("VolunteerOpportunities", () => {
   beforeEach(() => {
     jest.clearAllMocks();
+    resetMockState();
+    setMockResult("volunteer_opportunities", {
+      data: OPPORTUNITY_ROWS,
+      error: null,
+    });
+    setMockResult("charity_profiles", { data: CHARITY_ROWS, error: null });
     mockUseAuth.mockReturnValue(
       createMockAuth({ user: { id: "user-1", email: "test@example.com" } }),
     );
@@ -31,33 +102,31 @@ describe("VolunteerOpportunities", () => {
   });
 
   describe("Page heading", () => {
-    it("renders the page title", () => {
-      renderPage();
+    it("renders the page title", async () => {
+      await renderPage();
       expect(screen.getByText("Volunteer Opportunities")).toBeInTheDocument();
     });
   });
 
   describe("Organization link", () => {
-    it("links the organization name to its charity profile when available", () => {
-      renderPage();
+    it("links the organization name to its charity profile", async () => {
+      await renderPage();
       const link = screen.getByRole("link", {
         name: "Doctors Without Borders",
       });
       expect(link).toHaveAttribute("href", "/charity/13-3433452");
     });
 
-    it("renders organization as plain text when no charity page exists", () => {
-      renderPage();
-      expect(screen.getByText("EcoWatch Foundation")).toBeInTheDocument();
-      expect(
-        screen.queryByRole("link", { name: "EcoWatch Foundation" }),
-      ).not.toBeInTheDocument();
+    it("renders no link when the charity cannot be resolved", async () => {
+      await renderPage();
+      // 6 opportunities, 5 resolvable charities
+      expect(screen.getAllByRole("link")).toHaveLength(5);
     });
   });
 
   describe("Opportunity cards", () => {
-    it("renders all sample opportunity titles", () => {
-      renderPage();
+    it("renders all loaded opportunity titles", async () => {
+      await renderPage();
       expect(
         screen.getByText("Web Development for Education Platform"),
       ).toBeInTheDocument();
@@ -78,41 +147,91 @@ describe("VolunteerOpportunities", () => {
       ).toBeInTheDocument();
     });
 
-    it("renders organization names", () => {
-      renderPage();
+    it("renders organization names", async () => {
+      await renderPage();
       expect(
         screen.getByText("Global Education Initiative"),
       ).toBeInTheDocument();
-      expect(screen.getByText("EcoWatch Foundation")).toBeInTheDocument();
+      expect(screen.getByText("HealthBridge NGO")).toBeInTheDocument();
     });
 
-    it("renders commitment details", () => {
-      renderPage();
+    it("renders commitment details", async () => {
+      await renderPage();
       expect(screen.getByText("5-10 hours/week")).toBeInTheDocument();
       expect(screen.getByText("15 hours/week")).toBeInTheDocument();
     });
 
-    it("renders location information", () => {
-      renderPage();
+    it("renders location information", async () => {
+      await renderPage();
       expect(screen.getByText("Hybrid - New York")).toBeInTheDocument();
       expect(screen.getByText("Onsite - Berlin")).toBeInTheDocument();
     });
 
-    it("renders Apply Now buttons for each opportunity", () => {
-      renderPage();
+    it("renders Apply Now buttons for each opportunity", async () => {
+      await renderPage();
       const applyButtons = screen.getAllByText("Apply Now");
       expect(applyButtons).toHaveLength(6);
     });
   });
 
+  describe("Data loading", () => {
+    it("shows an error message when loading fails", async () => {
+      setMockResult("volunteer_opportunities", {
+        data: null,
+        error: { message: "boom" },
+      });
+      render(
+        <MemoryRouter>
+          <VolunteerOpportunities />
+        </MemoryRouter>,
+      );
+      expect(await screen.findByRole("alert")).toHaveTextContent(
+        "We couldn't load volunteer opportunities",
+      );
+    });
+
+    it("builds the skill dropdown from the loaded opportunities", async () => {
+      await renderPage();
+      const select = screen.getByLabelText("Select skill");
+      expect(select.textContent).toContain("Japanese");
+      expect(select.textContent).not.toContain("UI/UX");
+    });
+  });
+
   describe("Search functionality", () => {
-    it("renders the search input", () => {
-      renderPage();
+    it("matches organization names", async () => {
+      await renderPage();
+      fireEvent.change(screen.getByLabelText("Search opportunities"), {
+        target: { value: "healthbridge" },
+      });
+      expect(
+        screen.getByText("Community Health App Development"),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText("Environmental Data Analysis"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("matches skills", async () => {
+      await renderPage();
+      fireEvent.change(screen.getByLabelText("Search opportunities"), {
+        target: { value: "typescript" },
+      });
+      expect(
+        screen.getByText("Web Development for Education Platform"),
+      ).toBeInTheDocument();
+      expect(
+        screen.queryByText("Environmental Data Analysis"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("renders the search input", async () => {
+      await renderPage();
       expect(screen.getByLabelText("Search opportunities")).toBeInTheDocument();
     });
 
-    it("filters opportunities by search term", () => {
-      renderPage();
+    it("filters opportunities by search term", async () => {
+      await renderPage();
       const searchInput = screen.getByLabelText("Search opportunities");
       fireEvent.change(searchInput, { target: { value: "Environmental" } });
       expect(
@@ -123,8 +242,8 @@ describe("VolunteerOpportunities", () => {
       ).not.toBeInTheDocument();
     });
 
-    it("filters by description content", () => {
-      renderPage();
+    it("filters by description content", async () => {
+      await renderPage();
       const searchInput = screen.getByLabelText("Search opportunities");
       fireEvent.change(searchInput, {
         target: { value: "mobile app" },
@@ -139,13 +258,13 @@ describe("VolunteerOpportunities", () => {
   });
 
   describe("Location filter", () => {
-    it("renders the location search input", () => {
-      renderPage();
+    it("renders the location search input", async () => {
+      await renderPage();
       expect(screen.getByLabelText("Search location")).toBeInTheDocument();
     });
 
-    it("filters opportunities by location", () => {
-      renderPage();
+    it("filters opportunities by location", async () => {
+      await renderPage();
       const locationInput = screen.getByLabelText("Search location");
       fireEvent.change(locationInput, { target: { value: "Berlin" } });
       expect(
@@ -158,13 +277,13 @@ describe("VolunteerOpportunities", () => {
   });
 
   describe("Skill filter", () => {
-    it("renders the skill dropdown", () => {
-      renderPage();
+    it("renders the skill dropdown", async () => {
+      await renderPage();
       expect(screen.getByLabelText("Select skill")).toBeInTheDocument();
     });
 
-    it("filters opportunities by selected skill", () => {
-      renderPage();
+    it("filters opportunities by selected skill", async () => {
+      await renderPage();
       const skillSelect = screen.getByLabelText("Select skill");
       fireEvent.change(skillSelect, { target: { value: "React" } });
       expect(
@@ -175,15 +294,15 @@ describe("VolunteerOpportunities", () => {
       ).not.toBeInTheDocument();
     });
 
-    it("shows filter pill when skill is selected", () => {
-      renderPage();
+    it("shows filter pill when skill is selected", async () => {
+      await renderPage();
       const skillSelect = screen.getByLabelText("Select skill");
       fireEvent.change(skillSelect, { target: { value: "Python" } });
       expect(screen.getByText("Skill: Python")).toBeInTheDocument();
     });
 
-    it("clears skill filter when pill remove button is clicked", () => {
-      renderPage();
+    it("clears skill filter when pill remove button is clicked", async () => {
+      await renderPage();
       const skillSelect = screen.getByLabelText("Select skill");
       fireEvent.change(skillSelect, { target: { value: "Python" } });
       const removeButton = screen.getByLabelText("Remove Skill: Python filter");
@@ -195,22 +314,22 @@ describe("VolunteerOpportunities", () => {
   });
 
   describe("Work type toggle", () => {
-    it("renders the work type filter group", () => {
-      renderPage();
+    it("renders the work type filter group", async () => {
+      await renderPage();
       const group = screen.getByRole("group", { name: "Work type filter" });
       expect(group).toBeInTheDocument();
     });
 
-    it("renders Remote, On-site, and Hybrid toggle buttons", () => {
-      renderPage();
+    it("renders Remote, On-site, and Hybrid toggle buttons", async () => {
+      await renderPage();
       expect(screen.getByText("On-site")).toBeInTheDocument();
       const group = screen.getByRole("group", { name: "Work type filter" });
       expect(group.textContent).toContain("Remote");
       expect(group.textContent).toContain("Hybrid");
     });
 
-    it("filters by remote type when Remote toggle is clicked", () => {
-      renderPage();
+    it("filters by remote type when Remote toggle is clicked", async () => {
+      await renderPage();
       const group = screen.getByRole("group", { name: "Work type filter" });
       const remoteButton = group.querySelector("button:first-child");
       fireEvent.click(remoteButton as Element);
@@ -228,8 +347,8 @@ describe("VolunteerOpportunities", () => {
       ).not.toBeInTheDocument();
     });
 
-    it("toggles off the type filter when clicked again", () => {
-      renderPage();
+    it("toggles off the type filter when clicked again", async () => {
+      await renderPage();
       const group = screen.getByRole("group", { name: "Work type filter" });
       const remoteButton = group.querySelector("button:first-child");
       fireEvent.click(remoteButton as Element);
@@ -241,13 +360,13 @@ describe("VolunteerOpportunities", () => {
   });
 
   describe("Language filter", () => {
-    it("renders the language dropdown", () => {
-      renderPage();
+    it("renders the language dropdown", async () => {
+      await renderPage();
       expect(screen.getByLabelText("Select language")).toBeInTheDocument();
     });
 
-    it("filters opportunities by language", () => {
-      renderPage();
+    it("filters opportunities by language", async () => {
+      await renderPage();
       const languageSelect = screen.getByLabelText("Select language");
       fireEvent.change(languageSelect, { target: { value: "german" } });
       expect(
@@ -260,8 +379,8 @@ describe("VolunteerOpportunities", () => {
   });
 
   describe("Empty state", () => {
-    it("shows no results message when filters exclude all opportunities", () => {
-      renderPage();
+    it("shows no results message when filters exclude all opportunities", async () => {
+      await renderPage();
       const searchInput = screen.getByLabelText("Search opportunities");
       fireEvent.change(searchInput, {
         target: { value: "zzzznonexistent" },
@@ -273,8 +392,8 @@ describe("VolunteerOpportunities", () => {
   });
 
   describe("Apply flow", () => {
-    it("shows application form when Apply Now is clicked for authenticated user", () => {
-      renderPage();
+    it("shows application form when Apply Now is clicked for authenticated user", async () => {
+      await renderPage();
       const applyButtons = screen.getAllByText("Apply Now");
       fireEvent.click(applyButtons[0]);
       expect(
@@ -287,9 +406,9 @@ describe("VolunteerOpportunities", () => {
       ).toBeInTheDocument();
     });
 
-    it("shows error toast and redirects when unauthenticated user clicks Apply", () => {
+    it("shows error toast and redirects when unauthenticated user clicks Apply", async () => {
       mockUseAuth.mockReturnValue(createMockAuth({ user: null }));
-      renderPage();
+      await renderPage();
       const applyButtons = screen.getAllByText("Apply Now");
       fireEvent.click(applyButtons[0]);
       expect(mockShowToast).toHaveBeenCalledWith(
@@ -298,8 +417,8 @@ describe("VolunteerOpportunities", () => {
       );
     });
 
-    it("closes application form when close button is clicked", () => {
-      renderPage();
+    it("closes application form when close button is clicked", async () => {
+      await renderPage();
       const applyButtons = screen.getAllByText("Apply Now");
       fireEvent.click(applyButtons[0]);
       expect(
