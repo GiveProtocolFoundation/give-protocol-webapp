@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useMemo } from "react";
 import { Search, Award, Clock, MapPin, Globe, X } from "lucide-react";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { Card } from "../components/ui/Card";
 import { VolunteerApplicationForm } from "../components/volunteer/VolunteerApplicationForm";
 import { useTranslation } from "@/hooks/useTranslation";
@@ -15,6 +15,8 @@ interface Opportunity {
   id: string;
   title: string;
   organization: string;
+  /** Route to the hosting charity profile, when the charity is on the platform. */
+  charityPath?: string;
   description: string;
   skills: string[];
   commitment: string;
@@ -71,6 +73,7 @@ const SAMPLE_OPPORTUNITIES: Opportunity[] = [
     id: "550e8400-e29b-41d4-a716-446655440004",
     title: "Translation Services for Medical Documents",
     organization: "Doctors Without Borders",
+    charityPath: "/charity/13-3433452",
     description:
       "Help translate medical documents and patient information. Fluency in both English and Spanish required.",
     skills: ["Translation", "Medical Terminology", "Spanish"],
@@ -267,15 +270,24 @@ function OpportunityCard({
     <Card className="overflow-hidden">
       <img
         src={opportunity.image}
-        alt={opportunity.title}
+        alt=""
         className="w-full h-48 object-cover"
       />
       <div className="p-6">
         <h3 className="text-xl font-semibold text-gray-900 mb-2">
           {opportunity.title}
         </h3>
-        <p className="text-sm font-medium text-emerald-600 mb-2">
-          {opportunity.organization}
+        <p className="text-sm font-medium text-emerald-700 mb-2">
+          {opportunity.charityPath !== undefined ? (
+            <Link
+              to={opportunity.charityPath}
+              className="hover:text-emerald-900 underline-offset-2 hover:underline focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+            >
+              {opportunity.organization}
+            </Link>
+          ) : (
+            opportunity.organization
+          )}
         </p>
         <p className="text-gray-600 mb-4">{opportunity.description}</p>
         <div className="flex items-center text-sm text-gray-500">
@@ -305,8 +317,10 @@ function OpportunityCard({
           ))}
         </div>
         <button
+          type="button"
           onClick={onApply}
-          className="w-full bg-emerald-600 text-white px-4 py-2 rounded-md hover:bg-emerald-700 transition-colors"
+          aria-label={`${t("volunteer.applyNow", "Apply Now")}: ${opportunity.title}`}
+          className="w-full bg-emerald-700 text-white px-4 py-2 rounded-md hover:bg-emerald-800 transition-colors"
         >
           {t("volunteer.applyNow", "Apply Now")}
         </button>
@@ -348,10 +362,10 @@ function OpportunityFilters({
   const { t } = useTranslation();
   return (
     <ScrollReveal direction="up" delay={100} className="space-y-2">
-      <div className="flex gap-3 items-center">
+      <div className="flex flex-wrap gap-3 items-center">
         <SearchField
           icon={Search}
-          wrapperClass="relative flex-[3]"
+          wrapperClass="relative flex-[3] min-w-[200px]"
           inputClass="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm"
           type="text"
           placeholder={t(
@@ -368,7 +382,7 @@ function OpportunityFilters({
 
         <SearchField
           icon={MapPin}
-          wrapperClass="relative flex-[2]"
+          wrapperClass="relative flex-[2] min-w-[160px]"
           inputClass="w-full pl-9 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500 text-sm"
           type="text"
           placeholder={t("volunteer.searchLocation", "City or region...")}

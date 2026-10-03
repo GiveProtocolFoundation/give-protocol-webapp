@@ -37,6 +37,24 @@ describe("VolunteerOpportunities", () => {
     });
   });
 
+  describe("Organization link", () => {
+    it("links the organization name to its charity profile when available", () => {
+      renderPage();
+      const link = screen.getByRole("link", {
+        name: "Doctors Without Borders",
+      });
+      expect(link).toHaveAttribute("href", "/charity/13-3433452");
+    });
+
+    it("renders organization as plain text when no charity page exists", () => {
+      renderPage();
+      expect(screen.getByText("EcoWatch Foundation")).toBeInTheDocument();
+      expect(
+        screen.queryByRole("link", { name: "EcoWatch Foundation" }),
+      ).not.toBeInTheDocument();
+    });
+  });
+
   describe("Opportunity cards", () => {
     it("renders all sample opportunity titles", () => {
       renderPage();
