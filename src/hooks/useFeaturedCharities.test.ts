@@ -121,4 +121,53 @@ describe("useFeaturedCharities", () => {
       "https://example.com/logo.png",
     );
   });
+
+  it("attaches the translatable category key", async () => {
+    setMockResult("charity_profiles", {
+      data: [makeRow("12-3456789")],
+      error: null,
+    });
+    const { result } = renderHook(() => useFeaturedCharities());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+    expect(result.current.charities[0].categoryKey).toBe("browse.category.B");
+  });
+
+  it("enriches each charity with the registry it came from", async () => {
+    setMockResult("charity_profiles", {
+      data: [makeRow("12-3456789"), makeRow("98-7654321")],
+      error: null,
+    });
+    // Registry rows may store the identifier without hyphens.
+    setMockResult("charity_organizations", {
+      data: [
+        { ein: "123456789", registry_source: "IRS_BMF" },
+        { ein: "98-7654321", registry_source: "CRA_LISTED" },
+      ],
+      error: null,
+    });
+
+    const { result } = renderHook(() => useFeaturedCharities());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.charities[0].registrySource).toBe("IRS_BMF");
+    expect(result.current.charities[1].registrySource).toBe("CRA_LISTED");
+  });
+
+  it("still returns charities (registry unknown) when the registry lookup fails", async () => {
+    setMockResult("charity_profiles", {
+      data: [makeRow("12-3456789")],
+      error: null,
+    });
+    setMockResult("charity_organizations", {
+      data: null,
+      error: { message: "boom" },
+    });
+
+    const { result } = renderHook(() => useFeaturedCharities());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.charities).toHaveLength(1);
+    expect(result.current.charities[0].registrySource).toBeNull();
+    expect(result.current.error).toBeNull();
+  });
 });

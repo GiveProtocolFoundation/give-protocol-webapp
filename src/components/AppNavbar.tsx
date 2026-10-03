@@ -86,7 +86,7 @@ const DesktopNavLinks: React.FC<{
           </Link>
           <button
             onClick={handleDashboardClick}
-            className="inline-flex items-center whitespace-nowrap px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 shadow-sm transition-colors duration-200"
+            className="inline-flex items-center whitespace-nowrap px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-600 shadow-sm transition-colors duration-200"
           >
             {t("nav.dashboard")}
           </button>
@@ -319,7 +319,7 @@ const NavActions: React.FC<{
             <ConnectButton />
             <Link
               to="/auth"
-              className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-600 hover:bg-emerald-500 transition-colors duration-200"
+              className="hidden sm:inline-flex items-center px-4 py-1.5 rounded-lg text-sm font-semibold text-white bg-emerald-700 hover:bg-emerald-600 transition-colors duration-200"
             >
               {t("nav.signIn")}
             </Link>

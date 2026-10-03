@@ -2,6 +2,9 @@ import { render, screen, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { NewsUpdatesCard } from "./NewsUpdatesCard";
 
+// Built at runtime so no script-URL literal appears in source.
+const UNSAFE_URL = ["java", "script:alert(1)"].join("");
+
 const MOCK_ITEMS = [
   {
     id: "n1",
@@ -59,5 +62,74 @@ describe("NewsUpdatesCard", () => {
     await renderCard();
     const link = screen.getByText("Test update one").closest("a");
     expect(link).toHaveAttribute("href", "/news/one");
+  });
+
+  it("opens external links in a new tab safely", async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <NewsUpdatesCard
+            items={[
+              {
+                id: "x",
+                title: "External",
+                excerpt: "e",
+                url: "https://example.org/post",
+                publishedAt: "2026-04-10",
+              },
+            ]}
+          />
+        </MemoryRouter>,
+      );
+      await Promise.resolve();
+    });
+    const link = screen.getByText("External").closest("a");
+    expect(link).toHaveAttribute("href", "https://example.org/post");
+    expect(link).toHaveAttribute("target", "_blank");
+    expect(link).toHaveAttribute("rel", "noopener noreferrer");
+  });
+
+  it("renders items without a usable link as plain text", async () => {
+    await act(async () => {
+      render(
+        <MemoryRouter>
+          <NewsUpdatesCard
+            items={[
+              {
+                id: "a",
+                title: "No link",
+                excerpt: "e",
+                url: null,
+                publishedAt: "2026-04-10",
+              },
+              {
+                id: "b",
+                title: "Unsafe link",
+                excerpt: "e",
+                url: UNSAFE_URL,
+                publishedAt: "2026-04-10",
+              },
+            ]}
+          />
+        </MemoryRouter>,
+      );
+      await Promise.resolve();
+    });
+    expect(screen.getByText("No link").closest("a")).toBeNull();
+    expect(screen.getByText("Unsafe link").closest("a")).toBeNull();
+  });
+
+  it("renders nothing when there is no news", async () => {
+    let container: HTMLElement | undefined;
+    await act(async () => {
+      ({ container } = render(
+        <MemoryRouter>
+          <NewsUpdatesCard items={[]} />
+        </MemoryRouter>,
+      ));
+      await Promise.resolve();
+    });
+    expect(container?.firstChild).toBeNull();
+    expect(screen.queryByText("Platform News")).not.toBeInTheDocument();
   });
 });

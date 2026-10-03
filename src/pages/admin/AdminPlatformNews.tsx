@@ -3,6 +3,7 @@ import { Card } from "@/components/ui/Card";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/Input";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
+import { Modal } from "@/components/ui/Modal";
 import { useToast } from "@/contexts/ToastContext";
 import { useTranslation } from "@/hooks/useTranslation";
 import {
@@ -11,6 +12,7 @@ import {
   type PlatformNewsFormData,
 } from "@/hooks/usePlatformNews";
 import { Plus, Edit, Trash2, Eye, EyeOff, Newspaper } from "lucide-react";
+import { isValidNewsLink } from "@/utils/newsLinks";
 
 const NEWS_CATEGORIES = [
   "general",
@@ -179,6 +181,8 @@ function NewsForm({
     [onFieldChange],
   );
 
+  const urlInvalid = !isValidNewsLink(formData.url);
+
   const handleUrlChange = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       onFieldChange("url", e.target.value);
@@ -272,8 +276,31 @@ function NewsForm({
             id="news-url"
             value={formData.url}
             onChange={handleUrlChange}
-            placeholder={t("admin.news.urlPlaceholder", "/news/my-article")}
+            placeholder={t(
+              "admin.news.urlPlaceholder",
+              "https://example.org/article",
+            )}
+            aria-invalid={urlInvalid}
+            aria-describedby="news-url-help"
           />
+          <p
+            id="news-url-help"
+            className={
+              urlInvalid
+                ? "mt-1 text-xs text-red-600 dark:text-red-400"
+                : "mt-1 text-xs text-gray-500 dark:text-gray-400"
+            }
+          >
+            {urlInvalid
+              ? t(
+                  "admin.news.urlInvalid",
+                  "Enter a full https:// address or a path starting with /.",
+                )
+              : t(
+                  "admin.news.urlHelp",
+                  "Optional. Leave blank to show the item without a link.",
+                )}
+          </p>
         </div>
 
         <div>
@@ -351,7 +378,10 @@ function NewsForm({
         <Button
           onClick={onSubmit}
           disabled={
-            loading || !formData.title.trim() || !formData.content.trim()
+            loading ||
+            !formData.title.trim() ||
+            !formData.content.trim() ||
+            urlInvalid
           }
         >
           {loading
@@ -388,6 +418,9 @@ const AdminPlatformNews: React.FC = () => {
   const [showForm, setShowForm] = useState(false);
   const [editingId, setEditingId] = useState<string | null>(null);
   const [formData, setFormData] = useState<PlatformNewsFormData>(emptyFormData);
+  const [pendingDelete, setPendingDelete] = useState<PlatformNewsRow | null>(
+    null,
+  );
 
   const handleFieldChange = useCallback(
     (field: keyof PlatformNewsFormData, value: string | boolean) => {
@@ -430,7 +463,17 @@ const AdminPlatformNews: React.FC = () => {
       const newsId = e.currentTarget.dataset.newsId;
       const item = items.find((n) => n.id === newsId);
       if (!item || !newsId) return;
-      await toggleActive(newsId, !item.is_active);
+      const ok = await toggleActive(newsId, !item.is_active);
+      if (!ok) {
+        showToast(
+          "error",
+          t(
+            "admin.news.saveFailed",
+            "Couldn't save your changes. Please try again.",
+          ),
+        );
+        return;
+      }
       showToast(
         "success",
         item.is_active
@@ -442,14 +485,31 @@ const AdminPlatformNews: React.FC = () => {
   );
 
   const handleDeleteClick = useCallback(
-    async (e: React.MouseEvent<HTMLButtonElement>) => {
-      const newsId = e.currentTarget.dataset.newsId;
-      if (!newsId) return;
-      await remove(newsId);
-      showToast("success", t("admin.news.deleted", "News item deleted"));
+    (e: React.MouseEvent<HTMLButtonElement>) => {
+      const item = items.find((n) => n.id === e.currentTarget.dataset.newsId);
+      if (item) setPendingDelete(item);
     },
-    [remove, showToast, t],
+    [items],
   );
+
+  const handleDeleteCancel = useCallback(() => setPendingDelete(null), []);
+
+  const handleDeleteConfirm = useCallback(async () => {
+    if (!pendingDelete) return;
+    const ok = await remove(pendingDelete.id);
+    setPendingDelete(null);
+    if (!ok) {
+      showToast(
+        "error",
+        t(
+          "admin.news.saveFailed",
+          "Couldn't save your changes. Please try again.",
+        ),
+      );
+      return;
+    }
+    showToast("success", t("admin.news.deleted", "News item deleted"));
+  }, [pendingDelete, remove, showToast, t]);
 
   const handleCancel = useCallback(() => {
     setShowForm(false);
@@ -459,13 +519,27 @@ const AdminPlatformNews: React.FC = () => {
 
   const handleSubmit = useCallback(async () => {
     if (!formData.title.trim() || !formData.content.trim()) return;
-    if (editingId) {
-      await update(editingId, formData);
-      showToast("success", t("admin.news.updated", "News item updated"));
-    } else {
-      await create(formData);
-      showToast("success", t("admin.news.created", "News item created"));
+    if (!isValidNewsLink(formData.url)) return;
+    const ok = editingId
+      ? await update(editingId, formData)
+      : await create(formData);
+    if (!ok) {
+      // Keep the form open so the admin's input isn't lost.
+      showToast(
+        "error",
+        t(
+          "admin.news.saveFailed",
+          "Couldn't save your changes. Please try again.",
+        ),
+      );
+      return;
     }
+    showToast(
+      "success",
+      editingId
+        ? t("admin.news.updated", "News item updated")
+        : t("admin.news.created", "News item created"),
+    );
     setShowForm(false);
     setEditingId(null);
     setFormData(emptyFormData);
@@ -549,6 +623,31 @@ const AdminPlatformNews: React.FC = () => {
           </div>
         )}
       </div>
+
+      {pendingDelete !== null && (
+        <Modal
+          isOpen
+          onClose={handleDeleteCancel}
+          title={t("admin.news.deleteConfirmTitle", "Delete news item?")}
+          size="sm"
+        >
+          <p className="text-sm text-gray-600 dark:text-gray-300">
+            {t(
+              "admin.news.deleteConfirmBody",
+              "\u201c{{title}}\u201d will be permanently removed. This can't be undone.",
+              { title: pendingDelete.title },
+            )}
+          </p>
+          <div className="mt-6 flex justify-end gap-3">
+            <Button variant="secondary" onClick={handleDeleteCancel}>
+              {t("common.cancel", "Cancel")}
+            </Button>
+            <Button variant="danger" onClick={handleDeleteConfirm}>
+              {t("common.delete", "Delete")}
+            </Button>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };

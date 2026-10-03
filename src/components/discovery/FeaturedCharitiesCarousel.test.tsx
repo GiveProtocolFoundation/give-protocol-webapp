@@ -13,8 +13,10 @@ interface FeaturedCharity {
   name: string;
   description: string;
   category: string;
+  categoryKey: string;
   imageUrl: string;
   location?: string;
+  registrySource: string | null;
   isClaimed?: boolean;
 }
 
@@ -27,8 +29,10 @@ function makeCharity(
     name: `Charity ${id}`,
     description: `Description for charity ${id}`,
     category: "Environment",
+    categoryKey: "browse.category.C",
     imageUrl: `https://example.com/${id}.jpg`,
     location: "Boston, MA",
+    registrySource: "IRS_BMF",
     isClaimed: true,
     ...overrides,
   };
@@ -63,17 +67,30 @@ describe("FeaturedCharitiesCarousel", () => {
     expect(screen.getByTestId("skeleton")).toBeInTheDocument();
   });
 
-  it("renders nothing when charities are empty and not loading", () => {
+  it("shows an explicit empty state when there are no charities", () => {
     mockUseFeaturedCharities.mockReturnValue({
       charities: [],
       loading: false,
       error: null,
     });
-    const { container } = renderCarousel();
-    // Should render null — no section at all
+    renderCarousel();
     expect(
-      container.querySelector("[aria-label='Featured organizations']"),
-    ).toBeNull();
+      screen.getByText(
+        "No featured organizations yet. Use the search above to find a charity.",
+      ),
+    ).toBeInTheDocument();
+  });
+
+  it("shows an error state when the fetch failed", () => {
+    mockUseFeaturedCharities.mockReturnValue({
+      charities: [],
+      loading: false,
+      error: "Failed to load featured charities",
+    });
+    renderCarousel();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "We couldn't load this section.",
+    );
   });
 
   it("renders charity cards when data is available", () => {
@@ -117,28 +134,46 @@ describe("FeaturedCharitiesCarousel", () => {
     ).toBeInTheDocument();
   });
 
-  it("shows Verified badge on each card", () => {
+  it("shows a registry badge on each card, never a bare IRS-verified claim", () => {
     mockUseFeaturedCharities.mockReturnValue({
-      charities: [makeCharity("c1")] as never,
+      charities: [makeCharity("c1"), makeCharity("c2")] as never,
       loading: false,
       error: null,
     });
     renderCarousel();
-    expect(screen.getByText("Verified")).toBeInTheDocument();
+    expect(screen.getAllByText("IRS-registered")).toHaveLength(2);
     expect(screen.queryByText("IRS-verified")).not.toBeInTheDocument();
   });
 
-  it("shows IRS-verified badge for unclaimed charities (GIV-986)", () => {
-    // Seeded charities are status='verified' with no claimant — the card badge
-    // must not imply donation-ready platform verification.
+  it("names the registry the charity was listed in (GIV-986)", () => {
     mockUseFeaturedCharities.mockReturnValue({
       charities: [makeCharity("c1", { isClaimed: false })] as never,
       loading: false,
       error: null,
     });
     renderCarousel();
-    expect(screen.getByText("IRS-verified")).toBeInTheDocument();
-    expect(screen.queryByText("Verified")).not.toBeInTheDocument();
+    expect(screen.getByText("IRS-registered")).toBeInTheDocument();
+  });
+
+  it("does not claim IRS registration for a non-IRS registry", () => {
+    mockUseFeaturedCharities.mockReturnValue({
+      charities: [makeCharity("c1", { registrySource: "SAT_MX" })] as never,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    expect(screen.getByText("SAT MX-registered")).toBeInTheDocument();
+    expect(screen.queryByText(/IRS/)).not.toBeInTheDocument();
+  });
+
+  it("falls back to a generic Verified badge when the registry is unknown", () => {
+    mockUseFeaturedCharities.mockReturnValue({
+      charities: [makeCharity("c1", { registrySource: null })] as never,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    expect(screen.getByText("Verified")).toBeInTheDocument();
   });
 
   it("shows category and location on cards", () => {
@@ -176,7 +211,7 @@ describe("FeaturedCharitiesCarousel", () => {
       "href",
       "/charity/c1?action=donate",
     );
-    expect(donateLink.className).toContain("bg-emerald-600");
+    expect(donateLink.className).toContain("bg-emerald-700");
     expect(screen.queryByText("View profile")).not.toBeInTheDocument();
   });
 
@@ -192,7 +227,7 @@ describe("FeaturedCharitiesCarousel", () => {
     const viewLink = screen.getByText("View profile");
     expect(viewLink.closest("a")).toHaveAttribute("href", "/charity/c1");
     expect(screen.queryByText("Donate")).not.toBeInTheDocument();
-    expect(viewLink.className).not.toContain("bg-emerald-600");
+    expect(viewLink.className).not.toContain("bg-emerald-700");
     expect(viewLink.className).toContain("border");
   });
 
@@ -408,7 +443,7 @@ describe("FeaturedCharitiesCarousel", () => {
     expect(dots).toHaveLength(2);
   });
 
-  it("renders slide ARIA attributes on each card wrapper", () => {
+  it("renders slide ARIA attributes on the page wrapper", () => {
     const charities = [makeCharity("c1"), makeCharity("c2"), makeCharity("c3")];
     mockUseFeaturedCharities.mockReturnValue({
       charities: charities as never,
@@ -417,11 +452,9 @@ describe("FeaturedCharitiesCarousel", () => {
     });
     renderCarousel();
     const slides = screen.getAllByRole("group");
-    expect(slides).toHaveLength(3);
+    expect(slides).toHaveLength(1);
     expect(slides[0]).toHaveAttribute("aria-roledescription", "slide");
-    expect(slides[0]).toHaveAttribute("aria-label", "Slide 1 of 3");
-    expect(slides[1]).toHaveAttribute("aria-label", "Slide 2 of 3");
-    expect(slides[2]).toHaveAttribute("aria-label", "Slide 3 of 3");
+    expect(slides[0]).toHaveAttribute("aria-label", "Page 1 of 1");
   });
 
   it("navigates when a dot is clicked", () => {

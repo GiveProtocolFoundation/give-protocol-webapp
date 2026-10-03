@@ -31,26 +31,6 @@ describe("DiscoveryFilters", () => {
     ).toBeInTheDocument();
   });
 
-  it("renders the view toggle buttons by default", () => {
-    render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
-    expect(screen.getByText("Charities")).toBeInTheDocument();
-    expect(screen.getByText("Causes")).toBeInTheDocument();
-    expect(screen.getByText("Portfolio Funds")).toBeInTheDocument();
-  });
-
-  it("hides the view toggle when showViewToggle is false", () => {
-    render(
-      <DiscoveryFilters
-        value={defaultValue}
-        onChange={noop}
-        showViewToggle={false}
-      />,
-    );
-    expect(screen.queryByText("Charities")).not.toBeInTheDocument();
-    expect(screen.queryByText("Causes")).not.toBeInTheDocument();
-    expect(screen.queryByText("Portfolio Funds")).not.toBeInTheDocument();
-  });
-
   it("calls onChange with updated searchTerm when typing in the search input", () => {
     render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
     const searchInput = screen.getByPlaceholderText("Search charities...");
@@ -60,59 +40,18 @@ describe("DiscoveryFilters", () => {
     );
   });
 
-  it("renders the location input when viewMode is charities", () => {
+  it("renders the location input", () => {
     render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
     expect(
       screen.getByPlaceholderText("City, state, or country..."),
     ).toBeInTheDocument();
   });
 
-  it("hides location input when viewMode is causes", () => {
-    const causesValue = { ...defaultValue, viewMode: "causes" as const };
-    render(<DiscoveryFilters value={causesValue} onChange={noop} />);
-    expect(
-      screen.queryByPlaceholderText("City, state, or country..."),
-    ).not.toBeInTheDocument();
-  });
-
-  it("renders GeographicFilter when viewMode is charities", () => {
+  it("renders GeographicFilter", () => {
     render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
     expect(
       screen.getByRole("radiogroup", { name: /location filter mode/i }),
     ).toBeInTheDocument();
-  });
-
-  it("hides GeographicFilter when viewMode is causes", () => {
-    const causesValue = { ...defaultValue, viewMode: "causes" as const };
-    render(<DiscoveryFilters value={causesValue} onChange={noop} />);
-    expect(
-      screen.queryByRole("radiogroup", { name: /location filter mode/i }),
-    ).not.toBeInTheDocument();
-  });
-
-  it("switches viewMode to causes when Causes button is clicked", () => {
-    render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
-    fireEvent.click(screen.getByText("Causes"));
-    expect(noop).toHaveBeenCalledWith(
-      expect.objectContaining({ viewMode: "causes" }),
-    );
-  });
-
-  it("switches viewMode to portfolios when Portfolio Funds button is clicked", () => {
-    render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
-    fireEvent.click(screen.getByText("Portfolio Funds"));
-    expect(noop).toHaveBeenCalledWith(
-      expect.objectContaining({ viewMode: "portfolios" }),
-    );
-  });
-
-  it("switches viewMode to charities when Charities button is clicked", () => {
-    const causesValue = { ...defaultValue, viewMode: "causes" as const };
-    render(<DiscoveryFilters value={causesValue} onChange={noop} />);
-    fireEvent.click(screen.getByText("Charities"));
-    expect(noop).toHaveBeenCalledWith(
-      expect.objectContaining({ viewMode: "charities" }),
-    );
   });
 
   it("adds a location filter on Enter key in the location input", () => {
@@ -190,6 +129,79 @@ describe("DiscoveryFilters", () => {
         ],
       }),
     );
+  });
+
+  it("adds a location when the Add button is clicked", () => {
+    render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
+    const locationInput = screen.getByPlaceholderText(
+      "City, state, or country...",
+    );
+    fireEvent.change(locationInput, { target: { value: "TX" } });
+    fireEvent.click(screen.getByRole("button", { name: "Add location" }));
+    expect(noop).toHaveBeenCalledWith(
+      expect.objectContaining({
+        hqLocations: [expect.objectContaining({ id: "state:TX" })],
+      }),
+    );
+  });
+
+  it("disables the Add button until a location is typed", () => {
+    render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
+    expect(screen.getByRole("button", { name: "Add location" })).toBeDisabled();
+  });
+
+  it("explains how to apply a location", () => {
+    render(<DiscoveryFilters value={defaultValue} onChange={noop} />);
+    expect(
+      screen.getByText("Press Enter or choose Add to apply a location."),
+    ).toBeInTheDocument();
+  });
+
+  it("hints when the search term is only one character", () => {
+    render(
+      <DiscoveryFilters
+        value={{ ...defaultValue, searchTerm: "a" }}
+        onChange={noop}
+      />,
+    );
+    expect(
+      screen.getByText("Type at least 2 characters to search."),
+    ).toBeInTheDocument();
+  });
+
+  it("does not show the minimum-length hint for empty or longer terms", () => {
+    const { rerender } = render(
+      <DiscoveryFilters value={defaultValue} onChange={noop} />,
+    );
+    expect(
+      screen.queryByText("Type at least 2 characters to search."),
+    ).not.toBeInTheDocument();
+    rerender(
+      <DiscoveryFilters
+        value={{ ...defaultValue, searchTerm: "ab" }}
+        onChange={noop}
+      />,
+    );
+    expect(
+      screen.queryByText("Type at least 2 characters to search."),
+    ).not.toBeInTheDocument();
+  });
+
+  it("warns that impact-location filtering is not yet applied", () => {
+    const impactLocation = {
+      id: "country:FR",
+      displayLabel: "France",
+      type: "country" as const,
+      stateCode: null,
+      countryCode: "FR",
+    };
+    render(
+      <DiscoveryFilters
+        value={{ ...defaultValue, impactLocations: [impactLocation] }}
+        onChange={noop}
+      />,
+    );
+    expect(screen.getByText(/Impact-location filtering/)).toBeInTheDocument();
   });
 
   it("applies custom className", () => {

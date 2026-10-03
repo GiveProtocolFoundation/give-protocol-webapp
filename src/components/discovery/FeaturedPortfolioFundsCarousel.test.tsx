@@ -137,9 +137,11 @@ describe("FeaturedPortfolioFundsCarousel", () => {
       loading: false,
       error: null,
     });
-    renderCarousel();
-    const img = screen.getByAltText("Education Fund cover");
-    expect(img.getAttribute("src")).toBe("https://example.com/img.jpg");
+    const { container } = renderCarousel();
+    // Cover photos are decorative (the fund name link sits right below), so alt is empty.
+    const img = container.querySelector("img");
+    expect(img?.getAttribute("src")).toBe("https://example.com/img.jpg");
+    expect(img).toHaveAttribute("alt", "");
   });
 
   it("should render donate links", () => {
@@ -167,7 +169,7 @@ describe("FeaturedPortfolioFundsCarousel", () => {
     expect(educationLink.closest("a")).toHaveAttribute("href", "/portfolio/2");
   });
 
-  it("renders slide ARIA attributes on each card wrapper", () => {
+  it("renders slide ARIA attributes on the page wrapper", () => {
     mockHook.mockReturnValue({
       funds: MOCK_FUNDS.slice(0, 3),
       loading: false,
@@ -175,11 +177,9 @@ describe("FeaturedPortfolioFundsCarousel", () => {
     });
     renderCarousel();
     const slides = screen.getAllByRole("group");
-    expect(slides).toHaveLength(3);
+    expect(slides).toHaveLength(1);
     expect(slides[0]).toHaveAttribute("aria-roledescription", "slide");
-    expect(slides[0]).toHaveAttribute("aria-label", "Slide 1 of 3");
-    expect(slides[1]).toHaveAttribute("aria-label", "Slide 2 of 3");
-    expect(slides[2]).toHaveAttribute("aria-label", "Slide 3 of 3");
+    expect(slides[0]).toHaveAttribute("aria-label", "Page 1 of 1");
   });
 
   it("should pause on mouse enter and resume on leave", () => {
@@ -194,5 +194,28 @@ describe("FeaturedPortfolioFundsCarousel", () => {
     fireEvent.mouseLeave(section);
     expect(section).toBeTruthy();
     // No assertion needed - just ensures no errors during pause/resume
+  });
+
+  it("filters funds by the search box", () => {
+    mockHook.mockReturnValue({
+      funds: MOCK_FUNDS,
+      loading: false,
+      error: null,
+    });
+    renderCarousel();
+    fireEvent.change(
+      screen.getByRole("searchbox", { name: "Search portfolio funds..." }),
+      { target: { value: "water" } },
+    );
+    expect(screen.getByText("Water Fund")).toBeInTheDocument();
+    expect(screen.queryByText("Climate Fund")).not.toBeInTheDocument();
+  });
+
+  it("shows an error state when the fetch failed", () => {
+    mockHook.mockReturnValue({ funds: [], loading: false, error: "boom" });
+    renderCarousel();
+    expect(screen.getByRole("alert")).toHaveTextContent(
+      "We couldn't load this section.",
+    );
   });
 });

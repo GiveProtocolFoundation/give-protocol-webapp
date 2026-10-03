@@ -35,3 +35,7 @@ export const getSolanaClusterConfig = jest.fn((clusterId) => ({
 }));
 
 export const isSolanaClusterSupported = jest.fn(() => true);
+
+// Supported network lists (mirrors production config shape; used for hero stats)
+export const SUPPORTED_EVM_CHAIN_IDS = [1, 8453, 10, 42161, 137, 43114];
+export const SUPPORTED_SOLANA_CLUSTERS = ["mainnet-beta"];

@@ -1,8 +1,16 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
-import { NEWS_UPDATES } from "@/data/newsUpdates";
-import type { NewsUpdate } from "@/data/newsUpdates";
+
+/** A platform news item as displayed on the public browse page. */
+export interface NewsUpdate {
+  id: string;
+  title: string;
+  excerpt: string;
+  /** Link target; null when the admin left it blank (item is not clickable). */
+  url: string | null;
+  publishedAt: string;
+}
 
 /** Row shape returned by the platform_news table. */
 export interface PlatformNewsRow {
@@ -39,7 +47,7 @@ function rowToNewsUpdate(row: PlatformNewsRow): NewsUpdate {
     id: row.id,
     title: row.title,
     excerpt: row.content,
-    url: row.url ?? "#",
+    url: row.url,
     publishedAt: row.published_at,
   };
 }
@@ -71,8 +79,9 @@ interface UsePlatformNewsReturn {
 }
 
 /**
- * Hook that fetches active platform news from Supabase on mount.
- * Falls back to static NEWS_UPDATES if the fetch fails.
+ * Hook that fetches active platform news from Supabase on mount. Returns an
+ * empty list when there is no news or the fetch fails; it never substitutes
+ * placeholder content.
  * @returns News items with loading and error state
  */
 export function usePlatformNews(): UsePlatformNewsReturn {
@@ -87,13 +96,13 @@ export function usePlatformNews(): UsePlatformNewsReturn {
     loadPlatformNews()
       .then((data) => {
         if (!mountedRef.current) return;
-        setNews(data.length > 0 ? data : NEWS_UPDATES);
+        setNews(data);
         setLoading(false);
       })
       .catch(() => {
         if (!mountedRef.current) return;
-        setNews(NEWS_UPDATES);
-        setError("Failed to load platform news, showing defaults");
+        setNews([]);
+        setError("Failed to load platform news");
         setLoading(false);
       });
 
@@ -111,10 +120,11 @@ interface UseAdminPlatformNewsReturn {
   saving: boolean;
   error: string | null;
   fetchAll: () => Promise<void>;
-  create: (data: PlatformNewsFormData) => Promise<void>;
-  update: (id: string, data: PlatformNewsFormData) => Promise<void>;
-  toggleActive: (id: string, isActive: boolean) => Promise<void>;
-  remove: (id: string) => Promise<void>;
+  /** Each mutation resolves true on success and false when it failed. */
+  create: (data: PlatformNewsFormData) => Promise<boolean>;
+  update: (id: string, data: PlatformNewsFormData) => Promise<boolean>;
+  toggleActive: (id: string, isActive: boolean) => Promise<boolean>;
+  remove: (id: string) => Promise<boolean>;
 }
 
 /**
@@ -167,24 +177,25 @@ export function useAdminPlatformNews(): UseAdminPlatformNewsReturn {
         .insert({
           title: formData.title,
           content: formData.content,
-          url: formData.url || null,
+          url: formData.url.trim() || null,
           image_url: formData.image_url || null,
           published_at: formData.published_at || new Date().toISOString(),
           category: formData.category,
           is_active: formData.is_active,
         });
 
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) return false;
 
       if (insertError) {
         Logger.error("Error creating platform news", { error: insertError });
         setError("Failed to create news item");
         setSaving(false);
-        return;
+        return false;
       }
 
       setSaving(false);
       await fetchAll();
+      return true;
     },
     [fetchAll],
   );
@@ -198,7 +209,7 @@ export function useAdminPlatformNews(): UseAdminPlatformNewsReturn {
         .update({
           title: formData.title,
           content: formData.content,
-          url: formData.url || null,
+          url: formData.url.trim() || null,
           image_url: formData.image_url || null,
           published_at: formData.published_at,
           category: formData.category,
@@ -206,17 +217,18 @@ export function useAdminPlatformNews(): UseAdminPlatformNewsReturn {
         })
         .eq("id", id);
 
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) return false;
 
       if (updateError) {
         Logger.error("Error updating platform news", { error: updateError });
         setError("Failed to update news item");
         setSaving(false);
-        return;
+        return false;
       }
 
       setSaving(false);
       await fetchAll();
+      return true;
     },
     [fetchAll],
   );
@@ -230,17 +242,18 @@ export function useAdminPlatformNews(): UseAdminPlatformNewsReturn {
         .update({ is_active: isActive })
         .eq("id", id);
 
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) return false;
 
       if (toggleError) {
         Logger.error("Error toggling platform news", { error: toggleError });
         setError("Failed to toggle news item");
         setSaving(false);
-        return;
+        return false;
       }
 
       setSaving(false);
       await fetchAll();
+      return true;
     },
     [fetchAll],
   );
@@ -254,17 +267,18 @@ export function useAdminPlatformNews(): UseAdminPlatformNewsReturn {
         .delete()
         .eq("id", id);
 
-      if (!mountedRef.current) return;
+      if (!mountedRef.current) return false;
 
       if (deleteError) {
         Logger.error("Error deleting platform news", { error: deleteError });
         setError("Failed to delete news item");
         setSaving(false);
-        return;
+        return false;
       }
 
       setSaving(false);
       await fetchAll();
+      return true;
     },
     [fetchAll],
   );
