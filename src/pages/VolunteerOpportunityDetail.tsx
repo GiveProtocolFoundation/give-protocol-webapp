@@ -22,7 +22,7 @@ import {
   type VolunteerOpportunityItem,
 } from "@/hooks/useVolunteerOpportunities";
 import { OpportunityDescription } from "../components/volunteer/OpportunityDescription";
-import { splitLines } from "@/utils/opportunityText";
+import { commitmentI18n, splitLines } from "@/utils/opportunityText";
 
 /** Converts a snake_case language code to Title Case display name */
 const formatLanguageName = (language: string): string =>
@@ -111,6 +111,7 @@ function OpportunityFacts({
   opportunity: VolunteerOpportunityItem;
 }) {
   const { t, language } = useTranslation();
+  const commitmentInfo = commitmentI18n(opportunity.commitment);
   const typeLabel = t(
     `volunteer.type.${opportunity.type === "onsite" ? "onSite" : opportunity.type}`,
     opportunity.type,
@@ -121,7 +122,9 @@ function OpportunityFacts({
         icon={Clock}
         label={t("volunteer.detail.commitment", "Time commitment")}
       >
-        {opportunity.commitment}
+        {commitmentInfo === null
+          ? opportunity.commitment
+          : t(commitmentInfo.key, commitmentInfo.fallback)}
       </Fact>
       {opportunity.schedule !== null && (
         <Fact

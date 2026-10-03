@@ -1,6 +1,6 @@
-import { describe, it, expect, beforeEach } from "@jest/globals";
+import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { renderHook, waitFor } from "@testing-library/react";
-import { setMockResult, resetMockState } from "@/lib/supabase";
+import { supabase, setMockResult, resetMockState } from "@/lib/supabase";
 import {
   useVolunteerOpportunities,
   useVolunteerOpportunity,
@@ -9,6 +9,15 @@ import {
 
 // supabase is mocked globally via moduleNameMapper — setMockResult controls per-table responses.
 
+/** Mocks the get_opportunity_charities function result. */
+const mockCharityLookup = (
+  rows: Array<{ profile_id: string; name: string | null; ein: string | null }>,
+) => {
+  jest
+    .mocked(supabase.rpc)
+    .mockResolvedValue({ data: rows, error: null } as never);
+};
+
 /** Builds a volunteer_opportunities row fixture with optional overrides. */
 const makeRow = (id: string, overrides: Record<string, unknown> = {}) => ({
   id,
@@ -16,7 +25,7 @@ const makeRow = (id: string, overrides: Record<string, unknown> = {}) => ({
   title: `Opportunity ${id}`,
   description: `Description ${id}`,
   skills: ["React"],
-  commitment: "5 hours/week",
+  commitment: "short-term",
   location: "Remote",
   type: "remote",
   work_language: "english",
@@ -27,6 +36,7 @@ const makeRow = (id: string, overrides: Record<string, unknown> = {}) => ({
 describe("useVolunteerOpportunities", () => {
   beforeEach(() => {
     resetMockState();
+    mockCharityLookup([]);
   });
 
   it("returns loading: true on initial mount", async () => {
@@ -40,14 +50,16 @@ describe("useVolunteerOpportunities", () => {
       data: [makeRow("1")],
       error: null,
     });
-    setMockResult("charity_profiles", {
-      data: [{ id: "charity-1", ein: "99-1230001", name: "Charity One" }],
-      error: null,
-    });
+    mockCharityLookup([
+      { profile_id: "charity-1", name: "Charity One", ein: "99-1230001" },
+    ]);
 
     const { result } = renderHook(() => useVolunteerOpportunities());
     await waitFor(() => expect(result.current.loading).toBe(false));
 
+    expect(supabase.rpc).toHaveBeenCalledWith("get_opportunity_charities", {
+      p_charity_ids: ["charity-1"],
+    });
     expect(result.current.error).toBeNull();
     expect(result.current.opportunities).toHaveLength(1);
     expect(result.current.opportunities[0]).toMatchObject({
@@ -61,37 +73,37 @@ describe("useVolunteerOpportunities", () => {
     });
   });
 
-  it("resolves charities posting under a profiles.id via claimed_by", async () => {
+  it("shows the name without a link when the charity has no EIN", async () => {
     setMockResult("volunteer_opportunities", {
       data: [makeRow("1")],
       error: null,
     });
-    setMockResult("profiles", {
-      data: [{ id: "charity-1", user_id: "user-1", name: "Profile Name" }],
-      error: null,
-    });
-    // Same table answers both lookups: no direct id match, claimed_by match.
-    setMockResult("charity_profiles", {
-      data: [
-        {
-          id: "cp-1",
-          ein: "99-1230002",
-          name: "Claimed Charity",
-          claimed_by: "user-1",
-        },
-      ],
-      error: null,
-    });
+    mockCharityLookup([
+      { profile_id: "charity-1", name: "Named Only", ein: null },
+    ]);
 
     const { result } = renderHook(() => useVolunteerOpportunities());
     await waitFor(() => expect(result.current.loading).toBe(false));
 
-    expect(result.current.opportunities[0].organization).toBe(
-      "Claimed Charity",
-    );
-    expect(result.current.opportunities[0].charityPath).toBe(
-      "/charity/99-1230002",
-    );
+    expect(result.current.opportunities[0].organization).toBe("Named Only");
+    expect(result.current.opportunities[0].charityPath).toBeUndefined();
+  });
+
+  it("still lists opportunities when the charity lookup fails", async () => {
+    setMockResult("volunteer_opportunities", {
+      data: [makeRow("1")],
+      error: null,
+    });
+    jest
+      .mocked(supabase.rpc)
+      .mockResolvedValue({ data: null, error: { message: "denied" } } as never);
+
+    const { result } = renderHook(() => useVolunteerOpportunities());
+    await waitFor(() => expect(result.current.loading).toBe(false));
+
+    expect(result.current.error).toBeNull();
+    expect(result.current.opportunities).toHaveLength(1);
+    expect(result.current.opportunities[0].organization).toBe("");
   });
 
   it("falls back to defaults for missing image, skills and unknown enums", async () => {
@@ -142,6 +154,7 @@ describe("useVolunteerOpportunities", () => {
 describe("detail fields", () => {
   beforeEach(() => {
     resetMockState();
+    mockCharityLookup([]);
   });
 
   it("maps the structured detail columns", async () => {
@@ -202,6 +215,7 @@ describe("detail fields", () => {
 describe("useVolunteerOpportunity", () => {
   beforeEach(() => {
     resetMockState();
+    mockCharityLookup([]);
   });
 
   it("loads one opportunity with its charity", async () => {
@@ -209,10 +223,9 @@ describe("useVolunteerOpportunity", () => {
       data: makeRow("1"),
       error: null,
     });
-    setMockResult("charity_profiles", {
-      data: [{ id: "charity-1", ein: "99-1230001", name: "Charity One" }],
-      error: null,
-    });
+    mockCharityLookup([
+      { profile_id: "charity-1", name: "Charity One", ein: "99-1230001" },
+    ]);
 
     const { result } = renderHook(() => useVolunteerOpportunity("1"));
     expect(result.current.loading).toBe(true);

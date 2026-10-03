@@ -14,7 +14,7 @@ import { useToast } from "@/contexts/ToastContext";
 import { useAuth } from "@/contexts/AuthContext";
 import { ScrollReveal } from "@/components/ui/ScrollReveal";
 import { cn } from "@/utils/cn";
-import { htmlToPlainText } from "@/utils/opportunityText";
+import { commitmentI18n, htmlToPlainText } from "@/utils/opportunityText";
 
 /**
  * Segmented toggle for work type (Remote / On-site / Hybrid).
@@ -156,6 +156,11 @@ function OpportunityCard({
   onApply: () => void;
 }) {
   const { t } = useTranslation();
+  const commitmentInfo = commitmentI18n(opportunity.commitment);
+  const commitmentLabel =
+    commitmentInfo === null
+      ? opportunity.commitment
+      : t(commitmentInfo.key, commitmentInfo.fallback);
   const excerpt = useMemo(
     () => htmlToPlainText(opportunity.description),
     [opportunity.description],
@@ -192,7 +197,7 @@ function OpportunityCard({
         <p className="text-gray-600 mb-4 line-clamp-3">{excerpt}</p>
         <div className="flex items-center text-sm text-gray-500">
           <Clock aria-hidden="true" className="h-4 w-4 mr-2" />
-          {opportunity.commitment}
+          {commitmentLabel}
         </div>
         <div className="flex items-center text-sm text-gray-500 mt-2">
           <MapPin aria-hidden="true" className="h-4 w-4 mr-2" />

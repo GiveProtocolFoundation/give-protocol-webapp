@@ -84,3 +84,23 @@ export function splitLines(value?: string | null): string[] {
     .map((line) => line.trim())
     .filter((line) => line.length > 0);
 }
+
+const COMMITMENTS: Record<string, { key: string; fallback: string }> = {
+  "one-time": { key: "volunteer.commitment.oneTime", fallback: "One-time" },
+  "short-term": {
+    key: "volunteer.commitment.shortTerm",
+    fallback: "Short-term",
+  },
+  "long-term": { key: "volunteer.commitment.longTerm", fallback: "Long-term" },
+};
+
+/**
+ * Maps a stored commitment category to its i18n key and English fallback.
+ * @param commitment - volunteer_opportunities.commitment
+ * @returns Key and fallback, or null for values outside the three categories
+ */
+export function commitmentI18n(
+  commitment: string,
+): { key: string; fallback: string } | null {
+  return COMMITMENTS[commitment] ?? null;
+}

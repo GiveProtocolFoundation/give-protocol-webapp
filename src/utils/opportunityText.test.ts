@@ -3,6 +3,7 @@ import {
   sanitizeOpportunityHtml,
   htmlToPlainText,
   splitLines,
+  commitmentI18n,
 } from "./opportunityText";
 
 // Assembled at runtime so static analysis does not flag a script-URL literal.
@@ -75,5 +76,22 @@ describe("splitLines", () => {
     expect(splitLines(null)).toEqual([]);
     expect(splitLines()).toEqual([]);
     expect(splitLines("")).toEqual([]);
+  });
+});
+
+describe("commitmentI18n", () => {
+  it("maps the three stored categories to keys and English fallbacks", () => {
+    expect(commitmentI18n("one-time")).toEqual({
+      key: "volunteer.commitment.oneTime",
+      fallback: "One-time",
+    });
+    expect(commitmentI18n("short-term")?.key).toBe(
+      "volunteer.commitment.shortTerm",
+    );
+    expect(commitmentI18n("long-term")?.fallback).toBe("Long-term");
+  });
+
+  it("returns null for other values", () => {
+    expect(commitmentI18n("5 hours/week")).toBeNull();
   });
 });
