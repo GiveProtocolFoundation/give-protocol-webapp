@@ -16,6 +16,10 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { Logger } from "@/utils/logger";
 import { AlertCircle, AlertTriangle } from "lucide-react";
 import { OpportunityDetailFields } from "./OpportunityDetailFields";
+import {
+  parseOptionalInt,
+  validateOpportunityDetails,
+} from "@/utils/opportunityDetails";
 
 interface FormSelectProps {
   label: string;
@@ -254,31 +258,20 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
           }
         });
 
-        const volunteersNeeded = Number.parseInt(formData.volunteersNeeded, 10);
-        if (
-          formData.volunteersNeeded !== "" &&
-          (Number.isNaN(volunteersNeeded) || volunteersNeeded < 1)
-        ) {
+        const detailErrors = validateOpportunityDetails(formData);
+        if (detailErrors.volunteersNeeded) {
           errors.volunteersNeeded = t(
             "volunteer.validation.volunteersNeeded",
             "Enter a number of 1 or more",
           );
         }
-        const minimumAge = Number.parseInt(formData.minimumAge, 10);
-        if (
-          formData.minimumAge !== "" &&
-          (Number.isNaN(minimumAge) || minimumAge < 0 || minimumAge > 120)
-        ) {
+        if (detailErrors.minimumAge) {
           errors.minimumAge = t(
             "volunteer.validation.minimumAge",
             "Enter an age between 0 and 120",
           );
         }
-        if (
-          formData.startDate !== "" &&
-          formData.endDate !== "" &&
-          formData.endDate < formData.startDate
-        ) {
+        if (detailErrors.endDate) {
           errors.endDate = t(
             "volunteer.validation.endDate",
             "End date must be on or after the start date",
@@ -322,9 +315,8 @@ export const OpportunityForm: React.FC<OpportunityFormProps> = ({
             start_date: formData.startDate || null,
             end_date: formData.endDate || null,
             application_deadline: formData.applicationDeadline || null,
-            volunteers_needed:
-              formData.volunteersNeeded === "" ? null : volunteersNeeded,
-            minimum_age: formData.minimumAge === "" ? null : minimumAge,
+            volunteers_needed: parseOptionalInt(formData.volunteersNeeded),
+            minimum_age: parseOptionalInt(formData.minimumAge),
             requirements: formData.requirements.trim() || null,
             benefits: formData.benefits.trim() || null,
             background_check_required: formData.backgroundCheckRequired,

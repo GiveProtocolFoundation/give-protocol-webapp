@@ -1,6 +1,7 @@
 import DOMPurify from "dompurify";
 
-const ALLOWED_TAGS = [
+/** Formatting tags that survive sanitization of opportunity HTML. */
+export const ALLOWED_TAGS = [
   "p",
   "br",
   "strong",

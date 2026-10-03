@@ -37,7 +37,7 @@ const baseRow = {
   training_provided: true,
 };
 
-const renderDetail = async (id = "opp-1") => {
+const renderDetail = (id = "opp-1") => {
   render(
     <MemoryRouter initialEntries={[`/opportunities/${id}`]}>
       <Routes>
@@ -66,7 +66,7 @@ describe("VolunteerOpportunityDetail", () => {
   });
 
   it("renders the title, hosting charity link and key facts", async () => {
-    await renderDetail();
+    renderDetail();
     expect(
       await screen.findByRole("heading", { name: "Habitat Data Analysis" }),
     ).toBeInTheDocument();
@@ -83,7 +83,7 @@ describe("VolunteerOpportunityDetail", () => {
   });
 
   it("renders sanitized rich-text description without scripts", async () => {
-    await renderDetail();
+    renderDetail();
     await screen.findByRole("heading", { name: "Habitat Data Analysis" });
     expect(screen.getByText("field data").tagName).toBe("STRONG");
     expect(screen.getByText("Clean data")).toBeInTheDocument();
@@ -91,7 +91,7 @@ describe("VolunteerOpportunityDetail", () => {
   });
 
   it("renders requirements, benefits and skills lists", async () => {
-    await renderDetail();
+    renderDetail();
     expect(await screen.findByText("Python experience")).toBeInTheDocument();
     expect(screen.getByText("Clear communication")).toBeInTheDocument();
     expect(screen.getByText("Reference letter")).toBeInTheDocument();
@@ -114,7 +114,7 @@ describe("VolunteerOpportunityDetail", () => {
       },
       error: null,
     });
-    await renderDetail();
+    renderDetail();
     await screen.findByRole("heading", { name: "Habitat Data Analysis" });
     expect(screen.queryByText("Requirements")).not.toBeInTheDocument();
     expect(screen.queryByText("Benefits")).not.toBeInTheDocument();
@@ -125,7 +125,7 @@ describe("VolunteerOpportunityDetail", () => {
   });
 
   it("opens the application form for a signed-in user", async () => {
-    await renderDetail();
+    renderDetail();
     fireEvent.click(await screen.findByText("Apply Now"));
     expect(
       screen.getByTestId("volunteer-application-form"),
@@ -134,7 +134,7 @@ describe("VolunteerOpportunityDetail", () => {
 
   it("asks a signed-out user to sign in", async () => {
     mockUseAuth.mockReturnValue(createMockAuth({ user: null }));
-    await renderDetail();
+    renderDetail();
     fireEvent.click(await screen.findByText("Apply Now"));
     expect(mockShowToast).toHaveBeenCalledWith(
       "error",
@@ -147,14 +147,14 @@ describe("VolunteerOpportunityDetail", () => {
       data: { ...baseRow, application_deadline: "2020-01-01" },
       error: null,
     });
-    await renderDetail();
+    renderDetail();
     const button = await screen.findByText("Applications closed");
     expect(button).toBeDisabled();
   });
 
   it("shows a not-found message when the opportunity is missing", async () => {
     setMockResult("volunteer_opportunities", { data: null, error: null });
-    await renderDetail("missing");
+    renderDetail("missing");
     expect(
       await screen.findByText("Opportunity not found"),
     ).toBeInTheDocument();
@@ -168,7 +168,7 @@ describe("VolunteerOpportunityDetail", () => {
       data: null,
       error: { message: "boom" },
     });
-    await renderDetail();
+    renderDetail();
     expect(await screen.findByRole("alert")).toHaveTextContent(
       "We couldn't load volunteer opportunities",
     );

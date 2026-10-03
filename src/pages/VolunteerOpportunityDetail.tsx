@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useMemo } from "react";
+import React, { useState, useCallback } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   ArrowLeft,
@@ -21,7 +21,8 @@ import {
   useVolunteerOpportunity,
   type VolunteerOpportunityItem,
 } from "@/hooks/useVolunteerOpportunities";
-import { sanitizeOpportunityHtml, splitLines } from "@/utils/opportunityText";
+import { OpportunityDescription } from "../components/volunteer/OpportunityDescription";
+import { splitLines } from "@/utils/opportunityText";
 
 /** Converts a snake_case language code to Title Case display name */
 const formatLanguageName = (language: string): string =>
@@ -217,6 +218,30 @@ function OpportunityFlags({
   );
 }
 
+/** Skill chips for an opportunity; renders nothing when there are none. */
+function SkillsSection({ skills }: { skills: string[] }) {
+  const { t } = useTranslation();
+  if (skills.length === 0) return null;
+  return (
+    <section>
+      <h2 className="text-xl font-semibold text-gray-900 mb-3">
+        {t("volunteer.detail.skills", "Skills needed")}
+      </h2>
+      <ul className="flex flex-wrap gap-2">
+        {skills.map((skill) => (
+          <li
+            key={skill}
+            className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800"
+          >
+            <Award aria-hidden="true" className="h-3 w-3 mr-1" />
+            {skill}
+          </li>
+        ))}
+      </ul>
+    </section>
+  );
+}
+
 /**
  * Full detail view for a single volunteer opportunity.
  * @returns VolunteerOpportunityDetail page element
@@ -231,14 +256,6 @@ const VolunteerOpportunityDetail: React.FC = () => {
   const [showApplicationForm, setShowApplicationForm] = useState(false);
 
   usePageTitle(opportunity?.title ?? "Volunteer Opportunity");
-
-  const descriptionHtml = useMemo(
-    () =>
-      opportunity === null
-        ? ""
-        : sanitizeOpportunityHtml(opportunity.description),
-    [opportunity],
-  );
 
   const handleApply = useCallback(() => {
     if (!user) {
@@ -360,10 +377,9 @@ const VolunteerOpportunityDetail: React.FC = () => {
         <h2 className="text-xl font-semibold text-gray-900 mb-3">
           {t("volunteer.detail.about", "About this opportunity")}
         </h2>
-        <div
+        <OpportunityDescription
+          html={opportunity.description}
           className="prose max-w-none text-gray-700"
-          // Sanitized with DOMPurify (allow-listed formatting tags only)
-          dangerouslySetInnerHTML={{ __html: descriptionHtml }}
         />
       </section>
 
@@ -376,24 +392,7 @@ const VolunteerOpportunityDetail: React.FC = () => {
         text={opportunity.benefits}
       />
 
-      {opportunity.skills.length > 0 && (
-        <section>
-          <h2 className="text-xl font-semibold text-gray-900 mb-3">
-            {t("volunteer.detail.skills", "Skills needed")}
-          </h2>
-          <ul className="flex flex-wrap gap-2">
-            {opportunity.skills.map((skill) => (
-              <li
-                key={skill}
-                className="inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium bg-emerald-100 text-emerald-800"
-              >
-                <Award aria-hidden="true" className="h-3 w-3 mr-1" />
-                {skill}
-              </li>
-            ))}
-          </ul>
-        </section>
-      )}
+      <SkillsSection skills={opportunity.skills} />
 
       <button
         type="button"
