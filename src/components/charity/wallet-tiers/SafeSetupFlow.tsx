@@ -18,6 +18,7 @@ import {
   getEVMChainConfig,
   DEFAULT_EVM_CHAIN_ID,
 } from "@/config/chains/evm";
+import { ENV } from "@/config/env";
 import type { CharityWallet } from "@/types/charityWallet";
 
 type Step = "source" | "verify";
@@ -278,7 +279,10 @@ export const SafeSetupFlow: React.FC<SafeSetupFlowProps> = ({
   const [isDetecting, setIsDetecting] = useState<boolean>(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const chains = useMemo(() => getAvailableEVMChains(false), []);
+  const chains = useMemo(
+    () => getAvailableEVMChains(ENV.SHOW_TESTNETS),
+    [],
+  );
 
   const handleHaveSafe = useCallback(() => {
     setStep("verify");
