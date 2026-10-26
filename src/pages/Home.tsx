@@ -247,7 +247,7 @@ function HomeFooterBrand() {
       <div className="flex items-center space-x-2 mb-4">
         <img
           src="/give_logo_gradient.svg"
-          alt="Give Protocol"
+          alt=""
           className="w-8 h-8"
         />
         <span className="text-xl font-bold">{t("app.name")}</span>

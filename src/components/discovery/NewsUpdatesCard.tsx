@@ -81,7 +81,7 @@ export const NewsUpdatesCard: React.FC<NewsUpdatesCardProps> = ({
 
   return (
     <Card className="p-6">
-      <div className="flex items-center gap-2 text-emerald-600 dark:text-emerald-400">
+      <div className="flex items-center gap-2 text-emerald-700 dark:text-emerald-400">
         <Newspaper aria-hidden="true" className="h-5 w-5" />
         <h2 className="text-sm font-semibold uppercase tracking-wider">
           {t("browse.news.heading", "Platform News")}
