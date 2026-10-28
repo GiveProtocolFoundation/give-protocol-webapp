@@ -129,9 +129,9 @@ export class SecurityManager {
       "Content-Security-Policy": `
         default-src 'self';
         script-src 'self' 'sha256-rum+BkA883k4o7T5Fk/eJ/2bXkW23qG+uAmv8xJCpSI=' https://www.googletagmanager.com https://www.google-analytics.com https://secure.helcim.app;
-        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
+        style-src 'self' 'unsafe-inline';
         img-src 'self' data: https: blob:;
-        font-src 'self' https://fonts.gstatic.com;
+        font-src 'self';
         connect-src 'self' ${connectSrcDomains};
         frame-src 'self' https://secure.helcim.app https://www.paypal.com https://www.sandbox.paypal.com;
         frame-ancestors 'none';
