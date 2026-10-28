@@ -15,6 +15,7 @@ import { SentryFallback } from "./components/SentryFallback";
 import { useSafeAutoConnect } from "./hooks/useSafeAutoConnect";
 import { useWalletAuthSync } from "./hooks/useWalletAuthSync";
 import { ConsentProvider } from "./lib/consent/ConsentProvider";
+import { DonationActiveProvider } from "./lib/consent/DonationActiveContext";
 import { CookieBanner } from "./components/consent/CookieBanner";
 import { useGA4Loader } from "./lib/consent/useGA4Loader";
 import { useGAConsentBridge } from "./lib/consent/useGAConsentBridge";
@@ -96,10 +97,12 @@ const AuthWeb3Providers = ({ children }: { children: React.ReactNode }) => (
 // Combined providers component (ConsentProvider wraps outermost)
 const AppProviders = ({ children }: { children: React.ReactNode }) => (
   <ConsentProvider>
-    <GA4Bridge />
-    <CoreProviders>
-      <AuthWeb3Providers>{children}</AuthWeb3Providers>
-    </CoreProviders>
+    <DonationActiveProvider>
+      <GA4Bridge />
+      <CoreProviders>
+        <AuthWeb3Providers>{children}</AuthWeb3Providers>
+      </CoreProviders>
+    </DonationActiveProvider>
   </ConsentProvider>
 );
 
