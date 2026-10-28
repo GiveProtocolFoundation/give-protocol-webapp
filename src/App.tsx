@@ -19,6 +19,7 @@ import { DonationActiveProvider } from "./lib/consent/DonationActiveContext";
 import { CookieBanner } from "./components/consent/CookieBanner";
 import { useGA4Loader } from "./lib/consent/useGA4Loader";
 import { useGAConsentBridge } from "./lib/consent/useGAConsentBridge";
+import { useSentryReplayGuard } from "./lib/consent/useSentryReplayGuard";
 import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
@@ -76,10 +77,12 @@ const WalletAuthSync = () => {
   return null;
 };
 
-// Gates GA4 script load on analytics consent and syncs consent state to gtag
+// Gates GA4 script load on analytics consent, syncs consent state to gtag,
+// and suppresses Sentry replay while donation UI is mounted (G3, G7)
 const GA4Bridge = () => {
   useGA4Loader();
   useGAConsentBridge();
+  useSentryReplayGuard();
   return null;
 };
 

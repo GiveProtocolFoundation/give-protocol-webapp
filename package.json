@@ -32,7 +32,8 @@
     "test:e2e:headless": "cypress run",
     "sonar": "sonar-scanner",
     "validate:csp": "node scripts/validate-csp.mjs",
-    "validate:csp:negative": "node scripts/validate-csp-negative.test.mjs"
+    "validate:csp:negative": "node scripts/validate-csp-negative.test.mjs",
+    "check:replay-suppression": "node scripts/check-replay-suppression.mjs"
   },
   "dependencies": {
     "@ledgerhq/device-management-kit": "^1.0.1",
