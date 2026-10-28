@@ -13,6 +13,7 @@ export interface PromoteProfile {
   id: string;
   name: string;
   authorized_signer_email: string | null;
+  second_contact_email: string | null;
   wallet_address: string | null;
 }
 
@@ -92,5 +93,6 @@ export async function promoteToPendingEmail(args: PromoteArgs): Promise<void> {
     signature: args.signature,
     message: args.message,
     toEmail: args.profile.authorized_signer_email,
+    secondContactEmail: args.profile.second_contact_email,
   });
 }

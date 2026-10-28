@@ -62,6 +62,7 @@ interface CharityProfileRow {
   name: string;
   claimed_by: string | null;
   authorized_signer_email: string | null;
+  second_contact_email: string | null;
   wallet_address: string | null;
   wallet_designation_status: string;
   pending_wallet_address: string | null;
@@ -210,7 +211,7 @@ serve(async (req: Request) => {
   const { data: profileData, error: profileError } = await serviceClient
     .from("charity_profiles")
     .select(
-      "id, name, claimed_by, authorized_signer_email, wallet_address, wallet_designation_status, pending_wallet_address",
+      "id, name, claimed_by, authorized_signer_email, second_contact_email, wallet_address, wallet_designation_status, pending_wallet_address",
     )
     .eq("id", nonce.charity_profile_id)
     .maybeSingle();
@@ -399,6 +400,7 @@ serve(async (req: Request) => {
         signature: body.signature,
         message,
         toEmail: profile.authorized_signer_email,
+        secondContactEmail: profile.second_contact_email,
       });
 
       await serviceClient.from("charity_wallet_designations_history").insert({
