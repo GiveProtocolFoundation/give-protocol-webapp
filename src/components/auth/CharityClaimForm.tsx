@@ -79,6 +79,8 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
   const [formData, setFormData] = useState({
     contactName: "",
     contactEmail: "",
+    secondContactName: "",
+    secondContactEmail: "",
     password: "",
     confirmPassword: "",
     publicContactEmail: "",
@@ -125,6 +127,16 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           return validateEmail(value)
             ? ""
             : t("charity.claim.validation.email");
+        case "secondContactName":
+          return validateName(value) ? "" : t("charity.claim.validation.name");
+        case "secondContactEmail":
+          if (!validateEmail(value)) {
+            return t("charity.claim.validation.email");
+          }
+          return value.trim().toLowerCase() ===
+            formData.contactEmail.trim().toLowerCase()
+            ? t("charity.claim.validation.secondEmailDistinct")
+            : "";
         case "password":
           return validatePassword(value)
             ? ""
@@ -137,7 +149,7 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           return "";
       }
     },
-    [formData.password, t],
+    [formData.password, formData.contactEmail, t],
   );
 
   const handleSubmit = useCallback(
@@ -150,6 +162,8 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
       const fieldsToValidate = [
         { name: "contactName", value: formData.contactName },
         { name: "contactEmail", value: formData.contactEmail },
+        { name: "secondContactName", value: formData.secondContactName },
+        { name: "secondContactEmail", value: formData.secondContactEmail },
         { name: "password", value: formData.password },
         { name: "confirmPassword", value: formData.confirmPassword },
       ];
@@ -231,6 +245,8 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
             p_signer_email: formData.contactEmail,
             p_signer_phone: null,
             p_public_contact_email: publicEmail,
+            p_second_contact_name: formData.secondContactName,
+            p_second_contact_email: formData.secondContactEmail,
           },
         );
 
@@ -247,6 +263,8 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
               claimed_by: userId,
               authorized_signer_name: formData.contactName,
               authorized_signer_email: formData.contactEmail,
+              second_contact_name: formData.secondContactName,
+              second_contact_email: formData.secondContactEmail,
               status: "claimed-pending",
             })
             .eq("ein", organization.ein)
@@ -349,6 +367,37 @@ export const CharityClaimForm: React.FC<CharityClaimFormProps> = ({
           onChange={handleChange}
           required
           error={validationErrors["contactEmail"]}
+        />
+
+        <div className="pt-2">
+          <h4 className="text-sm font-medium text-gray-700">
+            {t("charity.claim.secondContactTitle", "Second Contact")}
+          </h4>
+          <p className="text-xs text-gray-500 mt-1">
+            {t(
+              "charity.claim.secondContactHint",
+              "A different person, notified when your charity's wallet or payout details change.",
+            )}
+          </p>
+        </div>
+        <Input
+          label={t("charity.claim.secondContactName", "Second Contact Name")}
+          name="secondContactName"
+          variant="fintech"
+          value={formData.secondContactName}
+          onChange={handleChange}
+          required
+          error={validationErrors["secondContactName"]}
+        />
+        <Input
+          label={t("charity.claim.secondContactEmail", "Second Contact Email")}
+          type="email"
+          name="secondContactEmail"
+          variant="fintech"
+          value={formData.secondContactEmail}
+          onChange={handleChange}
+          required
+          error={validationErrors["secondContactEmail"]}
         />
 
         <div className="space-y-2">

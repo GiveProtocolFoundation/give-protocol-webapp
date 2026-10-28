@@ -55,6 +55,7 @@ interface ProfileRow {
   name: string;
   claimed_by: string | null;
   authorized_signer_email: string | null;
+  second_contact_email: string | null;
   wallet_address: string | null;
 }
 
@@ -159,7 +160,9 @@ async function processOne(args: ProcessOneArgs): Promise<ProcessOneResult> {
   // Promote: load profile + initiator email.
   const { data: profileData } = await serviceClient
     .from("charity_profiles")
-    .select("id, name, claimed_by, authorized_signer_email, wallet_address")
+    .select(
+      "id, name, claimed_by, authorized_signer_email, second_contact_email, wallet_address",
+    )
     .eq("id", pending.charity_profile_id)
     .maybeSingle();
   if (!profileData) {

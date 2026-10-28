@@ -76,6 +76,13 @@ const KNOWN_UNTRANSLATED_KEYS = new Set<string>([
   "admin.dashboard.cronActive",
   "admin.dashboard.cronFailed",
   "admin.dashboard.cronInactive",
+  // GIV-1050: second-contact capture at charity onboarding — translations
+  // pending, tracked in GIV-1113
+  "charity.claim.secondContactTitle",
+  "charity.claim.secondContactName",
+  "charity.claim.secondContactEmail",
+  "charity.claim.secondContactHint",
+  "charity.claim.validation.secondEmailDistinct",
 ]);
 
 type ResourceMap = Record<string, { translation: Record<string, string> }>;
