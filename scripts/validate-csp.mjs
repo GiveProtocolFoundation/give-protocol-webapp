@@ -71,7 +71,7 @@ function extractFromNetlify() {
 const FORBIDDEN_SCRIPT_TOKENS = ["'unsafe-inline'", "'unsafe-eval'"];
 // Directives valid only on HTTP-served CSPs — meta tags ignore them per spec.
 // See GIV-328 violation-reporting setup.
-const HTTP_ONLY_DIRECTIVES = ["report-uri", "report-to"];
+const HTTP_ONLY_DIRECTIVES = ["report-uri", "report-to", "frame-ancestors"];
 let failures = 0;
 
 console.log("CSP Consistency Validator");

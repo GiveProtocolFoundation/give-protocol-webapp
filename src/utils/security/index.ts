@@ -98,6 +98,11 @@ export class SecurityManager {
       "sepolia.base.org",
       "sepolia.optimism.io",
       "base.publicnode.com",
+      "rpc.ankr.com",
+      "eth.drpc.org",
+      "arb1.arbitrum.io",
+      "polygon-bor-rpc.publicnode.com",
+      "api.avax.network",
       "s3.amazonaws.com",
     ];
   }
@@ -107,26 +112,11 @@ export class SecurityManager {
    * This MUST mirror the canonical CSP in index.html. Validated by scripts/validate-csp.mjs.
    */
   private initializeSecurityHeaders(): SecurityHeaders {
-    const scriptSrcDomains = [
-      "https://lhbyfidtlhojnrewpstp.supabase.co",
-      "https://*.sentry.io",
-      "https://translate.google.com",
-      "https://translate.googleapis.com",
-      "https://www.googletagmanager.com",
-      "https://www.google-analytics.com",
-      "https://secure.helcim.app",
-      "https://api.helcim.com",
-      "https://www.paypal.com",
-      "https://www.paypalobjects.com",
-    ].join(" ");
-
     const connectSrcDomains = this.trustedDomains
       .map((d) => `https://${d}`)
       .concat([
-        "ws://localhost:*",
         "wss://*.supabase.co",
         "https://*.sentry.io",
-        "https://translate.googleapis.com",
         "https://www.google-analytics.com",
         "https://analytics.google.com",
         "https://www.paypal.com",
@@ -138,12 +128,13 @@ export class SecurityManager {
     return {
       "Content-Security-Policy": `
         default-src 'self';
-        script-src 'self' 'wasm-unsafe-eval' 'sha256-FE0b/aIu3qmhPRVUXn/+TXDCpLi5oRzW6cwcyknX2PU=' ${scriptSrcDomains};
-        style-src 'self' 'unsafe-inline' https://translate.googleapis.com https://fonts.googleapis.com;
+        script-src 'self' 'sha256-rum+BkA883k4o7T5Fk/eJ/2bXkW23qG+uAmv8xJCpSI=' https://www.googletagmanager.com https://www.google-analytics.com https://secure.helcim.app;
+        style-src 'self' 'unsafe-inline' https://fonts.googleapis.com;
         img-src 'self' data: https: blob:;
         font-src 'self' https://fonts.gstatic.com;
         connect-src 'self' ${connectSrcDomains};
-        frame-src 'self' https://translate.google.com https://secure.helcim.app https://api.helcim.com https://www.paypal.com https://www.sandbox.paypal.com;
+        frame-src 'self' https://secure.helcim.app https://www.paypal.com https://www.sandbox.paypal.com;
+        frame-ancestors 'none';
         object-src 'none';
         base-uri 'self';
         form-action 'self';
