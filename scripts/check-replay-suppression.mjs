@@ -25,8 +25,7 @@ console.log("=====================================\n");
 try {
   readdirSync(distDir);
 } catch {
-  console.error("✗ dist/ directory not found. Run `npm run build:spa` first.");
-  process.exit(1);
+  throw new Error("dist/ directory not found. Run `npm run build:spa` first.");
 }
 
 // Walk dist/ to find JS files and check for replay suppression markers

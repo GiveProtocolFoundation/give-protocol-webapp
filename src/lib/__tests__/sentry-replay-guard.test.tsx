@@ -1,8 +1,8 @@
 import React from "react";
 import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import { render, act } from "@testing-library/react";
-import { DonationActiveProvider, useRegisterDonationActive } from "../../lib/consent/DonationActiveContext";
-import { useSentryReplayGuard } from "../../lib/consent/useSentryReplayGuard";
+import { DonationActiveProvider, useRegisterDonationActive } from "../consent/DonationActiveContext";
+import { useSentryReplayGuard } from "../consent/useSentryReplayGuard";
 import { pauseSentryReplay, resumeSentryReplay } from "@/lib/sentry";
 
 /**
@@ -51,7 +51,7 @@ describe("useSentryReplayGuard (G7)", () => {
       );
     }
 
-    const { rerender } = render(<Wrapper showDonation={true} />);
+    const { rerender } = render(<Wrapper showDonation />);
     expect(pauseSentryReplay).toHaveBeenCalled();
 
     (resumeSentryReplay as jest.Mock).mockClear();
