@@ -1490,6 +1490,8 @@ export default {
       "Tổ chức này đang sử dụng địa chỉ ví cũ.",
     "charity.profile.donate.feeNote":
       "Phí nền tảng 0% cho quyên góp trực tiếp. Phí mạng áp dụng.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Quyên góp cho các tổ chức từ thiện ngoài Hoa Kỳ hiện chưa khả dụng trên Give Protocol.",
     "portfolio.title": "Quỹ danh mục",
     "settings.displayPreferences": "Tùy chọn hiển thị",
     "settings.theme": "Giao diện",

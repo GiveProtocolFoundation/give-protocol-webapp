@@ -6,7 +6,7 @@
 | **Scope** | Every page that can render the donation flow: `DonateWidget`, `DonationModal`, `ScheduledDonationModal`, and `FiatDonationForm`. That covers charity profiles and `/portfolio-funds`. The SPA ships one bundle and one CSP, so this inventory covers the whole site. |
 | **Supports** | PCI DSS v4.0.1 req. 6.4.3 (payment-page script inventory, authorization, integrity) and 11.6.1 (change/tamper detection), SAQ A-EP pack (GIV-311) |
 | **Source of truth** | CSP: `index.html` meta tag (canonical), mirrored in `vercel.json` (production), `netlify.toml`, `nginx.conf`. Sentry config: `src/lib/sentry.ts`. |
-| **Last verified** | 2026-10-18 against `origin/main` @ `b1a7b4ed` |
+| **Last verified** | 2026-10-27 against `origin/main` @ `agent/giv-1063-csp-gaps` |
 | **Review cadence** | On any PR that changes a CSP location, `index.html`, `src/lib/sentry.ts`, `src/lib/consent/*`, `src/services/helcimService.ts`, `src/services/paypalService.ts`, or `src/components/web3/donation/*`, plus a quarterly review by the ISO |
 
 ## (a) Script inventory
@@ -22,7 +22,7 @@ Every script that runs in the browser on a payment page. Card data is entered **
 | 5 | Wallet providers (EIP-1193 injected: MetaMask etc.) | Browser extension | Injected by the extension, not by us | When the user has a wallet installed | Non-custodial crypto donations | Outside our CSP. Users verify transactions in the wallet UI. No WalletConnect/Reown SDK is shipped. | CTO |
 | 6 | HelcimPay.js `start.js` | `https://secure.helcim.app` | Dynamic `<script>` in `helcimService.ts` | Only when a fiat donation starts | Mounts the Helcim-hosted card iframe | **SRI** `sha384-8wWGKUkdq5wTIHBBb2inwu8SO3TFDWqLBUSLTwpmjyPzWv9GklIAv8SE3WP3z0Vy` with `crossorigin=anonymous`. A hash mismatch blocks the load and fails closed. | ISO / CTO |
 | 7 | Google tag (gtag.js, GA4 `G-CBQHKLHD8T`) | `https://www.googletagmanager.com` (+ `www.google-analytics.com`) | Dynamic `<script>` in `src/lib/consent/useGA4Loader.ts` | **Only after analytics consent** | Product analytics | **No SRI possible** (Google serves versioned, unpinned content). Mitigated by consent gating. See gap G3. | ISO + Head of Data |
-| 8 | Web fonts (DM Serif Display, DM Sans, Inter, Hanken Grotesk, IBM Plex Mono) | `fonts.googleapis.com` / `fonts.gstatic.com` | `<link rel=stylesheet>` | Always | Typography (CSS + font files, not script) | None. The spec requires self-hosting. See gap G2. | — |
+| 8 | Web fonts (DM Serif Display, DM Sans, Inter, Hanken Grotesk, IBM Plex Mono) | `'self'` (`public/fonts/`) | `@import` in `src/styles/fonts.css` | Always | Typography (CSS + font files, not script) | Self-hosted woff2 files served from same origin. | CTO |
 
 **Confirmed not present:**
 - **Silktide**: removed in GIV-377. `cypress/e2e/consent-ga4.cy.ts` asserts that no `silktide` script or link tags exist.
@@ -35,41 +35,41 @@ Every script that runs in the browser on a payment page. Card data is entered **
 | Directive | Allowed source | Inventory # | Status |
 |---|---|---|---|
 | script-src | `'self'`, `'sha256-rum+…'` | 1, 2 | OK |
-| script-src | `'wasm-unsafe-eval'` | — | Review. No first-party WASM was found, so it may be needed by a dependency. Confirm or remove (G1). |
+| script-src | `'wasm-unsafe-eval'` | — | Removed — no first-party WASM in use (G1 ✅). |
 | script-src | `https://secure.helcim.app` | 6 | OK |
-| script-src | `https://www.googletagmanager.com`, `https://www.google-analytics.com` | 7 | OK (consent-gated) |
-| script-src | `https://*.supabase.co`, `https://*.sentry.io` | — | **Unlisted**: SDKs are bundled and no script is fetched from them. Remove (G1). |
-| script-src | `https://translate.google.com`, `https://translate.googleapis.com` | — | **Unlisted**: no loader. Remove (G1). |
-| script-src | `https://api.helcim.com` | — | **Unlisted**: API origin, not a script host. Remove (G1). |
-| script-src | `https://www.paypal.com`, `https://www.paypalobjects.com` | — | **Unlisted**: the SDK isn't loaded. Remove (G1). |
+| script-src | `https://www.googletagmanager.com`, `https://www.google-analytics.com` | 7 | OK (consent-gated, suppressed during donation flows — G3 ✅) |
+| script-src | `https://*.supabase.co`, `https://*.sentry.io` | — | **Removed**: SDKs are bundled and no script is fetched from them (G1 ✅). |
+| script-src | `https://translate.google.com`, `https://translate.googleapis.com` | — | **Removed**: no loader (G1 ✅). |
+| script-src | `https://api.helcim.com` | — | **Removed**: API origin, not a script host (G1 ✅). |
+| script-src | `https://www.paypal.com`, `https://www.paypalobjects.com` | — | **Removed**: the SDK isn't loaded (G1 ✅). |
 | frame-src | `https://secure.helcim.app`, `https://www.paypal.com`, `https://www.sandbox.paypal.com` | 6, PayPal | OK (processor frames) |
-| frame-src | `https://api.helcim.com`, `https://translate.google.com` | — | Unlisted. Remove (G1). |
-| style-src | `'unsafe-inline'`, `fonts.googleapis.com`, `translate.googleapis.com` | 8 | Accepted for now (styles can't exfiltrate PAN, and PAN lives in a cross-origin iframe). Drop the Google origins once fonts are self-hosted (G2). |
-| connect-src | Supabase, Sentry ingest, Helcim, PayPal API, CoinGecko, `api.giveprotocol.io`, public EVM RPCs, `s3.amazonaws.com` | 3, 4, 6 | OK. These are data endpoints, not script sources. `ws://localhost:*` should not ship to prod (G1). |
+| frame-src | `https://api.helcim.com`, `https://translate.google.com` | — | **Removed** (G1 ✅). |
+| style-src | `'unsafe-inline'` | — | Accepted for now (styles can't exfiltrate PAN, and PAN lives in a cross-origin iframe). Google Fonts origins removed — fonts self-hosted (G2 ✅). |
+| connect-src | Supabase, Sentry ingest, Helcim, PayPal API, CoinGecko, `api.giveprotocol.io`, public EVM RPCs, `s3.amazonaws.com` | 3, 4, 6 | OK. These are data endpoints, not script sources. `ws://localhost:*` removed from prod (G1 ✅). |
 | object-src / base-uri / form-action | `'none'` / `'self'` / `'self'` | — | OK |
-| frame-ancestors | not set in CSP. `X-Frame-Options: DENY` is set via headers. | — | Acceptable. Adding `frame-ancestors 'none'` to the HTTP header is preferred (G1). |
+| frame-ancestors | `'none'` in HTTP headers (vercel.json, nginx.conf, netlify.toml). Not in CSP meta tag (spec limitation). | — | OK (G1 ✅). |
 
 **Enforced today:**
 - `npm run validate:csp` (`scripts/validate-csp.mjs`, GIV-553) runs in CI (`.github/workflows/code-quality.yml`).
 - It fails the build when any CSP location diverges from `index.html`, or when `script-src` contains `'unsafe-inline'` or `'unsafe-eval'`.
-- It does **not** yet check sources against this inventory (G4).
+- It also validates that every `script-src` and `frame-src` source is listed in `scripts/csp-inventory.json` (G4 ✅).
+- A negative test (`scripts/validate-csp-negative.test.mjs`) confirms the validator rejects unlisted sources (G4 ✅).
 
-**Violation reporting:** `report-uri /api/csp-report` (GIV-328) is set only in `nginx.conf`. The production host (`vercel.json`) has no `report-uri`/`report-to` (G5).
+**Violation reporting:** `report-uri /api/csp-report` and `report-to csp-endpoint` are set in all HTTP-header CSP locations: `vercel.json` (production), `nginx.conf`, `netlify.toml` (G5 ✅).
 
 ## (c) Integrity pinning or removal
 
 | Third-party script | Decision |
 |---|---|
 | HelcimPay.js | **Pinned** (SRI sha384). To rotate the hash: `curl -s https://secure.helcim.app/helcim-pay/services/start.js \| openssl dgst -sha384 -binary \| openssl base64 -A`, then update it through a reviewed PR. |
-| gtag.js | **Cannot be pinned.** Kept only behind consent and never needed for payment. Gap G3 decides between leaving it off donation flows and accepting it as a documented risk. |
-| Google Fonts | Not a script. **Self-host** (G2). |
-| Translate, PayPal SDK, Supabase/Sentry script hosts | **Removed** from code. Remove the CSP entries too (G1). |
+| gtag.js | **Cannot be pinned.** Kept only behind consent and suppressed while donation UI is mounted (G3 ✅). |
+| Google Fonts | **Self-hosted** in `public/fonts/` (G2 ✅). No external font loads. |
+| Translate, PayPal SDK, Supabase/Sentry script hosts | **Removed** from CSP (G1 ✅). |
 
 ## (d) Change review for payment-page deploys
 
-- **Today:** every change goes through a PR to `main`, with Claude code review and SonarCloud. CSP drift is blocked by `validate:csp`.
-- **Gap G6:** there is no `CODEOWNERS` file, so ISO review isn't *required* on payment-page paths.
-- **Required end state:** ISO or CTO approval is required for the files listed under "Review cadence" above.
+- **Today:** every change goes through a PR to `main`, with Claude code review and SonarCloud. CSP drift is blocked by `validate:csp`. `.github/CODEOWNERS` requires @drigobl and @civicmastery review on all payment-page and CSP paths (G6 ✅).
+- **Required end state:** ISO or CTO approval is required for the files listed under "Review cadence" above. ✅ Enforced via CODEOWNERS.
 
 ## Sentry session replay controls (GIV-357)
 
@@ -78,19 +78,21 @@ Every script that runs in the browser on a payment page. Card data is entered **
 | Replay off at init, site-wide | `src/lib/sentry.ts` `initSentry()`: `replaysSessionSampleRate: 0`, `replaysOnErrorSampleRate: 0`, `tracesSampleRate: 0`, `integrations: []`, `sendDefaultPii: false` |
 | Replay only after explicit analytics consent | `enableAnalyticsIntegrations()` is called only from `src/lib/consent/SentryConsentReactor.tsx` (tested in `SentryConsentReactor.test.tsx`). Text is masked and media blocked. Withdrawal calls `Sentry.close()`, re-inits Phase A, and reloads the page. |
 | Sentry off in non-prod | `initSentry()` returns early unless `import.meta.env.PROD` |
-| **Replay disabled on donation flows** | **Not implemented (G7).** After consent, replay can record pages hosting the donation modal. The Helcim card iframe is cross-origin, so rrweb can't capture PAN, but donor amount and name fields are on our DOM (masked). The spec requires replay to be disabled on the donation route. |
-| Production-build check | Not yet automated (G7) |
+| **Replay disabled on donation flows** | `useSentryReplayGuard` hook pauses `Sentry.getReplay().stop()` when any donation component mounts (via `DonationActiveContext`), resumes on unmount (G7 ✅). Unit test in `src/lib/__tests__/sentry-replay-guard.test.tsx`. |
+| Production-build check | `npm run check:replay-suppression` verifies `replaysSessionSampleRate:0` and guard functions in `dist/` (G7 ✅). |
 
-## Open gaps → remediation
+## Closed gaps
 
-| ID | Gap | Severity |
-|---|---|---|
-| G1 | Remove unlisted CSP sources: Translate, `*.supabase.co`/`*.sentry.io`/`api.helcim.com`/PayPal script-src, `api.helcim.com`/Translate frame-src, prod `ws://localhost:*`. Confirm `'wasm-unsafe-eval'`. Add `frame-ancestors 'none'` to headers. Re-sync `src/utils/security/index.ts`, whose script hash differs from the canonical one. | Medium |
-| G2 | Self-host the web fonts and drop the `fonts.googleapis.com`/`fonts.gstatic.com` origins | Low |
-| G3 | Keep gtag.js from loading while a donation modal is open, or document a risk acceptance | Medium |
-| G4 | Extend `validate-csp.mjs` to fail the build on any CSP source not listed in this inventory | Medium (spec acceptance) |
-| G5 | Add `report-uri`/`report-to` to the `vercel.json` CSP (production). This is required for 11.6.1-style tamper alerting. | Medium |
-| G6 | Add `CODEOWNERS` requiring ISO/CTO review on payment-page paths | Medium |
-| G7 | Suppress Sentry replay while donation UI is mounted, and add a test or prod-build check showing replay is disabled there | Medium (spec acceptance) |
+All gaps from the initial inventory have been remediated in PR `agent/giv-1063-csp-gaps`.
 
-Remediation is tracked in the GIV-1058 follow-up engineering issue. When a gap closes, update this file in the same PR.
+| ID | Gap | Severity | Resolution |
+|---|---|---|---|
+| G1 | Remove unlisted CSP sources, confirm `'wasm-unsafe-eval'`, add `frame-ancestors 'none'`, re-sync `security/index.ts` | Medium | ✅ Removed all unlisted sources, confirmed no WASM needed, added `frame-ancestors 'none'` to HTTP headers, re-synced security/index.ts hash and trusted domains. |
+| G2 | Self-host the web fonts | Low | ✅ Downloaded woff2 files to `public/fonts/`, created `src/styles/fonts.css`, removed Google Fonts `<link>` tags and CSP origins. |
+| G3 | Keep gtag.js from loading while donation UI is mounted | Medium | ✅ `DonationActiveContext` tracks donation component mount state; `useGA4Loader` defers loading while donation UI is active. Unit test confirms. |
+| G4 | Extend `validate-csp.mjs` to fail on unlisted CSP sources | Medium | ✅ Added `scripts/csp-inventory.json` allowlist; validator checks all `script-src`/`frame-src` sources against it. Negative test added. |
+| G5 | Add `report-uri`/`report-to` to production CSP | Medium | ✅ Added to `vercel.json`, `nginx.conf`, and `netlify.toml`. |
+| G6 | Add `CODEOWNERS` for payment-page paths | Medium | ✅ `.github/CODEOWNERS` requires @drigobl/@civicmastery review. |
+| G7 | Suppress Sentry replay while donation UI is mounted + tests | Medium | ✅ `useSentryReplayGuard` pauses/resumes replay via `DonationActiveContext`. Unit test + prod-build check script. |
+
+Remediation tracked in GIV-1063.

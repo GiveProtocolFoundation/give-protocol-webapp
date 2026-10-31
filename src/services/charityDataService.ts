@@ -26,6 +26,10 @@ export interface CharityRecord {
   ntee_cd: string | null;
   sort_name: string | null;
   is_on_platform: boolean;
+  /** ISO 3166-1 alpha-2 country code; defaults to 'US' in the DB. */
+  country: string | null;
+  /** Registry that sourced this record (e.g. 'IRS_BMF', 'CCEW_REGISTER'). */
+  registry_source: string | null;
 }
 
 /**

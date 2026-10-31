@@ -1556,6 +1556,8 @@ export default {
       "Cette organisation utilise une adresse de portefeuille héritée.",
     "charity.profile.donate.feeNote":
       "0% de frais de plateforme sur les dons directs. Des frais de réseau s'appliquent.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Les dons aux organisations caritatives en dehors des États-Unis ne sont pas encore disponibles sur Give Protocol.",
     "portfolio.title": "Fonds de Portefeuille",
     "settings.displayPreferences": "Préférences d'affichage",
     "settings.theme": "Thème",

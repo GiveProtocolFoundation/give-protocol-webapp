@@ -1,0 +1,30 @@
+# CODEOWNERS — require ISO / CTO review on payment-page and security paths.
+# See docs/security/payment-page-script-inventory.md for the review cadence.
+
+# CSP configuration (all locations must stay in sync)
+/index.html                           @drigobl @civicmastery
+/vercel.json                          @drigobl @civicmastery
+/nginx.conf                           @drigobl @civicmastery
+/netlify.toml                         @drigobl @civicmastery
+/scripts/validate-csp.mjs             @drigobl @civicmastery
+/scripts/csp-inventory.json           @drigobl @civicmastery
+/scripts/validate-csp-negative.test.mjs @drigobl @civicmastery
+
+# Security utilities
+/src/utils/security/                  @drigobl @civicmastery
+
+# Sentry configuration
+/src/lib/sentry.ts                    @drigobl @civicmastery
+
+# Consent and analytics
+/src/lib/consent/                     @drigobl @civicmastery
+
+# Payment integrations
+/src/services/helcimService.ts        @drigobl @civicmastery
+/src/services/paypalService.ts        @drigobl @civicmastery
+
+# Donation UI components
+/src/components/web3/donation/        @drigobl @civicmastery
+
+# Security documentation
+/docs/security/                       @drigobl @civicmastery

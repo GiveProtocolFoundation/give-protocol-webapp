@@ -1821,6 +1821,8 @@ export default {
       "This charity is using a legacy wallet address.",
     "charity.profile.donate.feeNote":
       "0% platform fee on direct donations. Network gas fees apply.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Donations to charities outside the United States are not yet available on Give Protocol.",
 
     // Wallet-type badge (GIV-290)
     "charity.walletBadge.safeLabel":
@@ -1910,5 +1912,50 @@ export default {
     "team.comingSoon": "Team Profiles Coming Soon",
     "team.comingSoonDesc":
       "We are updating our team directory. Check back shortly to meet the people behind Give Protocol.",
+
+    // CFIA acceptance flow (GIV-1051)
+    "cfia.signaturePad.ariaLabel": "Signature drawing area",
+    "cfia.signaturePad.placeholder": "Sign here",
+    "cfia.signaturePad.clear": "Clear signature",
+    "cfia.signaturePad.clearButton": "Clear",
+    "cfia.modal.title": "Charitable Fundraising Industry Agreement",
+    "cfia.modal.loading": "Loading agreement status\u2026",
+    "cfia.modal.reviewIntro":
+      "Please read the agreement below in full. You must scroll to the end before proceeding.",
+    "cfia.modal.version": "Version: {{version}}",
+    "cfia.modal.proceedToSign":
+      "I have read the agreement \u2014 proceed to sign",
+    "cfia.modal.scrollToEnd": "Scroll to the end to continue",
+    "cfia.modal.signingIntro":
+      "Confirm your identity as the authorized signer and provide your signature below.",
+    "cfia.modal.signerLegend": "Authorized signer details",
+    "cfia.modal.signerName": "Full name",
+    "cfia.modal.signerNamePlaceholder": "Jane Smith",
+    "cfia.modal.signerTitle": "Title / Role",
+    "cfia.modal.signerTitlePlaceholder": "Executive Director",
+    "cfia.modal.signerEmail": "Email",
+    "cfia.modal.signerEmailPlaceholder": "jane@example.org",
+    "cfia.modal.signatureLabel": "Signature",
+    "cfia.modal.back": "Back",
+    "cfia.modal.submit": "Accept and Sign",
+    "cfia.modal.submitting": "Recording your acceptance\u2026",
+    "cfia.modal.acceptedTitle": "Agreement Accepted",
+    "cfia.modal.acceptedBody":
+      "The Charitable Fundraising Industry Agreement has been accepted by {{name}} on {{date}}.",
+    "cfia.modal.close": "Close",
+    "cfia.modal.errorTitle": "Something went wrong",
+    "cfia.modal.errorDefault": "An error occurred. Please try again.",
+    "cfia.modal.retry": "Try Again",
+    "cfia.legalText.title": "Charitable Fundraising Industry Agreement",
+    "cfia.legalText.draftNotice":
+      "This is a placeholder. The final legal text has not yet been delivered. This agreement cannot be activated until the legal text is finalized.",
+    "cfia.legalText.placeholder1":
+      'This Charitable Fundraising Industry Agreement (the "Agreement") is entered into between Give Protocol Foundation ("Platform") and the undersigned charitable organization ("Charity").',
+    "cfia.legalText.placeholder2":
+      "By signing below, the Charity acknowledges and agrees to the terms and conditions governing the use of the Give Protocol platform for the purpose of receiving charitable donations.",
+    "cfia.legalText.placeholder3":
+      "[Full legal text will be inserted here upon finalization by legal counsel. Sections will cover: platform obligations, charity obligations, fee structure, data handling, dispute resolution, termination, and governing law.]",
+    "cfia.legalText.endMarker": "--- End of agreement text ---",
+    "cfia.onboarding.acceptCfia": "Accept CFIA",
   },
 };

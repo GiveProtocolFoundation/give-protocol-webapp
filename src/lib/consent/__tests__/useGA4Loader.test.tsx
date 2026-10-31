@@ -9,6 +9,7 @@ import {
 } from "@jest/globals";
 import { render, fireEvent, screen } from "@testing-library/react";
 import { ConsentProvider, useConsent } from "../ConsentProvider";
+import { DonationActiveProvider, useRegisterDonationActive } from "../DonationActiveContext";
 import { useGA4Loader } from "../useGA4Loader";
 
 /** Test harness that wires the loader and exposes consent actions. */
@@ -28,7 +29,9 @@ function Harness() {
 const renderHarness = () =>
   render(
     <ConsentProvider>
-      <Harness />
+      <DonationActiveProvider>
+        <Harness />
+      </DonationActiveProvider>
     </ConsentProvider>,
   );
 
@@ -95,5 +98,33 @@ describe("useGA4Loader", () => {
         (call[0] as HTMLScriptElement).src.includes("googletagmanager"),
     );
     expect(scriptCalls).toHaveLength(1);
+  });
+
+  it("does not inject GA4 while a donation component is active (G3)", () => {
+    /** Simulates a mounted donation component that registers as active */
+    function FakeDonation() {
+      useRegisterDonationActive();
+      return <span data-testid="donation">donation</span>;
+    }
+
+    const { unmount } = render(
+      <ConsentProvider>
+        <DonationActiveProvider>
+          <FakeDonation />
+          <Harness />
+        </DonationActiveProvider>
+      </ConsentProvider>,
+    );
+
+    fireEvent.click(screen.getByText("acceptOn"));
+
+    const scriptCalls = appendChildSpy.mock.calls.filter(
+      (call) =>
+        call[0] instanceof HTMLScriptElement &&
+        (call[0] as HTMLScriptElement).src.includes("googletagmanager"),
+    );
+    expect(scriptCalls).toHaveLength(0);
+
+    unmount();
   });
 });

@@ -47,6 +47,7 @@ import { getContractAddress, CHAIN_IDS } from "@/config/contracts";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useAuth } from "@/contexts/AuthContext";
 import { useToast } from "@/contexts/ToastContext";
+import { useRegisterDonationActive } from "@/lib/consent/DonationActiveContext";
 import {
   type FiatCurrencyConfig,
   getFiatCurrencyByCode,
@@ -322,6 +323,7 @@ export const DonationModal: React.FC<DonationModalProps> = ({
   primaryWallet,
 }) => {
   const { t } = useTranslation();
+  useRegisterDonationActive();
   const [isMounted, setIsMounted] = useState(false);
   useEffect(() => {
     setIsMounted(true);

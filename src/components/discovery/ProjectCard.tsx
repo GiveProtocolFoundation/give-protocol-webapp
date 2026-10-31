@@ -47,6 +47,7 @@ export const ProjectCard: React.FC<ProjectCardProps> = ({ organization }) => {
       location={location || undefined}
       identifier={identifier}
       onPlatform={organization.is_on_platform}
+      country={organization.country}
     />
   );
 };

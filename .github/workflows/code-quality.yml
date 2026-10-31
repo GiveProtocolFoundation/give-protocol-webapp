@@ -66,6 +66,9 @@ jobs:
       - name: Validate CSP consistency
         run: npm run validate:csp
 
+      - name: CSP inventory negative test
+        run: npm run validate:csp:negative
+
       - name: Run TypeScript compiler check
         run: npx tsc --noEmit
 

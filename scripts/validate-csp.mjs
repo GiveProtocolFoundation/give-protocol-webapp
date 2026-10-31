@@ -1,8 +1,12 @@
 /**
  * CSP consistency validator — ensures all CSP locations match the canonical
- * meta tag in index.html. Run via `node scripts/validate-csp.mjs`.
+ * meta tag in index.html AND that every script-src/frame-src source is listed
+ * in the payment-page script inventory (scripts/csp-inventory.json).
  *
- * Exits 0 on success, throws if any location diverges or contains forbidden tokens.
+ * Run via `node scripts/validate-csp.mjs`.
+ *
+ * Exits 0 on success, throws if any location diverges, contains forbidden
+ * tokens, or includes an unlisted source.
  */
 
 import { readFileSync } from "node:fs";
@@ -24,6 +28,16 @@ function normalise(raw) {
     .filter(Boolean)
     .sort()
     .join("; ");
+}
+
+/**
+ * Parse the sources from a named directive in a raw CSP string.
+ * Returns an array of source tokens (e.g. ["'self'", "https://example.com"]).
+ */
+function parseDirectiveSources(csp, directive) {
+  const match = csp.match(new RegExp(`${directive}\\s+([^;]+)`));
+  if (!match) return [];
+  return match[1].trim().split(/\s+/);
 }
 
 /** Extract the CSP value from the index.html meta tag (canonical) */
@@ -71,11 +85,11 @@ function extractFromNetlify() {
 const FORBIDDEN_SCRIPT_TOKENS = ["'unsafe-inline'", "'unsafe-eval'"];
 // Directives valid only on HTTP-served CSPs — meta tags ignore them per spec.
 // See GIV-328 violation-reporting setup.
-const HTTP_ONLY_DIRECTIVES = ["report-uri", "report-to"];
+const HTTP_ONLY_DIRECTIVES = ["report-uri", "report-to", "frame-ancestors"];
 let failures = 0;
 
-console.log("CSP Consistency Validator");
-console.log("========================\n");
+console.log("CSP Consistency & Inventory Validator");
+console.log("=====================================\n");
 
 // 1. Extract canonical CSP
 const canonical = extractFromIndexHtml();
@@ -113,9 +127,9 @@ for (const loc of locations) {
       }
     }
 
-    // Check consistency with canonical — report-uri/report-to are valid only
-    // on HTTP-served CSPs (meta tags ignore them), so they're permitted as
-    // extras in non-meta locations.
+    // Check consistency with canonical — report-uri/report-to/frame-ancestors
+    // are valid only on HTTP-served CSPs (meta tags ignore them), so they're
+    // permitted as extras in non-meta locations.
     const canonDirs = new Set(normCanonical.split("; "));
     const locDirs = new Set(norm.split("; "));
     const missing = [];
@@ -143,9 +157,35 @@ for (const loc of locations) {
   }
 }
 
-// 4. Summary
+// 4. Inventory allowlist check (G4)
+console.log("\nInventory Allowlist Check");
+console.log("------------------------");
+
+const inventory = JSON.parse(
+  readFileSync(resolve(__dirname, "csp-inventory.json"), "utf8"),
+);
+
+const CHECKED_DIRECTIVES = ["script-src", "frame-src"];
+
+for (const directive of CHECKED_DIRECTIVES) {
+  const allowed = new Set(Object.keys(inventory[directive] || {}));
+  const actual = parseDirectiveSources(canonical, directive);
+
+  for (const source of actual) {
+    if (allowed.has(source)) continue;
+    console.error(
+      `✗ UNLISTED: ${directive} contains "${source}" which is not in csp-inventory.json`,
+    );
+    failures++;
+  }
+  console.log(
+    `✓ ${directive}: all ${actual.length} source(s) are in the inventory`,
+  );
+}
+
+// 5. Summary
 console.log();
 if (failures > 0) {
   throw new Error(`CSP validation FAILED — ${failures} issue(s) found.`);
 }
-console.log("PASSED — all CSP locations are consistent and hardened.");
+console.log("PASSED — all CSP locations are consistent, hardened, and inventoried.");
