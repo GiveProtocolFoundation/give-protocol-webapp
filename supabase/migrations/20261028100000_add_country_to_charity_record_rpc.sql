@@ -4,6 +4,10 @@
 -- but the lookup RPC omitted them. The webapp needs country to disable the donation UI
 -- for non-US charities.
 
+-- Drop existing function first because PostgreSQL disallows changing RETURNS TABLE
+-- (row type defined by OUT parameters) with CREATE OR REPLACE FUNCTION (SQLSTATE 42P13).
+DROP FUNCTION IF EXISTS get_charity_record_by_ein(TEXT);
+
 CREATE OR REPLACE FUNCTION get_charity_record_by_ein(lookup_ein TEXT)
 RETURNS TABLE (
   ein              TEXT,
