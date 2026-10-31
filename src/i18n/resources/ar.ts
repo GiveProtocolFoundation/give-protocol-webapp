@@ -1142,6 +1142,13 @@ export default {
     "charity.claim.publicContactEmail": "البريد الإلكتروني العام للمنظمة",
     "charity.claim.privacyNotice":
       "يُستخدم بريدك الإلكتروني/هاتفك الشخصي للتحقق فقط ولا يظهر لمستخدمي المنصة الآخرين. يُعرض البريد الإلكتروني العام في ملف منظمتك.",
+    "charity.claim.secondContactTitle": "جهة الاتصال الثانية",
+    "charity.claim.secondContactName": "اسم جهة الاتصال الثانية",
+    "charity.claim.secondContactEmail": "البريد الإلكتروني لجهة الاتصال الثانية",
+    "charity.claim.secondContactHint":
+      "شخص مختلف يتم إخطاره عند تغيير محفظة مؤسستك الخيرية أو تفاصيل الدفع.",
+    "charity.claim.validation.secondEmailDistinct":
+      "يجب أن يكون البريد الإلكتروني لجهة الاتصال الثانية مختلفًا عن البريد الإلكتروني الأساسي",
     "charity.claim.error.creation": "فشل إنشاء الحساب",
     "charity.claim.error.generic": "تعذّر إنشاء الحساب",
     "charity.vetting.orgDetails": "تفاصيل المنظمة",

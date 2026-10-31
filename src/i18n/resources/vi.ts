@@ -1175,6 +1175,13 @@ export default {
     "charity.claim.publicContactEmail": "Email liên hệ công khai của tổ chức",
     "charity.claim.privacyNotice":
       "Email/số điện thoại cá nhân của người ký chỉ được sử dụng để xác minh và không hiển thị cho người dùng nền tảng khác. Email liên hệ công khai sẽ được hiển thị trên hồ sơ tổ chức của bạn.",
+    "charity.claim.secondContactTitle": "Người liên hệ thứ hai",
+    "charity.claim.secondContactName": "Tên người liên hệ thứ hai",
+    "charity.claim.secondContactEmail": "Email người liên hệ thứ hai",
+    "charity.claim.secondContactHint":
+      "Một người khác, được thông báo khi ví hoặc chi tiết thanh toán của tổ chức từ thiện của bạn thay đổi.",
+    "charity.claim.validation.secondEmailDistinct":
+      "Email của người liên hệ thứ hai phải khác với email chính",
     "charity.claim.error.creation": "Tạo tài khoản thất bại",
     "charity.claim.error.generic": "Không thể tạo tài khoản",
     "charity.vetting.orgDetails": "Thông tin tổ chức",

@@ -1227,6 +1227,13 @@ export default {
       "Öffentliche Kontakt-E-Mail der Organisation",
     "charity.claim.privacyNotice":
       "Ihre persönliche Unterzeichner-E-Mail/Telefonnummer wird nur zur Verifizierung verwendet und ist für andere Plattformnutzer nicht sichtbar. Die öffentliche Kontakt-E-Mail wird in Ihrem Organisationsprofil angezeigt.",
+    "charity.claim.secondContactTitle": "Zweitkontakt",
+    "charity.claim.secondContactName": "Name des Zweitkontakts",
+    "charity.claim.secondContactEmail": "E-Mail-Adresse des Zweitkontakts",
+    "charity.claim.secondContactHint":
+      "Eine andere Person, die benachrichtigt wird, wenn sich die Wallet- oder Auszahlungsdaten Ihrer Organisation ändern.",
+    "charity.claim.validation.secondEmailDistinct":
+      "Die E-Mail-Adresse des Zweitkontakts muss sich von der Haupt-E-Mail-Adresse unterscheiden",
     "charity.claim.error.creation": "Kontoerstellung fehlgeschlagen",
     "charity.claim.error.generic": "Konto konnte nicht erstellt werden",
     "charity.vetting.orgDetails": "Organisationsdetails",

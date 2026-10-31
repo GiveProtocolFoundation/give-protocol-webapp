@@ -1185,6 +1185,13 @@ export default {
     "charity.claim.publicContactEmail": "संगठन का सार्वजनिक संपर्क ईमेल",
     "charity.claim.privacyNotice":
       "आपका व्यक्तिगत हस्ताक्षरकर्ता ईमेल/फोन केवल सत्यापन के लिए उपयोग किया जाता है और अन्य प्लेटफ़ॉर्म उपयोगकर्ताओं को दिखाई नहीं देता। सार्वजनिक संपर्क ईमेल आपके संगठन प्रोफ़ाइल पर दिखाया जाता है।",
+    "charity.claim.secondContactTitle": "द्वितीय संपर्क",
+    "charity.claim.secondContactName": "द्वितीय संपर्क का नाम",
+    "charity.claim.secondContactEmail": "द्वितीय संपर्क ईमेल",
+    "charity.claim.secondContactHint":
+      "एक अन्य व्यक्ति, जिसे आपकी संस्था के वॉलेट या भुगतान विवरण बदलने पर सूचित किया जाएगा।",
+    "charity.claim.validation.secondEmailDistinct":
+      "द्वितीय संपर्क ईमेल प्राथमिक ईमेल से भिन्न होना चाहिए",
     "charity.claim.error.creation": "खाता निर्माण विफल",
     "charity.claim.error.generic": "खाता बनाने में विफल",
     "charity.vetting.orgDetails": "संगठन विवरण",

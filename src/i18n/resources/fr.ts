@@ -1233,6 +1233,13 @@ export default {
       "E-mail de contact public de l'organisation",
     "charity.claim.privacyNotice":
       "Votre e-mail/téléphone personnel de signataire est utilisé uniquement pour la vérification et n'est pas visible par les autres utilisateurs de la plateforme. L'e-mail de contact public est affiché sur le profil de votre organisation.",
+    "charity.claim.secondContactTitle": "Deuxième Contact",
+    "charity.claim.secondContactName": "Nom du deuxième contact",
+    "charity.claim.secondContactEmail": "E-mail du deuxième contact",
+    "charity.claim.secondContactHint":
+      "Une personne différente, notifiée lorsque le portefeuille ou les informations de paiement de votre association changent.",
+    "charity.claim.validation.secondEmailDistinct":
+      "L'e-mail du deuxième contact doit être différent de l'e-mail principal",
     "charity.claim.error.creation": "La création du compte a échoué",
     "charity.claim.error.generic": "Impossible de créer le compte",
     "charity.vetting.orgDetails": "Détails de l'Organisation",

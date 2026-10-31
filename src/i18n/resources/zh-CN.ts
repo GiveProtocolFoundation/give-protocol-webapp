@@ -1105,6 +1105,13 @@ export default {
     "charity.claim.publicContactEmail": "组织公开联系邮箱",
     "charity.claim.privacyNotice":
       "您的个人签署人邮箱/电话仅用于验证，其他平台用户无法看到。公开联系邮箱将显示在您的组织简介中。",
+    "charity.claim.secondContactTitle": "第二联系人",
+    "charity.claim.secondContactName": "第二联系人姓名",
+    "charity.claim.secondContactEmail": "第二联系人电子邮件",
+    "charity.claim.secondContactHint":
+      "另一位联系人，当您慈善机构的钱包或收款详情发生变更时接收通知。",
+    "charity.claim.validation.secondEmailDistinct":
+      "第二联系人电子邮件必须与主电子邮件不同",
     "charity.claim.error.creation": "账户创建失败",
     "charity.claim.error.generic": "创建账户失败",
     "charity.vetting.orgDetails": "组织详情",

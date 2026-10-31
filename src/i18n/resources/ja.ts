@@ -1179,6 +1179,13 @@ export default {
     "charity.claim.publicContactEmail": "団体の公開連絡先メールアドレス",
     "charity.claim.privacyNotice":
       "個人の署名者メール/電話番号は本人確認のみに使用され、他のプラットフォームユーザーには表示されません。公開連絡先メールアドレスは団体プロフィールに表示されます。",
+    "charity.claim.secondContactTitle": "第2の連絡先",
+    "charity.claim.secondContactName": "第2連絡先の氏名",
+    "charity.claim.secondContactEmail": "第2連絡先のメールアドレス",
+    "charity.claim.secondContactHint":
+      "団体のウォレットまたは支払いの詳細が変更された際に通知される別の方。",
+    "charity.claim.validation.secondEmailDistinct":
+      "第2連絡先のメールアドレスはプライマリメールアドレスと異なる必要があります",
     "charity.claim.error.creation": "アカウントの作成に失敗しました",
     "charity.claim.error.generic": "アカウントを作成できませんでした",
     "charity.vetting.orgDetails": "団体情報",

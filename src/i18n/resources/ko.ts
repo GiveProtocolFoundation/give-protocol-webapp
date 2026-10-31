@@ -1146,6 +1146,13 @@ export default {
     "charity.claim.publicContactEmail": "단체 공개 연락처 이메일",
     "charity.claim.privacyNotice":
       "개인 서명자 이메일/전화번호는 인증 목적으로만 사용되며 다른 플랫폼 사용자에게 표시되지 않습니다. 공개 연락처 이메일은 단체 프로필에 표시됩니다.",
+    "charity.claim.secondContactTitle": "보조 연락처",
+    "charity.claim.secondContactName": "보조 연락처 이름",
+    "charity.claim.secondContactEmail": "보조 연락처 이메일",
+    "charity.claim.secondContactHint":
+      "자선 단체의 지갑 또는 정산 정보가 변경될 때 알림을 받을 다른 담당자입니다.",
+    "charity.claim.validation.secondEmailDistinct":
+      "보조 연락처 이메일은 기본 이메일과 달라야 합니다",
     "charity.claim.error.creation": "계정 생성에 실패했습니다",
     "charity.claim.error.generic": "계정을 만들 수 없습니다",
     "charity.vetting.orgDetails": "단체 정보",

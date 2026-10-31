@@ -1105,6 +1105,13 @@ export default {
     "charity.claim.publicContactEmail": "組織公開聯絡電子郵件",
     "charity.claim.privacyNotice":
       "您的個人簽署人電子郵件/電話僅用於驗證，其他平台使用者無法看到。公開聯絡電子郵件將顯示在您的組織檔案中。",
+    "charity.claim.secondContactTitle": "第二聯絡人",
+    "charity.claim.secondContactName": "第二聯絡人姓名",
+    "charity.claim.secondContactEmail": "第二聯絡人電子郵件",
+    "charity.claim.secondContactHint":
+      "另一位聯絡人，當您慈善機構的錢包或收款資訊變更時接收通知。",
+    "charity.claim.validation.secondEmailDistinct":
+      "第二聯絡人電子郵件必須與主要電子郵件不同",
     "charity.claim.error.creation": "帳戶建立失敗",
     "charity.claim.error.generic": "無法建立帳戶",
     "charity.vetting.orgDetails": "組織資訊",

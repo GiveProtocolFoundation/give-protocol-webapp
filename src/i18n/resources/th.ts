@@ -1168,6 +1168,13 @@ export default {
     "charity.claim.publicContactEmail": "อีเมลติดต่อสาธารณะขององค์กร",
     "charity.claim.privacyNotice":
       "อีเมล/โทรศัพท์ส่วนตัวของผู้ลงนามใช้สำหรับการยืนยันตัวตนเท่านั้นและไม่แสดงให้ผู้ใช้แพลตฟอร์มอื่นเห็น อีเมลติดต่อสาธารณะจะแสดงในโปรไฟล์องค์กรของคุณ",
+    "charity.claim.secondContactTitle": "ผู้ติดต่อสำรอง",
+    "charity.claim.secondContactName": "ชื่อผู้ติดต่อสำรอง",
+    "charity.claim.secondContactEmail": "อีเมลผู้ติดต่อสำรอง",
+    "charity.claim.secondContactHint":
+      "บุคคลอื่นที่จะได้รับการแจ้งเตือนเมื่อกระเป๋าเงินหรือรายละเอียดการจ่ายเงินขององค์กรการกุศลของคุณมีการเปลี่ยนแปลง",
+    "charity.claim.validation.secondEmailDistinct":
+      "อีเมลของผู้ติดต่อสำรองต้องแตกต่างจากอีเมลหลัก",
     "charity.claim.error.creation": "การสร้างบัญชีล้มเหลว",
     "charity.claim.error.generic": "ไม่สามารถสร้างบัญชีได้",
     "charity.vetting.orgDetails": "รายละเอียดองค์กร",
