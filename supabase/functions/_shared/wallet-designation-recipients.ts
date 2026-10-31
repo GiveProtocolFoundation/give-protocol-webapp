@@ -18,7 +18,7 @@ const PLACEHOLDER_SUFFIX = "@wallet.giveprotocol.io";
  * @returns De-duplicated, placeholder-free recipient addresses in stable order.
  */
 export function buildNoticeRecipients(
-  primaryEmail: string | null | undefined,
+  primaryEmail?: string | null,
   secondContactEmail?: string | null,
 ): string[] {
   const seen = new Set<string>();
