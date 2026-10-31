@@ -129,6 +129,7 @@ export const SignaturePad: React.FC<SignaturePadProps> = ({
 
   // End stroke if pointer leaves the window (prevents ghost strokes)
   useEffect(() => {
+    /** Ends the current stroke when pointer leaves the window. */
     const end = () => {
       if (isDrawingRef.current) {
         isDrawingRef.current = false;
