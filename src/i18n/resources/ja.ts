@@ -1492,6 +1492,8 @@ export default {
       "この団体はレガシーウォレットアドレスを使用しています。",
     "charity.profile.donate.feeNote":
       "直接寄付のプラットフォーム手数料は0%です。ネットワーク手数料が適用されます。",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "米国以外の慈善団体への寄付は、Give Protocolではまだご利用いただけません。",
     "portfolio.title": "ポートフォリオファンド",
     "settings.displayPreferences": "表示設定",
     "settings.theme": "テーマ",

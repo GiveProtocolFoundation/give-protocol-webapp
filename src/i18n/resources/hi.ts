@@ -1497,6 +1497,8 @@ export default {
       "यह संगठन एक पुराने वॉलेट पते का उपयोग कर रहा है।",
     "charity.profile.donate.feeNote":
       "प्रत्यक्ष दान पर 0% प्लेटफ़ॉर्म शुल्क। नेटवर्क शुल्क लागू होते हैं।",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "संयुक्त राज्य अमेरिका के बाहर के धर्मार्थ संगठनों के लिए दान अभी Give Protocol पर उपलब्ध नहीं है।",
     "portfolio.title": "पोर्टफोलियो फ़ंड",
     "settings.displayPreferences": "प्रदर्शन प्राथमिकताएँ",
     "settings.theme": "थीम",

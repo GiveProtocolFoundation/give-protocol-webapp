@@ -1535,6 +1535,8 @@ export default {
       "Esta organización utiliza una dirección de billetera heredada.",
     "charity.profile.donate.feeNote":
       "0% de tarifa de plataforma en donaciones directas. Se aplican tarifas de red.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Las donaciones a organizaciones benéficas fuera de los Estados Unidos aún no están disponibles en Give Protocol.",
     "portfolio.title": "Fondos de Portafolio",
     "settings.displayPreferences": "Preferencias de visualización",
     "settings.theme": "Tema",

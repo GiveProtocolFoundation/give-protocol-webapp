@@ -1457,6 +1457,8 @@ export default {
       "이 단체는 레거시 지갑 주소를 사용하고 있습니다.",
     "charity.profile.donate.feeNote":
       "직접 기부에 대한 플랫폼 수수료 0%. 네트워크 수수료 적용.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "미국 외 자선 단체에 대한 기부는 Give Protocol에서 아직 지원되지 않습니다.",
     "portfolio.title": "포트폴리오 펀드",
     "settings.displayPreferences": "디스플레이 설정",
     "settings.theme": "테마",

@@ -1410,6 +1410,8 @@ export default {
       "此組織正在完成錢包設定 — 捐款暫時無法使用。",
     "charity.profile.donate.walletLegacy": "此組織正在使用舊版錢包地址。",
     "charity.profile.donate.feeNote": "直接捐款平台費用為0%。適用網路費用。",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Give Protocol 目前暫不支援對美國以外慈善機構的捐款。",
     "portfolio.title": "投資組合基金",
     "settings.displayPreferences": "顯示偏好",
     "settings.theme": "主題",
