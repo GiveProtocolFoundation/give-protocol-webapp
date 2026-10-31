@@ -1409,6 +1409,8 @@ export default {
       "该组织正在完成钱包设置 — 捐款暂时不可用。",
     "charity.profile.donate.walletLegacy": "该组织正在使用旧版钱包地址。",
     "charity.profile.donate.feeNote": "直接捐款平台费用为0%。适用网络费用。",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Give Protocol 目前暂不支持对美国以外慈善机构的捐赠。",
     "portfolio.title": "投资组合基金",
     "settings.displayPreferences": "显示偏好",
     "settings.theme": "主题",

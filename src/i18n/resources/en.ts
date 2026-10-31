@@ -1814,6 +1814,8 @@ export default {
       "This charity is using a legacy wallet address.",
     "charity.profile.donate.feeNote":
       "0% platform fee on direct donations. Network gas fees apply.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Donations to charities outside the United States are not yet available on Give Protocol.",
 
     // Wallet-type badge (GIV-290)
     "charity.walletBadge.safeLabel":

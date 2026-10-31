@@ -24,6 +24,8 @@ interface DonateWidgetProps {
     | "active"
     | "pending_change_cooldown"
     | null;
+  /** ISO 3166-1 alpha-2 country code from the charity_organizations registry record. Non-US charities are not yet eligible for donations (GIV-1052). */
+  country?: string | null;
   onClose?: () => void;
 }
 
@@ -41,6 +43,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   mode,
   isVerified: _isVerified = false,
   walletDesignationStatus,
+  country,
   onClose,
 }) => {
   const { t } = useTranslation();
@@ -66,6 +69,10 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   }, [onClose]);
 
   const resolvedAddress = walletAddress ?? "";
+  // Jurisdiction gating (GIV-1052): only US charities can receive donations
+  // for now. Non-US charities are blocked regardless of wallet status.
+  const isUsCharity = country === "US" || country === null || country === undefined;
+
   // Donation gating decision:
   //   - 'active'                                          → allow
   //   - undefined/null + walletAddress present            → allow (legacy: caller didn't pass status)
@@ -80,15 +87,27 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
   const showLegacyBanner =
     hasLegacyWallet && walletDesignationStatus === "unset";
   const allowDonate =
-    walletDesignationStatus === "active" ||
+    isUsCharity &&
+    (walletDesignationStatus === "active" ||
     // During a wallet change cooldown the OLD wallet stays active for donations.
     walletDesignationStatus === "pending_change_cooldown" ||
     (walletDesignationStatus == null && hasLegacyWallet) ||
-    showLegacyBanner;
+    showLegacyBanner);
 
   const body = (
     <div className="space-y-4">
-      {showLegacyBanner && (
+      {!isUsCharity && (
+        <div className="flex items-start gap-2 p-2.5 bg-gray-50 border border-gray-200 rounded-lg">
+          <AlertTriangle className="h-4 w-4 text-gray-500 shrink-0 mt-0.5" />
+          <p className="text-xs text-gray-700">
+            {t(
+              "charity.profile.donate.jurisdictionUnavailable",
+              "Donations to charities outside the United States are not yet available on Give Protocol.",
+            )}
+          </p>
+        </div>
+      )}
+      {isUsCharity && showLegacyBanner && (
         <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
           <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700">
@@ -99,7 +118,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
           </p>
         </div>
       )}
-      {isPending && (
+      {isUsCharity && isPending && (
         <div className="flex items-start gap-2 p-2.5 bg-blue-50 border border-blue-200 rounded-lg">
           <AlertTriangle className="h-4 w-4 text-blue-500 shrink-0 mt-0.5" />
           <p className="text-xs text-blue-700">
@@ -110,7 +129,7 @@ export const DonateWidget: React.FC<DonateWidgetProps> = ({
           </p>
         </div>
       )}
-      {!allowDonate && !isPending && (
+      {isUsCharity && !allowDonate && !isPending && (
         <div className="flex items-start gap-2 p-2.5 bg-amber-50 border border-amber-200 rounded-lg">
           <AlertTriangle className="h-4 w-4 text-amber-500 shrink-0 mt-0.5" />
           <p className="text-xs text-amber-700">

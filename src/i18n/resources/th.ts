@@ -1481,6 +1481,8 @@ export default {
       "องค์กรนี้ใช้ที่อยู่กระเป๋าเงินรุ่นเก่า",
     "charity.profile.donate.feeNote":
       "ค่าธรรมเนียมแพลตฟอร์ม 0% สำหรับการบริจาคโดยตรง มีค่าธรรมเนียมเครือข่าย",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "การบริจาคให้กับองค์กรการกุศลนอกสหรัฐอเมริกายังไม่พร้อมให้บริการบน Give Protocol",
     "portfolio.title": "กองทุนพอร์ตโฟลิโอ",
     "settings.displayPreferences": "การตั้งค่าการแสดงผล",
     "settings.theme": "ธีม",

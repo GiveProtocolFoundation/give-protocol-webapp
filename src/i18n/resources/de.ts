@@ -1552,6 +1552,8 @@ export default {
       "Diese Organisation verwendet eine ältere Wallet-Adresse.",
     "charity.profile.donate.feeNote":
       "0% Plattformgebühr auf direkte Spenden. Netzwerkgebühren fallen an.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Spenden an Wohltätigkeitsorganisationen außerhalb der Vereinigten Staaten sind auf Give Protocol noch nicht verfügbar.",
     "portfolio.title": "Portfolio-Fonds",
     "settings.displayPreferences": "Anzeigeeinstellungen",
     "settings.theme": "Design",

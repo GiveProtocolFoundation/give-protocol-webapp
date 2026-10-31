@@ -140,4 +140,50 @@ describe("ProjectCard", () => {
     );
     expect(screen.getByText("Education")).toBeInTheDocument();
   });
+
+  describe("Jurisdiction gating (GIV-1052)", () => {
+    it("shows View profile instead of Donate for non-US claimed charities", () => {
+      const gbOrg = {
+        ...BASE_ORG,
+        is_claimed: true,
+        country: "GB",
+      } as CharityOrganization;
+      render(
+        <MemoryRouter>
+          <ProjectCard organization={gbOrg} />
+        </MemoryRouter>,
+      );
+      expect(screen.getByText("View profile")).toBeInTheDocument();
+      expect(screen.queryByText("Donate")).not.toBeInTheDocument();
+    });
+
+    it("shows Donate CTA for US claimed charities", () => {
+      const usOrg = {
+        ...BASE_ORG,
+        is_claimed: true,
+        country: "US",
+      } as CharityOrganization;
+      render(
+        <MemoryRouter>
+          <ProjectCard organization={usOrg} />
+        </MemoryRouter>,
+      );
+      expect(screen.getByText("Donate")).toBeInTheDocument();
+      expect(screen.queryByText("View profile")).not.toBeInTheDocument();
+    });
+
+    it("treats null country as US for backwards compatibility", () => {
+      const nullCountryOrg = {
+        ...BASE_ORG,
+        is_claimed: true,
+        country: null,
+      } as CharityOrganization;
+      render(
+        <MemoryRouter>
+          <ProjectCard organization={nullCountryOrg} />
+        </MemoryRouter>,
+      );
+      expect(screen.getByText("Donate")).toBeInTheDocument();
+    });
+  });
 });

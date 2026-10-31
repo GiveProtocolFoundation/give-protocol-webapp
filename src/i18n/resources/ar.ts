@@ -1455,6 +1455,8 @@ export default {
       "تستخدم هذه المنظمة عنوان محفظة قديم.",
     "charity.profile.donate.feeNote":
       "رسوم منصة 0% على التبرعات المباشرة. تُطبَّق رسوم الشبكة.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "التبرعات للمنظمات الخيرية خارج الولايات المتحدة ليست متاحة بعد على Give Protocol.",
     "portfolio.title": "صناديق المحافظ",
     "settings.displayPreferences": "تفضيلات العرض",
     "settings.theme": "المظهر",
