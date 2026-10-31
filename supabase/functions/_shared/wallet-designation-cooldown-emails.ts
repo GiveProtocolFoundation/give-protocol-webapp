@@ -11,6 +11,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { gpfBrandHeader } from "./email-brand.ts";
+import { buildNoticeRecipients } from "./wallet-designation-recipients.ts";
 
 const CONFIRMATION_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -49,13 +50,12 @@ function emailShell(title: string, bodyHtml: string): string {
 async function sendViaResend(args: {
   resendApiKey: string;
   fromEmail: string;
-  toEmail: string;
+  toEmails: string[];
   subject: string;
   html: string;
 }): Promise<void> {
-  // Skip placeholder addresses.
-  if (args.toEmail.endsWith("@wallet.giveprotocol.io")) {
-    console.warn(`Skipping email — placeholder address ${args.toEmail}`);
+  if (args.toEmails.length === 0) {
+    console.warn("Skipping email — no deliverable recipients");
     return;
   }
   const r = await fetch("https://api.resend.com/emails", {
@@ -66,7 +66,7 @@ async function sendViaResend(args: {
     },
     body: JSON.stringify({
       from: args.fromEmail,
-      to: [args.toEmail],
+      to: args.toEmails,
       subject: args.subject,
       html: args.html,
     }),
@@ -86,6 +86,7 @@ interface CommonArgs {
   charityProfileId: string;
   charityName: string;
   toEmail: string;
+  secondContactEmail?: string | null;
 }
 
 function defaultFrom(arg?: string): string {
@@ -164,7 +165,7 @@ export async function sendChangeConfirmationEmail(
   await sendViaResend({
     resendApiKey: args.resendApiKey,
     fromEmail: defaultFrom(args.resendFromEmail),
-    toEmail: args.toEmail,
+    toEmails: buildNoticeRecipients(args.toEmail, args.secondContactEmail),
     subject: `Confirm wallet change for ${args.charityName}`,
     html,
   });
@@ -226,7 +227,7 @@ export async function sendCooldownStartedEmail(
   await sendViaResend({
     resendApiKey: args.resendApiKey,
     fromEmail: defaultFrom(args.resendFromEmail),
-    toEmail: args.toEmail,
+    toEmails: buildNoticeRecipients(args.toEmail, args.secondContactEmail),
     subject: `Wallet change scheduled — 72h cooldown started for ${args.charityName}`,
     html,
   });
@@ -262,7 +263,7 @@ export async function sendCooldownReminderEmail(
   await sendViaResend({
     resendApiKey: args.resendApiKey,
     fromEmail: defaultFrom(args.resendFromEmail),
-    toEmail: args.toEmail,
+    toEmails: buildNoticeRecipients(args.toEmail, args.secondContactEmail),
     subject: `Reminder: wallet change for ${args.charityName} in ${args.hoursRemaining}h`,
     html,
   });
@@ -288,7 +289,7 @@ export async function sendChangeCompletedEmail(
   await sendViaResend({
     resendApiKey: args.resendApiKey,
     fromEmail: defaultFrom(args.resendFromEmail),
-    toEmail: args.toEmail,
+    toEmails: buildNoticeRecipients(args.toEmail, args.secondContactEmail),
     subject: `Wallet change completed for ${args.charityName}`,
     html,
   });
@@ -331,7 +332,7 @@ export async function sendChangeCancelledEmail(
   await sendViaResend({
     resendApiKey: args.resendApiKey,
     fromEmail: defaultFrom(args.resendFromEmail),
-    toEmail: args.toEmail,
+    toEmails: buildNoticeRecipients(args.toEmail, args.secondContactEmail),
     subject: `Wallet change cancelled for ${args.charityName}`,
     html,
   });

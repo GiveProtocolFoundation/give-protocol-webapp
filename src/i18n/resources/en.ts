@@ -1469,6 +1469,13 @@ export default {
     "charity.claim.publicContactEmail": "Organization public contact email",
     "charity.claim.privacyNotice":
       "Your personal signer email/phone is used for verification only and is not visible to other platform users. The public contact email is shown on your charity profile.",
+    "charity.claim.secondContactTitle": "Second Contact",
+    "charity.claim.secondContactName": "Second Contact Name",
+    "charity.claim.secondContactEmail": "Second Contact Email",
+    "charity.claim.secondContactHint":
+      "A different person, notified when your charity's wallet or payout details change.",
+    "charity.claim.validation.secondEmailDistinct":
+      "Second contact email must be different from the primary email",
     "charity.claim.error.creation": "Account creation failed",
     "charity.claim.error.generic": "Failed to create account",
 

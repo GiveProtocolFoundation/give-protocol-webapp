@@ -8,6 +8,7 @@
 
 import { createClient } from "https://esm.sh/@supabase/supabase-js@2";
 import { gpfBrandHeader } from "./email-brand.ts";
+import { buildNoticeRecipients } from "./wallet-designation-recipients.ts";
 
 const CONFIRMATION_TTL_MS = 24 * 60 * 60 * 1000;
 
@@ -27,6 +28,7 @@ interface SendArgs {
   signature: string;
   message: string;
   toEmail: string;
+  secondContactEmail?: string | null;
 }
 
 function escapeHtml(text: string): string {
@@ -76,10 +78,17 @@ export async function sendWalletDesignationConfirmation(
 
   const confirmUrl = `${args.publicAppUrl.replace(/\/$/, "")}/charity-portal/confirm-wallet?token=${token}`;
 
+  // Address the notice to the authorized signer and, when captured, the
+  // distinct second contact (MVP-CHR-07 / GIV-1050).
+  const recipients = buildNoticeRecipients(
+    args.toEmail,
+    args.secondContactEmail,
+  );
+
   // Skip wallet-only placeholder emails (no real inbox behind them)
-  if (args.toEmail.endsWith("@wallet.giveprotocol.io")) {
+  if (recipients.length === 0) {
     console.warn(
-      `Skipping email send — placeholder address ${args.toEmail} for charity ${args.charityProfileId}`,
+      `Skipping email send — no deliverable recipient for charity ${args.charityProfileId}`,
     );
     return { token, confirmUrl };
   }
@@ -139,7 +148,7 @@ export async function sendWalletDesignationConfirmation(
     body: JSON.stringify({
       from:
         args.resendFromEmail ?? "Give Protocol <notifications@giveprotocol.io>",
-      to: [args.toEmail],
+      to: recipients,
       subject,
       html,
     }),
