@@ -1,0 +1,17 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "_comment": "Mirrors the payment-page script inventory (docs/security/payment-page-script-inventory.md). CI fails if a CSP script-src or frame-src source is not listed here. Update this file (and the inventory doc) via a reviewed PR whenever a source is added or removed.",
+  "script-src": {
+    "'self'": "App bundle (first-party code)",
+    "'sha256-rum+BkA883k4o7T5Fk/eJ/2bXkW23qG+uAmv8xJCpSI='": "Inline gtag consent-default stub in index.html",
+    "https://www.googletagmanager.com": "GA4 loader (consent-gated, inventory #7)",
+    "https://www.google-analytics.com": "GA4 analytics endpoint (inventory #7)",
+    "https://secure.helcim.app": "HelcimPay.js start.js (SRI-pinned, inventory #6)"
+  },
+  "frame-src": {
+    "'self'": "Same-origin frames",
+    "https://secure.helcim.app": "Helcim card-entry iframe (inventory #6)",
+    "https://www.paypal.com": "PayPal approval popup/frame",
+    "https://www.sandbox.paypal.com": "PayPal sandbox approval popup/frame"
+  }
+}
