@@ -6,6 +6,8 @@ import { useTranslation } from "@/hooks/useTranslation";
 import { getDesignationState } from "@/services/walletDesignationService";
 import { META_KEY, loadOnboardingState } from "./charityDashboardState";
 import type { OnboardingState } from "./charityDashboardState";
+import { CFIA_ENABLED } from "@/hooks/useCfiaAcceptance";
+import { CfiaAcceptanceModal } from "./CfiaAcceptanceModal";
 
 interface ChecklistItemDef {
   id: string;
@@ -74,6 +76,11 @@ const CHECKLIST_ITEMS: ChecklistItemDef[] = [
     descriptionKey: "charity.onboarding.item.acceptTerms.description",
     descriptionDefault:
       "Read and confirm the Give Protocol charity terms and conditions.",
+    actionLabelKey: "cfia.onboarding.acceptCfia",
+    actionLabelDefault: "Accept CFIA",
+    /** Custom action id — handled by the checklist directly, not via tab nav */
+    actionTab: "__cfia__",
+    auto: true,
   },
 ];
 
@@ -116,6 +123,8 @@ function getActionItemIds(completed: Set<string>): Set<string> {
 interface CharityOnboardingChecklistProps {
   /** The profile row ID from the `profiles` table */
   profileId: string;
+  /** The charity profile UUID from the `charity_profiles` table (for CFIA) */
+  charityProfileId?: string | null;
   /** The charity's registered wallet address for address-match validation */
   walletAddress?: string | null;
   /** Called when user clicks an action to navigate to a specific tab */
@@ -132,6 +141,10 @@ interface CharityOnboardingChecklistProps {
   initialState?: OnboardingState | null;
   /** Called after the user dismisses the checklist */
   onDismiss?: () => void;
+  /** Pre-filled signer name for the CFIA modal */
+  defaultSignerName?: string;
+  /** Pre-filled signer email for the CFIA modal */
+  defaultSignerEmail?: string;
 }
 
 /**
@@ -139,24 +152,30 @@ interface CharityOnboardingChecklistProps {
  * Persists progress in `profiles.meta.onboarding_checklist`.
  *
  * @param props.profileId - The charity profile ID to store checklist state
+ * @param props.charityProfileId - The charity_profiles UUID for CFIA acceptance
  * @param props.walletAddress - The charity's registered wallet address
  * @param props.onNavigateTab - Optional callback to navigate to a portal tab
  * @param props.logoUrl - The charity's uploaded logo URL
  * @param props.bannerImageUrl - The charity's uploaded banner image URL
  * @param props.initialState - Optional pre-loaded state that skips the internal fetch
  * @param props.onDismiss - Optional callback fired after the checklist is dismissed
+ * @param props.defaultSignerName - Pre-filled signer name for CFIA
+ * @param props.defaultSignerEmail - Pre-filled signer email for CFIA
  * @returns The onboarding checklist panel, or null when dismissed/complete
  */
 export const CharityOnboardingChecklist: React.FC<
   CharityOnboardingChecklistProps
 > = ({
   profileId,
+  charityProfileId,
   walletAddress: _walletAddress,
   onNavigateTab,
   logoUrl,
   bannerImageUrl,
   initialState,
   onDismiss,
+  defaultSignerName,
+  defaultSignerEmail,
 }) => {
   const { t } = useTranslation();
   const [completedItems, setCompletedItems] = useState<Set<string>>(
@@ -319,6 +338,37 @@ export const CharityOnboardingChecklist: React.FC<
 
   const allComplete = completedCount === REQUIRED_ITEMS.length;
 
+  // CFIA acceptance modal state (feature-gated)
+  const [cfiaModalOpen, setCfiaModalOpen] = useState(false);
+
+  /** Wraps onNavigateTab to intercept the __cfia__ sentinel for CFIA modal. */
+  const handleNavigate = useCallback(
+    (tab: string) => {
+      if (tab === "__cfia__" && CFIA_ENABLED && charityProfileId) {
+        setCfiaModalOpen(true);
+        return;
+      }
+      onNavigateTab?.(tab);
+    },
+    [onNavigateTab, charityProfileId],
+  );
+
+  const handleCfiaClose = useCallback(() => {
+    setCfiaModalOpen(false);
+  }, []);
+
+  /** Called when the CFIA acceptance is recorded; auto-completes the checklist item. */
+  const handleCfiaAccepted = useCallback(() => {
+    setCfiaModalOpen(false);
+    if (!completedItems.has("accept_terms")) {
+      setCompletedItems((prev) => {
+        const next = new Set([...prev, "accept_terms"]);
+        persistState(next, dismissed);
+        return next;
+      });
+    }
+  }, [completedItems, dismissed, persistState]);
+
   if (loading || dismissed) return null;
 
   return (
@@ -345,7 +395,7 @@ export const CharityOnboardingChecklist: React.FC<
                 completed={completedItems.has(item.id)}
                 showAction={actionItemIds.has(item.id)}
                 onToggle={toggleItem}
-                onNavigateTab={onNavigateTab}
+                onNavigateTab={handleNavigate}
               />
             ))}
           </ul>
@@ -358,6 +408,18 @@ export const CharityOnboardingChecklist: React.FC<
             </p>
           )}
         </div>
+      )}
+
+      {/* CFIA acceptance modal (feature-gated) */}
+      {CFIA_ENABLED && charityProfileId && (
+        <CfiaAcceptanceModal
+          isOpen={cfiaModalOpen}
+          onClose={handleCfiaClose}
+          charityProfileId={charityProfileId}
+          defaultSignerName={defaultSignerName}
+          defaultSignerEmail={defaultSignerEmail}
+          onAccepted={handleCfiaAccepted}
+        />
       )}
     </section>
   );
