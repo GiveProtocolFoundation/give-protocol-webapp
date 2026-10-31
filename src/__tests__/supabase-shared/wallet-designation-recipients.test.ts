@@ -44,7 +44,7 @@ describe("buildNoticeRecipients", () => {
 
   it("returns an empty list when both addresses are missing or placeholders", () => {
     expect(buildNoticeRecipients(null, null)).toEqual([]);
-    expect(buildNoticeRecipients(undefined, undefined)).toEqual([]);
+    expect(buildNoticeRecipients(undefined)).toEqual([]);
     expect(buildNoticeRecipients("", "   ")).toEqual([]);
     expect(
       buildNoticeRecipients(
