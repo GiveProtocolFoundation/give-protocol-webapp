@@ -50,12 +50,12 @@ ALTER TABLE cfia_acceptances ENABLE ROW LEVEL SECURITY;
 CREATE POLICY "Users can insert own CFIA acceptance"
   ON cfia_acceptances
   FOR INSERT
-  WITH CHECK (user_id = auth.uid()::uuid);
+  WITH CHECK (user_id = (SELECT auth.uid()));
 
 CREATE POLICY "Users can read own CFIA acceptances"
   ON cfia_acceptances
   FOR SELECT
-  USING (user_id = auth.uid()::uuid);
+  USING (user_id = (SELECT auth.uid()));
 
 -- Admin read access for compliance review
 CREATE POLICY "Admins can read all CFIA acceptances"
@@ -64,7 +64,7 @@ CREATE POLICY "Admins can read all CFIA acceptances"
   USING (
     EXISTS (
       SELECT 1 FROM profiles
-      WHERE profiles.id = auth.uid()::text
+      WHERE profiles.user_id = (SELECT auth.uid())
         AND profiles.type = 'admin'
     )
   );
