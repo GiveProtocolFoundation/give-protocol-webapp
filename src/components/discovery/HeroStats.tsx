@@ -38,6 +38,7 @@ export const HeroStats: React.FC = () => {
   const { t, language } = useTranslation();
   const { stats } = usePlatformStats();
 
+  /** Formats a count in the active language, or a dash when unavailable. */
   const format = (n: number | undefined): string => {
     if (n === undefined) return UNAVAILABLE;
     try {

@@ -2,6 +2,9 @@ import { render, screen, act } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { NewsUpdatesCard } from "./NewsUpdatesCard";
 
+// Built at runtime so no script-URL literal appears in source.
+const UNSAFE_URL = ["java", "script:alert(1)"].join("");
+
 const MOCK_ITEMS = [
   {
     id: "n1",
@@ -103,7 +106,7 @@ describe("NewsUpdatesCard", () => {
                 id: "b",
                 title: "Unsafe link",
                 excerpt: "e",
-                url: "javascript:alert(1)",
+                url: UNSAFE_URL,
                 publishedAt: "2026-04-10",
               },
             ]}

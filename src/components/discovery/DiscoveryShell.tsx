@@ -40,7 +40,7 @@ export const DiscoveryShell: React.FC<DiscoveryShellProps> = ({
       >
         <div className="min-w-0 space-y-8 overflow-x-hidden">{main}</div>
         {rail !== undefined && rail !== null && (
-          <aside className="min-w-0 space-y-6">{rail}</aside>
+          <div className="min-w-0 space-y-6">{rail}</div>
         )}
       </div>
 

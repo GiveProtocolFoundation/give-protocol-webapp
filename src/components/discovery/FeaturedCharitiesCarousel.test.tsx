@@ -211,7 +211,7 @@ describe("FeaturedCharitiesCarousel", () => {
       "href",
       "/charity/c1?action=donate",
     );
-    expect(donateLink.className).toContain("bg-emerald-600");
+    expect(donateLink.className).toContain("bg-emerald-700");
     expect(screen.queryByText("View profile")).not.toBeInTheDocument();
   });
 
@@ -227,7 +227,7 @@ describe("FeaturedCharitiesCarousel", () => {
     const viewLink = screen.getByText("View profile");
     expect(viewLink.closest("a")).toHaveAttribute("href", "/charity/c1");
     expect(screen.queryByText("Donate")).not.toBeInTheDocument();
-    expect(viewLink.className).not.toContain("bg-emerald-600");
+    expect(viewLink.className).not.toContain("bg-emerald-700");
     expect(viewLink.className).toContain("border");
   });
 

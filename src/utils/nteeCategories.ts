@@ -47,7 +47,7 @@ export const DEFAULT_NTEE_CATEGORY: NteeCategory = {
  * @returns Category key and English label; the generic "Nonprofit" category when unknown
  */
 export function getTranslatableNteeCategory(
-  nteeCode: string | null | undefined,
+  nteeCode?: string | null,
 ): NteeCategory {
   if (!nteeCode) return DEFAULT_NTEE_CATEGORY;
   const major = nteeCode.trim().charAt(0).toUpperCase();

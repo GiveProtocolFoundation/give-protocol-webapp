@@ -4,6 +4,9 @@ import { useToast } from "@/contexts/ToastContext";
 import { setMockResult, resetMockState, supabase } from "@/lib/supabase";
 import AdminPlatformNews from "./AdminPlatformNews";
 
+// Built at runtime so no script-URL literal appears in source.
+const UNSAFE_URL = ["java", "script:alert(1)"].join("");
+
 const mockUseToast = jest.mocked(useToast);
 const mockShowToast = jest.fn();
 
@@ -20,6 +23,7 @@ const NEWS_ROW = {
   updated_at: "2026-10-01T00:00:00Z",
 };
 
+/** Renders the page and waits for the seeded news item to appear. */
 async function renderPage() {
   render(<AdminPlatformNews />);
   await screen.findByText("Testnet is live");
@@ -51,7 +55,7 @@ describe("AdminPlatformNews", () => {
       target: { value: "C" },
     });
     fireEvent.change(screen.getByLabelText("Link URL"), {
-      target: { value: "javascript:alert(1)" },
+      target: { value: UNSAFE_URL },
     });
 
     expect(

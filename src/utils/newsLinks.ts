@@ -9,7 +9,7 @@ export type NewsLinkKind = "internal" | "external" | "none";
  * @param url - The stored link value
  * @returns "internal" for app paths, "external" for http(s), otherwise "none"
  */
-export function classifyNewsLink(url: string | null | undefined): NewsLinkKind {
+export function classifyNewsLink(url?: string | null): NewsLinkKind {
   const value = url?.trim() ?? "";
   if (value.length === 0) return "none";
   if (value.startsWith("//")) return "none";

@@ -54,7 +54,7 @@ describe("ProjectCard", () => {
       "href",
       "/charity/12-3456789?action=donate",
     );
-    expect(donateLink?.className).toContain("bg-emerald-600");
+    expect(donateLink?.className).toContain("bg-emerald-700");
     expect(screen.queryByText("View profile")).not.toBeInTheDocument();
   });
 
@@ -76,7 +76,7 @@ describe("ProjectCard", () => {
       </MemoryRouter>,
     );
     const viewLink = screen.getByText("View profile").closest("a");
-    expect(viewLink?.className).not.toContain("bg-emerald-600");
+    expect(viewLink?.className).not.toContain("bg-emerald-700");
     expect(viewLink?.className).toContain("border");
   });
 

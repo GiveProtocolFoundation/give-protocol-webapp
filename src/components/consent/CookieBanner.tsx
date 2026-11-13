@@ -35,7 +35,7 @@ function BannerBody({ t }: BannerBodyProps) {
       {t("consent.banner.body")}{" "}
       <Link
         to="/privacy"
-        className="text-emerald-600 underline hover:text-emerald-700 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
+        className="text-emerald-700 underline hover:text-emerald-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-emerald-500 rounded"
       >
         {t("consent.banner.privacyLink")}
       </Link>

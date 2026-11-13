@@ -35,6 +35,107 @@ function chunk<T>(items: T[], size: number): T[][] {
   return out;
 }
 
+interface CarouselControlsProps {
+  /** True when rotation is stopped (by the user or by reduced motion). */
+  paused: boolean;
+  /** Reduced motion keeps rotation off, so the toggle can't be used. */
+  pauseDisabled: boolean;
+  prevLabel: string;
+  nextLabel: string;
+  onTogglePause: () => void;
+  onPrev: () => void;
+  onNext: () => void;
+}
+
+/** Pause/resume, previous and next buttons shown above a multi-page carousel. */
+function CarouselControls({
+  paused,
+  pauseDisabled,
+  prevLabel,
+  nextLabel,
+  onTogglePause,
+  onPrev,
+  onNext,
+}: CarouselControlsProps) {
+  const { t } = useTranslation();
+  const PauseIcon = paused ? Play : Pause;
+
+  return (
+    <div className="mb-4 flex items-center gap-2">
+      <button
+        type="button"
+        onClick={onTogglePause}
+        aria-pressed={paused}
+        disabled={pauseDisabled}
+        aria-label={
+          paused
+            ? t("browse.carousel.play", "Resume automatic rotation")
+            : t("browse.carousel.pause", "Pause automatic rotation")
+        }
+        className={cn(NAV_BUTTON_CLASS, "disabled:opacity-50")}
+      >
+        <PauseIcon aria-hidden="true" className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={onPrev}
+        aria-label={prevLabel}
+        className={NAV_BUTTON_CLASS}
+      >
+        <ChevronLeft aria-hidden="true" className="h-4 w-4" />
+      </button>
+      <button
+        type="button"
+        onClick={onNext}
+        aria-label={nextLabel}
+        className={NAV_BUTTON_CLASS}
+      >
+        <ChevronRight aria-hidden="true" className="h-4 w-4" />
+      </button>
+    </div>
+  );
+}
+
+interface PageDotsProps {
+  /** Stable key (e.g. first item's id) for each page. */
+  pageKeys: string[];
+  activeIndex: number;
+  onSelect: (_event: React.MouseEvent<HTMLButtonElement>) => void;
+}
+
+/** Row of labelled page buttons; the active page is marked with aria-current. */
+function PageDots({ pageKeys, activeIndex, onSelect }: PageDotsProps) {
+  const { t } = useTranslation();
+
+  return (
+    <div className="mt-3 flex justify-center">
+      {pageKeys.map((pageKey, index) => (
+        <button
+          key={`page-${pageKey}`}
+          type="button"
+          data-index={index}
+          onClick={onSelect}
+          aria-label={t("browse.carousel.goToPage", "Go to page {{page}}", {
+            page: index + 1,
+          })}
+          aria-current={index === activeIndex ? "true" : undefined}
+          className="group inline-flex h-6 w-6 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500"
+        >
+          <span
+            aria-hidden="true"
+            className={cn(
+              "block h-1.5 rounded-full transition-all",
+              index === activeIndex
+                ? "bg-emerald-600 w-6"
+                : "bg-gray-300 dark:bg-gray-700 w-1.5 group-hover:bg-gray-400",
+            )}
+          />
+        </button>
+      ))}
+    </div>
+  );
+}
+
 interface FeaturedCarouselProps<T> {
   items: T[];
   loading: boolean;
@@ -203,42 +304,15 @@ export function FeaturedCarousel<T>({
       <div className="flex items-end justify-between gap-4">
         {header}
         {showNav && (
-          <div className="mb-4 flex items-center gap-2">
-            <button
-              type="button"
-              onClick={handleTogglePause}
-              aria-pressed={userPaused || reducedMotion}
-              disabled={reducedMotion}
-              aria-label={
-                userPaused || reducedMotion
-                  ? t("browse.carousel.play", "Resume automatic rotation")
-                  : t("browse.carousel.pause", "Pause automatic rotation")
-              }
-              className={cn(NAV_BUTTON_CLASS, "disabled:opacity-50")}
-            >
-              {userPaused || reducedMotion ? (
-                <Play aria-hidden="true" className="h-4 w-4" />
-              ) : (
-                <Pause aria-hidden="true" className="h-4 w-4" />
-              )}
-            </button>
-            <button
-              type="button"
-              onClick={handlePrev}
-              aria-label={prevLabel}
-              className={NAV_BUTTON_CLASS}
-            >
-              <ChevronLeft aria-hidden="true" className="h-4 w-4" />
-            </button>
-            <button
-              type="button"
-              onClick={handleNext}
-              aria-label={nextLabel}
-              className={NAV_BUTTON_CLASS}
-            >
-              <ChevronRight aria-hidden="true" className="h-4 w-4" />
-            </button>
-          </div>
+          <CarouselControls
+            paused={userPaused || reducedMotion}
+            pauseDisabled={reducedMotion}
+            prevLabel={prevLabel}
+            nextLabel={nextLabel}
+            onTogglePause={handleTogglePause}
+            onPrev={handlePrev}
+            onNext={handleNext}
+          />
         )}
       </div>
 
@@ -264,31 +338,11 @@ export function FeaturedCarousel<T>({
       </div>
 
       {showNav && (
-        <div className="mt-3 flex justify-center">
-          {pages.map((page, index) => (
-            <button
-              key={`page-${getKey(page[0])}`}
-              type="button"
-              data-index={index}
-              onClick={handleDotClick}
-              aria-label={t("browse.carousel.goToPage", "Go to page {{page}}", {
-                page: index + 1,
-              })}
-              aria-current={index === pageIndex ? "true" : undefined}
-              className="group inline-flex h-6 w-6 items-center justify-center rounded-full focus:outline-none focus:ring-2 focus:ring-emerald-500"
-            >
-              <span
-                aria-hidden="true"
-                className={cn(
-                  "block h-1.5 rounded-full transition-all",
-                  index === pageIndex
-                    ? "bg-emerald-600 w-6"
-                    : "bg-gray-300 dark:bg-gray-700 w-1.5 group-hover:bg-gray-400",
-                )}
-              />
-            </button>
-          ))}
-        </div>
+        <PageDots
+          pageKeys={pages.map((page) => getKey(page[0]))}
+          activeIndex={pageIndex}
+          onSelect={handleDotClick}
+        />
       )}
     </section>
   );
