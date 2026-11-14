@@ -18,6 +18,8 @@ export interface FeaturedCharity {
   registrySource: string | null;
   /** True when an organization representative has claimed the profile. */
   isClaimed: boolean;
+  /** ISO 3166-1 alpha-2 country code from the registry record; null when unknown. */
+  country: string | null;
 }
 
 interface CharityProfileRow {
@@ -30,10 +32,11 @@ interface CharityProfileRow {
   claimed_by: string | null;
 }
 
-/** Minimal charity_organizations row used for registry lookups. */
+/** Minimal charity_organizations row used for registry + country lookups. */
 interface RegistrySourceRow {
   ein: string;
   registry_source: string | null;
+  country: string | null;
 }
 
 const FEATURED_LIMIT = 12;
@@ -44,36 +47,37 @@ function normalizeEin(ein: string): string {
 }
 
 /**
- * Looks up which registry each charity was listed in. This is an enrichment:
- * on failure the map is empty and cards fall back to a generic registry label.
+ * Looks up which registry and country each charity belongs to. This is an
+ * enrichment: on failure the map is empty and cards fall back to defaults.
  * @param eins - Charity identifiers from charity_profiles
- * @returns Map of hyphen-free identifier to registry_source
+ * @returns Map of hyphen-free identifier to { registrySource, country }
  */
-async function fetchRegistrySources(
+async function fetchRegistryMetadata(
   eins: string[],
-): Promise<Map<string, string>> {
-  const sources = new Map<string, string>();
+): Promise<Map<string, { registrySource: string | null; country: string | null }>> {
+  const meta = new Map<string, { registrySource: string | null; country: string | null }>();
   const keys = Array.from(
     new Set(eins.flatMap((ein) => [ein.trim(), normalizeEin(ein)])),
   ).filter(Boolean);
-  if (keys.length === 0) return sources;
+  if (keys.length === 0) return meta;
 
   const { data, error } = await supabase
     .from("charity_organizations")
-    .select("ein, registry_source")
+    .select("ein, registry_source, country")
     .in("ein", keys);
 
   if (error) {
-    Logger.warn("Registry source lookup failed", { error });
-    return sources;
+    Logger.warn("Registry metadata lookup failed", { error });
+    return meta;
   }
 
   for (const row of (data ?? []) as RegistrySourceRow[]) {
-    if (row.registry_source) {
-      sources.set(normalizeEin(row.ein), row.registry_source);
-    }
+    meta.set(normalizeEin(row.ein), {
+      registrySource: row.registry_source,
+      country: row.country,
+    });
   }
-  return sources;
+  return meta;
 }
 
 /**
@@ -95,10 +99,11 @@ async function loadFeaturedCharities(): Promise<FeaturedCharity[]> {
   }
 
   const rows = (data ?? []) as CharityProfileRow[];
-  const registrySources = await fetchRegistrySources(rows.map((r) => r.ein));
+  const registryMeta = await fetchRegistryMetadata(rows.map((r) => r.ein));
 
   return rows.map((row) => {
     const category = getTranslatableNteeCategory(row.ntee_code);
+    const meta = registryMeta.get(normalizeEin(row.ein));
     return {
       profileId: row.ein,
       name: row.name,
@@ -107,8 +112,9 @@ async function loadFeaturedCharities(): Promise<FeaturedCharity[]> {
       categoryKey: category.key,
       imageUrl: resolveCharityImageUrl(row.logo_url, row.ein),
       location: row.location !== null ? row.location : undefined,
-      registrySource: registrySources.get(normalizeEin(row.ein)) ?? null,
+      registrySource: meta?.registrySource ?? null,
       isClaimed: row.claimed_by !== null,
+      country: meta?.country ?? null,
     };
   });
 }

@@ -61,6 +61,12 @@ const fillFormFields = () => {
   fireEvent.change(screen.getByLabelText(/^contact email$/i), {
     target: { name: "contactEmail", value: "jane@example.com" },
   });
+  fireEvent.change(screen.getByLabelText(/^second contact name$/i), {
+    target: { name: "secondContactName", value: "John Smith" },
+  });
+  fireEvent.change(screen.getByLabelText(/^second contact email$/i), {
+    target: { name: "secondContactEmail", value: "john@example.com" },
+  });
   fireEvent.change(screen.getByLabelText(/^password$/i), {
     target: { name: "password", value: "SecurePass1!" },
   });
@@ -123,6 +129,13 @@ describe("CharityClaimForm", () => {
       expect(screen.getByText("Contact Information")).toBeInTheDocument();
       expect(screen.getByLabelText(/^contact name$/i)).toBeInTheDocument();
       expect(screen.getByLabelText(/^contact email$/i)).toBeInTheDocument();
+      expect(screen.getByText("Second Contact")).toBeInTheDocument();
+      expect(
+        screen.getByLabelText(/^second contact name$/i),
+      ).toBeInTheDocument();
+      expect(
+        screen.getByLabelText(/^second contact email$/i),
+      ).toBeInTheDocument();
       expect(screen.queryByLabelText(/contact phone/i)).not.toBeInTheDocument();
     });
 
@@ -153,7 +166,7 @@ describe("CharityClaimForm", () => {
     it("updates form fields when user types", () => {
       renderForm();
       const nameInput = screen.getByLabelText(
-        /contact name/i,
+        /^contact name$/i,
       ) as HTMLInputElement;
       fireEvent.change(nameInput, {
         target: { name: "contactName", value: "John Smith" },
@@ -200,8 +213,9 @@ describe("CharityClaimForm", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(/name must be between 2 and 100 characters/i),
-        ).toBeInTheDocument();
+          screen.getAllByText(/name must be between 2 and 100 characters/i)
+            .length,
+        ).toBeGreaterThan(0);
       });
     });
 
@@ -223,9 +237,47 @@ describe("CharityClaimForm", () => {
 
       await waitFor(() => {
         expect(
-          screen.getByText(/please enter a valid email address/i),
+          screen.getAllByText(/please enter a valid email address/i).length,
+        ).toBeGreaterThan(0);
+      });
+    });
+
+    it("rejects a second contact email identical to the signer email", async () => {
+      renderForm();
+
+      fireEvent.change(screen.getByLabelText(/^contact name$/i), {
+        target: { name: "contactName", value: "Jane Doe" },
+      });
+      fireEvent.change(screen.getByLabelText(/^contact email$/i), {
+        target: { name: "contactEmail", value: "jane@example.com" },
+      });
+      fireEvent.change(screen.getByLabelText(/^second contact name$/i), {
+        target: { name: "secondContactName", value: "John Smith" },
+      });
+      fireEvent.change(screen.getByLabelText(/^second contact email$/i), {
+        target: { name: "secondContactEmail", value: "JANE@example.com" },
+      });
+      fireEvent.change(screen.getByLabelText(/^password$/i), {
+        target: { name: "password", value: "SecurePass1!" },
+      });
+      fireEvent.change(screen.getByLabelText(/confirm password/i), {
+        target: { name: "confirmPassword", value: "SecurePass1!" },
+      });
+
+      const form = screen
+        .getByRole("button", { name: /claim organization/i })
+        .closest("form");
+      if (!form) throw new Error("Could not find form element");
+      fireEvent.submit(form);
+
+      await waitFor(() => {
+        expect(
+          screen.getByText(
+            /second contact email must be different from the primary email/i,
+          ),
         ).toBeInTheDocument();
       });
+      expect(mockSupabase.auth.signUp).not.toHaveBeenCalled();
     });
 
     it("shows password mismatch error", async () => {
@@ -330,6 +382,8 @@ describe("CharityClaimForm", () => {
           p_signer_email: "jane@example.com",
           p_signer_phone: null,
           p_public_contact_email: "jane@example.com",
+          p_second_contact_name: "John Smith",
+          p_second_contact_email: "john@example.com",
         });
       });
     });

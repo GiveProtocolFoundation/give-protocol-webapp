@@ -142,4 +142,74 @@ describe("DonateWidget", () => {
       expect(screen.queryByTestId("donation-modal")).not.toBeInTheDocument();
     });
   });
+
+  describe("Jurisdiction gating (GIV-1052)", () => {
+    it("disables Donate for non-US charities", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "active",
+        country: "GB",
+      });
+      expect(screen.getByText("Donate").closest("button")).toBeDisabled();
+    });
+
+    it("shows jurisdiction banner for non-US charities", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "active",
+        country: "MX",
+      });
+      expect(
+        screen.getByText(
+          /Donations to charities outside the United States are not yet available/,
+        ),
+      ).toBeInTheDocument();
+    });
+
+    it("does not show jurisdiction banner for US charities", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "active",
+        country: "US",
+      });
+      expect(
+        screen.queryByText(
+          /Donations to charities outside the United States/,
+        ),
+      ).not.toBeInTheDocument();
+    });
+
+    it("treats null country as US (backwards compatibility)", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "active",
+        country: null,
+      });
+      expect(screen.getByText("Donate").closest("button")).not.toBeDisabled();
+    });
+
+    it("treats undefined country as US (backwards compatibility)", () => {
+      renderWidget({
+        ...defaultProps,
+        walletDesignationStatus: "active",
+      });
+      expect(screen.getByText("Donate").closest("button")).not.toBeDisabled();
+    });
+
+    it("hides wallet-status banners for non-US charities", () => {
+      renderWidget({
+        ...defaultProps,
+        walletAddress: null,
+        country: "CA",
+      });
+      expect(
+        screen.queryByText(/hasn.t set up an official receiving wallet/),
+      ).not.toBeInTheDocument();
+      expect(
+        screen.getByText(
+          /Donations to charities outside the United States/,
+        ),
+      ).toBeInTheDocument();
+    });
+  });
 });

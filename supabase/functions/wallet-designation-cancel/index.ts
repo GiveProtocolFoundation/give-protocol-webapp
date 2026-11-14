@@ -29,6 +29,7 @@ interface ProfileRow {
   wallet_designation_status: string;
   wallet_address: string | null;
   authorized_signer_email: string | null;
+  second_contact_email: string | null;
   pending_wallet_address: string | null;
 }
 
@@ -106,6 +107,7 @@ async function performCancel(args: {
         charityProfileId: args.profile.id,
         charityName: args.profile.name,
         toEmail: args.profile.authorized_signer_email,
+        secondContactEmail: args.profile.second_contact_email,
         cancelledWalletAddress: cancelledAddress,
         currentWalletAddress: args.profile.wallet_address ?? "(unknown)",
         cancelSource: args.source,
@@ -176,7 +178,7 @@ serve(async (req: Request) => {
     const { data: profileData } = await serviceClient
       .from("charity_profiles")
       .select(
-        "id, name, wallet_designation_status, wallet_address, authorized_signer_email, pending_wallet_address",
+        "id, name, wallet_designation_status, wallet_address, authorized_signer_email, second_contact_email, pending_wallet_address",
       )
       .eq("id", tokenRow.charity_profile_id)
       .maybeSingle();
@@ -236,7 +238,7 @@ serve(async (req: Request) => {
   const { data: profileData } = await serviceClient
     .from("charity_profiles")
     .select(
-      "id, name, claimed_by, wallet_designation_status, wallet_address, authorized_signer_email, pending_wallet_address",
+      "id, name, claimed_by, wallet_designation_status, wallet_address, authorized_signer_email, second_contact_email, pending_wallet_address",
     )
     .eq("id", b.charityProfileId)
     .maybeSingle();

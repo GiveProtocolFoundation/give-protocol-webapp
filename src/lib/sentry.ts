@@ -4,6 +4,7 @@ import * as Sentry from "@sentry/react";
 // Module state — tracks whether Phase B (analytics) integrations are active
 // ---------------------------------------------------------------------------
 let analyticsEnabled = false;
+let replayPaused = false;
 
 // ---------------------------------------------------------------------------
 // Phase A – error-only baseline (called once at startup)
@@ -132,6 +133,44 @@ export async function disableAnalyticsIntegrations(): Promise<void> {
 /** Returns whether Phase B (analytics) integrations are currently active. */
 export function isAnalyticsEnabled(): boolean {
   return analyticsEnabled;
+}
+
+// ---------------------------------------------------------------------------
+// Replay suppression for donation UI (G7)
+// ---------------------------------------------------------------------------
+
+/**
+ * Pauses Sentry session replay. Called when a donation UI component mounts
+ * to prevent recording payment-related DOM content. No-op if replay is not
+ * active or already paused.
+ */
+export function pauseSentryReplay(): void {
+  if (!analyticsEnabled || replayPaused) return;
+  const replay = Sentry.getReplay();
+  if (replay) {
+    replay.stop();
+    replayPaused = true;
+    console.log("Sentry: Replay paused (donation UI active)");
+  }
+}
+
+/**
+ * Resumes Sentry session replay after donation UI unmounts.
+ * No-op if replay was not paused by {@link pauseSentryReplay}.
+ */
+export function resumeSentryReplay(): void {
+  if (!analyticsEnabled || !replayPaused) return;
+  const replay = Sentry.getReplay();
+  if (replay) {
+    replay.start();
+    replayPaused = false;
+    console.log("Sentry: Replay resumed (donation UI closed)");
+  }
+}
+
+/** Returns whether replay is currently paused for a donation flow. */
+export function isReplayPaused(): boolean {
+  return replayPaused;
 }
 
 // ---------------------------------------------------------------------------

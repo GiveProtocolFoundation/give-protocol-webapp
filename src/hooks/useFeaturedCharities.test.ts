@@ -132,7 +132,7 @@ describe("useFeaturedCharities", () => {
     expect(result.current.charities[0].categoryKey).toBe("browse.category.B");
   });
 
-  it("enriches each charity with the registry it came from", async () => {
+  it("enriches each charity with the registry and country it came from", async () => {
     setMockResult("charity_profiles", {
       data: [makeRow("12-3456789"), makeRow("98-7654321")],
       error: null,
@@ -140,8 +140,8 @@ describe("useFeaturedCharities", () => {
     // Registry rows may store the identifier without hyphens.
     setMockResult("charity_organizations", {
       data: [
-        { ein: "123456789", registry_source: "IRS_BMF" },
-        { ein: "98-7654321", registry_source: "CRA_LISTED" },
+        { ein: "123456789", registry_source: "IRS_BMF", country: "US" },
+        { ein: "98-7654321", registry_source: "CRA_LISTED", country: "CA" },
       ],
       error: null,
     });
@@ -150,7 +150,9 @@ describe("useFeaturedCharities", () => {
     await waitFor(() => expect(result.current.loading).toBe(false));
 
     expect(result.current.charities[0].registrySource).toBe("IRS_BMF");
+    expect(result.current.charities[0].country).toBe("US");
     expect(result.current.charities[1].registrySource).toBe("CRA_LISTED");
+    expect(result.current.charities[1].country).toBe("CA");
   });
 
   it("still returns charities (registry unknown) when the registry lookup fails", async () => {

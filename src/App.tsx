@@ -15,9 +15,11 @@ import { SentryFallback } from "./components/SentryFallback";
 import { useSafeAutoConnect } from "./hooks/useSafeAutoConnect";
 import { useWalletAuthSync } from "./hooks/useWalletAuthSync";
 import { ConsentProvider } from "./lib/consent/ConsentProvider";
+import { DonationActiveProvider } from "./lib/consent/DonationActiveContext";
 import { CookieBanner } from "./components/consent/CookieBanner";
 import { useGA4Loader } from "./lib/consent/useGA4Loader";
 import { useGAConsentBridge } from "./lib/consent/useGAConsentBridge";
+import { useSentryReplayGuard } from "./lib/consent/useSentryReplayGuard";
 import { SentryConsentReactor } from "./lib/consent/SentryConsentReactor";
 import { MonitoringService } from "./utils/monitoring";
 import { ENV } from "./config/env";
@@ -75,10 +77,12 @@ const WalletAuthSync = () => {
   return null;
 };
 
-// Gates GA4 script load on analytics consent and syncs consent state to gtag
+// Gates GA4 script load on analytics consent, syncs consent state to gtag,
+// and suppresses Sentry replay while donation UI is mounted (G3, G7)
 const GA4Bridge = () => {
   useGA4Loader();
   useGAConsentBridge();
+  useSentryReplayGuard();
   return null;
 };
 
@@ -96,10 +100,12 @@ const AuthWeb3Providers = ({ children }: { children: React.ReactNode }) => (
 // Combined providers component (ConsentProvider wraps outermost)
 const AppProviders = ({ children }: { children: React.ReactNode }) => (
   <ConsentProvider>
-    <GA4Bridge />
-    <CoreProviders>
-      <AuthWeb3Providers>{children}</AuthWeb3Providers>
-    </CoreProviders>
+    <DonationActiveProvider>
+      <GA4Bridge />
+      <CoreProviders>
+        <AuthWeb3Providers>{children}</AuthWeb3Providers>
+      </CoreProviders>
+    </DonationActiveProvider>
   </ConsentProvider>
 );
 

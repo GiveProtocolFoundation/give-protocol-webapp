@@ -1,2 +1,9 @@
 [functions.send-email-hook]
 verify_jwt = false
+
+[functions.ofac-refresh]
+# Invoked by pg_cron with an x-cron-secret header (no Authorization JWT), and
+# manually with the service-role key. The function performs its own auth check
+# (x-cron-secret or Bearer service-role key), so gateway JWT verification is
+# disabled. GIV-1075.
+verify_jwt = false

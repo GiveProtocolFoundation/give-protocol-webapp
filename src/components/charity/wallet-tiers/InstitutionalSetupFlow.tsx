@@ -15,6 +15,7 @@ import {
   getAvailableEVMChains,
   DEFAULT_EVM_CHAIN_ID,
 } from "@/config/chains/evm";
+import { ENV } from "@/config/env";
 import type { CharityWallet } from "@/types/charityWallet";
 
 const MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
@@ -57,7 +58,10 @@ export const InstitutionalSetupFlow: React.FC<InstitutionalSetupFlowProps> = ({
   const [submitted, setSubmitted] = useState(false);
   const [createdWallet, setCreatedWallet] = useState<CharityWallet | null>(null);
 
-  const chains = useMemo(() => getAvailableEVMChains(false), []);
+  const chains = useMemo(
+    () => getAvailableEVMChains(ENV.SHOW_TESTNETS),
+    [],
+  );
 
   const handleChainChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {

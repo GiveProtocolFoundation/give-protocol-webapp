@@ -35,3 +35,8 @@ export const clearSentryUser = jest.fn();
 export const enableAnalyticsIntegrations = jest.fn();
 export const disableAnalyticsIntegrations = jest.fn();
 export const isAnalyticsEnabled = jest.fn(() => false);
+
+// Replay suppression (G7)
+export const pauseSentryReplay = jest.fn();
+export const resumeSentryReplay = jest.fn();
+export const isReplayPaused = jest.fn(() => false);

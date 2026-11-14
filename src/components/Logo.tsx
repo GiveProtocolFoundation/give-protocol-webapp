@@ -2,15 +2,20 @@ import React, { useState, useRef, useEffect } from "react";
 
 interface LogoProps {
   className?: string;
+  alt?: string;
 }
 
 /**
  * Renders the Give Protocol brand logo, falling back to a "GP" text mark when the SVG fails to load.
  * @param props - Component props.
  * @param props.className - Optional class names applied to the rendered element.
+ * @param props.alt - Alt text for the image. Pass an empty string when adjacent text already names the brand.
  * @returns The logo image, or a text fallback if the asset cannot be loaded.
  */
-export const Logo: React.FC<LogoProps> = ({ className }) => {
+export const Logo: React.FC<LogoProps> = ({
+  className,
+  alt = "Give Protocol",
+}) => {
   const [error, setError] = useState(false);
   const imgRef = useRef<HTMLImageElement>(null);
 
@@ -39,7 +44,7 @@ export const Logo: React.FC<LogoProps> = ({ className }) => {
     <img
       ref={imgRef}
       src="/give_logo_gradient.svg"
-      alt="Give Protocol"
+      alt={alt}
       className={className}
       width={32}
       height={32}

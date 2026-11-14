@@ -42,6 +42,7 @@ export const FeaturedCharitiesCarousel: React.FC<
         location={charity.location}
         description={charity.description}
         coverUrl={charity.imageUrl}
+        country={charity.country}
       />
     ),
     [],

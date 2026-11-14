@@ -42,6 +42,7 @@ interface CooldownProfileRow {
   name: string;
   wallet_address: string | null;
   authorized_signer_email: string | null;
+  second_contact_email: string | null;
   pending_wallet_address: string | null;
   pending_wallet_started_at: string | null;
   pending_wallet_effective_at: string | null;
@@ -133,6 +134,7 @@ async function promoteOne(
         charityProfileId: profile.id,
         charityName: profile.name,
         toEmail: profile.authorized_signer_email,
+        secondContactEmail: profile.second_contact_email,
         newWalletAddress: profile.pending_wallet_address,
       });
     } catch (err) {
@@ -207,6 +209,7 @@ async function maybeSendReminder(
       charityProfileId: profile.id,
       charityName: profile.name,
       toEmail: profile.authorized_signer_email,
+      secondContactEmail: profile.second_contact_email,
       cancelUrl,
       hoursRemaining,
       currentWalletAddress: profile.wallet_address ?? "(unknown)",
@@ -286,7 +289,7 @@ serve(async (req: Request) => {
   const { data: profilesData, error: loadError } = await serviceClient
     .from("charity_profiles")
     .select(
-      "id, name, wallet_address, authorized_signer_email, pending_wallet_address, pending_wallet_started_at, pending_wallet_effective_at, pending_wallet_reminder_24h_at, pending_wallet_reminder_48h_at",
+      "id, name, wallet_address, authorized_signer_email, second_contact_email, pending_wallet_address, pending_wallet_started_at, pending_wallet_effective_at, pending_wallet_reminder_24h_at, pending_wallet_reminder_48h_at",
     )
     .eq("wallet_designation_status", "pending_change_cooldown");
   if (loadError) {

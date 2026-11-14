@@ -15,7 +15,7 @@ function FooterBrand() {
         to="/"
         className="flex items-center mb-4 focus:outline-none focus-visible:ring-2 focus-visible:ring-white rounded text-xl font-bold text-white"
       >
-        <Logo className="h-6 w-6 mr-2" />
+        <Logo className="h-6 w-6 mr-2" alt="" />
         Give Protocol
       </Link>
       <p className="text-sm text-white/90">{t("footer.brand.tagline")}</p>

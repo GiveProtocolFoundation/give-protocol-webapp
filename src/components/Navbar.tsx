@@ -128,7 +128,7 @@ export const Navbar: React.FC = () => {
     <nav className="bg-background-primary border-b border-gray-200 shadow-sm">
       <div className="max-w-7xl mx-auto px-4 flex justify-between items-center h-16">
         <Link to="/" className="flex items-center">
-          <Logo className="h-8 w-8" />
+          <Logo className="h-8 w-8" alt="" />
           <span className="ml-2 text-2xl font-bold font-inter text-primary-900">
             Give Protocol
           </span>

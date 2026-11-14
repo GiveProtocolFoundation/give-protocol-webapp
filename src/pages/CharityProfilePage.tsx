@@ -729,6 +729,7 @@ function CharityProfilePage() {
               charityId={profile?.id ?? einDigits}
               mode="sidebar"
               isVerified={display.isVerified}
+              country={charityRecord?.country}
             />
           )}
 

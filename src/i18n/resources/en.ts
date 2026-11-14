@@ -130,6 +130,40 @@ export default {
     "volunteer.workTypeFilter": "Work type filter",
     "volunteer.searchLocation": "City or region...",
     "volunteer.searchLocationAria": "Search location",
+    "volunteer.filter.skill": "Skill: {{value}}",
+    "volunteer.filter.type": "Type: {{value}}",
+    "volunteer.filter.language": "Language: {{value}}",
+    "volunteer.filter.location": "Location: {{value}}",
+    "volunteer.loadingOpportunities": "Loading opportunities...",
+    "volunteer.loadOpportunitiesError": "We couldn't load volunteer opportunities. Please try again later.",
+    "volunteer.viewDetails": "View details",
+    "volunteer.backToOpportunities": "Back to opportunities",
+    "volunteer.detail.about": "About this opportunity",
+    "volunteer.detail.skills": "Skills needed",
+    "volunteer.detail.commitment": "Time commitment",
+    "volunteer.detail.location": "Location",
+    "volunteer.detail.language": "Language",
+    "volunteer.detail.hostedBy": "Hosted by",
+    "volunteer.detail.ongoing": "Ongoing",
+    "volunteer.detail.applicationsClosed": "Applications closed",
+    "volunteer.detail.notFoundTitle": "Opportunity not found",
+    "volunteer.detail.notFoundMessage": "This opportunity may have been filled or removed.",
+    "volunteer.field.requirements": "Requirements",
+    "volunteer.field.benefits": "Benefits",
+    "volunteer.field.schedule": "Schedule",
+    "volunteer.field.schedulePlaceholder": "e.g., Tuesdays 6-8pm, flexible weekends",
+    "volunteer.field.startDate": "Start date",
+    "volunteer.field.endDate": "End date",
+    "volunteer.field.endDateHelp": "Leave blank if ongoing",
+    "volunteer.field.applicationDeadline": "Application deadline",
+    "volunteer.field.volunteersNeeded": "Volunteers needed",
+    "volunteer.field.minimumAge": "Minimum age",
+    "volunteer.field.backgroundCheckRequired": "Background check required",
+    "volunteer.field.trainingProvided": "Training provided",
+    "volunteer.field.onePerLine": "one per line",
+    "volunteer.validation.volunteersNeeded": "Enter a number of 1 or more",
+    "volunteer.validation.minimumAge": "Enter an age between 0 and 120",
+    "volunteer.validation.endDate": "End date must be on or after the start date",
     "volunteer.signInToApply":
       "Please sign in to apply for volunteer opportunities",
     "volunteer.applicationSuccess": "Application submitted successfully!",
@@ -1435,6 +1469,13 @@ export default {
     "charity.claim.publicContactEmail": "Organization public contact email",
     "charity.claim.privacyNotice":
       "Your personal signer email/phone is used for verification only and is not visible to other platform users. The public contact email is shown on your charity profile.",
+    "charity.claim.secondContactTitle": "Second Contact",
+    "charity.claim.secondContactName": "Second Contact Name",
+    "charity.claim.secondContactEmail": "Second Contact Email",
+    "charity.claim.secondContactHint":
+      "A different person, notified when your charity's wallet or payout details change.",
+    "charity.claim.validation.secondEmailDistinct":
+      "Second contact email must be different from the primary email",
     "charity.claim.error.creation": "Account creation failed",
     "charity.claim.error.generic": "Failed to create account",
 
@@ -1780,6 +1821,8 @@ export default {
       "This charity is using a legacy wallet address.",
     "charity.profile.donate.feeNote":
       "0% platform fee on direct donations. Network gas fees apply.",
+    "charity.profile.donate.jurisdictionUnavailable":
+      "Donations to charities outside the United States are not yet available on Give Protocol.",
 
     // Wallet-type badge (GIV-290)
     "charity.walletBadge.safeLabel":
@@ -1869,5 +1912,50 @@ export default {
     "team.comingSoon": "Team Profiles Coming Soon",
     "team.comingSoonDesc":
       "We are updating our team directory. Check back shortly to meet the people behind Give Protocol.",
+
+    // CFIA acceptance flow (GIV-1051)
+    "cfia.signaturePad.ariaLabel": "Signature drawing area",
+    "cfia.signaturePad.placeholder": "Sign here",
+    "cfia.signaturePad.clear": "Clear signature",
+    "cfia.signaturePad.clearButton": "Clear",
+    "cfia.modal.title": "Charitable Fundraising Industry Agreement",
+    "cfia.modal.loading": "Loading agreement status\u2026",
+    "cfia.modal.reviewIntro":
+      "Please read the agreement below in full. You must scroll to the end before proceeding.",
+    "cfia.modal.version": "Version: {{version}}",
+    "cfia.modal.proceedToSign":
+      "I have read the agreement \u2014 proceed to sign",
+    "cfia.modal.scrollToEnd": "Scroll to the end to continue",
+    "cfia.modal.signingIntro":
+      "Confirm your identity as the authorized signer and provide your signature below.",
+    "cfia.modal.signerLegend": "Authorized signer details",
+    "cfia.modal.signerName": "Full name",
+    "cfia.modal.signerNamePlaceholder": "Jane Smith",
+    "cfia.modal.signerTitle": "Title / Role",
+    "cfia.modal.signerTitlePlaceholder": "Executive Director",
+    "cfia.modal.signerEmail": "Email",
+    "cfia.modal.signerEmailPlaceholder": "jane@example.org",
+    "cfia.modal.signatureLabel": "Signature",
+    "cfia.modal.back": "Back",
+    "cfia.modal.submit": "Accept and Sign",
+    "cfia.modal.submitting": "Recording your acceptance\u2026",
+    "cfia.modal.acceptedTitle": "Agreement Accepted",
+    "cfia.modal.acceptedBody":
+      "The Charitable Fundraising Industry Agreement has been accepted by {{name}} on {{date}}.",
+    "cfia.modal.close": "Close",
+    "cfia.modal.errorTitle": "Something went wrong",
+    "cfia.modal.errorDefault": "An error occurred. Please try again.",
+    "cfia.modal.retry": "Try Again",
+    "cfia.legalText.title": "Charitable Fundraising Industry Agreement",
+    "cfia.legalText.draftNotice":
+      "This is a placeholder. The final legal text has not yet been delivered. This agreement cannot be activated until the legal text is finalized.",
+    "cfia.legalText.placeholder1":
+      'This Charitable Fundraising Industry Agreement (the "Agreement") is entered into between Give Protocol Foundation ("Platform") and the undersigned charitable organization ("Charity").',
+    "cfia.legalText.placeholder2":
+      "By signing below, the Charity acknowledges and agrees to the terms and conditions governing the use of the Give Protocol platform for the purpose of receiving charitable donations.",
+    "cfia.legalText.placeholder3":
+      "[Full legal text will be inserted here upon finalization by legal counsel. Sections will cover: platform obligations, charity obligations, fee structure, data handling, dispute resolution, termination, and governing law.]",
+    "cfia.legalText.endMarker": "--- End of agreement text ---",
+    "cfia.onboarding.acceptCfia": "Accept CFIA",
   },
 };

@@ -48,6 +48,7 @@ interface ProfileRow {
   wallet_designation_status: string;
   wallet_address: string | null;
   authorized_signer_email: string | null;
+  second_contact_email: string | null;
   pending_wallet_address: string | null;
 }
 
@@ -121,7 +122,7 @@ serve(async (req: Request) => {
   const { data: profileData, error: profileError } = await serviceClient
     .from("charity_profiles")
     .select(
-      "id, name, wallet_designation_status, wallet_address, authorized_signer_email, pending_wallet_address",
+      "id, name, wallet_designation_status, wallet_address, authorized_signer_email, second_contact_email, pending_wallet_address",
     )
     .eq("id", confirmation.charity_profile_id)
     .maybeSingle();
@@ -188,6 +189,7 @@ serve(async (req: Request) => {
         charityProfileId: profile.id,
         charityName: profile.name,
         toEmail: profile.authorized_signer_email,
+        secondContactEmail: profile.second_contact_email,
         currentWalletAddress: profile.wallet_address ?? "(unknown)",
         newWalletAddress: profile.pending_wallet_address,
         effectiveAt: effectiveAt.toISOString(),

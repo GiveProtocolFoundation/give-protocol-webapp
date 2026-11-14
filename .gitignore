@@ -59,7 +59,8 @@ CLAUDE.md
 CLAUDE_CODE_RULES.md
 
 # Claude Code editor artifacts (worktrees, session files)
-.claude/
+.claude/*
+!.claude/settings.json
 
 # Internal governance / legal / IR docs — must NOT be committed to this public repo (GIV-917)
 # These belong in a private backend/ops/governance repo.

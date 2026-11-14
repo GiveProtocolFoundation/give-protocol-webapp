@@ -34,6 +34,8 @@ interface CharityDiscoveryCardProps {
   coverUrl?: string;
   /** Show the "On Platform" pill beside the category. */
   onPlatform?: boolean;
+  /** ISO 3166-1 alpha-2 country code. Non-US charities cannot receive donations (GIV-1052). Null/undefined treated as US for backwards compatibility. */
+  country?: string | null;
 }
 
 /** Cover photo that swaps to the branded default when loading fails. Decorative. */
@@ -104,8 +106,13 @@ export const CharityDiscoveryCard: React.FC<CharityDiscoveryCardProps> = ({
   identifier,
   coverUrl,
   onPlatform = false,
+  country,
 }) => {
   const { t } = useTranslation();
+  // Donation CTA requires both a claimed profile AND US jurisdiction (GIV-1052).
+  // Null/undefined country is treated as US for backwards compatibility.
+  const isUsCharity = country === "US" || country === null || country === undefined;
+  const showDonateCta = isClaimed && isUsCharity;
 
   return (
     <Card className="flex flex-col h-full overflow-hidden">
@@ -154,7 +161,7 @@ export const CharityDiscoveryCard: React.FC<CharityDiscoveryCardProps> = ({
         )}
 
         <div className="mt-auto pt-5">
-          {isClaimed ? (
+          {showDonateCta ? (
             <Link
               to={`${detailHref}?action=donate`}
               className={PRIMARY_CTA_CLASS}

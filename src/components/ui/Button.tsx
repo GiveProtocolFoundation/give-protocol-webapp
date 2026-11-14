@@ -64,7 +64,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
 
   const variants = {
     primary:
-      "bg-emerald-600 hover:bg-emerald-700 text-white focus:ring-emerald-500 shadow-cta hover:shadow-[0_4px_18px_rgba(5,150,105,0.5)] transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm",
+      "bg-emerald-700 hover:bg-emerald-800 text-white focus:ring-emerald-500 shadow-cta hover:shadow-[0_4px_18px_rgba(5,150,105,0.5)] transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm",
     secondary:
       "bg-white hover:bg-gray-50 text-gray-700 hover:text-gray-900 border border-gray-300 focus:ring-emerald-500 shadow-sm hover:shadow-md transform hover:-translate-y-0.5 active:translate-y-0 active:shadow-sm",
     danger:

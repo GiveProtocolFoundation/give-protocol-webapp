@@ -14,6 +14,7 @@ import {
   getAvailableEVMChains,
   DEFAULT_EVM_CHAIN_ID,
 } from "@/config/chains/evm";
+import { ENV } from "@/config/env";
 import { getMonitoringService } from "@/utils/monitoring";
 import type { CharityWallet } from "@/types/charityWallet";
 
@@ -50,7 +51,10 @@ export const SingleSignerFlow: React.FC<SingleSignerFlowProps> = ({
   const [authorizedByOrg, setAuthorizedByOrg] = useState(false);
   const [localError, setLocalError] = useState<string | null>(null);
 
-  const chains = useMemo(() => getAvailableEVMChains(false), []);
+  const chains = useMemo(
+    () => getAvailableEVMChains(ENV.SHOW_TESTNETS),
+    [],
+  );
 
   const handleChainChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {

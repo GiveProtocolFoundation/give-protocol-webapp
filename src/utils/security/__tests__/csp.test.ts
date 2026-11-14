@@ -41,8 +41,8 @@ import { SecurityManager } from "../index";
 
 // SHA-256 hash of the single consolidated inline script in index.html (PCI DSS SAQ A-EP requirement 6.4.3)
 const INLINE_SCRIPT_HASHES = [
-  // Consolidated GTM + gtag + Silktide consent script
-  "sha256-FE0b/aIu3qmhPRVUXn/+TXDCpLi5oRzW6cwcyknX2PU=",
+  // gtag consent-default stub in index.html
+  "sha256-rum+BkA883k4o7T5Fk/eJ/2bXkW23qG+uAmv8xJCpSI=",
 ];
 
 type SecurityManagerPrivate = {
