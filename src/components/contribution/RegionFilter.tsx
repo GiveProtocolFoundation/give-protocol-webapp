@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface RegionFilterProps {
   value: string;
@@ -15,6 +16,7 @@ export const RegionFilter: React.FC<RegionFilterProps> = ({
   value,
   onChange,
 }) => {
+  const { t } = useTranslation();
   /**
    * Handles the select change event and invokes the onChange callback with the selected value.
    * @param {React.ChangeEvent<HTMLSelectElement>} e - The change event for the select element.
@@ -32,15 +34,15 @@ export const RegionFilter: React.FC<RegionFilterProps> = ({
       value={value}
       onChange={handleChange}
       className="px-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
-      aria-label="Filter by region"
+      aria-label={t("tracker.region.label", "Filter by region")}
     >
-      <option value="all">All Regions</option>
-      <option value="na">North America</option>
-      <option value="eu">Europe</option>
-      <option value="asia">Asia</option>
-      <option value="africa">Africa</option>
-      <option value="sa">South America</option>
-      <option value="oceania">Oceania</option>
+      <option value="all">{t("tracker.region.all", "All Regions")}</option>
+      <option value="na">{t("tracker.region.na", "North America")}</option>
+      <option value="eu">{t("tracker.region.eu", "Europe")}</option>
+      <option value="asia">{t("tracker.region.asia", "Asia")}</option>
+      <option value="africa">{t("tracker.region.africa", "Africa")}</option>
+      <option value="sa">{t("tracker.region.sa", "South America")}</option>
+      <option value="oceania">{t("tracker.region.oceania", "Oceania")}</option>
     </select>
   );
 };

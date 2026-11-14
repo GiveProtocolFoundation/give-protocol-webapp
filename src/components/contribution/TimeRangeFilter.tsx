@@ -1,4 +1,5 @@
 import React, { useCallback } from "react";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface TimeRangeFilterProps {
   value: string;
@@ -16,6 +17,7 @@ export const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
   value,
   onChange,
 }) => {
+  const { t } = useTranslation();
   const handleChange = useCallback(
     (e: React.ChangeEvent<HTMLSelectElement>) => {
       onChange(e.target.value);
@@ -28,12 +30,14 @@ export const TimeRangeFilter: React.FC<TimeRangeFilterProps> = ({
       value={value}
       onChange={handleChange}
       className="px-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
-      aria-label="Filter by time range"
+      aria-label={t("tracker.timeRange.label", "Filter by time range")}
     >
-      <option value="all">All Time</option>
-      <option value="year">This Year</option>
-      <option value="month">This Month</option>
-      <option value="week">This Week</option>
+      <option value="all">{t("tracker.timeRange.all", "All Time")}</option>
+      <option value="year">{t("tracker.timeRange.year", "This Year")}</option>
+      <option value="month">
+        {t("tracker.timeRange.month", "This Month")}
+      </option>
+      <option value="week">{t("tracker.timeRange.week", "This Week")}</option>
     </select>
   );
 };

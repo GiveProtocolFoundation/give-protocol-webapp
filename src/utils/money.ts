@@ -47,15 +47,20 @@ export const CURRENCY_SYMBOLS: Record<string, string> = {
  * Formats a monetary amount with proper currency formatting and conversion
  * @param amount - The amount in USD to format
  * @param currencyCode - The target currency code (defaults to USD)
+ * @param locale - BCP 47 locale for number formatting (defaults to en-US)
  * @returns Formatted currency string with proper symbols and decimal places
  */
-export const formatCurrency = (amount: number, currencyCode = 'USD'): string => {
+export const formatCurrency = (
+  amount: number,
+  currencyCode = 'USD',
+  locale = 'en-US',
+): string => {
   // Convert amount to the target currency
   const rate = EXCHANGE_RATES[currencyCode] || 1;
   const convertedAmount = amount * rate;
   
   // Format the amount according to the currency
-  return new Intl.NumberFormat('en-US', {
+  return new Intl.NumberFormat(locale, {
     style: 'currency',
     currency: currencyCode,
     minimumFractionDigits: 2,
