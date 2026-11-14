@@ -53,3 +53,77 @@ export async function getPrivateUserIds(
     return new Set();
   }
 }
+
+/**
+ * Reads whether the given user has hidden their contributions from public
+ * rankings. A user counts as hidden when both `showDonations` and
+ * `showVolunteerHours` are explicitly false.
+ *
+ * @param userId - The auth user id (user_preferences.user_id)
+ * @returns True when the user's contributions are hidden from rankings
+ */
+export async function getRankingsHidden(userId: string): Promise<boolean> {
+  const { data, error } = await supabase
+    .from("user_preferences")
+    .select("privacy_settings")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (error) {
+    Logger.warn("Error fetching rankings visibility", { error });
+    throw new Error("Failed to load privacy settings");
+  }
+
+  const settings = (data as { privacy_settings: PrivacySettings | null } | null)
+    ?.privacy_settings;
+  return (
+    settings?.showDonations === false && settings?.showVolunteerHours === false
+  );
+}
+
+/**
+ * Hides or shows the given user's donations and volunteer hours in public
+ * rankings, preserving any other privacy settings already saved.
+ *
+ * @param userId - The auth user id (user_preferences.user_id)
+ * @param hidden - True to hide contributions, false to show them
+ * @returns Resolves when the setting has been saved
+ */
+export async function setRankingsHidden(
+  userId: string,
+  hidden: boolean,
+): Promise<void> {
+  const { data, error: readError } = await supabase
+    .from("user_preferences")
+    .select("privacy_settings")
+    .eq("user_id", userId)
+    .maybeSingle();
+
+  if (readError) {
+    Logger.warn("Error reading privacy settings before update", {
+      error: readError,
+    });
+    throw new Error("Failed to save privacy settings");
+  }
+
+  const existing =
+    (data as { privacy_settings: PrivacySettings | null } | null)
+      ?.privacy_settings ?? {};
+
+  const { error } = await supabase.from("user_preferences").upsert(
+    {
+      user_id: userId,
+      privacy_settings: {
+        ...existing,
+        showDonations: !hidden,
+        showVolunteerHours: !hidden,
+      },
+    },
+    { onConflict: "user_id" },
+  );
+
+  if (error) {
+    Logger.warn("Error saving rankings visibility", { error });
+    throw new Error("Failed to save privacy settings");
+  }
+}

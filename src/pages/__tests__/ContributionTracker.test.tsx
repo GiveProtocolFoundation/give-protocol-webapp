@@ -1,6 +1,8 @@
 import { jest, describe, it, expect, beforeEach } from "@jest/globals";
 import { render, screen, fireEvent, waitFor } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
+import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import { useAuth } from "@/contexts/AuthContext";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useToast } from "@/contexts/ToastContext";
 import { useWalletAlias } from "@/hooks/useWalletAlias";
@@ -8,6 +10,13 @@ import {
   exportDonationLeaderboardToCSV,
   exportVolunteerLeaderboardToCSV,
 } from "@/utils/leaderboardExport";
+import {
+  supabase,
+  setMockResult,
+  resetMockState,
+} from "@/test-utils/supabaseMock";
+import { mockDonationRows } from "@/test-utils/donationLeaderboardMock";
+import { mockVolunteerRows } from "@/test-utils/volunteerLeaderboardMock";
 import ContributionTracker from "../ContributionTracker";
 
 // Tabs, Button, DonationLeaderboard, VolunteerLeaderboard, GlobalStats,
@@ -19,6 +28,47 @@ const mockUseToast = jest.mocked(useToast);
 const mockUseWalletAlias = jest.mocked(useWalletAlias);
 const mockExportDonationCSV = jest.mocked(exportDonationLeaderboardToCSV);
 const mockExportVolunteerCSV = jest.mocked(exportVolunteerLeaderboardToCSV);
+const mockUseAuth = jest.mocked(useAuth);
+
+const donationRows = [
+  { rank: 1, displayName: "Ada", totalDonated: 500, alias: "Ada" },
+];
+const volunteerRows = [
+  {
+    rank: 1,
+    displayName: "Grace",
+    hours: 12,
+    endorsements: 3,
+    skills: [],
+    alias: "Grace",
+  },
+];
+
+/**
+ * Makes useAuth return a signed-in user for the current test.
+ * @returns void
+ */
+const signIn = (): void => {
+  mockUseAuth.mockReturnValue({
+    ...mockUseAuth.getMockImplementation()?.(),
+    user: { id: "auth-user-1" },
+  } as ReturnType<typeof useAuth>);
+};
+
+/**
+ * Returns every upsert call made on Supabase query builders in this test.
+ * @returns List of upsert argument arrays
+ */
+const upsertCalls = (): unknown[][] => {
+  const fromMock = supabase.from as unknown as {
+    mock: {
+      results: { value: { upsert: { mock: { calls: unknown[][] } } } }[];
+    };
+  };
+  return fromMock.mock.results.flatMap(
+    (result) => result.value.upsert.mock.calls,
+  );
+};
 
 interface MockShowToast {
   showToast: jest.Mock;
@@ -26,9 +76,11 @@ interface MockShowToast {
 
 const renderTracker = (initialRoute = "/contributions") =>
   render(
-    <MemoryRouter initialEntries={[initialRoute]}>
-      <ContributionTracker />
-    </MemoryRouter>,
+    <QueryClientProvider client={new QueryClient()}>
+      <MemoryRouter initialEntries={[initialRoute]}>
+        <ContributionTracker />
+      </MemoryRouter>
+    </QueryClientProvider>,
   );
 
 describe("ContributionTracker", () => {
@@ -36,6 +88,13 @@ describe("ContributionTracker", () => {
 
   beforeEach(() => {
     jest.clearAllMocks();
+    resetMockState();
+    mockDonationRows.current = donationRows;
+    mockVolunteerRows.current = volunteerRows;
+    mockUseAuth.mockReturnValue({
+      ...mockUseAuth.getMockImplementation()?.(),
+      user: null,
+    } as ReturnType<typeof useAuth>);
 
     mockShowToast = jest.fn();
 
@@ -129,6 +188,13 @@ describe("ContributionTracker", () => {
       ).toBeInTheDocument();
     });
 
+    it("renders a single search box for both tabs", () => {
+      renderTracker();
+      expect(screen.getAllByRole("searchbox")).toHaveLength(1);
+      fireEvent.click(screen.getByText("Volunteer Rankings"));
+      expect(screen.getAllByRole("searchbox")).toHaveLength(1);
+    });
+
     it("updates search value on input change", () => {
       renderTracker();
       const searchInput = screen.getByPlaceholderText("Search contributors...");
@@ -153,7 +219,10 @@ describe("ContributionTracker", () => {
       const exportButton = screen.getByText("Export CSV");
       fireEvent.click(exportButton);
       await waitFor(() => {
-        expect(mockExportDonationCSV).toHaveBeenCalled();
+        expect(mockExportDonationCSV).toHaveBeenCalledWith(
+          donationRows,
+          expect.objectContaining({ timeRange: "all" }),
+        );
       });
     });
 
@@ -165,8 +234,27 @@ describe("ContributionTracker", () => {
       const exportButton = screen.getByText("Export CSV");
       fireEvent.click(exportButton);
       await waitFor(() => {
-        expect(mockExportVolunteerCSV).toHaveBeenCalled();
+        expect(mockExportVolunteerCSV).toHaveBeenCalledWith(
+          volunteerRows,
+          expect.objectContaining({ timeRange: "all" }),
+        );
       });
+    });
+
+    it("disables both exports when the active tab has no rows", () => {
+      mockDonationRows.current = [];
+      renderTracker();
+      expect(screen.getByText("Export CSV").closest("button")).toBeDisabled();
+      expect(screen.getByText("Export PDF").closest("button")).toBeDisabled();
+    });
+
+    it("enables exports on a tab that has rows", () => {
+      mockDonationRows.current = [];
+      renderTracker();
+      fireEvent.click(screen.getByText("Volunteer Rankings"));
+      expect(
+        screen.getByText("Export CSV").closest("button"),
+      ).not.toBeDisabled();
     });
 
     it("shows success toast after CSV export", async () => {
@@ -183,12 +271,97 @@ describe("ContributionTracker", () => {
     });
   });
 
-  describe("Opt-out checkbox", () => {
-    it("renders the opt-out checkbox", () => {
+  describe("Hide from rankings", () => {
+    it("is not shown when signed out", () => {
       renderTracker();
       expect(
-        screen.getByText("Hide my contributions from rankings"),
-      ).toBeInTheDocument();
+        screen.queryByText("Hide my contributions from rankings"),
+      ).not.toBeInTheDocument();
+    });
+
+    it("shows the toggle with its explanation when signed in", () => {
+      signIn();
+      renderTracker();
+      const checkbox = screen.getByRole("checkbox", {
+        name: /Hide my contributions from rankings/,
+      });
+      expect(checkbox).toHaveAccessibleDescription(
+        /will not appear in public donation or volunteer rankings/,
+      );
+    });
+
+    it("reflects a saved hidden setting", async () => {
+      setMockResult("user_preferences", {
+        data: {
+          privacy_settings: { showDonations: false, showVolunteerHours: false },
+        },
+        error: null,
+      });
+      signIn();
+      renderTracker();
+      await waitFor(() => {
+        expect(screen.getByRole("checkbox")).toBeChecked();
+      });
+    });
+
+    it("saves the setting for the signed-in user and confirms", async () => {
+      setMockResult("user_preferences", { data: null, error: null });
+      signIn();
+      renderTracker();
+      await waitFor(() => {
+        expect(screen.getByRole("checkbox")).toBeEnabled();
+      });
+      fireEvent.click(screen.getByRole("checkbox"));
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          "success",
+          "Privacy setting saved",
+        );
+      });
+      expect(upsertCalls()).toContainEqual([
+        {
+          user_id: "auth-user-1",
+          privacy_settings: { showDonations: false, showVolunteerHours: false },
+        },
+        { onConflict: "user_id" },
+      ]);
+      expect(screen.getByRole("checkbox")).toBeChecked();
+    });
+
+    it("keeps the toggle disabled when the saved setting cannot be loaded", async () => {
+      setMockResult("user_preferences", {
+        data: null,
+        error: { message: "denied" },
+      });
+      signIn();
+      renderTracker();
+      await waitFor(() => {
+        expect(supabase.from).toHaveBeenCalledWith("user_preferences");
+      });
+      expect(screen.getByRole("checkbox")).toBeDisabled();
+    });
+
+    it("reverts and reports an error when saving fails", async () => {
+      setMockResult("user_preferences", { data: null, error: null });
+      signIn();
+      renderTracker();
+      await waitFor(() => {
+        expect(screen.getByRole("checkbox")).toBeEnabled();
+      });
+      setMockResult("user_preferences", {
+        data: null,
+        error: { message: "denied" },
+      });
+      fireEvent.click(screen.getByRole("checkbox"));
+
+      await waitFor(() => {
+        expect(mockShowToast).toHaveBeenCalledWith(
+          "error",
+          "Could not save your privacy setting. Please try again.",
+        );
+      });
+      expect(screen.getByRole("checkbox")).not.toBeChecked();
     });
   });
 

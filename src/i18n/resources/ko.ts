@@ -641,6 +641,11 @@ export default {
     "tracker.exportCSV": "CSV 내보내기",
     "tracker.exportPDF": "PDF 내보내기",
     "tracker.hideContributions": "순위에서 내 기여 숨기기",
+    "tracker.hideContributionsHelp":
+      "귀하의 이름과 합계는 공개 기부 순위나 자원봉사 순위에 표시되지 않습니다. 언제든지 변경할 수 있습니다.",
+    "tracker.privacySaved": "개인정보 설정이 저장되었습니다",
+    "tracker.privacySaveFailed":
+      "개인정보 설정을 저장할 수 없습니다. 다시 시도해 주세요.",
     "tracker.yourAlias": "나의 별칭:",
     "tracker.changeAlias": "변경",
     "tracker.setWalletAlias": "지갑 별칭 설정",

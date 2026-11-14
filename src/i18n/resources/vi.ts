@@ -655,6 +655,11 @@ export default {
     "tracker.exportCSV": "Xuất CSV",
     "tracker.exportPDF": "Xuất PDF",
     "tracker.hideContributions": "Ẩn đóng góp của tôi khỏi bảng xếp hạng",
+    "tracker.hideContributionsHelp":
+      "Tên và tổng số của bạn sẽ không xuất hiện trong bảng xếp hạng quyên góp hoặc tình nguyện công khai. Bạn có thể thay đổi điều này bất cứ lúc nào.",
+    "tracker.privacySaved": "Đã lưu cài đặt quyền riêng tư",
+    "tracker.privacySaveFailed":
+      "Không thể lưu cài đặt quyền riêng tư của bạn. Vui lòng thử lại.",
     "tracker.yourAlias": "Bí danh của bạn:",
     "tracker.changeAlias": "Thay đổi",
     "tracker.setWalletAlias": "Đặt bí danh ví",

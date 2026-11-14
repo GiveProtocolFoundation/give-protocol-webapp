@@ -650,6 +650,11 @@ export default {
     "tracker.exportCSV": "ส่งออก CSV",
     "tracker.exportPDF": "ส่งออก PDF",
     "tracker.hideContributions": "ซ่อนการมีส่วนร่วมของฉันจากการจัดอันดับ",
+    "tracker.hideContributionsHelp":
+      "ชื่อและยอดรวมของคุณจะไม่ปรากฏในการจัดอันดับการบริจาคหรืออาสาสมัครแบบสาธารณะ คุณสามารถเปลี่ยนการตั้งค่านี้ได้ตลอดเวลา",
+    "tracker.privacySaved": "บันทึกการตั้งค่าความเป็นส่วนตัวแล้ว",
+    "tracker.privacySaveFailed":
+      "ไม่สามารถบันทึกการตั้งค่าความเป็นส่วนตัวของคุณได้ โปรดลองอีกครั้ง",
     "tracker.yourAlias": "ชื่อเล่นของคุณ:",
     "tracker.changeAlias": "เปลี่ยน",
     "tracker.setWalletAlias": "ตั้งชื่อเล่นกระเป๋าเงิน",

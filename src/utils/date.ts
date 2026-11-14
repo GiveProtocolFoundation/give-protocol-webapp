@@ -95,3 +95,37 @@ export const getDateRange = (period: string): { start: Date; end: Date } => {
 
   return { start, end };
 };
+
+/**
+ * Returns the start of the current calendar period as a YYYY-MM-DD string, in
+ * local time. Weeks start on Monday (ISO 8601).
+ * @param period - One of "year", "month" or "week"; any other value means all time
+ * @param now - Reference date, defaulting to the current time
+ * @returns The period start date, or undefined for all time
+ */
+export const getPeriodStartDate = (
+  period: string,
+  now: Date = new Date(),
+): string | undefined => {
+  const start = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+
+  switch (period) {
+    case "year":
+      start.setMonth(0, 1);
+      break;
+    case "month":
+      start.setDate(1);
+      break;
+    case "week": {
+      const daysSinceMonday = (start.getDay() + 6) % 7;
+      start.setDate(start.getDate() - daysSinceMonday);
+      break;
+    }
+    default:
+      return undefined;
+  }
+
+  const month = String(start.getMonth() + 1).padStart(2, "0");
+  const day = String(start.getDate()).padStart(2, "0");
+  return `${start.getFullYear()}-${month}-${day}`;
+};

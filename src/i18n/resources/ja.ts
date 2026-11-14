@@ -654,6 +654,11 @@ export default {
     "tracker.exportCSV": "CSV エクスポート",
     "tracker.exportPDF": "PDF エクスポート",
     "tracker.hideContributions": "ランキングから自分の貢献を非表示にする",
+    "tracker.hideContributionsHelp":
+      "あなたの名前と合計は、公開の寄付ランキングやボランティアランキングに表示されません。この設定はいつでも変更できます。",
+    "tracker.privacySaved": "プライバシー設定を保存しました",
+    "tracker.privacySaveFailed":
+      "プライバシー設定を保存できませんでした。もう一度お試しください。",
     "tracker.yourAlias": "あなたのエイリアス：",
     "tracker.changeAlias": "変更",
     "tracker.setWalletAlias": "ウォレットエイリアスを設定",

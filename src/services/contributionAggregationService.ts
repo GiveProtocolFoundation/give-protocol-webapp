@@ -468,17 +468,25 @@ function aggregateHours(
  * Fetches volunteer leaderboard data
  * @param limit - Maximum number of entries to return
  * @param includeUnvalidated - Whether to include unvalidated self-reported hours
+ * @param since - Optional ISO date; only hours performed on or after it are counted
  * @returns Array of VolunteerLeaderboardEntry objects
  */
 export async function getVolunteerLeaderboard(
   limit = 10,
   includeUnvalidated = false,
+  since?: string,
 ): Promise<VolunteerLeaderboardEntry[]> {
   try {
     // Build self-reported query with conditional filter
-    const selfReportedQuery = includeUnvalidated
+    let selfReportedQuery = includeUnvalidated
       ? supabase.from("self_reported_hours").select("volunteer_id, hours, validation_status")
       : supabase.from("self_reported_hours").select("volunteer_id, hours, validation_status").eq("validation_status", "validated");
+    let formalQuery = supabase.from("volunteer_hours").select("volunteer_id, hours").eq("status", "approved");
+    if (since) {
+      const sinceDate = since.split("T")[0];
+      selfReportedQuery = selfReportedQuery.gte("activity_date", sinceDate);
+      formalQuery = formalQuery.gte("date_performed", sinceDate);
+    }
 
     // Fetch data sources and privacy settings in parallel
     const [
@@ -486,7 +494,7 @@ export async function getVolunteerLeaderboard(
       { data: selfReportedData, error: selfReportedError },
       privateUserIds,
     ] = await Promise.all([
-      supabase.from("volunteer_hours").select("volunteer_id, hours").eq("status", "approved"),
+      formalQuery,
       selfReportedQuery,
       getPrivateUserIds("showVolunteerHours"),
     ]);
@@ -533,20 +541,28 @@ export async function getVolunteerLeaderboard(
 /**
  * Fetches donor leaderboard data
  * @param limit - Maximum number of entries to return
+ * @param since - Optional ISO timestamp; only donations made on or after it are counted
  * @returns Array of DonorLeaderboardEntry objects
  */
 export async function getDonorLeaderboard(
   limit = 10,
+  since?: string,
 ): Promise<DonorLeaderboardEntry[]> {
   try {
+    let cryptoQuery = supabase.from("donations").select("donor_id, amount, charity_id");
+    let fiatQuery = supabase.from("fiat_donations").select("donor_id, amount_cents, charity_id");
+    if (since) {
+      cryptoQuery = cryptoQuery.gte("created_at", since);
+      fiatQuery = fiatQuery.gte("created_at", since);
+    }
     // Fetch donation sources and privacy settings in parallel
     const [
       { data, error },
       { data: fiatData, error: fiatError },
       privateUserIds,
     ] = await Promise.all([
-      supabase.from("donations").select("donor_id, amount, charity_id"),
-      supabase.from("fiat_donations").select("donor_id, amount_cents, charity_id"),
+      cryptoQuery,
+      fiatQuery,
       getPrivateUserIds("showDonations"),
     ]);
 
