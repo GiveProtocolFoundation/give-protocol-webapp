@@ -55,10 +55,7 @@ const RankingsPrivacyToggle: React.FC<RankingsPrivacyProps> = ({
 }) => {
   const { t } = useTranslation();
   return (
-    <label
-      htmlFor="hide-contributions"
-      className="flex items-start gap-3 rounded-[10px] border border-emerald-100 bg-emerald-50 p-4 cursor-pointer md:max-w-xl"
-    >
+    <div className="flex items-start gap-3 rounded-[10px] border border-emerald-100 bg-emerald-50 p-4 md:max-w-xl">
       <input
         id="hide-contributions"
         type="checkbox"
@@ -66,24 +63,27 @@ const RankingsPrivacyToggle: React.FC<RankingsPrivacyProps> = ({
         disabled={saving}
         onChange={onChange}
         aria-describedby="hide-contributions-help"
-        className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 disabled:opacity-50"
+        className="mt-0.5 h-5 w-5 shrink-0 rounded border-gray-300 text-emerald-600 focus:ring-emerald-500 disabled:opacity-50 cursor-pointer"
       />
-      <span className="flex flex-col gap-1">
-        <span className="flex items-center gap-2 font-medium text-gray-900">
+      <div className="flex flex-col gap-1">
+        <label
+          htmlFor="hide-contributions"
+          className="flex items-center gap-2 font-medium text-gray-900 cursor-pointer"
+        >
           <EyeOff className="h-4 w-4 text-emerald-700" aria-hidden="true" />
           {t(
             "tracker.hideContributions",
             "Hide my contributions from rankings",
           )}
-        </span>
-        <span id="hide-contributions-help" className="text-sm text-gray-600">
+        </label>
+        <p id="hide-contributions-help" className="text-sm text-gray-600">
           {t(
             "tracker.hideContributionsHelp",
             "Your name and totals will not appear in public donation or volunteer rankings. You can change this at any time.",
           )}
-        </span>
-      </span>
-    </label>
+        </p>
+      </div>
+    </div>
   );
 };
 
