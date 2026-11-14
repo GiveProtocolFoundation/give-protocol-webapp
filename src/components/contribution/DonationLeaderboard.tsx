@@ -1,5 +1,5 @@
-import React, { useMemo, useState, useEffect, useCallback } from "react";
-import { Trophy, Search } from "lucide-react";
+import React, { useMemo, useState, useEffect } from "react";
+import { Trophy } from "lucide-react";
 import { formatCurrency } from "@/utils/money";
 import type { LeaderboardEntry } from "@/types/contribution";
 import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
@@ -7,6 +7,7 @@ import { FixedSizeList } from "react-window";
 import { useWalletAlias } from "@/hooks/useWalletAlias";
 import { useDonorLeaderboard } from "@/hooks/useContributionStats";
 import { useTranslation } from "@/hooks/useTranslation";
+import type { DonationLeaderData } from "@/utils/leaderboardExport";
 
 /** Returns the background color class for a leaderboard rank badge. */
 const getRankColor = (rank: number): string => {
@@ -62,12 +63,32 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
   );
 };
 
-/** Donation leaderboard displaying top donors with search filtering and virtualized scrolling. */
-export const DonationLeaderboard: React.FC = () => {
-  const { data: leaderboardData, isLoading, error } = useDonorLeaderboard(10);
+interface DonationLeaderboardProps {
+  /** Search text from the page-level search box. */
+  searchTerm?: string;
+  /** ISO date lower bound for counted donations; undefined means all time. */
+  since?: string;
+  /** Receives the rows currently shown, for export and empty-state handling. */
+  onRowsChange?: (_rows: DonationLeaderData[]) => void;
+}
+
+/**
+ * Donation leaderboard displaying top donors with virtualized scrolling.
+ * @param props - Search term, time lower bound and visible-rows callback from the page
+ * @returns The rendered leaderboard
+ */
+export const DonationLeaderboard: React.FC<DonationLeaderboardProps> = ({
+  searchTerm = "",
+  since,
+  onRowsChange,
+}) => {
+  const {
+    data: leaderboardData,
+    isLoading,
+    error,
+  } = useDonorLeaderboard(10, since);
   const { getAliasForAddress } = useWalletAlias();
   const { t } = useTranslation();
-  const [searchTerm, setSearchTerm] = useState("");
   const [displayLeaderboard, setDisplayLeaderboard] = useState<
     LeaderboardEntry[]
   >([]);
@@ -88,7 +109,10 @@ export const DonationLeaderboard: React.FC = () => {
 
   // Update display names with aliases when available
   useEffect(() => {
-    if (leaderboard.length === 0) return;
+    if (leaderboard.length === 0) {
+      setDisplayLeaderboard([]);
+      return;
+    }
 
     /** Resolves wallet aliases for all leaderboard entries. */
     const updateAliases = async () => {
@@ -118,12 +142,16 @@ export const DonationLeaderboard: React.FC = () => {
     );
   }, [displayLeaderboard, searchTerm]);
 
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setSearchTerm(e.target.value);
-    },
-    [],
-  );
+  useEffect(() => {
+    onRowsChange?.(
+      filteredLeaderboard.map((entry) => ({
+        rank: entry.rank,
+        displayName: entry.displayName ?? entry.alias,
+        totalDonated: entry.totalDonated,
+        alias: entry.alias,
+      })),
+    );
+  }, [filteredLeaderboard, onRowsChange]);
 
   if (isLoading) {
     return <LoadingSpinner size="lg" />;
@@ -142,17 +170,6 @@ export const DonationLeaderboard: React.FC = () => {
 
   return (
     <div className="space-y-4">
-      <div className="relative mb-4">
-        <input
-          type="text"
-          value={searchTerm}
-          onChange={handleSearchChange}
-          placeholder={t("tracker.searchPlaceholder", "Search contributors...")}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
-        />
-        <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
-      </div>
-
       <div className="h-[400px]">
         {filteredLeaderboard.length > 0 ? (
           <FixedSizeList

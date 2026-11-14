@@ -673,6 +673,11 @@ export default {
     "tracker.exportCSV": "Export CSV",
     "tracker.exportPDF": "Export PDF",
     "tracker.hideContributions": "Hide my contributions from rankings",
+    "tracker.hideContributionsHelp":
+      "Your name and totals will not appear in public donation or volunteer rankings. You can change this at any time.",
+    "tracker.privacySaved": "Privacy setting saved",
+    "tracker.privacySaveFailed":
+      "Could not save your privacy setting. Please try again.",
     "tracker.yourAlias": "Your alias:",
     "tracker.changeAlias": "Change",
     "tracker.setWalletAlias": "Set Wallet Alias",

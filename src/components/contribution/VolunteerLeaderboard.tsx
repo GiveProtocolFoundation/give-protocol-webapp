@@ -1,8 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Award, Clock, Search } from "lucide-react";
+import { Award, Clock } from "lucide-react";
 import { useWalletAlias } from "@/hooks/useWalletAlias";
 import { useVolunteerLeaderboard } from "@/hooks/useContributionStats";
 import { useTranslation } from "@/hooks/useTranslation";
+import type { VolunteerLeaderData } from "@/utils/leaderboardExport";
 
 interface VolunteerLeader {
   id: string;
@@ -16,11 +17,13 @@ interface VolunteerLeader {
 }
 
 interface VolunteerLeaderboardProps {
-  timeRange?: string;
-  region?: string;
+  /** ISO date lower bound for counted hours; undefined means all time. */
+  since?: string;
   searchTerm?: string;
   highlightSkill?: string;
   section?: "hours" | "endorsements";
+  /** Receives the rows currently shown, for export and empty-state handling. */
+  onRowsChange?: (_rows: VolunteerLeaderData[]) => void;
 }
 
 /**
@@ -43,14 +46,13 @@ const getRankColor = (rank: number): string => {
 
 /** Ranked volunteer leaderboard with hours/endorsements tabs and search filtering. */
 export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
-  timeRange: _timeRange,
-  region: _region,
+  since,
   searchTerm,
   highlightSkill: _highlightSkill,
   section = "hours",
+  onRowsChange,
 }) => {
   const [activeTab, setActiveTab] = useState<"hours" | "endorsements">(section);
-  const [localSearchTerm, setLocalSearchTerm] = useState("");
   const { getAliasForAddress } = useWalletAlias();
   const { t, language } = useTranslation();
   const [displayLeaders, setDisplayLeaders] = useState<
@@ -61,6 +63,7 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   const { data: leaderboardData, isLoading } = useVolunteerLeaderboard(
     10,
     false,
+    since,
   );
 
   // Transform API data to component format
@@ -84,7 +87,10 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
 
   // Update display names with aliases when available
   useEffect(() => {
-    if (leaders.length === 0) return;
+    if (leaders.length === 0) {
+      setDisplayLeaders([]);
+      return;
+    }
 
     /** Resolves wallet aliases for each leader and updates display names. */
     const updateAliases = async () => {
@@ -113,22 +119,30 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
     setActiveTab("endorsements");
   }, []);
 
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalSearchTerm(e.target.value);
-    },
-    [],
+  // Filter leaders based on the page-level search term
+  const filteredLeaders = useMemo(
+    () =>
+      displayLeaders.filter((leader) => {
+        if (!searchTerm) return true;
+        return leader.displayName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      }),
+    [displayLeaders, searchTerm],
   );
 
-  // Filter leaders based on search term
-  const filteredLeaders = displayLeaders.filter((leader) => {
-    const searchTermToUse = localSearchTerm || searchTerm;
-    if (!searchTermToUse) return true;
-
-    return leader.displayName
-      .toLowerCase()
-      .includes(searchTermToUse.toLowerCase());
-  });
+  useEffect(() => {
+    onRowsChange?.(
+      filteredLeaders.map((leader) => ({
+        rank: leader.rank,
+        displayName: leader.displayName,
+        hours: leader.hours,
+        endorsements: leader.endorsements,
+        skills: [],
+        alias: leader.alias,
+      })),
+    );
+  }, [filteredLeaders, onRowsChange]);
 
   /**
    * Builds the localized hours label for a leaderboard row.
@@ -177,20 +191,6 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
           <Award className="h-4 w-4 mr-2" />
           {t("tracker.volunteer.endorsementsTab", "Endorsements")}
         </button>
-      </div>
-
-      <div className="relative mb-4">
-        <input
-          type="text"
-          value={localSearchTerm}
-          onChange={handleSearchChange}
-          placeholder={t(
-            "tracker.volunteer.searchPlaceholder",
-            "Search volunteers or skills...",
-          )}
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-emerald-500 focus:border-emerald-500"
-        />
-        <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
       </div>
 
       {filteredLeaders.length > 0 ? (

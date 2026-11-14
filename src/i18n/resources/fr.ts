@@ -690,6 +690,11 @@ export default {
     "tracker.exportCSV": "Exporter CSV",
     "tracker.exportPDF": "Exporter PDF",
     "tracker.hideContributions": "Masquer mes contributions des classements",
+    "tracker.hideContributionsHelp":
+      "Votre nom et vos totaux n'apparaîtront pas dans les classements publics des dons ou du bénévolat. Vous pouvez modifier ce choix à tout moment.",
+    "tracker.privacySaved": "Paramètre de confidentialité enregistré",
+    "tracker.privacySaveFailed":
+      "Impossible d'enregistrer votre paramètre de confidentialité. Veuillez réessayer.",
     "tracker.yourAlias": "Votre alias :",
     "tracker.changeAlias": "Modifier",
     "tracker.setWalletAlias": "Définir l'Alias du Portefeuille",

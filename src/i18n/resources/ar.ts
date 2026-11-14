@@ -633,6 +633,11 @@ export default {
     "tracker.exportCSV": "تصدير CSV",
     "tracker.exportPDF": "تصدير PDF",
     "tracker.hideContributions": "إخفاء مساهماتي من التصنيفات",
+    "tracker.hideContributionsHelp":
+      "لن يظهر اسمك ومجاميعك في التصنيفات العامة للتبرعات أو التطوع. يمكنك تغيير ذلك في أي وقت.",
+    "tracker.privacySaved": "تم حفظ إعداد الخصوصية",
+    "tracker.privacySaveFailed":
+      "تعذر حفظ إعداد الخصوصية. يرجى المحاولة مرة أخرى.",
     "tracker.yourAlias": "اسمك المستعار:",
     "tracker.changeAlias": "تغيير",
     "tracker.setWalletAlias": "تعيين اسم مستعار للمحفظة",
