@@ -691,6 +691,11 @@ export default {
     "tracker.exportCSV": "CSV exportieren",
     "tracker.exportPDF": "PDF exportieren",
     "tracker.hideContributions": "Meine Beiträge aus Rankings ausblenden",
+    "tracker.hideContributionsHelp":
+      "Ihr Name und Ihre Summen erscheinen nicht in öffentlichen Spenden- oder Freiwilligenrankings. Sie können dies jederzeit ändern.",
+    "tracker.privacySaved": "Datenschutzeinstellung gespeichert",
+    "tracker.privacySaveFailed":
+      "Ihre Datenschutzeinstellung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
     "tracker.yourAlias": "Ihr Alias:",
     "tracker.changeAlias": "Ändern",
     "tracker.setWalletAlias": "Wallet-Alias festlegen",

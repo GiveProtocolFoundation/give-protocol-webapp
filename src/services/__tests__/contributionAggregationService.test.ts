@@ -1,5 +1,9 @@
 import { describe, it, expect, beforeEach } from "@jest/globals";
-import { setMockResult, resetMockState } from "@/test-utils/supabaseMock";
+import {
+  supabase,
+  setMockResult,
+  resetMockState,
+} from "@/test-utils/supabaseMock";
 import {
   getUserContributionStats,
   getUnifiedContributions,
@@ -8,9 +12,28 @@ import {
   getGlobalContributionStats,
 } from "../contributionAggregationService";
 
+interface MockBuilder {
+  gte: { mock: { calls: unknown[][] } };
+}
+
+/**
+ * Returns the gte() calls made on every query builder created for a table.
+ * @param table - Supabase table name
+ * @returns Flattened list of gte call argument arrays
+ */
+const gteCallsFor = (table: string): unknown[][] => {
+  const fromMock = supabase.from as unknown as {
+    mock: { calls: unknown[][]; results: { value: MockBuilder }[] };
+  };
+  return fromMock.mock.calls.flatMap((call, index) =>
+    call[0] === table ? fromMock.mock.results[index].value.gte.mock.calls : [],
+  );
+};
+
 describe("contributionAggregationService", () => {
   beforeEach(() => {
     resetMockState();
+    (supabase.from as unknown as { mockClear: () => void }).mockClear();
   });
 
   describe("getUserContributionStats", () => {
@@ -644,6 +667,48 @@ describe("contributionAggregationService", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].formalHours).toBe(10);
+    });
+  });
+
+  describe("leaderboard time range", () => {
+    it("filters volunteer hours by date when since is given", async () => {
+      await getVolunteerLeaderboard(10, false, "2026-11-01T00:00:00.000Z");
+
+      expect(gteCallsFor("volunteer_hours")).toContainEqual([
+        "date_performed",
+        "2026-11-01",
+      ]);
+      expect(gteCallsFor("self_reported_hours")).toContainEqual([
+        "activity_date",
+        "2026-11-01",
+      ]);
+    });
+
+    it("does not filter volunteer hours by date without since", async () => {
+      await getVolunteerLeaderboard(10, false);
+
+      expect(gteCallsFor("volunteer_hours")).toHaveLength(0);
+      expect(gteCallsFor("self_reported_hours")).toHaveLength(0);
+    });
+
+    it("filters crypto and fiat donations by created_at when since is given", async () => {
+      await getDonorLeaderboard(10, "2026-11-01");
+
+      expect(gteCallsFor("donations")).toContainEqual([
+        "created_at",
+        "2026-11-01",
+      ]);
+      expect(gteCallsFor("fiat_donations")).toContainEqual([
+        "created_at",
+        "2026-11-01",
+      ]);
+    });
+
+    it("does not filter donations by date without since", async () => {
+      await getDonorLeaderboard(10);
+
+      expect(gteCallsFor("donations")).toHaveLength(0);
+      expect(gteCallsFor("fiat_donations")).toHaveLength(0);
     });
   });
 

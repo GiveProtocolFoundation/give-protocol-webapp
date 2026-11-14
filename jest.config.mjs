@@ -47,6 +47,12 @@ export default {
     "^@/utils/monitoring\\.real$": "<rootDir>/src/utils/monitoring.ts",
     "^@/utils/leaderboardExport\\.real$":
       "<rootDir>/src/utils/leaderboardExport.ts",
+    "^@/components/contribution/DonationLeaderboard\\.real$":
+      "<rootDir>/src/components/contribution/DonationLeaderboard.tsx",
+    "^@/components/contribution/VolunteerLeaderboard\\.real$":
+      "<rootDir>/src/components/contribution/VolunteerLeaderboard.tsx",
+    "^@/components/contribution/TimeRangeFilter\\.real$":
+      "<rootDir>/src/components/contribution/TimeRangeFilter.tsx",
     // Config and library mocks
     "^@/config/env$": "<rootDir>/src/test-utils/envMock.js",
     "^@/config/docs$": "<rootDir>/src/test-utils/docsMock.js",

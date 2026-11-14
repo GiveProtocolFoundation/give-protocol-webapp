@@ -665,6 +665,11 @@ export default {
     "tracker.exportCSV": "CSV निर्यात करें",
     "tracker.exportPDF": "PDF निर्यात करें",
     "tracker.hideContributions": "मेरे योगदान रैंकिंग से छुपाएं",
+    "tracker.hideContributionsHelp":
+      "आपका नाम और कुल योग सार्वजनिक दान या स्वयंसेवा रैंकिंग में दिखाई नहीं देंगे। आप इसे कभी भी बदल सकते हैं।",
+    "tracker.privacySaved": "गोपनीयता सेटिंग सहेजी गई",
+    "tracker.privacySaveFailed":
+      "आपकी गोपनीयता सेटिंग सहेजी नहीं जा सकी। कृपया पुनः प्रयास करें।",
     "tracker.yourAlias": "आपका उपनाम:",
     "tracker.changeAlias": "बदलें",
     "tracker.setWalletAlias": "वॉलेट उपनाम सेट करें",

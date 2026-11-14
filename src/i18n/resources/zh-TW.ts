@@ -617,6 +617,11 @@ export default {
     "tracker.exportCSV": "匯出 CSV",
     "tracker.exportPDF": "匯出 PDF",
     "tracker.hideContributions": "從排名中隱藏我的貢獻",
+    "tracker.hideContributionsHelp":
+      "您的名字和總計將不會出現在公開的捐贈或志工排名中。您可以隨時變更此設定。",
+    "tracker.privacySaved": "隱私設定已儲存",
+    "tracker.privacySaveFailed":
+      "無法儲存您的隱私設定。請再試一次。",
     "tracker.yourAlias": "您的別名：",
     "tracker.changeAlias": "變更",
     "tracker.setWalletAlias": "設定錢包別名",

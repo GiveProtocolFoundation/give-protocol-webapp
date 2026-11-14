@@ -4,7 +4,11 @@ import {
   setMockResult,
   resetMockState,
 } from "@/test-utils/supabaseMock";
-import { getPrivateUserIds } from "./privacySettingsService";
+import {
+  getPrivateUserIds,
+  getRankingsHidden,
+  setRankingsHidden,
+} from "./privacySettingsService";
 
 jest.mock("@/utils/logger", () => ({
   Logger: {
@@ -158,6 +162,107 @@ describe("privacySettingsService", () => {
       expect(donorPrivateIds.has("hidden-donations")).toBe(true);
       expect(donorPrivateIds.has("hidden-hours")).toBe(false);
       expect(donorPrivateIds.has("no-settings")).toBe(false);
+    });
+  });
+
+  describe("getRankingsHidden", () => {
+    it("returns true when donations and volunteer hours are both hidden", async () => {
+      setMockResult("user_preferences", {
+        data: {
+          privacy_settings: { showDonations: false, showVolunteerHours: false },
+        },
+        error: null,
+      });
+
+      await expect(getRankingsHidden("auth-user-1")).resolves.toBe(true);
+    });
+
+    it("returns false when only one field is hidden", async () => {
+      setMockResult("user_preferences", {
+        data: { privacy_settings: { showDonations: false } },
+        error: null,
+      });
+
+      await expect(getRankingsHidden("auth-user-1")).resolves.toBe(false);
+    });
+
+    it("returns false when the user has no preferences row", async () => {
+      setMockResult("user_preferences", { data: null, error: null });
+
+      await expect(getRankingsHidden("auth-user-1")).resolves.toBe(false);
+    });
+
+    it("throws when the read fails", async () => {
+      setMockResult("user_preferences", {
+        data: null,
+        error: { message: "boom" },
+      });
+
+      await expect(getRankingsHidden("auth-user-1")).rejects.toThrow(
+        "Failed to load privacy settings",
+      );
+    });
+  });
+
+  describe("setRankingsHidden", () => {
+    /**
+     * Returns the most recent upsert call on user_preferences.
+     * @returns The upsert argument list
+     */
+    const lastUpsert = (): unknown[] => {
+      const fromMock = supabase.from as unknown as {
+        mock: { results: { value: { upsert: { mock: { calls: unknown[][] } } } }[] };
+      };
+      const calls = fromMock.mock.results.flatMap(
+        (result) => result.value.upsert.mock.calls,
+      );
+      return calls[calls.length - 1];
+    };
+
+    it("hides both fields and keeps other saved settings", async () => {
+      setMockResult("user_preferences", {
+        data: { privacy_settings: { showSkillEndorsements: false } },
+        error: null,
+      });
+
+      await setRankingsHidden("auth-user-1", true);
+
+      expect(lastUpsert()).toEqual([
+        {
+          user_id: "auth-user-1",
+          privacy_settings: {
+            showSkillEndorsements: false,
+            showDonations: false,
+            showVolunteerHours: false,
+          },
+        },
+        { onConflict: "user_id" },
+      ]);
+    });
+
+    it("shows both fields when unhiding with no existing row", async () => {
+      setMockResult("user_preferences", { data: null, error: null });
+
+      await setRankingsHidden("auth-user-1", false);
+
+      expect(lastUpsert()).toEqual([
+        {
+          user_id: "auth-user-1",
+          privacy_settings: { showDonations: true, showVolunteerHours: true },
+        },
+        { onConflict: "user_id" },
+      ]);
+    });
+
+    it("throws when the save fails", async () => {
+      setMockResult("user_preferences", {
+        data: null,
+        error: { message: "denied" },
+      });
+
+      await expect(setRankingsHidden("auth-user-1", true)).rejects.toThrow(
+        "Failed to save privacy settings",
+      );
     });
   });
 });
