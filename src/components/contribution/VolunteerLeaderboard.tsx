@@ -130,10 +130,20 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
       .includes(searchTermToUse.toLowerCase());
   });
 
+  /**
+   * Builds the localized hours label for a leaderboard row.
+   * @param leader - The volunteer row being rendered.
+   * @returns Translated text such as "Hours: 12".
+   */
   const hoursLabel = (leader: VolunteerLeader) =>
     t("tracker.volunteer.hoursLabel", "Hours: {{hours}}", {
       hours: leader.hours.toLocaleString(language),
     });
+  /**
+   * Builds the localized endorsements label for a leaderboard row.
+   * @param leader - The volunteer row being rendered.
+   * @returns Translated text such as "Endorsements: 3".
+   */
   const endorsementsLabel = (leader: VolunteerLeader) =>
     t("tracker.volunteer.endorsementsLabel", "Endorsements: {{endorsements}}", {
       endorsements: leader.endorsements.toLocaleString(language),

@@ -44,7 +44,8 @@ function rendersInJsx(node: ts.Node): boolean {
       (ts.isBinaryExpression(parent) &&
         (parent.operatorToken.kind === ts.SyntaxKind.BarBarToken ||
           parent.operatorToken.kind === ts.SyntaxKind.QuestionQuestionToken ||
-          parent.operatorToken.kind === ts.SyntaxKind.AmpersandAmpersandToken) &&
+          parent.operatorToken.kind ===
+            ts.SyntaxKind.AmpersandAmpersandToken) &&
         parent.right === current);
     if (!passesThrough) return false;
     current = parent;
@@ -90,17 +91,35 @@ export function findHardcodedStrings(
   );
   const found: HardcodedString[] = [];
 
-  const record = (node: ts.Node, text: string, kind: HardcodedString["kind"]) => {
+  /**
+   * Records a string if it contains words, with the line of its visible text.
+   * @param node - The AST node the string came from.
+   * @param text - The raw string value.
+   * @param kind - Where the string appeared in the JSX.
+   * @returns Nothing; matches are pushed onto `found`.
+   */
+  const record = (
+    node: ts.Node,
+    text: string,
+    kind: HardcodedString["kind"],
+  ) => {
     const trimmed = text.replace(/\s+/g, " ").trim();
     if (!HAS_WORD.test(trimmed)) return;
     // Point at the first visible character, not leading JSX whitespace.
-    const leading = ts.isJsxText(node) ? text.length - text.trimStart().length : 0;
+    const leading = ts.isJsxText(node)
+      ? text.length - text.trimStart().length
+      : 0;
     const { line } = sourceFile.getLineAndCharacterOfPosition(
       node.getStart() + leading,
     );
     found.push({ line: line + 1, text: trimmed, kind });
   };
 
+  /**
+   * Walks the AST depth-first and records user-facing literals.
+   * @param node - The node to inspect, along with its children.
+   * @returns Nothing; matches are pushed onto `found`.
+   */
   const visit = (node: ts.Node): void => {
     if (ts.isJsxText(node)) {
       record(node, node.text, "text");

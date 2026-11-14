@@ -4,7 +4,7 @@ const texts = (src: string) => findHardcodedStrings(src).map((f) => f.text);
 
 describe("findHardcodedStrings", () => {
   it("flags JSX text nodes", () => {
-    expect(texts(`const A = () => <p>No results found</p>;`)).toEqual([
+    expect(texts("const A = () => <p>No results found</p>;")).toEqual([
       "No results found",
     ]);
   });
@@ -28,7 +28,10 @@ describe("findHardcodedStrings", () => {
   });
 
   it("flags the literal parts of template expressions in JSX", () => {
-    const src = "const A = ({ h }) => <span>{`${h} hrs`}</span>;";
+    // The fixture is source code containing a template literal, so build the
+    // `${h}` placeholder from a constant rather than writing it in a string.
+    const DOLLAR = "$";
+    const src = `const A = ({ h }) => <span>{\`${DOLLAR}{h} hrs\`}</span>;`;
     expect(texts(src)).toEqual(["hrs"]);
   });
 
@@ -43,7 +46,7 @@ describe("findHardcodedStrings", () => {
   });
 
   it("reports the 1-based line where the visible text starts", () => {
-    const src = `const A = () => (\n  <div>\n    Hello there\n  </div>\n);`;
+    const src = "const A = () => (\n  <div>\n    Hello there\n  </div>\n);";
     expect(findHardcodedStrings(src)[0]).toMatchObject({
       line: 3,
       kind: "text",
