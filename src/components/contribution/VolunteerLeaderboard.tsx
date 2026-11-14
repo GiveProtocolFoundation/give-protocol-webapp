@@ -2,6 +2,7 @@ import React, { useState, useEffect, useCallback, useMemo } from "react";
 import { Award, Clock, Search } from "lucide-react";
 import { useWalletAlias } from "@/hooks/useWalletAlias";
 import { useVolunteerLeaderboard } from "@/hooks/useContributionStats";
+import { useTranslation } from "@/hooks/useTranslation";
 
 interface VolunteerLeader {
   id: string;
@@ -51,6 +52,7 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   const [activeTab, setActiveTab] = useState<"hours" | "endorsements">(section);
   const [localSearchTerm, setLocalSearchTerm] = useState("");
   const { getAliasForAddress } = useWalletAlias();
+  const { t, language } = useTranslation();
   const [displayLeaders, setDisplayLeaders] = useState<
     (VolunteerLeader & { displayName: string })[]
   >([]);
@@ -66,7 +68,11 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
     if (!leaderboardData) return [];
     return leaderboardData.map((entry) => ({
       id: entry.userId,
-      alias: entry.alias || `Volunteer ${entry.rank}`,
+      alias:
+        entry.alias ||
+        t("tracker.volunteer.fallbackName", "Volunteer {{rank}}", {
+          rank: entry.rank,
+        }),
       walletAddress: entry.walletAddress || "",
       hours: entry.totalHours,
       formalHours: entry.formalHours,
@@ -74,7 +80,7 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
       endorsements: entry.endorsements,
       rank: entry.rank,
     }));
-  }, [leaderboardData]);
+  }, [leaderboardData, t]);
 
   // Update display names with aliases when available
   useEffect(() => {
@@ -124,7 +130,17 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
       .includes(searchTermToUse.toLowerCase());
   });
 
-  if (isLoading) return <div>Loading leaderboard&hellip;</div>;
+  const hoursLabel = (leader: VolunteerLeader) =>
+    t("tracker.volunteer.hoursLabel", "Hours: {{hours}}", {
+      hours: leader.hours.toLocaleString(language),
+    });
+  const endorsementsLabel = (leader: VolunteerLeader) =>
+    t("tracker.volunteer.endorsementsLabel", "Endorsements: {{endorsements}}", {
+      endorsements: leader.endorsements.toLocaleString(language),
+    });
+
+  if (isLoading)
+    return <div>{t("tracker.loadingLeaderboard", "Loading leaderboard…")}</div>;
 
   return (
     <div className="space-y-4">
@@ -138,7 +154,7 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
           }`}
         >
           <Clock className="h-4 w-4 mr-2" />
-          Hours
+          {t("tracker.volunteer.hoursTab", "Hours")}
         </button>
         <button
           onClick={handleEndorsementsTabClick}
@@ -149,7 +165,7 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
           }`}
         >
           <Award className="h-4 w-4 mr-2" />
-          Endorsements
+          {t("tracker.volunteer.endorsementsTab", "Endorsements")}
         </button>
       </div>
 
@@ -158,7 +174,10 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
           type="text"
           value={localSearchTerm}
           onChange={handleSearchChange}
-          placeholder="Search volunteers or skills..."
+          placeholder={t(
+            "tracker.volunteer.searchPlaceholder",
+            "Search volunteers or skills...",
+          )}
           className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-emerald-500 focus:border-emerald-500"
         />
         <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
@@ -187,13 +206,20 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {activeTab === "hours"
-                      ? `${leader.hours.toLocaleString()} hrs • ${leader.endorsements} endorsements`
-                      : `${leader.endorsements} endorsements • ${leader.hours.toLocaleString()} hrs`}
+                      ? `${hoursLabel(leader)} • ${endorsementsLabel(leader)}`
+                      : `${endorsementsLabel(leader)} • ${hoursLabel(leader)}`}
                   </p>
                   {leader.selfReportedHours > 0 && (
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      {leader.formalHours.toLocaleString()} verified •{" "}
-                      {leader.selfReportedHours.toLocaleString()} self-reported
+                      {t(
+                        "tracker.volunteer.hoursBreakdown",
+                        "Verified: {{verified}} • Self-reported: {{selfReported}}",
+                        {
+                          verified: leader.formalHours.toLocaleString(language),
+                          selfReported:
+                            leader.selfReportedHours.toLocaleString(language),
+                        },
+                      )}
                     </p>
                   )}
                 </div>
@@ -203,7 +229,9 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         </div>
       ) : (
         <div className="flex items-center justify-center h-40 bg-gray-50 dark:bg-gray-800 rounded-lg">
-          <p className="text-gray-500 dark:text-gray-400">No results found</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            {t("tracker.noResults", "No results found")}
+          </p>
         </div>
       )}
     </div>

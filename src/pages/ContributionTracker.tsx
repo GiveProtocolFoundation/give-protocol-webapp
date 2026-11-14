@@ -183,7 +183,6 @@ const AliasModal: React.FC<{
 
 /** Public contribution tracker page with filterable donation and volunteer data. */
 export const ContributionTracker: React.FC = () => {
-  usePageTitle("Contribution Tracker");
   const location = useLocation();
   const [timeRange, setTimeRange] = useState<TimeRange>("all");
   const [region, setRegion] = useState<Region>("all");
@@ -195,6 +194,7 @@ export const ContributionTracker: React.FC = () => {
   const { isConnected, address } = useWeb3();
   const { showToast } = useToast();
   const { t } = useTranslation();
+  usePageTitle(t("nav.contributions", "Contribution Tracker"));
   const [activeTab, setActiveTab] = useState<"donations" | "volunteer">(
     (location.state?.activeTab as "donations" | "volunteer") || "donations",
   );

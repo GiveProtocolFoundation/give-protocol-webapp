@@ -3,6 +3,7 @@ import { DollarSign, Clock, Users, Award } from "lucide-react";
 import { Card } from "@/components/ui/Card";
 import { formatCurrency } from "@/utils/money";
 import { useGlobalContributionStats } from "@/hooks/useContributionStats";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /**
  * GlobalStats component fetches and displays global contribution statistics.
@@ -11,6 +12,7 @@ import { useGlobalContributionStats } from "@/hooks/useContributionStats";
  */
 export const GlobalStats: React.FC = () => {
   const { data: stats, isLoading } = useGlobalContributionStats();
+  const { t, language } = useTranslation();
 
   // Show loading skeleton while fetching
   if (isLoading) {
@@ -35,11 +37,11 @@ export const GlobalStats: React.FC = () => {
         <DollarSign className="h-12 w-12 p-3 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900 dark:text-emerald-400" />
         <div className="ml-4">
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Total Donated
+            {t("tracker.stats.totalDonated", "Total Donated")}
           </p>
           <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
             {stats?.totalDonationAmount
-              ? formatCurrency(stats.totalDonationAmount)
+              ? formatCurrency(stats.totalDonationAmount, "USD", language)
               : "$0"}
           </p>
         </div>
@@ -49,10 +51,10 @@ export const GlobalStats: React.FC = () => {
         <Users className="h-12 w-12 p-3 rounded-full bg-green-100 text-green-600 dark:bg-green-900 dark:text-green-400" />
         <div className="ml-4">
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Active Volunteers
+            {t("tracker.stats.activeVolunteers", "Active Volunteers")}
           </p>
           <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            {stats?.totalVolunteers?.toLocaleString() || "0"}
+            {stats?.totalVolunteers?.toLocaleString(language) || "0"}
           </p>
         </div>
       </Card>
@@ -61,10 +63,10 @@ export const GlobalStats: React.FC = () => {
         <Clock className="h-12 w-12 p-3 rounded-full bg-emerald-100 text-emerald-600 dark:bg-emerald-900 dark:text-emerald-400" />
         <div className="ml-4">
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Volunteer Hours
+            {t("tracker.stats.volunteerHours", "Volunteer Hours")}
           </p>
           <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            {stats?.totalVolunteerHours?.toLocaleString() || "0"}
+            {stats?.totalVolunteerHours?.toLocaleString(language) || "0"}
           </p>
         </div>
       </Card>
@@ -73,10 +75,10 @@ export const GlobalStats: React.FC = () => {
         <Award className="h-12 w-12 p-3 rounded-full bg-amber-100 text-amber-600 dark:bg-amber-900 dark:text-amber-400" />
         <div className="ml-4">
           <p className="text-sm font-medium text-gray-600 dark:text-gray-400">
-            Skills Endorsed
+            {t("tracker.stats.skillsEndorsed", "Skills Endorsed")}
           </p>
           <p className="text-2xl font-semibold text-gray-900 dark:text-gray-100">
-            {stats?.totalSkillsEndorsed?.toLocaleString() || "0"}
+            {stats?.totalSkillsEndorsed?.toLocaleString(language) || "0"}
           </p>
         </div>
       </Card>

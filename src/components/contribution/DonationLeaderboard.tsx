@@ -6,6 +6,7 @@ import { LoadingSpinner } from "@/components/ui/LoadingSpinner";
 import { FixedSizeList } from "react-window";
 import { useWalletAlias } from "@/hooks/useWalletAlias";
 import { useDonorLeaderboard } from "@/hooks/useContributionStats";
+import { useTranslation } from "@/hooks/useTranslation";
 
 /** Returns the background color class for a leaderboard rank badge. */
 const getRankColor = (rank: number): string => {
@@ -33,6 +34,7 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
   style,
   data,
 }) => {
+  const { language } = useTranslation();
   const entry = data[index];
   if (!entry) return null;
 
@@ -54,7 +56,7 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
         <span className="font-medium text-gray-900">{entry.displayName}</span>
       </div>
       <span className="text-gray-900 font-semibold">
-        {formatCurrency(entry.totalDonated)}
+        {formatCurrency(entry.totalDonated, "USD", language)}
       </span>
     </div>
   );
@@ -64,6 +66,7 @@ const LeaderboardRow: React.FC<LeaderboardRowProps> = ({
 export const DonationLeaderboard: React.FC = () => {
   const { data: leaderboardData, isLoading, error } = useDonorLeaderboard(10);
   const { getAliasForAddress } = useWalletAlias();
+  const { t } = useTranslation();
   const [searchTerm, setSearchTerm] = useState("");
   const [displayLeaderboard, setDisplayLeaderboard] = useState<
     LeaderboardEntry[]
@@ -129,7 +132,10 @@ export const DonationLeaderboard: React.FC = () => {
   if (error) {
     return (
       <div className="p-4 bg-red-50 text-red-600 rounded-lg">
-        Failed to load leaderboard data. Please try again.
+        {t(
+          "tracker.loadError",
+          "Failed to load leaderboard data. Please try again.",
+        )}
       </div>
     );
   }
@@ -141,7 +147,7 @@ export const DonationLeaderboard: React.FC = () => {
           type="text"
           value={searchTerm}
           onChange={handleSearchChange}
-          placeholder="Search contributors..."
+          placeholder={t("tracker.searchPlaceholder", "Search contributors...")}
           className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-md focus:ring-emerald-500 focus:border-emerald-500"
         />
         <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400" />
@@ -160,7 +166,9 @@ export const DonationLeaderboard: React.FC = () => {
           </FixedSizeList>
         ) : (
           <div className="flex items-center justify-center h-full bg-gray-50 rounded-lg">
-            <p className="text-gray-500">No results found</p>
+            <p className="text-gray-500">
+              {t("tracker.noResults", "No results found")}
+            </p>
           </div>
         )}
       </div>
