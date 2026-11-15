@@ -166,7 +166,7 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db query --linked --project-ref "$PROJECT_REF" \
+          supabase db query --linked --project-ref "$PROJECT_REF" --yes \
             "SELECT public.invoke_ofac_refresh();" 2>&1 | tee seed-output.txt
           {
             echo
@@ -182,7 +182,7 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db query --linked --project-ref "$PROJECT_REF" "
+          supabase db query --linked --project-ref "$PROJECT_REF" --read-only "
             SELECT (SELECT to_regclass('public.ofac_sdn_entries') IS NOT NULL) AS table_present,
                    (SELECT count(*) FROM public.ofac_sdn_entries) AS sdn_rows,
                    (SELECT count(*) FROM cron.job WHERE jobname = 'ofac-refresh-daily') AS cron_registered;
