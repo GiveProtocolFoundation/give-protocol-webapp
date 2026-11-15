@@ -116,7 +116,11 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase functions deploy ofac-refresh --project-ref "$PROJECT_REF" 2>&1 \
+          # Supabase CLI v3 makes every hosted mutation ask for confirmation,
+          # and a GitHub runner has no terminal to answer it: without --yes the
+          # deploy fails with HostedMutationConsentRequiredError. The
+          # environment reviewer approval above is the human gate for this write.
+          supabase functions deploy ofac-refresh --project-ref "$PROJECT_REF" --yes 2>&1 \
             | tee function-deploy.txt
           {
             echo
@@ -150,7 +154,8 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db push --linked --project-ref "$PROJECT_REF" 2>&1 | tee apply-output.txt
+          # Same CLI v3 consent rule as the function deploy above.
+          supabase db push --linked --project-ref "$PROJECT_REF" --yes 2>&1 | tee apply-output.txt
           {
             echo
             echo "### Applied migrations"
