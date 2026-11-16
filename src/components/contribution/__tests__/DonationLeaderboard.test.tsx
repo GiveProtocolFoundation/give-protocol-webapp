@@ -54,8 +54,7 @@ describe("DonationLeaderboard", () => {
     render(<DonationLeaderboard since="2026-11-01" />);
     expect(mockUseDonorLeaderboard).toHaveBeenCalledWith(
       10,
-      "2026-11-01",
-      undefined,
+      "2026-11-01"
     );
   });
 

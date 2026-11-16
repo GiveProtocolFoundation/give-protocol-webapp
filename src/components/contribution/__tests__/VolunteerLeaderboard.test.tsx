@@ -59,8 +59,7 @@ describe("VolunteerLeaderboard", () => {
     expect(mockUseVolunteerLeaderboard).toHaveBeenCalledWith(
       10,
       false,
-      "2026-01-01",
-      undefined,
+      "2026-01-01"
     );
   });
 

@@ -30,7 +30,7 @@ describe("regions", () => {
 
     it("reports a missing country as unspecified", () => {
       expect(getRegionForCountry(null)).toBe("unspecified");
-      expect(getRegionForCountry(undefined)).toBe("unspecified");
+      expect(getRegionForCountry()).toBe("unspecified");
       expect(getRegionForCountry("")).toBe("unspecified");
     });
 

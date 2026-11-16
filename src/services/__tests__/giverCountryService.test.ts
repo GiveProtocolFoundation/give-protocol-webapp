@@ -77,7 +77,7 @@ describe("giverCountryService", () => {
         filterGiversByRegion(["a"], "showDonations", "all"),
       ).resolves.toBeNull();
       await expect(
-        filterGiversByRegion(["a"], "showDonations", undefined),
+        filterGiversByRegion(["a"], "showDonations"),
       ).resolves.toBeNull();
       await expect(
         filterGiversByRegion(["a"], "showDonations", "atlantis"),
