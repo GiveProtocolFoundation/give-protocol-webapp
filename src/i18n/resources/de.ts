@@ -137,7 +137,8 @@ export default {
     "volunteer.filter.language": "Sprache: {{value}}",
     "volunteer.filter.location": "Standort: {{value}}",
     "volunteer.loadingOpportunities": "Möglichkeiten werden geladen...",
-    "volunteer.loadOpportunitiesError": "Freiwilligenmöglichkeiten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
+    "volunteer.loadOpportunitiesError":
+      "Freiwilligenmöglichkeiten konnten nicht geladen werden. Bitte versuchen Sie es später erneut.",
     "volunteer.viewDetails": "Details ansehen",
     "volunteer.backToOpportunities": "Zurück zu den Möglichkeiten",
     "volunteer.detail.about": "Über diese Möglichkeit",
@@ -149,11 +150,13 @@ export default {
     "volunteer.detail.ongoing": "Fortlaufend",
     "volunteer.detail.applicationsClosed": "Bewerbungen geschlossen",
     "volunteer.detail.notFoundTitle": "Möglichkeit nicht gefunden",
-    "volunteer.detail.notFoundMessage": "Diese Möglichkeit wurde möglicherweise besetzt oder entfernt.",
+    "volunteer.detail.notFoundMessage":
+      "Diese Möglichkeit wurde möglicherweise besetzt oder entfernt.",
     "volunteer.field.requirements": "Anforderungen",
     "volunteer.field.benefits": "Vorteile",
     "volunteer.field.schedule": "Zeitplan",
-    "volunteer.field.schedulePlaceholder": "z. B. dienstags 18-20 Uhr, flexible Wochenenden",
+    "volunteer.field.schedulePlaceholder":
+      "z. B. dienstags 18-20 Uhr, flexible Wochenenden",
     "volunteer.field.startDate": "Startdatum",
     "volunteer.field.endDate": "Enddatum",
     "volunteer.field.endDateHelp": "Leer lassen, wenn fortlaufend",
@@ -164,8 +167,10 @@ export default {
     "volunteer.field.trainingProvided": "Schulung wird angeboten",
     "volunteer.field.onePerLine": "eine pro Zeile",
     "volunteer.validation.volunteersNeeded": "Geben Sie eine Zahl ab 1 ein",
-    "volunteer.validation.minimumAge": "Geben Sie ein Alter zwischen 0 und 120 ein",
-    "volunteer.validation.endDate": "Das Enddatum muss am oder nach dem Startdatum liegen",
+    "volunteer.validation.minimumAge":
+      "Geben Sie ein Alter zwischen 0 und 120 ein",
+    "volunteer.validation.endDate":
+      "Das Enddatum muss am oder nach dem Startdatum liegen",
     "volunteer.signInToApply":
       "Bitte melden Sie sich an, um sich für Freiwilligenmöglichkeiten zu bewerben",
     "volunteer.applicationSuccess": "Bewerbung erfolgreich eingereicht!",
@@ -1459,35 +1464,51 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "Ehrenamtsstunden werden von Organisationen verifiziert und fließen in Ihre Protokoll-Reputation ein.",
     "browse.news.heading": "Plattform-Nachrichten",
-    "admin.news.deleteConfirmBody": "„{{title}}“ wird dauerhaft entfernt. Dies kann nicht rückgängig gemacht werden.",
+    "admin.news.deleteConfirmBody":
+      "„{{title}}“ wird dauerhaft entfernt. Dies kann nicht rückgängig gemacht werden.",
     "admin.news.deleteConfirmTitle": "Nachricht löschen?",
-    "admin.news.saveFailed": "Ihre Änderungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.",
-    "admin.news.urlHelp": "Optional. Leer lassen, um die Nachricht ohne Link anzuzeigen.",
-    "admin.news.urlInvalid": "Geben Sie eine vollständige https://-Adresse oder einen mit / beginnenden Pfad ein.",
-    "browse.carousel.error": "Dieser Bereich konnte nicht geladen werden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.",
+    "admin.news.saveFailed":
+      "Ihre Änderungen konnten nicht gespeichert werden. Bitte versuchen Sie es erneut.",
+    "admin.news.urlHelp":
+      "Optional. Leer lassen, um die Nachricht ohne Link anzuzeigen.",
+    "admin.news.urlInvalid":
+      "Geben Sie eine vollständige https://-Adresse oder einen mit / beginnenden Pfad ein.",
+    "browse.carousel.error":
+      "Dieser Bereich konnte nicht geladen werden. Bitte laden Sie die Seite neu und versuchen Sie es erneut.",
     "browse.carousel.goToPage": "Zu Seite {{page}}",
     "browse.carousel.pageLabel": "Seite {{current}} von {{total}}",
     "browse.carousel.pause": "Automatischen Wechsel anhalten",
     "browse.carousel.play": "Automatischen Wechsel fortsetzen",
-    "browse.causes.empty": "Noch keine Anliegen verfügbar. Schauen Sie bald wieder vorbei!",
+    "browse.causes.empty":
+      "Noch keine Anliegen verfügbar. Schauen Sie bald wieder vorbei!",
     "browse.causes.prevAria": "Vorherige hervorgehobene Anliegen",
     "browse.causes.searchPlaceholder": "Anliegen suchen...",
-    "browse.causes.subheading": "Unterstützen Sie konkrete Projekte mit echter Wirkung.",
+    "browse.causes.subheading":
+      "Unterstützen Sie konkrete Projekte mit echter Wirkung.",
     "browse.charity.registryIdDisplay": "Registernummer: {{value}}",
-    "browse.featured.empty": "Noch keine hervorgehobenen Organisationen. Nutzen Sie die Suche oben, um eine Wohltätigkeitsorganisation zu finden.",
+    "browse.featured.empty":
+      "Noch keine hervorgehobenen Organisationen. Nutzen Sie die Suche oben, um eine Wohltätigkeitsorganisation zu finden.",
     "browse.featured.prevAria": "Vorherige hervorgehobene Organisationen",
-    "browse.featured.subheading": "Ein wechselnder Blick auf verifizierte Wohltätigkeitsorganisationen bei Give Protocol.",
+    "browse.featured.subheading":
+      "Ein wechselnder Blick auf verifizierte Wohltätigkeitsorganisationen bei Give Protocol.",
     "browse.filter.addLocation": "Standort hinzufügen",
-    "browse.filter.impactNotice": "Die Filterung nach Wirkungsort ist noch nicht verfügbar, daher werden die Ergebnisse nicht nach Wirkungsort eingegrenzt.",
-    "browse.filter.locationHint": "Drücken Sie die Eingabetaste oder wählen Sie „Hinzufügen“, um einen Standort anzuwenden.",
-    "browse.filter.minChars": "Geben Sie mindestens 2 Zeichen ein, um zu suchen.",
-    "browse.funds.empty": "Noch keine Portfolio-Fonds verfügbar. Schauen Sie bald wieder vorbei!",
+    "browse.filter.impactNotice":
+      "Die Filterung nach Wirkungsort ist noch nicht verfügbar, daher werden die Ergebnisse nicht nach Wirkungsort eingegrenzt.",
+    "browse.filter.locationHint":
+      "Drücken Sie die Eingabetaste oder wählen Sie „Hinzufügen“, um einen Standort anzuwenden.",
+    "browse.filter.minChars":
+      "Geben Sie mindestens 2 Zeichen ein, um zu suchen.",
+    "browse.funds.empty":
+      "Noch keine Portfolio-Fonds verfügbar. Schauen Sie bald wieder vorbei!",
     "browse.funds.prevAria": "Vorherige Portfolio-Fonds",
     "browse.funds.searchPlaceholder": "Portfolio-Fonds suchen...",
-    "browse.funds.subheading": "Kuratierte Spendenportfolios, die Spenden auf verifizierte Wohltätigkeitsorganisationen verteilen.",
+    "browse.funds.subheading":
+      "Kuratierte Spendenportfolios, die Spenden auf verifizierte Wohltätigkeitsorganisationen verteilen.",
     "browse.registry.badge": "{{registry}}-registriert",
-    "browse.results.empty": "Keine Organisationen entsprechen dieser Suche. Versuchen Sie ein anderes Stichwort oder fügen Sie einen Standortfilter hinzu.",
-    "browse.results.error": "Die Suche konnte nicht ausgeführt werden. Bitte versuchen Sie es erneut.",
+    "browse.results.empty":
+      "Keine Organisationen entsprechen dieser Suche. Versuchen Sie ein anderes Stichwort oder fügen Sie einen Standortfilter hinzu.",
+    "browse.results.error":
+      "Die Suche konnte nicht ausgeführt werden. Bitte versuchen Sie es erneut.",
     "browse.search.noMatches": "Keine Treffer für „{{query}}“.",
     "browse.category.A": "Kunst & Kultur",
     "browse.category.B": "Bildung",
