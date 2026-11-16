@@ -262,6 +262,9 @@ export default {
       "<rootDir>/src/test-utils/globalStatsMock.js",
     "(.*)/contribution/GlobalStats(\\.tsx?)?$":
       "<rootDir>/src/test-utils/globalStatsMock.js",
+    // Real RegionFilter, for its own tests
+    "^@/components/contribution/RegionFilter\\.real$":
+      "<rootDir>/src/components/contribution/RegionFilter.tsx",
     // RegionFilter component mock
     "^@/components/contribution/RegionFilter$":
       "<rootDir>/src/test-utils/regionFilterMock.js",
@@ -334,6 +337,8 @@ export default {
       "<rootDir>/src/test-utils/setPasswordSettingsMock.js",
     "^@/components/settings/PrivacySettings$":
       "<rootDir>/src/test-utils/privacySettingsMock.js",
+    "^@/components/settings/CountrySettings$":
+      "<rootDir>/src/test-utils/countrySettingsMock.js",
     "^@/components/donor/ScheduledDonations$":
       "<rootDir>/src/test-utils/scheduledDonationsComponentMock.js",
     "(.*)/donor/ScheduledDonations(\\.tsx?)?$":

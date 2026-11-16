@@ -19,6 +19,8 @@ interface VolunteerLeader {
 interface VolunteerLeaderboardProps {
   /** ISO date lower bound for counted hours; undefined means all time. */
   since?: string;
+  /** Giver region to narrow to: a region id, "unspecified", or "all" for no filter. */
+  region?: string;
   searchTerm?: string;
   highlightSkill?: string;
   section?: "hours" | "endorsements";
@@ -47,6 +49,7 @@ const getRankColor = (rank: number): string => {
 /** Ranked volunteer leaderboard with hours/endorsements tabs and search filtering. */
 export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   since,
+  region,
   searchTerm,
   highlightSkill: _highlightSkill,
   section = "hours",
@@ -64,6 +67,7 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
     10,
     false,
     since,
+    region,
   );
 
   // Transform API data to component format

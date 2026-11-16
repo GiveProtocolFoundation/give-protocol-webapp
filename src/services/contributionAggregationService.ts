@@ -1,6 +1,7 @@
 import { supabase } from "@/lib/supabase";
 import { Logger } from "@/utils/logger";
 import { getPrivateUserIds } from "@/services/privacySettingsService";
+import { filterGiversByRegion } from "@/services/giverCountryService";
 
 /**
  * Contribution source types
@@ -469,12 +470,14 @@ function aggregateHours(
  * @param limit - Maximum number of entries to return
  * @param includeUnvalidated - Whether to include unvalidated self-reported hours
  * @param since - Optional ISO date; only hours performed on or after it are counted
+ * @param region - Optional giver region: a region id, "unspecified", or "all" for no filter
  * @returns Array of VolunteerLeaderboardEntry objects
  */
 export async function getVolunteerLeaderboard(
   limit = 10,
   includeUnvalidated = false,
   since?: string,
+  region?: string,
 ): Promise<VolunteerLeaderboardEntry[]> {
   try {
     // Build self-reported query with conditional filter
@@ -515,9 +518,17 @@ export async function getVolunteerLeaderboard(
     aggregateHours(formalData, "formal", userHours);
     aggregateHours(selfReportedData, "selfReported", userHours);
 
+    // Narrow to the chosen giver region before ranking, so the limit applies within it
+    const regionIds = await filterGiversByRegion(
+      Array.from(userHours.keys()).filter((userId) => !privateUserIds.has(userId)),
+      "showVolunteerHours",
+      region,
+    );
+
     // Convert to array, filter out private users, and sort
     const entries: VolunteerLeaderboardEntry[] = Array.from(userHours.entries())
       .filter(([userId]) => !privateUserIds.has(userId))
+      .filter(([userId]) => regionIds === null || regionIds.has(userId))
       .map(([userId, hours]) => ({
         rank: 0,
         userId,
@@ -542,11 +553,13 @@ export async function getVolunteerLeaderboard(
  * Fetches donor leaderboard data
  * @param limit - Maximum number of entries to return
  * @param since - Optional ISO timestamp; only donations made on or after it are counted
+ * @param region - Optional giver region: a region id, "unspecified", or "all" for no filter
  * @returns Array of DonorLeaderboardEntry objects
  */
 export async function getDonorLeaderboard(
   limit = 10,
   since?: string,
+  region?: string,
 ): Promise<DonorLeaderboardEntry[]> {
   try {
     let cryptoQuery = supabase.from("donations").select("donor_id, amount, charity_id");
@@ -607,9 +620,17 @@ export async function getDonorLeaderboard(
       userDonations.set(record.donor_id, existing);
     });
 
+    // Narrow to the chosen giver region before ranking, so the limit applies within it
+    const regionIds = await filterGiversByRegion(
+      Array.from(userDonations.keys()).filter((userId) => !privateUserIds.has(userId)),
+      "showDonations",
+      region,
+    );
+
     // Convert to array, filter out private users, and sort
     const entries: DonorLeaderboardEntry[] = Array.from(userDonations.entries())
       .filter(([userId]) => !privateUserIds.has(userId))
+      .filter(([userId]) => regionIds === null || regionIds.has(userId))
       .map(([userId, stats]) => ({
         rank: 0,
         userId,

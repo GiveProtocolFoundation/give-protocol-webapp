@@ -56,16 +56,25 @@ export function useUnifiedContributions(filters?: ContributionFilters) {
  * @param limit - Maximum entries to return
  * @param includeUnvalidated - Include unvalidated self-reported hours
  * @param since - Optional ISO date lower bound for counted hours
+ * @param region - Optional giver region to narrow the leaderboard to
  * @returns Query result with leaderboard entries
  */
 export function useVolunteerLeaderboard(
   limit = 10,
   includeUnvalidated = false,
   since?: string,
+  region?: string,
 ) {
   return useQuery<VolunteerLeaderboardEntry[]>({
-    queryKey: ["volunteerLeaderboard", limit, includeUnvalidated, since],
-    queryFn: () => getVolunteerLeaderboard(limit, includeUnvalidated, since),
+    queryKey: [
+      "volunteerLeaderboard",
+      limit,
+      includeUnvalidated,
+      since,
+      region,
+    ],
+    queryFn: () =>
+      getVolunteerLeaderboard(limit, includeUnvalidated, since, region),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 }
@@ -74,12 +83,17 @@ export function useVolunteerLeaderboard(
  * Hook for fetching donor leaderboard
  * @param limit - Maximum entries to return
  * @param since - Optional ISO timestamp lower bound for counted donations
+ * @param region - Optional giver region to narrow the leaderboard to
  * @returns Query result with leaderboard entries
  */
-export function useDonorLeaderboard(limit = 10, since?: string) {
+export function useDonorLeaderboard(
+  limit = 10,
+  since?: string,
+  region?: string,
+) {
   return useQuery<DonorLeaderboardEntry[]>({
-    queryKey: ["donorLeaderboard", limit, since],
-    queryFn: () => getDonorLeaderboard(limit, since),
+    queryKey: ["donorLeaderboard", limit, since, region],
+    queryFn: () => getDonorLeaderboard(limit, since, region),
     staleTime: 5 * 60 * 1000, // 5 minutes
   });
 }

@@ -60,6 +60,17 @@ describe("VolunteerLeaderboard", () => {
       10,
       false,
       "2026-01-01",
+      undefined,
+    );
+  });
+
+  it("passes the giver region to the data hook", () => {
+    render(<VolunteerLeaderboard region="unspecified" />);
+    expect(mockUseVolunteerLeaderboard).toHaveBeenCalledWith(
+      10,
+      false,
+      undefined,
+      "unspecified",
     );
   });
 

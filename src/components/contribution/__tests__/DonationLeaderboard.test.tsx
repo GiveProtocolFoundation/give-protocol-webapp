@@ -52,7 +52,20 @@ describe("DonationLeaderboard", () => {
 
   it("passes the time range lower bound to the data hook", () => {
     render(<DonationLeaderboard since="2026-11-01" />);
-    expect(mockUseDonorLeaderboard).toHaveBeenCalledWith(10, "2026-11-01");
+    expect(mockUseDonorLeaderboard).toHaveBeenCalledWith(
+      10,
+      "2026-11-01",
+      undefined,
+    );
+  });
+
+  it("passes the giver region to the data hook", () => {
+    render(<DonationLeaderboard since="2026-11-01" region="ssa" />);
+    expect(mockUseDonorLeaderboard).toHaveBeenCalledWith(
+      10,
+      "2026-11-01",
+      "ssa",
+    );
   });
 
   it("does not render its own search box", () => {

@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from "@jest/globals";
+import { describe, it, expect, beforeEach, jest } from "@jest/globals";
 import {
   supabase,
   setMockResult,
@@ -709,6 +709,113 @@ describe("contributionAggregationService", () => {
 
       expect(gteCallsFor("donations")).toHaveLength(0);
       expect(gteCallsFor("fiat_donations")).toHaveLength(0);
+    });
+  });
+
+  describe("leaderboard giver region", () => {
+    const mockRpc = supabase.rpc as unknown as jest.Mock;
+
+    beforeEach(() => {
+      mockRpc.mockReset();
+    });
+
+    it("ranks only the volunteers in the region and applies the limit inside it", async () => {
+      setMockResult("volunteer_hours", {
+        data: [
+          { volunteer_id: "user-1", hours: 50 },
+          { volunteer_id: "user-2", hours: 20 },
+          { volunteer_id: "user-3", hours: 10 },
+        ],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+      mockRpc.mockResolvedValue({
+        data: [{ id: "user-2" }, { id: "user-3" }],
+        error: null,
+      });
+
+      const result = await getVolunteerLeaderboard(1, false, undefined, "ssa");
+
+      expect(result.map((entry) => entry.userId)).toEqual(["user-2"]);
+      expect(result[0].rank).toBe(1);
+      expect(mockRpc).toHaveBeenCalledWith(
+        "filter_givers_by_country",
+        expect.objectContaining({
+          p_field: "showVolunteerHours",
+          p_invert: false,
+        }),
+      );
+    });
+
+    it("does not send hidden volunteers to the region lookup", async () => {
+      setMockResult("volunteer_hours", {
+        data: [
+          { volunteer_id: "user-1", hours: 50 },
+          { volunteer_id: "user-2", hours: 20 },
+        ],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+      setMockResult("user_preferences", {
+        data: [
+          { user_id: "user-1", privacy_settings: { showVolunteerHours: false } },
+        ],
+        error: null,
+      });
+      mockRpc.mockResolvedValue({ data: [{ id: "user-2" }], error: null });
+
+      await getVolunteerLeaderboard(10, false, undefined, "na");
+
+      const args = mockRpc.mock.calls[0][1] as { p_ids: string[] };
+      expect(args.p_ids).toEqual(["user-2"]);
+    });
+
+    it("does not look up regions for all regions or when none is given", async () => {
+      setMockResult("volunteer_hours", {
+        data: [{ volunteer_id: "user-1", hours: 5 }],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+
+      const all = await getVolunteerLeaderboard(10, false, undefined, "all");
+      const none = await getVolunteerLeaderboard(10, false);
+
+      expect(all).toHaveLength(1);
+      expect(none).toHaveLength(1);
+      expect(mockRpc).not.toHaveBeenCalled();
+    });
+
+    it("fails the volunteer leaderboard rather than show an unfiltered list", async () => {
+      setMockResult("volunteer_hours", {
+        data: [{ volunteer_id: "user-1", hours: 5 }],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+      mockRpc.mockResolvedValue({ data: null, error: { message: "boom" } });
+
+      await expect(
+        getVolunteerLeaderboard(10, false, undefined, "na"),
+      ).rejects.toThrow("Failed to fetch volunteer leaderboard");
+    });
+
+    it("ranks only the donors in the region", async () => {
+      setMockResult("donations", {
+        data: [
+          { donor_id: "user-1", amount: 900, charity_id: "charity-1" },
+          { donor_id: "user-2", amount: 100, charity_id: "charity-1" },
+        ],
+        error: null,
+      });
+      setMockResult("fiat_donations", { data: [], error: null });
+      mockRpc.mockResolvedValue({ data: [{ id: "user-2" }], error: null });
+
+      const result = await getDonorLeaderboard(10, undefined, "unspecified");
+
+      expect(result.map((entry) => entry.userId)).toEqual(["user-2"]);
+      expect(mockRpc).toHaveBeenCalledWith(
+        "filter_givers_by_country",
+        expect.objectContaining({ p_field: "showDonations", p_invert: true }),
+      );
     });
   });
 

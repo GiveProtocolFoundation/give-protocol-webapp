@@ -9,11 +9,16 @@ export const mockDonationRows = { current: [] };
  * Stub DonationLeaderboard that reports mockDonationRows.current to the page.
  * @param {object} props - Component props
  * @param {Function} [props.onRowsChange] - Callback receiving the visible rows
+ * @param {string} [props.region] - Giver region the page selected
  * @returns {JSX.Element} Placeholder element
  */
-export const DonationLeaderboard = ({ onRowsChange }) => {
+export const DonationLeaderboard = ({ onRowsChange, region }) => {
   useEffect(() => {
     onRowsChange?.(mockDonationRows.current);
   }, [onRowsChange]);
-  return <div data-testid="donation-leaderboard">Donation Leaderboard</div>;
+  return (
+    <div data-testid="donation-leaderboard" data-region={region}>
+      Donation Leaderboard
+    </div>
+  );
 };
