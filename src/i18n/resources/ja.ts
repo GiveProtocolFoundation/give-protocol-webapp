@@ -135,7 +135,8 @@ export default {
     "volunteer.filter.language": "言語: {{value}}",
     "volunteer.filter.location": "場所: {{value}}",
     "volunteer.loadingOpportunities": "募集を読み込み中...",
-    "volunteer.loadOpportunitiesError": "ボランティア募集を読み込めませんでした。後でもう一度お試しください。",
+    "volunteer.loadOpportunitiesError":
+      "ボランティア募集を読み込めませんでした。後でもう一度お試しください。",
     "volunteer.viewDetails": "詳細を見る",
     "volunteer.backToOpportunities": "募集一覧に戻る",
     "volunteer.detail.about": "この募集について",
@@ -147,7 +148,8 @@ export default {
     "volunteer.detail.ongoing": "継続中",
     "volunteer.detail.applicationsClosed": "応募受付終了",
     "volunteer.detail.notFoundTitle": "募集が見つかりません",
-    "volunteer.detail.notFoundMessage": "この募集は締め切られたか、削除された可能性があります。",
+    "volunteer.detail.notFoundMessage":
+      "この募集は締め切られたか、削除された可能性があります。",
     "volunteer.field.requirements": "応募要件",
     "volunteer.field.benefits": "特典",
     "volunteer.field.schedule": "スケジュール",
@@ -635,6 +637,14 @@ export default {
     "settings.displayName": "表示名",
     "settings.authMethod": "認証方法",
     "settings.role": "ロール",
+    "settings.country.title": "国",
+    "settings.country.help":
+      "任意です。国は表示されませんが、ランキングを貢献者の地域で絞り込んだときに、あなたの地域の判定に使われます。",
+    "settings.country.label": "お住まいの国",
+    "settings.country.none": "未設定",
+    "settings.country.saved": "国を保存しました",
+    "settings.country.saveFailed": "国を保存できませんでした",
+    "settings.country.loadFailed": "国を読み込めませんでした",
 
     // Common additional (GIV-254)
     "common.refresh": "更新",
@@ -695,17 +705,20 @@ export default {
     "tracker.timeRange.year": "今年",
     "tracker.timeRange.month": "今月",
     "tracker.timeRange.week": "今週",
-    "tracker.region.label": "地域で絞り込む",
-    "tracker.region.all": "すべての地域",
-    "tracker.region.na": "北米",
-    "tracker.region.eu": "ヨーロッパ",
-    "tracker.region.asia": "アジア",
-    "tracker.region.africa": "アフリカ",
-    "tracker.region.sa": "南米",
-    "tracker.region.oceania": "オセアニア",
+    "tracker.giverRegion.label": "貢献者の地域で絞り込む",
+    "tracker.giverRegion.all": "すべての地域",
+    "tracker.giverRegion.unspecified": "地域未設定",
+    "tracker.giverRegion.na": "北米",
+    "tracker.giverRegion.lac": "ラテンアメリカ・カリブ海",
+    "tracker.giverRegion.eca": "欧州・中央アジア",
+    "tracker.giverRegion.mena": "中東・北アフリカ",
+    "tracker.giverRegion.ssa": "サハラ以南アフリカ",
+    "tracker.giverRegion.sa": "南アジア",
+    "tracker.giverRegion.eap": "東アジア・太平洋",
     "tracker.noResults": "結果が見つかりません",
     "tracker.loadingLeaderboard": "ランキングを読み込み中…",
-    "tracker.loadError": "ランキングデータを読み込めませんでした。もう一度お試しください。",
+    "tracker.loadError":
+      "ランキングデータを読み込めませんでした。もう一度お試しください。",
     "tracker.volunteer.hoursTab": "時間",
     "tracker.volunteer.endorsementsTab": "承認",
     "tracker.volunteer.searchPlaceholder": "ボランティアまたはスキルを検索...",
@@ -1392,35 +1405,49 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "ボランティア時間は団体によって検証され、プロトコルでの評判に反映されます。",
     "browse.news.heading": "プラットフォームニュース",
-    "admin.news.deleteConfirmBody": "「{{title}}」は完全に削除されます。この操作は元に戻せません。",
+    "admin.news.deleteConfirmBody":
+      "「{{title}}」は完全に削除されます。この操作は元に戻せません。",
     "admin.news.deleteConfirmTitle": "ニュースを削除しますか？",
-    "admin.news.saveFailed": "変更を保存できませんでした。もう一度お試しください。",
+    "admin.news.saveFailed":
+      "変更を保存できませんでした。もう一度お試しください。",
     "admin.news.urlHelp": "任意。空欄の場合、リンクなしで表示されます。",
-    "admin.news.urlInvalid": "https:// で始まる完全なアドレス、または / で始まるパスを入力してください。",
-    "browse.carousel.error": "このセクションを読み込めませんでした。ページを再読み込みしてもう一度お試しください。",
+    "admin.news.urlInvalid":
+      "https:// で始まる完全なアドレス、または / で始まるパスを入力してください。",
+    "browse.carousel.error":
+      "このセクションを読み込めませんでした。ページを再読み込みしてもう一度お試しください。",
     "browse.carousel.goToPage": "{{page}} ページ目へ移動",
     "browse.carousel.pageLabel": "{{current}} / {{total}} ページ",
     "browse.carousel.pause": "自動切り替えを一時停止",
     "browse.carousel.play": "自動切り替えを再開",
-    "browse.causes.empty": "まだ活動はありません。またのご確認をお待ちしています。",
+    "browse.causes.empty":
+      "まだ活動はありません。またのご確認をお待ちしています。",
     "browse.causes.prevAria": "前の注目の活動",
     "browse.causes.searchPlaceholder": "活動を検索...",
-    "browse.causes.subheading": "実際に成果を生む具体的なプロジェクトを支援しましょう。",
+    "browse.causes.subheading":
+      "実際に成果を生む具体的なプロジェクトを支援しましょう。",
     "browse.charity.registryIdDisplay": "登録ID：{{value}}",
-    "browse.featured.empty": "注目の団体はまだありません。上の検索でチャリティを探してください。",
+    "browse.featured.empty":
+      "注目の団体はまだありません。上の検索でチャリティを探してください。",
     "browse.featured.prevAria": "前の注目の団体",
-    "browse.featured.subheading": "Give Protocol で認証されたチャリティを順にご紹介します。",
+    "browse.featured.subheading":
+      "Give Protocol で認証されたチャリティを順にご紹介します。",
     "browse.filter.addLocation": "場所を追加",
-    "browse.filter.impactNotice": "影響地域によるフィルターはまだ利用できないため、結果は影響地域では絞り込まれません。",
-    "browse.filter.locationHint": "Enter キーを押すか「追加」を選択して場所を適用します。",
+    "browse.filter.impactNotice":
+      "影響地域によるフィルターはまだ利用できないため、結果は影響地域では絞り込まれません。",
+    "browse.filter.locationHint":
+      "Enter キーを押すか「追加」を選択して場所を適用します。",
     "browse.filter.minChars": "検索するには2文字以上入力してください。",
-    "browse.funds.empty": "ポートフォリオファンドはまだありません。またのご確認をお待ちしています。",
+    "browse.funds.empty":
+      "ポートフォリオファンドはまだありません。またのご確認をお待ちしています。",
     "browse.funds.prevAria": "前のポートフォリオファンド",
     "browse.funds.searchPlaceholder": "ポートフォリオファンドを検索...",
-    "browse.funds.subheading": "認証済みのチャリティに寄付を分配する、厳選された寄付ポートフォリオ。",
+    "browse.funds.subheading":
+      "認証済みのチャリティに寄付を分配する、厳選された寄付ポートフォリオ。",
     "browse.registry.badge": "{{registry}}登録",
-    "browse.results.empty": "この検索条件に一致する団体はまだありません。別のキーワードを試すか、場所フィルターを追加してください。",
-    "browse.results.error": "検索を実行できませんでした。もう一度お試しください。",
+    "browse.results.empty":
+      "この検索条件に一致する団体はまだありません。別のキーワードを試すか、場所フィルターを追加してください。",
+    "browse.results.error":
+      "検索を実行できませんでした。もう一度お試しください。",
     "browse.search.noMatches": "「{{query}}」に一致するものはありません。",
     "browse.category.A": "芸術・文化",
     "browse.category.B": "教育",

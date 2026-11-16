@@ -56,10 +56,22 @@ describe("VolunteerLeaderboard", () => {
 
   it("passes the time range lower bound to the data hook", () => {
     render(<VolunteerLeaderboard since="2026-01-01" />);
-    expect(mockUseVolunteerLeaderboard).toHaveBeenCalledWith(
+    // No region was given, so the hook receives it as undefined.
+    expect(mockUseVolunteerLeaderboard.mock.calls[0]).toEqual([
       10,
       false,
       "2026-01-01",
+      undefined,
+    ]);
+  });
+
+  it("passes the giver region to the data hook", () => {
+    render(<VolunteerLeaderboard region="unspecified" />);
+    expect(mockUseVolunteerLeaderboard).toHaveBeenCalledWith(
+      10,
+      false,
+      undefined,
+      "unspecified",
     );
   });
 

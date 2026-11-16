@@ -203,6 +203,47 @@ describe("ContributionTracker", () => {
     });
   });
 
+  describe("Giver region filter", () => {
+    it("starts with all regions on both leaderboards", () => {
+      renderTracker();
+      expect(screen.getByTestId("region-filter")).toHaveValue("all");
+      expect(screen.getByTestId("donation-leaderboard")).toHaveAttribute(
+        "data-region",
+        "all",
+      );
+    });
+
+    it("passes the chosen region to the leaderboards on both tabs", () => {
+      renderTracker();
+      fireEvent.change(screen.getByTestId("region-filter"), {
+        target: { value: "ssa" },
+      });
+      expect(screen.getByTestId("donation-leaderboard")).toHaveAttribute(
+        "data-region",
+        "ssa",
+      );
+      fireEvent.click(screen.getByText("Volunteer Rankings"));
+      expect(screen.getByTestId("volunteer-leaderboard")).toHaveAttribute(
+        "data-region",
+        "ssa",
+      );
+    });
+
+    it("includes the chosen region in the export options", async () => {
+      renderTracker();
+      fireEvent.change(screen.getByTestId("region-filter"), {
+        target: { value: "unspecified" },
+      });
+      fireEvent.click(screen.getByText("Export CSV"));
+      await waitFor(() => {
+        expect(mockExportDonationCSV).toHaveBeenCalledWith(
+          expect.anything(),
+          expect.objectContaining({ region: "unspecified" }),
+        );
+      });
+    });
+  });
+
   describe("Export buttons", () => {
     it("renders Export CSV button", () => {
       renderTracker();

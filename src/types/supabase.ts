@@ -46,6 +46,8 @@ export interface Database {
           pii_encrypted?: string;
           /** UTC timestamp when user affirmed age >= 16 (GDPR Art. 8). NULL = not yet affirmed. */
           age_affirmed_at?: string;
+          /** Optional ISO 3166-1 alpha-2 country the user chose to share. */
+          country?: string | null;
           created_at: string;
         };
         Insert: {
@@ -83,6 +85,8 @@ export interface Database {
           pii_encrypted?: string;
           /** UTC timestamp when user affirmed age >= 16 (GDPR Art. 8). NULL = not yet affirmed. */
           age_affirmed_at?: string;
+          /** Optional ISO 3166-1 alpha-2 country the user chose to share. */
+          country?: string | null;
           created_at?: string;
         };
         Update: {
@@ -119,6 +123,8 @@ export interface Database {
           pii_encrypted?: string;
           /** UTC timestamp when user affirmed age >= 16 (GDPR Art. 8). NULL = not yet affirmed. */
           age_affirmed_at?: string;
+          /** Optional ISO 3166-1 alpha-2 country the user chose to share. */
+          country?: string | null;
           created_at?: string;
         };
       };

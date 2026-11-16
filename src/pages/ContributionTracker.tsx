@@ -14,6 +14,7 @@ import { DonationLeaderboard } from "@/components/contribution/DonationLeaderboa
 import { VolunteerLeaderboard } from "@/components/contribution/VolunteerLeaderboard";
 import { GlobalStats } from "@/components/contribution/GlobalStats";
 import { TimeRangeFilter } from "@/components/contribution/TimeRangeFilter";
+import { RegionFilter } from "@/components/contribution/RegionFilter";
 import { useWalletAlias } from "@/hooks/useWalletAlias";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { useToast } from "@/contexts/ToastContext";
@@ -87,12 +88,14 @@ const RankingsPrivacyToggle: React.FC<RankingsPrivacyProps> = ({
   );
 };
 
-/** Filter bar for the contribution tracker with search, time range, export and privacy controls. */
+/** Filter bar for the contribution tracker with search, time range, giver region, export and privacy controls. */
 const ContributionFilters: React.FC<{
   searchTerm: string;
   onSearchChange: (_e: React.ChangeEvent<HTMLInputElement>) => void;
   timeRange: TimeRange;
   onTimeRangeChange: (_value: TimeRange) => void;
+  region: string;
+  onRegionChange: (_value: string) => void;
   exportDisabled: boolean;
   onExportCsv: () => void;
   onExportPdf: () => void;
@@ -106,6 +109,8 @@ const ContributionFilters: React.FC<{
   onSearchChange,
   timeRange,
   onTimeRangeChange,
+  region,
+  onRegionChange,
   exportDisabled,
   onExportCsv,
   onExportPdf,
@@ -138,6 +143,7 @@ const ContributionFilters: React.FC<{
           />
         </div>
         <TimeRangeFilter value={timeRange} onChange={onTimeRangeChange} />
+        <RegionFilter value={region} onChange={onRegionChange} />
         <div className="flex gap-2">
           <Button
             variant="secondary"
@@ -246,6 +252,7 @@ const AliasModal: React.FC<{
 export const ContributionTracker: React.FC = () => {
   const location = useLocation();
   const [timeRange, setTimeRange] = useState<TimeRange>("all");
+  const [region, setRegion] = useState("all");
   const [searchTerm, setSearchTerm] = useState("");
   const [rankingsHidden, setRankingsHiddenState] = useState(false);
   const [privacySaving, setPrivacySaving] = useState(false);
@@ -284,7 +291,7 @@ export const ContributionTracker: React.FC = () => {
 
         const exportOptions = {
           timeRange,
-          region: "all",
+          region,
           includeTimestamp: true,
         };
 
@@ -345,7 +352,7 @@ export const ContributionTracker: React.FC = () => {
         );
       }
     },
-    [timeRange, activeTab, donationRows, volunteerRows, showToast, t],
+    [timeRange, region, activeTab, donationRows, volunteerRows, showToast, t],
   );
 
   const handleExportCsv = useCallback(
@@ -505,6 +512,8 @@ export const ContributionTracker: React.FC = () => {
         onSearchChange={handleSearchChange}
         timeRange={timeRange}
         onTimeRangeChange={handleTimeRangeChange}
+        region={region}
+        onRegionChange={setRegion}
         exportDisabled={activeRowCount === 0}
         onExportCsv={handleExportCsv}
         onExportPdf={handleExportPdf}
@@ -548,6 +557,7 @@ export const ContributionTracker: React.FC = () => {
           >
             <DonationLeaderboard
               since={since}
+              region={region}
               searchTerm={searchTerm}
               onRowsChange={setDonationRows}
             />
@@ -561,6 +571,7 @@ export const ContributionTracker: React.FC = () => {
           >
             <VolunteerLeaderboard
               since={since}
+              region={region}
               searchTerm={searchTerm}
               onRowsChange={setVolunteerRows}
               highlightSkill={location.state?.skill}

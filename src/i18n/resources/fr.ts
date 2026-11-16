@@ -138,7 +138,8 @@ export default {
     "volunteer.filter.language": "Langue : {{value}}",
     "volunteer.filter.location": "Lieu : {{value}}",
     "volunteer.loadingOpportunities": "Chargement des opportunités...",
-    "volunteer.loadOpportunitiesError": "Impossible de charger les opportunités de bénévolat. Veuillez réessayer plus tard.",
+    "volunteer.loadOpportunitiesError":
+      "Impossible de charger les opportunités de bénévolat. Veuillez réessayer plus tard.",
     "volunteer.viewDetails": "Voir les détails",
     "volunteer.backToOpportunities": "Retour aux opportunités",
     "volunteer.detail.about": "À propos de cette opportunité",
@@ -150,23 +151,28 @@ export default {
     "volunteer.detail.ongoing": "En cours",
     "volunteer.detail.applicationsClosed": "Candidatures closes",
     "volunteer.detail.notFoundTitle": "Opportunité introuvable",
-    "volunteer.detail.notFoundMessage": "Cette opportunité a peut-être été pourvue ou supprimée.",
+    "volunteer.detail.notFoundMessage":
+      "Cette opportunité a peut-être été pourvue ou supprimée.",
     "volunteer.field.requirements": "Exigences",
     "volunteer.field.benefits": "Avantages",
     "volunteer.field.schedule": "Horaire",
-    "volunteer.field.schedulePlaceholder": "p. ex. mardis 18 h-20 h, week-ends flexibles",
+    "volunteer.field.schedulePlaceholder":
+      "p. ex. mardis 18 h-20 h, week-ends flexibles",
     "volunteer.field.startDate": "Date de début",
     "volunteer.field.endDate": "Date de fin",
     "volunteer.field.endDateHelp": "Laisser vide si en cours",
     "volunteer.field.applicationDeadline": "Date limite de candidature",
     "volunteer.field.volunteersNeeded": "Bénévoles recherchés",
     "volunteer.field.minimumAge": "Âge minimum",
-    "volunteer.field.backgroundCheckRequired": "Vérification des antécédents requise",
+    "volunteer.field.backgroundCheckRequired":
+      "Vérification des antécédents requise",
     "volunteer.field.trainingProvided": "Formation fournie",
     "volunteer.field.onePerLine": "un par ligne",
-    "volunteer.validation.volunteersNeeded": "Saisissez un nombre supérieur ou égal à 1",
+    "volunteer.validation.volunteersNeeded":
+      "Saisissez un nombre supérieur ou égal à 1",
     "volunteer.validation.minimumAge": "Saisissez un âge entre 0 et 120",
-    "volunteer.validation.endDate": "La date de fin doit être postérieure ou égale à la date de début",
+    "volunteer.validation.endDate":
+      "La date de fin doit être postérieure ou égale à la date de début",
     "volunteer.signInToApply":
       "Connectez-vous pour postuler aux opportunités de bénévolat",
     "volunteer.applicationSuccess": "Candidature envoyée avec succès !",
@@ -671,6 +677,14 @@ export default {
     "settings.displayName": "Nom d'Affichage",
     "settings.authMethod": "Méthode d'Authentification",
     "settings.role": "Rôle",
+    "settings.country.title": "Pays",
+    "settings.country.help":
+      "Facultatif. Votre pays n'est jamais affiché, mais il vous place dans une région lorsque les classements sont filtrés par région du contributeur.",
+    "settings.country.label": "Votre pays",
+    "settings.country.none": "Non précisé",
+    "settings.country.saved": "Pays enregistré",
+    "settings.country.saveFailed": "Impossible d'enregistrer votre pays",
+    "settings.country.loadFailed": "Impossible de charger votre pays",
 
     // Common additional (GIV-254)
     "common.refresh": "Actualiser",
@@ -729,14 +743,16 @@ export default {
     "tracker.timeRange.year": "Cette Année",
     "tracker.timeRange.month": "Ce Mois-ci",
     "tracker.timeRange.week": "Cette Semaine",
-    "tracker.region.label": "Filtrer par région",
-    "tracker.region.all": "Toutes les Régions",
-    "tracker.region.na": "Amérique du Nord",
-    "tracker.region.eu": "Europe",
-    "tracker.region.asia": "Asie",
-    "tracker.region.africa": "Afrique",
-    "tracker.region.sa": "Amérique du Sud",
-    "tracker.region.oceania": "Océanie",
+    "tracker.giverRegion.label": "Filtrer par région du contributeur",
+    "tracker.giverRegion.all": "Toutes les régions",
+    "tracker.giverRegion.unspecified": "Région non précisée",
+    "tracker.giverRegion.na": "Amérique du Nord",
+    "tracker.giverRegion.lac": "Amérique latine et Caraïbes",
+    "tracker.giverRegion.eca": "Europe et Asie centrale",
+    "tracker.giverRegion.mena": "Moyen-Orient et Afrique du Nord",
+    "tracker.giverRegion.ssa": "Afrique subsaharienne",
+    "tracker.giverRegion.sa": "Asie du Sud",
+    "tracker.giverRegion.eap": "Asie de l'Est et Pacifique",
     "tracker.noResults": "Aucun résultat trouvé",
     "tracker.loadingLeaderboard": "Chargement du classement…",
     "tracker.loadError":
@@ -1453,35 +1469,51 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "Les heures de bénévolat sont vérifiées par les associations et comptent dans votre réputation sur le protocole.",
     "browse.news.heading": "Actualités de la Plateforme",
-    "admin.news.deleteConfirmBody": "« {{title}} » sera définitivement supprimé. Cette action est irréversible.",
+    "admin.news.deleteConfirmBody":
+      "« {{title}} » sera définitivement supprimé. Cette action est irréversible.",
     "admin.news.deleteConfirmTitle": "Supprimer l'actualité ?",
-    "admin.news.saveFailed": "Impossible d'enregistrer vos modifications. Veuillez réessayer.",
-    "admin.news.urlHelp": "Facultatif. Laissez vide pour afficher l'actualité sans lien.",
-    "admin.news.urlInvalid": "Saisissez une adresse https:// complète ou un chemin commençant par /.",
-    "browse.carousel.error": "Impossible de charger cette section. Veuillez actualiser la page et réessayer.",
+    "admin.news.saveFailed":
+      "Impossible d'enregistrer vos modifications. Veuillez réessayer.",
+    "admin.news.urlHelp":
+      "Facultatif. Laissez vide pour afficher l'actualité sans lien.",
+    "admin.news.urlInvalid":
+      "Saisissez une adresse https:// complète ou un chemin commençant par /.",
+    "browse.carousel.error":
+      "Impossible de charger cette section. Veuillez actualiser la page et réessayer.",
     "browse.carousel.goToPage": "Aller à la page {{page}}",
     "browse.carousel.pageLabel": "Page {{current}} sur {{total}}",
     "browse.carousel.pause": "Mettre en pause la rotation automatique",
     "browse.carousel.play": "Reprendre la rotation automatique",
-    "browse.causes.empty": "Aucune cause disponible pour le moment. Revenez bientôt !",
+    "browse.causes.empty":
+      "Aucune cause disponible pour le moment. Revenez bientôt !",
     "browse.causes.prevAria": "Causes en vedette précédentes",
     "browse.causes.searchPlaceholder": "Rechercher des causes...",
-    "browse.causes.subheading": "Soutenez des projets concrets qui ont un impact réel.",
+    "browse.causes.subheading":
+      "Soutenez des projets concrets qui ont un impact réel.",
     "browse.charity.registryIdDisplay": "Identifiant de registre : {{value}}",
-    "browse.featured.empty": "Aucune organisation en vedette pour le moment. Utilisez la recherche ci-dessus pour trouver une association.",
+    "browse.featured.empty":
+      "Aucune organisation en vedette pour le moment. Utilisez la recherche ci-dessus pour trouver une association.",
     "browse.featured.prevAria": "Organisations en vedette précédentes",
-    "browse.featured.subheading": "Un aperçu tournant des associations vérifiées sur Give Protocol.",
+    "browse.featured.subheading":
+      "Un aperçu tournant des associations vérifiées sur Give Protocol.",
     "browse.filter.addLocation": "Ajouter un lieu",
-    "browse.filter.impactNotice": "Le filtrage par lieu d'impact n'est pas encore disponible ; les résultats ne sont donc pas restreints par lieu d'impact.",
-    "browse.filter.locationHint": "Appuyez sur Entrée ou choisissez Ajouter pour appliquer un lieu.",
-    "browse.filter.minChars": "Saisissez au moins 2 caractères pour lancer la recherche.",
-    "browse.funds.empty": "Aucun fonds de portefeuille disponible pour le moment. Revenez bientôt !",
+    "browse.filter.impactNotice":
+      "Le filtrage par lieu d'impact n'est pas encore disponible ; les résultats ne sont donc pas restreints par lieu d'impact.",
+    "browse.filter.locationHint":
+      "Appuyez sur Entrée ou choisissez Ajouter pour appliquer un lieu.",
+    "browse.filter.minChars":
+      "Saisissez au moins 2 caractères pour lancer la recherche.",
+    "browse.funds.empty":
+      "Aucun fonds de portefeuille disponible pour le moment. Revenez bientôt !",
     "browse.funds.prevAria": "Fonds de portefeuille précédents",
     "browse.funds.searchPlaceholder": "Rechercher des fonds de portefeuille...",
-    "browse.funds.subheading": "Portefeuilles de dons sélectionnés qui répartissent les dons entre des associations vérifiées.",
+    "browse.funds.subheading":
+      "Portefeuilles de dons sélectionnés qui répartissent les dons entre des associations vérifiées.",
     "browse.registry.badge": "Enregistrée auprès de {{registry}}",
-    "browse.results.empty": "Aucune organisation ne correspond à cette recherche. Essayez un autre mot-clé ou ajoutez un filtre de lieu.",
-    "browse.results.error": "Impossible d'effectuer cette recherche. Veuillez réessayer.",
+    "browse.results.empty":
+      "Aucune organisation ne correspond à cette recherche. Essayez un autre mot-clé ou ajoutez un filtre de lieu.",
+    "browse.results.error":
+      "Impossible d'effectuer cette recherche. Veuillez réessayer.",
     "browse.search.noMatches": "Aucun résultat pour « {{query}} ».",
     "browse.category.A": "Arts et culture",
     "browse.category.B": "Éducation",

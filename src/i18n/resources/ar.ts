@@ -134,7 +134,8 @@ export default {
     "volunteer.filter.language": "اللغة: {{value}}",
     "volunteer.filter.location": "الموقع: {{value}}",
     "volunteer.loadingOpportunities": "جارٍ تحميل الفرص...",
-    "volunteer.loadOpportunitiesError": "تعذّر تحميل فرص التطوع. يرجى المحاولة مرة أخرى لاحقًا.",
+    "volunteer.loadOpportunitiesError":
+      "تعذّر تحميل فرص التطوع. يرجى المحاولة مرة أخرى لاحقًا.",
     "volunteer.viewDetails": "عرض التفاصيل",
     "volunteer.backToOpportunities": "العودة إلى الفرص",
     "volunteer.detail.about": "حول هذه الفرصة",
@@ -150,7 +151,8 @@ export default {
     "volunteer.field.requirements": "المتطلبات",
     "volunteer.field.benefits": "المزايا",
     "volunteer.field.schedule": "الجدول الزمني",
-    "volunteer.field.schedulePlaceholder": "مثال: الثلاثاء 6-8 مساءً، عطلات نهاية الأسبوع مرنة",
+    "volunteer.field.schedulePlaceholder":
+      "مثال: الثلاثاء 6-8 مساءً، عطلات نهاية الأسبوع مرنة",
     "volunteer.field.startDate": "تاريخ البدء",
     "volunteer.field.endDate": "تاريخ الانتهاء",
     "volunteer.field.endDateHelp": "اتركه فارغًا إذا كانت مستمرة",
@@ -615,6 +617,14 @@ export default {
     "settings.displayName": "اسم العرض",
     "settings.authMethod": "طريقة المصادقة",
     "settings.role": "الدور",
+    "settings.country.title": "البلد",
+    "settings.country.help":
+      "اختياري. لا يُعرض بلدك أبدًا، لكنه يحدد منطقتك عند تصفية التصنيفات حسب منطقة المساهم.",
+    "settings.country.label": "بلدك",
+    "settings.country.none": "غير محدد",
+    "settings.country.saved": "تم حفظ البلد",
+    "settings.country.saveFailed": "تعذر حفظ بلدك",
+    "settings.country.loadFailed": "تعذر تحميل بلدك",
 
     // Common additional (GIV-254)
     "common.refresh": "تحديث",
@@ -671,14 +681,16 @@ export default {
     "tracker.timeRange.year": "هذا العام",
     "tracker.timeRange.month": "هذا الشهر",
     "tracker.timeRange.week": "هذا الأسبوع",
-    "tracker.region.label": "التصفية حسب المنطقة",
-    "tracker.region.all": "كل المناطق",
-    "tracker.region.na": "أمريكا الشمالية",
-    "tracker.region.eu": "أوروبا",
-    "tracker.region.asia": "آسيا",
-    "tracker.region.africa": "أفريقيا",
-    "tracker.region.sa": "أمريكا الجنوبية",
-    "tracker.region.oceania": "أوقيانوسيا",
+    "tracker.giverRegion.label": "التصفية حسب منطقة المساهم",
+    "tracker.giverRegion.all": "كل المناطق",
+    "tracker.giverRegion.unspecified": "المنطقة غير محددة",
+    "tracker.giverRegion.na": "أمريكا الشمالية",
+    "tracker.giverRegion.lac": "أمريكا اللاتينية ومنطقة البحر الكاريبي",
+    "tracker.giverRegion.eca": "أوروبا وآسيا الوسطى",
+    "tracker.giverRegion.mena": "الشرق الأوسط وشمال أفريقيا",
+    "tracker.giverRegion.ssa": "أفريقيا جنوب الصحراء الكبرى",
+    "tracker.giverRegion.sa": "جنوب آسيا",
+    "tracker.giverRegion.eap": "شرق آسيا والمحيط الهادئ",
     "tracker.noResults": "لم يتم العثور على نتائج",
     "tracker.loadingLeaderboard": "جارٍ تحميل لوحة التصنيف…",
     "tracker.loadError":
@@ -1191,7 +1203,8 @@ export default {
       "يُستخدم بريدك الإلكتروني/هاتفك الشخصي للتحقق فقط ولا يظهر لمستخدمي المنصة الآخرين. يُعرض البريد الإلكتروني العام في ملف منظمتك.",
     "charity.claim.secondContactTitle": "جهة الاتصال الثانية",
     "charity.claim.secondContactName": "اسم جهة الاتصال الثانية",
-    "charity.claim.secondContactEmail": "البريد الإلكتروني لجهة الاتصال الثانية",
+    "charity.claim.secondContactEmail":
+      "البريد الإلكتروني لجهة الاتصال الثانية",
     "charity.claim.secondContactHint":
       "شخص مختلف يتم إخطاره عند تغيير محفظة مؤسستك الخيرية أو تفاصيل الدفع.",
     "charity.claim.validation.secondEmailDistinct":
@@ -1354,12 +1367,14 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "يتم التحقق من ساعات التطوع من قبل الجمعيات الخيرية وتُحتسب في سمعتك على البروتوكول.",
     "browse.news.heading": "أخبار المنصة",
-    "admin.news.deleteConfirmBody": "سيتم حذف «{{title}}» نهائيًا. لا يمكن التراجع عن هذا الإجراء.",
+    "admin.news.deleteConfirmBody":
+      "سيتم حذف «{{title}}» نهائيًا. لا يمكن التراجع عن هذا الإجراء.",
     "admin.news.deleteConfirmTitle": "هل تريد حذف الخبر؟",
     "admin.news.saveFailed": "تعذّر حفظ التغييرات. يُرجى المحاولة مرة أخرى.",
     "admin.news.urlHelp": "اختياري. اتركه فارغًا لعرض الخبر بدون رابط.",
     "admin.news.urlInvalid": "أدخل عنوان https:// كاملًا أو مسارًا يبدأ بـ /.",
-    "browse.carousel.error": "تعذّر تحميل هذا القسم. يُرجى تحديث الصفحة والمحاولة مرة أخرى.",
+    "browse.carousel.error":
+      "تعذّر تحميل هذا القسم. يُرجى تحديث الصفحة والمحاولة مرة أخرى.",
     "browse.carousel.goToPage": "الانتقال إلى الصفحة {{page}}",
     "browse.carousel.pageLabel": "الصفحة {{current}} من {{total}}",
     "browse.carousel.pause": "إيقاف التبديل التلقائي مؤقتًا",
@@ -1369,19 +1384,24 @@ export default {
     "browse.causes.searchPlaceholder": "البحث عن قضايا...",
     "browse.causes.subheading": "ادعم مشاريع محددة تحقق أثرًا حقيقيًا.",
     "browse.charity.registryIdDisplay": "معرّف السجل: {{value}}",
-    "browse.featured.empty": "لا توجد منظمات مميزة بعد. استخدم البحث أعلاه للعثور على جمعية خيرية.",
+    "browse.featured.empty":
+      "لا توجد منظمات مميزة بعد. استخدم البحث أعلاه للعثور على جمعية خيرية.",
     "browse.featured.prevAria": "المنظمات المميزة السابقة",
-    "browse.featured.subheading": "نظرة متجددة على الجمعيات الخيرية الموثّقة في Give Protocol.",
+    "browse.featured.subheading":
+      "نظرة متجددة على الجمعيات الخيرية الموثّقة في Give Protocol.",
     "browse.filter.addLocation": "إضافة موقع",
-    "browse.filter.impactNotice": "تصفية الموقع حسب الأثر غير متاحة بعد، لذا لا تُضيَّق النتائج حسب موقع الأثر.",
+    "browse.filter.impactNotice":
+      "تصفية الموقع حسب الأثر غير متاحة بعد، لذا لا تُضيَّق النتائج حسب موقع الأثر.",
     "browse.filter.locationHint": "اضغط Enter أو اختر إضافة لتطبيق الموقع.",
     "browse.filter.minChars": "اكتب حرفين على الأقل للبحث.",
     "browse.funds.empty": "لا توجد صناديق محافظ متاحة بعد. تحقق مجددًا قريبًا!",
     "browse.funds.prevAria": "صناديق المحافظ السابقة",
     "browse.funds.searchPlaceholder": "البحث عن صناديق المحافظ...",
-    "browse.funds.subheading": "محافظ تبرع مختارة توزّع التبرعات على جمعيات خيرية موثّقة.",
+    "browse.funds.subheading":
+      "محافظ تبرع مختارة توزّع التبرعات على جمعيات خيرية موثّقة.",
     "browse.registry.badge": "مسجّلة لدى {{registry}}",
-    "browse.results.empty": "لا توجد منظمات تطابق هذا البحث. جرّب كلمة مختلفة أو أضف عامل تصفية للموقع.",
+    "browse.results.empty":
+      "لا توجد منظمات تطابق هذا البحث. جرّب كلمة مختلفة أو أضف عامل تصفية للموقع.",
     "browse.results.error": "تعذّر تنفيذ البحث. يُرجى المحاولة مرة أخرى.",
     "browse.search.noMatches": "لا توجد نتائج تطابق «{{query}}».",
     "browse.category.A": "الفنون والثقافة",

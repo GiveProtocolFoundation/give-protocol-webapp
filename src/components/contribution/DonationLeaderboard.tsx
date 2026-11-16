@@ -68,6 +68,8 @@ interface DonationLeaderboardProps {
   searchTerm?: string;
   /** ISO date lower bound for counted donations; undefined means all time. */
   since?: string;
+  /** Giver region to narrow to: a region id, "unspecified", or "all" for no filter. */
+  region?: string;
   /** Receives the rows currently shown, for export and empty-state handling. */
   onRowsChange?: (_rows: DonationLeaderData[]) => void;
 }
@@ -80,13 +82,14 @@ interface DonationLeaderboardProps {
 export const DonationLeaderboard: React.FC<DonationLeaderboardProps> = ({
   searchTerm = "",
   since,
+  region,
   onRowsChange,
 }) => {
   const {
     data: leaderboardData,
     isLoading,
     error,
-  } = useDonorLeaderboard(10, since);
+  } = useDonorLeaderboard(10, since, region);
   const { getAliasForAddress } = useWalletAlias();
   const { t } = useTranslation();
   const [displayLeaderboard, setDisplayLeaderboard] = useState<

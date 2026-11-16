@@ -137,7 +137,8 @@ export default {
     "volunteer.filter.language": "भाषा: {{value}}",
     "volunteer.filter.location": "स्थान: {{value}}",
     "volunteer.loadingOpportunities": "अवसर लोड हो रहे हैं...",
-    "volunteer.loadOpportunitiesError": "स्वयंसेवा अवसर लोड नहीं हो सके। कृपया बाद में पुनः प्रयास करें।",
+    "volunteer.loadOpportunitiesError":
+      "स्वयंसेवा अवसर लोड नहीं हो सके। कृपया बाद में पुनः प्रयास करें।",
     "volunteer.viewDetails": "विवरण देखें",
     "volunteer.backToOpportunities": "अवसरों पर वापस जाएँ",
     "volunteer.detail.about": "इस अवसर के बारे में",
@@ -149,11 +150,13 @@ export default {
     "volunteer.detail.ongoing": "निरंतर",
     "volunteer.detail.applicationsClosed": "आवेदन बंद",
     "volunteer.detail.notFoundTitle": "अवसर नहीं मिला",
-    "volunteer.detail.notFoundMessage": "हो सकता है यह अवसर भर गया हो या हटा दिया गया हो।",
+    "volunteer.detail.notFoundMessage":
+      "हो सकता है यह अवसर भर गया हो या हटा दिया गया हो।",
     "volunteer.field.requirements": "आवश्यकताएँ",
     "volunteer.field.benefits": "लाभ",
     "volunteer.field.schedule": "समय-सारणी",
-    "volunteer.field.schedulePlaceholder": "जैसे: मंगलवार शाम 6-8 बजे, सप्ताहांत लचीला",
+    "volunteer.field.schedulePlaceholder":
+      "जैसे: मंगलवार शाम 6-8 बजे, सप्ताहांत लचीला",
     "volunteer.field.startDate": "आरंभ तिथि",
     "volunteer.field.endDate": "समाप्ति तिथि",
     "volunteer.field.endDateHelp": "निरंतर हो तो खाली छोड़ें",
@@ -165,7 +168,8 @@ export default {
     "volunteer.field.onePerLine": "प्रति पंक्ति एक",
     "volunteer.validation.volunteersNeeded": "1 या अधिक की संख्या दर्ज करें",
     "volunteer.validation.minimumAge": "0 से 120 के बीच की आयु दर्ज करें",
-    "volunteer.validation.endDate": "समाप्ति तिथि आरंभ तिथि के बराबर या बाद की होनी चाहिए",
+    "volunteer.validation.endDate":
+      "समाप्ति तिथि आरंभ तिथि के बराबर या बाद की होनी चाहिए",
     "volunteer.signInToApply":
       "स्वयंसेवक अवसरों के लिए आवेदन करने हेतु कृपया साइन इन करें",
     "volunteer.applicationSuccess": "आवेदन सफलतापूर्वक जमा किया गया!",
@@ -647,6 +651,14 @@ export default {
     "settings.displayName": "प्रदर्शन नाम",
     "settings.authMethod": "प्रमाणीकरण विधि",
     "settings.role": "भूमिका",
+    "settings.country.title": "देश",
+    "settings.country.help":
+      "वैकल्पिक। आपका देश कभी प्रदर्शित नहीं होता, लेकिन रैंकिंग को योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करने पर यह आपको एक क्षेत्र में रखता है।",
+    "settings.country.label": "आपका देश",
+    "settings.country.none": "निर्दिष्ट नहीं",
+    "settings.country.saved": "देश सहेजा गया",
+    "settings.country.saveFailed": "आपका देश सहेजा नहीं जा सका",
+    "settings.country.loadFailed": "आपका देश लोड नहीं हो सका",
 
     // Common additional (GIV-254)
     "common.refresh": "रिफ़्रेश करें",
@@ -706,14 +718,17 @@ export default {
     "tracker.timeRange.year": "इस वर्ष",
     "tracker.timeRange.month": "इस महीने",
     "tracker.timeRange.week": "इस सप्ताह",
-    "tracker.region.label": "क्षेत्र के अनुसार फ़िल्टर करें",
-    "tracker.region.all": "सभी क्षेत्र",
-    "tracker.region.na": "उत्तरी अमेरिका",
-    "tracker.region.eu": "यूरोप",
-    "tracker.region.asia": "एशिया",
-    "tracker.region.africa": "अफ़्रीका",
-    "tracker.region.sa": "दक्षिण अमेरिका",
-    "tracker.region.oceania": "ओशिआनिया",
+    "tracker.giverRegion.label":
+      "योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करें",
+    "tracker.giverRegion.all": "सभी क्षेत्र",
+    "tracker.giverRegion.unspecified": "क्षेत्र निर्दिष्ट नहीं",
+    "tracker.giverRegion.na": "उत्तरी अमेरिका",
+    "tracker.giverRegion.lac": "लैटिन अमेरिका और कैरिबियन",
+    "tracker.giverRegion.eca": "यूरोप और मध्य एशिया",
+    "tracker.giverRegion.mena": "मध्य पूर्व और उत्तरी अफ्रीका",
+    "tracker.giverRegion.ssa": "उप-सहारा अफ्रीका",
+    "tracker.giverRegion.sa": "दक्षिण एशिया",
+    "tracker.giverRegion.eap": "पूर्वी एशिया और प्रशांत",
     "tracker.noResults": "कोई परिणाम नहीं मिला",
     "tracker.loadingLeaderboard": "लीडरबोर्ड लोड हो रहा है…",
     "tracker.loadError":
@@ -1397,34 +1412,48 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "स्वयंसेवी घंटों को चैरिटी द्वारा सत्यापित किया जाता है और आपकी प्रोटोकॉल प्रतिष्ठा में गिना जाता है।",
     "browse.news.heading": "प्लेटफ़ॉर्म समाचार",
-    "admin.news.deleteConfirmBody": "“{{title}}” को स्थायी रूप से हटा दिया जाएगा। इसे पूर्ववत नहीं किया जा सकता।",
+    "admin.news.deleteConfirmBody":
+      "“{{title}}” को स्थायी रूप से हटा दिया जाएगा। इसे पूर्ववत नहीं किया जा सकता।",
     "admin.news.deleteConfirmTitle": "समाचार हटाएँ?",
-    "admin.news.saveFailed": "आपके बदलाव सहेजे नहीं जा सके। कृपया पुनः प्रयास करें।",
-    "admin.news.urlHelp": "वैकल्पिक। लिंक के बिना समाचार दिखाने के लिए खाली छोड़ें।",
-    "admin.news.urlInvalid": "पूरा https:// पता या / से शुरू होने वाला पथ दर्ज करें।",
-    "browse.carousel.error": "यह अनुभाग लोड नहीं हो सका। कृपया पेज रीफ़्रेश करके पुनः प्रयास करें।",
+    "admin.news.saveFailed":
+      "आपके बदलाव सहेजे नहीं जा सके। कृपया पुनः प्रयास करें।",
+    "admin.news.urlHelp":
+      "वैकल्पिक। लिंक के बिना समाचार दिखाने के लिए खाली छोड़ें।",
+    "admin.news.urlInvalid":
+      "पूरा https:// पता या / से शुरू होने वाला पथ दर्ज करें।",
+    "browse.carousel.error":
+      "यह अनुभाग लोड नहीं हो सका। कृपया पेज रीफ़्रेश करके पुनः प्रयास करें।",
     "browse.carousel.goToPage": "पृष्ठ {{page}} पर जाएँ",
     "browse.carousel.pageLabel": "पृष्ठ {{current}} / {{total}}",
     "browse.carousel.pause": "स्वचालित रोटेशन रोकें",
     "browse.carousel.play": "स्वचालित रोटेशन फिर से शुरू करें",
-    "browse.causes.empty": "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.causes.empty":
+      "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.causes.prevAria": "पिछले विशेष उद्देश्य",
     "browse.causes.searchPlaceholder": "उद्देश्य खोजें...",
-    "browse.causes.subheading": "वास्तविक प्रभाव डालने वाली विशिष्ट परियोजनाओं का समर्थन करें।",
+    "browse.causes.subheading":
+      "वास्तविक प्रभाव डालने वाली विशिष्ट परियोजनाओं का समर्थन करें।",
     "browse.charity.registryIdDisplay": "रजिस्ट्री आईडी: {{value}}",
-    "browse.featured.empty": "अभी कोई विशेष संस्था नहीं है। चैरिटी खोजने के लिए ऊपर दिए गए खोज बॉक्स का उपयोग करें।",
+    "browse.featured.empty":
+      "अभी कोई विशेष संस्था नहीं है। चैरिटी खोजने के लिए ऊपर दिए गए खोज बॉक्स का उपयोग करें।",
     "browse.featured.prevAria": "पिछली विशेष संस्थाएँ",
-    "browse.featured.subheading": "Give Protocol पर सत्यापित चैरिटी की एक घूमती झलक।",
+    "browse.featured.subheading":
+      "Give Protocol पर सत्यापित चैरिटी की एक घूमती झलक।",
     "browse.filter.addLocation": "स्थान जोड़ें",
-    "browse.filter.impactNotice": "प्रभाव-स्थान के आधार पर फ़िल्टर अभी उपलब्ध नहीं है, इसलिए परिणाम प्रभाव-स्थान से सीमित नहीं किए जाते।",
-    "browse.filter.locationHint": "स्थान लागू करने के लिए Enter दबाएँ या जोड़ें चुनें।",
+    "browse.filter.impactNotice":
+      "प्रभाव-स्थान के आधार पर फ़िल्टर अभी उपलब्ध नहीं है, इसलिए परिणाम प्रभाव-स्थान से सीमित नहीं किए जाते।",
+    "browse.filter.locationHint":
+      "स्थान लागू करने के लिए Enter दबाएँ या जोड़ें चुनें।",
     "browse.filter.minChars": "खोजने के लिए कम से कम 2 अक्षर लिखें।",
-    "browse.funds.empty": "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.funds.empty":
+      "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.funds.prevAria": "पिछले पोर्टफोलियो फ़ंड",
     "browse.funds.searchPlaceholder": "पोर्टफोलियो फ़ंड खोजें...",
-    "browse.funds.subheading": "चुने हुए दान पोर्टफोलियो, जो दान को सत्यापित चैरिटी में वितरित करते हैं।",
+    "browse.funds.subheading":
+      "चुने हुए दान पोर्टफोलियो, जो दान को सत्यापित चैरिटी में वितरित करते हैं।",
     "browse.registry.badge": "{{registry}} में पंजीकृत",
-    "browse.results.empty": "इस खोज से कोई संस्था मेल नहीं खाती। कोई अलग कीवर्ड आज़माएँ या स्थान फ़िल्टर जोड़ें।",
+    "browse.results.empty":
+      "इस खोज से कोई संस्था मेल नहीं खाती। कोई अलग कीवर्ड आज़माएँ या स्थान फ़िल्टर जोड़ें।",
     "browse.results.error": "खोज नहीं की जा सकी। कृपया पुनः प्रयास करें।",
     "browse.search.noMatches": "“{{query}}” से कुछ भी मेल नहीं खाता।",
     "browse.category.A": "कला और संस्कृति",

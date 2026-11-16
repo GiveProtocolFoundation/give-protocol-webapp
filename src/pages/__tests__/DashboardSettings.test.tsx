@@ -6,7 +6,7 @@ import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useSettings } from "@/contexts/SettingsContext";
 
 // All sub-section components (LinkedAccountsSection, SetPasswordSettings,
-// WalletAliasSettings, PrivacySettings) are stubbed via moduleNameMapper so
+// WalletAliasSettings, CountrySettings, PrivacySettings) are stubbed via moduleNameMapper so
 // this file only exercises DashboardSettings itself.
 // useSettings and useTranslation are also globally mocked via moduleNameMapper.
 
@@ -180,6 +180,11 @@ describe("DashboardSettings", () => {
     it("renders the Privacy settings section", () => {
       renderPage();
       expect(screen.getByTestId("privacy-settings")).toBeInTheDocument();
+    });
+
+    it("renders the Country settings section", () => {
+      renderPage();
+      expect(screen.getByTestId("country-settings")).toBeInTheDocument();
     });
   });
 

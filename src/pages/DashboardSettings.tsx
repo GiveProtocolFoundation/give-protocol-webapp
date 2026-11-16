@@ -4,6 +4,7 @@ import { LinkedAccountsSection } from "@/components/settings/LinkedAccountsSecti
 import { SetPasswordSettings } from "@/components/settings/SetPasswordSettings";
 import { WalletAliasSettings } from "@/components/settings/WalletAliasSettings";
 import { PrivacySettings } from "@/components/settings/PrivacySettings";
+import { CountrySettings } from "@/components/settings/CountrySettings";
 import { useUnifiedAuth } from "@/hooks/useUnifiedAuth";
 import { useSettings } from "@/contexts/SettingsContext";
 import type { Language } from "@/contexts/SettingsContext";
@@ -94,6 +95,11 @@ const DashboardSettings: React.FC = () => {
       {/* Wallet alias settings */}
       <div className="mb-6">
         <WalletAliasSettings />
+      </div>
+
+      {/* Country — optional, used for the giver region filter */}
+      <div className="mb-6">
+        <CountrySettings />
       </div>
 
       {/* Display Preferences — Language selector */}
