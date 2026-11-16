@@ -253,7 +253,7 @@ const COUNTRY_TO_REGION: ReadonlyMap<string, RegionId> = new Map(
  * @returns The region id, or "unspecified" for a missing or unlisted country
  */
 export function getRegionForCountry(
-  countryCode: string | null | undefined,
+  countryCode?: string | null,
 ): RegionOrUnspecified {
   if (typeof countryCode !== "string") {
     return "unspecified";

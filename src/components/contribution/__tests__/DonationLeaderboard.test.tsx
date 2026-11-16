@@ -52,10 +52,12 @@ describe("DonationLeaderboard", () => {
 
   it("passes the time range lower bound to the data hook", () => {
     render(<DonationLeaderboard since="2026-11-01" />);
-    expect(mockUseDonorLeaderboard).toHaveBeenCalledWith(
+    // No region was given, so the hook receives it as undefined.
+    expect(mockUseDonorLeaderboard.mock.calls[0]).toEqual([
       10,
-      "2026-11-01"
-    );
+      "2026-11-01",
+      undefined,
+    ]);
   });
 
   it("passes the giver region to the data hook", () => {

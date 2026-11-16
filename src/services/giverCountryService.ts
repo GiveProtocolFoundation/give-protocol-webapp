@@ -62,7 +62,7 @@ export async function setOwnCountry(
 export async function filterGiversByRegion(
   ids: string[],
   field: GiverVisibilityField,
-  region: RegionFilterValue | undefined,
+  region?: RegionFilterValue,
 ): Promise<Set<string> | null> {
   const isUnspecified = region === "unspecified";
   if (region === undefined || (!isUnspecified && !isRegionId(region))) {
