@@ -600,7 +600,8 @@ export default {
     "settings.authMethod": "认证方式",
     "settings.role": "角色",
     "settings.country.title": "国家/地区",
-    "settings.country.help": "可选。您的国家/地区不会显示，但在按贡献者所在地区筛选排名时，它会决定您所属的地区。",
+    "settings.country.help":
+      "可选。您的国家/地区不会显示，但在按贡献者所在地区筛选排名时，它会决定您所属的地区。",
     "settings.country.label": "您所在的国家/地区",
     "settings.country.none": "未指定",
     "settings.country.saved": "已保存国家/地区",
@@ -627,8 +628,7 @@ export default {
     "tracker.hideContributionsHelp":
       "您的名字和总计将不会出现在公开的捐赠或志愿者排名中。您可以随时更改此设置。",
     "tracker.privacySaved": "隐私设置已保存",
-    "tracker.privacySaveFailed":
-      "无法保存您的隐私设置。请重试。",
+    "tracker.privacySaveFailed": "无法保存您的隐私设置。请重试。",
     "tracker.yourAlias": "您的别名：",
     "tracker.changeAlias": "更改",
     "tracker.setWalletAlias": "设置钱包别名",
@@ -1340,7 +1340,8 @@ export default {
     "browse.featured.prevAria": "上一组精选机构",
     "browse.featured.subheading": "轮播展示 Give Protocol 上已验证的慈善机构。",
     "browse.filter.addLocation": "添加地点",
-    "browse.filter.impactNotice": "影响地区筛选暂不可用，因此结果不会按影响地区缩小范围。",
+    "browse.filter.impactNotice":
+      "影响地区筛选暂不可用，因此结果不会按影响地区缩小范围。",
     "browse.filter.locationHint": "按 Enter 键或选择“添加”以应用地点。",
     "browse.filter.minChars": "请至少输入 2 个字符进行搜索。",
     "browse.funds.empty": "暂无投资组合基金，请稍后再来查看！",
@@ -1348,7 +1349,8 @@ export default {
     "browse.funds.searchPlaceholder": "搜索投资组合基金...",
     "browse.funds.subheading": "精选的捐赠组合，将捐款分配给已验证的慈善机构。",
     "browse.registry.badge": "已在{{registry}}登记",
-    "browse.results.empty": "没有符合该搜索的机构。请尝试其他关键词或添加地点筛选。",
+    "browse.results.empty":
+      "没有符合该搜索的机构。请尝试其他关键词或添加地点筛选。",
     "browse.results.error": "无法执行该搜索，请重试。",
     "browse.search.noMatches": "没有与“{{query}}”匹配的内容。",
     "browse.category.A": "艺术与文化",

@@ -7,10 +7,7 @@ import { filterGiversByRegion } from "@/services/giverCountryService";
  * Contribution source types
  */
 export type ContributionSource =
-  | "donation"
-  | "fiat_donation"
-  | "formal_volunteer"
-  | "self_reported";
+  "donation" | "fiat_donation" | "formal_volunteer" | "self_reported";
 
 /**
  * Aggregated contribution stats for a user
@@ -117,26 +114,54 @@ export async function getUserContributionStats(
       { data: endorsements, error: endorsementsError },
     ] = await Promise.all([
       supabase.from("donations").select("amount").eq("donor_id", userId),
-      supabase.from("fiat_donations").select("amount_cents").eq("donor_id", userId),
-      supabase.from("volunteer_hours").select("hours, charity_id").eq("volunteer_id", userId).eq("status", "approved"),
-      supabase.from("self_reported_hours").select("hours, validation_status, organization_id, organization_name").eq("volunteer_id", userId),
-      supabase.from("skill_endorsements").select("id").eq("recipient_id", userId),
+      supabase
+        .from("fiat_donations")
+        .select("amount_cents")
+        .eq("donor_id", userId),
+      supabase
+        .from("volunteer_hours")
+        .select("hours, charity_id")
+        .eq("volunteer_id", userId)
+        .eq("status", "approved"),
+      supabase
+        .from("self_reported_hours")
+        .select("hours, validation_status, organization_id, organization_name")
+        .eq("volunteer_id", userId),
+      supabase
+        .from("skill_endorsements")
+        .select("id")
+        .eq("recipient_id", userId),
     ]);
 
     if (donationsError) {
-      Logger.warn("Error fetching donations for stats", { error: donationsError, userId });
+      Logger.warn("Error fetching donations for stats", {
+        error: donationsError,
+        userId,
+      });
     }
     if (fiatDonationsError) {
-      Logger.warn("Error fetching fiat donations for stats", { error: fiatDonationsError, userId });
+      Logger.warn("Error fetching fiat donations for stats", {
+        error: fiatDonationsError,
+        userId,
+      });
     }
     if (formalError) {
-      Logger.warn("Error fetching formal volunteer hours", { error: formalError, userId });
+      Logger.warn("Error fetching formal volunteer hours", {
+        error: formalError,
+        userId,
+      });
     }
     if (selfReportedError) {
-      Logger.warn("Error fetching self-reported hours", { error: selfReportedError, userId });
+      Logger.warn("Error fetching self-reported hours", {
+        error: selfReportedError,
+        userId,
+      });
     }
     if (endorsementsError) {
-      Logger.warn("Error fetching endorsements", { error: endorsementsError, userId });
+      Logger.warn("Error fetching endorsements", {
+        error: endorsementsError,
+        userId,
+      });
     }
 
     // Calculate crypto donation stats
@@ -146,7 +171,8 @@ export async function getUserContributionStats(
 
     // Calculate fiat donation stats
     const totalFiatDonated =
-      fiatDonations?.reduce((sum, d) => sum + (d.amount_cents || 0), 0) / 100 || 0;
+      fiatDonations?.reduce((sum, d) => sum + (d.amount_cents || 0), 0) / 100 ||
+      0;
     const fiatDonationCount = fiatDonations?.length || 0;
 
     // Calculate formal volunteer hours
@@ -296,8 +322,7 @@ async function fetchFiatDonationContributions(
       disbursementStatus: d.disbursement_status,
       isFiatDonation: true,
       status: (d.status === "completed" ? "completed" : "pending") as
-        | "completed"
-        | "pending",
+        "completed" | "pending",
       createdAt: d.created_at,
     };
   });
@@ -336,8 +361,7 @@ async function fetchFormalVolunteerContributions(
     hours: h.hours,
     description: h.description,
     status: (h.status === "approved" ? "completed" : "pending") as
-      | "completed"
-      | "pending",
+      "completed" | "pending",
     createdAt: h.created_at,
   }));
 }
@@ -451,7 +475,10 @@ export async function getUnifiedContributions(
 function aggregateHours(
   data: Array<{ volunteer_id: string; hours: number | null }> | null,
   field: "formal" | "selfReported",
-  userHours: Map<string, { formal: number; selfReported: number; total: number }>,
+  userHours: Map<
+    string,
+    { formal: number; selfReported: number; total: number }
+  >,
 ): void {
   data?.forEach((record) => {
     const existing = userHours.get(record.volunteer_id) || {
@@ -482,9 +509,17 @@ export async function getVolunteerLeaderboard(
   try {
     // Build self-reported query with conditional filter
     let selfReportedQuery = includeUnvalidated
-      ? supabase.from("self_reported_hours").select("volunteer_id, hours, validation_status")
-      : supabase.from("self_reported_hours").select("volunteer_id, hours, validation_status").eq("validation_status", "validated");
-    let formalQuery = supabase.from("volunteer_hours").select("volunteer_id, hours").eq("status", "approved");
+      ? supabase
+          .from("self_reported_hours")
+          .select("volunteer_id, hours, validation_status")
+      : supabase
+          .from("self_reported_hours")
+          .select("volunteer_id, hours, validation_status")
+          .eq("validation_status", "validated");
+    let formalQuery = supabase
+      .from("volunteer_hours")
+      .select("volunteer_id, hours")
+      .eq("status", "approved");
     if (since) {
       const sinceDate = since.split("T")[0];
       selfReportedQuery = selfReportedQuery.gte("activity_date", sinceDate);
@@ -503,10 +538,14 @@ export async function getVolunteerLeaderboard(
     ]);
 
     if (formalError) {
-      Logger.warn("Error fetching formal hours for leaderboard", { error: formalError });
+      Logger.warn("Error fetching formal hours for leaderboard", {
+        error: formalError,
+      });
     }
     if (selfReportedError) {
-      Logger.warn("Error fetching self-reported hours for leaderboard", { error: selfReportedError });
+      Logger.warn("Error fetching self-reported hours for leaderboard", {
+        error: selfReportedError,
+      });
     }
 
     // Aggregate hours by user
@@ -520,7 +559,9 @@ export async function getVolunteerLeaderboard(
 
     // Narrow to the chosen giver region before ranking, so the limit applies within it
     const regionIds = await filterGiversByRegion(
-      Array.from(userHours.keys()).filter((userId) => !privateUserIds.has(userId)),
+      Array.from(userHours.keys()).filter(
+        (userId) => !privateUserIds.has(userId),
+      ),
       "showVolunteerHours",
       region,
     );
@@ -562,8 +603,12 @@ export async function getDonorLeaderboard(
   region?: string,
 ): Promise<DonorLeaderboardEntry[]> {
   try {
-    let cryptoQuery = supabase.from("donations").select("donor_id, amount, charity_id");
-    let fiatQuery = supabase.from("fiat_donations").select("donor_id, amount_cents, charity_id");
+    let cryptoQuery = supabase
+      .from("donations")
+      .select("donor_id, amount, charity_id");
+    let fiatQuery = supabase
+      .from("fiat_donations")
+      .select("donor_id, amount_cents, charity_id");
     if (since) {
       cryptoQuery = cryptoQuery.gte("created_at", since);
       fiatQuery = fiatQuery.gte("created_at", since);
@@ -583,7 +628,9 @@ export async function getDonorLeaderboard(
       Logger.warn("Error fetching donations for leaderboard", { error });
     }
     if (fiatError) {
-      Logger.warn("Error fetching fiat donations for leaderboard", { error: fiatError });
+      Logger.warn("Error fetching fiat donations for leaderboard", {
+        error: fiatError,
+      });
     }
 
     // Aggregate donations by user
@@ -622,7 +669,9 @@ export async function getDonorLeaderboard(
 
     // Narrow to the chosen giver region before ranking, so the limit applies within it
     const regionIds = await filterGiversByRegion(
-      Array.from(userDonations.keys()).filter((userId) => !privateUserIds.has(userId)),
+      Array.from(userDonations.keys()).filter(
+        (userId) => !privateUserIds.has(userId),
+      ),
       "showDonations",
       region,
     );
@@ -680,27 +729,42 @@ export async function getGlobalContributionStats(): Promise<{
     ] = await Promise.all([
       supabase.from("donations").select("amount, donor_id"),
       supabase.from("fiat_donations").select("amount_cents, donor_id"),
-      supabase.from("volunteer_hours").select("hours, volunteer_id").eq("status", "approved"),
-      supabase.from("self_reported_hours").select("hours, validation_status, volunteer_id"),
-      supabase.from("skill_endorsements").select("id", { count: "exact", head: true }),
+      supabase
+        .from("volunteer_hours")
+        .select("hours, volunteer_id")
+        .eq("status", "approved"),
+      supabase
+        .from("self_reported_hours")
+        .select("hours, validation_status, volunteer_id"),
+      supabase
+        .from("skill_endorsements")
+        .select("id", { count: "exact", head: true }),
       getPrivateUserIds("showDonations"),
       getPrivateUserIds("showVolunteerHours"),
     ]);
 
     if (donationsError) {
-      Logger.warn("Error fetching global donation stats", { error: donationsError });
+      Logger.warn("Error fetching global donation stats", {
+        error: donationsError,
+      });
     }
     if (fiatDonationsError) {
-      Logger.warn("Error fetching global fiat donation stats", { error: fiatDonationsError });
+      Logger.warn("Error fetching global fiat donation stats", {
+        error: fiatDonationsError,
+      });
     }
     if (formalError) {
       Logger.warn("Error fetching global formal hours", { error: formalError });
     }
     if (selfReportedError) {
-      Logger.warn("Error fetching global self-reported hours", { error: selfReportedError });
+      Logger.warn("Error fetching global self-reported hours", {
+        error: selfReportedError,
+      });
     }
     if (endorsementsError) {
-      Logger.warn("Error fetching global skill endorsements", { error: endorsementsError });
+      Logger.warn("Error fetching global skill endorsements", {
+        error: endorsementsError,
+      });
     }
 
     // Filter out private users from individual records
@@ -721,7 +785,8 @@ export async function getGlobalContributionStats(): Promise<{
     const cryptoDonationAmount =
       publicDonations?.reduce((sum, d) => sum + (d.amount || 0), 0) || 0;
     const fiatDonationAmount =
-      publicFiatDonations?.reduce((sum, d) => sum + (d.amount_cents || 0), 0) / 100 || 0;
+      publicFiatDonations?.reduce((sum, d) => sum + (d.amount_cents || 0), 0) /
+        100 || 0;
     const totalDonationAmount = cryptoDonationAmount + fiatDonationAmount;
 
     const uniqueDonors = new Set([
@@ -756,7 +821,8 @@ export async function getGlobalContributionStats(): Promise<{
     });
 
     return {
-      totalDonations: (publicDonations?.length || 0) + (publicFiatDonations?.length || 0),
+      totalDonations:
+        (publicDonations?.length || 0) + (publicFiatDonations?.length || 0),
       totalDonationAmount,
       totalFormalVolunteerHours: totalFormalHours,
       totalSelfReportedHours: {

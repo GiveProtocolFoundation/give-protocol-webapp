@@ -135,7 +135,8 @@ export default {
     "volunteer.filter.language": "Ngôn ngữ: {{value}}",
     "volunteer.filter.location": "Địa điểm: {{value}}",
     "volunteer.loadingOpportunities": "Đang tải cơ hội...",
-    "volunteer.loadOpportunitiesError": "Không thể tải các cơ hội tình nguyện. Vui lòng thử lại sau.",
+    "volunteer.loadOpportunitiesError":
+      "Không thể tải các cơ hội tình nguyện. Vui lòng thử lại sau.",
     "volunteer.viewDetails": "Xem chi tiết",
     "volunteer.backToOpportunities": "Quay lại danh sách cơ hội",
     "volunteer.detail.about": "Về cơ hội này",
@@ -147,11 +148,13 @@ export default {
     "volunteer.detail.ongoing": "Liên tục",
     "volunteer.detail.applicationsClosed": "Đã đóng đơn đăng ký",
     "volunteer.detail.notFoundTitle": "Không tìm thấy cơ hội",
-    "volunteer.detail.notFoundMessage": "Cơ hội này có thể đã đủ người hoặc đã bị gỡ bỏ.",
+    "volunteer.detail.notFoundMessage":
+      "Cơ hội này có thể đã đủ người hoặc đã bị gỡ bỏ.",
     "volunteer.field.requirements": "Yêu cầu",
     "volunteer.field.benefits": "Quyền lợi",
     "volunteer.field.schedule": "Lịch trình",
-    "volunteer.field.schedulePlaceholder": "vd: Thứ Ba 18-20 giờ, cuối tuần linh hoạt",
+    "volunteer.field.schedulePlaceholder":
+      "vd: Thứ Ba 18-20 giờ, cuối tuần linh hoạt",
     "volunteer.field.startDate": "Ngày bắt đầu",
     "volunteer.field.endDate": "Ngày kết thúc",
     "volunteer.field.endDateHelp": "Để trống nếu liên tục",
@@ -163,7 +166,8 @@ export default {
     "volunteer.field.onePerLine": "mỗi dòng một mục",
     "volunteer.validation.volunteersNeeded": "Nhập số từ 1 trở lên",
     "volunteer.validation.minimumAge": "Nhập độ tuổi từ 0 đến 120",
-    "volunteer.validation.endDate": "Ngày kết thúc phải cùng hoặc sau ngày bắt đầu",
+    "volunteer.validation.endDate":
+      "Ngày kết thúc phải cùng hoặc sau ngày bắt đầu",
     "volunteer.signInToApply":
       "Vui lòng đăng nhập để đăng ký cơ hội tình nguyện",
     "volunteer.applicationSuccess": "Đơn đăng ký đã được gửi thành công!",
@@ -1400,12 +1404,17 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "Giờ tình nguyện được xác minh bởi tổ chức từ thiện và tính vào uy tín giao thức của bạn.",
     "browse.news.heading": "Tin Tức Nền Tảng",
-    "admin.news.deleteConfirmBody": "“{{title}}” sẽ bị xóa vĩnh viễn. Không thể hoàn tác thao tác này.",
+    "admin.news.deleteConfirmBody":
+      "“{{title}}” sẽ bị xóa vĩnh viễn. Không thể hoàn tác thao tác này.",
     "admin.news.deleteConfirmTitle": "Xóa tin tức?",
-    "admin.news.saveFailed": "Không thể lưu thay đổi của bạn. Vui lòng thử lại.",
-    "admin.news.urlHelp": "Tùy chọn. Để trống để hiển thị tin tức không có liên kết.",
-    "admin.news.urlInvalid": "Nhập địa chỉ https:// đầy đủ hoặc đường dẫn bắt đầu bằng /.",
-    "browse.carousel.error": "Không thể tải phần này. Vui lòng làm mới trang và thử lại.",
+    "admin.news.saveFailed":
+      "Không thể lưu thay đổi của bạn. Vui lòng thử lại.",
+    "admin.news.urlHelp":
+      "Tùy chọn. Để trống để hiển thị tin tức không có liên kết.",
+    "admin.news.urlInvalid":
+      "Nhập địa chỉ https:// đầy đủ hoặc đường dẫn bắt đầu bằng /.",
+    "browse.carousel.error":
+      "Không thể tải phần này. Vui lòng làm mới trang và thử lại.",
     "browse.carousel.goToPage": "Đến trang {{page}}",
     "browse.carousel.pageLabel": "Trang {{current}} trên {{total}}",
     "browse.carousel.pause": "Tạm dừng tự động chuyển",
@@ -1413,21 +1422,28 @@ export default {
     "browse.causes.empty": "Chưa có mục đích nào. Hãy quay lại sớm nhé!",
     "browse.causes.prevAria": "Mục đích nổi bật trước đó",
     "browse.causes.searchPlaceholder": "Tìm kiếm mục đích...",
-    "browse.causes.subheading": "Hỗ trợ các dự án cụ thể tạo ra tác động thực sự.",
+    "browse.causes.subheading":
+      "Hỗ trợ các dự án cụ thể tạo ra tác động thực sự.",
     "browse.charity.registryIdDisplay": "Mã đăng ký: {{value}}",
-    "browse.featured.empty": "Chưa có tổ chức nổi bật. Hãy dùng ô tìm kiếm phía trên để tìm một tổ chức từ thiện.",
+    "browse.featured.empty":
+      "Chưa có tổ chức nổi bật. Hãy dùng ô tìm kiếm phía trên để tìm một tổ chức từ thiện.",
     "browse.featured.prevAria": "Tổ chức nổi bật trước đó",
-    "browse.featured.subheading": "Điểm qua các tổ chức từ thiện đã xác minh trên Give Protocol.",
+    "browse.featured.subheading":
+      "Điểm qua các tổ chức từ thiện đã xác minh trên Give Protocol.",
     "browse.filter.addLocation": "Thêm địa điểm",
-    "browse.filter.impactNotice": "Bộ lọc theo địa điểm tác động chưa khả dụng, nên kết quả không được thu hẹp theo địa điểm tác động.",
-    "browse.filter.locationHint": "Nhấn Enter hoặc chọn Thêm để áp dụng địa điểm.",
+    "browse.filter.impactNotice":
+      "Bộ lọc theo địa điểm tác động chưa khả dụng, nên kết quả không được thu hẹp theo địa điểm tác động.",
+    "browse.filter.locationHint":
+      "Nhấn Enter hoặc chọn Thêm để áp dụng địa điểm.",
     "browse.filter.minChars": "Nhập ít nhất 2 ký tự để tìm kiếm.",
     "browse.funds.empty": "Chưa có quỹ danh mục nào. Hãy quay lại sớm nhé!",
     "browse.funds.prevAria": "Quỹ danh mục trước đó",
     "browse.funds.searchPlaceholder": "Tìm kiếm quỹ danh mục...",
-    "browse.funds.subheading": "Các danh mục quyên góp được tuyển chọn, phân bổ khoản quyên góp cho các tổ chức từ thiện đã xác minh.",
+    "browse.funds.subheading":
+      "Các danh mục quyên góp được tuyển chọn, phân bổ khoản quyên góp cho các tổ chức từ thiện đã xác minh.",
     "browse.registry.badge": "Đã đăng ký tại {{registry}}",
-    "browse.results.empty": "Không có tổ chức nào khớp với tìm kiếm này. Hãy thử từ khóa khác hoặc thêm bộ lọc địa điểm.",
+    "browse.results.empty":
+      "Không có tổ chức nào khớp với tìm kiếm này. Hãy thử từ khóa khác hoặc thêm bộ lọc địa điểm.",
     "browse.results.error": "Không thể thực hiện tìm kiếm. Vui lòng thử lại.",
     "browse.search.noMatches": "Không có kết quả nào khớp với “{{query}}”.",
     "browse.category.A": "Nghệ thuật & Văn hóa",

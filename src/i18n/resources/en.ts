@@ -135,7 +135,8 @@ export default {
     "volunteer.filter.language": "Language: {{value}}",
     "volunteer.filter.location": "Location: {{value}}",
     "volunteer.loadingOpportunities": "Loading opportunities...",
-    "volunteer.loadOpportunitiesError": "We couldn't load volunteer opportunities. Please try again later.",
+    "volunteer.loadOpportunitiesError":
+      "We couldn't load volunteer opportunities. Please try again later.",
     "volunteer.viewDetails": "View details",
     "volunteer.backToOpportunities": "Back to opportunities",
     "volunteer.detail.about": "About this opportunity",
@@ -147,11 +148,13 @@ export default {
     "volunteer.detail.ongoing": "Ongoing",
     "volunteer.detail.applicationsClosed": "Applications closed",
     "volunteer.detail.notFoundTitle": "Opportunity not found",
-    "volunteer.detail.notFoundMessage": "This opportunity may have been filled or removed.",
+    "volunteer.detail.notFoundMessage":
+      "This opportunity may have been filled or removed.",
     "volunteer.field.requirements": "Requirements",
     "volunteer.field.benefits": "Benefits",
     "volunteer.field.schedule": "Schedule",
-    "volunteer.field.schedulePlaceholder": "e.g., Tuesdays 6-8pm, flexible weekends",
+    "volunteer.field.schedulePlaceholder":
+      "e.g., Tuesdays 6-8pm, flexible weekends",
     "volunteer.field.startDate": "Start date",
     "volunteer.field.endDate": "End date",
     "volunteer.field.endDateHelp": "Leave blank if ongoing",
@@ -163,7 +166,8 @@ export default {
     "volunteer.field.onePerLine": "one per line",
     "volunteer.validation.volunteersNeeded": "Enter a number of 1 or more",
     "volunteer.validation.minimumAge": "Enter an age between 0 and 120",
-    "volunteer.validation.endDate": "End date must be on or after the start date",
+    "volunteer.validation.endDate":
+      "End date must be on or after the start date",
     "volunteer.signInToApply":
       "Please sign in to apply for volunteer opportunities",
     "volunteer.applicationSuccess": "Application submitted successfully!",
@@ -1707,12 +1711,16 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "Volunteer hours are verified by charities and count toward your protocol reputation.",
     "browse.news.heading": "Platform News",
-    "admin.news.deleteConfirmBody": "“{{title}}” will be permanently removed. This can't be undone.",
+    "admin.news.deleteConfirmBody":
+      "“{{title}}” will be permanently removed. This can't be undone.",
     "admin.news.deleteConfirmTitle": "Delete news item?",
     "admin.news.saveFailed": "Couldn't save your changes. Please try again.",
-    "admin.news.urlHelp": "Optional. Leave blank to show the item without a link.",
-    "admin.news.urlInvalid": "Enter a full https:// address or a path starting with /.",
-    "browse.carousel.error": "We couldn't load this section. Please refresh the page to try again.",
+    "admin.news.urlHelp":
+      "Optional. Leave blank to show the item without a link.",
+    "admin.news.urlInvalid":
+      "Enter a full https:// address or a path starting with /.",
+    "browse.carousel.error":
+      "We couldn't load this section. Please refresh the page to try again.",
     "browse.carousel.goToPage": "Go to page {{page}}",
     "browse.carousel.pageLabel": "Page {{current}} of {{total}}",
     "browse.carousel.pause": "Pause automatic rotation",
@@ -1722,19 +1730,25 @@ export default {
     "browse.causes.searchPlaceholder": "Search causes...",
     "browse.causes.subheading": "Support specific projects making real impact.",
     "browse.charity.registryIdDisplay": "Registry ID: {{value}}",
-    "browse.featured.empty": "No featured organizations yet. Use the search above to find a charity.",
+    "browse.featured.empty":
+      "No featured organizations yet. Use the search above to find a charity.",
     "browse.featured.prevAria": "Previous featured organizations",
-    "browse.featured.subheading": "A rotating look at verified charities on Give Protocol.",
+    "browse.featured.subheading":
+      "A rotating look at verified charities on Give Protocol.",
     "browse.filter.addLocation": "Add location",
-    "browse.filter.impactNotice": "Impact-location filtering isn't available yet, so results are not narrowed by impact location.",
-    "browse.filter.locationHint": "Press Enter or choose Add to apply a location.",
+    "browse.filter.impactNotice":
+      "Impact-location filtering isn't available yet, so results are not narrowed by impact location.",
+    "browse.filter.locationHint":
+      "Press Enter or choose Add to apply a location.",
     "browse.filter.minChars": "Type at least 2 characters to search.",
     "browse.funds.empty": "No portfolio funds available yet. Check back soon!",
     "browse.funds.prevAria": "Previous portfolio funds",
     "browse.funds.searchPlaceholder": "Search portfolio funds...",
-    "browse.funds.subheading": "Curated giving portfolios that distribute donations across verified charities.",
+    "browse.funds.subheading":
+      "Curated giving portfolios that distribute donations across verified charities.",
     "browse.registry.badge": "{{registry}}-registered",
-    "browse.results.empty": "No organizations match that search yet. Try a different keyword or add a location filter.",
+    "browse.results.empty":
+      "No organizations match that search yet. Try a different keyword or add a location filter.",
     "browse.results.error": "We couldn't run that search. Please try again.",
     "browse.search.noMatches": "Nothing matches “{{query}}”.",
     "browse.category.A": "Arts & Culture",

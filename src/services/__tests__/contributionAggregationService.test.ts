@@ -98,10 +98,7 @@ describe("contributionAggregationService", () => {
         error: null,
       });
       setMockResult("fiat_donations", {
-        data: [
-          { amount_cents: 5000 },
-          { amount_cents: 2500 },
-        ],
+        data: [{ amount_cents: 5000 }, { amount_cents: 2500 }],
         error: null,
       });
       setMockResult("volunteer_hours", { data: [], error: null });
@@ -398,8 +395,14 @@ describe("contributionAggregationService", () => {
 
     it("should handle database errors in individual fetch functions", async () => {
       setMockResult("donations", { data: null, error: { message: "Error" } });
-      setMockResult("volunteer_hours", { data: null, error: { message: "Error" } });
-      setMockResult("self_reported_hours", { data: null, error: { message: "Error" } });
+      setMockResult("volunteer_hours", {
+        data: null,
+        error: { message: "Error" },
+      });
+      setMockResult("self_reported_hours", {
+        data: null,
+        error: { message: "Error" },
+      });
 
       const result = await getUnifiedContributions({ userId: "user-1" });
 
@@ -577,7 +580,11 @@ describe("contributionAggregationService", () => {
       setMockResult("self_reported_hours", {
         data: [
           { volunteer_id: "user-1", hours: 5, validation_status: "validated" },
-          { volunteer_id: "user-1", hours: 3, validation_status: "unvalidated" },
+          {
+            volunteer_id: "user-1",
+            hours: 3,
+            validation_status: "unvalidated",
+          },
         ],
         error: null,
       });
@@ -625,7 +632,11 @@ describe("contributionAggregationService", () => {
       });
       setMockResult("self_reported_hours", {
         data: [
-          { volunteer_id: "user-1", hours: null, validation_status: "validated" },
+          {
+            volunteer_id: "user-1",
+            hours: null,
+            validation_status: "validated",
+          },
         ],
         error: null,
       });
@@ -643,7 +654,9 @@ describe("contributionAggregationService", () => {
         error: { message: "Database error" },
       });
       setMockResult("self_reported_hours", {
-        data: [{ volunteer_id: "user-1", hours: 5, validation_status: "validated" }],
+        data: [
+          { volunteer_id: "user-1", hours: 5, validation_status: "validated" },
+        ],
         error: null,
       });
 
@@ -758,7 +771,10 @@ describe("contributionAggregationService", () => {
       setMockResult("self_reported_hours", { data: [], error: null });
       setMockResult("user_preferences", {
         data: [
-          { user_id: "user-1", privacy_settings: { showVolunteerHours: false } },
+          {
+            user_id: "user-1",
+            privacy_settings: { showVolunteerHours: false },
+          },
         ],
         error: null,
       });
@@ -879,9 +895,7 @@ describe("contributionAggregationService", () => {
 
     it("should handle null charity_id in donations", async () => {
       setMockResult("donations", {
-        data: [
-          { donor_id: "user-1", amount: 100, charity_id: null },
-        ],
+        data: [{ donor_id: "user-1", amount: 100, charity_id: null }],
         error: null,
       });
 
