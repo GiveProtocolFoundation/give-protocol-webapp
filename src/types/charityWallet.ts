@@ -7,6 +7,19 @@
 export type CharityWalletType = "eoa" | "safe" | "institutional";
 
 /**
+ * Charity wallet onboarding lifecycle.
+ * - `pending`: collected, awaiting confirmation
+ * - `test_transaction_sent`: a test transaction has been dispatched
+ * - `test_transaction_confirmed`: the test transaction was confirmed on-chain
+ * - `official`: established for ongoing donation transactions
+ */
+export type WalletOnboardingStatus =
+  | "pending"
+  | "test_transaction_sent"
+  | "test_transaction_confirmed"
+  | "official";
+
+/**
  * A charity's registered receiving wallet record from the `charity_wallets` table.
  * Stores wallet-type-specific metadata (Safe signer config, custodian details,
  * EOA risk acknowledgment) alongside the wallet address and chain.
@@ -42,6 +55,16 @@ export interface CharityWallet {
   risk_acknowledgment_user_id: string | null;
   /** Whether this is the primary receiving wallet for its charity+chain. */
   is_primary: boolean;
+  /** Onboarding lifecycle status (pending → test transaction → official). */
+  onboarding_status: WalletOnboardingStatus;
+  /** On-chain tx hash of the test transaction confirming wallet control. */
+  test_transaction_hash: string | null;
+  /** Test-transaction amount as a decimal string (avoids float precision). */
+  test_transaction_amount: string | null;
+  /** Token contract address used for the test transaction. */
+  test_transaction_token_address: string | null;
+  /** Timestamp when the test transaction was confirmed on-chain. */
+  test_transaction_confirmed_at: string | null;
   /** Row creation timestamp. */
   created_at: string;
   /** Row last-updated timestamp. */
