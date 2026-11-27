@@ -3,6 +3,8 @@ export default {
   testEnvironment: "jsdom",
   // Run tests sequentially to prevent ESM module mocking isolation issues
   maxWorkers: 1,
+  // Recycle the worker when memory grows to prevent V8 heap OOM under --experimental-vm-modules
+  workerIdleMemoryLimit: "1024MB",
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   roots: ["<rootDir>/src"],
   testMatch: [
