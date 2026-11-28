@@ -100,10 +100,10 @@ async function supportsAtomicBatch(
   provider: Provider,
   chainId: number,
 ): Promise<boolean> {
-  const p = toEip5792Provider(provider);
-  if (!p) return false;
+  const walletProvider = toEip5792Provider(provider);
+  if (!walletProvider) return false;
   try {
-    const raw = await p.send("wallet_getCapabilities", []);
+    const raw = await walletProvider.send("wallet_getCapabilities", []);
     if (typeof raw !== "object" || raw === null) return false;
     const capabilities = raw as Record<
       string,
@@ -139,10 +139,10 @@ async function submitAtomicBatch(
   chainId: number,
   calls: Eip5792Call[],
 ): Promise<string | null> {
-  const p = toEip5792Provider(provider);
-  if (!p) return null;
+  const walletProvider = toEip5792Provider(provider);
+  if (!walletProvider) return null;
   try {
-    const result = await p.send("wallet_sendCalls", [
+    const result = await walletProvider.send("wallet_sendCalls", [
       {
         version: "1.0",
         chainId: `0x${chainId.toString(16)}`,
@@ -166,15 +166,15 @@ async function confirmAtomicBatch(
   provider: Provider,
   bundleId: string,
 ): Promise<void> {
-  const p = toEip5792Provider(provider);
-  if (!p) {
+  const walletProvider = toEip5792Provider(provider);
+  if (!walletProvider) {
     throw new Error("Wallet does not support EIP-5792 call status.");
   }
   const deadline = Date.now() + EIP5792_TIMEOUT_MS;
   let confirmed = false;
   while (!confirmed) {
     const status = toCallsStatus(
-      await p.send("wallet_getCallsStatus", [bundleId]),
+      await walletProvider.send("wallet_getCallsStatus", [bundleId]),
     );
     if (status?.status === "CONFIRMED") {
       confirmed = true;
