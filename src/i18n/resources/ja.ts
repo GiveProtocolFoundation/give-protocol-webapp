@@ -1603,6 +1603,11 @@ export default {
     "donation.art9Consent.required":
       "続行するには寄付データの処理に同意する必要があります。",
 
+    "donation.approval.step.approve": "承認",
+    "donation.approval.step.send": "寄付を送信",
+    "donation.approval.securityNote":
+      "安全のため、承認されるのは正確な寄付金額のみで、トークンへの無制限アクセスは許可されません。",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

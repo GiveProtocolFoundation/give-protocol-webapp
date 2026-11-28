@@ -329,6 +329,37 @@ export function DonationForm({
         </span>
       </label>
 
+      {/* Two-step approval/donation progress (MVP-SEC-04) */}
+      <div className="flex items-center gap-2 text-xs font-medium">
+        <span
+          className={
+            approving
+              ? "text-emerald-600 dark:text-emerald-400"
+              : "text-gray-500 dark:text-gray-400"
+          }
+        >
+          1. {t("donation.approval.step.approve", "Approve")}
+        </span>
+        <span className="text-gray-300 dark:text-gray-600">→</span>
+        <span
+          className={
+            loading && !approving
+              ? "text-emerald-600 dark:text-emerald-400"
+              : "text-gray-500 dark:text-gray-400"
+          }
+        >
+          2. {t("donation.approval.step.send", "Send donation")}
+        </span>
+      </div>
+
+      {/* Exact-amount approval security note (MVP-SEC-04) */}
+      <p className="text-xs text-gray-500 dark:text-gray-400">
+        {t(
+          "donation.approval.securityNote",
+          "For your security, only the exact donation amount is approved — never unlimited token access.",
+        )}
+      </p>
+
       <Button
         type="submit"
         disabled={

@@ -1931,6 +1931,12 @@ export default {
     "donation.art9Consent.required":
       "You must consent to donation data processing to proceed.",
 
+    // Exact-amount approval steps (MVP-SEC-04)
+    "donation.approval.step.approve": "Approve",
+    "donation.approval.step.send": "Send donation",
+    "donation.approval.securityNote":
+      "For your security, only the exact donation amount is approved — never unlimited token access.",
+
     // Donation gas estimate (GIV-799)
     "donation.gas.estimating": "Estimating network fee…",
     "donation.gas.label": "Est. network fee",

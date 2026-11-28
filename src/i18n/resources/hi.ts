@@ -81,8 +81,7 @@ export default {
     "volunteer.allTypes": "सभी प्रकार",
     "volunteer.allLanguages": "सभी भाषाएं",
     "volunteer.applyNow": "अभी आवेदन करें",
-    "volunteer.noOpportunitiesFound":
-      "आपके मानदंड से मेल खाते कोई अवसर नहीं मिले।",
+    "volunteer.noOpportunitiesFound": "आपके मानदंड से मेल खाते कोई अवसर नहीं मिले।",
     "volunteer.verify": "घंटे सत्यापित करें",
     "volunteer.verifying": "सत्यापित हो रहा है...",
     "volunteer.reject": "अस्वीकार करें",
@@ -100,11 +99,9 @@ export default {
       "स्वयंसेवक आवेदन स्वीकार किया गया है और ब्लॉकचेन पर दर्ज किया गया है।",
     "volunteer.acceptanceHash": "स्वीकृति हैश",
     "volunteer.pendingHours": "लंबित स्वयंसेवक घंटे",
-    "volunteer.noPendingHours":
-      "सत्यापन के लिए कोई लंबित स्वयंसेवक घंटे नहीं हैं।",
+    "volunteer.noPendingHours": "सत्यापन के लिए कोई लंबित स्वयंसेवक घंटे नहीं हैं।",
     "volunteer.pendingApplications": "लंबित आवेदन",
-    "volunteer.noPendingApplications":
-      "समीक्षा के लिए कोई लंबित आवेदन नहीं हैं।",
+    "volunteer.noPendingApplications": "समीक्षा के लिए कोई लंबित आवेदन नहीं हैं।",
     "volunteer.createOpportunity": "स्वयंसेवक अवसर बनाएं",
     "volunteer.createNew": "नया बनाएं",
     "volunteer.noOpportunitiesYet":
@@ -170,8 +167,7 @@ export default {
     "volunteer.validation.minimumAge": "0 से 120 के बीच की आयु दर्ज करें",
     "volunteer.validation.endDate":
       "समाप्ति तिथि आरंभ तिथि के बराबर या बाद की होनी चाहिए",
-    "volunteer.signInToApply":
-      "स्वयंसेवक अवसरों के लिए आवेदन करने हेतु कृपया साइन इन करें",
+    "volunteer.signInToApply": "स्वयंसेवक अवसरों के लिए आवेदन करने हेतु कृपया साइन इन करें",
     "volunteer.applicationSuccess": "आवेदन सफलतापूर्वक जमा किया गया!",
     "volunteer.removeFilter": "{{filter}} फ़िल्टर हटाएं",
 
@@ -183,8 +179,7 @@ export default {
     "volunteer.profileNotFound": "उपयोगकर्ता प्रोफ़ाइल नहीं मिली",
     "volunteer.correctErrors": "कृपया सत्यापन त्रुटियों को सही करें",
     "volunteer.createFailed": "अवसर बनाने में विफल",
-    "volunteer.descriptionPlaceholder":
-      "स्वयंसेवक अवसर का विस्तृत विवरण दें...",
+    "volunteer.descriptionPlaceholder": "स्वयंसेवक अवसर का विस्तृत विवरण दें...",
     "volunteer.skillsPlaceholder": "जैसे, वेब विकास, परियोजना प्रबंधन, अनुवाद",
     "volunteer.locationPlaceholder": "जैसे, रिमोट, नई दिल्ली, मुंबई",
     "volunteer.headerImage": "हेडर छवि",
@@ -193,8 +188,7 @@ export default {
     "volunteer.limitReached": "अवसर सीमा पूर्ण",
     "volunteer.limitReachedMessage":
       "आपने अधिकतम {{max}} सक्रिय स्वयंसेवक अवसरों की सीमा पूरी कर ली है। कृपया नया बनाने से पहले किसी मौजूदा अवसर को बंद करें या पूरा करें।",
-    "volunteer.opportunityCount":
-      "आपके {{max}} में से {{count}} सक्रिय अवसर हैं।",
+    "volunteer.opportunityCount": "आपके {{max}} में से {{count}} सक्रिय अवसर हैं।",
 
     // Volunteer - HoursVerificationTab
     "volunteer.hoursVerification": "घंटों का सत्यापन",
@@ -206,8 +200,7 @@ export default {
     "volunteer.loggedHoursDescription":
       "आपके अवसरों के माध्यम से स्वयंसेवकों द्वारा दर्ज किए गए घंटे",
     "volunteer.allCaughtUp": "सब अद्यतन है!",
-    "volunteer.noPendingLoggedHours":
-      "सत्यापन के लिए कोई लंबित दर्ज घंटे नहीं हैं।",
+    "volunteer.noPendingLoggedHours": "सत्यापन के लिए कोई लंबित दर्ज घंटे नहीं हैं।",
     "volunteer.selfReportedHours": "स्व-रिपोर्टेड घंटे",
 
     // Volunteer - OpportunitiesTab
@@ -274,17 +267,14 @@ export default {
     "volunteer.enterOrgName": "संगठन का नाम दर्ज करें",
     "volunteer.contactEmail": "संपर्क ईमेल",
     "volunteer.contactEmailOptional": "(वैकल्पिक)",
-    "volunteer.onboardHelp":
-      "हम इस संगठन को जोड़ने में मदद के लिए संपर्क कर सकते हैं",
+    "volunteer.onboardHelp": "हम इस संगठन को जोड़ने में मदद के लिए संपर्क कर सकते हैं",
     "volunteer.submittedForValidation":
       "यह रिकॉर्ड मान्यता के लिए प्रस्तुत किया जाएगा",
     "volunteer.submittedForValidationTo":
       "यह रिकॉर्ड {{org}} को मान्यता के लिए प्रस्तुत किया जाएगा",
-    "volunteer.validationExpired":
-      "इस तिथि के लिए मान्यता अवधि समाप्त हो गई है",
+    "volunteer.validationExpired": "इस तिथि के लिए मान्यता अवधि समाप्त हो गई है",
     "volunteer.savedAsUnvalidated": "यह रिकॉर्ड अमान्य के रूप में सहेजा जाएगा",
-    "volunteer.describeActivities":
-      "आपने जो गतिविधियां की हैं उनका वर्णन करें...",
+    "volunteer.describeActivities": "आपने जो गतिविधियां की हैं उनका वर्णन करें...",
     "volunteer.moreCharsNeeded": "{{count}} और अक्षर आवश्यक हैं",
     "volunteer.updating": "अपडेट हो रहा है...",
     "volunteer.logging": "दर्ज हो रहा है...",
@@ -300,8 +290,7 @@ export default {
     "volunteer.allActivityTypes": "सभी प्रकार",
     "volunteer.noMatchingRecords": "कोई मिलान रिकॉर्ड नहीं",
     "volunteer.noHoursLogged": "अभी तक कोई स्वयंसेवक घंटे दर्ज नहीं किए गए",
-    "volunteer.adjustFilters":
-      "रिकॉर्ड खोजने के लिए अपने फ़िल्टर समायोजित करें।",
+    "volunteer.adjustFilters": "रिकॉर्ड खोजने के लिए अपने फ़िल्टर समायोजित करें।",
     "volunteer.startLogging": "अपने पहले स्वयंसेवक घंटे दर्ज करके शुरू करें।",
 
     // Volunteer - SelfReportedHoursStats
@@ -352,8 +341,7 @@ export default {
     "volunteer.submitApplication": "स्वयंसेवक आवेदन जमा करें",
     "volunteer.disclaimerText":
       "यह आवेदन जमा करके, आप स्वीकार करते हैं कि आपने Give Protocol की गोपनीयता नीति और स्वयंसेवक दिशानिर्देशों को पढ़ और समझ लिया है। आपके डेटा को लागू डेटा सुरक्षा विनियमों के अनुसार संसाधित किया जाएगा।",
-    "volunteer.validation.firstNameInvalid":
-      "कृपया एक मान्य पहला नाम दर्ज करें",
+    "volunteer.validation.firstNameInvalid": "कृपया एक मान्य पहला नाम दर्ज करें",
     "volunteer.validation.lastNameInvalid": "कृपया एक मान्य उपनाम दर्ज करें",
     "volunteer.validation.emailInvalid": "कृपया एक मान्य ईमेल पता दर्ज करें",
     "volunteer.validation.phoneInvalid": "कृपया एक मान्य फ़ोन नंबर दर्ज करें",
@@ -364,8 +352,7 @@ export default {
     "volunteer.validation.consentRequired":
       "आपको सभी आवश्यक सहमति मदों से सहमत होना होगा",
     "volunteer.signInToSubmit": "आवेदन जमा करने के लिए कृपया लॉग इन करें",
-    "volunteer.submitFailed":
-      "आवेदन जमा करने में विफल। कृपया पुनः प्रयास करें।",
+    "volunteer.submitFailed": "आवेदन जमा करने में विफल। कृपया पुनः प्रयास करें।",
 
     // Volunteer - ApplicationForm
     "volunteer.applyForTitle": "इसके लिए आवेदन करें: {{title}}",
@@ -388,8 +375,7 @@ export default {
     "volunteer.workSamplesTitle": "कार्य नमूने",
     "volunteer.workSamplesLabel": "कार्य नमूनों के लिंक (अल्पविराम से अलग)",
     "volunteer.submitApplicationShort": "आवेदन जमा करें",
-    "volunteer.validation.nameInvalid":
-      "कृपया एक मान्य नाम दर्ज करें (2-100 अक्षर)",
+    "volunteer.validation.nameInvalid": "कृपया एक मान्य नाम दर्ज करें (2-100 अक्षर)",
     "volunteer.validation.provideExperience":
       "कृपया अपने अनुभव के बारे में जानकारी प्रदान करें",
     "volunteer.validation.selectDay": "कृपया कम से कम एक दिन चुनें",
@@ -412,8 +398,7 @@ export default {
       "आपको अपनी आयु की पुष्टि करनी होगी और यह सुनिश्चित करना होगा कि आपने गोपनीयता सूचना पढ़ ली है",
 
     // Age affirmation gate (shared across all surfaces — GIV-453)
-    "ageGate.positive":
-      "मैं पुष्टि करता/करती हूँ कि मेरी आयु 16 वर्ष या उससे अधिक है।",
+    "ageGate.positive": "मैं पुष्टि करता/करती हूँ कि मेरी आयु 16 वर्ष या उससे अधिक है।",
     "ageGate.negative":
       "Give Protocol 16 वर्ष या उससे अधिक आयु के उपयोगकर्ताओं के लिए उपलब्ध है। यदि आपकी आयु 16 वर्ष से कम है, तो हम इस समय आपके अनुरोध को संसाधित करने में असमर्थ हैं।",
 
@@ -476,8 +461,7 @@ export default {
     "skills.endorsements": "कौशल और अनुमोदन",
 
     // Home
-    "home.subtitle":
-      "संसाधनों को उन कारणों से जोड़ना जिन्हें उनकी सबसे अधिक आवश्यकता है",
+    "home.subtitle": "संसाधनों को उन कारणों से जोड़ना जिन्हें उनकी सबसे अधिक आवश्यकता है",
     "home.startDonating": "दान शुरू करें",
 
     // Modal - shared
@@ -488,8 +472,7 @@ export default {
     "modal.wallet.title": "अपना वॉलेट कनेक्ट करें",
     "modal.wallet.description":
       "Give Protocol की सभी सुविधाओं को अनलॉक करने के लिए वॉलेट कनेक्ट करें",
-    "modal.wallet.benefit1":
-      "ब्लॉकचेन पर अपने दान को पारदर्शी रूप से ट्रैक करें",
+    "modal.wallet.benefit1": "ब्लॉकचेन पर अपने दान को पारदर्शी रूप से ट्रैक करें",
     "modal.wallet.benefit2":
       "अपने योगदान के लिए पुरस्कार के रूप में GIVE टोकन प्राप्त करें",
     "modal.wallet.benefit3": "प्रोटोकॉल के लिए शासन निर्णयों में भाग लें",
@@ -498,25 +481,21 @@ export default {
     "modal.wallet.noExtension": "कोई वॉलेट एक्सटेंशन नहीं मिला।",
     "modal.wallet.installMetaMask": "शुरू करने के लिए MetaMask इंस्टॉल करें",
     "modal.wallet.skip": "अभी छोड़ें",
-    "modal.wallet.footerNote":
-      "आप नेविगेशन बार से कभी भी अपना वॉलेट कनेक्ट कर सकते हैं",
+    "modal.wallet.footerNote": "आप नेविगेशन बार से कभी भी अपना वॉलेट कनेक्ट कर सकते हैं",
     "modal.wallet.failedConnect": "वॉलेट कनेक्ट करने में विफल",
 
     // Modal - wallet link
     "modal.walletLink.title": "अपना वॉलेट लिंक करें",
     "modal.walletLink.description":
       "ऑन-चेन दान, टोकन पुरस्कार, और शासन के लिए अपने खाते से वॉलेट लिंक करें",
-    "modal.walletLink.benefit1":
-      "सत्यापित चैरिटी को सीधे ऑन-चेन क्रिप्टो दान करें",
+    "modal.walletLink.benefit1": "सत्यापित चैरिटी को सीधे ऑन-चेन क्रिप्टो दान करें",
     "modal.walletLink.benefit2Pre": "विकसित करें",
     "modal.walletLink.benefit2Post": "अपने योगदान के लिए क्रेडेंशियल",
-    "modal.walletLink.benefit3":
-      "ईमेल या वॉलेट से साइन इन करें \u2014 एक ही खाता",
+    "modal.walletLink.benefit3": "ईमेल या वॉलेट से साइन इन करें \u2014 एक ही खाता",
     "modal.walletLink.buttonLinking": "लिंक हो रहा है\u2026",
     "modal.walletLink.buttonLink": "वॉलेट लिंक करें",
     "modal.walletLink.buttonConnectFirst": "पहले वॉलेट कनेक्ट करें",
-    "modal.walletLink.footerNote":
-      "आप सेटिंग्स से कभी भी अपना वॉलेट लिंक कर सकते हैं",
+    "modal.walletLink.footerNote": "आप सेटिंग्स से कभी भी अपना वॉलेट लिंक कर सकते हैं",
     "modal.walletLink.failedLink": "वॉलेट लिंक करने में विफल",
 
     // Modal - chain selection
@@ -535,10 +514,8 @@ export default {
     // Modal - wallet connect (WalletModal step 2)
     "modal.connect.title": "वॉलेट कनेक्ट करें",
     "modal.connect.backAria": "नेटवर्क चयन पर वापस जाएं",
-    "modal.connect.noWallets":
-      "{{chainType}} चेन के लिए कोई वॉलेट उपलब्ध नहीं है।",
-    "modal.connect.tryDifferentChain":
-      "कोई अन्य चेन प्रकार चुनने का प्रयास करें।",
+    "modal.connect.noWallets": "{{chainType}} चेन के लिए कोई वॉलेट उपलब्ध नहीं है।",
+    "modal.connect.tryDifferentChain": "कोई अन्य चेन प्रकार चुनने का प्रयास करें।",
     "modal.connect.viewOtherWallets": "अन्य समर्थित वॉलेट देखें",
     "modal.connect.termsAgreement": "कनेक्ट करके, आप हमारी",
     "modal.connect.termsLink": "सेवा की शर्तें",
@@ -558,8 +535,7 @@ export default {
     "modal.donation.receiptNote": "आपके ईमेल पर एक रसीद भेजी गई है।",
     "modal.donation.done": "पूर्ण",
     "modal.donation.errorTitle": "कुछ गलत हो गया",
-    "modal.donation.errorDefault":
-      "एक अप्रत्याशित त्रुटि हुई। कृपया पुनः प्रयास करें।",
+    "modal.donation.errorDefault": "एक अप्रत्याशित त्रुटि हुई। कृपया पुनः प्रयास करें।",
     "modal.donation.tryAgain": "पुनः प्रयास करें",
     "modal.donation.close": "बंद करें",
     "modal.donation.amountLabel": "दान राशि",
@@ -571,8 +547,7 @@ export default {
     "modal.donation.donateToCharity": "{{charityName}} को दान करें",
 
     // Modal - scheduled donation
-    "modal.scheduledDonation.title":
-      "{{charityName}} के लिए मासिक दान शेड्यूल करें",
+    "modal.scheduledDonation.title": "{{charityName}} के लिए मासिक दान शेड्यूल करें",
 
     // Modal - withdrawal
     "modal.withdrawal.title": "निकासी अनुरोध",
@@ -590,8 +565,7 @@ export default {
     "modal.validation.description": "विवरण",
     "modal.validation.submitted": "प्रस्तुत किया गया:",
     "modal.validation.daysRemaining": "(मान्य करने के लिए {{count}} दिन शेष)",
-    "modal.validation.appealNote":
-      "यह पहले अस्वीकृत अनुरोध की अपील/पुनः प्रस्तुति है",
+    "modal.validation.appealNote": "यह पहले अस्वीकृत अनुरोध की अपील/पुनः प्रस्तुति है",
     "modal.validation.rejectPrompt":
       "कृपया इस मान्यता अनुरोध को अस्वीकार करने का कारण चुनें। स्वयंसेवक को सूचित किया जाएगा।",
     "modal.validation.reject": "अस्वीकार करें",
@@ -630,8 +604,7 @@ export default {
 
     // Dashboard - admin redirect (GIV-254)
     "dashboard.adminTitle": "एडमिन डैशबोर्ड",
-    "dashboard.adminNote":
-      "प्लेटफ़ॉर्म प्रबंधन के लिए कृपया एडमिन पैनल का उपयोग करें।",
+    "dashboard.adminNote": "प्लेटफ़ॉर्म प्रबंधन के लिए कृपया एडमिन पैनल का उपयोग करें।",
     "dashboard.adminButton": "एडमिन पैनल पर जाएं",
     "dashboard.logVolunteerHours": "स्वयंसेवक घंटे दर्ज करें",
     "dashboard.hideVolunteerHours": "स्वयंसेवक घंटे छुपाएं",
@@ -694,10 +667,8 @@ export default {
     "tracker.donationRankings": "दान रैंकिंग",
     "tracker.volunteerRankings": "स्वयंसेवक रैंकिंग",
     "tracker.exportComplete": "निर्यात पूर्ण",
-    "tracker.exportDonationCSV":
-      "दान लीडरबोर्ड CSV के रूप में निर्यात किया गया",
-    "tracker.exportVolunteerCSV":
-      "स्वयंसेवक लीडरबोर्ड CSV के रूप में निर्यात किया गया",
+    "tracker.exportDonationCSV": "दान लीडरबोर्ड CSV के रूप में निर्यात किया गया",
+    "tracker.exportVolunteerCSV": "स्वयंसेवक लीडरबोर्ड CSV के रूप में निर्यात किया गया",
     "tracker.exportPDFSuccess": "लीडरबोर्ड PDF के रूप में निर्यात किया गया",
     "tracker.exportFailed": "निर्यात विफल",
     "tracker.exportNoData": "निर्यात के लिए कोई डेटा उपलब्ध नहीं",
@@ -718,8 +689,7 @@ export default {
     "tracker.timeRange.year": "इस वर्ष",
     "tracker.timeRange.month": "इस महीने",
     "tracker.timeRange.week": "इस सप्ताह",
-    "tracker.giverRegion.label":
-      "योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करें",
+    "tracker.giverRegion.label": "योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करें",
     "tracker.giverRegion.all": "सभी क्षेत्र",
     "tracker.giverRegion.unspecified": "क्षेत्र निर्दिष्ट नहीं",
     "tracker.giverRegion.na": "उत्तरी अमेरिका",
@@ -731,8 +701,7 @@ export default {
     "tracker.giverRegion.eap": "पूर्वी एशिया और प्रशांत",
     "tracker.noResults": "कोई परिणाम नहीं मिला",
     "tracker.loadingLeaderboard": "लीडरबोर्ड लोड हो रहा है…",
-    "tracker.loadError":
-      "लीडरबोर्ड डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
+    "tracker.loadError": "लीडरबोर्ड डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
     "tracker.volunteer.hoursTab": "घंटे",
     "tracker.volunteer.endorsementsTab": "अनुमोदन",
     "tracker.volunteer.searchPlaceholder": "स्वयंसेवक या कौशल खोजें...",
@@ -757,8 +726,7 @@ export default {
     "charity.portal.deleteTitle": "{{type}} हटाएं?",
     "charity.portal.deleteDescription":
       "यह क्रिया पूर्ववत नहीं की जा सकती। {{type}} स्थायी रूप से हटा दिया जाएगा।",
-    "charity.portal.walletNotConfigured":
-      "प्राप्त करने वाला वॉलेट कॉन्फ़िगर नहीं है।",
+    "charity.portal.walletNotConfigured": "प्राप्त करने वाला वॉलेट कॉन्फ़िगर नहीं है।",
     "charity.portal.walletDonationNote":
       "ऑन-चेन दान प्राप्त करने के लिए वॉलेट कनेक्ट करें।",
     "charity.portal.setupWallet": "वॉलेट सेट अप करें",
@@ -779,8 +747,7 @@ export default {
     "charity.onboarding.stepAuto": "{{label}} (अपने-आप पूरा होता है)",
     "charity.onboarding.goToOrganization": "संगठन पर जाएँ",
     "charity.onboarding.setupWallet": "वॉलेट सेट अप करें",
-    "charity.onboarding.item.completeProfile.label":
-      "संगठन की प्रोफ़ाइल पूरी करें",
+    "charity.onboarding.item.completeProfile.label": "संगठन की प्रोफ़ाइल पूरी करें",
     "charity.onboarding.item.completeProfile.description":
       "अपने संगठन का नाम, विवरण, पता और संपर्क जानकारी जोड़ें।",
     "charity.onboarding.item.uploadLogo.label": "लोगो या बैनर छवि अपलोड करें",
@@ -793,8 +760,7 @@ export default {
       "फ़िएट ऑफ़-रैंप के लिए बैंक विवरण सेट अप करें",
     "charity.onboarding.item.bankDetails.description":
       "यदि आप कार्ड से दान स्वीकार करना चाहते हैं तो बैंक जानकारी कॉन्फ़िगर करें।",
-    "charity.onboarding.item.acceptTerms.label":
-      "सेवा की शर्तें पढ़ें और स्वीकार करें",
+    "charity.onboarding.item.acceptTerms.label": "सेवा की शर्तें पढ़ें और स्वीकार करें",
     "charity.onboarding.item.acceptTerms.description":
       "चैरिटी के लिए Give Protocol के नियम और शर्तें पढ़ें और पुष्टि करें।",
     "charity.verification.pendingTitle": "आवेदन की समीक्षा जारी है",
@@ -813,8 +779,7 @@ export default {
     "charity.verification.verifiedBody":
       "आपका संगठन सत्यापित है और दानदाता अब आपके अभियानों का समर्थन कर सकते हैं।",
     "charity.portal.receivingWallet": "प्राप्ति वॉलेट: {{address}}",
-    "charity.portal.loadError":
-      "चैरिटी डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
+    "charity.portal.loadError": "चैरिटी डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
 
     // Timestamps (GIV-254)
     "timestamp.justNow": "अभी अभी",
@@ -891,11 +856,9 @@ export default {
     "admin.actions.systemSettings": "सिस्टम सेटिंग्स",
     "admin.actions.systemSettingsDesc": "प्लेटफ़ॉर्म पैरामीटर कॉन्फ़िगर करें",
     "admin.actions.manageImpactMetrics": "प्रभाव मेट्रिक्स प्रबंधित करें",
-    "admin.actions.manageImpactMetricsDesc":
-      "प्रभाव कैलकुलेटर डेटा कॉन्फ़िगर करें",
+    "admin.actions.manageImpactMetricsDesc": "प्रभाव कैलकुलेटर डेटा कॉन्फ़िगर करें",
     "admin.actions.donationMonitoring": "दान निगरानी",
-    "admin.actions.donationMonitoringDesc":
-      "दान की निगरानी, फ़्लैग, और रिपोर्ट करें",
+    "admin.actions.donationMonitoringDesc": "दान की निगरानी, फ़्लैग, और रिपोर्ट करें",
     "admin.actions.contentModeration": "सामग्री मॉडरेशन",
     "admin.actions.contentModerationDesc":
       "अवसरों और कारणों को छुपाएं, फ़्लैग करें, और समीक्षा करें",
@@ -908,8 +871,7 @@ export default {
 
     // Admin - Portfolio Funds management page (GIV-256)
     "admin.portfolio.title": "पोर्टफ़ोलियो फंड",
-    "admin.portfolio.subtitle":
-      "क्यूरेटेड दान पोर्टफ़ोलियो बनाएं और प्रबंधित करें",
+    "admin.portfolio.subtitle": "क्यूरेटेड दान पोर्टफ़ोलियो बनाएं और प्रबंधित करें",
     "admin.portfolio.newFund": "नया फंड",
     "admin.portfolio.editFund": "फंड संपादित करें",
     "admin.portfolio.createNewFund": "नया फंड बनाएं",
@@ -1133,26 +1095,22 @@ export default {
     "auth.wallet.openingSession": "सत्र खोला जा रहा है…",
     "auth.validation.emailRequired": "कृपया पहले अपना ईमेल पता दर्ज करें",
     "auth.validation.invalidEmail": "कृपया एक मान्य ईमेल पता दर्ज करें",
-    "auth.validation.passwordTooShort":
-      "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+    "auth.validation.passwordTooShort": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "auth.validation.passwordMismatch": "पासवर्ड मेल नहीं खाते",
     "auth.login.welcomeHeading": "Give Protocol में आपका स्वागत है",
     "auth.login.signInOrConnect": "साइन इन करें या कनेक्ट करें",
     "auth.login.skipToContent": "लॉगिन सामग्री पर जाएँ",
     "auth.login.donorTitle": "दाता साइन इन",
-    "auth.login.donorSubtitle":
-      "अपने दान डैशबोर्ड तक पहुँचने के लिए साइन इन करें",
+    "auth.login.donorSubtitle": "अपने दान डैशबोर्ड तक पहुँचने के लिए साइन इन करें",
     "auth.login.charityTitle": "गैर-लाभकारी पोर्टल",
-    "auth.login.charitySubtitle":
-      "अपने संगठन की प्रोफ़ाइल और दान प्रबंधित करें",
+    "auth.login.charitySubtitle": "अपने संगठन की प्रोफ़ाइल और दान प्रबंधित करें",
     "auth.login.back": "← वापस",
     "auth.login.continueDonor": "दाता के रूप में जारी रखें",
     "auth.login.connecting": "कनेक्ट हो रहा है…",
     "auth.login.connectWalletSignIn": "वॉलेट कनेक्ट करें और साइन इन करें",
     "auth.login.newToPlatform": "Give Protocol पर नए हैं?",
     "auth.login.newDonorSignUp": "नया दाता पंजीकरण",
-    "auth.login.manageNonprofit":
-      "मैं एक गैर-लाभकारी प्रोफ़ाइल प्रबंधित करता/करती हूँ",
+    "auth.login.manageNonprofit": "मैं एक गैर-लाभकारी प्रोफ़ाइल प्रबंधित करता/करती हूँ",
     "auth.login.nonprofitTrayTitle": "Give Protocol पर नए हैं?",
     "auth.login.createNonprofitAccount": "गैर-लाभकारी खाता बनाएँ",
     "auth.login.registerOrg": "अपने संगठन को Give Protocol पर पंजीकृत करें",
@@ -1187,8 +1145,7 @@ export default {
     "auth.forgot.usernameDesc":
       "अपना ईमेल पता दर्ज करें और हम आपको आपका उपयोगकर्ता नाम भेजेंगे।",
     "auth.forgot.passwordSuccess": "पासवर्ड रीसेट निर्देश आपके ईमेल पर भेजे गए",
-    "auth.forgot.usernameSuccess":
-      "उपयोगकर्ता नाम अनुस्मारक आपके ईमेल पर भेजा गया",
+    "auth.forgot.usernameSuccess": "उपयोगकर्ता नाम अनुस्मारक आपके ईमेल पर भेजा गया",
     "auth.forgot.checkEmail": "अपना ईमेल जाँचें",
     "auth.forgot.backToSignIn": "साइन इन पर वापस जाएँ",
     "auth.forgot.emailPlaceholder": "अपना ईमेल पता दर्ज करें",
@@ -1238,8 +1195,7 @@ export default {
     "charity.claim.submit": "संगठन पर दावा करें",
     "charity.claim.validation.name": "नाम 2 से 100 अक्षरों के बीच होना चाहिए",
     "charity.claim.validation.email": "कृपया एक मान्य ईमेल पता दर्ज करें",
-    "charity.claim.validation.password":
-      "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
+    "charity.claim.validation.password": "पासवर्ड कम से कम 8 अक्षरों का होना चाहिए",
     "charity.claim.validation.confirmPassword": "पासवर्ड मेल नहीं खाते",
     "charity.claim.validation.fix": "कृपया सत्यापन त्रुटियों को ठीक करें",
     "charity.claim.useAsPublicEmail":
@@ -1407,28 +1363,23 @@ export default {
     "browse.whyGiveProtocol.onchain.title": "ऑन-चेन पारदर्शिता",
     "browse.whyGiveProtocol.onchain.description":
       "दान को ब्लॉकचेन पर दर्ज किया जाता है ताकि आप अपने वॉलेट से लेकर कारण तक अपने प्रभाव को ट्रैक कर सकें।",
-    "browse.whyGiveProtocol.volunteer.title":
-      "सिर्फ पैसा नहीं, समय भी दान करें",
+    "browse.whyGiveProtocol.volunteer.title": "सिर्फ पैसा नहीं, समय भी दान करें",
     "browse.whyGiveProtocol.volunteer.description":
       "स्वयंसेवी घंटों को चैरिटी द्वारा सत्यापित किया जाता है और आपकी प्रोटोकॉल प्रतिष्ठा में गिना जाता है।",
     "browse.news.heading": "प्लेटफ़ॉर्म समाचार",
     "admin.news.deleteConfirmBody":
       "“{{title}}” को स्थायी रूप से हटा दिया जाएगा। इसे पूर्ववत नहीं किया जा सकता।",
     "admin.news.deleteConfirmTitle": "समाचार हटाएँ?",
-    "admin.news.saveFailed":
-      "आपके बदलाव सहेजे नहीं जा सके। कृपया पुनः प्रयास करें।",
-    "admin.news.urlHelp":
-      "वैकल्पिक। लिंक के बिना समाचार दिखाने के लिए खाली छोड़ें।",
-    "admin.news.urlInvalid":
-      "पूरा https:// पता या / से शुरू होने वाला पथ दर्ज करें।",
+    "admin.news.saveFailed": "आपके बदलाव सहेजे नहीं जा सके। कृपया पुनः प्रयास करें।",
+    "admin.news.urlHelp": "वैकल्पिक। लिंक के बिना समाचार दिखाने के लिए खाली छोड़ें।",
+    "admin.news.urlInvalid": "पूरा https:// पता या / से शुरू होने वाला पथ दर्ज करें।",
     "browse.carousel.error":
       "यह अनुभाग लोड नहीं हो सका। कृपया पेज रीफ़्रेश करके पुनः प्रयास करें।",
     "browse.carousel.goToPage": "पृष्ठ {{page}} पर जाएँ",
     "browse.carousel.pageLabel": "पृष्ठ {{current}} / {{total}}",
     "browse.carousel.pause": "स्वचालित रोटेशन रोकें",
     "browse.carousel.play": "स्वचालित रोटेशन फिर से शुरू करें",
-    "browse.causes.empty":
-      "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.causes.empty": "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.causes.prevAria": "पिछले विशेष उद्देश्य",
     "browse.causes.searchPlaceholder": "उद्देश्य खोजें...",
     "browse.causes.subheading":
@@ -1442,11 +1393,9 @@ export default {
     "browse.filter.addLocation": "स्थान जोड़ें",
     "browse.filter.impactNotice":
       "प्रभाव-स्थान के आधार पर फ़िल्टर अभी उपलब्ध नहीं है, इसलिए परिणाम प्रभाव-स्थान से सीमित नहीं किए जाते।",
-    "browse.filter.locationHint":
-      "स्थान लागू करने के लिए Enter दबाएँ या जोड़ें चुनें।",
+    "browse.filter.locationHint": "स्थान लागू करने के लिए Enter दबाएँ या जोड़ें चुनें।",
     "browse.filter.minChars": "खोजने के लिए कम से कम 2 अक्षर लिखें।",
-    "browse.funds.empty":
-      "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.funds.empty": "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.funds.prevAria": "पिछले पोर्टफोलियो फ़ंड",
     "browse.funds.searchPlaceholder": "पोर्टफोलियो फ़ंड खोजें...",
     "browse.funds.subheading":
@@ -1611,6 +1560,11 @@ export default {
     "donation.art9Consent.required":
       "आगे बढ़ने के लिए आपको दान डेटा प्रसंस्करण के लिए सहमति देनी होगी।",
 
+    "donation.approval.step.approve": "स्वीकृत करें",
+    "donation.approval.step.send": "दान भेजें",
+    "donation.approval.securityNote":
+      "आपकी सुरक्षा के लिए, केवल सटीक दान राशि ही स्वीकृत की जाती है — टोकन तक असीमित पहुंच कभी नहीं।",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
@@ -1644,8 +1598,7 @@ export default {
     "admin.auditTrail.viewedListNoFilters":
       "एडमिन {{adminId}} ने {{entityType}} सूची देखी (पृष्ठ {{page}})",
     "admin.actions.platformNews": "प्लेटफ़ॉर्म समाचार",
-    "admin.actions.platformNewsDesc":
-      "ब्राउज़ पृष्ठ पर समाचार आइटम प्रबंधित करें",
+    "admin.actions.platformNewsDesc": "ब्राउज़ पृष्ठ पर समाचार आइटम प्रबंधित करें",
     "admin.news.activate": "{{title}} सक्रिय करें",
     "admin.news.activated": "समाचार आइटम प्रकाशित किया गया",
     "admin.news.activeLabel": "प्रकाशित (सार्वजनिक रूप से दृश्यमान)",
@@ -1710,8 +1663,7 @@ export default {
     "wallet.eoa.riskParagraph3":
       "आगे बढ़कर, आप स्वीकार करते हैं कि Give Protocol प्राइवेट की के समझौता, हानि, या कुप्रबंधन के कारण होने वाली किसी भी धनराशि की हानि के लिए ज़िम्मेदार नहीं है।",
     "wallet.eoa.riskTitle": "एकल-हस्ताक्षरकर्ता वॉलेट: महत्वपूर्ण जोखिम",
-    "wallet.eoa.signError":
-      "संदेश पर हस्ताक्षर करने में विफल। कृपया पुनः प्रयास करें।",
+    "wallet.eoa.signError": "संदेश पर हस्ताक्षर करने में विफल। कृपया पुनः प्रयास करें।",
     "wallet.eoa.signMessage": "सत्यापन संदेश पर हस्ताक्षर करें",
     "wallet.eoa.signSubtitle":
       "यह साबित करने के लिए कि आप इस पते को नियंत्रित करते हैं, अपना वॉलेट कनेक्ट करें और एक संदेश पर हस्ताक्षर करें।",
@@ -1738,19 +1690,16 @@ export default {
     "wallet.institutional.submit": "समीक्षा के लिए सबमिट करें",
     "wallet.institutional.submittedDesc":
       "आपका संस्थागत वॉलेट पंजीकरण समीक्षाधीन है। आपको 3 कार्य दिवसों के भीतर एक ईमेल प्राप्त होगा।",
-    "wallet.institutional.submittedTitle":
-      "वॉलेट समीक्षा के लिए सबमिट किया गया",
+    "wallet.institutional.submittedTitle": "वॉलेट समीक्षा के लिए सबमिट किया गया",
     "wallet.institutional.submitting": "सबमिट किया जा रहा है...",
     "wallet.institutional.subtitle":
       "अपने कस्टोडियन-प्रबंधित वॉलेट का विवरण प्रदान करें और सत्यापन के लिए एक सत्यापन दस्तावेज़ अपलोड करें।",
     "wallet.institutional.title": "एक संस्थागत कस्टडी वॉलेट पंजीकृत करें",
     "wallet.institutional.uploadFile": "सत्यापन फ़ाइल अपलोड करें",
-    "wallet.institutional.uploadRequired":
-      "कृपया एक सत्यापन दस्तावेज़ अपलोड करें।",
+    "wallet.institutional.uploadRequired": "कृपया एक सत्यापन दस्तावेज़ अपलोड करें।",
     "wallet.safe.address": "Safe पता",
     "wallet.safe.chain": "नेटवर्क",
-    "wallet.safe.connectFirst":
-      "कृपया पहले अपना हस्ताक्षरकर्ता वॉलेट कनेक्ट करें।",
+    "wallet.safe.connectFirst": "कृपया पहले अपना हस्ताक्षरकर्ता वॉलेट कनेक्ट करें।",
     "wallet.safe.connectSigner": "हस्ताक्षरकर्ता वॉलेट कनेक्ट करें",
     "wallet.safe.createNew": "एक नया Safe बनाएँ",
     "wallet.safe.createNewDesc":
@@ -1758,8 +1707,7 @@ export default {
     "wallet.safe.haveOne": "मेरे पास पहले से ही एक Safe है",
     "wallet.safe.haveOneDesc":
       "अपना Safe पता दर्ज करें और हस्ताक्षरकर्ता वॉलेट से एक संदेश पर हस्ताक्षर करके नियंत्रण सत्यापित करें।",
-    "wallet.safe.invalidAddress":
-      "कृपया एक मान्य Ethereum पता दर्ज करें (0x...)",
+    "wallet.safe.invalidAddress": "कृपया एक मान्य Ethereum पता दर्ज करें (0x...)",
     "wallet.safe.rejected": "हस्ताक्षर अनुरोध अस्वीकार कर दिया गया।",
     "wallet.safe.signError":
       "सत्यापन संदेश पर हस्ताक्षर करने में विफल। कृपया पुनः प्रयास करें।",
@@ -1819,8 +1767,7 @@ export default {
     "admin.dashboard.severityMedium": "ध्यान देने की आवश्यकता",
     "admin.dashboard.severityLow": "समीक्षा हेतु",
     "admin.dashboard.alertOldest": "सबसे पुराना अनुरोध सबमिट किया गया",
-    "admin.dashboard.alertReviewHint":
-      "ऑनबोर्डिंग जारी रखने के लिए समीक्षा करें",
+    "admin.dashboard.alertReviewHint": "ऑनबोर्डिंग जारी रखने के लिए समीक्षा करें",
     "admin.dashboard.reviewQueue": "समीक्षा कतार",
     "admin.dashboard.kpiDonorsSub": "पिछले 30 दिनों में {{count}} नए",
     "admin.dashboard.kpiPending": "{{count}} लंबित",
@@ -1839,8 +1786,7 @@ export default {
     "admin.dashboard.totalVolume": "कुल मात्रा",
     "admin.dashboard.crypto": "क्रिप्टो",
     "admin.dashboard.fiat": "फ़िएट",
-    "admin.dashboard.activitySubtitle":
-      "जैसे-जैसे होते हैं, प्लेटफ़ॉर्म घटनाएँ",
+    "admin.dashboard.activitySubtitle": "जैसे-जैसे होते हैं, प्लेटफ़ॉर्म घटनाएँ",
     "admin.dashboard.viewAllActivity": "सभी गतिविधि देखें",
     "admin.dashboard.viewAllDonations": "सभी दान देखें",
     "admin.charity.tabAll": "सभी",

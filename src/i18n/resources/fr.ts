@@ -1674,6 +1674,11 @@ export default {
     "donation.art9Consent.required":
       "Vous devez consentir au traitement des données de don pour continuer.",
 
+    "donation.approval.step.approve": "Approuver",
+    "donation.approval.step.send": "Envoyer le don",
+    "donation.approval.securityNote":
+      "Pour votre sécurité, seul le montant exact du don est approuvé, jamais un accès illimité au jeton.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

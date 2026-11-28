@@ -1602,6 +1602,11 @@ export default {
     "donation.art9Consent.required":
       "Bạn phải đồng ý với việc xử lý dữ liệu quyên góp để tiếp tục.",
 
+    "donation.approval.step.approve": "Phê duyệt",
+    "donation.approval.step.send": "Gửi khoản quyên góp",
+    "donation.approval.securityNote":
+      "Vì sự an toàn của bạn, chỉ số tiền quyên góp chính xác được phê duyệt — không bao giờ cấp quyền truy cập token không giới hạn.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

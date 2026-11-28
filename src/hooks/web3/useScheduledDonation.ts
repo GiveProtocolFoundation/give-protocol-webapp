@@ -2,6 +2,7 @@ import { useState, useCallback } from "react";
 import { ethers } from "ethers";
 import { useWeb3 } from "@/contexts/Web3Context";
 import { getContractAddress } from "@/config/contracts";
+import { getTokenByAddressOnChain } from "@/config/tokens";
 import { Logger } from "@/utils/logger";
 import CharityScheduledDistributionABI from "@/contracts/CharityScheduledDistribution.sol/CharityScheduledDistribution.json";
 
@@ -9,6 +10,8 @@ interface ScheduleParams {
   charityAddress: string;
   tokenAddress: string;
   totalAmount: string;
+  /** Token decimals for amount scaling (defaults to 18 when omitted). */
+  decimals?: number;
 }
 
 interface DonorSchedule {
@@ -74,12 +77,17 @@ interface ContractError extends Error {
  * ```
  */
 export function useScheduledDonation() {
-  const { provider, address } = useWeb3();
+  const { provider, address, chainId } = useWeb3();
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | null>(null);
 
   const createSchedule = useCallback(
-    async ({ charityAddress, tokenAddress, totalAmount }: ScheduleParams) => {
+    async ({
+      charityAddress,
+      tokenAddress,
+      totalAmount,
+      decimals,
+    }: ScheduleParams) => {
       if (!provider || !address) {
         throw new Error("Wallet not connected");
       }
@@ -122,7 +130,7 @@ export function useScheduledDonation() {
           signer,
         );
 
-        const parsedAmount = ethers.parseEther(totalAmount);
+        const parsedAmount = ethers.parseUnits(totalAmount, decimals ?? 18);
 
         try {
           const approveTx = await tokenContract.approve(
@@ -331,12 +339,21 @@ export function useScheduledDonation() {
       const schedules: DonorSchedule[] = await Promise.all(
         scheduleIds.map(async (id: bigint) => {
           const schedule = await distributionContract.donationSchedules(id);
+          const tokenDecimals =
+            getTokenByAddressOnChain(schedule.token, chainId ?? 1)?.decimals ??
+            18;
           return {
             id: Number(id),
             charity: schedule.charity,
             token: schedule.token,
-            totalAmount: ethers.formatEther(schedule.totalAmount),
-            amountPerMonth: ethers.formatEther(schedule.amountPerMonth),
+            totalAmount: ethers.formatUnits(
+              schedule.totalAmount,
+              tokenDecimals,
+            ),
+            amountPerMonth: ethers.formatUnits(
+              schedule.amountPerMonth,
+              tokenDecimals,
+            ),
             monthsRemaining: Number(schedule.monthsRemaining),
             nextDistribution: new Date(
               Number(schedule.nextDistributionTimestamp) * 1000,
@@ -358,7 +375,7 @@ export function useScheduledDonation() {
     } finally {
       setLoading(false);
     }
-  }, [provider, address]);
+  }, [provider, address, chainId]);
 
   return {
     createSchedule,

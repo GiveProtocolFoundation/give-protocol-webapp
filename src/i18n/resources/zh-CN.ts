@@ -1503,6 +1503,11 @@ export default {
     "donation.art9Consent.label": "捐赠数据同意",
     "donation.art9Consent.required": "您必须同意捐赠数据处理才能继续。",
 
+    "donation.approval.step.approve": "批准",
+    "donation.approval.step.send": "发送捐款",
+    "donation.approval.securityNote":
+      "为保障您的安全，仅批准确切的捐款金额，绝不会授予代币无限访问权限。",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

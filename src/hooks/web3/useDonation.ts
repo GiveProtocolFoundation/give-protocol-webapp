@@ -4,20 +4,28 @@ import { useWeb3 } from "@/contexts/Web3Context";
 import { useToast } from "@/contexts/ToastContext";
 import {
   parseEther,
+  parseUnits,
   getAddress,
   isAddress,
   Contract,
-  MaxUint256,
+  type Provider,
 } from "ethers";
 import { Logger } from "@/utils/logger";
 import { trackTransaction } from "@/lib/sentry";
 import { getContractAddress, CHAIN_IDS } from "@/config/contracts";
 
-// Minimal ERC20 ABI for allowance and approve functions
+// Minimal ERC20 ABI for allowance, approve, and decimals. `decimals()` is read
+// on-chain so amounts scale correctly for 6-decimal stablecoins (USDC/USDT) as
+// well as 18-decimal tokens.
 const ERC20_ABI = [
   "function allowance(address owner, address spender) view returns (uint256)",
   "function approve(address spender, uint256 amount) returns (bool)",
+  "function decimals() view returns (uint8)",
 ];
+
+// EIP-5792 atomic-batch tuning (wallet_sendCalls / wallet_getCallsStatus).
+const EIP5792_STATUS_POLL_MS = 1000;
+const EIP5792_TIMEOUT_MS = 90_000;
 
 export enum DonationType {
   _NATIVE = "native", // Prefixed with _ as currently unused
@@ -37,6 +45,264 @@ interface DonationParams {
   poolType?: PoolType;
 }
 
+/** A single call within an EIP-5792 `wallet_sendCalls` batch. */
+interface Eip5792Call {
+  to: string;
+  data: string;
+  value?: string;
+}
+
+/** Minimal EIP-1193/EIP-5792 provider surface used for atomic batching. */
+interface Eip5792Provider {
+  send: (method: string, params: unknown[]) => Promise<unknown>;
+}
+
+/** Shape returned by EIP-5792 `wallet_getCallsStatus`. */
+interface Eip5792CallsStatus {
+  status?: string;
+}
+
+/**
+ * Narrow an unknown value to an EIP-5792 provider when it exposes a callable
+ * `send` method. Keeps the runtime check and type narrowing in one place so
+ * callers do not cast an ethers provider directly.
+ * @param value - The value to inspect (typically an ethers provider).
+ * @returns An EIP-5792 provider, or undefined when `send` is absent.
+ */
+function toEip5792Provider(value: unknown): Eip5792Provider | undefined {
+  if (typeof value !== "object" || value === null) return undefined;
+  const candidate = value as { send?: unknown };
+  if (typeof candidate.send !== "function") return undefined;
+  return candidate as Eip5792Provider;
+}
+
+/**
+ * Narrow an unknown value to a calls-status result with a string `status`.
+ * @param value - The value returned by `wallet_getCallsStatus`.
+ * @returns A calls-status object, or undefined when the shape is unexpected.
+ */
+function toCallsStatus(value: unknown): Eip5792CallsStatus | undefined {
+  if (typeof value !== "object" || value === null) return undefined;
+  const candidate = value as { status?: unknown };
+  if (typeof candidate.status !== "string") return undefined;
+  return candidate as Eip5792CallsStatus;
+}
+
+/**
+ * Detect whether the wallet supports EIP-5792 atomic batching on the given chain.
+ * Tolerates both `{ atomicBatch: true }` and `{ atomicBatch: { supported: true } }`
+ * capability shapes. Any failure is treated as "unsupported" so callers fall back.
+ * @param provider - The connected ethers provider.
+ * @param chainId - The chain id to check capabilities for.
+ * @returns True when `wallet_getCapabilities` advertises atomic-batch support.
+ */
+async function supportsAtomicBatch(
+  provider: Provider,
+  chainId: number,
+): Promise<boolean> {
+  const walletProvider = toEip5792Provider(provider);
+  if (!walletProvider) return false;
+  try {
+    const raw = await walletProvider.send("wallet_getCapabilities", []);
+    if (typeof raw !== "object" || raw === null) return false;
+    const capabilities = raw as Record<
+      string,
+      { atomicBatch?: boolean | { supported?: boolean } }
+    >;
+    const chainCapabilities = capabilities[`0x${chainId.toString(16)}`];
+    if (!chainCapabilities) return false;
+    const atomicBatch = chainCapabilities.atomicBatch;
+    if (atomicBatch === true) return true;
+    return (
+      typeof atomicBatch === "object" &&
+      atomicBatch !== null &&
+      atomicBatch.supported === true
+    );
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Submit a batch of calls atomically via EIP-5792 `wallet_sendCalls`.
+ * Returns null when the wallet rejects the send itself (safe to fall back),
+ * or the bundle id when the batch was accepted and must be confirmed.
+ * @param provider - The connected ethers provider.
+ * @param from - The sender address.
+ * @param chainId - The chain id the batch targets.
+ * @param calls - The ordered calls to execute in one transaction.
+ * @returns The bundle id, or null when nothing was submitted.
+ */
+async function submitAtomicBatch(
+  provider: Provider,
+  from: string,
+  chainId: number,
+  calls: Eip5792Call[],
+): Promise<string | null> {
+  const walletProvider = toEip5792Provider(provider);
+  if (!walletProvider) return null;
+  try {
+    const result = await walletProvider.send("wallet_sendCalls", [
+      {
+        version: "1.0",
+        chainId: `0x${chainId.toString(16)}`,
+        from,
+        calls,
+      },
+    ]);
+    return typeof result === "string" ? result : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * Poll EIP-5792 `wallet_getCallsStatus` until the batch is confirmed.
+ * @param provider - The connected ethers provider.
+ * @param bundleId - The bundle id returned by `wallet_sendCalls`.
+ * @throws If the batch fails, is rejected, or confirmation times out.
+ */
+async function confirmAtomicBatch(
+  provider: Provider,
+  bundleId: string,
+): Promise<void> {
+  const walletProvider = toEip5792Provider(provider);
+  if (!walletProvider) {
+    throw new Error("Wallet does not support EIP-5792 call status.");
+  }
+  const deadline = Date.now() + EIP5792_TIMEOUT_MS;
+  let confirmed = false;
+  while (!confirmed) {
+    const status = toCallsStatus(
+      await walletProvider.send("wallet_getCallsStatus", [bundleId]),
+    );
+    if (status?.status === "CONFIRMED") {
+      confirmed = true;
+    } else if (status?.status === "FAILED" || status?.status === "REJECTED") {
+      throw new Error("Wallet rejected the batched donation.");
+    } else {
+      if (Date.now() >= deadline) {
+        throw new Error("Batched donation confirmation timed out.");
+      }
+      await new Promise<void>((resolve) => {
+        setTimeout(resolve, EIP5792_STATUS_POLL_MS);
+      });
+    }
+  }
+}
+
+/**
+ * Attempt to submit approve + donate in a single EIP-5792 atomic batch.
+ * Returns true only after the batch is confirmed; returns false when the
+ * wallet does not support atomic batching or the batch was not submitted,
+ * in which case the caller must fall back to the two-step approval flow.
+ * @param provider - The connected ethers provider.
+ * @param chainId - The connected chain id.
+ * @param from - The donor address.
+ * @param calls - The ordered approve (+reset) + donate calls.
+ * @returns True when the batched donation was confirmed.
+ */
+async function tryAtomicDonation(
+  provider: Provider | null,
+  chainId: number | null,
+  from: string,
+  calls: Eip5792Call[],
+): Promise<boolean> {
+  if (!provider) return false;
+  const activeChainId = chainId ?? CHAIN_IDS.BASE;
+  if (!(await supportsAtomicBatch(provider, activeChainId))) return false;
+  const bundleId = await submitAtomicBatch(
+    provider,
+    from,
+    activeChainId,
+    calls,
+  );
+  if (bundleId === null) return false;
+  await confirmAtomicBatch(provider, bundleId);
+  return true;
+}
+
+/**
+ * Approve exactly `amount` for `spender`, resetting a non-zero allowance to
+ * zero first (required by Ethereum USDT). Reports progress via `setApproving`.
+ * @param tokenContract - The ERC-20 contract instance.
+ * @param spender - The address receiving the allowance.
+ * @param amount - The exact allowance to grant.
+ * @param needsResetToZero - Whether a prior non-zero allowance must be cleared.
+ * @param setApproving - State setter for the approving indicator.
+ */
+async function approveTokenExact(
+  tokenContract: Contract,
+  spender: string,
+  amount: bigint,
+  needsResetToZero: boolean,
+  setApproving: (value: boolean) => void,
+): Promise<void> {
+  setApproving(true);
+  try {
+    if (needsResetToZero) {
+      const resetTx = await tokenContract.approve(spender, 0n);
+      await resetTx.wait();
+    }
+    const approveTx = await tokenContract.approve(spender, amount);
+    await approveTx.wait();
+  } finally {
+    setApproving(false);
+  }
+}
+
+/**
+ * Encode the EIP-5792 batch: approve (with optional reset-to-zero) + donate.
+ * @param tokenContract - The ERC-20 token contract.
+ * @param donationContract - The donation contract.
+ * @param tokenAddress - The token being donated.
+ * @param donationContractAddress - The donation contract address.
+ * @param charityAddress - The charity receiving the donation.
+ * @param amount - The exact donation amount.
+ * @param needsResetToZero - Whether to prepend an approve(0) reset call.
+ * @returns The ordered calls for `wallet_sendCalls`.
+ */
+function buildAtomicBatchCalls(
+  tokenContract: Contract,
+  donationContract: Contract,
+  tokenAddress: string,
+  donationContractAddress: string,
+  charityAddress: string,
+  amount: bigint,
+  needsResetToZero: boolean,
+): Eip5792Call[] {
+  const calls: Eip5792Call[] = [];
+  if (needsResetToZero) {
+    calls.push({
+      to: tokenAddress,
+      data: tokenContract.interface.encodeFunctionData("approve", [
+        donationContractAddress,
+        0n,
+      ]),
+      value: "0x0",
+    });
+  }
+  calls.push({
+    to: tokenAddress,
+    data: tokenContract.interface.encodeFunctionData("approve", [
+      donationContractAddress,
+      amount,
+    ]),
+    value: "0x0",
+  });
+  calls.push({
+    to: donationContractAddress,
+    data: donationContract.interface.encodeFunctionData("processDonation", [
+      charityAddress,
+      tokenAddress,
+      amount,
+      0n,
+    ]),
+    value: "0x0",
+  });
+  return calls;
+}
+
 /**
  * Donation hook for processing blockchain-based charitable donations and withdrawals
  * @function useDonation
@@ -47,10 +313,11 @@ interface DonationParams {
  * @returns {Function} returns.donate - Process donation: (params: DonationParams) => Promise<void>
  * @returns {Function} returns.withdraw - Process withdrawal: (amount: string) => Promise<string>
  * @returns {boolean} returns.loading - Loading state for donation/withdrawal operations
+ * @returns {boolean} returns.approving - Loading state for the token-approval step
  * @returns {string | null} returns.error - Error message or null if no error
  * @example
  * ```tsx
- * const { donate, withdraw, loading, error } = useDonation();
+ * const { donate, withdraw, loading, approving, error } = useDonation();
  *
  * const handleDonation = async () => {
  *   try {
@@ -65,29 +332,11 @@ interface DonationParams {
  *     // Error handling included in hook
  *   }
  * };
- *
- * const handleWithdrawal = async () => {
- *   try {
- *     const txHash = await withdraw('0.05');
- *     console.log('Withdrawal successful:', txHash);
- *   } catch (error) {
- *     // Error handling included in hook
- *   }
- * };
- *
- * return (
- *   <div>
- *     <button onClick={handleDonation} disabled={loading}>
- *       {loading ? 'Processing...' : 'Donate'}
- *     </button>
- *     {error && <p className="error">{error}</p>}
- *   </div>
- * );
  * ```
  */
 export function useDonation() {
   const { contract } = useContract("donation");
-  const { address, signer, chainId } = useWeb3();
+  const { address, signer, chainId, provider } = useWeb3();
   const { showToast } = useToast();
   const [loading, setLoading] = useState(false);
   const [approving, setApproving] = useState(false);
@@ -137,8 +386,6 @@ export function useDonation() {
       }
       const normalizedCharityAddress = getAddress(charityAddress);
 
-      const parsedAmount = parseEther(amount);
-
       // The DurationDonation contract uses processDonation() for both native and ERC20
       // Native token support requires contract updates or a wrapper contract
       if (type === DonationType._NATIVE) {
@@ -175,6 +422,11 @@ export function useDonation() {
         signer,
       );
 
+      // Read the token's decimals on-chain so 6-decimal stablecoins (USDC/USDT)
+      // scale correctly instead of being parsed as 18-decimal amounts.
+      const decimals = await tokenContract.decimals();
+      const parsedAmount = parseUnits(amount, decimals);
+
       // Check current allowance
       const currentAllowance = await tokenContract.allowance(
         address,
@@ -185,43 +437,67 @@ export function useDonation() {
         currentAllowance: currentAllowance.toString(),
         requiredAmount: parsedAmount.toString(),
         tokenAddress: normalizedTokenAddress,
+        decimals: decimals.toString(),
       });
 
-      // If allowance is insufficient, request approval
+      // Approval is only required when the allowance is insufficient. Exact-amount
+      // approval is used (never MaxUint256) so the wallet only authorizes this
+      // donation — a security improvement surfaced in the UI (MVP-SEC-04).
+      let donationDone = false;
       if (currentAllowance < parsedAmount) {
-        Logger.info("Requesting token approval", {
-          spender: donationContractAddress,
-          amount: "unlimited",
-        });
+        // Ethereum USDT's `approve` reverts when changing a non-zero allowance to
+        // another non-zero value, so reset to 0 first in that case.
+        const needsResetToZero =
+          currentAllowance > 0n && currentAllowance < parsedAmount;
 
-        setApproving(true);
-        try {
-          // Approve unlimited amount to avoid repeated approvals
-          const approveTx = await tokenContract.approve(
-            donationContractAddress,
-            MaxUint256,
-          );
-          await approveTx.wait();
+        const calls = buildAtomicBatchCalls(
+          tokenContract,
+          contract,
+          normalizedTokenAddress,
+          donationContractAddress,
+          normalizedCharityAddress,
+          parsedAmount,
+          needsResetToZero,
+        );
 
-          Logger.info("Token approval successful", {
+        // Tier 1 (EIP-5792): approve and donate in a single atomic transaction.
+        // Tier 2 (fallback): guided two-step approve → donate.
+        const batched = await tryAtomicDonation(
+          provider,
+          chainId,
+          address,
+          calls,
+        );
+        if (batched) {
+          donationDone = true;
+          Logger.info("Batched approve + donate confirmed", {
             tokenAddress: normalizedTokenAddress,
-            spender: donationContractAddress,
+            chainId: chainId ?? CHAIN_IDS.BASE,
           });
-        } finally {
-          setApproving(false);
+        } else {
+          await approveTokenExact(
+            tokenContract,
+            donationContractAddress,
+            parsedAmount,
+            needsResetToZero,
+            setApproving,
+          );
         }
       }
 
-      // Call processDonation(charity, token, charityAmount, platformTip)
-      // For now, platformTip is 0 (no tip)
-      const processDonationFunction = contract.getFunction("processDonation");
-      const tx = await processDonationFunction(
-        normalizedCharityAddress,
-        normalizedTokenAddress,
-        parsedAmount,
-        0, // platformTip = 0 for now
-      );
-      await tx.wait();
+      // Skip the direct transfer when the atomic batch already executed it.
+      if (!donationDone) {
+        // Call processDonation(charity, token, charityAmount, platformTip)
+        // For now, platformTip is 0 (no tip)
+        const processDonationFunction = contract.getFunction("processDonation");
+        const tx = await processDonationFunction(
+          normalizedCharityAddress,
+          normalizedTokenAddress,
+          parsedAmount,
+          0, // platformTip = 0 for now
+        );
+        await tx.wait();
+      }
 
       Logger.info("Token donation successful", {
         amount,

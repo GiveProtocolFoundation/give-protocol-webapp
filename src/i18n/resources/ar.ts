@@ -1095,8 +1095,7 @@ export default {
     "auth.login.signInOrConnect": "تسجيل الدخول أو الاتصال",
     "auth.login.skipToContent": "تخطي إلى محتوى تسجيل الدخول",
     "auth.login.donorTitle": "تسجيل دخول المتبرع",
-    "auth.login.donorSubtitle":
-      "سجّل الدخول للوصول إلى لوحة التبرعات الخاصة بك",
+    "auth.login.donorSubtitle": "سجّل الدخول للوصول إلى لوحة التبرعات الخاصة بك",
     "auth.login.charityTitle": "بوابة المنظمات غير الربحية",
     "auth.login.charitySubtitle": "إدارة ملف منظمتك والتبرعات",
     "auth.login.back": "← رجوع",
@@ -1488,8 +1487,7 @@ export default {
     "charity.profile.verified501c3Tooltip":
       "منظمة 501(c)(3) مسجّلة — قد تكون التبرعات قابلة للخصم الضريبي في الولايات المتحدة",
     "charity.profile.statusClaimed": "مُطالَب بها",
-    "charity.profile.statusUnclaimed":
-      "غير مُطالَب بها — بيانات السجل العام فقط",
+    "charity.profile.statusUnclaimed": "غير مُطالَب بها — بيانات السجل العام فقط",
     "charity.profile.statusIrsVerified":
       "مؤسسة غير ربحية معتمدة من مصلحة الضرائب (IRS)",
     "charity.profile.requestWidget.unclaimedBody":
@@ -1559,6 +1557,11 @@ export default {
     "donation.art9Consent.label": "الموافقة على بيانات التبرع",
     "donation.art9Consent.required":
       "يجب أن توافق على معالجة بيانات التبرع للمتابعة.",
+
+    "donation.approval.step.approve": "موافقة",
+    "donation.approval.step.send": "إرسال التبرع",
+    "donation.approval.securityNote":
+      "لأمانك، تتم الموافقة على مبلغ التبرع الدقيق فقط، وليس الوصول غير المحدود إلى الرمز.",
 
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":

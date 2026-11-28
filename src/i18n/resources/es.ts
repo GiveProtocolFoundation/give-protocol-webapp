@@ -1651,6 +1651,11 @@ export default {
     "donation.art9Consent.required":
       "Debe dar su consentimiento al procesamiento de datos de donación para continuar.",
 
+    "donation.approval.step.approve": "Aprobar",
+    "donation.approval.step.send": "Enviar donación",
+    "donation.approval.securityNote":
+      "Por su seguridad, solo se aprueba el importe exacto de la donación, nunca un acceso ilimitado al token.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
