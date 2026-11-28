@@ -1495,6 +1495,11 @@ export default {
     "donation.art9Consent.required":
       "계속하려면 기부 데이터 처리에 동의해야 합니다.",
 
+    "donation.approval.step.approve": "승인",
+    "donation.approval.step.send": "기부 보내기",
+    "donation.approval.securityNote":
+      "보안을 위해 정확한 기부 금액만 승인되며, 토큰에 대한 무제한 접근 권한은 부여되지 않습니다.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

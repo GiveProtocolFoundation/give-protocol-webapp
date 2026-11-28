@@ -1493,6 +1493,11 @@ export default {
     "donation.art9Consent.required":
       "يجب أن توافق على معالجة بيانات التبرع للمتابعة.",
 
+    "donation.approval.step.approve": "موافقة",
+    "donation.approval.step.send": "إرسال التبرع",
+    "donation.approval.securityNote":
+      "لأمانك، تتم الموافقة على مبلغ التبرع الدقيق فقط، وليس الوصول غير المحدود إلى الرمز.",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

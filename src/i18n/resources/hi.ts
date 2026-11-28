@@ -1535,6 +1535,11 @@ export default {
     "donation.art9Consent.required":
       "आगे बढ़ने के लिए आपको दान डेटा प्रसंस्करण के लिए सहमति देनी होगी।",
 
+    "donation.approval.step.approve": "स्वीकृत करें",
+    "donation.approval.step.send": "दान भेजें",
+    "donation.approval.securityNote":
+      "आपकी सुरक्षा के लिए, केवल सटीक दान राशि ही स्वीकृत की जाती है — टोकन तक असीमित पहुंच कभी नहीं।",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",

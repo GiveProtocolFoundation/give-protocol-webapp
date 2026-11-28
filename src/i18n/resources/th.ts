@@ -1519,6 +1519,11 @@ export default {
     "donation.art9Consent.required":
       "คุณต้องยินยอมให้ประมวลผลข้อมูลการบริจาคเพื่อดำเนินการต่อ",
 
+    "donation.approval.step.approve": "อนุมัติ",
+    "donation.approval.step.send": "ส่งการบริจาค",
+    "donation.approval.securityNote":
+      "เพื่อความปลอดภัยของคุณ จะอนุมัติเฉพาะจำนวนเงินบริจาคที่แน่นอนเท่านั้น ไม่มีการเข้าถึงโทเค็นแบบไม่จำกัด",
+
     "charity.toast.verificationEmailSent": "Verification email sent",
     "charity.toast.verificationEmailMessage":
       "Check your inbox — the link expires in 24 hours.",
