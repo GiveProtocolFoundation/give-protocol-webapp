@@ -192,6 +192,113 @@ async function confirmAtomicBatch(
 }
 
 /**
+ * Attempt to submit approve + donate in a single EIP-5792 atomic batch.
+ * Returns true only after the batch is confirmed; returns false when the
+ * wallet does not support atomic batching or the batch was not submitted,
+ * in which case the caller must fall back to the two-step approval flow.
+ * @param provider - The connected ethers provider.
+ * @param chainId - The connected chain id.
+ * @param from - The donor address.
+ * @param calls - The ordered approve (+reset) + donate calls.
+ * @returns True when the batched donation was confirmed.
+ */
+async function tryAtomicDonation(
+  provider: Provider | null,
+  chainId: number | null,
+  from: string,
+  calls: Eip5792Call[],
+): Promise<boolean> {
+  if (!provider) return false;
+  const activeChainId = chainId ?? CHAIN_IDS.BASE;
+  if (!(await supportsAtomicBatch(provider, activeChainId))) return false;
+  const bundleId = await submitAtomicBatch(provider, from, activeChainId, calls);
+  if (bundleId === null) return false;
+  await confirmAtomicBatch(provider, bundleId);
+  return true;
+}
+
+/**
+ * Approve exactly `amount` for `spender`, resetting a non-zero allowance to
+ * zero first (required by Ethereum USDT). Reports progress via `setApproving`.
+ * @param tokenContract - The ERC-20 contract instance.
+ * @param spender - The address receiving the allowance.
+ * @param amount - The exact allowance to grant.
+ * @param needsResetToZero - Whether a prior non-zero allowance must be cleared.
+ * @param setApproving - State setter for the approving indicator.
+ */
+async function approveTokenExact(
+  tokenContract: Contract,
+  spender: string,
+  amount: bigint,
+  needsResetToZero: boolean,
+  setApproving: (value: boolean) => void,
+): Promise<void> {
+  setApproving(true);
+  try {
+    if (needsResetToZero) {
+      const resetTx = await tokenContract.approve(spender, 0n);
+      await resetTx.wait();
+    }
+    const approveTx = await tokenContract.approve(spender, amount);
+    await approveTx.wait();
+  } finally {
+    setApproving(false);
+  }
+}
+
+/**
+ * Encode the EIP-5792 batch: approve (with optional reset-to-zero) + donate.
+ * @param tokenContract - The ERC-20 token contract.
+ * @param donationContract - The donation contract.
+ * @param tokenAddress - The token being donated.
+ * @param donationContractAddress - The donation contract address.
+ * @param charityAddress - The charity receiving the donation.
+ * @param amount - The exact donation amount.
+ * @param needsResetToZero - Whether to prepend an approve(0) reset call.
+ * @returns The ordered calls for `wallet_sendCalls`.
+ */
+function buildAtomicBatchCalls(
+  tokenContract: Contract,
+  donationContract: Contract,
+  tokenAddress: string,
+  donationContractAddress: string,
+  charityAddress: string,
+  amount: bigint,
+  needsResetToZero: boolean,
+): Eip5792Call[] {
+  const calls: Eip5792Call[] = [];
+  if (needsResetToZero) {
+    calls.push({
+      to: tokenAddress,
+      data: tokenContract.interface.encodeFunctionData("approve", [
+        donationContractAddress,
+        0n,
+      ]),
+      value: "0x0",
+    });
+  }
+  calls.push({
+    to: tokenAddress,
+    data: tokenContract.interface.encodeFunctionData("approve", [
+      donationContractAddress,
+      amount,
+    ]),
+    value: "0x0",
+  });
+  calls.push({
+    to: donationContractAddress,
+    data: donationContract.interface.encodeFunctionData("processDonation", [
+      charityAddress,
+      tokenAddress,
+      amount,
+      0n,
+    ]),
+    value: "0x0",
+  });
+  return calls;
+}
+
+/**
  * Donation hook for processing blockchain-based charitable donations and withdrawals
  * @function useDonation
  * @description Handles direct and equity pool donations using smart contracts on the blockchain.
@@ -338,97 +445,38 @@ export function useDonation() {
         const needsResetToZero =
           currentAllowance > 0n && currentAllowance < parsedAmount;
 
-        // Encode the atomic batch (approve [+reset] + donate).
-        const calls: Eip5792Call[] = [];
-        if (needsResetToZero) {
-          calls.push({
-            to: normalizedTokenAddress,
-            data: tokenContract.interface.encodeFunctionData("approve", [
-              donationContractAddress,
-              0n,
-            ]),
-            value: "0x0",
+        const calls = buildAtomicBatchCalls(
+          tokenContract,
+          contract,
+          normalizedTokenAddress,
+          donationContractAddress,
+          normalizedCharityAddress,
+          parsedAmount,
+          needsResetToZero,
+        );
+
+        // Tier 1 (EIP-5792): approve and donate in a single atomic transaction.
+        // Tier 2 (fallback): guided two-step approve → donate.
+        const batched = await tryAtomicDonation(
+          provider,
+          chainId,
+          address,
+          calls,
+        );
+        if (batched) {
+          donationDone = true;
+          Logger.info("Batched approve + donate confirmed", {
+            tokenAddress: normalizedTokenAddress,
+            chainId: chainId ?? CHAIN_IDS.BASE,
           });
-        }
-        calls.push({
-          to: normalizedTokenAddress,
-          data: tokenContract.interface.encodeFunctionData("approve", [
+        } else {
+          await approveTokenExact(
+            tokenContract,
             donationContractAddress,
             parsedAmount,
-          ]),
-          value: "0x0",
-        });
-        calls.push({
-          to: donationContractAddress,
-          data: contract.interface.encodeFunctionData("processDonation", [
-            normalizedCharityAddress,
-            normalizedTokenAddress,
-            parsedAmount,
-            0n,
-          ]),
-          value: "0x0",
-        });
-
-        // Tier 1 (EIP-5792): if the wallet supports atomic batching, approve and
-        // donate in a single transaction.
-        let batched = false;
-        if (provider) {
-          const activeChainId = chainId ?? CHAIN_IDS.BASE;
-          if (await supportsAtomicBatch(provider, activeChainId)) {
-            // If wallet_sendCalls itself rejects, nothing was submitted and we
-            // safely fall back to the guided two-step flow below. If it succeeds,
-            // the batch is already in-flight, so we MUST confirm it rather than
-            // fall back (which would double-send).
-            const bundleId = await submitAtomicBatch(
-              provider,
-              address,
-              activeChainId,
-              calls,
-            );
-            if (bundleId !== null) {
-              await confirmAtomicBatch(provider, bundleId);
-              batched = true;
-              donationDone = true;
-              Logger.info("Batched approve + donate confirmed", {
-                tokenAddress: normalizedTokenAddress,
-                chainId: activeChainId,
-              });
-            }
-          }
-        }
-
-        // Tier 2 (fallback): guided two-step approve → donate.
-        if (!batched) {
-          setApproving(true);
-          try {
-            if (needsResetToZero) {
-              Logger.info("Resetting token allowance to zero (USDT-style)", {
-                tokenAddress: normalizedTokenAddress,
-              });
-              const resetTx = await tokenContract.approve(
-                donationContractAddress,
-                0n,
-              );
-              await resetTx.wait();
-            }
-
-            Logger.info("Requesting exact-amount token approval", {
-              spender: donationContractAddress,
-              amount: parsedAmount.toString(),
-            });
-            const approveTx = await tokenContract.approve(
-              donationContractAddress,
-              parsedAmount,
-            );
-            await approveTx.wait();
-
-            Logger.info("Token approval successful", {
-              tokenAddress: normalizedTokenAddress,
-              spender: donationContractAddress,
-            });
-          } finally {
-            setApproving(false);
-          }
+            needsResetToZero,
+            setApproving,
+          );
         }
       }
 
