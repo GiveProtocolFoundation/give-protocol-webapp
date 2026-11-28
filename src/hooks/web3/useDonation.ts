@@ -63,6 +63,32 @@ interface Eip5792CallsStatus {
 }
 
 /**
+ * Narrow an unknown value to an EIP-5792 provider when it exposes a callable
+ * `send` method. Keeps the runtime check and type narrowing in one place so
+ * callers do not cast an ethers provider directly.
+ * @param value - The value to inspect (typically an ethers provider).
+ * @returns An EIP-5792 provider, or undefined when `send` is absent.
+ */
+function toEip5792Provider(value: unknown): Eip5792Provider | undefined {
+  if (typeof value !== "object" || value === null) return undefined;
+  const candidate = value as { send?: unknown };
+  if (typeof candidate.send !== "function") return undefined;
+  return candidate as Eip5792Provider;
+}
+
+/**
+ * Narrow an unknown value to a calls-status result with a string `status`.
+ * @param value - The value returned by `wallet_getCallsStatus`.
+ * @returns A calls-status object, or undefined when the shape is unexpected.
+ */
+function toCallsStatus(value: unknown): Eip5792CallsStatus | undefined {
+  if (typeof value !== "object" || value === null) return undefined;
+  const candidate = value as { status?: unknown };
+  if (typeof candidate.status !== "string") return undefined;
+  return candidate as Eip5792CallsStatus;
+}
+
+/**
  * Detect whether the wallet supports EIP-5792 atomic batching on the given chain.
  * Tolerates both `{ atomicBatch: true }` and `{ atomicBatch: { supported: true } }`
  * capability shapes. Any failure is treated as "unsupported" so callers fall back.
@@ -74,12 +100,15 @@ async function supportsAtomicBatch(
   provider: Provider,
   chainId: number,
 ): Promise<boolean> {
-  const p = provider as unknown as Eip5792Provider;
-  if (typeof p.send !== "function") return false;
+  const p = toEip5792Provider(provider);
+  if (!p) return false;
   try {
-    const capabilities = (await p.send("wallet_getCapabilities", [])) as {
-      [key: string]: { atomicBatch?: boolean | { supported?: boolean } };
-    };
+    const raw = await p.send("wallet_getCapabilities", []);
+    if (typeof raw !== "object" || raw === null) return false;
+    const capabilities = raw as Record<
+      string,
+      { atomicBatch?: boolean | { supported?: boolean } }
+    >;
     const chainCapabilities = capabilities[`0x${chainId.toString(16)}`];
     if (!chainCapabilities) return false;
     const atomicBatch = chainCapabilities.atomicBatch;
@@ -110,16 +139,18 @@ async function submitAtomicBatch(
   chainId: number,
   calls: Eip5792Call[],
 ): Promise<string | null> {
-  const p = provider as unknown as Eip5792Provider;
+  const p = toEip5792Provider(provider);
+  if (!p) return null;
   try {
-    return (await p.send("wallet_sendCalls", [
+    const result = await p.send("wallet_sendCalls", [
       {
         version: "1.0",
         chainId: `0x${chainId.toString(16)}`,
         from,
         calls,
       },
-    ])) as string;
+    ]);
+    return typeof result === "string" ? result : null;
   } catch {
     return null;
   }
@@ -135,16 +166,19 @@ async function confirmAtomicBatch(
   provider: Provider,
   bundleId: string,
 ): Promise<void> {
-  const p = provider as unknown as Eip5792Provider;
+  const p = toEip5792Provider(provider);
+  if (!p) {
+    throw new Error("Wallet does not support EIP-5792 call status.");
+  }
   const deadline = Date.now() + EIP5792_TIMEOUT_MS;
   let confirmed = false;
   while (!confirmed) {
-    const status = (await p.send("wallet_getCallsStatus", [
-      bundleId,
-    ])) as Eip5792CallsStatus;
-    if (status.status === "CONFIRMED") {
+    const status = toCallsStatus(
+      await p.send("wallet_getCallsStatus", [bundleId]),
+    );
+    if (status?.status === "CONFIRMED") {
       confirmed = true;
-    } else if (status.status === "FAILED" || status.status === "REJECTED") {
+    } else if (status?.status === "FAILED" || status?.status === "REJECTED") {
       throw new Error("Wallet rejected the batched donation.");
     } else {
       if (Date.now() >= deadline) {

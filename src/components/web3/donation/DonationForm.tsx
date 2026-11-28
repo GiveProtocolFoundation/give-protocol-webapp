@@ -340,7 +340,7 @@ export function DonationForm({
         >
           1. {t("donation.approval.step.approve", "Approve")}
         </span>
-        <span className="text-gray-300 dark:text-gray-600">{"\u2192"}</span>
+        <span className="text-gray-300 dark:text-gray-600">→</span>
         <span
           className={
             loading && !approving
