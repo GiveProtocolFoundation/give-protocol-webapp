@@ -211,7 +211,12 @@ async function tryAtomicDonation(
   if (!provider) return false;
   const activeChainId = chainId ?? CHAIN_IDS.BASE;
   if (!(await supportsAtomicBatch(provider, activeChainId))) return false;
-  const bundleId = await submitAtomicBatch(provider, from, activeChainId, calls);
+  const bundleId = await submitAtomicBatch(
+    provider,
+    from,
+    activeChainId,
+    calls,
+  );
   if (bundleId === null) return false;
   await confirmAtomicBatch(provider, bundleId);
   return true;
