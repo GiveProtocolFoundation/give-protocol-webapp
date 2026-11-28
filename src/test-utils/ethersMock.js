@@ -62,6 +62,9 @@ export const ethers = {
     return (Number(value) / Math.pow(10, Number(decimals))).toString();
   },
   parseEther: (value) => BigInt(Math.round(Number(value) * 1e18)),
+  parseUnits: (value, decimals) => {
+    return BigInt(Math.round(Number(value) * Math.pow(10, Number(decimals))));
+  },
   formatEther: (value) => (Number(value) / 1e18).toString(),
   keccak256: simpleKeccak256,
   toUtf8Bytes,
@@ -72,6 +75,7 @@ export const Contract = ethers.Contract;
 export const BrowserProvider = ethers.BrowserProvider;
 export const JsonRpcProvider = ethers.JsonRpcProvider;
 export const parseEther = ethers.parseEther;
+export const parseUnits = ethers.parseUnits;
 export const formatEther = ethers.formatEther;
 export const formatUnits = ethers.formatUnits;
 export const keccak256 = ethers.keccak256;

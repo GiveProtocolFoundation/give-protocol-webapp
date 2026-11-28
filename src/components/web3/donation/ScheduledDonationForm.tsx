@@ -597,7 +597,10 @@ export function ScheduledDonationForm({
         const distributionAddress = getContractAddress("DISTRIBUTION");
         const signer = await provider.getSigner();
         const tokenAddress = selectedToken.address;
-        const parsedAmount = ethers.parseEther(amount.toString());
+        const parsedAmount = ethers.parseUnits(
+          amount.toString(),
+          selectedToken.decimals,
+        );
 
         // Create token contract for approval
         const tokenContract = new ethers.Contract(
