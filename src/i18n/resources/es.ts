@@ -139,7 +139,8 @@ export default {
     "volunteer.filter.language": "Idioma: {{value}}",
     "volunteer.filter.location": "Ubicación: {{value}}",
     "volunteer.loadingOpportunities": "Cargando oportunidades...",
-    "volunteer.loadOpportunitiesError": "No pudimos cargar las oportunidades de voluntariado. Inténtalo de nuevo más tarde.",
+    "volunteer.loadOpportunitiesError":
+      "No pudimos cargar las oportunidades de voluntariado. Inténtalo de nuevo más tarde.",
     "volunteer.viewDetails": "Ver detalles",
     "volunteer.backToOpportunities": "Volver a las oportunidades",
     "volunteer.detail.about": "Acerca de esta oportunidad",
@@ -151,23 +152,27 @@ export default {
     "volunteer.detail.ongoing": "Continuo",
     "volunteer.detail.applicationsClosed": "Solicitudes cerradas",
     "volunteer.detail.notFoundTitle": "Oportunidad no encontrada",
-    "volunteer.detail.notFoundMessage": "Es posible que esta oportunidad se haya cubierto o eliminado.",
+    "volunteer.detail.notFoundMessage":
+      "Es posible que esta oportunidad se haya cubierto o eliminado.",
     "volunteer.field.requirements": "Requisitos",
     "volunteer.field.benefits": "Beneficios",
     "volunteer.field.schedule": "Horario",
-    "volunteer.field.schedulePlaceholder": "p. ej., martes de 18 a 20 h, fines de semana flexibles",
+    "volunteer.field.schedulePlaceholder":
+      "p. ej., martes de 18 a 20 h, fines de semana flexibles",
     "volunteer.field.startDate": "Fecha de inicio",
     "volunteer.field.endDate": "Fecha de finalización",
     "volunteer.field.endDateHelp": "Deja en blanco si es continuo",
     "volunteer.field.applicationDeadline": "Fecha límite de solicitud",
     "volunteer.field.volunteersNeeded": "Voluntarios necesarios",
     "volunteer.field.minimumAge": "Edad mínima",
-    "volunteer.field.backgroundCheckRequired": "Se requiere verificación de antecedentes",
+    "volunteer.field.backgroundCheckRequired":
+      "Se requiere verificación de antecedentes",
     "volunteer.field.trainingProvided": "Capacitación incluida",
     "volunteer.field.onePerLine": "uno por línea",
     "volunteer.validation.volunteersNeeded": "Introduce un número de 1 o más",
     "volunteer.validation.minimumAge": "Introduce una edad entre 0 y 120",
-    "volunteer.validation.endDate": "La fecha de finalización debe ser igual o posterior a la de inicio",
+    "volunteer.validation.endDate":
+      "La fecha de finalización debe ser igual o posterior a la de inicio",
     "volunteer.signInToApply":
       "Inicie sesión para postularse a oportunidades de voluntariado",
     "volunteer.applicationSuccess": "¡Solicitud enviada exitosamente!",
@@ -1217,7 +1222,8 @@ export default {
       "Su correo y teléfono personal de firmante se utilizan solo para verificación y no son visibles para otros usuarios de la plataforma. El correo de contacto público se muestra en el perfil de su organización.",
     "charity.claim.secondContactTitle": "Segundo Contacto",
     "charity.claim.secondContactName": "Nombre del segundo contacto",
-    "charity.claim.secondContactEmail": "Correo electrónico del segundo contacto",
+    "charity.claim.secondContactEmail":
+      "Correo electrónico del segundo contacto",
     "charity.claim.secondContactHint":
       "Una persona diferente, notificada cuando cambian la billetera o los datos de pago de su organización.",
     "charity.claim.validation.secondEmailDistinct":
@@ -1385,12 +1391,17 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "Las horas de voluntariado son verificadas por las organizaciones y cuentan para tu reputación en el protocolo.",
     "browse.news.heading": "Noticias de la Plataforma",
-    "admin.news.deleteConfirmBody": "«{{title}}» se eliminará de forma permanente. Esta acción no se puede deshacer.",
+    "admin.news.deleteConfirmBody":
+      "«{{title}}» se eliminará de forma permanente. Esta acción no se puede deshacer.",
     "admin.news.deleteConfirmTitle": "¿Eliminar la noticia?",
-    "admin.news.saveFailed": "No se pudieron guardar los cambios. Inténtelo de nuevo.",
-    "admin.news.urlHelp": "Opcional. Déjelo en blanco para mostrar la noticia sin enlace.",
-    "admin.news.urlInvalid": "Introduzca una dirección completa https:// o una ruta que empiece por /.",
-    "browse.carousel.error": "No pudimos cargar esta sección. Actualice la página e inténtelo de nuevo.",
+    "admin.news.saveFailed":
+      "No se pudieron guardar los cambios. Inténtelo de nuevo.",
+    "admin.news.urlHelp":
+      "Opcional. Déjelo en blanco para mostrar la noticia sin enlace.",
+    "admin.news.urlInvalid":
+      "Introduzca una dirección completa https:// o una ruta que empiece por /.",
+    "browse.carousel.error":
+      "No pudimos cargar esta sección. Actualice la página e inténtelo de nuevo.",
     "browse.carousel.goToPage": "Ir a la página {{page}}",
     "browse.carousel.pageLabel": "Página {{current}} de {{total}}",
     "browse.carousel.pause": "Pausar la rotación automática",
@@ -1398,22 +1409,31 @@ export default {
     "browse.causes.empty": "Aún no hay causas disponibles. ¡Vuelva pronto!",
     "browse.causes.prevAria": "Causas destacadas anteriores",
     "browse.causes.searchPlaceholder": "Buscar causas...",
-    "browse.causes.subheading": "Apoye proyectos concretos que generan un impacto real.",
+    "browse.causes.subheading":
+      "Apoye proyectos concretos que generan un impacto real.",
     "browse.charity.registryIdDisplay": "ID de registro: {{value}}",
-    "browse.featured.empty": "Aún no hay organizaciones destacadas. Use la búsqueda de arriba para encontrar una organización benéfica.",
+    "browse.featured.empty":
+      "Aún no hay organizaciones destacadas. Use la búsqueda de arriba para encontrar una organización benéfica.",
     "browse.featured.prevAria": "Organizaciones destacadas anteriores",
-    "browse.featured.subheading": "Un vistazo rotativo a organizaciones benéficas verificadas en Give Protocol.",
+    "browse.featured.subheading":
+      "Un vistazo rotativo a organizaciones benéficas verificadas en Give Protocol.",
     "browse.filter.addLocation": "Añadir ubicación",
-    "browse.filter.impactNotice": "El filtrado por ubicación de impacto aún no está disponible, por lo que los resultados no se limitan por ubicación de impacto.",
-    "browse.filter.locationHint": "Pulse Intro o elija Añadir para aplicar una ubicación.",
+    "browse.filter.impactNotice":
+      "El filtrado por ubicación de impacto aún no está disponible, por lo que los resultados no se limitan por ubicación de impacto.",
+    "browse.filter.locationHint":
+      "Pulse Intro o elija Añadir para aplicar una ubicación.",
     "browse.filter.minChars": "Escriba al menos 2 caracteres para buscar.",
-    "browse.funds.empty": "Aún no hay fondos de portafolio disponibles. ¡Vuelva pronto!",
+    "browse.funds.empty":
+      "Aún no hay fondos de portafolio disponibles. ¡Vuelva pronto!",
     "browse.funds.prevAria": "Fondos de portafolio anteriores",
     "browse.funds.searchPlaceholder": "Buscar fondos de portafolio...",
-    "browse.funds.subheading": "Portafolios de donación seleccionados que distribuyen las donaciones entre organizaciones benéficas verificadas.",
+    "browse.funds.subheading":
+      "Portafolios de donación seleccionados que distribuyen las donaciones entre organizaciones benéficas verificadas.",
     "browse.registry.badge": "Registrada en {{registry}}",
-    "browse.results.empty": "Ninguna organización coincide con esa búsqueda. Pruebe con otra palabra clave o añada un filtro de ubicación.",
-    "browse.results.error": "No pudimos realizar esa búsqueda. Inténtelo de nuevo.",
+    "browse.results.empty":
+      "Ninguna organización coincide con esa búsqueda. Pruebe con otra palabra clave o añada un filtro de ubicación.",
+    "browse.results.error":
+      "No pudimos realizar esa búsqueda. Inténtelo de nuevo.",
     "browse.search.noMatches": "Nada coincide con «{{query}}».",
     "browse.category.A": "Arte y cultura",
     "browse.category.B": "Educación",

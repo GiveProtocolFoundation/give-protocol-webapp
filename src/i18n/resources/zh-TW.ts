@@ -1267,7 +1267,8 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "志願服務時間由慈善機構驗證，並計入您的協議聲譽。",
     "browse.news.heading": "平台動態",
-    "admin.news.deleteConfirmBody": "「{{title}}」將被永久刪除，此操作無法復原。",
+    "admin.news.deleteConfirmBody":
+      "「{{title}}」將被永久刪除，此操作無法復原。",
     "admin.news.deleteConfirmTitle": "刪除這則動態？",
     "admin.news.saveFailed": "無法儲存您的變更，請再試一次。",
     "admin.news.urlHelp": "選填。留空則顯示不含連結的動態。",
@@ -1286,7 +1287,8 @@ export default {
     "browse.featured.prevAria": "上一組精選機構",
     "browse.featured.subheading": "輪播展示 Give Protocol 上已驗證的慈善機構。",
     "browse.filter.addLocation": "新增地點",
-    "browse.filter.impactNotice": "影響地區篩選目前尚未提供，因此結果不會依影響地區縮小範圍。",
+    "browse.filter.impactNotice":
+      "影響地區篩選目前尚未提供，因此結果不會依影響地區縮小範圍。",
     "browse.filter.locationHint": "按 Enter 鍵或選擇「新增」以套用地點。",
     "browse.filter.minChars": "請至少輸入 2 個字元進行搜尋。",
     "browse.funds.empty": "目前尚無投資組合基金，請稍後再來查看！",
@@ -1294,7 +1296,8 @@ export default {
     "browse.funds.searchPlaceholder": "搜尋投資組合基金...",
     "browse.funds.subheading": "精選的捐贈組合，將捐款分配給已驗證的慈善機構。",
     "browse.registry.badge": "已於{{registry}}登記",
-    "browse.results.empty": "沒有符合該搜尋的機構。請嘗試其他關鍵字或新增地點篩選。",
+    "browse.results.empty":
+      "沒有符合該搜尋的機構。請嘗試其他關鍵字或新增地點篩選。",
     "browse.results.error": "無法執行該搜尋，請再試一次。",
     "browse.search.noMatches": "沒有符合「{{query}}」的內容。",
     "browse.category.A": "藝術與文化",

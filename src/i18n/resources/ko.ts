@@ -134,7 +134,8 @@ export default {
     "volunteer.filter.language": "언어: {{value}}",
     "volunteer.filter.location": "위치: {{value}}",
     "volunteer.loadingOpportunities": "기회를 불러오는 중...",
-    "volunteer.loadOpportunitiesError": "봉사 기회를 불러올 수 없습니다. 나중에 다시 시도해 주세요.",
+    "volunteer.loadOpportunitiesError":
+      "봉사 기회를 불러올 수 없습니다. 나중에 다시 시도해 주세요.",
     "volunteer.viewDetails": "상세 보기",
     "volunteer.backToOpportunities": "기회 목록으로 돌아가기",
     "volunteer.detail.about": "이 기회에 대하여",
@@ -146,7 +147,8 @@ export default {
     "volunteer.detail.ongoing": "상시 진행",
     "volunteer.detail.applicationsClosed": "지원 마감",
     "volunteer.detail.notFoundTitle": "기회를 찾을 수 없습니다",
-    "volunteer.detail.notFoundMessage": "이 기회는 마감되었거나 삭제되었을 수 있습니다.",
+    "volunteer.detail.notFoundMessage":
+      "이 기회는 마감되었거나 삭제되었을 수 있습니다.",
     "volunteer.field.requirements": "요건",
     "volunteer.field.benefits": "혜택",
     "volunteer.field.schedule": "일정",
@@ -1311,34 +1313,47 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "봉사 시간은 자선단체가 검증하며 프로토콜 평판에 반영됩니다.",
     "browse.news.heading": "플랫폼 소식",
-    "admin.news.deleteConfirmBody": "“{{title}}”이(가) 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.",
+    "admin.news.deleteConfirmBody":
+      "“{{title}}”이(가) 영구적으로 삭제됩니다. 이 작업은 되돌릴 수 없습니다.",
     "admin.news.deleteConfirmTitle": "소식을 삭제하시겠습니까?",
-    "admin.news.saveFailed": "변경 사항을 저장하지 못했습니다. 다시 시도해 주세요.",
+    "admin.news.saveFailed":
+      "변경 사항을 저장하지 못했습니다. 다시 시도해 주세요.",
     "admin.news.urlHelp": "선택 사항입니다. 비워 두면 링크 없이 표시됩니다.",
-    "admin.news.urlInvalid": "전체 https:// 주소 또는 /로 시작하는 경로를 입력하세요.",
-    "browse.carousel.error": "이 섹션을 불러오지 못했습니다. 페이지를 새로 고친 후 다시 시도해 주세요.",
+    "admin.news.urlInvalid":
+      "전체 https:// 주소 또는 /로 시작하는 경로를 입력하세요.",
+    "browse.carousel.error":
+      "이 섹션을 불러오지 못했습니다. 페이지를 새로 고친 후 다시 시도해 주세요.",
     "browse.carousel.goToPage": "{{page}}페이지로 이동",
     "browse.carousel.pageLabel": "{{current}} / {{total}} 페이지",
     "browse.carousel.pause": "자동 전환 일시정지",
     "browse.carousel.play": "자동 전환 재개",
-    "browse.causes.empty": "아직 등록된 대의가 없습니다. 곧 다시 확인해 주세요!",
+    "browse.causes.empty":
+      "아직 등록된 대의가 없습니다. 곧 다시 확인해 주세요!",
     "browse.causes.prevAria": "이전 추천 대의",
     "browse.causes.searchPlaceholder": "대의 검색...",
-    "browse.causes.subheading": "실질적인 변화를 만드는 구체적인 프로젝트를 후원하세요.",
+    "browse.causes.subheading":
+      "실질적인 변화를 만드는 구체적인 프로젝트를 후원하세요.",
     "browse.charity.registryIdDisplay": "등록 ID: {{value}}",
-    "browse.featured.empty": "아직 추천 단체가 없습니다. 위의 검색으로 자선단체를 찾아보세요.",
+    "browse.featured.empty":
+      "아직 추천 단체가 없습니다. 위의 검색으로 자선단체를 찾아보세요.",
     "browse.featured.prevAria": "이전 추천 단체",
-    "browse.featured.subheading": "Give Protocol에서 검증된 자선단체를 차례로 소개합니다.",
+    "browse.featured.subheading":
+      "Give Protocol에서 검증된 자선단체를 차례로 소개합니다.",
     "browse.filter.addLocation": "위치 추가",
-    "browse.filter.impactNotice": "영향 지역 필터는 아직 제공되지 않아 결과가 영향 지역으로 좁혀지지 않습니다.",
-    "browse.filter.locationHint": "Enter 키를 누르거나 추가를 선택해 위치를 적용하세요.",
+    "browse.filter.impactNotice":
+      "영향 지역 필터는 아직 제공되지 않아 결과가 영향 지역으로 좁혀지지 않습니다.",
+    "browse.filter.locationHint":
+      "Enter 키를 누르거나 추가를 선택해 위치를 적용하세요.",
     "browse.filter.minChars": "검색하려면 2자 이상 입력하세요.",
-    "browse.funds.empty": "아직 포트폴리오 펀드가 없습니다. 곧 다시 확인해 주세요!",
+    "browse.funds.empty":
+      "아직 포트폴리오 펀드가 없습니다. 곧 다시 확인해 주세요!",
     "browse.funds.prevAria": "이전 포트폴리오 펀드",
     "browse.funds.searchPlaceholder": "포트폴리오 펀드 검색...",
-    "browse.funds.subheading": "검증된 자선단체에 기부금을 배분하는 엄선된 기부 포트폴리오입니다.",
+    "browse.funds.subheading":
+      "검증된 자선단체에 기부금을 배분하는 엄선된 기부 포트폴리오입니다.",
     "browse.registry.badge": "{{registry}} 등록",
-    "browse.results.empty": "검색 조건에 맞는 단체가 없습니다. 다른 키워드를 사용하거나 위치 필터를 추가해 보세요.",
+    "browse.results.empty":
+      "검색 조건에 맞는 단체가 없습니다. 다른 키워드를 사용하거나 위치 필터를 추가해 보세요.",
     "browse.results.error": "검색을 실행하지 못했습니다. 다시 시도해 주세요.",
     "browse.search.noMatches": "“{{query}}”와(과) 일치하는 항목이 없습니다.",
     "browse.category.A": "예술 및 문화",

@@ -245,11 +245,7 @@ function HomeFooterBrand() {
   return (
     <div>
       <div className="flex items-center space-x-2 mb-4">
-        <img
-          src="/give_logo_gradient.svg"
-          alt=""
-          className="w-8 h-8"
-        />
+        <img src="/give_logo_gradient.svg" alt="" className="w-8 h-8" />
         <span className="text-xl font-bold">{t("app.name")}</span>
       </div>
       <p className="text-gray-400 text-sm">{t("home.footer.brand.tagline")}</p>

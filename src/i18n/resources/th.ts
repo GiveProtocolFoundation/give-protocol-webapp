@@ -91,8 +91,7 @@ export default {
     "volunteer.description": "คำอธิบาย",
     "volunteer.appliedFor": "สมัครสำหรับ",
     "volunteer.verificationComplete": "การตรวจสอบเสร็จสมบูรณ์",
-    "volunteer.hoursVerified":
-      "ชั่วโมงอาสาสมัครได้รับการตรวจสอบและบันทึกบนบล็อกเชนแล้ว",
+    "volunteer.hoursVerified": "ชั่วโมงอาสาสมัครได้รับการตรวจสอบและบันทึกบนบล็อกเชนแล้ว",
     "volunteer.verificationHash": "แฮชการตรวจสอบ",
     "volunteer.applicationAccepted": "การสมัครได้รับการยอมรับ",
     "volunteer.applicationRecorded":
@@ -104,8 +103,7 @@ export default {
     "volunteer.noPendingApplications": "ไม่มีการสมัครที่รอการตรวจสอบ",
     "volunteer.createOpportunity": "สร้างโอกาสอาสาสมัคร",
     "volunteer.createNew": "สร้างใหม่",
-    "volunteer.noOpportunitiesYet":
-      'ยังไม่มีโอกาสที่สร้างขึ้น คลิก "สร้างใหม่" เพื่อเริ่มต้น',
+    "volunteer.noOpportunitiesYet": 'ยังไม่มีโอกาสที่สร้างขึ้น คลิก "สร้างใหม่" เพื่อเริ่มต้น',
     "volunteer.opportunityTitle": "ชื่อโอกาส",
     "volunteer.skills": "ทักษะ (คั่นด้วยเครื่องหมายจุลภาค)",
     "volunteer.commitment": "ระดับความมุ่งมั่น",
@@ -134,7 +132,8 @@ export default {
     "volunteer.filter.language": "ภาษา: {{value}}",
     "volunteer.filter.location": "สถานที่: {{value}}",
     "volunteer.loadingOpportunities": "กำลังโหลดโอกาส...",
-    "volunteer.loadOpportunitiesError": "ไม่สามารถโหลดโอกาสการเป็นอาสาสมัครได้ โปรดลองอีกครั้งในภายหลัง",
+    "volunteer.loadOpportunitiesError":
+      "ไม่สามารถโหลดโอกาสการเป็นอาสาสมัครได้ โปรดลองอีกครั้งในภายหลัง",
     "volunteer.viewDetails": "ดูรายละเอียด",
     "volunteer.backToOpportunities": "กลับไปยังโอกาสทั้งหมด",
     "volunteer.detail.about": "เกี่ยวกับโอกาสนี้",
@@ -150,7 +149,8 @@ export default {
     "volunteer.field.requirements": "คุณสมบัติที่ต้องการ",
     "volunteer.field.benefits": "สิทธิประโยชน์",
     "volunteer.field.schedule": "ตารางเวลา",
-    "volunteer.field.schedulePlaceholder": "เช่น วันอังคาร 18:00-20:00 น. ยืดหยุ่นในวันหยุดสุดสัปดาห์",
+    "volunteer.field.schedulePlaceholder":
+      "เช่น วันอังคาร 18:00-20:00 น. ยืดหยุ่นในวันหยุดสุดสัปดาห์",
     "volunteer.field.startDate": "วันที่เริ่ม",
     "volunteer.field.endDate": "วันที่สิ้นสุด",
     "volunteer.field.endDateHelp": "เว้นว่างไว้หากต่อเนื่อง",
@@ -170,8 +170,7 @@ export default {
     // Volunteer - OpportunityForm
     "volunteer.validation.titleRequired": "จำเป็นต้องระบุชื่อ",
     "volunteer.validation.descriptionRequired": "จำเป็นต้องระบุคำอธิบาย",
-    "volunteer.validation.skillsRequired":
-      "จำเป็นต้องระบุทักษะอย่างน้อยหนึ่งรายการ",
+    "volunteer.validation.skillsRequired": "จำเป็นต้องระบุทักษะอย่างน้อยหนึ่งรายการ",
     "volunteer.validation.locationRequired": "จำเป็นต้องระบุสถานที่",
     "volunteer.profileNotFound": "ไม่พบโปรไฟล์ผู้ใช้",
     "volunteer.correctErrors": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
@@ -180,8 +179,7 @@ export default {
     "volunteer.skillsPlaceholder": "เช่น พัฒนาเว็บ, จัดการโครงการ, การแปล",
     "volunteer.locationPlaceholder": "เช่น ทำงานระยะไกล, กรุงเทพฯ, เชียงใหม่",
     "volunteer.headerImage": "รูปภาพส่วนหัว",
-    "volunteer.headerImageHelp":
-      "อัปโหลดรูปภาพเพื่อแสดงที่ด้านบนของรายการโอกาสของคุณ",
+    "volunteer.headerImageHelp": "อัปโหลดรูปภาพเพื่อแสดงที่ด้านบนของรายการโอกาสของคุณ",
     "volunteer.limitReached": "ถึงขีดจำกัดโอกาสแล้ว",
     "volunteer.limitReachedMessage":
       "คุณมีโอกาสอาสาสมัครที่ใช้งานอยู่ถึงจำนวนสูงสุด {{max}} รายการแล้ว กรุณาปิดหรือดำเนินการโอกาสที่มีอยู่ให้เสร็จก่อนสร้างรายการใหม่",
@@ -195,8 +193,7 @@ export default {
     "volunteer.formalHours": "ชั่วโมงที่บันทึก",
     "volunteer.selfReported": "รายงานด้วยตนเอง",
     "volunteer.loggedHours": "ชั่วโมงอาสาสมัครที่บันทึก",
-    "volunteer.loggedHoursDescription":
-      "ชั่วโมงที่บันทึกโดยอาสาสมัครผ่านโอกาสของคุณ",
+    "volunteer.loggedHoursDescription": "ชั่วโมงที่บันทึกโดยอาสาสมัครผ่านโอกาสของคุณ",
     "volunteer.allCaughtUp": "อัปเดตครบถ้วนแล้ว!",
     "volunteer.noPendingLoggedHours": "ไม่มีชั่วโมงที่บันทึกรอการตรวจสอบ",
     "volunteer.selfReportedHours": "ชั่วโมงที่รายงานด้วยตนเอง",
@@ -267,10 +264,8 @@ export default {
     "volunteer.contactEmailOptional": "(ไม่บังคับ)",
     "volunteer.onboardHelp": "เราอาจติดต่อเพื่อช่วยนำองค์กรนี้เข้าสู่ระบบ",
     "volunteer.submittedForValidation": "บันทึกนี้จะถูกส่งเพื่อการรับรอง",
-    "volunteer.submittedForValidationTo":
-      "บันทึกนี้จะถูกส่งเพื่อการรับรองไปยัง {{org}}",
-    "volunteer.validationExpired":
-      "ระยะเวลาการรับรองหมดอายุสำหรับวันที่นี้แล้ว",
+    "volunteer.submittedForValidationTo": "บันทึกนี้จะถูกส่งเพื่อการรับรองไปยัง {{org}}",
+    "volunteer.validationExpired": "ระยะเวลาการรับรองหมดอายุสำหรับวันที่นี้แล้ว",
     "volunteer.savedAsUnvalidated": "บันทึกนี้จะถูกบันทึกเป็นไม่ผ่านการรับรอง",
     "volunteer.describeActivities": "อธิบายกิจกรรมที่คุณดำเนินการ...",
     "volunteer.moreCharsNeeded": "ต้องการอีก {{count}} ตัวอักษร",
@@ -289,8 +284,7 @@ export default {
     "volunteer.noMatchingRecords": "ไม่พบบันทึกที่ตรงกัน",
     "volunteer.noHoursLogged": "ยังไม่มีชั่วโมงอาสาสมัครที่บันทึก",
     "volunteer.adjustFilters": "ลองปรับตัวกรองเพื่อค้นหาบันทึก",
-    "volunteer.startLogging":
-      "เริ่มต้นด้วยการบันทึกชั่วโมงอาสาสมัครครั้งแรกของคุณ",
+    "volunteer.startLogging": "เริ่มต้นด้วยการบันทึกชั่วโมงอาสาสมัครครั้งแรกของคุณ",
 
     // Volunteer - SelfReportedHoursStats
     "volunteer.validatedHours": "ชั่วโมงที่ผ่านการรับรอง",
@@ -371,21 +365,17 @@ export default {
     "volunteer.referenceName": "ชื่อบุคคลอ้างอิง {{index}}",
     "volunteer.referenceContact": "ข้อมูลติดต่อบุคคลอ้างอิง {{index}}",
     "volunteer.workSamplesTitle": "ตัวอย่างผลงาน",
-    "volunteer.workSamplesLabel":
-      "ลิงก์ตัวอย่างผลงาน (คั่นด้วยเครื่องหมายจุลภาค)",
+    "volunteer.workSamplesLabel": "ลิงก์ตัวอย่างผลงาน (คั่นด้วยเครื่องหมายจุลภาค)",
     "volunteer.submitApplicationShort": "ส่งใบสมัคร",
-    "volunteer.validation.nameInvalid":
-      "กรุณากรอกชื่อที่ถูกต้อง (2-100 ตัวอักษร)",
-    "volunteer.validation.provideExperience":
-      "กรุณาให้ข้อมูลเกี่ยวกับประสบการณ์ของคุณ",
+    "volunteer.validation.nameInvalid": "กรุณากรอกชื่อที่ถูกต้อง (2-100 ตัวอักษร)",
+    "volunteer.validation.provideExperience": "กรุณาให้ข้อมูลเกี่ยวกับประสบการณ์ของคุณ",
     "volunteer.validation.selectDay": "กรุณาเลือกวันอย่างน้อยหนึ่งวัน",
     "volunteer.validation.selectTime": "กรุณาเลือกเวลาอย่างน้อยหนึ่งช่วง",
 
     // Volunteer - ConsentForm
     "volunteer.consentUnderstand": "ข้าพเจ้าเข้าใจว่า:",
     "volunteer.processingAckTitle": "การรับทราบการประมวลผล",
-    "volunteer.processingAckDesc":
-      "กรุณาตรวจสอบและรับทราบสิ่งต่อไปนี้ก่อนดำเนินการต่อ:",
+    "volunteer.processingAckDesc": "กรุณาตรวจสอบและรับทราบสิ่งต่อไปนี้ก่อนดำเนินการต่อ:",
     "volunteer.essentialProcessingTitle": "การประมวลผลใบสมัคร (ต้องยืนยัน):",
     "volunteer.acknowledgmentTitle": "การรับทราบ",
     "volunteer.ageConfirmationTitle": "การยืนยันอายุ:",
@@ -473,17 +463,14 @@ export default {
     "modal.wallet.description":
       "เชื่อมต่อกระเป๋าเงินเพื่อปลดล็อกคุณสมบัติทั้งหมดของ Give Protocol",
     "modal.wallet.benefit1": "ติดตามการบริจาคของคุณอย่างโปร่งใสบนบล็อกเชน",
-    "modal.wallet.benefit2":
-      "รับโทเคน GIVE เป็นรางวัลสำหรับการมีส่วนร่วมของคุณ",
-    "modal.wallet.benefit3":
-      "มีส่วนร่วมในการตัดสินใจด้านการกำกับดูแลของโปรโตคอล",
+    "modal.wallet.benefit2": "รับโทเคน GIVE เป็นรางวัลสำหรับการมีส่วนร่วมของคุณ",
+    "modal.wallet.benefit3": "มีส่วนร่วมในการตัดสินใจด้านการกำกับดูแลของโปรโตคอล",
     "modal.wallet.connecting": "กำลังเชื่อมต่อ...",
     "modal.wallet.clickToConnect": "คลิกเพื่อเชื่อมต่อ",
     "modal.wallet.noExtension": "ไม่พบส่วนขยายกระเป๋าเงิน",
     "modal.wallet.installMetaMask": "ติดตั้ง MetaMask เพื่อเริ่มต้น",
     "modal.wallet.skip": "ข้ามไปก่อน",
-    "modal.wallet.footerNote":
-      "คุณสามารถเชื่อมต่อกระเป๋าเงินได้ทุกเมื่อจากแถบนำทาง",
+    "modal.wallet.footerNote": "คุณสามารถเชื่อมต่อกระเป๋าเงินได้ทุกเมื่อจากแถบนำทาง",
     "modal.wallet.failedConnect": "ไม่สามารถเชื่อมต่อกระเป๋าเงินได้",
 
     // Modal - wallet link
@@ -494,13 +481,11 @@ export default {
       "บริจาคคริปโตโดยตรงให้กับองค์กรการกุศลที่ผ่านการตรวจสอบบนเชน",
     "modal.walletLink.benefit2Pre": "พัฒนา",
     "modal.walletLink.benefit2Post": "ข้อมูลประจำตัวสำหรับการมีส่วนร่วมของคุณ",
-    "modal.walletLink.benefit3":
-      "เข้าสู่ระบบด้วยอีเมลหรือกระเป๋าเงิน \u2014 บัญชีเดียวกัน",
+    "modal.walletLink.benefit3": "เข้าสู่ระบบด้วยอีเมลหรือกระเป๋าเงิน \u2014 บัญชีเดียวกัน",
     "modal.walletLink.buttonLinking": "กำลังเชื่อมโยง\u2026",
     "modal.walletLink.buttonLink": "เชื่อมโยงกระเป๋าเงิน",
     "modal.walletLink.buttonConnectFirst": "เชื่อมต่อกระเป๋าเงินก่อน",
-    "modal.walletLink.footerNote":
-      "คุณสามารถเชื่อมโยงกระเป๋าเงินได้ทุกเมื่อจากการตั้งค่า",
+    "modal.walletLink.footerNote": "คุณสามารถเชื่อมโยงกระเป๋าเงินได้ทุกเมื่อจากการตั้งค่า",
     "modal.walletLink.failedLink": "ไม่สามารถเชื่อมโยงกระเป๋าเงินได้",
 
     // Modal - chain selection
@@ -535,13 +520,11 @@ export default {
       "การบริจาคของคุณจำนวน {{amount}} ให้กับ {{charityName}} ได้รับการดำเนินการแล้ว",
     "modal.donation.donationProcessedRecurring":
       "การบริจาครายเดือนของคุณจำนวน {{amount}} ให้กับ {{charityName}} ได้รับการดำเนินการแล้ว",
-    "modal.donation.recurringNote":
-      "คุณจะถูกเรียกเก็บเงินรายเดือนจนกว่าจะยกเลิก",
+    "modal.donation.recurringNote": "คุณจะถูกเรียกเก็บเงินรายเดือนจนกว่าจะยกเลิก",
     "modal.donation.receiptNote": "ใบเสร็จรับเงินได้ถูกส่งไปยังอีเมลของคุณแล้ว",
     "modal.donation.done": "เสร็จสิ้น",
     "modal.donation.errorTitle": "เกิดข้อผิดพลาด",
-    "modal.donation.errorDefault":
-      "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองอีกครั้ง",
+    "modal.donation.errorDefault": "เกิดข้อผิดพลาดที่ไม่คาดคิด กรุณาลองอีกครั้ง",
     "modal.donation.tryAgain": "ลองอีกครั้ง",
     "modal.donation.close": "ปิด",
     "modal.donation.amountLabel": "จำนวนเงินบริจาค",
@@ -553,8 +536,7 @@ export default {
     "modal.donation.donateToCharity": "บริจาคให้ {{charityName}}",
 
     // Modal - scheduled donation
-    "modal.scheduledDonation.title":
-      "ตั้งเวลาบริจาครายเดือนให้ {{charityName}}",
+    "modal.scheduledDonation.title": "ตั้งเวลาบริจาครายเดือนให้ {{charityName}}",
 
     // Modal - withdrawal
     "modal.withdrawal.title": "ขอถอนเงิน",
@@ -572,8 +554,7 @@ export default {
     "modal.validation.description": "คำอธิบาย",
     "modal.validation.submitted": "ส่งเมื่อ:",
     "modal.validation.daysRemaining": "(เหลืออีก {{count}} วันในการรับรอง)",
-    "modal.validation.appealNote":
-      "นี่คือการอุทธรณ์/การส่งซ้ำของคำขอที่เคยถูกปฏิเสธ",
+    "modal.validation.appealNote": "นี่คือการอุทธรณ์/การส่งซ้ำของคำขอที่เคยถูกปฏิเสธ",
     "modal.validation.rejectPrompt":
       "กรุณาเลือกเหตุผลในการปฏิเสธคำขอการรับรองนี้ อาสาสมัครจะได้รับการแจ้งเตือน",
     "modal.validation.reject": "ปฏิเสธ",
@@ -599,8 +580,7 @@ export default {
     "validation.rejection.reasonPlaceholder": "เลือกเหตุผล...",
     "validation.rejection.notesLabel": "หมายเหตุเพิ่มเติม",
     "validation.rejection.optional": "(ไม่บังคับ)",
-    "validation.rejection.notesPlaceholder":
-      "ให้บริบทเพิ่มเติมสำหรับการปฏิเสธ...",
+    "validation.rejection.notesPlaceholder": "ให้บริบทเพิ่มเติมสำหรับการปฏิเสธ...",
 
     // Validation - batch actions
     "validation.batch.deselectAll": "ยกเลิกการเลือกทั้งหมด",
@@ -669,8 +649,7 @@ export default {
     "tracker.exportNoData": "ไม่มีข้อมูลสำหรับส่งออก",
     "tracker.exportError": "เกิดข้อผิดพลาดขณะส่งออกข้อมูล",
     "tracker.walletNotConnected": "ไม่ได้เชื่อมต่อกระเป๋าเงิน",
-    "tracker.connectWalletForAlias":
-      "กรุณาเชื่อมต่อกระเป๋าเงินเพื่อตั้งชื่อเล่น",
+    "tracker.connectWalletForAlias": "กรุณาเชื่อมต่อกระเป๋าเงินเพื่อตั้งชื่อเล่น",
     "tracker.invalidAlias": "ชื่อเล่นไม่ถูกต้อง",
     "tracker.enterValidAlias": "กรุณากรอกชื่อเล่นที่ถูกต้อง",
 
@@ -679,18 +658,15 @@ export default {
     "charity.portal.deleteDescription":
       "การดำเนินการนี้ไม่สามารถย้อนกลับได้ {{type}} จะถูกลบอย่างถาวร",
     "charity.portal.walletNotConfigured": "ยังไม่ได้กำหนดค่ากระเป๋าเงินรับเงิน",
-    "charity.portal.walletDonationNote":
-      "เชื่อมต่อกระเป๋าเงินเพื่อรับการบริจาคบนเชน",
+    "charity.portal.walletDonationNote": "เชื่อมต่อกระเป๋าเงินเพื่อรับการบริจาคบนเชน",
     "charity.portal.setupWallet": "ตั้งค่ากระเป๋าเงิน",
 
     // Charity dashboard onboarding & verification
     "charity.onboarding.ariaLabel": "รายการตรวจสอบการเริ่มต้นใช้งาน",
     "charity.onboarding.title": "เริ่มต้นใช้งาน",
-    "charity.onboarding.progress":
-      "เสร็จสิ้น {{completed}} จาก {{total}} ขั้นตอน",
+    "charity.onboarding.progress": "เสร็จสิ้น {{completed}} จาก {{total}} ขั้นตอน",
     "charity.onboarding.optional": "ไม่บังคับ",
-    "charity.onboarding.allComplete":
-      "เสร็จสิ้นทุกขั้นตอนแล้ว! คุณสามารถปิดรายการนี้ได้",
+    "charity.onboarding.allComplete": "เสร็จสิ้นทุกขั้นตอนแล้ว! คุณสามารถปิดรายการนี้ได้",
     "charity.onboarding.expand": "ขยายรายการตรวจสอบ",
     "charity.onboarding.collapse": "ย่อรายการตรวจสอบ",
     "charity.onboarding.dismiss": "ปิดรายการตรวจสอบการเริ่มต้นใช้งาน",
@@ -700,15 +676,13 @@ export default {
     "charity.onboarding.stepAuto": "{{label}} (เสร็จสิ้นโดยอัตโนมัติ)",
     "charity.onboarding.goToOrganization": "ไปที่องค์กร",
     "charity.onboarding.setupWallet": "ตั้งค่ากระเป๋าเงิน",
-    "charity.onboarding.item.completeProfile.label":
-      "กรอกโปรไฟล์องค์กรให้สมบูรณ์",
+    "charity.onboarding.item.completeProfile.label": "กรอกโปรไฟล์องค์กรให้สมบูรณ์",
     "charity.onboarding.item.completeProfile.description":
       "เพิ่มชื่อองค์กร คำอธิบาย ที่อยู่ และข้อมูลติดต่อ",
     "charity.onboarding.item.uploadLogo.label": "อัปโหลดโลโก้หรือภาพแบนเนอร์",
     "charity.onboarding.item.uploadLogo.description":
       "เพิ่มโลโก้หรือแบนเนอร์เพื่อช่วยให้ผู้บริจาคจดจำองค์กรการกุศลของคุณ",
-    "charity.onboarding.item.connectWallet.label":
-      "ตั้งค่ากระเป๋าเงินรับบริจาค",
+    "charity.onboarding.item.connectWallet.label": "ตั้งค่ากระเป๋าเงินรับบริจาค",
     "charity.onboarding.item.connectWallet.description":
       "เลือก Safe แบบหลายลายเซ็น การดูแลสินทรัพย์ระดับสถาบัน หรือกระเป๋าเงินแบบลายเซ็นเดียวเพื่อรับเงินบริจาค และพิสูจน์การควบคุมด้วยการลงนามข้อความ",
     "charity.onboarding.item.bankDetails.label":
@@ -724,8 +698,7 @@ export default {
       "ทีมงานกำลังตรวจสอบใบสมัครองค์กรการกุศลของคุณ โดยปกติใช้เวลา 3–5 วันทำการ เราจะส่งอีเมลแจ้งเมื่อมีการตัดสินใจ",
     "charity.verification.rejectedTitle": "ใบสมัครไม่ได้รับการอนุมัติ",
     "charity.verification.reason": "เหตุผล: {{notes}}",
-    "charity.verification.rejectedDefault":
-      "ใบสมัครของคุณไม่ได้รับการอนุมัติในขณะนี้",
+    "charity.verification.rejectedDefault": "ใบสมัครของคุณไม่ได้รับการอนุมัติในขณะนี้",
     "charity.verification.contactSupport": "ติดต่อฝ่ายสนับสนุน",
     "charity.verification.suspendedTitle": "บัญชีถูกระงับ",
     "charity.verification.suspendedDefault": "บัญชีองค์กรการกุศลของคุณถูกระงับ",
@@ -734,8 +707,7 @@ export default {
     "charity.verification.verifiedBody":
       "องค์กรของคุณได้รับการยืนยันแล้ว ผู้บริจาคสามารถสนับสนุนโครงการของคุณได้แล้ว",
     "charity.portal.receivingWallet": "กระเป๋าเงินรับบริจาค: {{address}}",
-    "charity.portal.loadError":
-      "ไม่สามารถโหลดข้อมูลองค์กรการกุศลได้ กรุณาลองอีกครั้ง",
+    "charity.portal.loadError": "ไม่สามารถโหลดข้อมูลองค์กรการกุศลได้ กรุณาลองอีกครั้ง",
 
     // Timestamps (GIV-254)
     "timestamp.justNow": "เมื่อสักครู่",
@@ -766,12 +738,10 @@ export default {
       "การบริจาคของคุณจะถูกแบ่งเท่าเทียมกันระหว่างองค์กรการกุศลที่ผ่านการตรวจสอบ {{count}} แห่ง",
     "portfolio.eachCharityPercentage":
       "แต่ละองค์กรการกุศลจะได้รับ {{percentage}}% ของการบริจาค",
-    "portfolio.verifiedCharities":
-      "องค์กรการกุศลที่ผ่านการตรวจสอบ {{count}} แห่ง",
+    "portfolio.verifiedCharities": "องค์กรการกุศลที่ผ่านการตรวจสอบ {{count}} แห่ง",
     "portfolio.donateToFundButton": "บริจาคให้กองทุน",
     "portfolio.noFundsAvailable": "ไม่มีกองทุนพอร์ตโฟลิโอที่พร้อมใช้งาน",
-    "portfolio.checkBackLater":
-      "กลับมาตรวจสอบในภายหลังสำหรับโอกาสการระดมทุนใหม่",
+    "portfolio.checkBackLater": "กลับมาตรวจสอบในภายหลังสำหรับโอกาสการระดมทุนใหม่",
     "portfolio.amountLabel": "จำนวน ({{currency}})",
     "portfolio.invalidAmount": "กรุณากรอกจำนวนที่ถูกต้อง",
     "portfolio.donationSuccess": "บริจาคสำเร็จ!",
@@ -822,8 +792,7 @@ export default {
     "admin.actions.contentModerationDesc":
       "ซ่อน ตั้งค่าสถานะ และตรวจสอบโอกาสและสาเหตุ",
     "admin.actions.portfolioFunds": "กองทุนพอร์ตโฟลิโอ",
-    "admin.actions.portfolioFundsDesc":
-      "สร้างและจัดการพอร์ตโฟลิโอการให้ที่คัดสรร",
+    "admin.actions.portfolioFundsDesc": "สร้างและจัดการพอร์ตโฟลิโอการให้ที่คัดสรร",
     "admin.actions.charityRequests": "คำขอองค์กรการกุศล",
     "admin.actions.charityRequestsDesc":
       "ตรวจสอบคำขอของผู้บริจาคสำหรับองค์กรการกุศลที่ยังไม่มีผู้อ้างสิทธิ์",
@@ -945,8 +914,7 @@ export default {
     "admin.validation.overrideTitle": "แทนที่คำขอการรับรอง",
     "admin.validation.newStatus": "สถานะใหม่",
     "admin.validation.reasonRequired": "เหตุผล (จำเป็น)",
-    "admin.validation.reasonPlaceholder":
-      "อธิบายเหตุผลในการแทนที่คำขอนี้\u2026",
+    "admin.validation.reasonPlaceholder": "อธิบายเหตุผลในการแทนที่คำขอนี้\u2026",
     "admin.validation.saving": "กำลังบันทึก\u2026",
     "admin.validation.confirmOverride": "ยืนยันการแทนที่",
     "admin.validation.allStatuses": "ทุกสถานะ",
@@ -1042,8 +1010,7 @@ export default {
     "auth.signin.terms": "ข้อกำหนด",
     "auth.signin.privacy": "ความเป็นส่วนตัว",
     "auth.panel.headline": "การให้อย่างชาญฉลาด ผลกระทบที่โปร่งใส",
-    "auth.panel.subheadline":
-      "บัญชีเดียว บริจาคด้วยบัตรหรือคริปโต ติดตามทุกบาทบนบล็อกเชน",
+    "auth.panel.subheadline": "บัญชีเดียว บริจาคด้วยบัตรหรือคริปโต ติดตามทุกบาทบนบล็อกเชน",
     "auth.panel.statusLabel": "สถานะโปรโตคอล · ระยะเริ่มต้น",
     "auth.panel.statusDesc": "กำลังสร้างรากฐานของการให้ที่โปร่งใส",
     "auth.panel.runsOn": "ทำงานบน",
@@ -1054,15 +1021,13 @@ export default {
     "auth.wallet.openingSession": "กำลังเปิดเซสชัน…",
     "auth.validation.emailRequired": "กรุณากรอกที่อยู่อีเมลของคุณก่อน",
     "auth.validation.invalidEmail": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
-    "auth.validation.passwordTooShort":
-      "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+    "auth.validation.passwordTooShort": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "auth.validation.passwordMismatch": "รหัสผ่านไม่ตรงกัน",
     "auth.login.welcomeHeading": "ยินดีต้อนรับสู่ Give Protocol",
     "auth.login.signInOrConnect": "เข้าสู่ระบบหรือเชื่อมต่อ",
     "auth.login.skipToContent": "ข้ามไปยังเนื้อหาการเข้าสู่ระบบ",
     "auth.login.donorTitle": "เข้าสู่ระบบผู้บริจาค",
-    "auth.login.donorSubtitle":
-      "เข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดการบริจาคของคุณ",
+    "auth.login.donorSubtitle": "เข้าสู่ระบบเพื่อเข้าถึงแดชบอร์ดการบริจาคของคุณ",
     "auth.login.charityTitle": "พอร์ทัลองค์กรไม่แสวงหากำไร",
     "auth.login.charitySubtitle": "จัดการโปรไฟล์องค์กรและการบริจาค",
     "auth.login.back": "← กลับ",
@@ -1103,12 +1068,9 @@ export default {
     "auth.forgot.forgotUsername": "ลืมชื่อผู้ใช้",
     "auth.forgot.passwordDesc":
       "กรอกที่อยู่อีเมลของคุณ แล้วเราจะส่งลิงก์สำหรับรีเซ็ตรหัสผ่านให้คุณ",
-    "auth.forgot.usernameDesc":
-      "กรอกที่อยู่อีเมลของคุณ แล้วเราจะส่งชื่อผู้ใช้ให้คุณ",
-    "auth.forgot.passwordSuccess":
-      "คำแนะนำในการรีเซ็ตรหัสผ่านถูกส่งไปยังอีเมลของคุณแล้ว",
-    "auth.forgot.usernameSuccess":
-      "การแจ้งเตือนชื่อผู้ใช้ถูกส่งไปยังอีเมลของคุณแล้ว",
+    "auth.forgot.usernameDesc": "กรอกที่อยู่อีเมลของคุณ แล้วเราจะส่งชื่อผู้ใช้ให้คุณ",
+    "auth.forgot.passwordSuccess": "คำแนะนำในการรีเซ็ตรหัสผ่านถูกส่งไปยังอีเมลของคุณแล้ว",
+    "auth.forgot.usernameSuccess": "การแจ้งเตือนชื่อผู้ใช้ถูกส่งไปยังอีเมลของคุณแล้ว",
     "auth.forgot.checkEmail": "ตรวจสอบอีเมลของคุณ",
     "auth.forgot.backToSignIn": "กลับไปยังการเข้าสู่ระบบ",
     "auth.forgot.emailPlaceholder": "กรอกที่อยู่อีเมลของคุณ",
@@ -1156,15 +1118,12 @@ export default {
     "charity.claim.backToSearch": "กลับไปค้นหา",
     "charity.claim.creating": "กำลังสร้างบัญชี...",
     "charity.claim.submit": "อ้างสิทธิ์องค์กร",
-    "charity.claim.validation.name":
-      "ชื่อต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
+    "charity.claim.validation.name": "ชื่อต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
     "charity.claim.validation.email": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
-    "charity.claim.validation.password":
-      "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+    "charity.claim.validation.password": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "charity.claim.validation.confirmPassword": "รหัสผ่านไม่ตรงกัน",
     "charity.claim.validation.fix": "กรุณาแก้ไขข้อผิดพลาดในการตรวจสอบ",
-    "charity.claim.useAsPublicEmail":
-      "ใช้อีเมลของฉันเป็นอีเมลติดต่อสาธารณะขององค์กร",
+    "charity.claim.useAsPublicEmail": "ใช้อีเมลของฉันเป็นอีเมลติดต่อสาธารณะขององค์กร",
     "charity.claim.publicContactEmail": "อีเมลติดต่อสาธารณะขององค์กร",
     "charity.claim.privacyNotice":
       "อีเมล/โทรศัพท์ส่วนตัวของผู้ลงนามใช้สำหรับการยืนยันตัวตนเท่านั้นและไม่แสดงให้ผู้ใช้แพลตฟอร์มอื่นเห็น อีเมลติดต่อสาธารณะจะแสดงในโปรไฟล์องค์กรของคุณ",
@@ -1201,8 +1160,7 @@ export default {
     "charity.vetting.validation.contactName":
       "ชื่อผู้ติดต่อต้องมีความยาวระหว่าง 2 ถึง 100 ตัวอักษร",
     "charity.vetting.validation.email": "กรุณากรอกที่อยู่อีเมลที่ถูกต้อง",
-    "charity.vetting.validation.password":
-      "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
+    "charity.vetting.validation.password": "รหัสผ่านต้องมีความยาวอย่างน้อย 8 ตัวอักษร",
     "charity.vetting.validation.confirmPassword": "รหัสผ่านไม่ตรงกัน",
     "charity.vetting.validation.description": "จำเป็นต้องกรอกรายละเอียด",
     "charity.vetting.validation.category": "จำเป็นต้องเลือกหมวดหมู่",
@@ -1309,8 +1267,7 @@ export default {
     "browse.funds.donateCta": "บริจาคให้กองทุน",
     "browse.funds.nextAria": "กองทุนพอร์ตโฟลิโอถัดไป",
     "portfolio.notFound.title": "ไม่พบกองทุนพอร์ตโฟลิโอ",
-    "portfolio.notFound.body":
-      "กองทุนพอร์ตโฟลิโอที่คุณกำลังค้นหาไม่มีอยู่หรือไม่ได้ใช้งานแล้ว",
+    "portfolio.notFound.body": "กองทุนพอร์ตโฟลิโอที่คุณกำลังค้นหาไม่มีอยู่หรือไม่ได้ใช้งานแล้ว",
     "portfolio.supportedOrgs": "องค์กรที่ได้รับการสนับสนุน",
     "browse.charity.einLabel": "เลขประจำตัวผู้เสียภาษี",
     "browse.charity.einDisplay": "เลขประจำตัวผู้เสียภาษี: {{value}}",
@@ -1333,7 +1290,8 @@ export default {
     "browse.whyGiveProtocol.volunteer.description":
       "ชั่วโมงอาสาสมัครจะได้รับการยืนยันจากองค์กรการกุศลและนับเข้าสู่ชื่อเสียงของคุณในโปรโตคอล",
     "browse.news.heading": "ข่าวสารแพลตฟอร์ม",
-    "admin.news.deleteConfirmBody": "“{{title}}” จะถูกลบอย่างถาวร และไม่สามารถย้อนกลับได้",
+    "admin.news.deleteConfirmBody":
+      "“{{title}}” จะถูกลบอย่างถาวร และไม่สามารถย้อนกลับได้",
     "admin.news.deleteConfirmTitle": "ลบข่าวนี้หรือไม่?",
     "admin.news.saveFailed": "ไม่สามารถบันทึกการเปลี่ยนแปลงได้ โปรดลองอีกครั้ง",
     "admin.news.urlHelp": "ไม่บังคับ เว้นว่างไว้เพื่อแสดงข่าวโดยไม่มีลิงก์",
@@ -1350,15 +1308,18 @@ export default {
     "browse.charity.registryIdDisplay": "รหัสทะเบียน: {{value}}",
     "browse.featured.empty": "ยังไม่มีองค์กรเด่น ใช้การค้นหาด้านบนเพื่อค้นหาองค์กรการกุศล",
     "browse.featured.prevAria": "องค์กรเด่นก่อนหน้า",
-    "browse.featured.subheading": "ภาพรวมแบบหมุนเวียนขององค์กรการกุศลที่ผ่านการตรวจสอบบน Give Protocol",
+    "browse.featured.subheading":
+      "ภาพรวมแบบหมุนเวียนขององค์กรการกุศลที่ผ่านการตรวจสอบบน Give Protocol",
     "browse.filter.addLocation": "เพิ่มสถานที่",
-    "browse.filter.impactNotice": "ตัวกรองตามสถานที่ที่ได้รับผลกระทบยังไม่พร้อมใช้งาน ผลลัพธ์จึงไม่ถูกจำกัดตามสถานที่ดังกล่าว",
+    "browse.filter.impactNotice":
+      "ตัวกรองตามสถานที่ที่ได้รับผลกระทบยังไม่พร้อมใช้งาน ผลลัพธ์จึงไม่ถูกจำกัดตามสถานที่ดังกล่าว",
     "browse.filter.locationHint": "กด Enter หรือเลือก เพิ่ม เพื่อใช้สถานที่",
     "browse.filter.minChars": "พิมพ์อย่างน้อย 2 ตัวอักษรเพื่อค้นหา",
     "browse.funds.empty": "ยังไม่มีกองทุนพอร์ตโฟลิโอ โปรดกลับมาตรวจสอบใหม่เร็วๆ นี้!",
     "browse.funds.prevAria": "กองทุนพอร์ตโฟลิโอก่อนหน้า",
     "browse.funds.searchPlaceholder": "ค้นหากองทุนพอร์ตโฟลิโอ...",
-    "browse.funds.subheading": "พอร์ตโฟลิโอการบริจาคที่คัดสรรมา กระจายเงินบริจาคไปยังองค์กรการกุศลที่ผ่านการตรวจสอบ",
+    "browse.funds.subheading":
+      "พอร์ตโฟลิโอการบริจาคที่คัดสรรมา กระจายเงินบริจาคไปยังองค์กรการกุศลที่ผ่านการตรวจสอบ",
     "browse.registry.badge": "ลงทะเบียนกับ {{registry}}",
     "browse.results.empty": "ไม่มีองค์กรที่ตรงกับการค้นหานี้ ลองใช้คำอื่นหรือเพิ่มตัวกรองสถานที่",
     "browse.results.error": "ไม่สามารถค้นหาได้ โปรดลองอีกครั้ง",
@@ -1447,8 +1408,7 @@ export default {
     "charity.profile.verified501c3Tooltip":
       "องค์กร 501(c)(3) ที่จดทะเบียน — การบริจาคอาจหักลดหย่อนภาษีได้ในสหรัฐอเมริกา",
     "charity.profile.statusClaimed": "อ้างสิทธิ์แล้ว",
-    "charity.profile.statusUnclaimed":
-      "ยังไม่อ้างสิทธิ์ — ข้อมูลจากทะเบียนสาธารณะเท่านั้น",
+    "charity.profile.statusUnclaimed": "ยังไม่อ้างสิทธิ์ — ข้อมูลจากทะเบียนสาธารณะเท่านั้น",
     "charity.profile.statusIrsVerified":
       "องค์กรไม่แสวงหาผลกำไรที่ผ่านการตรวจสอบโดย IRS",
     "charity.profile.requestWidget.unclaimedBody":
@@ -1484,8 +1444,7 @@ export default {
       "องค์กรนี้ยังไม่ได้ตั้งค่ากระเป๋าเงินรับอย่างเป็นทางการ",
     "charity.profile.donate.walletPending":
       "องค์กรนี้กำลังตั้งค่ากระเป๋าเงิน — การบริจาคไม่สามารถใช้ได้ชั่วคราว",
-    "charity.profile.donate.walletLegacy":
-      "องค์กรนี้ใช้ที่อยู่กระเป๋าเงินรุ่นเก่า",
+    "charity.profile.donate.walletLegacy": "องค์กรนี้ใช้ที่อยู่กระเป๋าเงินรุ่นเก่า",
     "charity.profile.donate.feeNote":
       "ค่าธรรมเนียมแพลตฟอร์ม 0% สำหรับการบริจาคโดยตรง มีค่าธรรมเนียมเครือข่าย",
     "charity.profile.donate.jurisdictionUnavailable":
@@ -1535,8 +1494,7 @@ export default {
     // Remaining i18n keys — batch translation
     "admin.auditTrail.filterByAction": "กรองตามการดำเนินการ",
     "admin.auditTrail.allActions": "การดำเนินการทั้งหมด",
-    "admin.auditTrail.action.charityStatusChange":
-      "การเปลี่ยนสถานะองค์กรการกุศล",
+    "admin.auditTrail.action.charityStatusChange": "การเปลี่ยนสถานะองค์กรการกุศล",
     "admin.auditTrail.action.userStatusChange": "การเปลี่ยนสถานะผู้ใช้",
     "admin.auditTrail.action.donationFlag": "การตั้งค่าสถานะการบริจาค",
     "admin.auditTrail.action.donationFlagResolve":
@@ -1605,13 +1563,11 @@ export default {
       "ข้าพเจ้าได้รับอนุญาตจากองค์กรของข้าพเจ้าให้กำหนดกระเป๋าเงินนี้เป็นที่อยู่รับการบริจาคเพื่อการกุศล",
     "wallet.eoa.checkRisk":
       "ข้าพเจ้าเข้าใจว่ากระเป๋าเงินแบบผู้ลงนามคนเดียวมีความเสี่ยงสูงกว่ากระเป๋าเงินแบบมัลติซิก และการสูญเสียคีย์ส่วนตัวหมายถึงการสูญเสียเงินทุนอย่างถาวร",
-    "wallet.eoa.confirmSubtitle":
-      "โปรดยืนยันข้อมูลต่อไปนี้ก่อนลงทะเบียนกระเป๋าเงินนี้",
+    "wallet.eoa.confirmSubtitle": "โปรดยืนยันข้อมูลต่อไปนี้ก่อนลงทะเบียนกระเป๋าเงินนี้",
     "wallet.eoa.confirmTitle": "การยืนยันขั้นสุดท้าย",
     "wallet.eoa.connectFirst": "โปรดเชื่อมต่อกระเป๋าเงินของคุณก่อน",
     "wallet.eoa.connectWallet": "เชื่อมต่อกระเป๋าเงิน",
-    "wallet.eoa.missingSignature":
-      "ไม่มีลายเซ็น โปรดย้อนกลับและลงลายเซ็นอีกครั้ง",
+    "wallet.eoa.missingSignature": "ไม่มีลายเซ็น โปรดย้อนกลับและลงลายเซ็นอีกครั้ง",
     "wallet.eoa.proceedAnyway": "เข้าใจแล้ว ดำเนินการต่อ",
     "wallet.eoa.register": "ลงทะเบียนกระเป๋าเงิน",
     "wallet.eoa.registering": "กำลังลงทะเบียน...",
@@ -1640,10 +1596,8 @@ export default {
     "wallet.institutional.chooseFile": "เลือกไฟล์หรือลากและวาง",
     "wallet.institutional.custodian": "ผู้รับฝากทรัพย์สิน",
     "wallet.institutional.fileTooLarge": "ไฟล์ต้องมีขนาดเล็กกว่า 10MB",
-    "wallet.institutional.invalidAddress":
-      "โปรดป้อนที่อยู่ Ethereum ที่ถูกต้อง (0x...)",
-    "wallet.institutional.invalidFileType":
-      "โปรดอัปโหลดไฟล์ PDF, JPEG หรือ PNG",
+    "wallet.institutional.invalidAddress": "โปรดป้อนที่อยู่ Ethereum ที่ถูกต้อง (0x...)",
+    "wallet.institutional.invalidFileType": "โปรดอัปโหลดไฟล์ PDF, JPEG หรือ PNG",
     "wallet.institutional.removeFile": "ลบไฟล์",
     "wallet.institutional.selectCustodian": "โปรดเลือกผู้รับฝากทรัพย์สิน",
     "wallet.institutional.selectCustodianOption": "เลือกผู้รับฝากทรัพย์สิน...",
@@ -1732,8 +1686,7 @@ export default {
     "admin.dashboard.kpiDonorsSub": "ใหม่ {{count}} รายการใน 30 วันที่ผ่านมา",
     "admin.dashboard.kpiPending": "รอดำเนินการ {{count}} รายการ",
     "admin.dashboard.awaitingVerification": "รอการยืนยันตัวตน",
-    "admin.dashboard.kpiVerifiedSub":
-      "จากทั้งหมด {{total}} รายการที่อนุมัติแล้ว",
+    "admin.dashboard.kpiVerifiedSub": "จากทั้งหมด {{total}} รายการที่อนุมัติแล้ว",
     "admin.dashboard.kpiVolunteersActive": "การสมัครที่ใช้งานอยู่",
     "admin.dashboard.kpiVolunteersSub": "ไม่มีการสมัครที่ใช้งานอยู่",
     "admin.dashboard.donationVolume": "ปริมาณการบริจาค",

@@ -82,7 +82,12 @@ export function useScheduledDonation() {
   const [error, setError] = useState<string | null>(null);
 
   const createSchedule = useCallback(
-    async ({ charityAddress, tokenAddress, totalAmount, decimals }: ScheduleParams) => {
+    async ({
+      charityAddress,
+      tokenAddress,
+      totalAmount,
+      decimals,
+    }: ScheduleParams) => {
       if (!provider || !address) {
         throw new Error("Wallet not connected");
       }
@@ -335,13 +340,20 @@ export function useScheduledDonation() {
         scheduleIds.map(async (id: bigint) => {
           const schedule = await distributionContract.donationSchedules(id);
           const tokenDecimals =
-            getTokenByAddressOnChain(schedule.token, chainId ?? 1)?.decimals ?? 18;
+            getTokenByAddressOnChain(schedule.token, chainId ?? 1)?.decimals ??
+            18;
           return {
             id: Number(id),
             charity: schedule.charity,
             token: schedule.token,
-            totalAmount: ethers.formatUnits(schedule.totalAmount, tokenDecimals),
-            amountPerMonth: ethers.formatUnits(schedule.amountPerMonth, tokenDecimals),
+            totalAmount: ethers.formatUnits(
+              schedule.totalAmount,
+              tokenDecimals,
+            ),
+            amountPerMonth: ethers.formatUnits(
+              schedule.amountPerMonth,
+              tokenDecimals,
+            ),
             monthsRemaining: Number(schedule.monthsRemaining),
             nextDistribution: new Date(
               Number(schedule.nextDistributionTimestamp) * 1000,
