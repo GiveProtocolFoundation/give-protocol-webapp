@@ -116,7 +116,11 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase functions deploy ofac-refresh --project-ref "$PROJECT_REF" 2>&1 \
+          # Supabase CLI v3 makes every hosted mutation ask for confirmation,
+          # and a GitHub runner has no terminal to answer it: without --yes the
+          # deploy fails with HostedMutationConsentRequiredError. The
+          # environment reviewer approval above is the human gate for this write.
+          supabase functions deploy ofac-refresh --project-ref "$PROJECT_REF" --yes 2>&1 \
             | tee function-deploy.txt
           {
             echo
@@ -150,7 +154,8 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db push --linked --project-ref "$PROJECT_REF" 2>&1 | tee apply-output.txt
+          # Same CLI v3 consent rule as the function deploy above.
+          supabase db push --linked --project-ref "$PROJECT_REF" --yes 2>&1 | tee apply-output.txt
           {
             echo
             echo "### Applied migrations"
@@ -166,7 +171,7 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db query --linked --project-ref "$PROJECT_REF" \
+          supabase db query --linked --project-ref "$PROJECT_REF" --yes \
             "SELECT public.invoke_ofac_refresh();" 2>&1 | tee seed-output.txt
           {
             echo
@@ -182,7 +187,7 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db query --linked --project-ref "$PROJECT_REF" "
+          supabase db query --linked --project-ref "$PROJECT_REF" --read-only "
             SELECT (SELECT to_regclass('public.ofac_sdn_entries') IS NOT NULL) AS table_present,
                    (SELECT count(*) FROM public.ofac_sdn_entries) AS sdn_rows,
                    (SELECT count(*) FROM cron.job WHERE jobname = 'ofac-refresh-daily') AS cron_registered;

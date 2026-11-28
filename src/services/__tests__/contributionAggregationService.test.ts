@@ -1,5 +1,9 @@
-import { describe, it, expect, beforeEach } from "@jest/globals";
-import { setMockResult, resetMockState } from "@/test-utils/supabaseMock";
+import { describe, it, expect, beforeEach, jest } from "@jest/globals";
+import {
+  supabase,
+  setMockResult,
+  resetMockState,
+} from "@/test-utils/supabaseMock";
 import {
   getUserContributionStats,
   getUnifiedContributions,
@@ -8,9 +12,28 @@ import {
   getGlobalContributionStats,
 } from "../contributionAggregationService";
 
+interface MockBuilder {
+  gte: { mock: { calls: unknown[][] } };
+}
+
+/**
+ * Returns the gte() calls made on every query builder created for a table.
+ * @param table - Supabase table name
+ * @returns Flattened list of gte call argument arrays
+ */
+const gteCallsFor = (table: string): unknown[][] => {
+  const fromMock = supabase.from as unknown as {
+    mock: { calls: unknown[][]; results: { value: MockBuilder }[] };
+  };
+  return fromMock.mock.calls.flatMap((call, index) =>
+    call[0] === table ? fromMock.mock.results[index].value.gte.mock.calls : [],
+  );
+};
+
 describe("contributionAggregationService", () => {
   beforeEach(() => {
     resetMockState();
+    (supabase.from as unknown as { mockClear: () => void }).mockClear();
   });
 
   describe("getUserContributionStats", () => {
@@ -75,10 +98,7 @@ describe("contributionAggregationService", () => {
         error: null,
       });
       setMockResult("fiat_donations", {
-        data: [
-          { amount_cents: 5000 },
-          { amount_cents: 2500 },
-        ],
+        data: [{ amount_cents: 5000 }, { amount_cents: 2500 }],
         error: null,
       });
       setMockResult("volunteer_hours", { data: [], error: null });
@@ -375,8 +395,14 @@ describe("contributionAggregationService", () => {
 
     it("should handle database errors in individual fetch functions", async () => {
       setMockResult("donations", { data: null, error: { message: "Error" } });
-      setMockResult("volunteer_hours", { data: null, error: { message: "Error" } });
-      setMockResult("self_reported_hours", { data: null, error: { message: "Error" } });
+      setMockResult("volunteer_hours", {
+        data: null,
+        error: { message: "Error" },
+      });
+      setMockResult("self_reported_hours", {
+        data: null,
+        error: { message: "Error" },
+      });
 
       const result = await getUnifiedContributions({ userId: "user-1" });
 
@@ -554,7 +580,11 @@ describe("contributionAggregationService", () => {
       setMockResult("self_reported_hours", {
         data: [
           { volunteer_id: "user-1", hours: 5, validation_status: "validated" },
-          { volunteer_id: "user-1", hours: 3, validation_status: "unvalidated" },
+          {
+            volunteer_id: "user-1",
+            hours: 3,
+            validation_status: "unvalidated",
+          },
         ],
         error: null,
       });
@@ -602,7 +632,11 @@ describe("contributionAggregationService", () => {
       });
       setMockResult("self_reported_hours", {
         data: [
-          { volunteer_id: "user-1", hours: null, validation_status: "validated" },
+          {
+            volunteer_id: "user-1",
+            hours: null,
+            validation_status: "validated",
+          },
         ],
         error: null,
       });
@@ -620,7 +654,9 @@ describe("contributionAggregationService", () => {
         error: { message: "Database error" },
       });
       setMockResult("self_reported_hours", {
-        data: [{ volunteer_id: "user-1", hours: 5, validation_status: "validated" }],
+        data: [
+          { volunteer_id: "user-1", hours: 5, validation_status: "validated" },
+        ],
         error: null,
       });
 
@@ -644,6 +680,158 @@ describe("contributionAggregationService", () => {
 
       expect(result).toHaveLength(1);
       expect(result[0].formalHours).toBe(10);
+    });
+  });
+
+  describe("leaderboard time range", () => {
+    it("filters volunteer hours by date when since is given", async () => {
+      await getVolunteerLeaderboard(10, false, "2026-11-01T00:00:00.000Z");
+
+      expect(gteCallsFor("volunteer_hours")).toContainEqual([
+        "date_performed",
+        "2026-11-01",
+      ]);
+      expect(gteCallsFor("self_reported_hours")).toContainEqual([
+        "activity_date",
+        "2026-11-01",
+      ]);
+    });
+
+    it("does not filter volunteer hours by date without since", async () => {
+      await getVolunteerLeaderboard(10, false);
+
+      expect(gteCallsFor("volunteer_hours")).toHaveLength(0);
+      expect(gteCallsFor("self_reported_hours")).toHaveLength(0);
+    });
+
+    it("filters crypto and fiat donations by created_at when since is given", async () => {
+      await getDonorLeaderboard(10, "2026-11-01");
+
+      expect(gteCallsFor("donations")).toContainEqual([
+        "created_at",
+        "2026-11-01",
+      ]);
+      expect(gteCallsFor("fiat_donations")).toContainEqual([
+        "created_at",
+        "2026-11-01",
+      ]);
+    });
+
+    it("does not filter donations by date without since", async () => {
+      await getDonorLeaderboard(10);
+
+      expect(gteCallsFor("donations")).toHaveLength(0);
+      expect(gteCallsFor("fiat_donations")).toHaveLength(0);
+    });
+  });
+
+  describe("leaderboard giver region", () => {
+    const mockRpc = supabase.rpc as unknown as jest.Mock;
+
+    beforeEach(() => {
+      mockRpc.mockReset();
+    });
+
+    it("ranks only the volunteers in the region and applies the limit inside it", async () => {
+      setMockResult("volunteer_hours", {
+        data: [
+          { volunteer_id: "user-1", hours: 50 },
+          { volunteer_id: "user-2", hours: 20 },
+          { volunteer_id: "user-3", hours: 10 },
+        ],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+      mockRpc.mockResolvedValue({
+        data: [{ id: "user-2" }, { id: "user-3" }],
+        error: null,
+      });
+
+      const result = await getVolunteerLeaderboard(1, false, undefined, "ssa");
+
+      expect(result.map((entry) => entry.userId)).toEqual(["user-2"]);
+      expect(result[0].rank).toBe(1);
+      expect(mockRpc).toHaveBeenCalledWith(
+        "filter_givers_by_country",
+        expect.objectContaining({
+          p_field: "showVolunteerHours",
+          p_invert: false,
+        }),
+      );
+    });
+
+    it("does not send hidden volunteers to the region lookup", async () => {
+      setMockResult("volunteer_hours", {
+        data: [
+          { volunteer_id: "user-1", hours: 50 },
+          { volunteer_id: "user-2", hours: 20 },
+        ],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+      setMockResult("user_preferences", {
+        data: [
+          {
+            user_id: "user-1",
+            privacy_settings: { showVolunteerHours: false },
+          },
+        ],
+        error: null,
+      });
+      mockRpc.mockResolvedValue({ data: [{ id: "user-2" }], error: null });
+
+      await getVolunteerLeaderboard(10, false, undefined, "na");
+
+      const args = mockRpc.mock.calls[0][1] as { p_ids: string[] };
+      expect(args.p_ids).toEqual(["user-2"]);
+    });
+
+    it("does not look up regions for all regions or when none is given", async () => {
+      setMockResult("volunteer_hours", {
+        data: [{ volunteer_id: "user-1", hours: 5 }],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+
+      const all = await getVolunteerLeaderboard(10, false, undefined, "all");
+      const none = await getVolunteerLeaderboard(10, false);
+
+      expect(all).toHaveLength(1);
+      expect(none).toHaveLength(1);
+      expect(mockRpc).not.toHaveBeenCalled();
+    });
+
+    it("fails the volunteer leaderboard rather than show an unfiltered list", async () => {
+      setMockResult("volunteer_hours", {
+        data: [{ volunteer_id: "user-1", hours: 5 }],
+        error: null,
+      });
+      setMockResult("self_reported_hours", { data: [], error: null });
+      mockRpc.mockResolvedValue({ data: null, error: { message: "boom" } });
+
+      await expect(
+        getVolunteerLeaderboard(10, false, undefined, "na"),
+      ).rejects.toThrow("Failed to fetch volunteer leaderboard");
+    });
+
+    it("ranks only the donors in the region", async () => {
+      setMockResult("donations", {
+        data: [
+          { donor_id: "user-1", amount: 900, charity_id: "charity-1" },
+          { donor_id: "user-2", amount: 100, charity_id: "charity-1" },
+        ],
+        error: null,
+      });
+      setMockResult("fiat_donations", { data: [], error: null });
+      mockRpc.mockResolvedValue({ data: [{ id: "user-2" }], error: null });
+
+      const result = await getDonorLeaderboard(10, undefined, "unspecified");
+
+      expect(result.map((entry) => entry.userId)).toEqual(["user-2"]);
+      expect(mockRpc).toHaveBeenCalledWith(
+        "filter_givers_by_country",
+        expect.objectContaining({ p_field: "showDonations", p_invert: true }),
+      );
     });
   });
 
@@ -707,9 +895,7 @@ describe("contributionAggregationService", () => {
 
     it("should handle null charity_id in donations", async () => {
       setMockResult("donations", {
-        data: [
-          { donor_id: "user-1", amount: 100, charity_id: null },
-        ],
+        data: [{ donor_id: "user-1", amount: 100, charity_id: null }],
         error: null,
       });
 

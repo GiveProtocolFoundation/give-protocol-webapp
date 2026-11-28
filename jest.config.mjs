@@ -3,6 +3,8 @@ export default {
   testEnvironment: "jsdom",
   // Run tests sequentially to prevent ESM module mocking isolation issues
   maxWorkers: 1,
+  // Recycle the worker when memory grows to prevent V8 heap OOM under --experimental-vm-modules
+  workerIdleMemoryLimit: "1024MB",
   extensionsToTreatAsEsm: [".ts", ".tsx"],
   roots: ["<rootDir>/src"],
   testMatch: [
@@ -47,6 +49,12 @@ export default {
     "^@/utils/monitoring\\.real$": "<rootDir>/src/utils/monitoring.ts",
     "^@/utils/leaderboardExport\\.real$":
       "<rootDir>/src/utils/leaderboardExport.ts",
+    "^@/components/contribution/DonationLeaderboard\\.real$":
+      "<rootDir>/src/components/contribution/DonationLeaderboard.tsx",
+    "^@/components/contribution/VolunteerLeaderboard\\.real$":
+      "<rootDir>/src/components/contribution/VolunteerLeaderboard.tsx",
+    "^@/components/contribution/TimeRangeFilter\\.real$":
+      "<rootDir>/src/components/contribution/TimeRangeFilter.tsx",
     // Config and library mocks
     "^@/config/env$": "<rootDir>/src/test-utils/envMock.js",
     "^@/config/docs$": "<rootDir>/src/test-utils/docsMock.js",
@@ -256,6 +264,9 @@ export default {
       "<rootDir>/src/test-utils/globalStatsMock.js",
     "(.*)/contribution/GlobalStats(\\.tsx?)?$":
       "<rootDir>/src/test-utils/globalStatsMock.js",
+    // Real RegionFilter, for its own tests
+    "^@/components/contribution/RegionFilter\\.real$":
+      "<rootDir>/src/components/contribution/RegionFilter.tsx",
     // RegionFilter component mock
     "^@/components/contribution/RegionFilter$":
       "<rootDir>/src/test-utils/regionFilterMock.js",
@@ -328,6 +339,8 @@ export default {
       "<rootDir>/src/test-utils/setPasswordSettingsMock.js",
     "^@/components/settings/PrivacySettings$":
       "<rootDir>/src/test-utils/privacySettingsMock.js",
+    "^@/components/settings/CountrySettings$":
+      "<rootDir>/src/test-utils/countrySettingsMock.js",
     "^@/components/donor/ScheduledDonations$":
       "<rootDir>/src/test-utils/scheduledDonationsComponentMock.js",
     "(.*)/donor/ScheduledDonations(\\.tsx?)?$":

@@ -1,7 +1,9 @@
 import React, { useState, useEffect, useCallback, useMemo } from "react";
-import { Award, Clock, Search } from "lucide-react";
+import { Award, Clock } from "lucide-react";
 import { useWalletAlias } from "@/hooks/useWalletAlias";
 import { useVolunteerLeaderboard } from "@/hooks/useContributionStats";
+import { useTranslation } from "@/hooks/useTranslation";
+import type { VolunteerLeaderData } from "@/utils/leaderboardExport";
 
 interface VolunteerLeader {
   id: string;
@@ -15,11 +17,15 @@ interface VolunteerLeader {
 }
 
 interface VolunteerLeaderboardProps {
-  timeRange?: string;
+  /** ISO date lower bound for counted hours; undefined means all time. */
+  since?: string;
+  /** Giver region to narrow to: a region id, "unspecified", or "all" for no filter. */
   region?: string;
   searchTerm?: string;
   highlightSkill?: string;
   section?: "hours" | "endorsements";
+  /** Receives the rows currently shown, for export and empty-state handling. */
+  onRowsChange?: (_rows: VolunteerLeaderData[]) => void;
 }
 
 /**
@@ -42,15 +48,16 @@ const getRankColor = (rank: number): string => {
 
 /** Ranked volunteer leaderboard with hours/endorsements tabs and search filtering. */
 export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
-  timeRange: _timeRange,
-  region: _region,
+  since,
+  region,
   searchTerm,
   highlightSkill: _highlightSkill,
   section = "hours",
+  onRowsChange,
 }) => {
   const [activeTab, setActiveTab] = useState<"hours" | "endorsements">(section);
-  const [localSearchTerm, setLocalSearchTerm] = useState("");
   const { getAliasForAddress } = useWalletAlias();
+  const { t, language } = useTranslation();
   const [displayLeaders, setDisplayLeaders] = useState<
     (VolunteerLeader & { displayName: string })[]
   >([]);
@@ -59,6 +66,8 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
   const { data: leaderboardData, isLoading } = useVolunteerLeaderboard(
     10,
     false,
+    since,
+    region,
   );
 
   // Transform API data to component format
@@ -66,7 +75,11 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
     if (!leaderboardData) return [];
     return leaderboardData.map((entry) => ({
       id: entry.userId,
-      alias: entry.alias || `Volunteer ${entry.rank}`,
+      alias:
+        entry.alias ||
+        t("tracker.volunteer.fallbackName", "Volunteer {{rank}}", {
+          rank: entry.rank,
+        }),
       walletAddress: entry.walletAddress || "",
       hours: entry.totalHours,
       formalHours: entry.formalHours,
@@ -74,11 +87,14 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
       endorsements: entry.endorsements,
       rank: entry.rank,
     }));
-  }, [leaderboardData]);
+  }, [leaderboardData, t]);
 
   // Update display names with aliases when available
   useEffect(() => {
-    if (leaders.length === 0) return;
+    if (leaders.length === 0) {
+      setDisplayLeaders([]);
+      return;
+    }
 
     /** Resolves wallet aliases for each leader and updates display names. */
     const updateAliases = async () => {
@@ -107,24 +123,52 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
     setActiveTab("endorsements");
   }, []);
 
-  const handleSearchChange = useCallback(
-    (e: React.ChangeEvent<HTMLInputElement>) => {
-      setLocalSearchTerm(e.target.value);
-    },
-    [],
+  // Filter leaders based on the page-level search term
+  const filteredLeaders = useMemo(
+    () =>
+      displayLeaders.filter((leader) => {
+        if (!searchTerm) return true;
+        return leader.displayName
+          .toLowerCase()
+          .includes(searchTerm.toLowerCase());
+      }),
+    [displayLeaders, searchTerm],
   );
 
-  // Filter leaders based on search term
-  const filteredLeaders = displayLeaders.filter((leader) => {
-    const searchTermToUse = localSearchTerm || searchTerm;
-    if (!searchTermToUse) return true;
+  useEffect(() => {
+    onRowsChange?.(
+      filteredLeaders.map((leader) => ({
+        rank: leader.rank,
+        displayName: leader.displayName,
+        hours: leader.hours,
+        endorsements: leader.endorsements,
+        skills: [],
+        alias: leader.alias,
+      })),
+    );
+  }, [filteredLeaders, onRowsChange]);
 
-    return leader.displayName
-      .toLowerCase()
-      .includes(searchTermToUse.toLowerCase());
-  });
+  /**
+   * Builds the localized hours label for a leaderboard row.
+   * @param leader - The volunteer row being rendered.
+   * @returns Translated text such as "Hours: 12".
+   */
+  const hoursLabel = (leader: VolunteerLeader) =>
+    t("tracker.volunteer.hoursLabel", "Hours: {{hours}}", {
+      hours: leader.hours.toLocaleString(language),
+    });
+  /**
+   * Builds the localized endorsements label for a leaderboard row.
+   * @param leader - The volunteer row being rendered.
+   * @returns Translated text such as "Endorsements: 3".
+   */
+  const endorsementsLabel = (leader: VolunteerLeader) =>
+    t("tracker.volunteer.endorsementsLabel", "Endorsements: {{endorsements}}", {
+      endorsements: leader.endorsements.toLocaleString(language),
+    });
 
-  if (isLoading) return <div>Loading leaderboard&hellip;</div>;
+  if (isLoading)
+    return <div>{t("tracker.loadingLeaderboard", "Loading leaderboard…")}</div>;
 
   return (
     <div className="space-y-4">
@@ -138,7 +182,7 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
           }`}
         >
           <Clock className="h-4 w-4 mr-2" />
-          Hours
+          {t("tracker.volunteer.hoursTab", "Hours")}
         </button>
         <button
           onClick={handleEndorsementsTabClick}
@@ -149,19 +193,8 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
           }`}
         >
           <Award className="h-4 w-4 mr-2" />
-          Endorsements
+          {t("tracker.volunteer.endorsementsTab", "Endorsements")}
         </button>
-      </div>
-
-      <div className="relative mb-4">
-        <input
-          type="text"
-          value={localSearchTerm}
-          onChange={handleSearchChange}
-          placeholder="Search volunteers or skills..."
-          className="w-full pl-10 pr-4 py-2 border border-gray-300 dark:border-gray-600 rounded-md bg-white dark:bg-gray-800 text-gray-900 dark:text-gray-100 placeholder-gray-400 dark:placeholder-gray-500 focus:ring-emerald-500 focus:border-emerald-500"
-        />
-        <Search className="absolute left-3 top-2.5 h-5 w-5 text-gray-400 dark:text-gray-500" />
       </div>
 
       {filteredLeaders.length > 0 ? (
@@ -187,13 +220,20 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
                   </p>
                   <p className="text-sm text-gray-500 dark:text-gray-400">
                     {activeTab === "hours"
-                      ? `${leader.hours.toLocaleString()} hrs • ${leader.endorsements} endorsements`
-                      : `${leader.endorsements} endorsements • ${leader.hours.toLocaleString()} hrs`}
+                      ? `${hoursLabel(leader)} • ${endorsementsLabel(leader)}`
+                      : `${endorsementsLabel(leader)} • ${hoursLabel(leader)}`}
                   </p>
                   {leader.selfReportedHours > 0 && (
                     <p className="text-xs text-gray-400 dark:text-gray-500 mt-1">
-                      {leader.formalHours.toLocaleString()} verified •{" "}
-                      {leader.selfReportedHours.toLocaleString()} self-reported
+                      {t(
+                        "tracker.volunteer.hoursBreakdown",
+                        "Verified: {{verified}} • Self-reported: {{selfReported}}",
+                        {
+                          verified: leader.formalHours.toLocaleString(language),
+                          selfReported:
+                            leader.selfReportedHours.toLocaleString(language),
+                        },
+                      )}
                     </p>
                   )}
                 </div>
@@ -203,7 +243,9 @@ export const VolunteerLeaderboard: React.FC<VolunteerLeaderboardProps> = ({
         </div>
       ) : (
         <div className="flex items-center justify-center h-40 bg-gray-50 dark:bg-gray-800 rounded-lg">
-          <p className="text-gray-500 dark:text-gray-400">No results found</p>
+          <p className="text-gray-500 dark:text-gray-400">
+            {t("tracker.noResults", "No results found")}
+          </p>
         </div>
       )}
     </div>

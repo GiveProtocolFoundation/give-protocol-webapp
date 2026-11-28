@@ -640,6 +640,14 @@ export default {
     "settings.displayName": "Tên hiển thị",
     "settings.authMethod": "Phương thức xác thực",
     "settings.role": "Vai trò",
+    "settings.country.title": "Quốc gia",
+    "settings.country.help":
+      "Không bắt buộc. Quốc gia của bạn không bao giờ được hiển thị, nhưng sẽ xếp bạn vào một khu vực khi bảng xếp hạng được lọc theo khu vực của người đóng góp.",
+    "settings.country.label": "Quốc gia của bạn",
+    "settings.country.none": "Chưa xác định",
+    "settings.country.saved": "Đã lưu quốc gia",
+    "settings.country.saveFailed": "Không thể lưu quốc gia của bạn",
+    "settings.country.loadFailed": "Không thể tải quốc gia của bạn",
 
     // Common additional (GIV-254)
     "common.refresh": "Làm mới",
@@ -659,6 +667,11 @@ export default {
     "tracker.exportCSV": "Xuất CSV",
     "tracker.exportPDF": "Xuất PDF",
     "tracker.hideContributions": "Ẩn đóng góp của tôi khỏi bảng xếp hạng",
+    "tracker.hideContributionsHelp":
+      "Tên và tổng số của bạn sẽ không xuất hiện trong bảng xếp hạng quyên góp hoặc tình nguyện công khai. Bạn có thể thay đổi điều này bất cứ lúc nào.",
+    "tracker.privacySaved": "Đã lưu cài đặt quyền riêng tư",
+    "tracker.privacySaveFailed":
+      "Không thể lưu cài đặt quyền riêng tư của bạn. Vui lòng thử lại.",
     "tracker.yourAlias": "Bí danh của bạn:",
     "tracker.changeAlias": "Thay đổi",
     "tracker.setWalletAlias": "Đặt bí danh ví",
@@ -683,6 +696,51 @@ export default {
     "tracker.connectWalletForAlias": "Vui lòng kết nối ví để đặt bí danh",
     "tracker.invalidAlias": "Bí danh không hợp lệ",
     "tracker.enterValidAlias": "Vui lòng nhập bí danh hợp lệ",
+
+    // Contribution Tracker components + wallet connect button
+    "tracker.stats.totalDonated": "Tổng quyên góp",
+    "tracker.stats.activeVolunteers": "Tình nguyện viên tích cực",
+    "tracker.stats.volunteerHours": "Giờ tình nguyện",
+    "tracker.stats.skillsEndorsed": "Kỹ năng được xác nhận",
+    "tracker.timeRange.label": "Lọc theo khoảng thời gian",
+    "tracker.timeRange.all": "Mọi thời gian",
+    "tracker.timeRange.year": "Năm nay",
+    "tracker.timeRange.month": "Tháng này",
+    "tracker.timeRange.week": "Tuần này",
+    "tracker.giverRegion.label": "Lọc theo khu vực của người đóng góp",
+    "tracker.giverRegion.all": "Tất cả khu vực",
+    "tracker.giverRegion.unspecified": "Chưa xác định khu vực",
+    "tracker.giverRegion.na": "Bắc Mỹ",
+    "tracker.giverRegion.lac": "Mỹ Latinh và Caribe",
+    "tracker.giverRegion.eca": "Châu Âu và Trung Á",
+    "tracker.giverRegion.mena": "Trung Đông và Bắc Phi",
+    "tracker.giverRegion.ssa": "Châu Phi cận Sahara",
+    "tracker.giverRegion.sa": "Nam Á",
+    "tracker.giverRegion.eap": "Đông Á và Thái Bình Dương",
+    "tracker.noResults": "Không tìm thấy kết quả",
+    "tracker.loadingLeaderboard": "Đang tải bảng xếp hạng…",
+    "tracker.loadError":
+      "Không thể tải dữ liệu bảng xếp hạng. Vui lòng thử lại.",
+    "tracker.volunteer.hoursTab": "Giờ",
+    "tracker.volunteer.endorsementsTab": "Xác nhận",
+    "tracker.volunteer.searchPlaceholder":
+      "Tìm kiếm tình nguyện viên hoặc kỹ năng...",
+    "tracker.volunteer.hoursLabel": "Giờ: {{hours}}",
+    "tracker.volunteer.endorsementsLabel": "Xác nhận: {{endorsements}}",
+    "tracker.volunteer.hoursBreakdown":
+      "Đã xác minh: {{verified}} • Tự báo cáo: {{selfReported}}",
+    "tracker.volunteer.fallbackName": "Tình nguyện viên {{rank}}",
+    "wallet.connectButton.connect": "Kết nối",
+    "wallet.connectButton.connecting": "Đang kết nối...",
+    "wallet.connectButton.connectionError": "Lỗi kết nối",
+    "wallet.connectButton.error": "Lỗi",
+    "wallet.connectButton.connectedVia": "Đã kết nối qua {{wallet}}",
+    "wallet.connectButton.defaultWalletName": "Ví",
+    "wallet.connectButton.copyAddress": "Sao chép địa chỉ",
+    "wallet.connectButton.viewInExplorer": "Xem trên trình khám phá",
+    "wallet.connectButton.network": "Mạng",
+    "wallet.connectButton.changeAlias": "Đổi bí danh ví",
+    "wallet.connectButton.disconnect": "Ngắt kết nối",
 
     // Charity Portal (GIV-254)
     "charity.portal.deleteTitle": "Xóa {{type}}?",

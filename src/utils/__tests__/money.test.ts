@@ -99,6 +99,12 @@ describe("money utilities", () => {
       expect(jpyResult).toMatch(/15,168\.00/u); // 100 * 151.68
     });
 
+    it("formats numbers for the given locale", () => {
+      // Spanish uses "." for thousands and "," for decimals
+      expect(formatCurrency(12345.5, "USD", "es")).toMatch(/12\.345,50/u);
+      expect(formatCurrency(12345.5, "USD", "en-US")).toMatch(/12,345\.50/u);
+    });
+
     it("handles zero amount", () => {
       const result = formatCurrency(0);
       expect(result).toMatch(/\$0\.00/u);

@@ -26,8 +26,8 @@
     "preview:spa": "vite preview",
     "lint": "npx eslint@8.57.0 src --ext .ts,.tsx,.js,.jsx --max-warnings 200",
     "lint:report": "eslint src --ext .ts,.tsx,.js,.jsx --format json --output-file eslint-report.json || true",
-    "test": "NODE_OPTIONS='--experimental-vm-modules' jest --config jest.config.mjs --passWithNoTests",
-    "test:jest": "NODE_OPTIONS='--experimental-vm-modules' jest --config jest.config.mjs --passWithNoTests",
+    "test": "NODE_OPTIONS='--experimental-vm-modules --max-old-space-size=4096' jest --config jest.config.mjs --passWithNoTests",
+    "test:jest": "NODE_OPTIONS='--experimental-vm-modules --max-old-space-size=4096' jest --config jest.config.mjs --passWithNoTests",
     "test:e2e": "cypress open",
     "test:e2e:headless": "cypress run",
     "sonar": "sonar-scanner",
@@ -66,7 +66,7 @@
     "fp-ts": "^2.16.10",
     "gray-matter": "^4.0.3",
     "html2canvas": "^1.4.1",
-    "i18next": "^23.10.0",
+    "i18next": "^27.2.10",
     "i18next-browser-languagedetector": "^7.2.0",
     "jspdf": "^4.2.1",
     "lucide-react": "^0.344.0",
@@ -84,7 +84,7 @@
   },
   "overrides": {
     "axios": ">=1.20.0",
-    "node-forge": ">=1.4.0",
+    "node-forge": ">=1.4.3",
     "ws": ">=8.21.0",
     "uuid": ">=11.1.1"
   },

@@ -664,6 +664,14 @@ export default {
     "settings.displayName": "Nombre para Mostrar",
     "settings.authMethod": "Método de Autenticación",
     "settings.role": "Rol",
+    "settings.country.title": "País",
+    "settings.country.help":
+      "Opcional. Su país nunca se muestra, pero lo ubica en una región cuando los rankings se filtran por región del contribuyente.",
+    "settings.country.label": "Su país",
+    "settings.country.none": "No especificado",
+    "settings.country.saved": "País guardado",
+    "settings.country.saveFailed": "No se pudo guardar su país",
+    "settings.country.loadFailed": "No se pudo cargar su país",
 
     // Common additional (GIV-254)
     "common.refresh": "Actualizar",
@@ -683,6 +691,11 @@ export default {
     "tracker.exportCSV": "Exportar CSV",
     "tracker.exportPDF": "Exportar PDF",
     "tracker.hideContributions": "Ocultar mis contribuciones de los rankings",
+    "tracker.hideContributionsHelp":
+      "Su nombre y sus totales no aparecerán en los rankings públicos de donaciones ni de voluntariado. Puede cambiar esto en cualquier momento.",
+    "tracker.privacySaved": "Configuración de privacidad guardada",
+    "tracker.privacySaveFailed":
+      "No se pudo guardar su configuración de privacidad. Inténtelo de nuevo.",
     "tracker.yourAlias": "Su alias:",
     "tracker.changeAlias": "Cambiar",
     "tracker.setWalletAlias": "Establecer Alias de Billetera",
@@ -706,6 +719,51 @@ export default {
       "Conecte su billetera para establecer un alias",
     "tracker.invalidAlias": "Alias no válido",
     "tracker.enterValidAlias": "Ingrese un alias válido",
+
+    // Contribution Tracker components + wallet connect button
+    "tracker.stats.totalDonated": "Total Donado",
+    "tracker.stats.activeVolunteers": "Voluntarios Activos",
+    "tracker.stats.volunteerHours": "Horas de Voluntariado",
+    "tracker.stats.skillsEndorsed": "Habilidades Respaldadas",
+    "tracker.timeRange.label": "Filtrar por período",
+    "tracker.timeRange.all": "Todo el Tiempo",
+    "tracker.timeRange.year": "Este Año",
+    "tracker.timeRange.month": "Este Mes",
+    "tracker.timeRange.week": "Esta Semana",
+    "tracker.giverRegion.label": "Filtrar por región del contribuyente",
+    "tracker.giverRegion.all": "Todas las regiones",
+    "tracker.giverRegion.unspecified": "Región no especificada",
+    "tracker.giverRegion.na": "América del Norte",
+    "tracker.giverRegion.lac": "América Latina y el Caribe",
+    "tracker.giverRegion.eca": "Europa y Asia Central",
+    "tracker.giverRegion.mena": "Oriente Medio y Norte de África",
+    "tracker.giverRegion.ssa": "África Subsahariana",
+    "tracker.giverRegion.sa": "Asia Meridional",
+    "tracker.giverRegion.eap": "Asia Oriental y el Pacífico",
+    "tracker.noResults": "No se encontraron resultados",
+    "tracker.loadingLeaderboard": "Cargando tabla…",
+    "tracker.loadError":
+      "No se pudieron cargar los datos de la tabla. Inténtelo de nuevo.",
+    "tracker.volunteer.hoursTab": "Horas",
+    "tracker.volunteer.endorsementsTab": "Respaldos",
+    "tracker.volunteer.searchPlaceholder":
+      "Buscar voluntarios o habilidades...",
+    "tracker.volunteer.hoursLabel": "Horas: {{hours}}",
+    "tracker.volunteer.endorsementsLabel": "Respaldos: {{endorsements}}",
+    "tracker.volunteer.hoursBreakdown":
+      "Verificadas: {{verified}} • Autodeclaradas: {{selfReported}}",
+    "tracker.volunteer.fallbackName": "Voluntario {{rank}}",
+    "wallet.connectButton.connect": "Conectar",
+    "wallet.connectButton.connecting": "Conectando...",
+    "wallet.connectButton.connectionError": "Error de Conexión",
+    "wallet.connectButton.error": "Error",
+    "wallet.connectButton.connectedVia": "Conectado mediante {{wallet}}",
+    "wallet.connectButton.defaultWalletName": "Billetera",
+    "wallet.connectButton.copyAddress": "Copiar dirección",
+    "wallet.connectButton.viewInExplorer": "Ver en el explorador",
+    "wallet.connectButton.network": "Red",
+    "wallet.connectButton.changeAlias": "Cambiar Alias de Billetera",
+    "wallet.connectButton.disconnect": "Desconectar",
 
     // Charity Portal (GIV-254)
     "charity.portal.deleteTitle": "¿Eliminar {{type}}?",

@@ -1,5 +1,5 @@
 import { jest } from '@jest/globals';
-import { formatDate, isValidDate, formatDateForInput, getDateRange } from '../date';
+import { formatDate, isValidDate, formatDateForInput, getDateRange, getPeriodStartDate } from '../date';
 
 // Mock logger to avoid dependencies
 jest.mock('@/utils/logger', () => ({
@@ -263,6 +263,35 @@ describe('date utilities', () => {
       const { start, end } = getDateRange('year');
       expect(end).toEqual(leapDay);
       expect(start.getFullYear()).toBe(2023);
+    });
+  });
+
+  describe('getPeriodStartDate', () => {
+    // Thursday 14 Nov 2024, local time
+    const now = new Date(2024, 10, 14, 15, 30);
+
+    it('returns 1 January for the current year', () => {
+      expect(getPeriodStartDate('year', now)).toBe('2024-01-01');
+    });
+
+    it('returns the first of the month for the current month', () => {
+      expect(getPeriodStartDate('month', now)).toBe('2024-11-01');
+    });
+
+    it('returns the Monday of the current week', () => {
+      expect(getPeriodStartDate('week', now)).toBe('2024-11-11');
+    });
+
+    it('treats Sunday as the last day of the week', () => {
+      expect(getPeriodStartDate('week', new Date(2024, 10, 17))).toBe('2024-11-11');
+    });
+
+    it('crosses month boundaries for the week start', () => {
+      expect(getPeriodStartDate('week', new Date(2024, 11, 1))).toBe('2024-11-25');
+    });
+
+    it('returns undefined for all time', () => {
+      expect(getPeriodStartDate('all', now)).toBeUndefined();
     });
   });
 });

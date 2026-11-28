@@ -203,8 +203,17 @@ jobs:
         run: |
           set -o pipefail
 
+          # The CLI asks for confirmation before running SQL on a hosted
+          # project and CI has no terminal to answer, so every statement says
+          # what it is: --read-only for the id/count checks (no confirmation,
+          # and cannot write), --yes only for the batched UPDATE, which is
+          # unreachable in a dry run (see the early exit below).
           query() {
-            supabase db query --linked --project-ref "$PROJECT_REF" "$1"
+            supabase db query --linked --project-ref "$PROJECT_REF" --read-only "$1"
+          }
+
+          write_query() {
+            supabase db query --linked --project-ref "$PROJECT_REF" --yes "$1"
           }
 
           id_column="$(query "SELECT CASE WHEN EXISTS (
@@ -265,7 +274,7 @@ jobs:
               echo "::error::Safety cap reached (120 batches = 6M rows) with $remaining row(s) still missing an id. Aborting."
               exit 1
             fi
-            query "WITH batch AS (
+            write_query "WITH batch AS (
               SELECT ctid FROM charity_organizations WHERE id IS NULL LIMIT 50000
             )
             UPDATE charity_organizations co
@@ -289,7 +298,11 @@ jobs:
           PROJECT_REF: ${{ steps.target.outputs.ref }}
         run: |
           set -o pipefail
-          supabase db push --linked --project-ref "$PROJECT_REF" 2>&1 | tee apply-output.txt
+          # Supabase CLI v3 makes every hosted mutation ask for confirmation,
+          # and a GitHub runner has no terminal to answer it: without --yes the
+          # push fails with HostedMutationConsentRequiredError. The environment
+          # reviewer approval above is the human gate for this write.
+          supabase db push --linked --project-ref "$PROJECT_REF" --yes 2>&1 | tee apply-output.txt
           {
             echo
             echo "### Applied migrations"
@@ -367,7 +380,7 @@ jobs:
           SEED_FILE: ${{ steps.seedfile.outputs.path }}
         run: |
           set -o pipefail
-          supabase db query --linked --project-ref "$PROJECT_REF" -f "$SEED_FILE" 2>&1 \
+          supabase db query --linked --project-ref "$PROJECT_REF" --yes -f "$SEED_FILE" 2>&1 \
             | tee seed-output.txt
           {
             echo
@@ -388,7 +401,7 @@ jobs:
           # Check the tables exist before counting: two queries, because a guard
           # inside one statement still errors on a missing relation at parse
           # time.
-          present="$(supabase db query --linked --project-ref "$PROJECT_REF" \
+          present="$(supabase db query --linked --project-ref "$PROJECT_REF" --read-only \
             "SELECT to_regclass('public.causes') IS NOT NULL
                 AND to_regclass('public.portfolio_funds') IS NOT NULL AS present;" \
             | tee present.txt | grep -qiE 't(rue)?|1' && echo t || echo f)"
@@ -399,7 +412,7 @@ jobs:
           fi
 
           # Counts behind /browse?tab=causes and ?tab=funds.
-          supabase db query --linked --project-ref "$PROJECT_REF" \
+          supabase db query --linked --project-ref "$PROJECT_REF" --read-only \
             "SELECT (SELECT count(*) FROM causes WHERE status='active') AS causes,
                     (SELECT count(*) FROM portfolio_funds WHERE status='active') AS funds;" \
             > counts.txt 2>&1 || { echo "Verification query failed:"; cat counts.txt; exit 1; }

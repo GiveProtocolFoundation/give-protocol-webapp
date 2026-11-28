@@ -677,6 +677,14 @@ export default {
     "settings.displayName": "Anzeigename",
     "settings.authMethod": "Authentifizierungsmethode",
     "settings.role": "Rolle",
+    "settings.country.title": "Land",
+    "settings.country.help":
+      "Optional. Ihr Land wird nie angezeigt, ordnet Sie aber einer Region zu, wenn Rankings nach der Region der Beitragenden gefiltert werden.",
+    "settings.country.label": "Ihr Land",
+    "settings.country.none": "Nicht angegeben",
+    "settings.country.saved": "Land gespeichert",
+    "settings.country.saveFailed": "Ihr Land konnte nicht gespeichert werden",
+    "settings.country.loadFailed": "Ihr Land konnte nicht geladen werden",
 
     // Common additional (GIV-254)
     "common.refresh": "Aktualisieren",
@@ -696,6 +704,11 @@ export default {
     "tracker.exportCSV": "CSV exportieren",
     "tracker.exportPDF": "PDF exportieren",
     "tracker.hideContributions": "Meine Beiträge aus Rankings ausblenden",
+    "tracker.hideContributionsHelp":
+      "Ihr Name und Ihre Summen erscheinen nicht in öffentlichen Spenden- oder Freiwilligenrankings. Sie können dies jederzeit ändern.",
+    "tracker.privacySaved": "Datenschutzeinstellung gespeichert",
+    "tracker.privacySaveFailed":
+      "Ihre Datenschutzeinstellung konnte nicht gespeichert werden. Bitte versuchen Sie es erneut.",
     "tracker.yourAlias": "Ihr Alias:",
     "tracker.changeAlias": "Ändern",
     "tracker.setWalletAlias": "Wallet-Alias festlegen",
@@ -720,6 +733,51 @@ export default {
       "Bitte verbinden Sie Ihr Wallet, um einen Alias festzulegen",
     "tracker.invalidAlias": "Ungültiger Alias",
     "tracker.enterValidAlias": "Bitte geben Sie einen gültigen Alias ein",
+
+    // Contribution Tracker components + wallet connect button
+    "tracker.stats.totalDonated": "Gesamtspenden",
+    "tracker.stats.activeVolunteers": "Aktive Freiwillige",
+    "tracker.stats.volunteerHours": "Freiwilligenstunden",
+    "tracker.stats.skillsEndorsed": "Bestätigte Fähigkeiten",
+    "tracker.timeRange.label": "Nach Zeitraum filtern",
+    "tracker.timeRange.all": "Gesamter Zeitraum",
+    "tracker.timeRange.year": "Dieses Jahr",
+    "tracker.timeRange.month": "Diesen Monat",
+    "tracker.timeRange.week": "Diese Woche",
+    "tracker.giverRegion.label": "Nach Region der Beitragenden filtern",
+    "tracker.giverRegion.all": "Alle Regionen",
+    "tracker.giverRegion.unspecified": "Region nicht angegeben",
+    "tracker.giverRegion.na": "Nordamerika",
+    "tracker.giverRegion.lac": "Lateinamerika und Karibik",
+    "tracker.giverRegion.eca": "Europa und Zentralasien",
+    "tracker.giverRegion.mena": "Naher Osten und Nordafrika",
+    "tracker.giverRegion.ssa": "Subsahara-Afrika",
+    "tracker.giverRegion.sa": "Südasien",
+    "tracker.giverRegion.eap": "Ostasien und Pazifik",
+    "tracker.noResults": "Keine Ergebnisse gefunden",
+    "tracker.loadingLeaderboard": "Rangliste wird geladen…",
+    "tracker.loadError":
+      "Ranglistendaten konnten nicht geladen werden. Bitte versuchen Sie es erneut.",
+    "tracker.volunteer.hoursTab": "Stunden",
+    "tracker.volunteer.endorsementsTab": "Bestätigungen",
+    "tracker.volunteer.searchPlaceholder":
+      "Freiwillige oder Fähigkeiten suchen...",
+    "tracker.volunteer.hoursLabel": "Stunden: {{hours}}",
+    "tracker.volunteer.endorsementsLabel": "Bestätigungen: {{endorsements}}",
+    "tracker.volunteer.hoursBreakdown":
+      "Verifiziert: {{verified}} • Selbst gemeldet: {{selfReported}}",
+    "tracker.volunteer.fallbackName": "Freiwillige:r {{rank}}",
+    "wallet.connectButton.connect": "Verbinden",
+    "wallet.connectButton.connecting": "Verbinde...",
+    "wallet.connectButton.connectionError": "Verbindungsfehler",
+    "wallet.connectButton.error": "Fehler",
+    "wallet.connectButton.connectedVia": "Verbunden über {{wallet}}",
+    "wallet.connectButton.defaultWalletName": "Wallet",
+    "wallet.connectButton.copyAddress": "Adresse kopieren",
+    "wallet.connectButton.viewInExplorer": "Im Explorer anzeigen",
+    "wallet.connectButton.network": "Netzwerk",
+    "wallet.connectButton.changeAlias": "Wallet-Alias ändern",
+    "wallet.connectButton.disconnect": "Trennen",
 
     // Charity Portal (GIV-254)
     "charity.portal.deleteTitle": "{{type}} löschen?",

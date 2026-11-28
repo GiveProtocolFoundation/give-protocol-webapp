@@ -624,6 +624,14 @@ export default {
     "settings.displayName": "प्रदर्शन नाम",
     "settings.authMethod": "प्रमाणीकरण विधि",
     "settings.role": "भूमिका",
+    "settings.country.title": "देश",
+    "settings.country.help":
+      "वैकल्पिक। आपका देश कभी प्रदर्शित नहीं होता, लेकिन रैंकिंग को योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करने पर यह आपको एक क्षेत्र में रखता है।",
+    "settings.country.label": "आपका देश",
+    "settings.country.none": "निर्दिष्ट नहीं",
+    "settings.country.saved": "देश सहेजा गया",
+    "settings.country.saveFailed": "आपका देश सहेजा नहीं जा सका",
+    "settings.country.loadFailed": "आपका देश लोड नहीं हो सका",
 
     // Common additional (GIV-254)
     "common.refresh": "रिफ़्रेश करें",
@@ -642,6 +650,11 @@ export default {
     "tracker.exportCSV": "CSV निर्यात करें",
     "tracker.exportPDF": "PDF निर्यात करें",
     "tracker.hideContributions": "मेरे योगदान रैंकिंग से छुपाएं",
+    "tracker.hideContributionsHelp":
+      "आपका नाम और कुल योग सार्वजनिक दान या स्वयंसेवा रैंकिंग में दिखाई नहीं देंगे। आप इसे कभी भी बदल सकते हैं।",
+    "tracker.privacySaved": "गोपनीयता सेटिंग सहेजी गई",
+    "tracker.privacySaveFailed":
+      "आपकी गोपनीयता सेटिंग सहेजी नहीं जा सकी। कृपया पुनः प्रयास करें।",
     "tracker.yourAlias": "आपका उपनाम:",
     "tracker.changeAlias": "बदलें",
     "tracker.setWalletAlias": "वॉलेट उपनाम सेट करें",
@@ -665,6 +678,51 @@ export default {
       "उपनाम सेट करने के लिए कृपया अपना वॉलेट कनेक्ट करें",
     "tracker.invalidAlias": "अमान्य उपनाम",
     "tracker.enterValidAlias": "कृपया एक मान्य उपनाम दर्ज करें",
+
+    // Contribution Tracker components + wallet connect button
+    "tracker.stats.totalDonated": "कुल दान",
+    "tracker.stats.activeVolunteers": "सक्रिय स्वयंसेवक",
+    "tracker.stats.volunteerHours": "स्वयंसेवा घंटे",
+    "tracker.stats.skillsEndorsed": "अनुमोदित कौशल",
+    "tracker.timeRange.label": "समय सीमा के अनुसार फ़िल्टर करें",
+    "tracker.timeRange.all": "सभी समय",
+    "tracker.timeRange.year": "इस वर्ष",
+    "tracker.timeRange.month": "इस महीने",
+    "tracker.timeRange.week": "इस सप्ताह",
+    "tracker.giverRegion.label":
+      "योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करें",
+    "tracker.giverRegion.all": "सभी क्षेत्र",
+    "tracker.giverRegion.unspecified": "क्षेत्र निर्दिष्ट नहीं",
+    "tracker.giverRegion.na": "उत्तरी अमेरिका",
+    "tracker.giverRegion.lac": "लैटिन अमेरिका और कैरिबियन",
+    "tracker.giverRegion.eca": "यूरोप और मध्य एशिया",
+    "tracker.giverRegion.mena": "मध्य पूर्व और उत्तरी अफ्रीका",
+    "tracker.giverRegion.ssa": "उप-सहारा अफ्रीका",
+    "tracker.giverRegion.sa": "दक्षिण एशिया",
+    "tracker.giverRegion.eap": "पूर्वी एशिया और प्रशांत",
+    "tracker.noResults": "कोई परिणाम नहीं मिला",
+    "tracker.loadingLeaderboard": "लीडरबोर्ड लोड हो रहा है…",
+    "tracker.loadError":
+      "लीडरबोर्ड डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
+    "tracker.volunteer.hoursTab": "घंटे",
+    "tracker.volunteer.endorsementsTab": "अनुमोदन",
+    "tracker.volunteer.searchPlaceholder": "स्वयंसेवक या कौशल खोजें...",
+    "tracker.volunteer.hoursLabel": "घंटे: {{hours}}",
+    "tracker.volunteer.endorsementsLabel": "अनुमोदन: {{endorsements}}",
+    "tracker.volunteer.hoursBreakdown":
+      "सत्यापित: {{verified}} • स्व-रिपोर्ट: {{selfReported}}",
+    "tracker.volunteer.fallbackName": "स्वयंसेवक {{rank}}",
+    "wallet.connectButton.connect": "कनेक्ट करें",
+    "wallet.connectButton.connecting": "कनेक्ट हो रहा है...",
+    "wallet.connectButton.connectionError": "कनेक्शन त्रुटि",
+    "wallet.connectButton.error": "त्रुटि",
+    "wallet.connectButton.connectedVia": "{{wallet}} के माध्यम से कनेक्ट है",
+    "wallet.connectButton.defaultWalletName": "वॉलेट",
+    "wallet.connectButton.copyAddress": "पता कॉपी करें",
+    "wallet.connectButton.viewInExplorer": "एक्सप्लोरर में देखें",
+    "wallet.connectButton.network": "नेटवर्क",
+    "wallet.connectButton.changeAlias": "वॉलेट उपनाम बदलें",
+    "wallet.connectButton.disconnect": "डिस्कनेक्ट करें",
 
     // Charity Portal (GIV-254)
     "charity.portal.deleteTitle": "{{type}} हटाएं?",
@@ -1323,7 +1381,8 @@ export default {
     "browse.carousel.pageLabel": "पृष्ठ {{current}} / {{total}}",
     "browse.carousel.pause": "स्वचालित रोटेशन रोकें",
     "browse.carousel.play": "स्वचालित रोटेशन फिर से शुरू करें",
-    "browse.causes.empty": "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.causes.empty":
+      "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.causes.prevAria": "पिछले विशेष उद्देश्य",
     "browse.causes.searchPlaceholder": "उद्देश्य खोजें...",
     "browse.causes.subheading":
@@ -1339,7 +1398,8 @@ export default {
       "प्रभाव-स्थान के आधार पर फ़िल्टर अभी उपलब्ध नहीं है, इसलिए परिणाम प्रभाव-स्थान से सीमित नहीं किए जाते।",
     "browse.filter.locationHint": "स्थान लागू करने के लिए Enter दबाएँ या जोड़ें चुनें।",
     "browse.filter.minChars": "खोजने के लिए कम से कम 2 अक्षर लिखें।",
-    "browse.funds.empty": "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.funds.empty":
+      "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.funds.prevAria": "पिछले पोर्टफोलियो फ़ंड",
     "browse.funds.searchPlaceholder": "पोर्टफोलियो फ़ंड खोजें...",
     "browse.funds.subheading":
