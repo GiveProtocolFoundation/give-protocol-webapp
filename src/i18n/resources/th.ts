@@ -1351,22 +1351,18 @@ export default {
     "admin.news.deleteConfirmTitle": "ลบข่าวนี้หรือไม่?",
     "admin.news.saveFailed": "ไม่สามารถบันทึกการเปลี่ยนแปลงได้ โปรดลองอีกครั้ง",
     "admin.news.urlHelp": "ไม่บังคับ เว้นว่างไว้เพื่อแสดงข่าวโดยไม่มีลิงก์",
-    "admin.news.urlInvalid":
-      "ป้อนที่อยู่ https:// แบบเต็ม หรือพาธที่ขึ้นต้นด้วย /",
-    "browse.carousel.error":
-      "ไม่สามารถโหลดส่วนนี้ได้ โปรดรีเฟรชหน้าแล้วลองอีกครั้ง",
+    "admin.news.urlInvalid": "ป้อนที่อยู่ https:// แบบเต็ม หรือพาธที่ขึ้นต้นด้วย /",
+    "browse.carousel.error": "ไม่สามารถโหลดส่วนนี้ได้ โปรดรีเฟรชหน้าแล้วลองอีกครั้ง",
     "browse.carousel.goToPage": "ไปที่หน้า {{page}}",
     "browse.carousel.pageLabel": "หน้า {{current}} จาก {{total}}",
     "browse.carousel.pause": "หยุดการสลับอัตโนมัติชั่วคราว",
     "browse.carousel.play": "เล่นการสลับอัตโนมัติต่อ",
-    "browse.causes.empty":
-      "ยังไม่มีสาเหตุให้แสดง โปรดกลับมาตรวจสอบใหม่เร็วๆ นี้!",
+    "browse.causes.empty": "ยังไม่มีสาเหตุให้แสดง โปรดกลับมาตรวจสอบใหม่เร็วๆ นี้!",
     "browse.causes.prevAria": "สาเหตุเด่นก่อนหน้า",
     "browse.causes.searchPlaceholder": "ค้นหาสาเหตุ...",
     "browse.causes.subheading": "สนับสนุนโครงการที่สร้างผลกระทบที่แท้จริง",
     "browse.charity.registryIdDisplay": "รหัสทะเบียน: {{value}}",
-    "browse.featured.empty":
-      "ยังไม่มีองค์กรเด่น ใช้การค้นหาด้านบนเพื่อค้นหาองค์กรการกุศล",
+    "browse.featured.empty": "ยังไม่มีองค์กรเด่น ใช้การค้นหาด้านบนเพื่อค้นหาองค์กรการกุศล",
     "browse.featured.prevAria": "องค์กรเด่นก่อนหน้า",
     "browse.featured.subheading":
       "ภาพรวมแบบหมุนเวียนขององค์กรการกุศลที่ผ่านการตรวจสอบบน Give Protocol",
@@ -1375,15 +1371,13 @@ export default {
       "ตัวกรองตามสถานที่ที่ได้รับผลกระทบยังไม่พร้อมใช้งาน ผลลัพธ์จึงไม่ถูกจำกัดตามสถานที่ดังกล่าว",
     "browse.filter.locationHint": "กด Enter หรือเลือก เพิ่ม เพื่อใช้สถานที่",
     "browse.filter.minChars": "พิมพ์อย่างน้อย 2 ตัวอักษรเพื่อค้นหา",
-    "browse.funds.empty":
-      "ยังไม่มีกองทุนพอร์ตโฟลิโอ โปรดกลับมาตรวจสอบใหม่เร็วๆ นี้!",
+    "browse.funds.empty": "ยังไม่มีกองทุนพอร์ตโฟลิโอ โปรดกลับมาตรวจสอบใหม่เร็วๆ นี้!",
     "browse.funds.prevAria": "กองทุนพอร์ตโฟลิโอก่อนหน้า",
     "browse.funds.searchPlaceholder": "ค้นหากองทุนพอร์ตโฟลิโอ...",
     "browse.funds.subheading":
       "พอร์ตโฟลิโอการบริจาคที่คัดสรรมา กระจายเงินบริจาคไปยังองค์กรการกุศลที่ผ่านการตรวจสอบ",
     "browse.registry.badge": "ลงทะเบียนกับ {{registry}}",
-    "browse.results.empty":
-      "ไม่มีองค์กรที่ตรงกับการค้นหานี้ ลองใช้คำอื่นหรือเพิ่มตัวกรองสถานที่",
+    "browse.results.empty": "ไม่มีองค์กรที่ตรงกับการค้นหานี้ ลองใช้คำอื่นหรือเพิ่มตัวกรองสถานที่",
     "browse.results.error": "ไม่สามารถค้นหาได้ โปรดลองอีกครั้ง",
     "browse.search.noMatches": "ไม่พบรายการที่ตรงกับ “{{query}}”",
     "browse.category.A": "ศิลปะและวัฒนธรรม",

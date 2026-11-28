@@ -689,8 +689,7 @@ export default {
     "tracker.timeRange.year": "इस वर्ष",
     "tracker.timeRange.month": "इस महीने",
     "tracker.timeRange.week": "इस सप्ताह",
-    "tracker.giverRegion.label":
-      "योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करें",
+    "tracker.giverRegion.label": "योगदानकर्ता के क्षेत्र के अनुसार फ़िल्टर करें",
     "tracker.giverRegion.all": "सभी क्षेत्र",
     "tracker.giverRegion.unspecified": "क्षेत्र निर्दिष्ट नहीं",
     "tracker.giverRegion.na": "उत्तरी अमेरिका",
@@ -702,8 +701,7 @@ export default {
     "tracker.giverRegion.eap": "पूर्वी एशिया और प्रशांत",
     "tracker.noResults": "कोई परिणाम नहीं मिला",
     "tracker.loadingLeaderboard": "लीडरबोर्ड लोड हो रहा है…",
-    "tracker.loadError":
-      "लीडरबोर्ड डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
+    "tracker.loadError": "लीडरबोर्ड डेटा लोड नहीं हो सका। कृपया पुनः प्रयास करें।",
     "tracker.volunteer.hoursTab": "घंटे",
     "tracker.volunteer.endorsementsTab": "अनुमोदन",
     "tracker.volunteer.searchPlaceholder": "स्वयंसेवक या कौशल खोजें...",
@@ -1381,8 +1379,7 @@ export default {
     "browse.carousel.pageLabel": "पृष्ठ {{current}} / {{total}}",
     "browse.carousel.pause": "स्वचालित रोटेशन रोकें",
     "browse.carousel.play": "स्वचालित रोटेशन फिर से शुरू करें",
-    "browse.causes.empty":
-      "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.causes.empty": "अभी कोई उद्देश्य उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.causes.prevAria": "पिछले विशेष उद्देश्य",
     "browse.causes.searchPlaceholder": "उद्देश्य खोजें...",
     "browse.causes.subheading":
@@ -1398,8 +1395,7 @@ export default {
       "प्रभाव-स्थान के आधार पर फ़िल्टर अभी उपलब्ध नहीं है, इसलिए परिणाम प्रभाव-स्थान से सीमित नहीं किए जाते।",
     "browse.filter.locationHint": "स्थान लागू करने के लिए Enter दबाएँ या जोड़ें चुनें।",
     "browse.filter.minChars": "खोजने के लिए कम से कम 2 अक्षर लिखें।",
-    "browse.funds.empty":
-      "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
+    "browse.funds.empty": "अभी कोई पोर्टफोलियो फ़ंड उपलब्ध नहीं है। जल्द ही फिर देखें!",
     "browse.funds.prevAria": "पिछले पोर्टफोलियो फ़ंड",
     "browse.funds.searchPlaceholder": "पोर्टफोलियो फ़ंड खोजें...",
     "browse.funds.subheading":
